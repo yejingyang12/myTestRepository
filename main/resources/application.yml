@@ -1,0 +1,50 @@
+server:
+  port: 8080
+  context-path: /
+  tomcat:
+    accesslog:
+      directory: ./logs
+      enabled: true
+logging:
+  config: classpath:logback.xml
+  path: ./logs
+  level:
+    root: info
+spring:
+  freemarker:
+    cache: false 
+  application:
+    name: Class-Protection
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://10.248.74.58:3306/smcc_secp?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: smcc
+    password: smcc2018
+    driver-class-name: com.mysql.jdbc.Driver
+    minIdle: 1
+    maxActive: 20
+    initialSize: 1
+    timeBetweenEvictionRunsMillis: 3000
+    minEvictableIdleTimeMillis: 300000
+  thymeleaf:
+    enabled: true
+    mode: LEGACYHTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+    check-template-location: true
+    content-type: text/html
+  # thymeleaf end
+  messages:
+    basename: /i18n/messages_en_US,i18n/messages_zh_CN
+mybatis:
+  mapperLocations: classpath*:mapper/*/*.xml
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+    offset-as-page-num: true
+    row-bounds-with-count: true
+ubs.api.url: http://10.248.65.107
+appId: 907
