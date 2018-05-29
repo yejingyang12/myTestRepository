@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper">
+	<resultMap type="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult" id="SelfexaminationListResult">
+		<id column="pkId" property="selfexaminationId" />
+		<result column="fkSystemId" property="fkSystemId" />
+		<result column="inspectionStatus" property="inspectionStatus" />
+		<result column="inspectionReutle" property="inspectionReutle" />
+		
+		<result column="rectificationReutle" property="rectificationReutle" />
+		<result column="inspectionDate" property="inspectionDate" />
+		<result column="rectificationDate" property="rectificationDate" />
+		<result column="deleteStatus" property="deleteStatus" />
+		
+		<result column="createUserName" property="createUserName" />
+		<result column="createTime" property="createTime" />
+		<result column="updateTime" property="updateTime" />
+	  <result column="remark" property="remark" />
+	  
+	  <result column="reviewReportName" property="reviewReportName" />
+	  <result column="reviewReportPath" property="reviewReportPath" />
+	  <result column="rectificationReportName" property="rectificationReportName" />
+	  <result column="rectificationReportPath" property="rectificationReportPath" />
+	</resultMap>
+	<sql id="Base_Column_List">
+    pkId,fkSystemId,inspectionStatus,inspectionReutle,rectificationReutle,inspectionDate,rectificationDate,deleteStatus,createUserName,createTime,updateTime,remark
+  </sql>
+	
+	
+	<select id="selectAllBySelfexaminationParam" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationListResult">
+		select 
+		self.pkId,self.fkSystemId,self.inspectionStatus,self.inspectionReutle,
+		self.rectificationReutle,self.inspectionDate,self.rectificationDate,self.deleteStatus,
+		self.createUserName,self.createTime,self.updateTime,self.remark,
+		review.attachName as reviewReportName,review.attachPath as reviewReportPath,
+		rectification.attachName as rectificationReportName,rectification.attachPath as rectificationReportPath
+		from t_cpro_self_inspection as self
+		left join t_cpro_attach review on self.fkSystemId = review.fkSystemId and self.pkId = review.fkSyssonId and review.fkAttachType = 'evaluationPresentation'
+		left join t_cpro_attach rectification on self.fkSystemId = rectification.fkSystemId and self.pkId = rectification.fkSyssonId and rectification.fkAttachType = 'rectificationReport'
+	</select>
+	
+	<insert id="insertOrUpdateSelfexamination" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
+		insert into t_cpro_self_inspection(
+			pkId,fkSystemId,inspectionStatus,inspectionReutle,
+			rectificationReutle,inspectionDate,rectificationDate,deleteStatus,
+			createUserName,createTime,updateTime,remark
+		) values(
+			<trim suffixOverrides="," >
+				#{selfexaminationId},
+				<choose>
+					<when test="fkSystemId != null and fkSystemId != ''">
+						#{fkSystemId},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="inspectionStatus != null and inspectionStatus != ''">
+						#{inspectionStatus},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="inspectionReutle != null and inspectionReutle != ''">
+						#{inspectionStatus},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="rectificationReutle != null and rectificationReutle != ''">
+						#{rectificationReutle},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="inspectionDate != null">
+						#{inspectionDate},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="rectificationDate != null">
+						#{rectificationDate},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="deleteStatus != null and deleteStatus != ''">
+						#{deleteStatus},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="createUserName != null and createUserName != ''">
+						#{createUserName},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="createTime != null">
+						#{createTime},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="updateTime != null">
+						#{updateTime},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="remark != null and remark != ''">
+						#{remark},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+			</trim>
+		) ON DUPLICATE KEY UPDATE
+		inspectionStatus = #{inspectionStatus},
+		inspectionReutle = #{inspectionReutle},
+		rectificationReutle = #{rectificationReutle},
+		inspectionDate = #{inspectionDate},
+		rectificationDate = #{rectificationDate}
+	</insert>
+	
+</mapper>

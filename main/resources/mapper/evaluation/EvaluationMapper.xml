@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.evaluation.mapper.EvaluationMapper">
+  <resultMap id="selectAllResultMap" type="com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult">
+    <id column="evaluationId" property="evaluationId" />
+    <result property="systemName" column="systemName" />
+    <result property="examName" column="examName" />
+    <result property="examTime" column="examTime" />
+    <result property="examYear" column="examYear" />
+    <result property="examOrg" column="examOrg" />
+    <result property="examReport" column="examReport" />
+    <result property="examReportName" column="examReportName" />
+    <result property="examStatus" column="examStatus" />
+    <result property="examResult" column="examResult" />
+    <result property="rectificationReutle" column="rectificationReutle" />
+    <result property="rectificationDate" column="rectificationDate" />
+    <result property="rectificationReport" column="rectificationReport" />
+    <result property="rectificationReportName" column="rectificationReportName" />
+  </resultMap>
+  <select id="selectAllByEvaluationParam" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam" resultMap="selectAllResultMap">
+  	<![CDATA[
+      SELECT 
+        cproEvaluation.pkId AS evaluationId,
+        cproSystem.systemName AS systemName,
+        cproEvaluation.examName AS examName,
+        cproEvaluation.examTime AS examTime,
+        cproEvaluation.examYear AS examYear,
+        cproEvaluation.examOrg AS examOrg,
+        cproAttach.attachPath AS examReport,
+        cproAttach.attachName AS examReportName,
+        cproEvaluation.examStatus AS examStatus,
+        cproEvaluation.examResult AS examResult,
+        cproEvaluation.rectificationReutle AS rectificationReutle,
+        rectificationDate AS rectificationDate,
+        cproAttachRectification.attachPath AS rectificationReport,
+        cproAttachRectification.attachName AS rectificationReportName
+      FROM t_cpro_evaluation AS cproEvaluation
+      LEFT JOIN t_cpro_system AS cproSystem ON cproSystem.pkId = cproEvaluation.fkSystemId
+      LEFT JOIN  t_cpro_attach AS cproAttach 
+        ON cproAttach.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttach.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttach.fkAttachType = 7
+    	LEFT JOIN  t_cpro_attach AS cproAttachRectification 
+        ON cproAttachRectification.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttachRectification.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttachRectification.fkAttachType = 8 
+    ]]>
+    <where>
+      <![CDATA[
+        cproEvaluation.deleteStatus = #{deleteStatus}
+        AND cproEvaluation.fkSystemId = #{systemId}
+      ]]>
+    </where>
+  </select>
+
+  <resultMap id="selectResultMap" type="com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult">
+    <id column="evaluationId" property="evaluationId" />
+    <result property="systemName" column="systemName" />
+    <result property="examName" column="examName" />
+    <result property="examTime" column="examTime" />
+    <result property="examYear" column="examYear" />
+    <result property="examOrg" column="examOrg" />
+    <result property="examReport" column="examReport" />
+    <result property="examReportName" column="examReportName" />
+    <result property="examStatus" column="examStatus" />
+    <result property="examResult" column="examResult" />
+    <result property="rectificationReutle" column="rectificationReutle" />
+    <result property="rectificationDate" column="rectificationDate" />
+    <result property="rectificationReport" column="rectificationReport" />
+    <result property="rectificationReportName" column="rectificationReportName" />
+  </resultMap>
+  <select id="selectSingleByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam" resultMap="selectResultMap">
+  	<![CDATA[
+      SELECT 
+        cproEvaluation.pkId AS evaluationId,
+        cproEvaluation.examName AS examName,
+        cproEvaluation.examTime AS examTime,
+        cproEvaluation.examYear AS examYear,
+        cproEvaluation.examOrg AS examOrg,
+        cproAttach.attachPath AS examReport,
+        cproAttach.attachName AS examReportName,
+        cproEvaluation.examStatus AS examStatus,
+        cproEvaluation.examResult AS examResult,
+        cproEvaluation.rectificationReutle AS rectificationReutle,
+        rectificationDate AS rectificationDate,
+        cproAttachRectification.attachPath AS rectificationReport,
+        cproAttachRectification.attachName AS rectificationReportName
+      FROM t_cpro_evaluation AS cproEvaluation
+      LEFT JOIN  t_cpro_attach AS cproAttach 
+        ON cproAttach.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttach.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttach.fkAttachType = 7
+    	LEFT JOIN t_cpro_attach AS cproAttachRectification 
+        ON cproAttachRectification.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttachRectification.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttachRectification.fkAttachType = 8 
+    ]]>
+    <where>
+     <![CDATA[
+        AND cproEvaluation.pkId = #{evaluationId}
+      ]]>
+    </where>
+  </select>
+
+  <insert id="saveEvaluationByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam">
+    <![CDATA[
+      INSERT INTO t_cpro_evaluation (
+        pkId,
+        fkSystemId,
+        examName,
+        examTime,
+        examYear,
+        examOrg,
+        examStatus,
+        examResult,
+        rectificationReutle,
+        rectificationDate,
+        createTime,
+        createUserName,
+        deleteStatus
+      )VALUES(
+    ]]>
+    <trim suffixOverrides=",">
+      <![CDATA[
+        #{evaluationId},
+      ]]>
+      <![CDATA[
+        #{systemId},
+      ]]>
+      <![CDATA[
+        #{examName},
+      ]]>
+      <![CDATA[
+        #{examTime},
+      ]]>
+      <![CDATA[
+        #{examYear},
+      ]]>
+      <![CDATA[
+        #{examOrg},
+      ]]>
+      <![CDATA[
+        #{examStatus},
+      ]]>
+      <![CDATA[
+        #{examResult},
+      ]]>
+      <![CDATA[
+        #{rectificationReutle},
+      ]]>
+      <![CDATA[
+	       #{rectificationDate},
+      ]]>
+      <![CDATA[
+        #{createTime},
+      ]]>
+      <choose>
+        <when test="createUserName != null and createUserName != ''">
+          <![CDATA[
+            #{createUserName},
+          ]]>
+        </when>
+        <otherwise>
+          <![CDATA[
+            DEFAULT,
+          ]]>
+        </otherwise>
+      </choose>
+      <choose>
+        <when test="deleteStatus != null">
+          <![CDATA[
+            #{deleteStatus},
+          ]]>
+        </when>
+        <otherwise>
+          <![CDATA[
+            DEFAULT,
+          ]]>
+        </otherwise>
+      </choose>
+    </trim>
+    <![CDATA[
+      ) ON DUPLICATE KEY UPDATE 
+      examName=#{examName},
+      examTime=#{examTime},
+      examYear=#{examYear},
+      examOrg=#{examOrg},
+      examStatus=#{examStatus},
+      rectificationReutle=#{rectificationReutle},
+      rectificationDate=#{rectificationDate}
+    ]]>
+  </insert>
+  
+  <update id="deleteEvaluationByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam">
+    <![CDATA[
+      UPDATE t_cpro_evaluation 
+    ]]>
+    <set>
+      <![CDATA[
+        deleteStatus = 2
+      ]]>
+    </set>
+    <where>
+     <![CDATA[
+        AND pkId = #{evaluationId}
+      ]]>
+    </where>
+  </update>
+  
+  <select id="selectSingleDetailsByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam" resultMap="selectResultMap">
+    <![CDATA[
+      SELECT 
+        cproEvaluation.pkId AS evaluationId,
+        cproEvaluation.examName AS examName,
+        cproEvaluation.examTime AS examTime,
+        cproEvaluation.examYear AS examYear,
+        cproEvaluation.examOrg AS examOrg,
+        cproAttach.attachPath AS examReport,
+        cproAttach.attachName AS examReportName,
+        cproEvaluation.examStatus AS examStatus,
+        cproEvaluation.examResult AS examResult,
+        cproEvaluation.rectificationReutle AS rectificationReutle,
+        rectificationDate AS rectificationDate,
+        cproAttachRectification.attachPath AS rectificationReport,
+        cproAttachRectification.attachName AS rectificationReportName
+      FROM t_cpro_evaluation AS cproEvaluation
+      LEFT JOIN  t_cpro_attach AS cproAttach 
+        ON cproAttach.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttach.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttach.fkAttachType = 7
+      LEFT JOIN t_cpro_attach AS cproAttachRectification 
+        ON cproAttachRectification.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttachRectification.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttachRectification.fkAttachType = 8 
+    ]]>
+    <where>
+     <![CDATA[
+        AND cproEvaluation.pkId = #{evaluationId}
+      ]]>
+    </where>
+  </select>
+</mapper>

@@ -1,0 +1,449 @@
+/*.h-body {*/
+    /*!*font-family: Arial, Helvetica, Sans-Serif;*!*/
+    /*overflow: auto;*/
+    /*color: #555555;*/
+    /*!*background: #fff;*!*/
+    /*font-size: 14px;*/
+    /*background: #ededed;*/
+/*}*/
+.h-list-line{
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    border: 1px solid #3d95df;
+}
+.h-padding .container .h-list-line span img{
+    margin-left: 10px;
+}
+.table .h-tr1 th {
+    vertical-align: middle;
+}
+.btn {
+    position: relative;
+    height: 34px;
+    width: 125px;
+}
+.h-btn {
+
+    height: 34px;
+    width: 34px;
+}
+.h-add {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+}
+.h-table {
+    width: 1834px;
+    height: 782px;
+}
+
+.table>tbody>tr>td{
+    vertical-align: middle;!important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: #fff;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+/*帮助中心*/
+/** {*/
+    /*margin: 0;*/
+    /*padding: 0;*/
+/*}*/
+.all {
+    width: 100%;
+    height: 250px;
+}
+
+.box1 {
+    float: left;
+    display: inline-block;
+    width: 17.14%;
+    height: 100%;
+}
+
+.box2 {
+    float: left;
+    display: inline-block;
+    width: 17.14%;
+    height: 100%;
+
+}
+
+.box3 {
+    float: left;
+    display: inline-block;
+    width: 48%;
+    background-color: #ededed;
+    height: 85%;
+    border: 1px solid #cecece;
+    margin-top: 2%;
+
+}
+
+.box4 {
+    float: left;
+    display: inline-block;
+    width: 17.14%;
+    height: 100%;
+
+}
+/*box 1*/
+.box1 .bg-item1 {
+    float: left;
+    display: inline-block;
+    width: 77%;
+    height: 85%;
+    margin-top: 10%;
+    background-color: #ededed;
+    border: 1px solid lightgray;
+
+}
+
+.box1 .bg-item1 .content {
+    float: left;
+    width: 100%;
+    height: 66%;
+    margin: 10%;
+
+}
+
+.box1 .bg-item1 .content h4 {
+    float: left;
+    width: 90%;
+    text-align: left;
+    color: #333;
+    font-weight: normal;
+}
+
+.box1 .bg-item1 .content .img-1 {
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01danweixitongxinxi.png") no-repeat center;
+    /*background-size: 125px, 125px;*/
+    text-align: center;
+}
+
+.box1 .arrow1 {
+    float: left;
+    width: 23%;
+    background: url("../../images/home/help/jiantou.png") no-repeat center;
+    height: 100%;
+}
+/*box 2*/
+
+.box2 .bg-item2 {
+    float: left;
+    display: inline-block;
+    width: 77%;
+    height: 85%;
+    background-color: #ededed;
+    margin-top: 10%;
+    border: 1px solid lightgray;
+}
+
+.box2 .bg-item2 .content {
+    float: left;
+    width: 100%;
+    height: 66%;
+    margin: 10%;
+
+}
+
+.box2 .bg-item2 .content h4 {
+    float: left;
+    width: 78%;
+    text-align: center;
+    color: #333;
+    font-weight: normal;
+}
+
+.box2 .bg-item2 .content .img-1 {
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01shenqingdingji.png") no-repeat center;
+    background-size: 125px, 125px;
+    text-align: center;
+}
+
+.box2 .arrow2 {
+    float: left;
+    width: 23%;
+    background: url("../../images/home/help/jiantou.png") no-repeat center;
+    height: 100%;
+}
+/*box 4*/
+.box4 .bg-item4 {
+    float: left;
+    display: inline-block;
+    width: 77%;
+    height: 85%;
+    /*background-image: url("img/普通状态底图.jpg");*/
+    /*background-size: 100% 100%;*/
+    /*background-color: orangered;*/
+    background-color: #ededed;
+    margin-top: 10%;
+    border: 1px solid lightgray;
+}
+
+.box4 .bg-item4 .content {
+    float: left;
+    width: 100%;
+    height: 66%;
+    margin: 10%;
+
+}
+
+.box4 .bg-item4 .content h4 {
+    float: left;
+    width: 78%;
+    text-align: center;
+    color: #333;
+    font-weight: normal;
+}
+
+.box4 .bg-item4 .content .img-1 {
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01chexiaobeian.png") no-repeat center;
+    background-size: 125px, 125px;
+    text-align: center;
+}
+
+.box4 .arrow4 {
+    float: left;
+    width: 23%;
+    background: url("../../images/home/help/jiantou.png") no-repeat center;
+    height: 100%;
+}
+/*box3*/
+
+.box3-item{
+    height: 85%;
+    width: 25%;
+    float: left;
+    display: inline-block;
+    /*background-image: url("img/普通状态底图.jpg");*/
+    /*background-size: 100% 100%;*/
+    /*background-color: orangered;*/
+
+
+}
+.box3-item-content{
+    float: left;
+    width: 100%;
+    height: 77.67%;
+    margin: 10%;
+
+}
+.box3-item-content .box3-item-img-1{
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01shenhe.png") no-repeat center;
+    background-size: 125px, 125px;
+    text-align: center;
+}
+
+.box3-item-content .box3-item-img-2{
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01zicha.png") no-repeat center;
+    background-size: 125px, 125px;
+    text-align: center;
+}
+.box3-item-content .box3-item-img-3{
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01ceping.png") no-repeat center;
+    background-size: 125px, 125px;
+    text-align: center;
+}
+.box3-item-content .box3-item-img-4{
+    float: left;
+    height: 100%;
+    width: 78%;
+    background: url("../../images/home/help/s01beian .png") no-repeat center;
+    background-size: 125px, 125px;
+    text-align: center;
+}
+.box3-item-content h4{
+    float: left;
+    width: 78%;
+    text-align: center;
+    color: #333;
+    font-weight: normal;
+}
+
+/*hover*/
+.box1 .bg-item1:hover{
+    background: url("../../images/img/普通状态底图_悬停.png") no-repeat  center ;
+    background-size: 150% 150%;
+    /*filter:blur(2px);*/
+    /*background-color: yellow;*/
+}
+.box2 .bg-item2:hover{
+    background: url("../../images/img/普通状态底图_悬停.png") no-repeat  center ;
+    /*background-size: 90% 90%;*/
+}
+/*text*/
+.text{
+    display: none;
+    text-align: center;
+    color: #fff;
+    padding:6%;
+}
+.text p{
+    font-size: 12px;
+    margin-top: 6%;
+}
+.box3-text{
+    display: none;
+    text-align: center;
+    color: #fff;
+    padding:6%;
+}
+.box3-text p{
+    font-size: 12px;
+    margin-top: 6%;
+}
+
+/*搜索筛选*/
+.h-search {
+    width: 1890px;
+    height: 118px;
+    padding: 0 16px;
+    overflow: auto;
+}
+
+.h-search-inner {
+    width: 1860px;
+    height: 118px;
+    /*margin: 0 auto;*/
+    background: #fff;
+}
+
+/*2*/
+.form-control {
+    width: 320px;
+    height: 34px;
+    border-radius: 0;
+}
+
+.h-system {
+    width:81px;
+    padding-right: 0;
+    line-height: 34px;
+}
+
+.h-col-md-9 {
+    padding-left: 0;
+}
+
+.h-line {
+    line-height: 34px;
+}
+
+.h-padding {
+    padding: 0;
+}
+
+
+/*搜索  时间*/
+.applyTime{
+    margin-right: 0;
+    padding: 0;!important;
+    width: 20%;!important;
+    text-align: center;
+}
+
+/*高级查询*/
+.h-btn-info {
+    color: #fff;
+    background-color: #3d95df;
+    border-color: #3d95df;
+}
+
+.h-btn-info:hover {
+    color: #fff;
+    background-color: #3d95df;
+    border-color: #3d95df;
+}
+
+.open > .dropdown-toggle.btn-default.focus,
+.open > .dropdown-toggle.btn-default:focus,
+.open > .dropdown-toggle.btn-default:hover {
+    color: #fff;
+    background-color: #3d95df;
+    border-color: #3d95df;
+}
+
+.form-horizontal .form-style {
+    margin: 0;
+    font-size: 14px;
+}
+
+.checkbox-inline,
+.radio-inline,
+.checkbox-inline + .checkbox-inline,
+.radio-inline + .radio-inline {
+    margin: 0 15px 0 0;
+}
+
+/*日历搜索*/
+.float-le {
+    float: left;
+}
+
+.margin-le {
+    margin-left: 15px;
+}
+
+.input-box {
+    padding: 0;
+}
+
+.form-control, .single-line {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #cecece;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    -webkit-transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}
+
+.form-horizontal .has-feedback .form-control-feedback {
+    right: 0;
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 16px;
+    height: 16px;
+}
+
+.mr5 {
+    margin-right: 5px;
+}

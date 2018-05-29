@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .cover{
+            /*margin-top:20px;
+            width: 100%;
+            height: 200px;
+            background: #8c8c8c;*/
+        }
+    </style>
+    <link rel="stylesheet" href="../../../css/public/reset.css">
+    <link rel="stylesheet" href="../../../css/private/addFormCha.css">
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+</head>
+<body>
+<div class="inner">
+    <!--查询单位名称-->
+    <div class="mcAddCha">
+        <!--action 属性规定当提交表单时，向何处发送表单数据。-->
+        <form action="">
+            <div class="col-lg-11 col-xs-3 mcAddDan">
+                <div class="mcAddForm1Text">
+                    请选择一个单位名称：
+                </div>
+                <select class="form-control col-lg-11 col-xs-3">
+                    <option>请选择</option>
+                    <option>总部部门</option>
+                    <option>油田板块</option>
+                    <option>炼化板块</option>
+                    <option>销售板块</option>
+                    <option>石油工程</option>
+                    <option>炼化工程</option>
+                    <option>科研单位</option>
+                    <option>专业公司及其他</option>
+                    <option>驻外机构</option>
+                </select>
+                <div class="mcAddCli">
+                    没有找到单位？<a href="javascript:void(0);" id="cliThis" onclick="getCover()">点击此处</a>新建单位信息！
+                </div>
+            </div>
+            <button type="button" class="btn" id="btnOk" onclick="nextBtn()">确定</button>
+        </form>
+        <!--<div class="cover" id="covers"></div>-->
+    </div>
+</div>
+</body>
+<script src="../../../js/public/bootstrap.min.js"></script>
+<script src="../../../js/public/jquery.min.js"></script>
+<script>
+
+        function getCover() {
+            $("#covers").removeClass('cover');
+        }
+
+        (function nextBtn() {
+            $("#btnOk").click(function () {
+                /*$.get('../addFormSystem/addFormSystem.html',function () {
+
+                 })*/
+                Ajax('GET','./addFormCha.html','../addForm/addForm.html');
+            })
+        }());
+        function Ajax(type,url, href, data) {
+            $.ajax({
+                type:type,
+                url:url,
+                async:false,
+                data:data,
+                success:function (msg) {
+                    if(msg){
+                        window.location.href = href;
+                    }
+                }
+            })
+        }
+</script>
+</html>

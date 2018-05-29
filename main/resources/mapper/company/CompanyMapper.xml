@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.company.mapper.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.company.entity.CompanyListResult">
+    <result column="pkId" property="companyId" jdbcType="VARCHAR" />
+    <result column="liabilityDepartmentContactEmail" property="liabilityDepartmentContactEmail" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
+    <result column="compPrincipalWorkTel" property="compPrincipalWorkTel" jdbcType="VARCHAR" />
+    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="liabilityDepartmentContactName" property="liabilityDepartmentContactName" jdbcType="VARCHAR" />
+    <result column="responsibleDepartment" property="responsibleDepartment" jdbcType="VARCHAR" />
+    <result column="companyPrincipalEmail" property="companyPrincipalEmail" jdbcType="VARCHAR" />
+    <result column="liabilityDepartmentContactPhone" property="liabilityDepartmentContactPhone" jdbcType="VARCHAR" />
+    <result column="administrativeDivisionNum" property="administrativeDivisionNum" jdbcType="VARCHAR" />
+    <result column="compPrincipalPhone" property="compPrincipalPhone" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companyCode" jdbcType="VARCHAR" />
+    <result column="compPrincipalPost" property="compPrincipalPost" jdbcType="VARCHAR" />
+    <result column="liabilityDepartmentContactPost" property="liabilityDepartmentContactPost" jdbcType="VARCHAR" />
+    <result column="gradeProtectionReportingComp" property="gradeProtectionReportingComp" jdbcType="VARCHAR" />
+    <result column="companyAddress" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="liabilityDepartmentContactWorkTel" property="liabilityDepartmentContactWorkTel" jdbcType="VARCHAR" />
+    <result column="compPrincipalName" property="compPrincipalName" jdbcType="VARCHAR" />
+    <result column="codeName" property="provincesName" jdbcType="VARCHAR" />
+    <result column="codeName" property="categoryName" jdbcType="VARCHAR" />
+    <result column="codeName" property="affiliationName" jdbcType="VARCHAR" />
+    <result column="codeName" property="companyTypeName" jdbcType="VARCHAR" />
+    <result column="codeName" property="plateTypeName" jdbcType="VARCHAR" />
+    <result column="fkSubordinateProvinces" property="fkSubordinateProvinces" jdbcType="VARCHAR" />
+    <result column="industryCategory" property="industryCategory" jdbcType="VARCHAR" />
+    <result column="affiliation" property="affiliation" jdbcType="VARCHAR" />
+    <result column="companyType" property="companyType" jdbcType="VARCHAR" />
+    <result column="plateType" property="plateType" jdbcType="VARCHAR" />
+      
+    
+  </resultMap>
+  <select id="selectAllByCompanyParam" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
+  	SELECT 
+      pkId AS companyId,
+      companyName,
+      companyType,
+      liabilityDepartmentContactName,
+    FROM t_cpro_company
+    WHERE deleteStatus = 1
+    	<if test="companyName != null and companyName != ''">
+    	  <bind name="companyName" value="'%' + companyName + '%'" />
+    	  <![CDATA[
+    		  AND t_cpro_company.companyName LIKE #{companyName,jdbcType=VARCHAR}
+    	  ]]>
+    	</if>
+    	<if test="liabilityDepartmentContactName != null and liabilityDepartmentContactName != ''">
+    	  <bind name="liabilityDepartmentContactName" value="'%' + liabilityDepartmentContactName + '%'" />
+    	  <![CDATA[
+    		  AND t_cpro_company.liabilityDepartmentContactName LIKE #{liabilityDepartmentContactName,jdbcType=VARCHAR}
+    	  ]]>
+    	</if>
+  </select>
+  <insert id="insertCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" >
+  	INSERT INTO t_cpro_company 
+      (
+        pkId,industryCategory,affiliation,companyType,plateType,
+        fkSubordinateProvinces,liabilityDepartmentContactEmail,companyName,postalCode,compPrincipalWorkTel,
+        createUserName,remark,liabilityDepartmentContactName,responsibleDepartment,companyPrincipalEmail,
+        deleteStatus,liabilityDepartmentContactPhone,administrativeDivisionNum,compPrincipalPhone,companyCode,
+        compPrincipalPost,liabilityDepartmentContactPost,updateTime,gradeProtectionReportingComp,createTime,
+        companyAddress,liabilityDepartmentContactWorkTel,compPrincipalName
+      ) VALUES (
+      <trim suffixOverrides="," >
+        <![CDATA[
+          #{companyId,jdbcType=VARCHAR},
+        ]]>
+        <choose>
+          <when test="industryCategory != null and industryCategory != ''">
+            <![CDATA[
+              #{industryCategory,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="affiliation != null and affiliation != ''">
+            <![CDATA[
+            #{affiliation,jdbcType=VARCHAR},
+          ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+            DEFAULT,
+          ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="companyType != null and companyType != ''">
+            <![CDATA[
+              #{companyType,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="plateType != null and plateType != ''">
+            <![CDATA[
+              #{plateType,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkSubordinateProvinces != null and fkSubordinateProvinces != ''">
+            <![CDATA[
+              #{fkSubordinateProvinces,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="liabilityDepartmentContactEmail != null and liabilityDepartmentContactEmail != ''">
+            <![CDATA[
+              #{liabilityDepartmentContactEmail,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="companyName != null and companyName != ''">
+            <![CDATA[
+              #{companyName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="postalCode != null ">
+            <![CDATA[
+              #{postalCode,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="compPrincipalWorkTel != null and compPrincipalWorkTel != ''">
+            <![CDATA[
+              #{compPrincipalWorkTel,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="createUserName != null and createUserName != ''">
+            <![CDATA[
+              #{createUserName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="remark != null and remark != ''">
+            <![CDATA[
+              #{remark,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="liabilityDepartmentContactName != null and liabilityDepartmentContactName != ''">
+            <![CDATA[
+              #{liabilityDepartmentContactName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="responsibleDepartment != null and responsibleDepartment != ''">
+            <![CDATA[
+              #{responsibleDepartment,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="companyPrincipalEmail != null and companyPrincipalEmail != ''">
+            <![CDATA[
+              #{companyPrincipalEmail,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="deleteStatus != null">
+            <![CDATA[
+              #{deleteStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="liabilityDepartmentContactPhone != null ">
+            <![CDATA[
+              #{liabilityDepartmentContactPhone,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="administrativeDivisionNum != null ">
+            <![CDATA[
+              #{administrativeDivisionNum,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="compPrincipalPhone != null">
+            <![CDATA[
+              #{compPrincipalPhone,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="companyCode != null  and companyCode != ''">
+            <![CDATA[
+              #{companyCode,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="compPrincipalPost != null  and compPrincipalPost != ''">
+            <![CDATA[
+              #{compPrincipalPost,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="liabilityDepartmentContactPost != null and liabilityDepartmentContactPost != ''">
+            <![CDATA[
+              #{liabilityDepartmentContactPost,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="updateTime != null ">
+            <![CDATA[
+              #{updateTime,jdbcType=DATE},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="gradeProtectionReportingComp != null and gradeProtectionReportingComp != '' ">
+            <![CDATA[
+              #{gradeProtectionReportingComp,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="createTime != null ">
+            <![CDATA[
+              #{createTime,jdbcType=DATE},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="companyAddress != null and companyAddress != ''">
+            <![CDATA[
+              #{companyAddress,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="liabilityDepartmentContactWorkTel != null and liabilityDepartmentContactWorkTel != ''">
+            <![CDATA[
+              #{liabilityDepartmentContactWorkTel,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="compPrincipalName != null and compPrincipalName != ''">
+            <![CDATA[
+              #{compPrincipalName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+      </trim>				                					                
+    )
+    ON DUPLICATE KEY UPDATE
+      <trim suffixOverrides=",">
+        <if test="fkSubordinateProvinces != null and fkSubordinateProvinces != ''">
+        	fkSubordinateProvinces = #{fkSubordinateProvinces},
+        </if>
+        <if test="industryCategory != null and industryCategory !='' ">
+      		industryCategory = #{industryCategory},
+        </if>
+        <if test="affiliation != null and affiliation !='' ">
+      		affiliation = #{affiliation},
+        </if>
+        <if test="companyType != null and companyType !='' ">
+      		companyType = #{companyType},
+        </if>
+        <if test="plateType != null and plateType !='' ">
+      		plateType = #{plateType},
+        </if>
+        <if test="companyName != null and companyName !='' ">
+      		companyName = #{companyName},
+        </if>
+        <if test="companyCode != null and companyCode !='' ">
+      		companyCode = #{companyCode},
+        </if>
+        <if test="companyAddress != null and companyAddress !='' ">
+      		companyAddress = #{companyAddress},
+        </if>
+        <if test="postalCode != null and postalCode !='' ">
+      		postalCode = #{postalCode},
+        </if>
+        <if test="administrativeDivisionNum != null and administrativeDivisionNum !='' ">
+      		administrativeDivisionNum = #{administrativeDivisionNum},
+        </if>
+        <if test="compPrincipalName != null and compPrincipalName !='' ">
+      		compPrincipalName = #{compPrincipalName},
+        </if>
+        <if test="compPrincipalWorkTel != null and compPrincipalWorkTel !='' ">
+      		compPrincipalWorkTel = #{compPrincipalWorkTel},
+        </if>
+        <if test="compPrincipalPost != null and compPrincipalPost !='' ">
+      		compPrincipalPost = #{compPrincipalPost},
+        </if>
+        <if test="companyPrincipalEmail != null and companyPrincipalEmail !='' ">
+      		companyPrincipalEmail = #{companyPrincipalEmail},
+        </if>
+        <if test="compPrincipalPhone != null and compPrincipalPhone !='' ">
+      		compPrincipalPhone = #{compPrincipalPhone},
+        </if>
+        <if test="liabilityDepartmentContactName != null and liabilityDepartmentContactName !='' ">
+      		liabilityDepartmentContactName = #{liabilityDepartmentContactName},
+        </if>
+        <if test="liabilityDepartmentContactWorkTel != null and liabilityDepartmentContactWorkTel !='' ">
+      		liabilityDepartmentContactWorkTel = #{liabilityDepartmentContactWorkTel},
+        </if>
+        <if test="liabilityDepartmentContactPost != null and liabilityDepartmentContactPost !='' ">
+      		liabilityDepartmentContactPost = #{liabilityDepartmentContactPost},
+        </if>
+        <if test="liabilityDepartmentContactEmail != null and liabilityDepartmentContactEmail !='' ">
+      		liabilityDepartmentContactEmail = #{liabilityDepartmentContactEmail},
+        </if>
+        <if test="liabilityDepartmentContactPhone != null and liabilityDepartmentContactPhone !='' ">
+      		liabilityDepartmentContactPhone = #{liabilityDepartmentContactPhone},
+        </if>
+        <if test="responsibleDepartment != null and responsibleDepartment !='' ">
+      		responsibleDepartment = #{responsibleDepartment},
+        </if>
+        <if test="gradeProtectionReportingComp != null and gradeProtectionReportingComp !='' ">
+      		gradeProtectionReportingComp = #{gradeProtectionReportingComp},
+        </if> 
+      </trim>
+  </insert> 
+  <update id="updateCompanyByCompanyIds" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam">
+    UPDATE t_cpro_company 
+    SET deleteStatus = 2
+    WHERE pkId IN
+      <foreach collection="companyIds" item="item" index="index" open="(" separator="," close=")">
+        <![CDATA[
+          #{item,jdbcType=VARCHAR}
+        ]]>
+      </foreach>
+  </update>
+  <select id="selectCompanyByCompanyCode" parameterType="String" resultType="String">
+	  SELECT 
+      companyCode
+    FROM t_cpro_company
+    WHERE 
+      deleteStatus = 1
+      AND companyCode = #{companyCode}
+  </select>
+  <select id="selectSingleCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
+    SELECT 
+      company.pkId AS companyId,
+      company.fkSubordinateProvinces,
+      company.industryCategory,
+      company.affiliation,
+      company.companyType,
+      company.plateType,
+		  company.liabilityDepartmentContactEmail,
+		  company.companyName,
+		  company.postalCode,
+		  company.compPrincipalWorkTel,
+		  company.createUserName,
+		  company.liabilityDepartmentContactName,
+		  company.responsibleDepartment,
+		  company.companyPrincipalEmail,
+		  company.liabilityDepartmentContactPhone,
+		  company.administrativeDivisionNum,
+		  company.compPrincipalPhone,
+		  company.companyCode,
+		  company.compPrincipalPost,
+		  company.liabilityDepartmentContactPost,
+		  company.gradeProtectionReportingComp,
+		  company.companyAddress,
+		  company.liabilityDepartmentContactWorkTel,
+		  company.compPrincipalName ,
+		  systemCodeProvinces.codeName AS provincesName,
+		  systemCodeCategory.codeName AS categoryName,
+		  systemCodeAffiliation.codeName AS affiliationName,
+		  systemCodeCompanyType.codeName AS companyTypeName,
+		  systemCodePlateType.codeName AS plateTypeName
+    FROM
+      t_cpro_company AS company
+		LEFT JOIN t_cpro_system_code AS systemCodeProvinces 
+		  ON company.fkSubordinateProvinces = systemCodeProvinces.systemCode
+		  AND systemCodeProvinces.fkCodeType = 21
+		LEFT JOIN t_cpro_system_code AS systemCodeCategory 
+		  ON company.industryCategory = systemCodeCategory.systemCode
+		  AND systemCodeCategory.fkCodeType = 8
+		LEFT JOIN t_cpro_system_code AS systemCodeAffiliation 
+			ON company.industryCategory = systemCodeAffiliation.systemCode
+			AND systemCodeAffiliation.fkCodeType = 3
+		LEFT JOIN t_cpro_system_code AS systemCodeCompanyType 
+			ON company.industryCategory = systemCodeCompanyType.systemCode
+			AND systemCodeCompanyType.fkCodeType = 5
+		LEFT JOIN t_cpro_system_code AS systemCodePlateType 
+			ON company.industryCategory = systemCodePlateType.systemCode
+			AND systemCodePlateType.fkCodeType = 6
+    WHERE 
+      company.deleteStatus = 1
+      AND  company.pkId = #{companyId}
+  </select>
+</mapper>

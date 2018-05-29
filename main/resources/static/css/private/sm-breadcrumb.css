@@ -1,0 +1,135 @@
+.h-bread {
+    height: 331px;
+    /*background: pink;*/
+}
+
+.h-bread-le {
+    height: 44px;
+    color: #333333;
+    font-size: 14px;
+}
+
+.h-bread-le span {
+    line-height: 44px;
+}
+
+.float-ri {
+    float: right;
+}
+
+.h-bottom-line {
+    height: 1px;
+    background: #b9c4d2;
+}
+
+ /*帮助中心*/
+.h-help-container {
+    height:270px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+
+}
+.content-l {
+    height: 100%;
+    width: 32%;
+    /*padding: 15px;*/
+    box-sizing: border-box;
+
+    position: absolute;
+    display: table;
+
+}
+.content-l .l-item {
+    float: left;
+    width: 50%;
+    height: 100%;
+
+}
+.l-item .l-item-1 {
+    background-image: url("../../../static/images/home/help/baikuang.png");
+    background-size: 100% 100%;
+    width: 70%;
+    height: 100%;
+    float: left;
+    /*border: 1px solid #cecece;*/
+}
+.l-item .l-item-2 {
+    float: left;
+    width: 70%;
+    height: 100%;
+    background-image: url("../../../static/images/home/help/xuanzhong.png");
+    background-size: 100% 100%;
+}
+.l-item .right-icon-wrapper {
+    width: 45px;
+    height: 100%;
+    float: right;
+    display: table;
+    margin-right: 20px;
+}
+.l-item .right-icon-wrapper .right-icon {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+.content-r {
+    box-sizing: border-box;
+    padding: 15px;
+    height: 270px;
+    margin-left: 32%;
+}
+.content-r .right-icon2 {
+    float: right;
+    width: 45px;
+    height: 100%;
+    padding: 0 2%;
+    text-align: center;
+    display: table;
+}
+.content-r .right-icon2 .right-icon-wrapper {
+    height: 100%;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.content-r .r-item1 {
+    display: table;
+    float: right;
+    height: 100%;
+    width: 75%;
+    border:1px solid #cecece;
+    border-radius: 5px;
+
+}
+.content-r .r-item2 {
+    display: table;
+    float: right;
+    height: 100%;
+    width: 13%;
+    border:1px solid #ccc;
+    border-radius: 5px;
+
+}
+.content-r .r-item1 .img-wrapper {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+
+}
+.content-r .r-item2 .img-wrapper {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+
+}
+
+.img-wrapper img {
+    width: 100px;
+    height: 125px;
+}
+
+
+
+

@@ -1,0 +1,14 @@
+@charset "utf-8";
+.inner{
+    width: 1900px;
+    margin:0 auto;
+}
+.recordTitle{
+    font:24px/1.5 "微软雅黑";
+}
+.btnBack{
+    position: absolute;
+    top: 16%;
+    right: 4%;
+    z-index: 10;
+}

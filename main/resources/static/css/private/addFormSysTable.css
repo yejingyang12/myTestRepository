@@ -1,0 +1,72 @@
+@charset "utf-8";
+.inner{
+    width: 1200px;
+    margin:0 auto;
+}
+tr{
+    width:100%
+}
+td{
+    width:24%;
+    height: 34px;
+    padding:0 !important;
+    position: relative;
+}
+.tdWith{
+    width: 85%;
+}
+.tdLineHei{
+    line-height: 34px !important;
+}
+.addFormable{
+    padding: 0px;
+    margin-left: -30px;
+}
+.addTable{
+    padding:0;
+    font-weight: normal;
+    line-height: 34px;
+}
+.dowmBg{
+    width: 16px;
+    height: 9px;
+    background: url("../../images/down.png") no-repeat;
+    position: absolute;
+    top:12px;
+    right: 6px;
+}
+.dowmBg:before{
+    content:"|";
+    display: block;
+    color: #cecece;
+    position: absolute;
+    top:-7px;
+    right:19px;
+}
+.sticNum{
+    position: absolute;
+    top:8px;
+    left:16px;
+}
+.addNum{
+    width: 8px;
+    height: 6px;
+    background: url("../../images/addNum.png") no-repeat;
+    position: absolute;
+    top:11px;
+    right:40px;
+}
+.oddNum{
+    width: 8px;
+    height: 6px;
+    background: url("../../images/addNum.png") no-repeat 0 -6px;
+    position: absolute;
+    top:17px;
+    right:40px;
+}
+.proWidth{
+    width: 32%;
+}
+.xing{
+    color: red;
+}

@@ -1,0 +1,76 @@
+@charset "utf-8";
+.recordMain{
+    width: 1200px;
+    margin:0 auto;
+}
+.cut{
+    font:14px/50px "微软雅黑";
+    margin:0 16px;
+}
+
+.cut:after,.recordMain:after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #ededed;
+}
+.cut:before{
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: #3d95df;
+    vertical-align: middle;
+    margin-right: 11px;
+}
+.recordPro{
+    width: 80%;
+    margin:0 auto;
+}
+.datasBgAll{
+    display: block;
+    width: 100px;
+    height: 100px;
+    background:no-repeat 0 0;
+}
+.process{
+    display: flex;
+    justify-content: space-between;
+}
+.process>li{
+    width: 17%;
+    text-align: center;
+    position: relative;
+}
+.datasText,.recTitle{
+    font:14px "微软雅黑";
+    text-align: center;
+}
+.recTitle{
+    margin-top:20px;
+}
+.dataLise{
+    display: block;
+    width: 60px;
+    height: 60px;
+}
+.dataLise:after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #cecece;
+    position: absolute;
+    bottom: 20px;
+    left:85%;
+}
+.dataLast{
+    display: block;
+    width: 60px;
+    height: 60px;
+}
+.datasMain{
+    font:14px/1.5 "微软雅黑";
+    margin:10% 5%;
+}

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../css/public/reset.css">
+    <link rel="stylesheet" href="../../../css/private/addCompanyInfoPage.css">
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+    <link rel="stylesheet" href="../../../css/public/index.css">
+    <script src="../../../../../../../../Documents/WXWork/1688850875312242/Cache/File/2018-05/tools.js"></script>
+
+</head>
+<body>
+
+    <div class="inner mcAddCover" id="app">
+        <!--新建单位信息表一-->
+        <div class="mcAddTian">
+            <p class="clearfix cut">
+                <span class="fl tianMsg">单位信息</span>
+                <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
+            </p>
+            <div class="mcAddMessge clearfix">
+                <form action="" name="Addform" id="Addform" role="form" method="post">
+                    <ul class="clearfix">
+                        <li class="row">
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-md-3 text-right">
+                                    <span class="xing">*</span>
+                                    单位名称:
+                                </label>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="col-lg-12 col-md-6" id="wrap" style="padding:0;">
+                                        <el-cascader name="msgName" :options="options" clearable="true" show-all-levels="false"></el-cascader>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    单位编码:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input name="msgPwd" type="text" disabled placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-6 col-sm-3 ">
+                                <label for="" class="col-lg-3 col-md-3 text-right">
+                                    单位地址:
+                                </label>
+                                <div  class="col-md-6 col-sm-3">
+                                    <input type="text" placeholder="请输入" id="msgDress" name="msgDress">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-md-3 text-right">
+                                    <span class="xing">*</span>
+                                    邮政编码:
+                                </label>
+                                <div  class="col-md-6 col-sm-3">
+                                    <input type="text" name="msgPostal" placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-6 col-sm-3 choosePro">
+                                <label for="" class="col-lg-3 col-md-3 text-right">
+                                    <span class="xing">*</span>
+                                    所属省份:
+                                </label>
+                                <div class="col-md-8 col-sm-6">
+                                    <select name="msgProvince" id="msgProvince" class="formControl">
+                                        <option value="">请选择</option>
+                                        <option value="">XXX</option>
+                                        <option value="">XXX</option>
+                                        <option value="">XXXX</option>
+                                        <option value="">xxxx</option>
+                                    </select>
+                                    <span class="caretd"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-md-3 text-right">
+                                    行政区划编码:
+                                </label>
+                                <div  class="col-md-6 col-sm-3">
+                                    <input type="text" name="msgAdc" placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="lastLine"></li>
+                    </ul>
+                    <ul class="clearfix">
+                        <li class="fl baseMsgLeft">
+                            <div class="col-lg-11 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    单位负责人姓名:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgPersoname" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    办公电话:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgComPhone" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    移动电话:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgTelphone" placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="fr baseMsgRight">
+                            <div class="col-lg-12 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    职务/职称:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgOfficial" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    电子邮件:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgEmail" placeholder="请输入" @click="checkemail">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="lastLine fl"></li>
+                    </ul>
+                    <ul class="clearfix">
+                        <li class="fl baseMsgLeft">
+                            <div class="col-lg-9 col-sm-3 baseMsgBto baseMsgBot">
+                                <label for="" class="col-lg-4 col-sm-3 text-left">
+                                    <span class="xing">*</span>
+                                    责任部门联系人姓名:
+                                </label>
+                                <div  class="col-md-8 col-sm-3 text-right">
+                                    <input type="text" name="msgLdc" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    办公电话:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgLdcPhone" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-11 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    移动电话:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgLdcTelphone" placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="fr baseMsgRight biseMsgRight">
+                            <div class="col-lg-12 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    职务/职称:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgLdcOfficial" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-sm-3 baseMsgBto">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    电子邮件:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgLdcEmail" placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="lastLine fl"></li>
+                    </ul>
+                    <ul class="clearfix">
+                        <li class="row">
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    责任部门:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgRespon" placeholder="请输入">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-sm-3 text-right">
+                                    <span class="xing">*</span>
+                                    等保上报单位名称:
+                                </label>
+                                <div  class="col-md-6 col-sm-3 text-right">
+                                    <input type="text" name="msgUpName" placeholder="请输入">
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-6 col-sm-3">
+                                <label for="" class="col-lg-3 col-md-3 text-right">
+                                    <span class="xing">*</span>
+                                    行业类别:
+                                </label>
+                                <div class="col-md-8 col-sm-6 industry">
+                                    <select name="msgInCate" id="" class="formControl">
+                                        <option value="">请选择</option>
+                                        <option value="">XXX</option>
+                                        <option value="">XXX</option>
+                                        <option value="">XXXX</option>
+                                        <option value="">xxxx</option>
+                                    </select>
+                                    <span class="caretd"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-11 text-center baseMesWrap">
+                                <label for="" class="col-lg-1 col-sm-1">
+                                    <span class="xing">*</span>
+                                    隶属关系：
+                                </label>
+                                <div class="col-lg-11 col-sm-3 baseMes1">
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">
+                                        其他：
+                                        <input type="text" class="col-lg-8 baseMesIn">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-11 text-center baseMesWrap">
+                                <label for="" class="col-lg-1 col-sm-1">
+                                    <span class="xing">*</span>
+                                    单位类型：
+                                </label>
+                                <div class="col-lg-11 col-sm-3 baseMes1">
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">
+                                        其他：
+                                        <input type="text" class="col-lg-8 baseMesIn">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="col-lg-11 text-center baseMesWrap">
+                                <label for="" class="col-lg-1 col-sm-1">
+                                    <span class="xing">*</span>
+                                    板块类型：
+                                </label>
+                                <!--<div class="col-lg-11 col-sm-3 baseMes">
+                                    <div class="col-lg-1">中央</div>
+                                    <div class="col-lg-3">省（自治区、直辖市）</div>
+                                    <div class="col-lg-3">地（区、市、州、盟）</div>
+                                    <div class="col-lg-2">县（区、市、旗）</div>
+                                    <div class="row">
+                                        &lt;!&ndash;<label for="" class="col-sm-1">其他: </label>&ndash;&gt;
+                                        &lt;!&ndash;<div>&ndash;&gt;
+                                        其他：
+                                        <input type="text" class="col-lg-2 baseMesIn">
+                                        &lt;!&ndash;</div>&ndash;&gt;
+                                    </div>
+                                </div>-->
+                                <div class="col-lg-11 col-sm-3 baseMes1">
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">省（自治区、直辖市）</div>
+                                    <div onclick="getClass($(this))">
+                                        其他：
+                                        <input type="text" class="col-lg-8 baseMesIn">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <button type="submit" class="btn btn-success btnNext fr" id="btnNext" onclick="nextBtn($(this))">下一步</button>
+                </form>
+            </div>
+        </div>
+        <div class="_cover" id="cover"></div>
+    </div>
+</body>
+<script src="../../../js/public/vue.js"></script>
+<script src="../../../js/public/index.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="../../../js/public/messages_zh.js"></script>
+<script src="addForm.js"></script>
+<script>
+//    $("#Addform").validate();
+    //点击下一步页面跳转
+    function nextBtn() {
+        $("#btnNext").click(function () {
+            Ajax('GET','./addForm.html','../addFormSystem/addFormSystem.html');
+        })
+    };
+    //点击切换背景色
+    function getClass(obj) {
+        $(obj).addClass('btnColor').siblings().removeClass("btnColor");
+    }
+    function Ajax(type,url, href, data) {
+        $.ajax({
+            type:type,
+            url:url,
+            async:false,
+            data:data,
+            success:function (msg) {
+                if(msg){
+                    window.location.href = href;
+                }
+            }
+        })
+    }
+    var Main = {
+        data() {
+            return {
+                options: [{
+                    value: 'sousuo',
+                    label: '图标',
+                    }
+                    ,{
+                    value: 'ziyuan',
+                    label: '资源',
+                    children: [{
+                        value: 'axure',
+                        label: 'Axure Components'
+                    }, {
+                        value: 'sketch',
+                        label: 'Sketch Templates'
+                    }, {
+                        value: 'jiaohu',
+                        label: '组件交互文档'
+                    }]
+                },
+                    {
+                        value: 'qita',
+                        label: '资源',
+                        children: [{
+                            value: 'axure',
+                            label: 'Axure'
+                        }, {
+                            value: 'sketch',
+                            label: 'Sketch Templates'
+                        }, {
+                            value: 'jiaohu',
+                            label: '组件交互文档'
+                        }]
+                    },
+                    {
+                        value: 'zujian',
+                        label: '资源',
+                        children: [{
+                            value: 'axure',
+                            label: 'Axure Components'
+                        }, {
+                            value: 'sketch',
+                            label: 'Sketch Templates'
+                        }]
+                    }]
+            };
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#wrap');
+</script>
+</html>

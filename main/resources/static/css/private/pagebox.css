@@ -1,0 +1,41 @@
+
+.h-page-box1{
+    position:relative;
+    width:100%;
+    height:64px;
+    margin-right: 0;
+}
+.h-page{
+    position: absolute;
+    right: 0;
+    height:100%;
+    padding-top:10px;
+}
+.pagination>li>a{
+    border: 1px solid #ededed;
+    margin-right: 5px;
+    height: 30px;
+}
+.pagination>li>input{
+    border:0 none;
+}
+.pagination>li>#txt{
+    width: 50px;
+    height: 30px;
+    border: 1px solid #ededed;
+    padding:6px;
+    font-size: 14px;
+    margin-right: 5px;
+    color: #333;
+}
+.pagination>li>.box{
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+}
+
+.h-page .pagination .current a{
+    background: #000;!important;
+    color: #fff;
+}
+

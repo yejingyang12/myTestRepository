@@ -1,0 +1,40 @@
+.audit-btn{
+}
+.auditCepingList{
+    margin: 15px 0;
+}
+.audit-btn {
+    position: relative;
+    height: 34px;
+    width: 70px;!important;
+    border: none;
+}
+.audit-btn:hover{
+    background: #ededed;
+}
+.audit-btn:active{
+    z-index: 10000;
+    background: #3d95df;
+}
+.audit-btn:active:hover,
+.open>.dropdown-toggle.btn-default.focus,
+.open>.dropdown-toggle.btn-default:focus,
+.open>.dropdown-toggle.btn-default:hover {
+    color: #333;
+    background-color: #3d95df;
+    border:none;
+}
+
+
+.liuCheng{
+    /*width:81px;*/
+    padding-right: 0;
+    line-height: 34px;
+}
+.pos-absolute-ri{
+    position: absolute;
+    right:0;
+}
+.h-col-md-9{
+    border-radius:0;!important;
+}

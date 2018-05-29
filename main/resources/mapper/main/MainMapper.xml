@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.main.mapper.MainMapper">
+  <resultMap id="MainListResult"
+    type="com.sinopec.smcc.cpro.main.entity.MainListResult">
+    <id column="pkid" property="id" />
+    <result column="fkSystemId" property="fkSystemId" />
+    <result column="fkBizSprankDegree" property="fkBizSprankDegree" />
+    <result column="fkBizSprankLevel" property="fkBizSprankLevel" />
+    <result column="fkBizSprankDegrees" property="fkBizSprankDegrees" />
+    <result column="fkBizSprankLevels" property="fkBizSprankLevels" />
+  </resultMap>
+  <select id="selectAllByMainParam" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
+    <![CDATA[
+      SELECT
+        system.pkId AS systemId, 
+        system.systemName, 
+        company.companyName, 
+        company.plateType, 
+        systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
+        systemCodeSprankLevel.codeName AS SprankLevel,
+        appIsInternet, 
+        gradingStatus, 
+        examineStatus, 
+        recordStatus, 
+        evaluationStatus,
+        examinationStatus
+      FROM
+        t_cpro_system AS system
+      LEFT JOIN t_cpro_company AS company 
+        ON system.fkCompanyCode = company.companyCode
+      LEFT JOIN t_cpro_system_code AS systemCodeInfoSysTypeConstruction 
+        ON system.fkInfoSysTypeConstruction = systemCodeInfoSysTypeConstruction.systemCode 
+        AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
+      LEFT JOIN t_cpro_score AS score 
+        ON system.pkid = score.fkSystemId
+      LEFT JOIN t_cpro_system_code AS systemCodeSprankLevel 
+        ON score.fkSprankLevel = systemCodeSprankLevel.systemCode 
+        AND systemCodeSprankLevel.fkCodeType = 4
+      LEFT JOIN t_cpro_records AS records 
+        ON system.pkId = records.fkSystemId
+      LEFT JOIN t_cpro_evaluation AS evaluation 
+        ON system.pkId = evaluation.fkSystemId
+      LEFT JOIN t_cpro_self_inspection AS selfInspection 
+        ON system.pkId = selfInspection.fkSystemId
+    ]]>
+    <where>
+      <!-- 缺少自定义筛选，待确认 --> 
+      <if test="customizedSearch != null ">
+        <![CDATA[
+          AND records.recordDate >= #{customizedSearch,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="acceptCompany != null and acceptCompany != ''">
+        <bind name="acceptCompany" value="'%' + _parameter.acceptCompany + '%'" />
+        <![CDATA[
+          AND records.acceptCompany LIKE #{acceptCompany,jdbcType=CHAR}
+        ]]>
+      </if>
+      <if test="examOrg != null and examOrg != ''">
+        <bind name="examOrg" value="'%' + _parameter.examOrg + '%'" />
+        <![CDATA[
+          AND evaluation.examOrg LIKE #{examOrg,jdbcType=CHAR}
+        ]]>
+      </if>
+      <!-- 缺少申请时间，待确认 -->
+      <if test="recordDateBegin != null ">
+        <![CDATA[
+          AND records.recordDate >= #{recordDateBegin,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="recordDateEnd != null ">
+        <![CDATA[
+          AND records.recordDate <= #{recordDateEnd,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="examTimeBegin != null ">
+        <![CDATA[
+          AND evaluation.examTime >= #{examTimeBegin,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="examTimeEnd != null ">
+        <![CDATA[
+          AND evaluation.examTime <= #{examTimeEnd,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="rankTimeBegin != null ">
+        <![CDATA[
+          AND score.rankTime >= #{rankTimeBegin,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="rankTimeEnd != null ">
+        <![CDATA[
+          AND score.rankTime <= #{rankTimeEnd,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="inspectionDateBegin != null ">
+        <![CDATA[
+          AND selfInspection.inspectionDate >= #{inspectionDateBegin,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="inspectionDateEnd != null ">
+        <![CDATA[
+          AND selfInspection.inspectionDate <= #{inspectionDateEnd,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="fkCompanyCode != null and fkCompanyCode != ''">
+        <![CDATA[
+          AND system.fkCompanyCode = #{fkCompanyCode,jdbcType=CHAR}
+        ]]>
+      </if>
+      <if test="systemId != null and systemId != ''">
+        <![CDATA[
+          AND system.pkId = #{systemId,jdbcType=CHAR}
+        ]]>
+      </if>
+      <!-- 定级状态 -->
+      <if test="systemCodeType != null and systemCodeType == '23'">
+        <![CDATA[
+          AND system.gradingStatus = #{gradingStatus,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <!-- 审核状态 -->
+      <if test="systemCodeType != null and systemCodeType == '24'">
+        <![CDATA[
+          AND system.examineStatus = #{examineStatus,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <!-- 备案状态 -->
+      <if test="systemCodeType != null and systemCodeType == '25'">
+        <![CDATA[
+          AND system.recordStatus = #{recordStatus,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <!-- 测评状态 -->
+      <if test="systemCodeType != null and systemCodeType == '26'">
+        <![CDATA[
+          AND system.evaluationStatus = #{evaluationStatus,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <!-- 自查状态 -->
+      <if test="systemCodeType != null and systemCodeType == '27'">
+        <![CDATA[
+          AND system.examinationStatus = #{examinationStatus,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="systemName != null and systemName != ''">
+        <bind name="systemName" value="'%' + _parameter.systemName + '%'" />
+        <![CDATA[
+          AND system.systemName LIKE #{systemName,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="plateType != null and plateType != ''">
+          <![CDATA[
+            AND company.plateType = #{plateType,jdbcType=VARCHAR}
+          ]]>
+      </if>
+      <if test="sprankLevel != null and sprankLevel != ''">
+          <![CDATA[
+            AND score.fkSprankLevel = #{sprankLevel,jdbcType=VARCHAR}
+          ]]>
+      </if>
+      <if test="subordinateProvinces != null and subordinateProvinces != ''">
+          <![CDATA[
+            AND company.fkSubordinateProvinces = #{subordinateProvinces,jdbcType=VARCHAR}
+          ]]>
+      </if>
+    </where>
+  </select>
+  <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
+    UPDATE 
+      t_cpro_system AS system
+    INNER JOIN t_cpro_company AS company
+      ON system.fkCompanyCode = company.companyCode
+    INNER JOIN t_cpro_score AS score
+      ON system.pkid = score.fkSystemId
+    INNER JOIN t_cpro_check AS cproCheck
+      ON system.pkid = cproCheck.fkSystemId
+    INNER JOIN t_cpro_records AS records
+      ON system.pkid = records.fkSystemId
+    SET system.deleteStatus = 2,
+      company.deleteStatus = 2,
+      cproCheck.deleteStatus = 2,
+      records.deleteStatus = 2,
+      score.deleteStatus = 2
+    WHERE system.pkId = #{systemId}
+      AND company.companyCode = #{fkCompanyCode}
+  </update>
+</mapper>

@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>等级保护</title>
+    <!--public-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap.css">
+    <!--<link rel="stylesheet" type="text/css" href="../../static/css/public/element.css">-->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <!--private-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css">
+</head>
+<style>
+    .el-button {
+        margin-right: 0;
+        display: inline;
+        line-height: 1;
+        white-space:inherit;
+        cursor: pointer;
+        background: none;
+        border: none;
+        -webkit-appearance: none;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        -webkit-transition: .1s;
+        transition: .1s;
+        padding:0;
+        font-size: 14px;
+        border-radius:0;
+        color:#1e91e2;
+    }
+</style>
+<body class="h-body">
+<div style="height:30px;background: #2978d0;color: #fff">欢迎来光临</div>
+<div style="height:68px;background: #3d94d5;color: #fff">待确认</div>
+<div class="container h-padding" style="margin:0 15px;">
+    <!--小导航、帮助中心-->
+    <div class="h-bread" id="h-bread">
+        <div class="h-bread-le">
+            <span>首页>信息安全管理>等级保护>系统定级备案测评列表</span>
+            <span class="float-ri" style="color:#333;" onclick="">共享资料库</span>
+            <span  onclick="helpCenter()"  class="float-ri" style="color:#333;">帮助中心 <img   style="color:#333;transform:rotate(180deg);" src="../../static/images/home/s01xialayijianxiazai.png" alt=""> |</span>
+        </div>
+        <div class="h-bottom-line" id="h-help-bottom1"></div>
+        <!--help-->
+        <div class="h-help-container" id="h-help-center">
+            <div class="all">
+                <!--单位系统填写-->
+                <div class="box1">
+                    <div class="bg-item1" id="bg-item1" onclick="help(this,0)" hasClick="">
+                        <div class="content">
+                            <div class="img-1"></div>
+                            <h4>单位系统信息填写</h4>
+                        </div>
+                        <div class="text">
+                            <h3>申请定级</h3>
+                            <p>申请定级申，请定级申请，定级申请定，级浮动爽肤水，定级申请定，级申请定级申请定级，申请发生的定级；申请定级申，请定级申请，定级申请定，级浮动爽肤水，定级申请定，级申请定级申请定级，申请发生的定级</p>
+                        </div>
+                    </div>
+                    <div class="arrow1"></div>
+                </div>
+                <!--申请定级-->
+                <div class="box2">
+                    <div class="bg-item2" id="bg-item2" onclick="help(this,1)" hasClick="">
+                        <div class="content" >
+                            <div class="img-1"></div>
+                            <h4>申请定级</h4>
+                        </div>
+                        <div class="text">
+                            <h3>申请定级</h3>
+                            <p>填写系统基本信息及定级信息，上传定级报告、评审意见等材料。</p>
+                        </div>
+                    </div>
+                    <div class="arrow2">
+                    </div>
+                </div>
+                <!--审查、自查保护-->
+                <div class="box3" onclick="help(this,5)" id="bg-item3" hasClick="" >
+                    <div class="box3-item">
+                        <div class="box3-item-content" id="box3-shenhe">
+                            <div class="box3-item-img-1"></div>
+                            <h4>审核</h4>
+                        </div>
+                        <div class="box3-text">
+                            <h3>审核</h3>
+                            <p>企业分管信息领导对本企业上报数据进行审批。总部等保管理员对企业填报数据的规范性进行核对 </p>            </div>
+                    </div>
+                    <div class="box3-item">
+                        <div class="box3-item-content" id="box3-zicha">
+                            <div class="box3-item-img-2"></div>
+                            <h4>自查</h4>
+                        </div>
+                        <div class="box3-text">
+                            <h3>自查</h3>
+                            <p>国家规定信息系统运营、使用单位及其主管部门应当定期对信息系统安全状况、安全保护制度及措施的落实情况进行自查。第三级信息系统应当每年至少进行一次自查，请在此处填报系统安全自查相关数据。 </p>            </div>
+                    </div>
+                    <div class="box3-item">
+                        <div class="box3-item-content" id="box3-ceping">
+                            <div class="box3-item-img-3"></div>
+                            <h4>测评</h4>
+                        </div>
+                        <div class="box3-text">
+                            <h3>测评</h3>
+                            <p>国家规定信息系统建设完成后，运营、使用单位或者其主管部门应当选择有资质的测评机构，依据《信息系统安全等级保护测评要求》等技术标准，定期对信息系统安全等级状况开展等级测评。第三级信息系统应当每年至少进行一次等级测评，请在此处填报系统等保测评相关数据。 </p>            </div>
+                    </div>
+                    <div class="box3-item">
+                        <div class="box3-item-content" id="box3-beian">
+                            <div class="box3-item-img-4"></div>
+                            <h4>备案</h4>
+                        </div>
+                        <div class="box3-text">
+                            <h3>备案</h3>
+                            <p>二级及以上系统在公安机关完成备案后，在此处填报备案相关信息并上传备案证明。 </p>
+                        </div>
+                    </div>
+                </div>
+                <!--撤销备案-->
+                <div class="box4" onclick="help(this,2)" hasClick="" >
+                    <div class="arrow4"></div>
+                    <div class="bg-item4" id="bg-item4">
+                        <div class="content">
+                            <div class="img-1"></div>
+                            <h4>申请定级</h4>
+                        </div>
+                        <div class="text">
+                            <h3>申请定级</h3>
+                            <p>申请定级申，请定级申请，定级申请定，级浮动爽肤水，定级申请定，级申请定级申请定级，申请发生的定级；申请定级申，请定级申请，定级申请定，级浮动爽肤水，定级申请定，级申请定级申请定级，申请发生的定级</p>            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--边框-->
+        <div class="h-bottom-line  h-bottom-position" id="h-help-bottom2"></div>
+    </div>
+    <!--查询、列表-->
+    <div class="container h-padding" style="margin:0">
+        <!--查询-->
+        <div class="container" style="margin:0;background:#fff;padding-bottom:20px;">
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <!--系统名称-->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:12px">
+                                            系统名称:
+                                        </div>
+                                        <div class="col-md-8 h-col-md-9">
+                                            <select class="form-control">
+                                                <option>请选择</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--所属单位-->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-3 h-line" style="padding-right:0;width:85px">
+                                            所属单位:
+                                        </div>
+                                        <div class="col-md-8 h-col-md-9">
+                                            <select class="form-control">
+                                                <option>请选择</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--申请时间-->
+                        <div class="col-md-5 h-col-md-9" style="float: right">
+                            <div class="row" style="margin-right:0">
+                                <div class="col-md-7 h-padding">
+                                    <div class="row" style="margin: 0">
+                                        <div class="col-md-3 applyTime"style="line-height: 34px">申请时间:</div>
+                                        <div class="col-md-9" style="position: relative; padding: 0;margin-right:0;">
+                                            <input style="border:1px solid #cecece;height:34px;line-height: 34px;width: 100%;margin-right:0;border-radius:4px" type="text" id="test1">
+                                            <i style="text-align:center;line-height:32px;position: absolute;right: 0;top:0;color: #cecece;width: 14%;">|
+                                                <img style="width:40%;margin-top: -6%;margin-right:5%;margin-left: 5%;" src="../../static/images/home/shijianxuanze.png" alt="">
+                                            </i>
+                                        </div>
+                                        <div style="float: right;display: inline-block;margin: 1px;line-height: 34px;max-width:14px">到</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-5 input-box" style="float: right;">
+                                    <div class="row">
+                                        <div class="col-md-12" style="position: relative;float: right;">
+                                            <input style="border-radius:4px;border:1px solid #cecece;width: 100%;height:34px;line-height: 34px" type="text" id="test2">
+                                            <i style="text-align:center;line-height:32px;position: absolute;right:3%;top:0;color: #cecece;width: 14%;">|
+                                                <img style="width:40%;margin-top:-6%;margin-right:32%;margin-left:3%;color: #666666;" src="../../static/images/home/shijianxuanze.png" alt="">
+                                            </i>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-12">
+                    <div class="col-md-3 h-system h-padding">
+                        自定义筛选:
+                    </div>
+                    <div class="col-md-3 h-col-md-9 h-padding">
+                        <select class="form-control" style="width: 74%">
+                            <option>请选择</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+
+                    <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="...">
+                        <button type="button" class="btn btn-default" style="width:70px">查询</button>
+                        <div class="btn-group" style="margin-left: 10">
+                            <button type="button" class="btn btn-default h-btn-info dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false" onclick="search()">
+                                高级查询 <span class="caret"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--高级查询-->
+            <div id="h-height-search" style="display: none">
+                <div class="form-group has-feedback">
+                    <label class="col-md-1 control-label">类型：</label>
+                    <div class="checkbox checkbox-inline ">
+                        <input type="checkbox" id="all" value="0"    onclick="checkAllHeightSearch()">
+                        <label for="all"> 全部</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state3" value="1" class="checkName1">
+                        <label for="state3"> 紧急通报</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state4" value="2" class="checkName1">
+                        <label for="state4"> 整改通知</label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" id="state5" value="3" class="checkName1">
+                        <label for="state5">月度通报</label>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-1 control-label">状态：</label>
+                    <div class="checkbox checkbox-inline ">
+                        <input type="checkbox" value="0" onclick="checkAllHeightSearch2()" id="all2">
+                        <label for="all2">已创建</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" value="1" class="checkName2">
+                        <label for="state3">待审批</label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" value="2" class="checkName2">
+                        <label for="state4">已下发</label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" value="3" class="checkName2">
+                        <label for="state5">待反馈</label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" value="4" class="checkName2">
+                        <label for="state6">待审核</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" value="5" class="checkName2">
+                        <label for="state7"> 归档</label>
+                    </div>
+                </div>
+                <div class="form-group has-feedback">
+                    <label class="col-md-1 control-label">板块：</label>
+                    <div class="checkbox checkbox-inline ">
+                        <input type="checkbox" id="all3" value="0" onclick="checkAllHeightSearch3()">
+                        <label for="all3"> 全部</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state3" value="1" class="checkName3">
+                        <label for="state3">油田板块</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state4" value="2" class="checkName3">
+                        <label for="state4">炼化板块</label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" id="state5" value="3" class="checkName3">
+                        <label for="state5">销售板块</label>
+                    </div>
+                    <div class="checkbox checkbox-inline">
+                        <input type="checkbox" id="state6" value="4" class="checkName3">
+                        <label for="state6">石油工程</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state7" value="5" class="checkName3">
+                        <label for="state7">炼化工程</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state7" value="6" class="checkName3">
+                        <label for="state7">科研单位</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state7" value="7" class="checkName3">
+                        <label for="state7"> 总部部门</label>
+                    </div>
+                    <div class="checkbox checkbox-inline  ">
+                        <input type="checkbox" id="state7" value="8" class="checkName3">
+                        <label for="state7">专业公司及其他</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!--系统定级备案测评列表-->
+        <div class="container" style="background:#fff;padding: 15px">
+            <div style="height: 50px;line-height: 50px">
+                <i class="h-list-line" style="vertical-align:middle;"></i>
+                系统定级备案测评列表
+                <span style="float: right;"><img src="../../static/images/home/s01ztyichexiao.png" alt="">已撤销</span>
+                <span style="float: right;margin-right: 20px;"><img src="../../static/images/home/s01ztyiwancheng.png"
+                                                                    alt="">已完成</span>
+                <span style="float: right;margin-right: 20px;"><img src="../../static/images/home/s01ztjinxingzhong.png"
+                                                                    alt="">进行中</span>
+                <span style="float: right;margin-right: 20px;"><img src="../../static/images/home/s01ztweijinxing.png"
+                                                                    alt="">未进行</span>
+            </div>
+            <div class="h-bottom-line  h-bottom-position"></div>
+            <p class="h-p" style="margin: 15px 0;">
+                <button type="button" class="h-btn btn btn-default" id="h-btn-add">
+                    <img class="h-add   btn-default" src="../../static/images/home/xinzengdengbao.png" alt=""></button>
+                <button type="button"  id="h-score-list2"  class="btn btn-default" onclick="list()">定级模板导出</button>
+                <button  type="button" class="btn" id="h-score-list1"
+                        style=" display: none; margin-right: 10px;background-color: #1e91e2;color:#fff;" onclick="downloadFile()">定级模板导出
+                </button>
+
+                <button type="button" class="btn btn-default">定级信息导入</button>
+                <button type="button" class="btn btn-default float-ri" style="margin-right: 10px">维护单位系统信息</button>
+                <button type="button" class="btn  float-ri"
+                        style="margin-right: 10px;background-color: #1e91e2;color:#fff;">审核管理
+                </button>
+                <button type="button" class="btn  float-ri"
+                        style="margin-right: 10px;background-color: #1e91e2;color:#fff;" onclick="downloadFile()">一键导出
+                </button>
+            </p>
+            <!--默认显示列表-->
+            <div class="row" style="margin:0">
+                <div class="col-md-12">
+                    <div class="row table-responsive">
+                        <!--默认显示列表-->
+                        <table  id="h-list-show" class="table table-bordered table-striped">
+                            <tr class="h-tr1">
+                                <th style="min-width:47px">序号</th>
+                                <th>系统名称<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>所属单位<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>板块<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>建设类型<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>等保级别<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th style="max-width:75px">是否为互联网应用</th>
+                                <th>定级状态</th>
+                                <th>审核状态</th>
+                                <th>备案状态</th>
+                                <th>测评状态</th>
+                                <th>自查状态</th>
+                                <th style="width:5%;">专家评审意见</th>
+                                <th>定级报告</th>
+                                <th>测评报告</th>
+                                <th>自查报告</th>
+                                <th style="white-space: nowrap;width:7%;">备案表下载</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>中国石化</td>
+                                <td>油田板块</td>
+                                <td>总部</td>
+                                <td>无</td>
+                                <td style=" vertical-align: middle; ">是</td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td>
+                                    <a onclick="downloadFile()" style="float: left">一键下载</a>
+                                    <i class="app1" style="float: left">
+                                        <el-row class="block-col-2">
+                                            <el-col :span="12">
+                                                <el-dropdown trigger="click">
+      <span class="el-dropdown-link"><i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+                                                    <el-dropdown-menu slot="dropdown">
+                                                        <el-dropdown-item onclick="downloadFile()">表1</el-dropdown-item>
+                                                        <el-dropdown-item onclick="downloadFile()">表2</el-dropdown-item>
+                                                        <el-dropdown-item onclick="downloadFile()">表3</el-dropdown-item>
+                                                        <el-dropdown-item onclick="downloadFile()">表4</el-dropdown-item>
+                                                    </el-dropdown-menu>
+                                                </el-dropdown>
+                                            </el-col>
+                                        </el-row>
+                                    </i>
+                                </td>
+                                <td style="color:#1e91e2;">
+                                    <a class="app2">
+                                        <i id="h-dingji">定级</i> <i style="color:#1e91e2 ">|</i>
+                                        <el-popover placement="top" width="160" v-model="visible2">
+                                            <p>这是一段内容这是一段内容确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0">
+                                                <el-button size="mini" type="text" @click="visible2 = false">取消
+                                                </el-button>
+                                                <el-button type="primary" size="mini" @click="visible2 = false" onclick="homeListDelete(this)">确定
+                                                </el-button>
+                                            </div>
+                                            <el-button slot="reference">删除</el-button>
+                                        </el-popover>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                        <!--定级模版导出 列表-->
+                        <table style="display: none" id="h-list-hidden" class="table table-bordered table-striped">
+                            <tr class="h-tr1">
+                                <th><input id="all" type="checkbox" onclick="checkAll()"></th>
+                                <th style="min-width:47px">序号</th>
+                                <th>系统名称<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>所属单位<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>板块<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>建设类型<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th>等保级别<img src="../../static/images/home/paixujiantou.png" alt=""></th>
+                                <th style="max-width:75px">是否为互联网应用</th>
+                                <th>定级状态</th>
+                                <th>审核状态</th>
+                                <th>备案状态</th>
+                                <th>测评状态</th>
+                                <th>自查状态</th>
+                                <th>专家评审意见</th>
+                                <th>定级报告</th>
+                                <th>测评报告</th>
+                                <th>自查报告</th>
+                                <th>备案表下载</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr>
+                                <th><input class="checkName" type="checkbox"></th>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>中国石化</td>
+                                <td>油田板块</td>
+                                <td>总部</td>
+                                <td>无</td>
+                                <td>是</td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img src="../../static/images/home/s01ztweijinxing.png" alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td><img onclick="downloadFile()" src="../../static/images/home/xiazaikexiazai.png"
+                                         alt=""></td>
+                                <td>
+                                    <a onclick="downloadFile()">一键下载</a>
+                                    <span class="hide1">
+                                        <el-row class="block-col-2">
+                                            <el-col :span="12">
+                                                <el-dropdown trigger="click">
+      <span class="el-dropdown-link"><i class="el-icon-arrow-down el-icon--right"></i>
+      </span>
+                                                    <el-dropdown-menu slot="dropdown">
+                                                        <el-dropdown-item onclick="downloadFile()">表1</el-dropdown-item>
+                                                        <el-dropdown-item onclick="downloadFile()">表2</el-dropdown-item>
+                                                        <el-dropdown-item onclick="downloadFile()">表3</el-dropdown-item>
+                                                        <el-dropdown-item onclick="downloadFile()">表4</el-dropdown-item>
+                                                    </el-dropdown-menu>
+                                                </el-dropdown>
+                                            </el-col>
+                                        </el-row>
+                                    </span>
+                                </td>
+                                <td style="color:#1e91e2;" >
+                                    <!--<a href="">定级</a> <i style="color:#1e91e2 ">|</i>-->
+                                    <!--<a href="">删除</a>-->
+                                    <a class="hide2">
+                                        <i id="h-dingji1">定级</i> <i style="color:#1e91e2 ">|</i>
+                                        <el-popover placement="top" width="160" v-model="visible2">
+                                            <p>这是一段内容这是一段内容确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0">
+                                                <el-button size="mini" type="text" @click="visible2 = false">取消
+                                                </el-button>
+                                                <el-button type="primary" size="mini" @click="visible2 = false">确定
+                                                </el-button>
+                                            </div>
+                                            <el-button slot="reference">删除</el-button>
+                                        </el-popover>
+                                    </a>
+                                </td>
+                            </tr>
+                         </table>
+                     </div>
+                 </div>
+             </div>
+             <!--分页-->
+            <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
+                <span style="float: left;padding-top: 18px">显示1到10行，共45行记录</span>
+                <div class="h-page">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">上一页</span>
+                                </a>
+                            </li>
+                            <li class="current"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">下一页</span>
+                                </a>
+                            </li>
+                            共40页，跳到
+                            <li>
+                                <input type="text" id="txt" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                       onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                       style="overflow: visible;">
+                                <div class="box" id="box"></div>
+                            </li>
+                            页
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!--vue-->
+<script src="../../static/js/public/vue.js"></script>
+<!--jQ-->
+<script src="../../static/js/public/jquery.min.js"></script>
+<!--bootstrap-->
+<script src="../../static/js/public/bootstrap.min.js"></script>
+<!--element-->
+<!--<script src="../../static/js/public/element.js"></script>-->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<!--面包屑导航-->
+<script src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js"></script>
+<!--分页-->
+<script src="../../static/js/private/pagebox.js"></script>
+<!--表格的一键导出、下载、删除、全选 反选点选框的实现-->
+<script src="../../static/js/private/homelist.js"></script>
+
+<script src="../../static/js/private/index.js"></script>
+<script src="../../static/js/public/layDate-v5.0.9/laydate/laydate.js"></script>
+<!--<script src=" http://192.168.0.193:8082/company/queryDetailsCompany"></script>-->
+
+<script>
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#test1' ,//指定元素
+  });
+  laydate.render({
+    elem: '#test2' ,//指定元素
+  });
+</script>
+
+</html>
+

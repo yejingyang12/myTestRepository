@@ -1,0 +1,85 @@
+@charset "utf-8";
+.inner{
+    width: 1200px;
+    margin:0 auto;
+}
+li{
+    margin-bottom:15px;
+}
+.mcAddTian{
+    margin-top:15px;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+.cut:after{
+    content: "";
+    display: block;
+    width: 1200px;
+    height: 2px;
+    background: #ededed;
+}
+.mcAddTian .tianMsg:before{
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: #3d95df;
+    vertical-align: middle;
+    margin-right: 11px;
+}
+.mcAddTian .tianMeg{
+    margin-top:16px;
+    font:12px/34px "微软雅黑";
+    color: #333333;
+    margin-right: 15px;
+}
+.mcAddTian{
+    margin-top:15px;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+.mcAddTian .tianMsg{
+    margin-top:16px;
+    font: 14px "微软雅黑";
+    color: #333333;
+    margin-left: 15px;
+}
+.sysTitle,.sysEnclosure{
+    padding:0;
+    font-size:12px;
+    line-height: 34px;
+    font-weight: normal;
+}
+.sysText>input{
+    height: 34px;
+    border:none;
+    border-bottom: 1px solid #cecece;
+}
+.sysText>p{
+    font:12px/24px "微软雅黑";
+    color: #999999;
+}
+.sysBtn{
+    padding:7px 33px;
+    margin-left:-8px;
+}
+.inpEnclosure{
+    width: 97%;
+    margin-left: 10px;
+}
+.downDoc{
+    cursor: pointer;
+    line-height: 34px;
+    font-size: 12px;
+    color: #3d95df;
+}
+.dixName{
+    line-height: 34px;
+    font-size: 12px;
+}
+/*星号颜色*/
+.xing{
+    color: red;
+}

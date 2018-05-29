@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../css/public/reset.css">
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+    <link rel="stylesheet" href="../../../css/private/addFormGrad.css">
+</head>
+<body>
+<div class="inner">
+    <div class="mcAddTian">
+        <p class="clearfix cut">
+            <span class="fl tianMsg">定级信息</span>
+            <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
+        </p>
+        <form action="#">
+            <ul class="clearfix">
+                <li class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="" class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            系统名称:
+                        </label>
+                        <p class="titleText">中国石化上海院对外发布网站</p>
+                    </div>
+                </li>
+                <li class="row">
+                    <div class="col-lg-12 col-md-6">
+                        <label for="" class="col-lg-2 col-sm-1 text-left saveTitle">
+                            <span class="xing">*</span>
+                            确定安全保护等级:
+                        </label>
+                        <div class="col-md-10 col-xs-offset-2 col-sm-5 saveTable">
+                            <!--<table class="table table-bordered">
+                                <tr>
+                                    <td class="col-md-2">安全保护等级类型</td>
+                                    <td>损害客体及损害程度</td>
+                                    <td class="col-md-2">级别</td>
+                                </tr>
+                            </table>-->
+                            <ul class="clearfix">
+                                <li class="row saveTableRowLine saveTableRow">
+                                    <div class="col-md-2">安全保护等级类型</div>
+                                    <div class="col-md-8">损害客体及损害程度</div>
+                                    <div class="col-md-2">级别</div>
+                                </li>
+                                <li class="row saveTableRow saveTableHeg">
+                                    <div class="col-md-2 mcAddSysBuild">系统信息</div>
+                                    <ul class="col-md-10 saveTableLase" id="sysTable">
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1" id="selectAll">
+                                                <input type="radio"  name="inform" class="inpChoose" onclick="checkAll()">
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <input type="checkbox" class="inpChoose checkFirst checkName" onclick="sysCheck(this)">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled id="onlycheck">第一级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder"  >
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="inform" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose checkName" onclick="sysCheck(this)">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose checkName" onclick="sysCheck(this)">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled id="onlycheck">第二级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder"  onclick="sysCheck(this)">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="inform" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第三级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder"  onclick="sysCheck(this)">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="inform" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第四级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder"  onclick="sysCheck(this)">
+                                            <div class="col-md-1">
+                                                <input type="radio" id="" name="inform" class="inpChoose">
+                                            </div>
+                                            <div class="col-md-9 saveMsg ">
+                                                <input type="checkbox" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第五级
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="row saveTableRow saveTableHeg">
+                                    <div class="col-md-2 mcAddSysBuild">业务信息</div>
+                                    <ul class="col-md-10 saveTableLase">
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1">
+                                                <input type="radio" id="" name="inform" class="inpChoose">
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <input type="checkbox" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第一级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="inform" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第二级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="inform" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第二级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="inform" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第二级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1">
+                                                <input type="radio" id="" name="inform" class="inpChoose">
+                                            </div>
+                                            <div class="col-md-9 saveMsg ">
+                                                <input type="checkbox" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveLevel">
+                                                <input type="radio" name="business" class="inpChoose" disabled>第一级
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!--<li class="row saveTableRow saveTableHeg">
+                                    <div class="col-md-2 mcAddSysBuild">系统服务</div>
+                                    <div class="col-md-8 saveTableLase">
+                                        <div class="saveTableBorder">
+                                            <div class="col-md-1">
+                                                <input type="radio" id="0" name="choose" class="inpChoose">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                        </div>
+                                        <div class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" name="choose" class="inpChoose inpLase" >
+                                            </div>
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            &lt;!&ndash;<div class="col-md-1"></div>&ndash;&gt;
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                        </div>
+                                        <div class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" id="" name="choose" class="inpChoose inpLase">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            &lt;!&ndash;<div class="col-md-1"></div>&ndash;&gt;
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                        </div>
+                                        <div class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast">
+                                                <input type="radio" id="" name="choose" class="inpChoose inpLase">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                            &lt;!&ndash;<div class="col-md-1"></div>&ndash;&gt;
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                        </div>
+                                        <div class="saveTableBorder">
+                                            <div class="col-md-1">
+                                                <input type="radio" id="" name="choose" class="inpChoose">
+                                            </div>
+                                            <div class="col-md-11">
+                                                <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class=" saveTableBg">
+                                            <span>
+                                                <input type="radio" name="choose" class="inpChoose" disabled>
+                                            </span>第一级
+                                        </div>
+                                        <div class="saveTableHgh saveTableBg">
+                                            <span>
+                                                <input type="radio" name="choose" class="inpChoose" disabled>
+                                            </span>第二级
+                                        </div>
+                                        <div class="saveTableHgh saveTableBg">
+                                            <span>
+                                                <input type="radio" name="choose" class="inpChoose" disabled>
+                                            </span>第三级
+                                        </div>
+                                        <div class="saveTableHgh saveTableBg">
+                                            <span>
+                                                <input type="radio"  name="choose" class="inpChoose" disabled>
+                                            </span>第四级
+                                        </div>
+                                        <div class="saveTableBg">
+                                            <span>
+                                                <input type="radio" name="choose" class="inpChoose" disabled>
+                                            </span>第五级
+                                        </div>
+                                    </div>
+                                </li>-->
+                                <li class="row saveTableLast">
+                                    <div  class="col-md-2 saveTableBg saveTableMsy">信息系统安全保护等级</div>
+                                    <div class="col-md-10 saveTableBg clearfix saveTableLast">
+                                        <div class="fl col-md-2">
+                                            <span>
+                                                <input type="radio" id="" name="Choice" class="inpChoose" disabled>
+                                            </span>第一级
+                                        </div>
+                                        <div class="fl col-md-2">
+                                            <span>
+                                                <input type="radio" id="0" name="Choice" class="inpChoose" disabled>
+                                            </span>第二级
+                                        </div>
+                                        <div class="fl col-md-2">
+                                            <span>
+                                                <input type="radio" id="0" name="Choice" class="inpChoose" disabled>
+                                            </span>第三级
+                                        </div>
+                                        <div class="fl col-md-2">
+                                            <span>
+                                                <input type="radio" id="0" name="Choice" class="inpChoose" disabled>
+                                            </span>第四级
+                                        </div>
+                                        <div class="fl col-md-2">
+                                            <span>
+                                                <input type="radio" id="0" name="Choice" class="inpChoose" disabled>
+                                            </span>第五级
+                                        </div>
+                                        <br>
+                                        <p class="xing">信息系统安全保护等级为三级以上（包含三级）时，需要在备案时填写系统材料情况（备案表4）。</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="row liMargin">
+                    <div class="col-md-12 text-left">
+                        <label for="" class="col-md-2 col-sm-1 saveTextTitle text-center">
+                            <span class="xing">*</span>
+                            业务描述：
+                        </label>
+                        <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
+如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
+                        <div class="mcTextArea col-md-10 col-md-offset-1 col-sm-3">
+                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入"></textarea>
+                            <span class='textAll'><span id="textNum">0</span>/200</span>
+                            <!-- 最多200字符，0处显示的是已经写了多少字符-->
+                        </div>
+                    </div>
+                </li>
+                <li class="row liMargin">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            主管部门名称:
+                        </label>
+                        <div class="col-lg-6 col-md-6 liPadding">
+                            <input type="text"placeholder="请输入">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-3">
+                        <label for="" class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            是否有主管部门:
+                        </label>
+                        <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
+                            <div class="col-md-6" onclick="btnBoolen($(this))">是</div>
+                            <div class="col-md-6" onclick="btnBoolen($(this))">否</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="row liMargin" id="direHide">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            主管部门名称:
+                        </label>
+                        <div class="col-lg-6 col-md-6 liPadding">
+                            <input type="text" placeholder="请输入">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-3">
+                        <label for="" class="col-lg-3 col-md-3 text-left labelInformation">
+                            <span class="xing">*</span>
+                            主管部门审批定级情况:
+                        </label>
+                        <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
+                            <div class="col-md-6" onclick="getClass($(this))">已审批</div>
+                            <div class="col-md-6" onclick="getClass($(this))">未审批</div>
+                        </div>
+                    </div>
+                </li>
+                <li class="row liMargin">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            定级报告:
+                        </label>
+                        <div class="col-lg-6 col-md-6  padding-clear formChange ">
+                            <input  class="col-md-10  padding-clear form-control formControl" id="oInup"   type="text" placeholder="请输入" />
+                            <input type="file" id="btnFile"  style="display: none;" onchange="getFile('#btnFile', '#oInup', '#fileName')">
+                            <span class="col-md-4 addButton" id="span" onclick="btnFile.click()"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-3">
+                        <label for="" class="col-lg-3 col-md-3 text-right ">
+                            <span class="xing">*</span>
+                            定级报告名称:
+                        </label>
+                        <div  class="col-md-6 col-sm-3 liPadding">
+                            <input type="text" placeholder="请输入" disabled id="fileName">
+                        </div>
+                    </div>
+                </li>
+                <li class="row liMargin">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            专家评审情况:
+                        </label>
+                        <div class="col-lg-6 col-md-6 formChange liPadding">
+                            <div class="btn-group review" role="group">
+                                <div class="btnReview" onclick="getClass($(this))">已审批</div>
+                                <div class="btnReview" onclick="getClass($(this))">未审批</div>
+                            </div>
+                            <input  class="col-md-10 addReview form-control formControl" id="oInRiw"   type="text" placeholder="请选择" />
+                            <input type="file" id="btnRev" style="display: none;" onchange="getFile('#btnRev', '#oInRiw', '#fileRew')">
+                            <span class="col-md-4 addButton" onclick="btnRev.click()"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-3">
+                        <label for="" class="col-lg-3 col-md-3 text-right">
+                            <span class="xing">*</span>
+                            评审附件名称:
+                        </label>
+                        <div  class="col-md-6 col-sm-3 liPadding">
+                            <input type="text" placeholder="请输入" disabled id="fileRew">
+                        </div>
+                    </div>
+                </li>
+                <li class="row liMargin">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="col-lg-3 col-md-3 text-right">
+                            填表人:
+                        </label>
+                        <div class="col-lg-6 col-md-6 liPadding">
+                            <input type="text"placeholder="请输入">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-3">
+                        <label for="" class="col-lg-3 col-md-3 text-right">
+                            填表时间:
+                        </label>
+                        <div  class="col-md-6 col-sm-3 liPadding fillData">
+                            <input type="text"placeholder="请输入" name="fillData" id="fillData">
+                        </div>
+                    </div>
+                </li>
+                <li class="fr liMargin">
+                    <div class="_material">
+                        <button type="button" class="btn btn-success " id="submit">提交</button>
+                        <button type="button" class="btn btn-default " id="save" >保存</button>
+                        <button type="button" class="btn btn-default" id="pre" onclick="preBtn()">上一步</button>
+                    </div>
+                    <div class="material">
+                        <!--<button type="button" class="btn btn-success" id="btnNext" onclick="nextBtn()">填写系统材料情况</button>-->
+                        <button type="button" class="btn btn-success " id="prev">上一步</button>
+                        <button type="button" class="btn btn-default " id="safe" >保存</button>
+                        <button type="button" class="btn btn-default" id="next" onclick="nextBtn()">下一步</button>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+</body>
+<!--<script src="../../../js/public/bootstrap.min.js"></script>-->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="../../../js/public/messages_zh.js"></script>
+<script src="../../../js/public/layDate/laydate/laydate.js"></script>
+<script src="addFormGrad.js"></script>
+<script>
+    //点击切换 添加class名
+    function getClass(obj) {
+//        console.log($(obj).html());
+            $(obj).addClass('btnColor').siblings().removeClass("btnColor");
+    }
+    function btnBoolen(ele) {
+        $(ele).addClass('btnColor').siblings().removeClass("btnColor");
+        if($(ele).text() == '是'){
+            $("#direHide").show();
+        }else{
+            $("#direHide").hide();
+        }
+    }
+    //点击+号 打开窗口 选择文件
+    function getFile(obj, ele, elm) {
+        var btn = $(obj);
+        var oInup = $(ele);
+        var fileName = $(elm);
+        var btnValue = btn.val();
+        var arr = [];
+        var str = btnValue.split("\\");
+        arr.push(str[str.length-1]);
+        console.log(str);
+        oInup.val(str[str.length-1]);
+        fileName.val(str[str.length-1]);
+        console.log(arr);
+    }
+
+    //定级说明描述
+    $('#textArea').on("keyup",function(){
+        $('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
+        if($('#textArea').val().length > 200){
+            $('#textNum').text(200);//长度大于200时0处显示的也只是200
+            $('#textArea').val($('#textArea').val().substring(0,200));//长度大于100时截取钱100个字符
+        }
+    });
+    $('#textNum').text($('#textArea').val().length);//这句是在刷新的时候仍然显示字数
+
+
+    //点击下一步请求页面跳转
+    (function nextBtn() {
+        $("#btnNext").click(function () {
+            Ajax('GET','./addFormGrad.html','../addFormMaterial/addFormMaterial.html');
+        })
+    }());
+    //点击上一步请求页面跳转
+    (function preBtn() {
+        $("#pre").click(function () {
+            Ajax('GET','./addFormGrad.html','../addFormSystem/addFormSystem.html');
+        })
+    }());
+
+    //填表时间
+    laydate.render({
+        elem: '#fillData'
+    });
+
+    function Ajax(type,url, href, data) {
+        $.ajax({
+            type:type,
+            url:url,
+            async:false,
+            data:data,
+            success:function (msg) {
+                if(msg){
+                    window.location.href = href;
+                }
+            }
+        })
+    }
+</script>
+</html>

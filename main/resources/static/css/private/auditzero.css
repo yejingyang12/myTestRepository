@@ -1,0 +1,25 @@
+.h-body {
+    /*font-family: Arial, Helvetica, Sans-Serif;*/
+    overflow: auto;
+    color: #555555;
+    /*background: #fff;*/
+    font-size: 14px;
+    background: #ededed;
+}
+.pos-relative{
+    position: relative;
+}
+
+.float-le{
+    float: left;
+}
+.float-ri{
+    float: right;
+}
+.textCenter{
+    text-align: center;
+    vertical-align: middle;
+}
+.clearPadding{
+    padding: 0;
+}

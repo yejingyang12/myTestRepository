@@ -1,0 +1,118 @@
+/**
+ * 2018. 
+ * @Title CompanyController.java
+ * @Package com.sinopec.smcc.cpro.company.controller
+ * @Description: TODO:
+ * @author dongxu
+ * @date 2018年5月25日上午11:06:01
+ * @version V1.0
+ */
+package com.sinopec.smcc.cpro.company.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
+import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.server.CompanyService;
+import com.sinopec.smcc.cpro.system.server.SystemService;
+
+
+@Controller
+@RequestMapping("/company")
+public class CompanyController {
+
+  @Autowired
+  private CompanyService companyServiceImpl;
+  
+  @Autowired
+  private SystemService systemServiceImpl;
+  /**
+   * @Descrption 单位系统信息列表
+   * @author dongxu
+   * @date 2018年5月25日下午1:39:10
+   * @param request
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryCompanyList", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryCompanyList(HttpServletRequest request, CompanyParam companyParam)
+      throws BusinessException {
+    // 调用service实体，获得
+    PageInfo<CompanyListResult> page = this.companyServiceImpl.queryCompanyList(companyParam);
+    // 通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setCurrentPage(page.getPageNum());
+    result.setPagesize(page.getPageSize());
+    result.setData(page.getList());
+    result.setTotal(page.getTotal());
+    result.setTotalPages(page.getPages());
+    return result;
+  }
+
+  /**
+   * @Descrption 添加或修改单位信息
+   * @author dongxu
+   * @date 2018年5月25日下午7:30:43
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi saveCompany(CompanyParam companyParam) throws BusinessException {
+    String companyId = this.companyServiceImpl.saveCompany(companyParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(companyId);
+    return result;
+  }
+
+  /**
+   * @Descrption 删除单位信息
+   * @author dongxu
+   * @date 2018年5月25日下午7:30:43
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi deleteCompany(CompanyParam companyParam)
+      throws BusinessException {
+    this.companyServiceImpl.delelteCompany(companyParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * @Descrption 查询单位信息详情
+   * @author dongxu
+   * @date 2018年5月27日下午12:07:06
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryDetailsCompany", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryDetailsCompany(CompanyParam companyParam)
+      throws BusinessException {
+    CompanyListResult companyListResult = this.companyServiceImpl.queryDetailsCompany(companyParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(companyListResult);
+    return result;
+  }
+}

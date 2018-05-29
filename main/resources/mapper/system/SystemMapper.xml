@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.system.mapper.SystemMapper">
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemListResult">
+  	<id column="pkId" property="systemId" jdbcType="VARCHAR" />
+    <result column="interconnectionSituation" property="interconnectionSituation" jdbcType="VARCHAR" />
+    <result column="fkFatherSystemId" property="fkFatherSystemId" jdbcType="VARCHAR" />
+    <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
+    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="whenInvestmentUse" property="whenInvestmentUse" jdbcType="TIMESTAMP" />
+    <result column="examineStatus" property="examineStatus" jdbcType="INTEGER" />
+    <result column="executiveOfficeName" property="executiveOfficeName" jdbcType="VARCHAR" />
+    <result column="examinationStatus" property="examinationStatus" jdbcType="INTEGER" />
+    <result column="sysBusinessDescription" property="sysBusinessDescription" jdbcType="VARCHAR" />
+    <result column="subIsSystem" property="subIsSystem" jdbcType="INTEGER" />
+    <result column="executiveDirectorContacts" property="executiveDirectorContacts" jdbcType="VARCHAR" />
+    <result column="fkChangeMatter" property="fkChangeMatter" jdbcType="INTEGER" />
+    <result column="systemName" property="systemName" jdbcType="VARCHAR" />
+    <result column="deleteStatus" property="deleteStatus" jdbcType="TINYINT" />
+    <result column="fkSystemType" property="fkSystemType" jdbcType="INTEGER" />
+    <result column="appIsInternet" property="appIsInternet" jdbcType="TINYINT" />
+    <result column="gradeRecordSysName" property="gradeRecordSysName" jdbcType="VARCHAR" />
+    <result column="fkSystemIsMerge" property="fkSystemIsMerge" jdbcType="TINYINT" />
+    <result column="changeReason" property="changeReason" jdbcType="VARCHAR" />
+    <result column="executiveDirectorContactsTel" property="executiveDirectorContactsTel" jdbcType="VARCHAR" />
+    <result column="networkPlatformCoverageRange" property="networkPlatformCoverageRange" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updateTime" jdbcType="DATE" />
+    <result column="sysBusinessSituationType" property="sysBusinessSituationType" jdbcType="VARCHAR" />
+    <result column="sysServiceSituationObject" property="sysServiceSituationObject" jdbcType="VARCHAR" />
+    <result column="sysServiceSituationScope" property="sysServiceSituationScope" jdbcType="VARCHAR" />
+    <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
+    <result column="recordStatus" property="recordStatus" jdbcType="INTEGER" />
+    <result column="gradingStatus" property="gradingStatus" jdbcType="INTEGER" />
+    <result column="changeContent" property="changeContent" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="fkInfoSysTypeConstruction" property="fkInfoSysTypeConstruction" jdbcType="VARCHAR" />
+    <result column="networkPlatformNetworkProperties" property="networkPlatformNetworkProperties" jdbcType="VARCHAR" />
+    <result column="evaluationStatus" property="evaluationStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="SystemCodeResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemCodeListResult">
+    <id column="pkId" property="systemCodeId" jdbcType="VARCHAR" />
+    <result column="fkCodeType" property="fkCodeType" jdbcType="INTEGER" />
+    <result column="codeName" property="codeName" jdbcType="VARCHAR" />
+    <result column="systemCode" property="systemCode" jdbcType="VARCHAR" />  
+  </resultMap>
+	
+	<select id="selectDetailsSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+    SELECT
+			systemCodeConstructionType.codeName AS ConstructionTypeName,
+			systemCodeCombined.codeName AS CombinedName,
+			system.whenInvestmentUse,
+			system.systemName,
+			system.standardizedCode,
+			system.gradeRecordSysName,
+			systemCodeBusiness.codeName AS BusinessName,
+			system.sysBusinessDescription,
+			systemCodeServiceScope.codeName AS ServiceScopeName,
+			systemCodeServiceObject.codeName AS ServiceObjectName,
+			systemCodeCoverScope.codeName AS CoverScopeName,
+			systemCodeNewWorkNature.codeName AS NewWorkNatureName,
+			systemCodeSystemInter.codeName AS SystemInterName,
+			systemKeyProducts.fkExaminStatus,
+			systemKeyProducts.productsNumber,
+			systemKeyProducts.fknationalIsProducts,
+			systemKeyProducts.nationalUseProbability,
+			systemUseServices.fkProductsType,
+			systemUseServices.serviceIsUse,
+			systemUseServices.fkResponsibleType,
+			system.fkCompanyCode,
+			system.whenInvestmentUse,
+			system.executiveOfficeName,
+			system.subIsSystem,
+			system.executiveDirectorContacts,
+			system.executiveDirectorContactsTel
+		FROM
+			t_cpro_system AS system
+		LEFT JOIN t_cpro_system_code AS systemCodeConstructionType 
+			ON system.fkInfoSysTypeConstruction = systemCodeConstructionType.systemCode 
+			AND systemCodeConstructionType.fkCodeType = 7
+		LEFT JOIN t_cpro_system_code AS systemCodeCombined
+			ON system.fkSystemIsMerge = systemCodeCombined.systemCode 
+			AND systemCodeCombined.fkCodeType = 29
+		LEFT JOIN t_cpro_system_code AS systemCodeBusiness
+			ON system.sysBusinessSituationType = systemCodeBusiness.systemCode 
+			AND systemCodeBusiness.fkCodeType = 22
+		LEFT JOIN t_cpro_system_code AS systemCodeServiceScope
+			ON system.sysServiceSituationScope = systemCodeServiceScope.systemCode 
+			AND systemCodeServiceScope.fkCodeType = 20
+		LEFT JOIN t_cpro_system_code AS systemCodeServiceObject
+			ON system.sysServiceSituationObject = systemCodeServiceObject.systemCode 
+			AND systemCodeServiceObject.fkCodeType = 16
+		LEFT JOIN t_cpro_system_code AS systemCodeCoverScope
+			ON system.networkPlatformCoverageRange = systemCodeCoverScope.systemCode 
+			AND systemCodeCoverScope.fkCodeType = 17
+		LEFT JOIN t_cpro_system_code AS systemCodeNewWorkNature
+			ON system.networkPlatformNetworkProperties = systemCodeNewWorkNature.systemCode 
+			AND systemCodeNewWorkNature.fkCodeType = 18
+		LEFT JOIN t_cpro_system_code AS systemCodeSystemInter
+			ON system.interconnectionSituation = systemCodeSystemInter.systemCode 
+			AND systemCodeSystemInter.fkCodeType = 13
+		LEFT JOIN t_cpro_system_key_products AS systemKeyProducts 
+			ON system.pkId = systemKeyProducts.fkSystemId
+		LEFT JOIN t_cpro_system_use_services AS systemUseServices 
+			ON system.pkId = systemUseServices.fkSystemId
+    WHERE
+      system.pkId = #{systemId}
+	</select>
+	
+  <select id="selectEditSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+    SELECT
+      system.fkInfoSysTypeConstruction,
+      system.whenInvestmentUse,
+      system.systemName,
+      system.standardizedCode,
+      system.gradeRecordSysName,
+      system.sysBusinessSituationType,
+      system.sysBusinessDescription,
+      system.sysServiceSituationScope,
+      system.sysServiceSituationObject,
+      system.networkPlatformCoverageRange,
+      system.networkPlatformNetworkProperties,
+      system.interconnectionSituation,
+      systemKeyProducts.fkExaminStatus,
+      systemKeyProducts.productsNumber,
+      systemKeyProducts.fknationalIsProducts,
+      systemKeyProducts.nationalUseProbability,
+      systemUseServices.fkProductsType,
+      systemUseServices.serviceIsUse,
+      systemUseServices.fkResponsibleType,
+      system.fkCompanyCode,
+      system.whenInvestmentUse,
+      system.executiveOfficeName,
+      system.subIsSystem,
+      system.executiveDirectorContacts,
+      system.executiveDirectorContactsTel
+    FROM
+      t_cpro_system AS system
+      LEFT JOIN t_cpro_system_key_products AS systemKeyProducts 
+        ON system.pkId = systemKeyProducts.fkSystemId
+      LEFT JOIN t_cpro_system_use_services AS systemUseServices 
+        ON system.pkId = systemUseServices.fkSystemId
+    WHERE
+      system.pkId = #{systemId}
+  </select>
+  
+	<select id="selectAllBySystemParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+		SELECT
+			pkId AS systemId,
+			systemName,
+			sysBusinessSituationType,
+			sysBusinessDescription,
+			whenInvestmentUse
+		FROM t_cpro_system
+		<if test="systemName != null and systemName != ''">
+  	  <bind name="systemName" value="'%' + systemName + '%'" />
+  	  <![CDATA[
+  		  AND t_cpro_system.systemName LIKE #{systemName,jdbcType=VARCHAR}
+  	  ]]>
+		</if>
+	</select>
+  
+  <!-- 系统审核业务节点更新 -->
+  <update id="updateKeySystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" >
+    <![CDATA[
+      UPDATE t_cpro_system 
+    ]]>
+    <set>
+      <if test="examineStatus != null ">
+        <![CDATA[
+          examineStatus = #{examineStatus,jdbcType=INTEGER},
+        ]]>
+      </if>
+      <if test="examinationStatus != null ">
+        <![CDATA[
+          examinationStatus = #{examinationStatus,jdbcType=INTEGER},
+        ]]>
+      </if>
+      <if test="updateTime != null ">
+        <![CDATA[
+          updateTime = #{updateTime,jdbcType=DATE},
+        ]]>
+      </if>
+      <if test="recordStatus != null ">
+        <![CDATA[
+          recordStatus = #{recordStatus,jdbcType=INTEGER},
+        ]]>
+      </if>
+      <if test="gradingStatus != null ">
+        <![CDATA[
+          gradingStatus = #{gradingStatus,jdbcType=INTEGER},
+        ]]>
+      </if>
+      <if test="evaluationStatus != null ">
+        <![CDATA[
+          evaluationStatus = #{evaluationStatus,jdbcType=INTEGER},
+        ]]>
+      </if>
+    </set>
+    <where>
+      <if test="systemId != null and systemId != ''">
+        <![CDATA[
+          AND pkId = #{systemId,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''">
+        <![CDATA[
+          AND deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+        ]]>
+      </if>
+      </where>
+  </update>
+	
+	<insert id="insertSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemListResult">
+  	INSERT INTO t_cpro_system
+			(pkId,interconnectionSituation,fkFatherSystemId,standardizedCode,createUserName,remark,
+			whenInvestmentUse,examineStatus,executiveOfficeName,examinationStatus,sysBusinessDescription,
+			subIsSystem,executiveDirectorContacts,fkChangeMatter,systemName,deleteStatus,fkSystemType,
+			appIsInternet,gradeRecordSysName,fkSystemIsMerge,changeReason,executiveDirectorContactsTel,
+			networkPlatformCoverageRange,updateTime,sysBusinessSituationType,
+			sysServiceSituationObject,sysServiceSituationScope,fkCompanyCode,
+			recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeConstruction,
+			networkPlatformNetworkProperties,evaluationStatus)values(
+	    <trim suffixOverrides="," >
+        <![CDATA[
+          #{systemId,jdbcType=VARCHAR},
+        ]]>
+        <choose>
+          <when test="interconnectionSituation != null ">
+            <![CDATA[
+              #{interconnectionSituation,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkFatherSystemId != null ">
+            <![CDATA[
+              #{fkFatherSystemId,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="standardizedCode != null ">
+            <![CDATA[
+              #{standardizedCode,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="createUserName != null ">
+            <![CDATA[
+              #{createUserName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="remark != null ">
+            <![CDATA[
+              #{remark,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="whenInvestmentUse != null ">
+            <![CDATA[
+              #{whenInvestmentUse,jdbcType=TIMESTAMP},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="examineStatus != null ">
+            <![CDATA[
+              #{examineStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="executiveOfficeName != null ">
+            <![CDATA[
+              #{executiveOfficeName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="examinationStatus != null ">
+            <![CDATA[
+              #{examinationStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="sysBusinessDescription != null ">
+            <![CDATA[
+              #{sysBusinessDescription,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="subIsSystem != null ">
+            <![CDATA[
+              #{subIsSystem,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="executiveDirectorContacts != null ">
+            <![CDATA[
+              #{executiveDirectorContacts,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkChangeMatter != null ">
+            <![CDATA[
+              #{fkChangeMatter,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="systemName != null ">
+            <![CDATA[
+              #{systemName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="deleteStatus != null ">
+            <![CDATA[
+              #{deleteStatus,jdbcType=TINYINT},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkSystemType != null ">
+            <![CDATA[
+              #{fkSystemType,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="appIsInternet != null ">
+            <![CDATA[
+              #{appIsInternet,jdbcType=TINYINT},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="gradeRecordSysName != null ">
+            <![CDATA[
+              #{gradeRecordSysName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkSystemIsMerge != null ">
+            <![CDATA[
+              #{fkSystemIsMerge,jdbcType=TINYINT},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="changeReason != null ">
+            <![CDATA[
+              #{changeReason,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="executiveDirectorContactsTel != null ">
+            <![CDATA[
+              #{executiveDirectorContactsTel,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="networkPlatformCoverageRange != null ">
+            <![CDATA[
+              #{networkPlatformCoverageRange,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="updateTime != null ">
+            <![CDATA[
+              #{updateTime,jdbcType=DATE},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="sysBusinessSituationType != null ">
+            <![CDATA[
+              #{sysBusinessSituationType,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="sysServiceSituationObject != null ">
+            <![CDATA[
+              #{sysServiceSituationObject,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="sysServiceSituationScope != null ">
+            <![CDATA[
+              #{sysServiceSituationScope,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkCompanyCode != null ">
+            <![CDATA[
+              #{fkCompanyCode,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="recordStatus != null ">
+            <![CDATA[
+              #{recordStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="gradingStatus != null ">
+            <![CDATA[
+              #{gradingStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="changeContent != null ">
+            <![CDATA[
+              #{changeContent,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="createTime != null ">
+            <![CDATA[
+              #{createTime,jdbcType=TIMESTAMP},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkInfoSysTypeConstruction != null ">
+            <![CDATA[
+              #{fkInfoSysTypeConstruction,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="networkPlatformNetworkProperties != null ">
+            <![CDATA[
+              #{networkPlatformNetworkProperties,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="evaluationStatus != null ">
+            <![CDATA[
+              #{evaluationStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+      </trim>
+	    )
+	  	 ON DUPLICATE KEY UPDATE
+	  	<trim suffixOverrides="," >
+        <if test="interconnectionSituation != null and interconnectionSituation !=''">
+          <![CDATA[
+            interconnectionSituation = #{interconnectionSituation,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="fkFatherSystemId != null and fkFatherSystemId !=''">
+          <![CDATA[
+            fkFatherSystemId = #{fkFatherSystemId,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="standardizedCode != null and standardizedCode !=''">
+          <![CDATA[
+            standardizedCode = #{standardizedCode,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="createUserName != null and createUserName !=''">
+          <![CDATA[
+           createUserName = #{createUserName,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="remark != null and remark !=''">
+          <![CDATA[
+            remark = #{remark,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="whenInvestmentUse != null">
+          <![CDATA[
+            whenInvestmentUse = #{whenInvestmentUse,jdbcType=TIMESTAMP},
+          ]]>
+        </if>
+        <if test="examineStatus != null and examineStatus !=''">
+          <![CDATA[
+            examineStatus = #{examineStatus,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="executiveOfficeName != null and executiveOfficeName !=''">
+          <![CDATA[
+            executiveOfficeName = #{executiveOfficeName,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="examinationStatus != null and examinationStatus !=''">
+          <![CDATA[
+            examinationStatus = #{examinationStatus,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="sysBusinessDescription != null and sysBusinessDescription !=''">
+          <![CDATA[
+            sysBusinessDescription = #{sysBusinessDescription,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="subIsSystem != null and subIsSystem !=''">
+          <![CDATA[
+            subIsSystem = #{subIsSystem,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="executiveDirectorContacts != null and executiveDirectorContacts !=''">
+          <![CDATA[
+            executiveDirectorContacts = #{executiveDirectorContacts,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="fkChangeMatter != null and fkChangeMatter !=''">
+          <![CDATA[
+            fkChangeMatter = #{fkChangeMatter,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="systemName != null and systemName !=''">
+          <![CDATA[
+            systemName = #{systemName,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="deleteStatus != null and deleteStatus !=''">
+          <![CDATA[
+            deleteStatus = #{deleteStatus,jdbcType=TINYINT},
+          ]]>
+        </if>
+        <if test="fkSystemType != null and fkSystemType !=''">
+          <![CDATA[
+            fkSystemType = #{fkSystemType,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="appIsInternet != null and appIsInternet !=''">
+          <![CDATA[
+            appIsInternet = #{appIsInternet,jdbcType=TINYINT},
+          ]]>
+        </if>
+        <if test="gradeRecordSysName != null and gradeRecordSysName !=''">
+          <![CDATA[
+            gradeRecordSysName = #{gradeRecordSysName,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="fkSystemIsMerge != null and fkSystemIsMerge !=''">
+          <![CDATA[
+            fkSystemIsMerge = #{fkSystemIsMerge,jdbcType=TINYINT},
+          ]]>
+        </if>
+        <if test="changeReason != null and changeReason !=''">
+          <![CDATA[
+            changeReason = #{changeReason,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="executiveDirectorContactsTel != null and executiveDirectorContactsTel !=''">
+          <![CDATA[
+            executiveDirectorContactsTel = #{executiveDirectorContactsTel,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="networkPlatformCoverageRange != null and networkPlatformCoverageRange !=''">
+          <![CDATA[
+            networkPlatformCoverageRange = #{networkPlatformCoverageRange,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="updateTime != null">
+          <![CDATA[
+            updateTime = #{updateTime,jdbcType=DATE},
+          ]]>
+        </if>
+        <if test="sysBusinessSituationType != null and sysBusinessSituationType !=''">
+          <![CDATA[
+            sysBusinessSituationType = #{sysBusinessSituationType,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="sysServiceSituationObject != null and sysServiceSituationObject !=''">
+          <![CDATA[
+            sysServiceSituationObject = #{sysServiceSituationObject,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="sysServiceSituationScope != null and sysServiceSituationScope !=''">
+          <![CDATA[
+            sysServiceSituationScope = #{sysServiceSituationScope,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="fkCompanyCode != null and fkCompanyCode !=''">
+          <![CDATA[
+            fkCompanyCode = #{fkCompanyCode,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="recordStatus != null and recordStatus !=''">
+          <![CDATA[
+            recordStatus = #{recordStatus,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="gradingStatus != null and gradingStatus !=''">
+          <![CDATA[
+            gradingStatus = #{gradingStatus,jdbcType=INTEGER},
+          ]]>
+        </if>
+        <if test="changeContent != null and changeContent !=''">
+          <![CDATA[
+            changeContent = #{changeContent,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="createTime != null ">
+          <![CDATA[
+            createTime = #{createTime,jdbcType=TIMESTAMP},
+          ]]>
+        </if>
+        <if test="fkInfoSysTypeConstruction != null and fkInfoSysTypeConstruction !=''">
+          <![CDATA[
+            fkInfoSysTypeConstruction = #{fkInfoSysTypeConstruction,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="networkPlatformNetworkProperties != null and networkPlatformNetworkProperties !=''">
+          <![CDATA[
+            networkPlatformNetworkProperties = #{networkPlatformNetworkProperties,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="evaluationStatus != null and evaluationStatus !=''">
+          <![CDATA[
+          evaluationStatus = #{evaluationStatus,jdbcType=INTEGER},
+          ]]>
+        </if>
+      </trim>
+  </insert>
+  
+	<select id = "selectSystemCodeListByParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemCodeParam" resultMap="SystemCodeResultMap">
+    SELECT
+      pkId,
+      fkCodeType,
+      codeName,
+      systemCode
+    FROM t_cpro_system_code
+    WHERE deleteStatus = 1
+    <if test="fkCodeType != null and fkCodeType != ''">
+      <bind name="fkCodeType" value="'%' + fkCodeType + '%'" />
+      <![CDATA[
+        AND t_cpro_system_code.fkCodeType LIKE #{fkCodeType,jdbcType=INTEGER}
+      ]]>
+    </if>
+    <if test="systemCode != null and systemCode != ''">
+      <bind name="systemCode" value="'%' + systemCode + '%'" />
+      <![CDATA[
+        AND t_cpro_system_code.systemCode LIKE #{systemCode,jdbcType=VARCHAR}
+      ]]>
+    </if>
+  </select>
+</mapper>

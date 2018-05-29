@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>audit</title>
+    <!--public-->
+    <link rel="stylesheet" type="text/css" href="../../../css/public/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/public/bootstrap.css">
+    <!--private-->
+    <link rel="stylesheet" type="text/css" href="../../../css/private/auditzero.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/private/sm-breadcrumb.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/private/index.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/private/sm-breadcrumb.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/private/pagebox.css">
+    <link rel="stylesheet" href="../../../css/private/auditzero.css">
+    <link rel="stylesheet" href="../../../css/private/audit.css">
+
+</head>
+<body class="h-body">
+<div style="height:30px;background: #2978d0;color: #fff">欢迎来光临</div>
+<div style="height:68px;background: #3d94d5;color: #fff">待确认</div>
+<div class="container h-padding" style="margin:0 15px;">
+    <!--小导航、帮助中心-->
+    <div  >
+        <div class="h-bread-le">
+            <span>首页>信息安全管理>等级保护>系统定级备案测评列表</span>
+            <span class="float-ri" style="color:#333;" onclick=""><button></button></span>
+         </div>
+    </div>
+    <!--查询、列表-->
+    <div class="container h-padding" style="margin:0">
+        <!--查询-->
+        <div class="container" style="margin:0;background:#fff;padding-bottom:20px;">
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-12">
+                    <div class="row  pos-relative">
+                        <!--流程实例名称-->
+                        <div class="col-md-3">
+                            <div class="row" >
+                                <div class="col-md-4 liuCheng float-le" style="margin-right:0;">
+                                    流程实例名称：
+                                </div>
+                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
+                                    <input  type="text" class="form-control clearPadding" placeholder="默认">
+                                </div>
+                            </div>
+                        </div>
+                        <!--发起人-->
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="col-md-2 h-line clearPadding" style="margin-left:16%;">
+                                    发起人:
+                                </div>
+                                <div style="width: 64%;" class="col-md-8 clearPadding">
+                                    <input type="text" class="form-control clearPadding" placeholder="默认">
+                                </div>
+                            </div>
+                        </div>
+                        <!--附件名称-->
+                        <div class="col-md-3" style="margin-left: 4%">
+                            <div class="row">
+                                <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width:20%">
+                                    附件名称:
+                                </div>
+                                <div class="col-md-9 h-col-md-9" style="width:64%;">
+                                    <input type="text" class="form-control" placeholder="默认">
+                                </div>
+                            </div>
+                        </div>
+                        <!--业务节点-->
+                        <div class="col-md-3 pos-absolute-ri">
+                            <div class="row">
+                                <div class="col-md-9 h-col-md-9 float-ri" style="width: 64%">
+                                    <select class="form-control">
+                                        <option>请选择</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+                                <i class="col-md-3 float-ri textCenter clearPadding" style="line-height: 34px">
+                                    业务节点:
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!--系统检测列表-->
+        <div class="container" style="background:#fff;padding: 15px">
+            <div style="height: 50px;line-height: 50px">
+                <i class="h-list-line" style="vertical-align: middle"></i>
+                系统检测列表
+            </div>
+            <div class="h-bottom-line  h-bottom-position"></div>
+            <p class="h-p auditCepingList">
+                <button type="submit" class="audit-btn btn btn-default">全部</button>
+                <button type="button" class="audit-btn btn btn-default">待办
+                    <div style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">1</div>
+                </button>
+                <button type="button" class="audit-btn btn btn-default">已办</button>
+            </p>
+            <!--全部列表-->
+            <div class="row" style="margin:0">
+                <div class="col-md-12">
+                    <div class="row table-responsive">
+                        <!--默认显示列表-->
+                        <table  id="h-list-show" class="table table-bordered table-striped">
+                            <tr class="h-tr1">
+                                <th style="min-width:47px">序号</th>
+                                <th>流程实例名称<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>建设类型<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>发起人<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>上一步执行人<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>执行时间<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>业务节点<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>是否有专家评审意见<img src="../../../images/home/paixujiantou.png" alt=""></th>
+                                <th>专家评审意见</th>
+                                <th>备案证明</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>统建</td>
+                                <td>张三</td>
+                                <td>李四</td>
+                                <td>2017/5/4</td>
+                                <td>定级</td>
+                                <td>有</td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td>
+                                    <button style="background-color: #cccccc;color: #fff">待总部安全员审核</button>
+                                </td>
+                                <td style="color:#1e91e2;">
+                                    <a>审核</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>统建</td>
+                                <td>张三</td>
+                                <td>李四</td>
+                                <td>2017/5/4</td>
+                                <td>定级</td>
+                                <td>有</td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td>
+                                    <button style="background-color: #cccccc;color: #fff">待总部安全员审核</button>
+                                </td>
+                                <td style="color:#1e91e2;">
+                                    <a>审核</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>统建</td>
+                                <td>张三</td>
+                                <td>李四</td>
+                                <td>2017/5/4</td>
+                                <td>定级</td>
+                                <td>有</td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td>
+                                    <button style="background-color: #cccccc;color: #fff">待总部安全员审核</button>
+                                </td>
+                                <td style="color:#1e91e2;">
+                                    <a>审核</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>统建</td>
+                                <td>张三</td>
+                                <td>李四</td>
+                                <td>2017/5/4</td>
+                                <td>定级</td>
+                                <td>有</td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td>
+                                    <button style="background-color: #cccccc;color: #fff">待总部安全员审核</button>
+                                </td>
+                                <td style="color:#1e91e2;">
+                                    <a>审核</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>中国石化差旅管理服务平台</td>
+                                <td>统建</td>
+                                <td>张三</td>
+                                <td>李四</td>
+                                <td>2017/5/4</td>
+                                <td>定级</td>
+                                <td>有</td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td><img onclick="downloadFile()" src="../../../images/home/xiazaikexiazai.png" alt="">
+                                </td>
+                                <td>
+                                    <button style="background-color: #cccccc;color: #fff">待总部安全员审核</button>
+                                </td>
+                                <td style="color:#1e91e2;">
+                                    <a>审核</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--分页-->
+            <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
+                <span style="float: left;padding-top: 18px">显示1到15行，共45行记录</span>
+                <div class="h-page">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">上一页</span>
+                                </a>
+                            </li>
+                            <li class="current"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">下一页</span>
+                                </a>
+                            </li>
+                            共40页，跳到
+                            <li>
+                                <input type="text" id="txt" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                       onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                       style="overflow: visible;">
+                                <div class="box" id="box"></div>
+                            </li>
+                            页
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<!--vue-->
+<script src="../../../js/public/vue.js"></script>
+<!--jQ-->
+<script src="../../../js/public/jquery.min.js"></script>
+<!--bootstrap-->
+<script src="../../../js/public/bootstrap.min.js"></script>
+<!--element-->
+<!--<script src="../../static/js/public/element.js"></script>-->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<!--面包屑导航-->
+<script src="../../../compnents/public/smcc-breadcrumb/smcc-breadcrumb.js"></script>
+<!--分页-->
+<script src="../../../js/private/pagebox.js"></script>
+<!--表格的一键导出、下载、删除、全选 反选点选框的实现-->
+<script src="../../../js/private/homelist.js"></script>
+
+<script src="../../../js/private/index.js"></script>
+<script src="../../../js/public/layDate-v5.0.9/laydate/laydate.js"></script>
+<!--<script src=" http://192.168.0.193:8082/company/queryDetailsCompany"></script>-->
+
+<script>
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#test1' ,//指定元素
+  });
+  laydate.render({
+    elem: '#test2' ,//指定元素
+  });
+</script>
+
+</html>

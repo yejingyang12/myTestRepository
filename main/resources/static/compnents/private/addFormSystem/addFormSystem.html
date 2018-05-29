@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表二</title>
+    <link rel="stylesheet" href="../../../css/public/reset.css">
+    <link rel="stylesheet" href="../../../css/private/addCompanyInfoPage.css">
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+    <link rel="stylesheet" href="../../../css/public/index.css">
+</head>
+<body>
+<div class="inner">
+    <!--表二-->
+    <div class="mcAddTian">
+        <p class="clearfix cut">
+            <span class="fl tianMsg">单位信息</span>
+            <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
+        </p>
+        <div class="mcAddMessge">
+            <form action="" method="post" id="AddformSystem" name="AddformSystem">
+                <ul class="clearfix">
+                    <li class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <label class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                系统名称:
+                            </label>
+                            <div class="col-lg-6 col-md-6" id="app">
+                                <el-cascader :options="options" :show-all-levels="false" name="sysName" id="sysName"></el-cascader>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <label class="col-lg-3 col-md-3 text-right">
+                                标准化代码:
+                            </label>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" disabled placeholder="请输入" name="sysCode" id="sysCode">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                信息系统建设类型:
+                            </label>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
+                                <input class="col-md-4" onclick="getClass($(this))" value="自建" name="sysMsgBuild" id="sysMsgBuild">
+                                <input class="col-md-4" onclick="getClass($(this))" value="统建" name="sysMsgBuild" id="sysMsgBuild">
+                                <input class="col-md-4" onclick="getClass($(this))" value="总部系统" name="sysMsgBuild" id="sysMsgBuild">
+                            </div>
+                            <div class="mcAddSysBuildTxt"></div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                是否为合并系统:
+                            </label>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" >
+                                <div class="col-md-6 " onclick="btnBoolen($(this))">是</div>
+                                <div class="col-md-6 " onclick="btnBoolen($(this))">否</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row" id="falseSys" style="display: none;">
+                        <div class="col-lg-6 col-md-6">
+                            <label class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                系统名称:
+                            </label>
+                            <div class="col-lg-6 col-md-6" id="wrap">
+                                <el-cascader :options="options" :show-all-levels="false"></el-cascader>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <label class="col-lg-3 col-md-3 text-right">
+                                标准化代码:
+                            </label>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" disabled placeholder="请输入">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row" id="trueSys" style="display: none">
+                        <ul class="clearfix">
+                            <li class="row col-lg-6 col-md-3">
+                                <label class="col-lg-3 col-md-3 text-right">
+                                    <span class="xing">*</span>
+                                    系统名称:
+                                </label>
+                                <div class="col-lg-6 col-md-6 childSystem">
+                                    <input type="text" placeholder="请输入">
+                                </div>
+                            </li>
+                            <li class="row col-lg-12 col-md-6">
+                                <div class="col-lg-6 col-md-6">
+                                    <label class="col-lg-3 col-md-3 text-right">
+                                        <span class="xing">*</span>
+                                        子系统1系统名称:
+                                    </label>
+                                    <div class="col-lg-6 col-md-6">
+                                        <input type="text" placeholder="请输入">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-3">
+                                    <label for="" class="col-lg-3 col-md-3 text-right">
+                                        子系统1标准化代码:
+                                    </label>
+                                    <div  class="col-md-6 col-sm-3">
+                                        <input type="text" disabled>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="row" id="newNode">
+                                <div class="col-lg-6 col-md-6">
+                                    <label class="col-lg-3 col-md-3 text-right">
+                                        <span class="xing">*</span>
+                                        子系统 <span class="addNum">2</span>系统名称:
+                                    </label>
+                                    <div class="col-lg-6 col-md-6 childSystem">
+                                        <input type="text" placeholder="请输入">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-3">
+                                    <label for="" class="col-lg-3 col-md-3 text-right">
+                                        子系统 <span class="addNum">2</span>标准化代码:
+                                    </label>
+                                    <div  class="col-md-6 col-sm-3">
+                                        <input type="text" disabled>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="btn btn-success fr" onclick="addSys()" id="add">添加更多子系统</li>
+                        </ul>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <label class="col-lg-3 col-md-3 text-right">
+                                等保备案系统名称:
+                            </label>
+                            <div class="col-lg-6 col-md-6">
+                                <input type="text" placeholder="请输入" name="sysRecord" id="sysRecord">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                是否为互联网应用:
+                            </label>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" name="sysInter" id="sysInter">
+                                <div class="col-md-6 " onclick="getClass($(this))">是</div>
+                                <div class="col-md-6" onclick="getClass($(this))">否</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="clearfix">
+                    <li class="sysTitle">
+                        <span>系统承受业务情况</span>
+                    </li>
+                    <li class="lastLine curLine"></li>
+                    <li class="row">
+                        <div class="col-lg-11 text-center baseMesWrap">
+                            <label for="" class="col-lg-1 col-sm-1">
+                                <span class="xing">*</span>
+                                业务类型：
+                            </label>
+                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysType" id="sysType">
+                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
+                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
+                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
+                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
+                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
+                                <div class="baseMes" onclick="getClass($(this))">
+                                    其他：
+                                    <input type="text" class="col-lg-4 baseMesIn">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-11 text-center baseMesWrap">
+                            <label for="" class="col-lg-1 col-sm-1">
+                                <span class="xing">*</span>
+                                业务描述：
+                            </label>
+                            <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
+如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
+                            <div class="mcTextArea col-lg-11 col-sm-3">
+                                <textarea cols="30" rows="10" placeholder="请输入" name="sysArea" id="sysArea"></textarea>
+                                <span class='textAll'><span id="textNum">0</span>/200</span>
+                                <!-- 最多100字符，0处显示的是已经写了多少字符 -->
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="clearfix">
+                    <li class="sysTitle">
+                        <span>系统服务情况</span>
+                    </li>
+                    <li class="lastLine curLine"></li>
+                    <li class="row">
+                        <div class="col-lg-11 text-center baseMesWrap">
+                            <label for="" class="col-lg-1 col-sm-1">
+                                <span class="xing">*</span>
+                                服务类型：
+                            </label>
+                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceType" id="sysServiceType">
+                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
+                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
+                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
+                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
+                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
+                                <div class="baseMes" onclick="getClass($(this))">
+                                    其他：
+                                    <input type="text" class="col-lg-4 baseMesIn">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-11 text-center baseMesWrap">
+                            <label for="" class="col-lg-1 col-sm-1">
+                                <span class="xing">*</span>
+                                服务对象：
+                            </label>
+                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceObject" id="sysServiceObject">
+                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
+                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
+                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
+                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
+                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
+                                <div class="baseMes" onclick="getClass($(this))">
+                                    其他：
+                                    <input type="text" class="col-lg-4 baseMesIn">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="clearfix">
+                    <li class="sysTitle">
+                        <span>系统网络平台</span>
+                    </li>
+                    <li class="lastLine curLine"></li>
+                    <li class="row">
+                        <div class="col-lg-11 text-center baseMesWrap">
+                            <label for="" class="col-lg-1 col-sm-1">
+                                <span class="xing">*</span>
+                                覆盖范围：
+                            </label>
+                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysCoverage" id="sysCoverage">
+                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
+                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
+                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
+                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
+                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
+                                <div class="baseMes" onclick="getClass($(this))">
+                                    其他：
+                                    <input type="text" class="col-lg-4 baseMesIn">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-11 text-center baseMesWrap">
+                            <label for="" class="col-lg-1 col-sm-1">
+                                <span class="xing">*</span>
+                                网络性质：
+                            </label>
+                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysNetwork" id="sysNetwork">
+                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
+                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
+                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
+                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
+                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
+                                <div class="baseMes" onclick="getClass($(this))">
+                                    其他：
+                                    <input type="text" class="col-lg-4 baseMesIn">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="clearfix">
+                    <li class="lastLine curLine"></li>
+                    <li class="row">
+                        <div class="col-lg-12 text-center">
+                            <label for="" class="col-lg-2 col-sm-1 baseMse">
+                                <span class="xing">*</span>
+                                系统互联情况：
+                            </label>
+                            <div class="col-lg-10 col-sm-3 baseMes1 baseMss" name="sysIntercon" id="sysIntercon">
+                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
+                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
+                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
+                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
+                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
+                                <div class="baseMes" onclick="getClass($(this))">
+                                    其他：
+                                    <input type="text" class="col-lg-4 baseMesIn">
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                所属单位名称:
+                            </label>
+                            <div class="col-md-8 col-sm-6 industry">
+                                <select name="sysComName" id="sysComName" class="formControl" >
+                                    <option value="">请选择</option>
+                                    <option value="">XXX</option>
+                                    <option value="">XXX</option>
+                                    <option value="">XXXX</option>
+                                    <option value="">xxxx</option>
+                                </select>
+                                <span class="caretd"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                何时投入使用:
+                            </label>
+                            <div  class="col-md-6 col-sm-3 useData">
+                                <input type="text"  placeholder="请输入" id="useData" name="useData">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                主管处室名称:
+                            </label>
+                            <div  class="col-md-6 col-sm-3">
+                                <input type="text"  placeholder="请输入" name="sysOfficeName" id="sysOfficeName">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>
+                                系统是否为分系统:
+                            </label>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" name="sysSubsystem" id="sysSubsystem">
+                                <div class="col-md-6 " onclick="getClass($(this))">是</div>
+                                <div class="col-md-6" onclick="getClass($(this))">否</div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                主管联系人:
+                            </label>
+                            <div  class="col-md-6 col-sm-3">
+                                <input type="text"  placeholder="请输入" name="sysPerson" id="sysPerson">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3">
+                            <label for="" class="col-lg-3 col-md-3 text-right">
+                                主管联系人电话:
+                            </label>
+                            <div  class="col-md-6 col-sm-3">
+                                <input type="text"  placeholder="请输入" name="sysPersonTel" id="sysPersonTel">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="fr">
+                        <div>
+                            <button type="button" class="btn btn-success " id="save">保存</button>
+                            <button type="button" class="btn btn-default " id="pre" @click="preBtn()">上一步</button>
+                            <button type="button" class="btn btn-default" id="next" @click="nextBtn()">下一步</button>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../../js/public/vue.js"></script>
+<script src="../../../js/public/index.js"></script>
+<script src="../../../js/public/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="../../../js/public/messages_zh.js"></script>
+<script src="../../../js/public/layDate/laydate/laydate.js"></script>
+<script>
+
+    function addSys() {
+        console.log($('#add').before($('#newNode').clone()));
+        $('#add').before($('#newNode').clone());
+    }
+
+    //使用时间
+    laydate.render({
+        elem: '#useData'
+    });
+
+    $('#sysArea').on("keyup",function(){
+        $('#textNum').text($('#sysArea').val().length);//这句是在键盘按下时，实时的显示字数
+        if($('#sysArea').val().length > 200){
+            $('#textNum').text(200);//长度大于200时0处显示的也只是200
+            $('#sysArea').val($('#sysArea').val().substring(0,200));//长度大于100时截取钱100个字符
+        }
+    })
+    $('#textNum').text($('#sysArea').val().length);//这句是在刷新的时候仍然显示字数
+    //页面跳转
+    (function nextBtn() {
+        $("#next").click(function () {
+            Ajax('GET','./addFormSystem.html','../addFormGrad/addFormGrad.html');
+        })
+    }());
+    (function preBtn() {
+        $("#pre").click(function () {
+            Ajax('GET','./addFormSystem.html','../addForm/addForm.html');
+        })
+    }());
+    //点击切换按钮颜色
+    function getClass(obj) {
+//        console.log(obj);
+        $(obj).addClass('btnColor').siblings().removeClass("btnColor");
+
+    }
+    function btnBoolen(ele) {
+        $(ele).addClass('btnColor').siblings().removeClass("btnColor");
+        if($(ele).text() == '是'){
+            $("#falseSys").show();
+            $("#trueSys").hide();
+        }else{
+            $("#trueSys").show();
+            $("#falseSys").hide();
+        }
+    }
+    //页面跳转的封装
+    function Ajax(type,url, href, data) {
+        $.ajax({
+            type:type,
+            url:url,
+            async:false,
+            data:data,
+            success:function (msg) {
+                if(msg){
+                    window.location.href = href;
+                }
+            }
+        })
+    }
+    var Main = {
+        data() {
+            return {
+                options: [{
+                    value: 'zhinan',
+                    label: '指南',
+                    children: [{
+                        value: 'shejiyuanze',
+                        label: '设计原则',
+                        children: [{
+                            value: 'yizhi',
+                            label: '一致'
+                        }, {
+                            value: 'fankui',
+                            label: '反馈'
+                        }, {
+                            value: 'xiaolv',
+                            label: '效率'
+                        }, {
+                            value: 'kekong',
+                            label: '可控'
+                        }]
+                    }, {
+                        value: 'daohang',
+                        label: '导航',
+                        children: [{
+                            value: 'cexiangdaohang',
+                            label: '侧向导航'
+                        }, {
+                            value: 'dingbudaohang',
+                            label: '顶部导航'
+                        }]
+                    }]
+                }, {
+                    value: 'zujian',
+                    label: '组件',
+                    children: [{
+                        value: 'basic',
+                        label: 'Basic',
+                        children: [{
+                            value: 'layout',
+                            label: 'Layout 布局'
+                        }, {
+                            value: 'color',
+                            label: 'Color 色彩'
+                        }, {
+                            value: 'typography',
+                            label: 'Typography 字体'
+                        }, {
+                            value: 'icon',
+                            label: 'Icon 图标'
+                        }, {
+                            value: 'button',
+                            label: 'Button 按钮'
+                        }]
+                    }, {
+                        value: 'form',
+                        label: 'Form',
+                        children: [{
+                            value: 'radio',
+                            label: 'Radio 单选框'
+                        }, {
+                            value: 'checkbox',
+                            label: 'Checkbox 多选框'
+                        }, {
+                            value: 'input',
+                            label: 'Input 输入框'
+                        }, {
+                            value: 'input-number',
+                            label: 'InputNumber 计数器'
+                        }, {
+                            value: 'select',
+                            label: 'Select 选择器'
+                        }, {
+                            value: 'cascader',
+                            label: 'Cascader 级联选择器'
+                        }, {
+                            value: 'switch',
+                            label: 'Switch 开关'
+                        }, {
+                            value: 'slider',
+                            label: 'Slider 滑块'
+                        }, {
+                            value: 'time-picker',
+                            label: 'TimePicker 时间选择器'
+                        }, {
+                            value: 'date-picker',
+                            label: 'DatePicker 日期选择器'
+                        }, {
+                            value: 'datetime-picker',
+                            label: 'DateTimePicker 日期时间选择器'
+                        }, {
+                            value: 'upload',
+                            label: 'Upload 上传'
+                        }, {
+                            value: 'rate',
+                            label: 'Rate 评分'
+                        }, {
+                            value: 'form',
+                            label: 'Form 表单'
+                        }]
+                    }, {
+                        value: 'data',
+                        label: 'Data',
+                        children: [{
+                            value: 'table',
+                            label: 'Table 表格'
+                        }, {
+                            value: 'tag',
+                            label: 'Tag 标签'
+                        }, {
+                            value: 'progress',
+                            label: 'Progress 进度条'
+                        }, {
+                            value: 'tree',
+                            label: 'Tree 树形控件'
+                        }, {
+                            value: 'pagination',
+                            label: 'Pagination 分页'
+                        }, {
+                            value: 'badge',
+                            label: 'Badge 标记'
+                        }]
+                    }, {
+                        value: 'notice',
+                        label: 'Notice',
+                        children: [{
+                            value: 'alert',
+                            label: 'Alert 警告'
+                        }, {
+                            value: 'loading',
+                            label: 'Loading 加载'
+                        }, {
+                            value: 'message',
+                            label: 'Message 消息提示'
+                        }, {
+                            value: 'message-box',
+                            label: 'MessageBox 弹框'
+                        }, {
+                            value: 'notification',
+                            label: 'Notification 通知'
+                        }]
+                    }, {
+                        value: 'navigation',
+                        label: 'Navigation',
+                        children: [{
+                            value: 'menu',
+                            label: 'NavMenu 导航菜单'
+                        }, {
+                            value: 'tabs',
+                            label: 'Tabs 标签页'
+                        }, {
+                            value: 'breadcrumb',
+                            label: 'Breadcrumb 面包屑'
+                        }, {
+                            value: 'dropdown',
+                            label: 'Dropdown 下拉菜单'
+                        }, {
+                            value: 'steps',
+                            label: 'Steps 步骤条'
+                        }]
+                    }, {
+                        value: 'others',
+                        label: 'Others',
+                        children: [{
+                            value: 'dialog',
+                            label: 'Dialog 对话框'
+                        }, {
+                            value: 'tooltip',
+                            label: 'Tooltip 文字提示'
+                        }, {
+                            value: 'popover',
+                            label: 'Popover 弹出框'
+                        }, {
+                            value: 'card',
+                            label: 'Card 卡片'
+                        }, {
+                            value: 'carousel',
+                            label: 'Carousel 走马灯'
+                        }, {
+                            value: 'collapse',
+                            label: 'Collapse 折叠面板'
+                        }]
+                    }]
+                }, {
+                    value: 'ziyuan',
+                    label: '资源',
+                    children: [{
+                        value: 'axure',
+                        label: 'Axure Components'
+                    }, {
+                        value: 'sketch',
+                        label: 'Sketch Templates'
+                    }, {
+                        value: 'jiaohu',
+                        label: '组件交互文档'
+                    }]
+                }]
+            };
+        }
+    };
+    var Ctor = Vue.extend(Main);
+    new Ctor().$mount('#app');
+    new Ctor().$mount('#wrap');
+</script>
+</html>
