@@ -8,5 +8,67 @@
     <title th:text="${titleName}"></title>
 </head>
 
-<body><p><label th:text="#{welcome}"></label></p></body>
+<body>
+  <p><label th:text="#{welcome}"></label></p>
+  <input type="button" value="测试" onclick="test()"><br><br>
+      日期时间格式例子：2018-05-27T14:10:44.407Z<br><br>
+      地址：<input type="text" id="url" size="100"><br><br>
+      参数：<textarea id="param" rows="15" cols="100"></textarea><br><br>
+      参数数据：<br><br><div id="paramData"></div><br><br>
+      响应数据：<br><br><div id="resultData" style="width:300px"></div><br><br>
+</body>
+
+<script type="text/javascript">
+  function test(){
+    var date = new Date();
+    
+    document.getElementById("paramData").innerHTML = "";
+    document.getElementById("resultData").innerHTML = "";
+    var url = document.getElementById("url").value;
+    var param = document.getElementById("param").value;
+    console.log(param);
+    document.getElementById("paramData").innerHTML = param;
+		xmlHttp=GetXmlHttpObject();
+		//访问jsp 或 action或servlet路径
+		//指定回调方法
+		xmlHttp.onreadystatechange=backto;
+		//打开传输通道
+		xmlHttp.open('POST', url, true);//异步通信吗??
+		//定义传输的文件HTTP头信息
+		xmlHttp.setRequestHeader("Content-Type","application/json;charset=utf-8");
+		//发送 无参数时发送null
+		xmlHttp.send(param);
+	}
+
+	function backto(){
+  	//readyState的取值如下: 0 (未初始化) 1 (正在装载) 2 (装载完毕) 3 (交互中) 4 (完成) 
+		if (xmlHttp.readyState==4){
+		//status 200:好了
+			if (xmlHttp.status == 200){
+				var json=xmlHttp.responseText;
+        document.getElementById("resultData").innerHTML = json;
+			}else{
+				alert("请刷新网页后重试") ;
+			}
+		}
+	}
+	
+	//造xmlHttp
+	function GetXmlHttpObject(){
+		var xmlHttp=null;
+		try{
+			// Firefox, Opera 8.0+, Safari
+			xmlHttp=new XMLHttpRequest();
+		}catch (e){
+			// Internet Explorer
+			try{
+				xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+			}catch (e){
+				xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		}
+		return xmlHttp;
+	}
+
+</script>
 </html>

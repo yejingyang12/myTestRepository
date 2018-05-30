@@ -30,8 +30,8 @@ public class CompanyListResult {
   private String responsibleDepartment;
   private String companyPrincipalEmail;
   private String liabilityDepartmentContactPhone;
-  private String administrativeDivisionNum;
-  private String compPrincipalPhone;
+  private Integer administrativeDivisionNum;
+  private Integer compPrincipalPhone;
   private String companyCode;
   private String compPrincipalPost;
   private String liabilityDepartmentContactPost;
@@ -233,25 +233,25 @@ public class CompanyListResult {
   /**
    * @return the administrativeDivisionNum
    */
-  public String getAdministrativeDivisionNum() {
+  public Integer getAdministrativeDivisionNum() {
     return administrativeDivisionNum;
   }
   /**
    * @param administrativeDivisionNum the administrativeDivisionNum to set
    */
-  public void setAdministrativeDivisionNum(String administrativeDivisionNum) {
+  public void setAdministrativeDivisionNum(Integer administrativeDivisionNum) {
     this.administrativeDivisionNum = administrativeDivisionNum;
   }
   /**
    * @return the compPrincipalPhone
    */
-  public String getCompPrincipalPhone() {
+  public Integer getCompPrincipalPhone() {
     return compPrincipalPhone;
   }
   /**
    * @param compPrincipalPhone the compPrincipalPhone to set
    */
-  public void setCompPrincipalPhone(String compPrincipalPhone) {
+  public void setCompPrincipalPhone(Integer compPrincipalPhone) {
     this.compPrincipalPhone = compPrincipalPhone;
   }
   /**

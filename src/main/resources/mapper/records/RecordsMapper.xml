@@ -236,4 +236,9 @@
       deleteStatus = 1
       AND fkSystemId = #{fkSystemId}
   </select>
+  <update id="updateRecordsBySystemId" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam">
+    UPDATE t_cpro_records 
+    SET acceptReason = #{acceptReason}
+    WHERE fkSystemId = #{fkSystemId}
+  </update> 
 </mapper>

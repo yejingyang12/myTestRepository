@@ -41,7 +41,7 @@ public interface SelfexaminationService {
    * @param selfexamination  添加或修改的必要参数
    * @return  添加或修改数据成功后的id值
    */
-  String saveOrUpdateSelfexamination(SelfexaminationParam selfexaminationParam) 
+  String saveSelfexamination(SelfexaminationParam selfexaminationParam) 
       throws BusinessException;
 
 }

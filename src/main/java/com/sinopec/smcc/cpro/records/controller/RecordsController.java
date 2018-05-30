@@ -70,11 +70,47 @@ public class RecordsController {
   @ResponseBody
   public ResultApi queryRecords(HttpServletRequest request,
       RecordsParam recordsParam) throws BusinessException{
-    RecordsListResult recordsListResult = this.recordsServiceImpl.queryRecordsByFkSystemId(recordsParam);
+    RecordsListResult recordsListResult = 
+        this.recordsServiceImpl.queryRecordsByFkSystemId(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(recordsListResult);
     return result;
   }
   
+  /**
+   * @Descrption
+   * @author dongxu 撤销备案
+   * @date 2018年5月30日上午10:08:03
+   * @param request
+   * @param recordsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/editRecords", method = RequestMethod.GET)
+  @ResponseBody
+  public ResultApi editRecords(HttpServletRequest request,
+      RecordsParam recordsParam) throws BusinessException{
+    this.recordsServiceImpl.editRecords(recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * @Descrption 修改备案状态
+   * @author dongxu
+   * @date 2018年5月30日上午11:15:50
+   * @param request
+   * @param recordsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/editRecordsForStatus", method = RequestMethod.GET)
+  @ResponseBody 
+  public ResultApi editRecordsStatus(HttpServletRequest request,
+      RecordsParam recordsParam) throws BusinessException{
+    this.recordsServiceImpl.editRecordsForStatus(recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
 }
   

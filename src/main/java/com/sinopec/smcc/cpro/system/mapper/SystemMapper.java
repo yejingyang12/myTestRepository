@@ -76,4 +76,12 @@ public interface SystemMapper {
    * @date 2018年5月28日下午4:47:58
    */
   public void updateKeySystem(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author dongxu
+   * @date 2018年5月30日上午10:28:20
+   * @param systemParam
+   */
+  void updateSystemStatusBySystemId(SystemParam systemParam);
 }

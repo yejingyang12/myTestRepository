@@ -33,9 +33,9 @@ public class EvaluationParam{
   private String examOrg;
   private String examReport;
   private String examReportName;
-  private Integer examStatus;
-  private Integer examResult;
-  private Integer rectificationReutle;
+  private int fkexamStatus;
+  private String fkexamResult;
+  private int fkrectificationReutle;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
   private String rectificationReport;
@@ -53,174 +53,343 @@ public class EvaluationParam{
   private String field;
   //排序方式
   private String sort;
+ 
   
+  /**
+   * @return the evaluationId
+   */
   public String getEvaluationId() {
     return evaluationId;
   }
 
+
+  /**
+   * @param evaluationId the evaluationId to set
+   */
   public void setEvaluationId(String evaluationId) {
     this.evaluationId = evaluationId;
   }
 
+
+  /**
+   * @return the systemId
+   */
   public String getSystemId() {
     return systemId;
   }
 
+
+  /**
+   * @param systemId the systemId to set
+   */
   public void setSystemId(String systemId) {
     this.systemId = systemId;
   }
 
+
+  /**
+   * @return the examName
+   */
   public String getExamName() {
     return examName;
   }
 
+
+  /**
+   * @param examName the examName to set
+   */
   public void setExamName(String examName) {
     this.examName = examName;
   }
 
+
+  /**
+   * @return the examTime
+   */
   public Date getExamTime() {
     return examTime;
   }
 
+
+  /**
+   * @param examTime the examTime to set
+   */
   public void setExamTime(Date examTime) {
     this.examTime = examTime;
   }
 
+
+  /**
+   * @return the examYear
+   */
   public String getExamYear() {
     return examYear;
   }
 
+
+  /**
+   * @param examYear the examYear to set
+   */
   public void setExamYear(String examYear) {
     this.examYear = examYear;
   }
 
+
+  /**
+   * @return the examOrg
+   */
   public String getExamOrg() {
     return examOrg;
   }
 
+
+  /**
+   * @param examOrg the examOrg to set
+   */
   public void setExamOrg(String examOrg) {
     this.examOrg = examOrg;
   }
 
+
+  /**
+   * @return the examReport
+   */
   public String getExamReport() {
     return examReport;
   }
 
+
+  /**
+   * @param examReport the examReport to set
+   */
   public void setExamReport(String examReport) {
     this.examReport = examReport;
   }
 
+
+  /**
+   * @return the examReportName
+   */
   public String getExamReportName() {
     return examReportName;
   }
 
+
+  /**
+   * @param examReportName the examReportName to set
+   */
   public void setExamReportName(String examReportName) {
     this.examReportName = examReportName;
   }
 
-  public Integer getExamStatus() {
-    return examStatus;
+
+  /**
+   * @return the fkexamStatus
+   */
+  public int getFkexamStatus() {
+    return fkexamStatus;
   }
 
-  public void setExamStatus(Integer examStatus) {
-    this.examStatus = examStatus;
+
+  /**
+   * @param fkexamStatus the fkexamStatus to set
+   */
+  public void setFkexamStatus(int fkexamStatus) {
+    this.fkexamStatus = fkexamStatus;
   }
 
-  public Integer getExamResult() {
-    return examResult;
+
+  /**
+   * @return the fkexamResult
+   */
+  public String getFkexamResult() {
+    return fkexamResult;
   }
 
-  public void setExamResult(Integer examResult) {
-    this.examResult = examResult;
+
+  /**
+   * @param fkexamResult the fkexamResult to set
+   */
+  public void setFkexamResult(String fkexamResult) {
+    this.fkexamResult = fkexamResult;
   }
 
-  public Integer getRectificationReutle() {
-    return rectificationReutle;
+
+  /**
+   * @return the fkrectificationReutle
+   */
+  public int getFkrectificationReutle() {
+    return fkrectificationReutle;
   }
 
-  public void setRectificationReutle(Integer rectificationReutle) {
-    this.rectificationReutle = rectificationReutle;
+
+  /**
+   * @param fkrectificationReutle the fkrectificationReutle to set
+   */
+  public void setFkrectificationReutle(int fkrectificationReutle) {
+    this.fkrectificationReutle = fkrectificationReutle;
   }
 
+
+  /**
+   * @return the rectificationDate
+   */
   public Date getRectificationDate() {
     return rectificationDate;
   }
 
+
+  /**
+   * @param rectificationDate the rectificationDate to set
+   */
   public void setRectificationDate(Date rectificationDate) {
     this.rectificationDate = rectificationDate;
   }
 
+
+  /**
+   * @return the rectificationReport
+   */
   public String getRectificationReport() {
     return rectificationReport;
   }
 
+
+  /**
+   * @param rectificationReport the rectificationReport to set
+   */
   public void setRectificationReport(String rectificationReport) {
     this.rectificationReport = rectificationReport;
   }
 
+
+  /**
+   * @return the rectificationReportName
+   */
   public String getRectificationReportName() {
     return rectificationReportName;
   }
 
+
+  /**
+   * @param rectificationReportName the rectificationReportName to set
+   */
   public void setRectificationReportName(String rectificationReportName) {
     this.rectificationReportName = rectificationReportName;
   }
 
+
+  /**
+   * @return the deleteStatus
+   */
   public Integer getDeleteStatus() {
     return deleteStatus;
   }
 
+
+  /**
+   * @param deleteStatus the deleteStatus to set
+   */
   public void setDeleteStatus(Integer deleteStatus) {
     this.deleteStatus = deleteStatus;
   }
 
+
+  /**
+   * @return the createUserName
+   */
   public String getCreateUserName() {
     return createUserName;
   }
 
+
+  /**
+   * @param createUserName the createUserName to set
+   */
   public void setCreateUserName(String createUserName) {
     this.createUserName = createUserName;
   }
 
+
+  /**
+   * @return the createTime
+   */
   public Date getCreateTime() {
     return createTime;
   }
 
+
+  /**
+   * @param createTime the createTime to set
+   */
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
 
+
+  /**
+   * @return the pageSize
+   */
   public int getPageSize() {
     return pageSize;
   }
 
+
+  /**
+   * @param pageSize the pageSize to set
+   */
   public void setPageSize(int pageSize) {
     this.pageSize = pageSize;
   }
 
+
+  /**
+   * @return the currentPage
+   */
   public int getCurrentPage() {
     return currentPage;
   }
 
+
+  /**
+   * @param currentPage the currentPage to set
+   */
   public void setCurrentPage(int currentPage) {
     this.currentPage = currentPage;
   }
 
+
+  /**
+   * @return the field
+   */
   public String getField() {
     return field;
   }
 
+
+  /**
+   * @param field the field to set
+   */
   public void setField(String field) {
     this.field = field;
   }
 
+
+  /**
+   * @return the sort
+   */
   public String getSort() {
     return sort;
   }
 
+
+  /**
+   * @param sort the sort to set
+   */
   public void setSort(String sort) {
     this.sort = sort;
   }
+
 
   public String toString(){
     return JSON.toJSONString(this);

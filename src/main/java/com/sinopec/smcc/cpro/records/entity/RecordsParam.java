@@ -44,6 +44,21 @@ public class RecordsParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
+  private Integer recordStatus;
+  
+  
+  /**
+   * @return the recordStatus
+   */
+  public Integer getRecordStatus() {
+    return recordStatus;
+  }
+  /**
+   * @param recordStatus the recordStatus to set
+   */
+  public void setRecordStatus(Integer recordStatus) {
+    this.recordStatus = recordStatus;
+  }
   /**
    * @return the recordsId
    */

@@ -62,4 +62,13 @@ public interface CheckService {
    */
   public String saveCheck(CheckParam checkParam) throws BusinessException;
 
+  /**
+   * @Descrption
+   * @author zhouyu
+   * @date 2018年5月29日下午7:45:11
+   * @param checkNodeParam
+   * @return
+   */
+  PageInfo<CheckNodeListResult> queryNodeAllList(CheckNodeParam checkNodeParam);
+
 }

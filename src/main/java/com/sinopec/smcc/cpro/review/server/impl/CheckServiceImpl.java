@@ -212,7 +212,7 @@ public class CheckServiceImpl implements CheckService {
      }
     }else {
      //默认排序规则
-     orderBy.append("createtime s");
+     orderBy.append("createtime desc");
     }
     //初始化分页拦截器
     PageHelper.startPage(checkNodeParam.getCurrentPage(), checkNodeParam.getPageSize(),orderBy.toString());
@@ -239,6 +239,34 @@ public class CheckServiceImpl implements CheckService {
     }
     this.checkMapper.insertByCheck(checkParam);
     return checkParam.getCheckId();
+  }
+
+  /**
+   * 系统审核全部详细
+   */
+  @Override
+  public PageInfo<CheckNodeListResult> queryNodeAllList(CheckNodeParam checkNodeParam) {
+  //创建排序字段
+    StringBuffer orderBy = new StringBuffer();
+    //判断field是否有值
+    if(StringUtils.isNotBlank(checkNodeParam.getField())){
+     //如有值，则将排序字段放入orderBy对象
+     orderBy.append(ConvertFieldUtil.sortField(checkNodeParam.getField()));
+     if(StringUtils.isNotBlank(checkNodeParam.getSort())){
+      orderBy.append(" ").append(checkNodeParam.getSort());
+     }
+    }else {
+     //默认排序规则
+     orderBy.append("createtime desc");
+    }
+    //初始化分页拦截器
+    PageHelper.startPage(checkNodeParam.getCurrentPage(), checkNodeParam.getPageSize(),orderBy.toString());
+    //获得相应列表数据
+    List<CheckNodeListResult> list = this.checkMapper.selectAllCheckNodeParam(checkNodeParam);
+    //装载列表数据
+    PageInfo<CheckNodeListResult> pageInfo = new PageInfo<>(list);
+
+    return pageInfo;
   }
 
 }

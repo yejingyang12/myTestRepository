@@ -32,31 +32,16 @@ public class CheckListResult {
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date updateTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date updateTimeEnd;
   private String remark;
   private String fkSystemId;
   private String fkExaminStatus;
-  private Integer fkExaminStatusBegin;
-  private Integer fkExaminStatusEnd;
   private String prevExecutor;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTimeEnd;
   private Integer deleteStatus;
-  private Integer deleteStatusBegin;
-  private Integer deleteStatusEnd;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date executeTime;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date executeTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date executeTimeEnd;
   private String expertReviewId;
   private String gradingReportId;
   private String expertReviewName;
@@ -106,18 +91,6 @@ public class CheckListResult {
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
-  public Date getUpdateTimeBegin() {
-    return updateTimeBegin;
-  }
-  public void setUpdateTimeBegin(Date updateTimeBegin) {
-    this.updateTimeBegin = updateTimeBegin;
-  }
-  public Date getUpdateTimeEnd() {
-    return updateTimeEnd;
-  }
-  public void setUpdateTimeEnd(Date updateTimeEnd) {
-    this.updateTimeEnd = updateTimeEnd;
-  }
   public String getRemark() {
     return remark;
   }
@@ -136,18 +109,6 @@ public class CheckListResult {
   public void setFkExaminStatus(String fkExaminStatus) {
     this.fkExaminStatus = fkExaminStatus;
   }
-  public Integer getFkExaminStatusBegin() {
-    return fkExaminStatusBegin;
-  }
-  public void setFkExaminStatusBegin(Integer fkExaminStatusBegin) {
-    this.fkExaminStatusBegin = fkExaminStatusBegin;
-  }
-  public Integer getFkExaminStatusEnd() {
-    return fkExaminStatusEnd;
-  }
-  public void setFkExaminStatusEnd(Integer fkExaminStatusEnd) {
-    this.fkExaminStatusEnd = fkExaminStatusEnd;
-  }
   public String getPrevExecutor() {
     return prevExecutor;
   }
@@ -160,53 +121,17 @@ public class CheckListResult {
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
-  public Date getCreateTimeBegin() {
-    return createTimeBegin;
-  }
-  public void setCreateTimeBegin(Date createTimeBegin) {
-    this.createTimeBegin = createTimeBegin;
-  }
-  public Date getCreateTimeEnd() {
-    return createTimeEnd;
-  }
-  public void setCreateTimeEnd(Date createTimeEnd) {
-    this.createTimeEnd = createTimeEnd;
-  }
   public Integer getDeleteStatus() {
     return deleteStatus;
   }
   public void setDeleteStatus(Integer deleteStatus) {
     this.deleteStatus = deleteStatus;
   }
-  public Integer getDeleteStatusBegin() {
-    return deleteStatusBegin;
-  }
-  public void setDeleteStatusBegin(Integer deleteStatusBegin) {
-    this.deleteStatusBegin = deleteStatusBegin;
-  }
-  public Integer getDeleteStatusEnd() {
-    return deleteStatusEnd;
-  }
-  public void setDeleteStatusEnd(Integer deleteStatusEnd) {
-    this.deleteStatusEnd = deleteStatusEnd;
-  }
   public Date getExecuteTime() {
     return executeTime;
   }
   public void setExecuteTime(Date executeTime) {
     this.executeTime = executeTime;
-  }
-  public Date getExecuteTimeBegin() {
-    return executeTimeBegin;
-  }
-  public void setExecuteTimeBegin(Date executeTimeBegin) {
-    this.executeTimeBegin = executeTimeBegin;
-  }
-  public Date getExecuteTimeEnd() {
-    return executeTimeEnd;
-  }
-  public void setExecuteTimeEnd(Date executeTimeEnd) {
-    this.executeTimeEnd = executeTimeEnd;
   }
   public String getExpertReviewId() {
     return expertReviewId;

@@ -41,7 +41,7 @@ public class SelfexaminationController {
   private SelfexaminationService  selfexaminationServiceImpl;
   
   /**
-   * @Descrption
+   * @Descrption 自查信息列表
    * @author yejingyang
    * @date 2018年5月25日下午1:42:42
    * @param request
@@ -64,13 +64,21 @@ public class SelfexaminationController {
     return result;
   }
   
-  
+  /**
+   * @Descrption 添加或修改自查信息
+   * @author dongxu
+   * @date 2018年5月30日上午11:48:52
+   * @param selfexaminationParam
+   * @param model
+   * @return
+   * @throws BusinessException
+   */
   @RequestMapping(value = "/saveSelfexamination", method = RequestMethod.GET)
   @ResponseBody
   public String saveSelfexamination(SelfexaminationParam selfexaminationParam, 
       Model model) throws BusinessException{
     String pkId = this.selfexaminationServiceImpl.
-        saveOrUpdateSelfexamination(selfexaminationParam);
+        saveSelfexamination(selfexaminationParam);
     return pkId;
   }
 }

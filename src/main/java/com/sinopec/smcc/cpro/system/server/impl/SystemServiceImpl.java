@@ -83,58 +83,58 @@ public class SystemServiceImpl implements SystemService {
 		return pageInfo;
 	}
 
-	/**
+
+  /**
    * 添加或修改系统信息
    */
-	@Override
-	@Transactional
-	@EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_system")
-	public String saveSystem(SystemParam systemParam) throws BusinessException {
-		
-	  if(StringUtils.isBlank(systemParam.getSystemId())) {
-	    systemParam.setSystemId(Utils.getUuidFor32());
-	    systemParam.setExamineStatus(1);
-	    systemParam.setExaminationStatus(1);
-	    systemParam.setSubIsSystem(2);
-	    systemParam.setFkSystemType(1);
-	    systemParam.setFkSystemIsMerge(2);
-	    systemParam.setRecordStatus(1);
-	    systemParam.setGradingStatus(1);
-	    systemParam.setFkChangeMatter(5);
-	    systemParam.setAppIsInternet(2);
-	    systemParam.setFkInfoSysTypeConstruction(1);
-	    systemParam.setCreateTime(new Date());
-	    systemParam.setWhenInvestmentUse(new Date());
-	    systemParam.setEvaluationStatus(1);
-			List<SystemKeyProducts> systemKeyProductsList = new ArrayList<SystemKeyProducts>();
-			SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
-			systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
-			systemKeyProducts.setFkSystemId(systemParam.getSystemId());
-			systemKeyProducts.setDeleteStatus(1);
-			systemKeyProducts.setFkExaminStatus(1);
-			systemKeyProducts.setCreateTime(new Date());
-			systemKeyProductsList.add(systemKeyProducts);
-			systemParam.setSystemKeyProducts(systemKeyProductsList);
-			List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
-			SystemUseServices systemUseServices = new SystemUseServices();
-			systemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
-			systemUseServices.setFkSystemId(systemParam.getSystemId());
-			systemUseServices.setCreateTime(new Date());
-			systemUseServices.setFkProductsType(1);
-			systemUseServices.setServiceIsUse(2);
-			systemUseServicesList.add(systemUseServices);
-			systemParam.setSystemUseServices(systemUseServicesList);
-			
-			this.systemKeyProductsMapper.insertSystemKeyProductsBySystemKeyProductsId(
-					systemParam.getSystemKeyProducts());
-			this.systemUseServicesMapper.insertSystemUseServicesBySystemUseServicesId(
-					systemParam.getSystemUseServices());
-			this.systemMapper.insertSystem(systemParam);
-		}else {
-		  systemParam.setCreateTime(new Date());
-		}
-		return systemParam.getSystemId();
-	}
+  @Override
+  @Transactional
+  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_system")
+  public String saveSystem(SystemParam systemParam) throws BusinessException {
+    
+    if(StringUtils.isBlank(systemParam.getSystemId())) {
+      systemParam.setSystemId(Utils.getUuidFor32());
+      systemParam.setExamineStatus(1);
+      systemParam.setExaminationStatus(1);
+      systemParam.setSubIsSystem(2);
+      systemParam.setFkSystemType(1);
+      systemParam.setFkSystemIsMerge(2);
+      systemParam.setRecordStatus(1);
+      systemParam.setGradingStatus(1);
+      systemParam.setFkChangeMatter(5);
+      systemParam.setAppIsInternet(2);
+      systemParam.setFkInfoSysTypeConstruction(1);
+      systemParam.setCreateTime(new Date());
+      systemParam.setWhenInvestmentUse(new Date());
+      systemParam.setEvaluationStatus(1);
+      List<SystemKeyProducts> systemKeyProductsList = new ArrayList<SystemKeyProducts>();
+      SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
+      systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
+      systemKeyProducts.setFkSystemId(systemParam.getSystemId());
+      systemKeyProducts.setDeleteStatus(1);
+      systemKeyProducts.setFkExaminStatus(1);
+      systemKeyProducts.setCreateTime(new Date());
+      systemKeyProductsList.add(systemKeyProducts);
+      systemParam.setSystemKeyProducts(systemKeyProductsList);
+      List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
+      SystemUseServices systemUseServices = new SystemUseServices();
+      systemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
+      systemUseServices.setFkSystemId(systemParam.getSystemId());
+      systemUseServices.setCreateTime(new Date());
+      systemUseServices.setFkProductsType(1);
+      systemUseServices.setServiceIsUse(2);
+      systemUseServicesList.add(systemUseServices);
+      systemParam.setSystemUseServices(systemUseServicesList);
+    }else {
+      systemParam.setCreateTime(new Date());
+    }
+    this.systemKeyProductsMapper.insertSystemKeyProductsBySystemKeyProductsId(
+        systemParam.getSystemKeyProducts());
+    this.systemUseServicesMapper.insertSystemUseServicesBySystemUseServicesId(
+        systemParam.getSystemUseServices());
+    this.systemMapper.insertSystem(systemParam);
+    return systemParam.getSystemId();
+  }
 
 	/**
 	 * 查询系统代码信息
@@ -164,4 +164,14 @@ public class SystemServiceImpl implements SystemService {
 	public SystemListResult queryEditSystem(SystemParam systemParam) {
 		return this.systemMapper.selectEditSystem(systemParam);
 	}
+	
+	/**
+   * 修改系统状态
+   */
+  @Override
+  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
+  @Transactional
+  public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException {
+    this.systemMapper.updateSystemStatusBySystemId(systemParam);
+  }
 }

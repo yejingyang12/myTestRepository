@@ -42,7 +42,7 @@ public interface CompanyService {
    * @return
    * @throws BusinessException 
    */
-  public String saveCompany(CompanyParam companyParam) throws BusinessException;
+  String saveCompany(CompanyParam companyParam) throws BusinessException;
   
   /**
    * @Descrption 删除单位信息
@@ -52,7 +52,7 @@ public interface CompanyService {
    * @return
    * @throws BusinessException
    */
-  public void delelteCompany(CompanyParam companyParam) throws BusinessException;
+  void delelteCompany(CompanyParam companyParam) throws BusinessException;
 
   /**
    * @Descrption 通过CompanyId查询单位详情
@@ -60,6 +60,15 @@ public interface CompanyService {
    * @date 2018年5月27日下午12:05:26
    * @param companyParam
    */
-  public CompanyListResult queryDetailsCompany(CompanyParam companyParam);
+  CompanyListResult queryDetailsCompany(CompanyParam companyParam);
+
+  /**
+   * @Descrption 跳转至修改单位信息，查询单位信息
+   * @author dongxu
+   * @date 2018年5月30日下午6:35:37
+   * @param companyParam
+   * @return
+   */
+  CompanyListResult queryCompanyForUpdate(CompanyParam companyParam);
 
 }

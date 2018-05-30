@@ -41,7 +41,8 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_company")
-  public PageInfo<CompanyListResult> queryCompanyList(CompanyParam companyParam)throws BusinessException{
+  public PageInfo<CompanyListResult> queryCompanyList(
+      CompanyParam companyParam) throws BusinessException{
     StringBuffer orderBy = new StringBuffer();
     if (StringUtils.isNotBlank(companyParam.getField())) {
       orderBy.append(ConvertFiledUtil.sortField(companyParam.getField()));
@@ -50,14 +51,14 @@ public class CompanyServiceImpl implements CompanyService {
       }
     } else {
       // 默认排序
-      orderBy.append("updateTime desc");
+      orderBy.append("updateTime DESC");
     }
     // 初始化分页拦截器
     PageHelper.startPage(companyParam.getCurrentPage(), companyParam.getPageSize(),
         orderBy.toString());
     // 获得响应列表数据
-    List<CompanyListResult> companyListResultList = companyMapper
-        .selectAllByCompanyParam(companyParam);
+    List<CompanyListResult> companyListResultList = 
+        this.companyMapper.selectAllByCompanyParam(companyParam);
     // 装载列表数据
     PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
     return pageInfo;
@@ -92,9 +93,8 @@ public class CompanyServiceImpl implements CompanyService {
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_company")
   @Transactional
   public void delelteCompany(CompanyParam companyParam) throws BusinessException {
-    if(companyParam.getCompanyIds() != null && companyParam.getCompanyIds().length() > 0){
+    if(companyParam.getCompanyIds() == null || companyParam.getCompanyIds().length == 0)
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
-    }
     companyMapper.updateCompanyByCompanyIds(companyParam);
   }
   
@@ -105,6 +105,15 @@ public class CompanyServiceImpl implements CompanyService {
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_company")
   public CompanyListResult queryDetailsCompany(CompanyParam companyParam) {
     return companyMapper.selectSingleCompanyByCompanyId(companyParam);
+  }
+  
+  /**
+   * 查询单位信息
+   */
+  @Override
+  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_company")
+  public CompanyListResult queryCompanyForUpdate(CompanyParam companyParam) {
+    return companyMapper.selectCompanyByCompanyId(companyParam);
   }
 
 }

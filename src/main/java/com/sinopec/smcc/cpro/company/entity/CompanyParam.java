@@ -12,6 +12,8 @@ package com.sinopec.smcc.cpro.company.entity;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.alibaba.fastjson.JSON;
 /**
    * @Title CompanyParam.java
    * @Package com.sinopec.smcc.cpro.company.entity
@@ -38,30 +40,30 @@ public class CompanyParam {
   private String responsibleDepartment;
   private String companyPrincipalEmail;
   private Integer deleteStatus;
-  private Integer liabilityDepartmentContactPhone;
+  private String liabilityDepartmentContactPhone;
   private Integer administrativeDivisionNum;
   private Integer compPrincipalPhone;
   private String companyCode;
   private String compPrincipalPost;
   private String liabilityDepartmentContactPost;
-  private Date updateTime;
   private String gradeProtectionReportingComp;
-
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
   private String companyAddress;
   private String liabilityDepartmentContactWorkTel;
   private String compPrincipalName;
-  private String companyIds;
+  private String[] companyIds;
   
   private int pageSize = 10;// pageSize ，每一页显示多少
   private int currentPage = 1;// 当前页数
   private String field; //接收字段
   private String sort;//排序
   
+  
   /**
    * @return the companyIds
    */
-  public String getCompanyIds() {
+  public String[] getCompanyIds() {
     return companyIds;
   }
 
@@ -69,10 +71,25 @@ public class CompanyParam {
   /**
    * @param companyIds the companyIds to set
    */
-  public void setCompanyIds(String companyIds) {
+  public void setCompanyIds(String[] companyIds) {
     this.companyIds = companyIds;
   }
 
+
+  /**
+   * @return the liabilityDepartmentContactPhone
+   */
+  public String getLiabilityDepartmentContactPhone() {
+    return liabilityDepartmentContactPhone;
+  }
+
+
+  /**
+   * @param liabilityDepartmentContactPhone the liabilityDepartmentContactPhone to set
+   */
+  public void setLiabilityDepartmentContactPhone(String liabilityDepartmentContactPhone) {
+    this.liabilityDepartmentContactPhone = liabilityDepartmentContactPhone;
+  }
 
   /**
    * @return the deleteStatus
@@ -327,23 +344,6 @@ public class CompanyParam {
     this.companyPrincipalEmail = companyPrincipalEmail;
   }
 
-
-  /**
-   * @return the liabilityDepartmentContactPhone
-   */
-  public Integer getLiabilityDepartmentContactPhone() {
-    return liabilityDepartmentContactPhone;
-  }
-
-
-  /**
-   * @param liabilityDepartmentContactPhone the liabilityDepartmentContactPhone to set
-   */
-  public void setLiabilityDepartmentContactPhone(Integer liabilityDepartmentContactPhone) {
-    this.liabilityDepartmentContactPhone = liabilityDepartmentContactPhone;
-  }
-
-
   /**
    * @return the administrativeDivisionNum
    */
@@ -421,22 +421,6 @@ public class CompanyParam {
    */
   public void setLiabilityDepartmentContactPost(String liabilityDepartmentContactPost) {
     this.liabilityDepartmentContactPost = liabilityDepartmentContactPost;
-  }
-
-
-  /**
-   * @return the updateTime
-   */
-  public Date getUpdateTime() {
-    return updateTime;
-  }
-
-
-  /**
-   * @param updateTime the updateTime to set
-   */
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
   }
 
 
@@ -584,37 +568,7 @@ public class CompanyParam {
   }
  
   public String toString() {
-
-    return "{" + "\"companyId\":\"" + companyId + "\"," + "\"industryCategory\":\""
-        + industryCategory + "\"," + "\"affiliation\":\"" + affiliation
-        + "\"," + "\"companyType\":\"" + companyType + "\","
-        + "\"plateType\":\"" + plateType + "\"," 
-        + "\"fkSubordinateProvinces\":\"" + fkSubordinateProvinces + "\"," 
-        + "\"liabilityDepartmentContactEmail\":\"" + liabilityDepartmentContactEmail
-        + "\"," + "\"companyName\":\"" + companyName + "\","
-        + "\"postalCode\":\"" + postalCode + "\"," + "\"compPrincipalWorkTel\":\""
-        + compPrincipalWorkTel + "\"," + "\"createUserName\":\"" + createUserName + "\","
-        + "\"remark\":\"" + remark + "\","
-        + "\"liabilityDepartmentContactName\":\"" + liabilityDepartmentContactName + "\","
-        + "\"responsibleDepartment\":\"" + responsibleDepartment + "\","
-        + "\"companyPrincipalEmail\":\"" + companyPrincipalEmail + "\","
-        + "\"deleteStatus\":\"" + deleteStatus + "\","
-        + "\"liabilityDepartmentContactPhone\":\"" + liabilityDepartmentContactPhone + "\","
-        + "\"administrativeDivisionNum\":\"" + administrativeDivisionNum + "\","
-        + "\"compPrincipalPhone\":\"" + compPrincipalPhone + "\","
-        + "\"compPrincipalPost\":\"" + compPrincipalPost + "\","
-        + "\"liabilityDepartmentContactPost\":\"" + liabilityDepartmentContactPost + "\","
-        + "\"updateTime\":\"" + updateTime + "\","
-        + "\"gradeProtectionReportingComp\":\"" + gradeProtectionReportingComp + "\","
-        + "\"createTime\":\"" + createTime + "\","
-        + "\"companyAddress\":\"" + companyAddress + "\","
-        + "\"liabilityDepartmentContactWorkTel\":\"" + liabilityDepartmentContactWorkTel + "\","
-        + "\"compPrincipalName\":\"" + compPrincipalName + "\","
-        + "\"companyIds\":\"" + companyIds + "\","
-        
-        + "\"pageSize\":\"" + pageSize + "\"," + "\"currentPage\":\""
-        + currentPage + "\"," + "\"field\":\"" + field + "\"," + "\"sort\":\""
-        + sort + "\"" + "}";
+    return JSON.toJSONString(this);
   }
   
 }

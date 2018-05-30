@@ -17,9 +17,9 @@ spring:
     name: Class-Protection
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://10.248.74.58:3306/smcc_secp?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true
-    username: smcc
-    password: smcc2018
+    url: jdbc:mysql://103.249.52.8:13306/smcc_cpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
+    username: root
+    password: esa@2011
     driver-class-name: com.mysql.jdbc.Driver
     minIdle: 1
     maxActive: 20

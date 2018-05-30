@@ -69,4 +69,13 @@ public interface CompanyMapper {
    */
   CompanyListResult selectSingleCompanyByCompanyId(CompanyParam companyParam);
 
+  /**
+   * @Descrption
+   * @author dongxu
+   * @date 2018年5月30日下午6:38:03
+   * @param companyParam
+   * @return
+   */
+  CompanyListResult selectCompanyByCompanyId(CompanyParam companyParam);
+
 }

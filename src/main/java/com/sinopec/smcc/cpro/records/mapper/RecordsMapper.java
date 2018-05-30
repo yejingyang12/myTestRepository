@@ -39,4 +39,12 @@ public interface RecordsMapper {
    */
   public RecordsListResult selectRecordsByFkSystemId(RecordsParam recordsParam);
 
+  /**
+   * @Descrption
+   * @author dongxu
+   * @date 2018年5月30日上午10:13:16
+   * @param fkSystemId
+   */
+  public void updateRecordsBySystemId(RecordsParam recordsParam);
+
 }

@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.records.server;
 
+import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 
@@ -29,7 +30,7 @@ public interface RecordsService {
    * @param recordsParam
    * @return
    */
-  String saveRecords(RecordsParam recordsParam);
+  String saveRecords(RecordsParam recordsParam) throws BusinessException;
 
   /**
    * @Descrption 通过系统ID查询备案信息
@@ -38,6 +39,23 @@ public interface RecordsService {
    * @param recordsParam
    * @return
    */
-  RecordsListResult queryRecordsByFkSystemId(RecordsParam recordsParam);
+  RecordsListResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException;
+
+  /**
+   * @Descrption 撤销备案
+   * @author dongxu
+   * @date 2018年5月30日上午10:10:16
+   * @param recordsParam
+   * @return
+   */
+  void editRecords(RecordsParam recordsParam);
+
+  /**
+   * @Descrption 修改备案状态
+   * @author dongxu
+   * @date 2018年5月30日上午11:15:08
+   * @param recordsParam
+   */
+  void editRecordsForStatus(RecordsParam recordsParam);
 
 }

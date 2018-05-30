@@ -47,8 +47,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   public PageInfo<SelfexaminationListResult> querySelfexaminationList(
       SelfexaminationParam selfexaminationParam) throws BusinessException {
     StringBuffer orderBy = new StringBuffer();
-    
-    //判断
     if (StringUtils.isNotBlank(selfexaminationParam.getField())) {
       orderBy.append(ConvertFieldUtil.sortFielde(selfexaminationParam.getField()));
       if (StringUtils.isNotBlank(selfexaminationParam.getSort())) {
@@ -57,12 +55,10 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
     }else {
       orderBy.append("create_date desc");
     }
-    
     PageHelper.startPage(selfexaminationParam.getCurrentPage(), 
         selfexaminationParam.getPageSize(), orderBy.toString());
     List<SelfexaminationListResult> list= this.selfexaminationMapper.
         selectAllBySelfexaminationParam(selfexaminationParam);
-    
     PageInfo<SelfexaminationListResult> pageInfo = new PageInfo<>(list);
     return pageInfo;
   }
@@ -73,19 +69,17 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   @Transactional
   @Override
-  public String saveOrUpdateSelfexamination(SelfexaminationParam selfexaminationParam) 
+  public String saveSelfexamination(SelfexaminationParam selfexaminationParam) 
       throws BusinessException {
     if(StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())) {
       selfexaminationParam.setSelfexaminationId(Utils.getUuidFor32());
       selfexaminationParam.setCreateTime(new Date());
       selfexaminationParam.setDeleteStatus(1);
       selfexaminationParam.setCreateUserName("admin");
-      
       //:TODO对附件表添加数据
     }else {
       //必须有数据，但可能不会用
       selfexaminationParam.setCreateTime(new Date());
-      
       //:TODO对附件表修改数据
     }
     this.selfexaminationMapper.insertOrUpdateSelfexamination(selfexaminationParam);

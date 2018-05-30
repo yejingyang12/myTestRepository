@@ -63,4 +63,12 @@ public interface CheckMapper {
    * @param checkParam
    */
   public void insertByCheck(CheckParam checkParam);
+  /**
+   * @Descrption
+   * @author zhouyu
+   * @date 2018年5月29日下午7:49:41
+   * @param checkNodeParam
+   * @return
+   */
+  public List<CheckNodeListResult> selectAllCheckNodeParam(CheckNodeParam checkNodeParam);
 }

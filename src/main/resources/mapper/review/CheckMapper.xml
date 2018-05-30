@@ -260,6 +260,17 @@
 					</if>
 
 </select>
+<select id="selectAllCheckNodeParam" parameterType="String" resultMap="BaseCheckResultMap">
+  SELECT  pkId,examineResult,fkCheckId,createUserName,updateTime,remark,fkSystemId,examineReason,createTime,executor,deleteStatus,fkActionName,executeTime 
+  FROM  t_cpro_check_node 
+  where 1=1 and deleteStatus = #{deleteStatus}
+          <if test="fkSystemId != null and fkSystemId != ''">
+              AND fkSystemId  = #{fkSystemId,jdbcType=VARCHAR}
+          </if>
+          <if test="fkCheckId != null and fkCheckId != ''">
+              AND fkCheckId = #{fkCheckId,jdbcType=VARCHAR}
+          </if>
+</select>
  <update id="updateKeyCheck" parameterType="com.sinopec.smcc.cpro.review.entity.CheckListResult" >
     	UPDATE t_cpro_check 
   <set>

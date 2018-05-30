@@ -75,4 +75,13 @@ public interface SystemService {
 	 */
 	public SystemListResult queryEditSystem(SystemParam systemParam);
 
+  /**
+   * @Descrption 修改系统状态
+   * @author dongxu
+   * @date 2018年5月30日上午10:26:08
+   * @param systemParam
+   * @return
+   */
+  public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException ;
+
 }

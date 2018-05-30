@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -121,7 +122,7 @@ public class CheckController {
    */
   @ResponseBody
   @RequestMapping(value = "/querycheckNodeList", method = RequestMethod.GET)
-  public ResultApi querycheckNodeList(HttpRequest request, HttpServletResponse response,
+  public ResultApi querycheckNodeList(HttpRequest request,
       CheckNodeParam checkNodeParam) throws BusinessException {
     // 调用service实体获得方法，CheckListResult填写返回的参数
     PageInfo<CheckNodeListResult> pageInfo = this.checkServiceImpl
@@ -152,12 +153,11 @@ public class CheckController {
    * @return 
    */
   @ResponseBody
-  @RequestMapping(value = "/querycheckNodeAllList", method = RequestMethod.GET)
-  public ResultApi querycheckNodeAllList(HttpRequest request, HttpServletResponse response,
-      CheckNodeParam checkNodeParam) throws BusinessException {
+  @RequestMapping(value = "/queryNodeAllList", method = RequestMethod.GET)
+  public ResultApi queryNodeAllList(HttpRequest request, CheckNodeParam checkNodeParam) throws BusinessException {
     // 调用service实体获得方法，CheckListResult填写返回的参数
     PageInfo<CheckNodeListResult> pageInfo = this.checkServiceImpl
-        .queryCheckNodeList(checkNodeParam);
+        .queryNodeAllList(checkNodeParam);
     // 通过resultApi实体组成返回参数
     ResultApi resultApi = new ResultApi(EnumResult.SUCCESS);
     // 当前页码

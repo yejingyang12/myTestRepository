@@ -10,12 +10,9 @@
 package com.sinopec.smcc.cpro.company.controller;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -74,7 +71,8 @@ public class CompanyController {
    */
   @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi saveCompany(CompanyParam companyParam) throws BusinessException {
+  public ResultApi saveCompany(HttpServletRequest request,
+      CompanyParam companyParam) throws BusinessException {
     String companyId = this.companyServiceImpl.saveCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(companyId);
@@ -91,8 +89,8 @@ public class CompanyController {
    */
   @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi deleteCompany(CompanyParam companyParam)
-      throws BusinessException {
+  public ResultApi deleteCompany(HttpServletRequest request,
+      CompanyParam companyParam) throws BusinessException {
     this.companyServiceImpl.delelteCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
@@ -108,9 +106,30 @@ public class CompanyController {
    */
   @RequestMapping(value = "/queryDetailsCompany", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryDetailsCompany(CompanyParam companyParam)
-      throws BusinessException {
-    CompanyListResult companyListResult = this.companyServiceImpl.queryDetailsCompany(companyParam);
+  public ResultApi queryDetailsCompany(HttpServletRequest request,
+      CompanyParam companyParam) throws BusinessException {
+    CompanyListResult companyListResult = 
+        this.companyServiceImpl.queryDetailsCompany(companyParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(companyListResult);
+    return result;
+  }
+  
+  /**
+   * @Descrption 跳转至修改单位信息，查询单位信息
+   * @author dongxu
+   * @date 2018年5月30日下午6:34:43
+   * @param request
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryCompanyForUpdate", method = RequestMethod.GET)
+  @ResponseBody
+  public ResultApi queryCompanyForUpdate(HttpServletRequest request,
+      CompanyParam companyParam) throws BusinessException {
+    CompanyListResult companyListResult = 
+        this.companyServiceImpl.queryCompanyForUpdate(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(companyListResult);
     return result;
