@@ -3,7 +3,7 @@
 <mapper namespace="com.sinopec.smcc.cpro.system.mapper.SystemMapper">
   <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemListResult">
   	<id column="pkId" property="systemId" jdbcType="VARCHAR" />
-    <result column="interconnectionSituation" property="interconnectionSituation" jdbcType="VARCHAR" />
+    <result column="interconnectionSit" property="interconnectionSit" jdbcType="VARCHAR" />
     <result column="fkFatherSystemId" property="fkFatherSystemId" jdbcType="VARCHAR" />
     <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
     <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
@@ -12,9 +12,9 @@
     <result column="examineStatus" property="examineStatus" jdbcType="INTEGER" />
     <result column="executiveOfficeName" property="executiveOfficeName" jdbcType="VARCHAR" />
     <result column="examinationStatus" property="examinationStatus" jdbcType="INTEGER" />
-    <result column="sysBusinessDescription" property="sysBusinessDescription" jdbcType="VARCHAR" />
+    <result column="sysBusDescription" property="sysBusDescription" jdbcType="VARCHAR" />
     <result column="subIsSystem" property="subIsSystem" jdbcType="INTEGER" />
-    <result column="executiveDirectorContacts" property="executiveDirectorContacts" jdbcType="VARCHAR" />
+    <result column="executiveDireCon" property="executiveDireCon" jdbcType="VARCHAR" />
     <result column="fkChangeMatter" property="fkChangeMatter" jdbcType="INTEGER" />
     <result column="systemName" property="systemName" jdbcType="VARCHAR" />
     <result column="deleteStatus" property="deleteStatus" jdbcType="TINYINT" />
@@ -23,19 +23,19 @@
     <result column="gradeRecordSysName" property="gradeRecordSysName" jdbcType="VARCHAR" />
     <result column="fkSystemIsMerge" property="fkSystemIsMerge" jdbcType="TINYINT" />
     <result column="changeReason" property="changeReason" jdbcType="VARCHAR" />
-    <result column="executiveDirectorContactsTel" property="executiveDirectorContactsTel" jdbcType="VARCHAR" />
-    <result column="networkPlatformCoverageRange" property="networkPlatformCoverageRange" jdbcType="VARCHAR" />
+    <result column="executiveDireConTel" property="executiveDireConTel" jdbcType="VARCHAR" />
+    <result column="npCoverageRange" property="npCoverageRange" jdbcType="VARCHAR" />
     <result column="updateTime" property="updateTime" jdbcType="DATE" />
-    <result column="sysBusinessSituationType" property="sysBusinessSituationType" jdbcType="VARCHAR" />
-    <result column="sysServiceSituationObject" property="sysServiceSituationObject" jdbcType="VARCHAR" />
-    <result column="sysServiceSituationScope" property="sysServiceSituationScope" jdbcType="VARCHAR" />
+    <result column="sysBusSituationType" property="sysBusSituationType" jdbcType="VARCHAR" />
+    <result column="sysServiceSitObject" property="sysServiceSitObject" jdbcType="VARCHAR" />
+    <result column="sysServiceSitScope" property="sysServiceSitScope" jdbcType="VARCHAR" />
     <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
     <result column="recordStatus" property="recordStatus" jdbcType="INTEGER" />
     <result column="gradingStatus" property="gradingStatus" jdbcType="INTEGER" />
     <result column="changeContent" property="changeContent" jdbcType="VARCHAR" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="fkInfoSysTypeConstruction" property="fkInfoSysTypeConstruction" jdbcType="VARCHAR" />
-    <result column="networkPlatformNetworkProperties" property="networkPlatformNetworkProperties" jdbcType="VARCHAR" />
+    <result column="fkInfoSysTypeCon" property="fkInfoSysTypeCon" jdbcType="VARCHAR" />
+    <result column="npNetworkProperties" property="npNetworkProperties" jdbcType="VARCHAR" />
     <result column="evaluationStatus" property="evaluationStatus" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="SystemCodeResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemCodeListResult">
@@ -54,7 +54,7 @@
 			system.standardizedCode,
 			system.gradeRecordSysName,
 			systemCodeBusiness.codeName AS BusinessName,
-			system.sysBusinessDescription,
+			system.sysBusDescription,
 			systemCodeServiceScope.codeName AS ServiceScopeName,
 			systemCodeServiceObject.codeName AS ServiceObjectName,
 			systemCodeCoverScope.codeName AS CoverScopeName,
@@ -71,33 +71,33 @@
 			system.whenInvestmentUse,
 			system.executiveOfficeName,
 			system.subIsSystem,
-			system.executiveDirectorContacts,
-			system.executiveDirectorContactsTel
+			system.executiveDireCon,
+			system.executiveDireConTel
 		FROM
 			t_cpro_system AS system
 		LEFT JOIN t_cpro_system_code AS systemCodeConstructionType 
-			ON system.fkInfoSysTypeConstruction = systemCodeConstructionType.systemCode 
+			ON system.fkInfoSysTypeCon = systemCodeConstructionType.systemCode 
 			AND systemCodeConstructionType.fkCodeType = 7
 		LEFT JOIN t_cpro_system_code AS systemCodeCombined
 			ON system.fkSystemIsMerge = systemCodeCombined.systemCode 
 			AND systemCodeCombined.fkCodeType = 29
 		LEFT JOIN t_cpro_system_code AS systemCodeBusiness
-			ON system.sysBusinessSituationType = systemCodeBusiness.systemCode 
+			ON system.sysBusSituationType = systemCodeBusiness.systemCode 
 			AND systemCodeBusiness.fkCodeType = 22
 		LEFT JOIN t_cpro_system_code AS systemCodeServiceScope
-			ON system.sysServiceSituationScope = systemCodeServiceScope.systemCode 
+			ON system.sysServiceSitScope = systemCodeServiceScope.systemCode 
 			AND systemCodeServiceScope.fkCodeType = 20
 		LEFT JOIN t_cpro_system_code AS systemCodeServiceObject
-			ON system.sysServiceSituationObject = systemCodeServiceObject.systemCode 
+			ON system.sysServiceSitObject = systemCodeServiceObject.systemCode 
 			AND systemCodeServiceObject.fkCodeType = 16
 		LEFT JOIN t_cpro_system_code AS systemCodeCoverScope
-			ON system.networkPlatformCoverageRange = systemCodeCoverScope.systemCode 
+			ON system.npCoverageRange = systemCodeCoverScope.systemCode 
 			AND systemCodeCoverScope.fkCodeType = 17
 		LEFT JOIN t_cpro_system_code AS systemCodeNewWorkNature
-			ON system.networkPlatformNetworkProperties = systemCodeNewWorkNature.systemCode 
+			ON system.npNetworkProperties = systemCodeNewWorkNature.systemCode 
 			AND systemCodeNewWorkNature.fkCodeType = 18
 		LEFT JOIN t_cpro_system_code AS systemCodeSystemInter
-			ON system.interconnectionSituation = systemCodeSystemInter.systemCode 
+			ON system.interconnectionSit = systemCodeSystemInter.systemCode 
 			AND systemCodeSystemInter.fkCodeType = 13
 		LEFT JOIN t_cpro_system_key_products AS systemKeyProducts 
 			ON system.pkId = systemKeyProducts.fkSystemId
@@ -109,18 +109,18 @@
 	
   <select id="selectEditSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
     SELECT
-      system.fkInfoSysTypeConstruction,
+      system.fkInfoSysTypeCon,
       system.whenInvestmentUse,
       system.systemName,
       system.standardizedCode,
       system.gradeRecordSysName,
-      system.sysBusinessSituationType,
-      system.sysBusinessDescription,
-      system.sysServiceSituationScope,
-      system.sysServiceSituationObject,
-      system.networkPlatformCoverageRange,
-      system.networkPlatformNetworkProperties,
-      system.interconnectionSituation,
+      system.sysBusSituationType,
+      system.sysBusDescription,
+      system.sysServiceSitScope,
+      system.sysServiceSitObject,
+      system.npCoverageRange,
+      system.npNetworkProperties,
+      system.interconnectionSit,
       systemKeyProducts.fkExaminStatus,
       systemKeyProducts.productsNumber,
       systemKeyProducts.fknationalIsProducts,
@@ -132,8 +132,8 @@
       system.whenInvestmentUse,
       system.executiveOfficeName,
       system.subIsSystem,
-      system.executiveDirectorContacts,
-      system.executiveDirectorContactsTel
+      system.executiveDireCon,
+      system.executiveDireConTel
     FROM
       t_cpro_system AS system
       LEFT JOIN t_cpro_system_key_products AS systemKeyProducts 
@@ -148,8 +148,8 @@
 		SELECT
 			pkId AS systemId,
 			systemName,
-			sysBusinessSituationType,
-			sysBusinessDescription,
+			sysBusSituationType,
+			sysBusDescription,
 			whenInvestmentUse
 		FROM t_cpro_system
 		<if test="systemName != null and systemName != ''">
@@ -213,22 +213,22 @@
 	
 	<insert id="insertSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemListResult">
   	INSERT INTO t_cpro_system
-			(pkId,interconnectionSituation,fkFatherSystemId,standardizedCode,createUserName,remark,
-			whenInvestmentUse,examineStatus,executiveOfficeName,examinationStatus,sysBusinessDescription,
-			subIsSystem,executiveDirectorContacts,fkChangeMatter,systemName,deleteStatus,fkSystemType,
-			appIsInternet,gradeRecordSysName,fkSystemIsMerge,changeReason,executiveDirectorContactsTel,
-			networkPlatformCoverageRange,updateTime,sysBusinessSituationType,
-			sysServiceSituationObject,sysServiceSituationScope,fkCompanyCode,
-			recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeConstruction,
-			networkPlatformNetworkProperties,evaluationStatus)values(
+			(pkId,interconnectionSit,fkFatherSystemId,standardizedCode,createUserName,remark,
+			whenInvestmentUse,examineStatus,executiveOfficeName,examinationStatus,sysBusDescription,
+			subIsSystem,executiveDireCon,fkChangeMatter,systemName,deleteStatus,fkSystemType,
+			appIsInternet,gradeRecordSysName,fkSystemIsMerge,changeReason,executiveDireConTel,
+			npCoverageRange,updateTime,sysBusSituationType,
+			sysServiceSitObject,sysServiceSitScope,fkCompanyCode,
+			recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeCon,
+			npNetworkProperties,evaluationStatus)values(
 	    <trim suffixOverrides="," >
         <![CDATA[
           #{systemId,jdbcType=VARCHAR},
         ]]>
         <choose>
-          <when test="interconnectionSituation != null ">
+          <when test="interconnectionSit != null ">
             <![CDATA[
-              #{interconnectionSituation,jdbcType=VARCHAR},
+              #{interconnectionSit,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -334,9 +334,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="sysBusinessDescription != null ">
+          <when test="sysBusDescription != null ">
             <![CDATA[
-              #{sysBusinessDescription,jdbcType=VARCHAR},
+              #{sysBusDescription,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -358,9 +358,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="executiveDirectorContacts != null ">
+          <when test="executiveDireCon != null ">
             <![CDATA[
-              #{executiveDirectorContacts,jdbcType=VARCHAR},
+              #{executiveDireCon,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -466,9 +466,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="executiveDirectorContactsTel != null ">
+          <when test="executiveDireConTel != null ">
             <![CDATA[
-              #{executiveDirectorContactsTel,jdbcType=VARCHAR},
+              #{executiveDireConTel,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -478,9 +478,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="networkPlatformCoverageRange != null ">
+          <when test="npCoverageRange != null ">
             <![CDATA[
-              #{networkPlatformCoverageRange,jdbcType=VARCHAR},
+              #{npCoverageRange,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -502,9 +502,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="sysBusinessSituationType != null ">
+          <when test="sysBusSituationType != null ">
             <![CDATA[
-              #{sysBusinessSituationType,jdbcType=VARCHAR},
+              #{sysBusSituationType,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -514,9 +514,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="sysServiceSituationObject != null ">
+          <when test="sysServiceSitObject != null ">
             <![CDATA[
-              #{sysServiceSituationObject,jdbcType=VARCHAR},
+              #{sysServiceSitObject,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -526,9 +526,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="sysServiceSituationScope != null ">
+          <when test="sysServiceSitScope != null ">
             <![CDATA[
-              #{sysServiceSituationScope,jdbcType=VARCHAR},
+              #{sysServiceSitScope,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -598,9 +598,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="fkInfoSysTypeConstruction != null ">
+          <when test="fkInfoSysTypeCon != null ">
             <![CDATA[
-              #{fkInfoSysTypeConstruction,jdbcType=VARCHAR},
+              #{fkInfoSysTypeCon,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -610,9 +610,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="networkPlatformNetworkProperties != null ">
+          <when test="npNetworkProperties != null ">
             <![CDATA[
-              #{networkPlatformNetworkProperties,jdbcType=VARCHAR},
+              #{npNetworkProperties,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -637,9 +637,9 @@
 	    )
 	  	 ON DUPLICATE KEY UPDATE
 	  	<trim suffixOverrides="," >
-        <if test="interconnectionSituation != null and interconnectionSituation !=''">
+        <if test="interconnectionSit != null and interconnectionSit !=''">
           <![CDATA[
-            interconnectionSituation = #{interconnectionSituation,jdbcType=VARCHAR},
+            interconnectionSit = #{interconnectionSit,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="fkFatherSystemId != null and fkFatherSystemId !=''">
@@ -682,9 +682,9 @@
             examinationStatus = #{examinationStatus,jdbcType=INTEGER},
           ]]>
         </if>
-        <if test="sysBusinessDescription != null and sysBusinessDescription !=''">
+        <if test="sysBusDescription != null and sysBusDescription !=''">
           <![CDATA[
-            sysBusinessDescription = #{sysBusinessDescription,jdbcType=VARCHAR},
+            sysBusDescription = #{sysBusDescription,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="subIsSystem != null and subIsSystem !=''">
@@ -692,9 +692,9 @@
             subIsSystem = #{subIsSystem,jdbcType=INTEGER},
           ]]>
         </if>
-        <if test="executiveDirectorContacts != null and executiveDirectorContacts !=''">
+        <if test="executiveDireCon != null and executiveDireCon !=''">
           <![CDATA[
-            executiveDirectorContacts = #{executiveDirectorContacts,jdbcType=VARCHAR},
+            executiveDireCon = #{executiveDireCon,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="fkChangeMatter != null and fkChangeMatter !=''">
@@ -737,14 +737,14 @@
             changeReason = #{changeReason,jdbcType=VARCHAR},
           ]]>
         </if>
-        <if test="executiveDirectorContactsTel != null and executiveDirectorContactsTel !=''">
+        <if test="executiveDireConTel != null and executiveDireConTel !=''">
           <![CDATA[
-            executiveDirectorContactsTel = #{executiveDirectorContactsTel,jdbcType=VARCHAR},
+            executiveDireConTel = #{executiveDireConTel,jdbcType=VARCHAR},
           ]]>
         </if>
-        <if test="networkPlatformCoverageRange != null and networkPlatformCoverageRange !=''">
+        <if test="npCoverageRange != null and npCoverageRange !=''">
           <![CDATA[
-            networkPlatformCoverageRange = #{networkPlatformCoverageRange,jdbcType=VARCHAR},
+            npCoverageRange = #{npCoverageRange,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="updateTime != null">
@@ -752,19 +752,19 @@
             updateTime = #{updateTime,jdbcType=DATE},
           ]]>
         </if>
-        <if test="sysBusinessSituationType != null and sysBusinessSituationType !=''">
+        <if test="sysBusSituationType != null and sysBusSituationType !=''">
           <![CDATA[
-            sysBusinessSituationType = #{sysBusinessSituationType,jdbcType=VARCHAR},
+            sysBusSituationType = #{sysBusSituationType,jdbcType=VARCHAR},
           ]]>
         </if>
-        <if test="sysServiceSituationObject != null and sysServiceSituationObject !=''">
+        <if test="sysServiceSitObject != null and sysServiceSitObject !=''">
           <![CDATA[
-            sysServiceSituationObject = #{sysServiceSituationObject,jdbcType=VARCHAR},
+            sysServiceSitObject = #{sysServiceSitObject,jdbcType=VARCHAR},
           ]]>
         </if>
-        <if test="sysServiceSituationScope != null and sysServiceSituationScope !=''">
+        <if test="sysServiceSitScope != null and sysServiceSitScope !=''">
           <![CDATA[
-            sysServiceSituationScope = #{sysServiceSituationScope,jdbcType=VARCHAR},
+            sysServiceSitScope = #{sysServiceSitScope,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="fkCompanyCode != null and fkCompanyCode !=''">
@@ -792,14 +792,14 @@
             createTime = #{createTime,jdbcType=TIMESTAMP},
           ]]>
         </if>
-        <if test="fkInfoSysTypeConstruction != null and fkInfoSysTypeConstruction !=''">
+        <if test="fkInfoSysTypeCon != null and fkInfoSysTypeCon !=''">
           <![CDATA[
-            fkInfoSysTypeConstruction = #{fkInfoSysTypeConstruction,jdbcType=VARCHAR},
+            fkInfoSysTypeCon = #{fkInfoSysTypeCon,jdbcType=VARCHAR},
           ]]>
         </if>
-        <if test="networkPlatformNetworkProperties != null and networkPlatformNetworkProperties !=''">
+        <if test="npNetworkProperties != null and npNetworkProperties !=''">
           <![CDATA[
-            networkPlatformNetworkProperties = #{networkPlatformNetworkProperties,jdbcType=VARCHAR},
+            npNetworkProperties = #{npNetworkProperties,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="evaluationStatus != null and evaluationStatus !=''">

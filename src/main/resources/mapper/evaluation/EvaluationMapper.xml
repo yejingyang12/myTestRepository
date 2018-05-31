@@ -10,9 +10,9 @@
     <result property="examOrg" column="examOrg" />
     <result property="examReport" column="examReport" />
     <result property="examReportName" column="examReportName" />
-    <result property="fkexamStatus" column="fkexamStatus" />
-    <result property="fkexamResult" column="fkexamResult" />
-    <result property="fkrectificationReutle" column="fkrectificationReutle" />
+    <result property="fkExamStatus" column="fkExamStatus" />
+    <result property="fkExamResult" column="fkExamResult" />
+    <result property="fkRectificationReutle" column="fkRectificationReutle" />
     <result property="rectificationDate" column="rectificationDate" />
     <result property="rectificationReport" column="rectificationReport" />
     <result property="rectificationReportName" column="rectificationReportName" />
@@ -28,9 +28,9 @@
         cproEvaluation.examOrg AS examOrg,
         cproAttach.attachPath AS examReport,
         cproAttach.attachName AS examReportName,
-        cproEvaluation.fkexamStatus AS fkexamStatus,
-        cproEvaluation.fkexamResult AS fkexamResult,
-        cproEvaluation.fkrectificationReutle AS fkrectificationReutle,
+        cproEvaluation.fkExamStatus AS fkExamStatus,
+        cproEvaluation.fkExamResult AS fkExamResult,
+        cproEvaluation.fkRectificationReutle AS fkRectificationReutle,
         rectificationDate AS rectificationDate,
         cproAttachRectification.attachPath AS rectificationReport,
         cproAttachRectification.attachName AS rectificationReportName
@@ -62,9 +62,9 @@
     <result property="examOrg" column="examOrg" />
     <result property="examReport" column="examReport" />
     <result property="examReportName" column="examReportName" />
-    <result property="fkexamStatus" column="fkexamStatus" />
-    <result property="fkexamResult" column="fkexamResult" />
-    <result property="fkrectificationReutle" column="fkrectificationReutle" />
+    <result property="fkExamStatus" column="fkExamStatus" />
+    <result property="fkExamResult" column="fkExamResult" />
+    <result property="fkRectificationReutle" column="fkRectificationReutle" />
     <result property="rectificationDate" column="rectificationDate" />
     <result property="rectificationReport" column="rectificationReport" />
     <result property="rectificationReportName" column="rectificationReportName" />
@@ -79,9 +79,9 @@
         cproEvaluation.examOrg AS examOrg,
         cproAttach.attachPath AS examReport,
         cproAttach.attachName AS examReportName,
-        cproEvaluation.fkexamStatus AS fkexamStatus,
-        cproEvaluation.fkexamResult AS fkexamResult,
-        cproEvaluation.fkrectificationReutle AS fkrectificationReutle,
+        cproEvaluation.fkExamStatus AS fkExamStatus,
+        cproEvaluation.fkExamResult AS fkExamResult,
+        cproEvaluation.fkRectificationReutle AS fkRectificationReutle,
         rectificationDate AS rectificationDate,
         cproAttachRectification.attachPath AS rectificationReport,
         cproAttachRectification.attachName AS rectificationReportName
@@ -111,9 +111,9 @@
         examTime,
         examYear,
         examOrg,
-        fkexamStatus,
-        fkexamResult,
-        fkrectificationReutle,
+        fkExamStatus,
+        fkExamResult,
+        fkRectificationReutle,
         rectificationDate,
         createTime,
         createUserName,
@@ -140,13 +140,13 @@
         #{examOrg},
       ]]>
       <![CDATA[
-        #{fkexamStatus},
+        #{fkExamStatus},
       ]]>
       <![CDATA[
-        #{fkexamResult},
+        #{fkExamResult},
       ]]>
       <![CDATA[
-        #{fkrectificationReutle},
+        #{fkRectificationReutle},
       ]]>
       <![CDATA[
 	       #{rectificationDate},
@@ -185,8 +185,8 @@
       examTime=#{examTime},
       examYear=#{examYear},
       examOrg=#{examOrg},
-      fkexamStatus=#{fkexamStatus},
-      fkrectificationReutle=#{fkrectificationReutle},
+      fkExamStatus=#{fkExamStatus},
+      fkRectificationReutle=#{fkRectificationReutle},
       rectificationDate=#{rectificationDate}
     ]]>
   </insert>
@@ -217,9 +217,9 @@
         cproEvaluation.examOrg AS examOrg,
         cproAttach.attachPath AS examReport,
         cproAttach.attachName AS examReportName,
-        cproEvaluation.fkexamStatus AS fkexamStatus,
-        cproEvaluation.fkexamResult AS fkexamResult,
-        cproEvaluation.fkrectificationReutle AS fkrectificationReutle,
+        cproEvaluation.fkExamStatus AS fkExamStatus,
+        cproEvaluation.fkExamResult AS fkExamResult,
+        cproEvaluation.fkRectificationReutle AS fkRectificationReutle,
         rectificationDate AS rectificationDate,
         cproAttachRectification.attachPath AS rectificationReport,
         cproAttachRectification.attachName AS rectificationReportName

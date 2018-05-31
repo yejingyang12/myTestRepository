@@ -11,6 +11,7 @@ package com.sinopec.smcc.cpro.company.server;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 
@@ -60,7 +61,7 @@ public interface CompanyService {
    * @date 2018年5月27日下午12:05:26
    * @param companyParam
    */
-  CompanyListResult queryDetailsCompany(CompanyParam companyParam);
+  CompanyResult queryDetailsCompany(CompanyParam companyParam);
 
   /**
    * @Descrption 跳转至修改单位信息，查询单位信息
@@ -69,6 +70,6 @@ public interface CompanyService {
    * @param companyParam
    * @return
    */
-  CompanyListResult queryCompanyForUpdate(CompanyParam companyParam);
+  CompanyResult queryEditCompany(CompanyParam companyParam);
 
 }

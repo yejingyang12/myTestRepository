@@ -15,6 +15,7 @@ import com.sinopec.smcc.cpro.system.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
 
 /**
  * @Title SystemMapper.java
@@ -33,16 +34,16 @@ public interface SystemMapper {
    * @param systemParam
    * @return
    */
-   List<SystemListResult> selectAllBySystemParam(SystemParam systemParam);
-
+  List<SystemListResult> selectAllBySystemParam(SystemParam systemParam);
+  
   /**
    * @Descrption
    * @author hanxin
    * @date 2018年5月25日下午6:52:45
    * @param systemListResult
    */
-   void insertSystem(SystemParam systemParam);
-
+  void insertSystem(SystemParam systemParam);
+  
   /**
    * @Descrption
    * @author dongxu
@@ -51,7 +52,7 @@ public interface SystemMapper {
    * @return
    */
   List<SystemCodeListResult> selectSystemCodeListByParam(SystemCodeParam systemCodeParam);
-
+  
   /**
    * @Descrption
    * @author hanxin
@@ -59,8 +60,8 @@ public interface SystemMapper {
    * @param systemParam
    * @return
    */
-  SystemListResult selectDetailsSystem(SystemParam systemParam);
-
+  SystemResult selectDetailsSystem(SystemParam systemParam);
+  
   /**
    * @Descrption
    * @author hanxin
@@ -68,15 +69,24 @@ public interface SystemMapper {
    * @param systemParam
    * @return
    */
-  SystemListResult selectEditSystem(SystemParam systemParam);
-
+  SystemResult selectEditSystem(SystemParam systemParam);
+  
   /**
    * @Descrption
    * @author zhouyu
    * @date 2018年5月28日下午4:47:58
    */
-  public void updateKeySystem(SystemParam systemParam);
-
+  void updateKeySystem(SystemParam systemParam);
+  
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年5月30日下午6:21:26
+   * @param standardizedCode
+   * @return
+   */
+  String selectSystemByStandardizedCode(String standardizedCode);
+  
   /**
    * @Descrption
    * @author dongxu

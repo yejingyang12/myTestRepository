@@ -22,6 +22,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.system.entity.SystemCodeListResult;
@@ -29,6 +30,7 @@ import com.sinopec.smcc.cpro.system.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 import com.sinopec.smcc.cpro.system.mapper.SystemKeyProductsMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
@@ -59,9 +61,9 @@ public class SystemServiceImpl implements SystemService {
    */
   @Override
 	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
-	public PageInfo<SystemListResult> querySystemList(SystemParam systemParam) {
+  public PageInfo<SystemListResult> querySystemList(SystemParam systemParam) {
 	//创建排序字段
-		StringBuffer orderBy = new StringBuffer();
+    StringBuffer orderBy = new StringBuffer();
 		//判断field是否有值
 		if(StringUtils.isNotBlank(systemParam.getField())){
 			//如有值，则将排序字段放入orderBy对象
@@ -77,9 +79,10 @@ public class SystemServiceImpl implements SystemService {
 		PageHelper.startPage(systemParam.getCurrentPage(), systemParam.getPageSize(),
 		    orderBy.toString());
 		//获得相应列表数据
-		List<SystemListResult> list = this.systemMapper.selectAllBySystemParam(systemParam);
+		List<SystemListResult> systemListResultlist = 
+		    this.systemMapper.selectAllBySystemParam(systemParam);
 		//装载列表数据
-		PageInfo<SystemListResult> pageInfo = new PageInfo<>(list);
+		PageInfo<SystemListResult> pageInfo = new PageInfo<>(systemListResultlist);
 		return pageInfo;
 	}
 
@@ -91,7 +94,11 @@ public class SystemServiceImpl implements SystemService {
   @Transactional
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public String saveSystem(SystemParam systemParam) throws BusinessException {
-    
+    String standardizedCode = systemMapper.
+        selectSystemByStandardizedCode(systemParam.getStandardizedCode());
+    //判断标准化代码是否被创建，如果已创建则抛出异常不进行添加或修改
+    if(StringUtils.isNotBlank(standardizedCode))
+      throw new BusinessException(EnumResult.LINKEDID_ERROR);
     if(StringUtils.isBlank(systemParam.getSystemId())) {
       systemParam.setSystemId(Utils.getUuidFor32());
       systemParam.setExamineStatus(1);
@@ -103,7 +110,7 @@ public class SystemServiceImpl implements SystemService {
       systemParam.setGradingStatus(1);
       systemParam.setFkChangeMatter(5);
       systemParam.setAppIsInternet(2);
-      systemParam.setFkInfoSysTypeConstruction(1);
+      systemParam.setFkInfoSysTypeCon(1);
       systemParam.setCreateTime(new Date());
       systemParam.setWhenInvestmentUse(new Date());
       systemParam.setEvaluationStatus(1);
@@ -141,7 +148,8 @@ public class SystemServiceImpl implements SystemService {
 	 */
 	@Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system_code")
-  public List<SystemCodeListResult> querySystemCodeList(SystemCodeParam systemCodeParam) throws BusinessException {
+  public List<SystemCodeListResult> querySystemCodeList(SystemCodeParam systemCodeParam) 
+      throws BusinessException {
 	  List<SystemCodeListResult> systemCodeListResult = 
 	      this.systemMapper.selectSystemCodeListByParam(systemCodeParam);
     return systemCodeListResult;
@@ -149,20 +157,28 @@ public class SystemServiceImpl implements SystemService {
 
 	/**
 	 * 查询系统信息详情
+	 * @throws BusinessException 
 	 */
 	@Override
 	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
-	public SystemListResult queryDetailsSystem(SystemParam systemParam) {
-		return this.systemMapper.selectDetailsSystem(systemParam);
+	public SystemResult queryDetailsSystem(SystemParam systemParam) throws BusinessException {
+	  if(StringUtils.isBlank(systemParam.getSystemId())) {
+	    return this.systemMapper.selectDetailsSystem(systemParam);
+	  }
+    throw new BusinessException(EnumResult.ERROR);
 	}
 	
 	/**
 	 * 修改系统信息查询详情
+	 * @throws BusinessException 
 	 */
 	@Override
 	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
-	public SystemListResult queryEditSystem(SystemParam systemParam) {
-		return this.systemMapper.selectEditSystem(systemParam);
+  public SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException {
+	  if(StringUtils.isBlank(systemParam.getSystemId())) {
+	    return this.systemMapper.selectEditSystem(systemParam);
+	  }
+	  throw new BusinessException(EnumResult.ERROR);
 	}
 	
 	/**

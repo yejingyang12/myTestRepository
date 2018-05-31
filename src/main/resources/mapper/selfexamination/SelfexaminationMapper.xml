@@ -4,10 +4,10 @@
 	<resultMap type="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult" id="SelfexaminationListResult">
 		<id column="pkId" property="selfexaminationId" />
 		<result column="fkSystemId" property="fkSystemId" />
-		<result column="inspectionStatus" property="inspectionStatus" />
-		<result column="inspectionReutle" property="inspectionReutle" />
+		<result column="fkInspectionStatus" property="fkInspectionStatus" />
+		<result column="fkInspectionReu" property="fkInspectionReu" />
 		
-		<result column="rectificationReutle" property="rectificationReutle" />
+		<result column="fkRectificationReu" property="fkRectificationReu" />
 		<result column="inspectionDate" property="inspectionDate" />
 		<result column="rectificationDate" property="rectificationDate" />
 		<result column="deleteStatus" property="deleteStatus" />
@@ -24,8 +24,8 @@
 	</resultMap>
 	<select id="selectAllBySelfexaminationParam" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationListResult">
 		SELECT 
-			self.pkId,self.fkSystemId,self.inspectionStatus,self.inspectionReutle,
-			self.rectificationReutle,self.inspectionDate,self.rectificationDate,self.deleteStatus,
+			self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
+			self.fkRectificationReu,self.inspectionDate,self.rectificationDate,self.deleteStatus,
 			self.createUserName,self.createTime,self.updateTime,self.remark,
 			review.attachName as reviewReportName,review.attachPath as reviewReportPath,
 			rectification.attachName as rectificationReportName,rectification.attachPath as rectificationReportPath
@@ -42,8 +42,8 @@
 	
 	<insert id="insertOrUpdateSelfexamination" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
 		INSERT into t_cpro_self_inspection(
-			pkId,fkSystemId,inspectionStatus,inspectionReutle,
-			rectificationReutle,inspectionDate,rectificationDate,deleteStatus,
+			pkId,fkSystemId,fkInspectionStatus,fkInspectionReu,
+			fkRectificationReu,inspectionDate,rectificationDate,deleteStatus,
 			createUserName,createTime,updateTime,remark
 		) values(
 			<trim suffixOverrides="," >
@@ -57,24 +57,24 @@
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="inspectionStatus != null and inspectionStatus != ''">
-						#{inspectionStatus},
+					<when test="fkInspectionStatus != null and fkInspectionStatus != ''">
+						#{fkInspectionStatus},
 					</when>
 					<otherwise>
 						DEFAULT,
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="inspectionReutle != null and inspectionReutle != ''">
-						#{inspectionStatus},
+					<when test="fkInspectionReu != null and fkInspectionReu != ''">
+						#{fkInspectionReu},
 					</when>
 					<otherwise>
 						DEFAULT,
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="rectificationReutle != null and rectificationReutle != ''">
-						#{rectificationReutle},
+					<when test="fkRectificationReu != null and fkRectificationReu != ''">
+						#{fkRectificationReu},
 					</when>
 					<otherwise>
 						DEFAULT,
@@ -138,9 +138,9 @@
 				</choose>
 			</trim>
 		) ON DUPLICATE KEY UPDATE
-			inspectionStatus = #{inspectionStatus},
-			inspectionReutle = #{inspectionReutle},
-			rectificationReutle = #{rectificationReutle},
+			fkInspectionStatus = #{fkInspectionStatus},
+			fkInspectionReu = #{fkInspectionReu},
+			fkRectificationReu = #{fkRectificationReu},
 			inspectionDate = #{inspectionDate},
 			rectificationDate = #{rectificationDate}
 	</insert>

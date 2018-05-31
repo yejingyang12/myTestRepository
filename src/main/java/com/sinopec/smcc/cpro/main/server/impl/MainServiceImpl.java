@@ -66,7 +66,7 @@ public class MainServiceImpl implements MainService{
     PageHelper.startPage(mainParam.getCurrentPage(), mainParam.getPageSize(), 
         orderBy.toString());
     //获得相应列表数据
-    List<MainListResult> list = mainMapper.selectAllByMainParam(mainParam);
+    List<MainListResult> list = this.mainMapper.selectAllByMainParam(mainParam);
 
     //装载列表数据
     PageInfo<MainListResult> pageInfo = new PageInfo<>(list);
@@ -83,7 +83,7 @@ public class MainServiceImpl implements MainService{
     if(StringUtils.isBlank(mainParam.getSystemId())){
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
-    mainMapper.updateMainDeleteStatusBySystemId(mainParam);
+    this.mainMapper.updateMainDeleteStatusBySystemId(mainParam);
   }
 
 }

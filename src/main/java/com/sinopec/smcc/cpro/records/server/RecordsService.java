@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.records.server;
 
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 
@@ -39,7 +40,7 @@ public interface RecordsService {
    * @param recordsParam
    * @return
    */
-  RecordsListResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException;
+  RecordsResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException;
 
   /**
    * @Descrption 撤销备案

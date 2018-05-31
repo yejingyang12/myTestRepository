@@ -32,9 +32,9 @@ public class SystemKeyProducts {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Integer deleteStatus;
   private String productsNumber;
-  private int nationalUseProbability;
+  private Integer nUseProbability;
   private String otherName;
-  private String fknationalIsProducts;
+  private String fkNationalIsProducts;
 	private String fkSystemId;
   private SystemKeyProducts cproSystemKeyProducts; 
   
@@ -43,6 +43,21 @@ public class SystemKeyProducts {
   private String field; //接收字段
   private String sort;//排序
   
+  
+  /**
+   * @return the nUseProbability
+   */
+  public int getnUseProbability() {
+    return nUseProbability;
+  }
+
+  /**
+   * @param nUseProbability the nUseProbability to set
+   */
+  public void setnUseProbability(int nUseProbability) {
+    this.nUseProbability = nUseProbability;
+  }
+
   /**
 	 * @return the pageSize
 	 */
@@ -161,20 +176,6 @@ public class SystemKeyProducts {
 	}
 
 	/**
-	 * @return the nationalUseProbability
-	 */
-	public int getNationalUseProbability() {
-		return nationalUseProbability;
-	}
-
-	/**
-	 * @param nationalUseProbability the nationalUseProbability to set
-	 */
-	public void setNationalUseProbability(int nationalUseProbability) {
-		this.nationalUseProbability = nationalUseProbability;
-	}
-
-	/**
 	 * @return the otherName
 	 */
 	public String getOtherName() {
@@ -233,15 +234,15 @@ public class SystemKeyProducts {
 	/**
 	 * @return the fknationalIsProducts
 	 */
-	public String getFknationalIsProducts() {
-		return fknationalIsProducts;
+	public String getFkNationalIsProducts() {
+		return fkNationalIsProducts;
 	}
 
 	/**
 	 * @param fknationalIsProducts the fknationalIsProducts to set
 	 */
-	public void setFknationalIsProducts(String fknationalIsProducts) {
-		this.fknationalIsProducts = fknationalIsProducts;
+	public void setFkNationalIsProducts(String fkNationalIsProducts) {
+		this.fkNationalIsProducts = fkNationalIsProducts;
 	}
 	
 	public String toString(){

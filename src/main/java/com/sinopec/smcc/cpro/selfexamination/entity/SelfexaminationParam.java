@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * @Title SelfexaminationParam.java
  * @Package com.sinopec.smcc.cpro.selfexamination.entity
@@ -24,13 +26,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class SelfexaminationParam {
   private String selfexaminationId;
   private String fkSystemId;
-  private int inspectionStatus;
+  private int fkInspectionStatus;
   private int inspectionStatusBegin;
   private int inspectionStatusEnd;
-  private int inspectionReutle;
+  private int fkInspectionReu;
   private int inspectionReutleBegin;
   private int inspectionReutleEnd;
-  private int rectificationReutle;
+  private int fkRectificationReu;
   private int rectificationReutleBegin;
   private int rectificationReutleEnd;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -75,6 +77,43 @@ public class SelfexaminationParam {
   private String field;
   private String sort;
   
+  
+  /**
+   * @return the fkInspectionStatus
+   */
+  public int getFkInspectionStatus() {
+    return fkInspectionStatus;
+  }
+  /**
+   * @param fkInspectionStatus the fkInspectionStatus to set
+   */
+  public void setFkInspectionStatus(int fkInspectionStatus) {
+    this.fkInspectionStatus = fkInspectionStatus;
+  }
+  /**
+   * @return the fkInspectionReu
+   */
+  public int getFkInspectionReu() {
+    return fkInspectionReu;
+  }
+  /**
+   * @param fkInspectionReu the fkInspectionReu to set
+   */
+  public void setFkInspectionReu(int fkInspectionReu) {
+    this.fkInspectionReu = fkInspectionReu;
+  }
+  /**
+   * @return the fkRectificationReu
+   */
+  public int getFkRectificationReu() {
+    return fkRectificationReu;
+  }
+  /**
+   * @param fkRectificationReu the fkRectificationReu to set
+   */
+  public void setFkRectificationReu(int fkRectificationReu) {
+    this.fkRectificationReu = fkRectificationReu;
+  }
   public String getSelfexaminationId() {
     return selfexaminationId;
   }
@@ -87,13 +126,6 @@ public class SelfexaminationParam {
   }
   public void setFkSystemId(String fkSystemId) {
     this.fkSystemId = fkSystemId;
-  }
-
-  public int getInspectionStatus() {
-    return inspectionStatus;
-  }
-  public void setInspectionStatus(int inspectionStatus) {
-    this.inspectionStatus = inspectionStatus;
   }
 
   public int getInspectionStatusBegin() {
@@ -110,13 +142,6 @@ public class SelfexaminationParam {
     this.inspectionStatusEnd = inspectionStatusEnd;
   }
 
-  public int getInspectionReutle() {
-    return inspectionReutle;
-  }
-  public void setInspectionReutle(int inspectionReutle) {
-    this.inspectionReutle = inspectionReutle;
-  }
-
   public int getInspectionReutleBegin() {
     return inspectionReutleBegin;
   }
@@ -129,13 +154,6 @@ public class SelfexaminationParam {
   }
   public void setInspectionReutleEnd(int inspectionReutleEnd) {
     this.inspectionReutleEnd = inspectionReutleEnd;
-  }
-
-  public int getRectificationReutle() {
-    return rectificationReutle;
-  }
-  public void setRectificationReutle(int rectificationReutle) {
-    this.rectificationReutle = rectificationReutle;
   }
 
   public int getRectificationReutleBegin() {
@@ -328,46 +346,6 @@ public class SelfexaminationParam {
   }
 
   public String toString() {
-    return "{"
-        + "\"selfexaminationId\":\""+selfexaminationId+"\","
-        + "\"fkSystemId\":\""+fkSystemId+"\","
-        + "\"inspectionStatus\":\""+inspectionStatus+"\""
-        + "\"inspectionStatusBegin\":\""+inspectionStatusBegin+"\""
-        + "\"inspectionStatusEnd\":\""+inspectionStatusEnd+"\""
-        + "\"inspectionReutle\":\""+inspectionReutle+"\""
-        + "\"inspectionReutleBegin\":\""+inspectionReutleBegin+"\""
-        + "\"inspectionReutleEnd\":\""+inspectionReutleEnd+"\""
-        + "\"rectificationReutle\":\""+rectificationReutle+"\""
-        + "\"rectificationReutleBegin\":\""+rectificationReutleBegin+"\""
-        + "\"rectificationReutleEnd\":\""+rectificationReutleEnd+"\""
-        + "\"inspectionDate\":\""+inspectionDate+"\""
-        + "\"inspectionDateBegin\":\""+inspectionDateBegin+"\""
-        + "\"inspectionDateEnd\":\""+inspectionDateEnd+"\""
-        + "\"rectificationDate\":\""+rectificationDate+"\""
-        + "\"rectificationDateBegin\":\""+rectificationDateBegin+"\""
-        + "\"rectificationDateEnd\":\""+rectificationDateEnd+"\""
-        + "\"deleteStatus\":\""+deleteStatus+"\""
-        + "\"deleteStatusBegin\":\""+deleteStatusBegin+"\""
-        + "\"deleteStatusEnd\":\""+deleteStatusEnd+"\""
-        + "\"createUserName\":\""+createUserName+"\""
-        + "\"createTime\":\""+createTime+"\""
-        + "\"createTimeBegin\":\""+createTimeBegin+"\""
-        + "\"createTimeEnd\":\""+createTimeEnd+"\""
-        + "\"updateTime\":\""+updateTime+"\""
-        + "\"updateTimeBegin\":\""+updateTimeBegin+"\""
-        + "\"updateTimeEnd\":\""+updateTimeEnd+"\""
-        + "\"remark\":\""+remark+"\""
-        
-        + "\"reviewReportName\":\""+reviewReportName+"\""
-        + "\"reviewReportPath\":\""+reviewReportPath+"\""
-        + "\"rectificationReportName\":\""+rectificationReportName+"\""
-        + "\"rectificationReportPath\":\""+rectificationReportPath+"\""
-        
-        + "\"pageSize\":\""+pageSize+"\","
-        + "\"currentPage\":\""+currentPage+"\","
-        + "\"field\":\""+field+"\","
-        + "\"sort\":\""+sort+"\""
-      + "}";
+    return JSON.toJSONString(this);
   }
-  
 }

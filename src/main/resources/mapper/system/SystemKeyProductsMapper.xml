@@ -7,16 +7,16 @@
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
     <result column="productsNumber" property="productsNumber" jdbcType="VARCHAR" />
-    <result column="nationalUseProbability" property="nationalUseProbability" jdbcType="INTEGER" />
+    <result column="nUseProbability" property="nUseProbability" jdbcType="INTEGER" />
     <result column="otherName" property="otherName" jdbcType="VARCHAR" />
-    <result column="fknationalIsProducts" property="fknationalIsProducts" jdbcType="VARCHAR" />
+    <result column="fkNationalIsProducts" property="fkNationalIsProducts" jdbcType="VARCHAR" />
     <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insertSystemKeyProductsBySystemKeyProductsId" parameterType="java.util.List">
   INSERT INTO t_cpro_system_key_products
   (
-  	pkId,fkExaminStatus,createTime,deleteStatus,productsNumber,nationalUseProbability,otherName,
-  	fknationalIsProducts,fkSystemId
+  	pkId,fkExaminStatus,createTime,deleteStatus,productsNumber,nUseProbability,otherName,
+  	fkNationalIsProducts,fkSystemId
   	) VALUES(
   	<foreach collection="list" item="item" index="index" separator=",">
 	  	<trim suffixOverrides="," >
@@ -54,9 +54,9 @@
 			    </otherwise>
 			  </choose>
 			  <choose>
-			    <when test="item.nationalUseProbability != null ">
+			    <when test="item.nUseProbability != null ">
 			      <![CDATA[
-			        #{item.nationalUseProbability,jdbcType=INTEGER},
+			        #{item.nUseProbability,jdbcType=INTEGER},
 			      ]]>
 			    </when>
 			    <otherwise>
@@ -78,9 +78,9 @@
 			    </otherwise>
 			  </choose>
 			  <choose>
-			    <when test="item.fknationalIsProducts != null ">
+			    <when test="item.fkNationalIsProducts != null ">
 			      <![CDATA[
-			        #{item.fknationalIsProducts,jdbcType=VARCHAR},
+			        #{item.fkNationalIsProducts,jdbcType=VARCHAR},
 			      ]]>
 			    </when>
 			    <otherwise>
@@ -117,14 +117,14 @@
         	<if test="item.productsNumber != null and item.productsNumber != ''">
         		productsNumber = #{item.productsNumber},
         	</if>
-        	<if test="item.nationalUseProbability != null and item.nationalUseProbability != ''">
-        		nationalUseProbability = #{item.nationalUseProbability},
+        	<if test="item.nUseProbability != null and item.nUseProbability != ''">
+        		nUseProbability = #{item.nUseProbability},
         	</if>
         	<if test="item.otherName != null and item.otherName != ''">
         		otherName = #{item.otherName},
         	</if>
-        	<if test="item.fknationalIsProducts != null and item.fknationalIsProducts != ''">
-        		fknationalIsProducts = #{item.fknationalIsProducts},
+        	<if test="item.fkNationalIsProducts != null and item.fkNationalIsProducts != ''">
+        		fkNationalIsProducts = #{item.fkNationalIsProducts},
         	</if>
         	<if test="item.fkSystemId != null and item.fkSystemId != ''">
         		fkSystemId = #{item.fkSystemId},

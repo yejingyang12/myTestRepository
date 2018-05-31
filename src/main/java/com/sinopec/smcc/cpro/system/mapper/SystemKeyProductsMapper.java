@@ -22,12 +22,12 @@ import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
  * @version V1.0
  */
 public interface SystemKeyProductsMapper {
-	/**
-	 * 
-	 * @Descrption
-	 * @author hanxin
-	 * @date 2018年5月27日下午5:13:12
-	 * @param list
-	 */
-	 void insertSystemKeyProductsBySystemKeyProductsId(List<SystemKeyProducts> list);
+  /**
+   * 
+   * @Descrption
+   * @author hanxin
+   * @date 2018年5月27日下午5:13:12
+   * @param list
+   */
+  void insertSystemKeyProductsBySystemKeyProductsId(List<SystemKeyProducts> list);
 }

@@ -124,7 +124,7 @@ public class CheckController {
   @RequestMapping(value = "/querycheckNodeList", method = RequestMethod.GET)
   public ResultApi querycheckNodeList(HttpRequest request,
       CheckNodeParam checkNodeParam) throws BusinessException {
-    // 调用service实体获得方法，CheckListResult填写返回的参数
+    // 调用service实体获得方法，CheckNodeListResult填写返回的参数
     PageInfo<CheckNodeListResult> pageInfo = this.checkServiceImpl
         .queryCheckNodeList(checkNodeParam);
     // 通过resultApi实体组成返回参数
@@ -154,8 +154,9 @@ public class CheckController {
    */
   @ResponseBody
   @RequestMapping(value = "/queryNodeAllList", method = RequestMethod.GET)
-  public ResultApi queryNodeAllList(HttpRequest request, CheckNodeParam checkNodeParam) throws BusinessException {
-    // 调用service实体获得方法，CheckListResult填写返回的参数
+  public ResultApi queryNodeAllList(HttpRequest request,
+      CheckNodeParam checkNodeParam) throws BusinessException {
+    // 调用service实体获得方法，CheckNodeAllList填写返回的参数
     PageInfo<CheckNodeListResult> pageInfo = this.checkServiceImpl
         .queryNodeAllList(checkNodeParam);
     // 通过resultApi实体组成返回参数

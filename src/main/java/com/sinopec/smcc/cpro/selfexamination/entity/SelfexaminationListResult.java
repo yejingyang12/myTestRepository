@@ -24,9 +24,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class SelfexaminationListResult {
   private String selfexaminationId;
   private String fkSystemId;
-  private int inspectionStatus;
-  private int inspectionReutle;
-  private int rectificationReutle;
+  private int fkInspectionStatus;
+  private int fkInspectionReu;
+  private int fkRectificationReu;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date inspectionDate;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -44,6 +44,43 @@ public class SelfexaminationListResult {
   private String rectificationReportName;
   private String rectificationReportPath;
   
+  
+  /**
+   * @return the fkInspectionStatus
+   */
+  public int getFkInspectionStatus() {
+    return fkInspectionStatus;
+  }
+  /**
+   * @param fkInspectionStatus the fkInspectionStatus to set
+   */
+  public void setFkInspectionStatus(int fkInspectionStatus) {
+    this.fkInspectionStatus = fkInspectionStatus;
+  }
+  /**
+   * @return the fkInspectionReutle
+   */
+  public int getFkInspectionReu() {
+    return fkInspectionReu;
+  }
+  /**
+   * @param fkInspectionReutle the fkInspectionReutle to set
+   */
+  public void setFkInspectionReu(int fkInspectionReu) {
+    this.fkInspectionReu = fkInspectionReu;
+  }
+  /**
+   * @return the fkRectificationReutle
+   */
+  public int getFkRectificationReu() {
+    return fkRectificationReu;
+  }
+  /**
+   * @param fkRectificationReutle the fkRectificationReutle to set
+   */
+  public void setFkRectificationReutle(int fkRectificationReu) {
+    this.fkRectificationReu = fkRectificationReu;
+  }
   public String getSelfexaminationId() {
     return selfexaminationId;
   }
@@ -56,27 +93,6 @@ public class SelfexaminationListResult {
   }
   public void setFkSystemId(String fkSystemId) {
     this.fkSystemId = fkSystemId;
-  }
-  
-  public int getInspectionStatus() {
-    return inspectionStatus;
-  }
-  public void setInspectionStatus(int inspectionStatus) {
-    this.inspectionStatus = inspectionStatus;
-  }
-  
-  public int getInspectionReutle() {
-    return inspectionReutle;
-  }
-  public void setInspectionReutle(int inspectionReutle) {
-    this.inspectionReutle = inspectionReutle;
-  }
-  
-  public int getRectificationReutle() {
-    return rectificationReutle;
-  }
-  public void setRectificationReutle(int rectificationReutle) {
-    this.rectificationReutle = rectificationReutle;
   }
 
   public Date getInspectionDate() {
@@ -154,28 +170,6 @@ public class SelfexaminationListResult {
   }
   public void setRectificationReportPath(String rectificationReportPath) {
     this.rectificationReportPath = rectificationReportPath;
-  }
-  @Override
-  public String toString() {
-    return "{"
-        + "\"selfexaminationId\":\""+selfexaminationId+"\","
-        + "\"fkSystemId\":\""+fkSystemId+"\","
-        + "\"inspectionStatus\":\""+inspectionStatus+"\""
-        + "\"inspectionReutle\":\""+inspectionReutle+"\""
-        + "\"rectificationReutle\":\""+rectificationReutle+"\""
-        + "\"inspectionDate\":\""+inspectionDate+"\""
-        + "\"rectificationDate\":\""+rectificationDate+"\""
-        + "\"deleteStatus\":\""+deleteStatus+"\""
-        + "\"createUserName\":\""+createUserName+"\""
-        + "\"createTime\":\""+createTime+"\""
-        + "\"updateTime\":\""+updateTime+"\""
-        + "\"remark\":\""+remark+"\""
-        
-        + "\"reviewReportName\":\""+reviewReportName+"\""
-        + "\"reviewReportPath\":\""+reviewReportPath+"\""
-        + "\"rectificationReportName\":\""+rectificationReportName+"\""
-        + "\"rectificationReportPath\":\""+rectificationReportPath+"\""
-      + "}";
   }
   
 }

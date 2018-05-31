@@ -27,7 +27,7 @@ import com.alibaba.fastjson.JSON;
 public class SystemParam {
 	
 	private String systemId;
-  private String interconnectionSituation;
+  private String interconnectionSit;
   private String fkFatherSystemId;
   private String standardizedCode;
   private String createUserName;
@@ -37,9 +37,9 @@ public class SystemParam {
   private Integer examineStatus;
   private String executiveOfficeName;
   private Integer examinationStatus;
-  private String sysBusinessDescription;
+  private String sysBusDescription;
   private Integer subIsSystem;
-  private String executiveDirectorContacts;
+  private String executiveDireCon;
   private Integer fkChangeMatter;
   private String systemName;
   private Integer deleteStatus;
@@ -48,23 +48,21 @@ public class SystemParam {
   private String gradeRecordSysName;
   private Integer fkSystemIsMerge;
   private String changeReason;
-	private String sysServiceSituationObject;
-  private String sysServiceSituationScope;
+	private String sysServiceSitObject;
+  private String sysServiceSitScope;
   private String fkCompanyCode;
   private Integer recordStatus;
   private Integer gradingStatus;
   private String changeContent;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
-  private Integer fkInfoSysTypeConstruction;
-  private String networkPlatformNetworkProperties;
+  private Integer fkInfoSysTypeCon;
+  private String npNetworkProperties;
   private Integer evaluationStatus;
-  private String executiveDirectorContactsTel;
-  private String networkPlatformCoverageRange;
+  private String executiveDireConTel;
+  private String npCoverageRange;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date updateTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private String sysBusinessSituationType;
+  private String sysBusSituationType;
   
   private String systemIds;
   
@@ -75,599 +73,665 @@ public class SystemParam {
   private int currentPage = 1;// 当前页数
   private String field; //接收字段
   private String sort;//排序
-  /**
-	 * @return the systemIds
-	 */
-	public String getSystemIds() {
-		return systemIds;
-	}
-
-	/**
-	 * @param systemIds the systemIds to set
-	 */
-	public void setSystemIds(String systemIds) {
-		this.systemIds = systemIds;
-	}
-
-  /**
-	 * @return the fkFatherSystemId
-	 */
-	public String getFkFatherSystemId() {
-		return fkFatherSystemId;
-	}
-
-	/**
-	 * @param fkFatherSystemId the fkFatherSystemId to set
-	 */
-	public void setFkFatherSystemId(String fkFatherSystemId) {
-		this.fkFatherSystemId = fkFatherSystemId;
-	}
-
-	/**
-	 * @return the subIsSystem
-	 */
-	public Integer getSubIsSystem() {
-		return subIsSystem;
-	}
-
-	/**
-	 * @param subIsSystem the subIsSystem to set
-	 */
-	public void setSubIsSystem(Integer subIsSystem) {
-		this.subIsSystem = subIsSystem;
-	}
-
-	/**
-	 * @return the fkSystemType
-	 */
-	public Integer getFkSystemType() {
-		return fkSystemType;
-	}
-
-	/**
-	 * @param fkSystemType the fkSystemType to set
-	 */
-	public void setFkSystemType(Integer fkSystemType) {
-		this.fkSystemType = fkSystemType;
-	}
-
-	/**
-	 * @return the appIsInternet
-	 */
-	public Integer getAppIsInternet() {
-		return appIsInternet;
-	}
-
-	/**
-	 * @param appIsInternet the appIsInternet to set
-	 */
-	public void setAppIsInternet(Integer appIsInternet) {
-		this.appIsInternet = appIsInternet;
-	}
-
-	/**
-	 * @return the fkSystemIsMerge
-	 */
-	public Integer getFkSystemIsMerge() {
-		return fkSystemIsMerge;
-	}
-
-	/**
-	 * @param fkSystemIsMerge the fkSystemIsMerge to set
-	 */
-	public void setFkSystemIsMerge(Integer fkSystemIsMerge) {
-		this.fkSystemIsMerge = fkSystemIsMerge;
-	}
-
-	/**
-	 * @return the fkCompanyCode
-	 */
-	public String getFkCompanyCode() {
-		return fkCompanyCode;
-	}
-
-	/**
-	 * @param fkCompanyCode the fkCompanyCode to set
-	 */
-	public void setFkCompanyCode(String fkCompanyCode) {
-		this.fkCompanyCode = fkCompanyCode;
-	}
-
-	/**
-	 * @return the pageSize
-	 */
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	/**
-	 * @param pageSize the pageSize to set
-	 */
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	/**
-	 * @return the currentPage
-	 */
-	public int getCurrentPage() {
-		return currentPage;
-	}
-
-	/**
-	 * @param currentPage the currentPage to set
-	 */
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	/**
-	 * @return the field
-	 */
-	public String getField() {
-		return field;
-	}
-
-	/**
-	 * @param field the field to set
-	 */
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	/**
-	 * @return the sort
-	 */
-	public String getSort() {
-		return sort;
-	}
-
-	/**
-	 * @param sort the sort to set
-	 */
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-
   
+  
+	/**
+   * @return the systemId
+   */
+  public String getSystemId() {
+    return systemId;
+  }
+
+
   /**
-	 * @return the cproSystemKeyProducts
-	 */
-	public List<SystemKeyProducts> getSystemKeyProducts() {
-		return SystemKeyProducts;
-	}
+   * @param systemId the systemId to set
+   */
+  public void setSystemId(String systemId) {
+    this.systemId = systemId;
+  }
 
-	/**
-	 * @param cproSystemKeyProducts the cproSystemKeyProducts to set
-	 */
-	public void setSystemKeyProducts(
-			List<SystemKeyProducts> SystemKeyProducts) {
-		this.SystemKeyProducts = SystemKeyProducts;
-	}
 
-	/**
-	 * @return the cproSystemUseServices
-	 */
-	public List<SystemUseServices> getSystemUseServices() {
-		return SystemUseServices;
-	}
+  /**
+   * @return the interconnectionSit
+   */
+  public String getInterconnectionSit() {
+    return interconnectionSit;
+  }
 
-	/**
-	 * @param cproSystemUseServices the cproSystemUseServices to set
-	 */
-	public void setSystemUseServices(
-			List<SystemUseServices> SystemUseServices) {
-		this.SystemUseServices = SystemUseServices;
-	}
 
-	/**
-	 * @return the interconnectionSituation
-	 */
-	public String getInterconnectionSituation() {
-		return interconnectionSituation;
-	}
+  /**
+   * @param interconnectionSit the interconnectionSit to set
+   */
+  public void setInterconnectionSit(String interconnectionSit) {
+    this.interconnectionSit = interconnectionSit;
+  }
 
-	/**
-	 * @return the systemId
-	 */
-	public String getSystemId() {
-		return systemId;
-	}
 
-	/**
-	 * @param systemId the systemId to set
-	 */
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
-	}
+  /**
+   * @return the fkFatherSystemId
+   */
+  public String getFkFatherSystemId() {
+    return fkFatherSystemId;
+  }
 
-	/**
-	 * @param interconnectionSituation the interconnectionSituation to set
-	 */
-	public void setInterconnectionSituation(String interconnectionSituation) {
-		this.interconnectionSituation = interconnectionSituation;
-	}
 
-	/**
-	 * @return the standardizedCode
-	 */
-	public String getStandardizedCode() {
-		return standardizedCode;
-	}
+  /**
+   * @param fkFatherSystemId the fkFatherSystemId to set
+   */
+  public void setFkFatherSystemId(String fkFatherSystemId) {
+    this.fkFatherSystemId = fkFatherSystemId;
+  }
 
-	/**
-	 * @param standardizedCode the standardizedCode to set
-	 */
-	public void setStandardizedCode(String standardizedCode) {
-		this.standardizedCode = standardizedCode;
-	}
 
-	/**
-	 * @return the createUserName
-	 */
-	public String getCreateUserName() {
-		return createUserName;
-	}
+  /**
+   * @return the standardizedCode
+   */
+  public String getStandardizedCode() {
+    return standardizedCode;
+  }
 
-	/**
-	 * @param createUserName the createUserName to set
-	 */
-	public void setCreateUserName(String createUserName) {
-		this.createUserName = createUserName;
-	}
 
-	/**
-	 * @return the remark
-	 */
-	public String getRemark() {
-		return remark;
-	}
+  /**
+   * @param standardizedCode the standardizedCode to set
+   */
+  public void setStandardizedCode(String standardizedCode) {
+    this.standardizedCode = standardizedCode;
+  }
 
-	/**
-	 * @param remark the remark to set
-	 */
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
 
-	/**
-	 * @return the whenInvestmentUse
-	 */
-	public Date getWhenInvestmentUse() {
-		return whenInvestmentUse;
-	}
+  /**
+   * @return the createUserName
+   */
+  public String getCreateUserName() {
+    return createUserName;
+  }
 
-	/**
-	 * @param whenInvestmentUse the whenInvestmentUse to set
-	 */
-	public void setWhenInvestmentUse(Date whenInvestmentUse) {
-		this.whenInvestmentUse = whenInvestmentUse;
-	}
 
-	/**
-	 * @return the examineStatus
-	 */
-	public Integer getExamineStatus() {
-		return examineStatus;
-	}
+  /**
+   * @param createUserName the createUserName to set
+   */
+  public void setCreateUserName(String createUserName) {
+    this.createUserName = createUserName;
+  }
 
-	/**
-	 * @param examineStatus the examineStatus to set
-	 */
-	public void setExamineStatus(Integer examineStatus) {
-		this.examineStatus = examineStatus;
-	}
 
-	/**
-	 * @return the executiveOfficeName
-	 */
-	public String getExecutiveOfficeName() {
-		return executiveOfficeName;
-	}
+  /**
+   * @return the remark
+   */
+  public String getRemark() {
+    return remark;
+  }
 
-	/**
-	 * @param executiveOfficeName the executiveOfficeName to set
-	 */
-	public void setExecutiveOfficeName(String executiveOfficeName) {
-		this.executiveOfficeName = executiveOfficeName;
-	}
 
-	/**
-	 * @return the examinationStatus
-	 */
-	public Integer getExaminationStatus() {
-		return examinationStatus;
-	}
+  /**
+   * @param remark the remark to set
+   */
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
 
-	/**
-	 * @param examinationStatus the examinationStatus to set
-	 */
-	public void setExaminationStatus(Integer examinationStatus) {
-		this.examinationStatus = examinationStatus;
-	}
 
-	/**
-	 * @return the sysBusinessDescription
-	 */
-	public String getSysBusinessDescription() {
-		return sysBusinessDescription;
-	}
+  /**
+   * @return the whenInvestmentUse
+   */
+  public Date getWhenInvestmentUse() {
+    return whenInvestmentUse;
+  }
 
-	/**
-	 * @param sysBusinessDescription the sysBusinessDescription to set
-	 */
-	public void setSysBusinessDescription(String sysBusinessDescription) {
-		this.sysBusinessDescription = sysBusinessDescription;
-	}
 
-	/**
-	 * @return the executiveDirectorContacts
-	 */
-	public String getExecutiveDirectorContacts() {
-		return executiveDirectorContacts;
-	}
+  /**
+   * @param whenInvestmentUse the whenInvestmentUse to set
+   */
+  public void setWhenInvestmentUse(Date whenInvestmentUse) {
+    this.whenInvestmentUse = whenInvestmentUse;
+  }
 
-	/**
-	 * @param executiveDirectorContacts the executiveDirectorContacts to set
-	 */
-	public void setExecutiveDirectorContacts(String executiveDirectorContacts) {
-		this.executiveDirectorContacts = executiveDirectorContacts;
-	}
 
-	/**
-	 * @return the fkChangeMatter
-	 */
-	public Integer getFkChangeMatter() {
-		return fkChangeMatter;
-	}
+  /**
+   * @return the examineStatus
+   */
+  public Integer getExamineStatus() {
+    return examineStatus;
+  }
 
-	/**
-	 * @param fkChangeMatter the fkChangeMatter to set
-	 */
-	public void setFkChangeMatter(Integer fkChangeMatter) {
-		this.fkChangeMatter = fkChangeMatter;
-	}
 
-	/**
-	 * @return the systemName
-	 */
-	public String getSystemName() {
-		return systemName;
-	}
+  /**
+   * @param examineStatus the examineStatus to set
+   */
+  public void setExamineStatus(Integer examineStatus) {
+    this.examineStatus = examineStatus;
+  }
 
-	/**
-	 * @param systemName the systemName to set
-	 */
-	public void setSystemName(String systemName) {
-		this.systemName = systemName;
-	}
 
-	/**
-	 * @return the deleteStatus
-	 */
-	public Integer getDeleteStatus() {
-		return deleteStatus;
-	}
+  /**
+   * @return the executiveOfficeName
+   */
+  public String getExecutiveOfficeName() {
+    return executiveOfficeName;
+  }
 
-	/**
-	 * @param deleteStatus the deleteStatus to set
-	 */
-	public void setDeleteStatus(Integer deleteStatus) {
-		this.deleteStatus = deleteStatus;
-	}
 
-	/**
-	 * @return the gradeRecordSysName
-	 */
-	public String getGradeRecordSysName() {
-		return gradeRecordSysName;
-	}
+  /**
+   * @param executiveOfficeName the executiveOfficeName to set
+   */
+  public void setExecutiveOfficeName(String executiveOfficeName) {
+    this.executiveOfficeName = executiveOfficeName;
+  }
 
-	/**
-	 * @param gradeRecordSysName the gradeRecordSysName to set
-	 */
-	public void setGradeRecordSysName(String gradeRecordSysName) {
-		this.gradeRecordSysName = gradeRecordSysName;
-	}
 
-	/**
-	 * @return the changeReason
-	 */
-	public String getChangeReason() {
-		return changeReason;
-	}
+  /**
+   * @return the examinationStatus
+   */
+  public Integer getExaminationStatus() {
+    return examinationStatus;
+  }
 
-	/**
-	 * @param changeReason the changeReason to set
-	 */
-	public void setChangeReason(String changeReason) {
-		this.changeReason = changeReason;
-	}
 
-	/**
-	 * @return the executiveDirectorContactsTel
-	 */
-	public String getExecutiveDirectorContactsTel() {
-		return executiveDirectorContactsTel;
-	}
+  /**
+   * @param examinationStatus the examinationStatus to set
+   */
+  public void setExaminationStatus(Integer examinationStatus) {
+    this.examinationStatus = examinationStatus;
+  }
 
-	/**
-	 * @param executiveDirectorContactsTel the executiveDirectorContactsTel to set
-	 */
-	public void setExecutiveDirectorContactsTel(String executiveDirectorContactsTel) {
-		this.executiveDirectorContactsTel = executiveDirectorContactsTel;
-	}
 
-	/**
-	 * @return the networkPlatformCoverageRange
-	 */
-	public String getNetworkPlatformCoverageRange() {
-		return networkPlatformCoverageRange;
-	}
+  /**
+   * @return the sysBusDescription
+   */
+  public String getSysBusDescription() {
+    return sysBusDescription;
+  }
 
-	/**
-	 * @param networkPlatformCoverageRange the networkPlatformCoverageRange to set
-	 */
-	public void setNetworkPlatformCoverageRange(String networkPlatformCoverageRange) {
-		this.networkPlatformCoverageRange = networkPlatformCoverageRange;
-	}
 
-	/**
-	 * @return the updateTime
-	 */
-	public Date getUpdateTime() {
-		return updateTime;
-	}
+  /**
+   * @param sysBusDescription the sysBusDescription to set
+   */
+  public void setSysBusDescription(String sysBusDescription) {
+    this.sysBusDescription = sysBusDescription;
+  }
 
-	/**
-	 * @param updateTime the updateTime to set
-	 */
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
 
-	/**
-	 * @return the sysBusinessSituationType
-	 */
-	public String getSysBusinessSituationType() {
-		return sysBusinessSituationType;
-	}
+  /**
+   * @return the subIsSystem
+   */
+  public Integer getSubIsSystem() {
+    return subIsSystem;
+  }
 
-	/**
-	 * @param sysBusinessSituationType the sysBusinessSituationType to set
-	 */
-	public void setSysBusinessSituationType(String sysBusinessSituationType) {
-		this.sysBusinessSituationType = sysBusinessSituationType;
-	}
 
-	/**
-	 * @return the sysServiceSituationObject
-	 */
-	public String getSysServiceSituationObject() {
-		return sysServiceSituationObject;
-	}
+  /**
+   * @param subIsSystem the subIsSystem to set
+   */
+  public void setSubIsSystem(Integer subIsSystem) {
+    this.subIsSystem = subIsSystem;
+  }
 
-	/**
-	 * @param sysServiceSituationObject the sysServiceSituationObject to set
-	 */
-	public void setSysServiceSituationObject(String sysServiceSituationObject) {
-		this.sysServiceSituationObject = sysServiceSituationObject;
-	}
 
-	/**
-	 * @return the sysServiceSituationScope
-	 */
-	public String getSysServiceSituationScope() {
-		return sysServiceSituationScope;
-	}
+  /**
+   * @return the executiveDireCon
+   */
+  public String getExecutiveDireCon() {
+    return executiveDireCon;
+  }
 
-	/**
-	 * @param sysServiceSituationScope the sysServiceSituationScope to set
-	 */
-	public void setSysServiceSituationScope(String sysServiceSituationScope) {
-		this.sysServiceSituationScope = sysServiceSituationScope;
-	}
 
-	/**
-	 * @return the recordStatus
-	 */
-	public Integer getRecordStatus() {
-		return recordStatus;
-	}
+  /**
+   * @param executiveDireCon the executiveDireCon to set
+   */
+  public void setExecutiveDireCon(String executiveDireCon) {
+    this.executiveDireCon = executiveDireCon;
+  }
 
-	/**
-	 * @param recordStatus the recordStatus to set
-	 */
-	public void setRecordStatus(Integer recordStatus) {
-		this.recordStatus = recordStatus;
-	}
 
-	/**
-	 * @return the gradingStatus
-	 */
-	public Integer getGradingStatus() {
-		return gradingStatus;
-	}
+  /**
+   * @return the fkChangeMatter
+   */
+  public Integer getFkChangeMatter() {
+    return fkChangeMatter;
+  }
 
-	/**
-	 * @param gradingStatus the gradingStatus to set
-	 */
-	public void setGradingStatus(Integer gradingStatus) {
-		this.gradingStatus = gradingStatus;
-	}
 
-	/**
-	 * @return the changeContent
-	 */
-	public String getChangeContent() {
-		return changeContent;
-	}
+  /**
+   * @param fkChangeMatter the fkChangeMatter to set
+   */
+  public void setFkChangeMatter(Integer fkChangeMatter) {
+    this.fkChangeMatter = fkChangeMatter;
+  }
 
-	/**
-	 * @param changeContent the changeContent to set
-	 */
-	public void setChangeContent(String changeContent) {
-		this.changeContent = changeContent;
-	}
 
-	/**
-	 * @return the createTime
-	 */
-	public Date getCreateTime() {
-		return createTime;
-	}
+  /**
+   * @return the systemName
+   */
+  public String getSystemName() {
+    return systemName;
+  }
 
-	/**
-	 * @param createTime the createTime to set
-	 */
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 
-	/**
-	 * @return the fkInfoSysTypeConstruction
-	 */
-	public Integer getFkInfoSysTypeConstruction() {
-		return fkInfoSysTypeConstruction;
-	}
+  /**
+   * @param systemName the systemName to set
+   */
+  public void setSystemName(String systemName) {
+    this.systemName = systemName;
+  }
 
-	/**
-	 * @param fkInfoSysTypeConstruction the fkInfoSysTypeConstruction to set
-	 */
-	public void setFkInfoSysTypeConstruction(Integer fkInfoSysTypeConstruction) {
-		this.fkInfoSysTypeConstruction = fkInfoSysTypeConstruction;
-	}
 
-	/**
-	 * @return the networkPlatformNetworkProperties
-	 */
-	public String getNetworkPlatformNetworkProperties() {
-		return networkPlatformNetworkProperties;
-	}
+  /**
+   * @return the deleteStatus
+   */
+  public Integer getDeleteStatus() {
+    return deleteStatus;
+  }
 
-	/**
-	 * @param networkPlatformNetworkProperties the networkPlatformNetworkProperties to set
-	 */
-	public void setNetworkPlatformNetworkProperties(
-			String networkPlatformNetworkProperties) {
-		this.networkPlatformNetworkProperties = networkPlatformNetworkProperties;
-	}
 
-	/**
-	 * @return the evaluationStatus
-	 */
-	public Integer getEvaluationStatus() {
-		return evaluationStatus;
-	}
+  /**
+   * @param deleteStatus the deleteStatus to set
+   */
+  public void setDeleteStatus(Integer deleteStatus) {
+    this.deleteStatus = deleteStatus;
+  }
 
-	/**
-	 * @param evaluationStatus the evaluationStatus to set
-	 */
-	public void setEvaluationStatus(Integer evaluationStatus) {
-		this.evaluationStatus = evaluationStatus;
-	}
- 
-	public String toString(){
+
+  /**
+   * @return the fkSystemType
+   */
+  public Integer getFkSystemType() {
+    return fkSystemType;
+  }
+
+
+  /**
+   * @param fkSystemType the fkSystemType to set
+   */
+  public void setFkSystemType(Integer fkSystemType) {
+    this.fkSystemType = fkSystemType;
+  }
+
+
+  /**
+   * @return the appIsInternet
+   */
+  public Integer getAppIsInternet() {
+    return appIsInternet;
+  }
+
+
+  /**
+   * @param appIsInternet the appIsInternet to set
+   */
+  public void setAppIsInternet(Integer appIsInternet) {
+    this.appIsInternet = appIsInternet;
+  }
+
+
+  /**
+   * @return the gradeRecordSysName
+   */
+  public String getGradeRecordSysName() {
+    return gradeRecordSysName;
+  }
+
+
+  /**
+   * @param gradeRecordSysName the gradeRecordSysName to set
+   */
+  public void setGradeRecordSysName(String gradeRecordSysName) {
+    this.gradeRecordSysName = gradeRecordSysName;
+  }
+
+
+  /**
+   * @return the fkSystemIsMerge
+   */
+  public Integer getFkSystemIsMerge() {
+    return fkSystemIsMerge;
+  }
+
+
+  /**
+   * @param fkSystemIsMerge the fkSystemIsMerge to set
+   */
+  public void setFkSystemIsMerge(Integer fkSystemIsMerge) {
+    this.fkSystemIsMerge = fkSystemIsMerge;
+  }
+
+
+  /**
+   * @return the changeReason
+   */
+  public String getChangeReason() {
+    return changeReason;
+  }
+
+
+  /**
+   * @param changeReason the changeReason to set
+   */
+  public void setChangeReason(String changeReason) {
+    this.changeReason = changeReason;
+  }
+
+
+  /**
+   * @return the sysServiceSitObject
+   */
+  public String getSysServiceSitObject() {
+    return sysServiceSitObject;
+  }
+
+
+  /**
+   * @param sysServiceSitObject the sysServiceSitObject to set
+   */
+  public void setSysServiceSitObject(String sysServiceSitObject) {
+    this.sysServiceSitObject = sysServiceSitObject;
+  }
+
+
+  /**
+   * @return the sysServiceSitScope
+   */
+  public String getSysServiceSitScope() {
+    return sysServiceSitScope;
+  }
+
+
+  /**
+   * @param sysServiceSitScope the sysServiceSitScope to set
+   */
+  public void setSysServiceSitScope(String sysServiceSitScope) {
+    this.sysServiceSitScope = sysServiceSitScope;
+  }
+
+
+  /**
+   * @return the fkCompanyCode
+   */
+  public String getFkCompanyCode() {
+    return fkCompanyCode;
+  }
+
+
+  /**
+   * @param fkCompanyCode the fkCompanyCode to set
+   */
+  public void setFkCompanyCode(String fkCompanyCode) {
+    this.fkCompanyCode = fkCompanyCode;
+  }
+
+
+  /**
+   * @return the recordStatus
+   */
+  public Integer getRecordStatus() {
+    return recordStatus;
+  }
+
+
+  /**
+   * @param recordStatus the recordStatus to set
+   */
+  public void setRecordStatus(Integer recordStatus) {
+    this.recordStatus = recordStatus;
+  }
+
+
+  /**
+   * @return the gradingStatus
+   */
+  public Integer getGradingStatus() {
+    return gradingStatus;
+  }
+
+
+  /**
+   * @param gradingStatus the gradingStatus to set
+   */
+  public void setGradingStatus(Integer gradingStatus) {
+    this.gradingStatus = gradingStatus;
+  }
+
+
+  /**
+   * @return the changeContent
+   */
+  public String getChangeContent() {
+    return changeContent;
+  }
+
+
+  /**
+   * @param changeContent the changeContent to set
+   */
+  public void setChangeContent(String changeContent) {
+    this.changeContent = changeContent;
+  }
+
+
+  /**
+   * @return the createTime
+   */
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+
+  /**
+   * @param createTime the createTime to set
+   */
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+
+  /**
+   * @return the fkInfoSysTypeCon
+   */
+  public Integer getFkInfoSysTypeCon() {
+    return fkInfoSysTypeCon;
+  }
+
+
+  /**
+   * @param fkInfoSysTypeCon the fkInfoSysTypeCon to set
+   */
+  public void setFkInfoSysTypeCon(Integer fkInfoSysTypeCon) {
+    this.fkInfoSysTypeCon = fkInfoSysTypeCon;
+  }
+
+
+  /**
+   * @return the npNetworkProperties
+   */
+  public String getNpNetworkProperties() {
+    return npNetworkProperties;
+  }
+
+
+  /**
+   * @param npNetworkProperties the npNetworkProperties to set
+   */
+  public void setNpNetworkProperties(String npNetworkProperties) {
+    this.npNetworkProperties = npNetworkProperties;
+  }
+
+
+  /**
+   * @return the evaluationStatus
+   */
+  public Integer getEvaluationStatus() {
+    return evaluationStatus;
+  }
+
+
+  /**
+   * @param evaluationStatus the evaluationStatus to set
+   */
+  public void setEvaluationStatus(Integer evaluationStatus) {
+    this.evaluationStatus = evaluationStatus;
+  }
+
+
+  /**
+   * @return the executiveDireConTel
+   */
+  public String getExecutiveDireConTel() {
+    return executiveDireConTel;
+  }
+
+
+  /**
+   * @param executiveDireConTel the executiveDireConTel to set
+   */
+  public void setExecutiveDireConTel(String executiveDireConTel) {
+    this.executiveDireConTel = executiveDireConTel;
+  }
+
+
+  /**
+   * @return the npCoverageRange
+   */
+  public String getNpCoverageRange() {
+    return npCoverageRange;
+  }
+
+
+  /**
+   * @param npCoverageRange the npCoverageRange to set
+   */
+  public void setNpCoverageRange(String npCoverageRange) {
+    this.npCoverageRange = npCoverageRange;
+  }
+
+
+  /**
+   * @return the sysBusSituationType
+   */
+  public String getSysBusSituationType() {
+    return sysBusSituationType;
+  }
+
+
+  /**
+   * @param sysBusSituationType the sysBusSituationType to set
+   */
+  public void setSysBusSituationType(String sysBusSituationType) {
+    this.sysBusSituationType = sysBusSituationType;
+  }
+
+
+  /**
+   * @return the systemIds
+   */
+  public String getSystemIds() {
+    return systemIds;
+  }
+
+
+  /**
+   * @param systemIds the systemIds to set
+   */
+  public void setSystemIds(String systemIds) {
+    this.systemIds = systemIds;
+  }
+
+
+  /**
+   * @return the systemKeyProducts
+   */
+  public List<SystemKeyProducts> getSystemKeyProducts() {
+    return SystemKeyProducts;
+  }
+
+
+  /**
+   * @param systemKeyProducts the systemKeyProducts to set
+   */
+  public void setSystemKeyProducts(List<SystemKeyProducts> systemKeyProducts) {
+    SystemKeyProducts = systemKeyProducts;
+  }
+
+
+  /**
+   * @return the systemUseServices
+   */
+  public List<SystemUseServices> getSystemUseServices() {
+    return SystemUseServices;
+  }
+
+
+  /**
+   * @param systemUseServices the systemUseServices to set
+   */
+  public void setSystemUseServices(List<SystemUseServices> systemUseServices) {
+    SystemUseServices = systemUseServices;
+  }
+
+
+  /**
+   * @return the pageSize
+   */
+  public int getPageSize() {
+    return pageSize;
+  }
+
+
+  /**
+   * @param pageSize the pageSize to set
+   */
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
+
+
+  /**
+   * @return the currentPage
+   */
+  public int getCurrentPage() {
+    return currentPage;
+  }
+
+
+  /**
+   * @param currentPage the currentPage to set
+   */
+  public void setCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
+  }
+
+
+  /**
+   * @return the field
+   */
+  public String getField() {
+    return field;
+  }
+
+
+  /**
+   * @param field the field to set
+   */
+  public void setField(String field) {
+    this.field = field;
+  }
+
+
+  /**
+   * @return the sort
+   */
+  public String getSort() {
+    return sort;
+  }
+
+
+  /**
+   * @param sort the sort to set
+   */
+  public void setSort(String sort) {
+    this.sort = sort;
+  }
+
+
+  public String toString(){
     return JSON.toJSONString(this);
   }
 }

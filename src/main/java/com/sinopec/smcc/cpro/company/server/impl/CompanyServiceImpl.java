@@ -24,6 +24,7 @@ import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.mapper.CompanyMapper;
@@ -71,7 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_company")
   @Transactional
   public String saveCompany(CompanyParam companyParam) throws BusinessException {
-    String companyCode = companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
+    String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
     //判断单位编码是否被创建，如果已创建则抛出异常不进行添加或修改
     if(StringUtils.isNotBlank(companyCode))
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
@@ -82,7 +83,7 @@ public class CompanyServiceImpl implements CompanyService {
     }else{
       companyParam.setCreateTime(new Date());
     }
-    companyMapper.insertCompanyByCompanyId(companyParam);
+    this.companyMapper.insertCompanyByCompanyId(companyParam);
     return companyParam.getCompanyId();
   }
 
@@ -95,7 +96,7 @@ public class CompanyServiceImpl implements CompanyService {
   public void delelteCompany(CompanyParam companyParam) throws BusinessException {
     if(companyParam.getCompanyIds() == null || companyParam.getCompanyIds().length == 0)
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
-    companyMapper.updateCompanyByCompanyIds(companyParam);
+    this.companyMapper.updateCompanyByCompanyIds(companyParam);
   }
   
   /**
@@ -103,8 +104,8 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_company")
-  public CompanyListResult queryDetailsCompany(CompanyParam companyParam) {
-    return companyMapper.selectSingleCompanyByCompanyId(companyParam);
+  public CompanyResult queryDetailsCompany(CompanyParam companyParam) {
+    return this.companyMapper.selectSingleCompanyByCompanyId(companyParam);
   }
   
   /**
@@ -112,8 +113,8 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_company")
-  public CompanyListResult queryCompanyForUpdate(CompanyParam companyParam) {
-    return companyMapper.selectCompanyByCompanyId(companyParam);
+  public CompanyResult queryEditCompany(CompanyParam companyParam) {
+    return this.companyMapper.selectCompanyByCompanyId(companyParam);
   }
 
 }

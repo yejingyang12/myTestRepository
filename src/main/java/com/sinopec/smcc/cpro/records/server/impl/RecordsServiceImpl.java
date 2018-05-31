@@ -21,7 +21,7 @@ import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
-import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.records.mapper.RecordsMapper;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
@@ -66,7 +66,7 @@ public class RecordsServiceImpl implements RecordsService{
     }else{
       recordsParam.setCreateTime(new Date());
     }
-    recordsMapper.insertRecords(recordsParam);
+    this.recordsMapper.insertRecords(recordsParam);
     return recordsParam.getRecordsId();
   }
   
@@ -75,9 +75,9 @@ public class RecordsServiceImpl implements RecordsService{
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
-  public RecordsListResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException{
-    RecordsListResult recordsListResult = recordsMapper.selectRecordsByFkSystemId(recordsParam);
-    return recordsListResult;
+  public RecordsResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException{
+    RecordsResult records = this.recordsMapper.selectRecordsByFkSystemId(recordsParam);
+    return records;
   }
 
  /**
@@ -87,7 +87,7 @@ public class RecordsServiceImpl implements RecordsService{
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   @Transactional
   public void editRecords(RecordsParam recordsParam) {
-    recordsMapper.updateRecordsBySystemId(recordsParam);
+    this.recordsMapper.updateRecordsBySystemId(recordsParam);
     //将状态改为已撤销
     recordsParam.setRecordStatus(4);
     this.editRecordsForStatus(recordsParam);
@@ -103,6 +103,6 @@ public class RecordsServiceImpl implements RecordsService{
     SystemParam systemParam = new SystemParam();
     systemParam.setRecordStatus(recordsParam.getRecordStatus());
     systemParam.setSystemId(recordsParam.getFkSystemId());
-    systemMapper.updateSystemStatusBySystemId(systemParam);
+    this.systemMapper.updateSystemStatusBySystemId(systemParam);
   }
 }

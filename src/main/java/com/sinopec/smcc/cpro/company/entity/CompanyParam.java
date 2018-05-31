@@ -4,7 +4,7 @@
 * @Package com.sinopec.smcc.cpro.company.entity
 * @Description: TODO:
 * @author dongxu
-* @date 2018年5月25日下午1:37:15
+* @date 2018年5月31日下午9:37:15
 * @version V1.0
 */
 package com.sinopec.smcc.cpro.company.entity;
@@ -19,38 +19,38 @@ import com.alibaba.fastjson.JSON;
    * @Package com.sinopec.smcc.cpro.company.entity
    * @Description: TODO:
    * @author dongxu
-   * @date 2018年5月25日下午1:37:15
+   * @date 2018年5月31日下午9:37:15
    * @version V1.0
    */
 public class CompanyParam {
   
   private String companyId;
-  private String industryCategory;
-  private String affiliation;
-  private String companyType;
-  private String plateType;
-  private String fkSubordinateProvinces;
-  private String liabilityDepartmentContactEmail;
+  private String fkIndustryCategory;
+  private String fkAffiliation;
+  private String fkCompanyType;
+  private String fkPlateType;
+  private String fkSubordinatePro;
+  private String ldContactEmail;
   private String companyName;
   private String postalCode;
   private String compPrincipalWorkTel;
   private String createUserName;
   private String remark;
-  private String liabilityDepartmentContactName;
-  private String responsibleDepartment;
-  private String companyPrincipalEmail;
+  private String ldContactName;
+  private String rDepartment;
+  private String companyPrincipalEm;
   private Integer deleteStatus;
-  private String liabilityDepartmentContactPhone;
-  private Integer administrativeDivisionNum;
+  private String ldContactPhone;
+  private Integer administrativeNum;
   private Integer compPrincipalPhone;
   private String companyCode;
   private String compPrincipalPost;
-  private String liabilityDepartmentContactPost;
-  private String gradeProtectionReportingComp;
+  private String ldContactPost;
+  private String gpReportingComp;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
   private String companyAddress;
-  private String liabilityDepartmentContactWorkTel;
+  private String ldContactWorkTel;
   private String compPrincipalName;
   private String[] companyIds;
   
@@ -58,53 +58,8 @@ public class CompanyParam {
   private int currentPage = 1;// 当前页数
   private String field; //接收字段
   private String sort;//排序
+ 
   
-  
-  /**
-   * @return the companyIds
-   */
-  public String[] getCompanyIds() {
-    return companyIds;
-  }
-
-
-  /**
-   * @param companyIds the companyIds to set
-   */
-  public void setCompanyIds(String[] companyIds) {
-    this.companyIds = companyIds;
-  }
-
-
-  /**
-   * @return the liabilityDepartmentContactPhone
-   */
-  public String getLiabilityDepartmentContactPhone() {
-    return liabilityDepartmentContactPhone;
-  }
-
-
-  /**
-   * @param liabilityDepartmentContactPhone the liabilityDepartmentContactPhone to set
-   */
-  public void setLiabilityDepartmentContactPhone(String liabilityDepartmentContactPhone) {
-    this.liabilityDepartmentContactPhone = liabilityDepartmentContactPhone;
-  }
-
-  /**
-   * @return the deleteStatus
-   */
-  public Integer getDeleteStatus() {
-    return deleteStatus;
-  }
-
-
-  /**
-   * @param deleteStatus the deleteStatus to set
-   */
-  public void setDeleteStatus(Integer deleteStatus) {
-    this.deleteStatus = deleteStatus;
-  }
   /**
    * @return the companyId
    */
@@ -122,98 +77,98 @@ public class CompanyParam {
 
 
   /**
-   * @return the industryCategory
+   * @return the fkIndustryCategory
    */
-  public String getIndustryCategory() {
-    return industryCategory;
+  public String getFkIndustryCategory() {
+    return fkIndustryCategory;
   }
 
 
   /**
-   * @param industryCategory the industryCategory to set
+   * @param fkIndustryCategory the fkIndustryCategory to set
    */
-  public void setIndustryCategory(String industryCategory) {
-    this.industryCategory = industryCategory;
+  public void setFkIndustryCategory(String fkIndustryCategory) {
+    this.fkIndustryCategory = fkIndustryCategory;
   }
 
 
   /**
-   * @return the affiliation
+   * @return the fkAffiliation
    */
-  public String getAffiliation() {
-    return affiliation;
+  public String getFkAffiliation() {
+    return fkAffiliation;
   }
 
 
   /**
-   * @param affiliation the affiliation to set
+   * @param fkAffiliation the fkAffiliation to set
    */
-  public void setAffiliation(String affiliation) {
-    this.affiliation = affiliation;
+  public void setFkAffiliation(String fkAffiliation) {
+    this.fkAffiliation = fkAffiliation;
   }
 
 
   /**
-   * @return the companyType
+   * @return the fkCompanyType
    */
-  public String getCompanyType() {
-    return companyType;
+  public String getFkCompanyType() {
+    return fkCompanyType;
   }
 
 
   /**
-   * @param companyType the companyType to set
+   * @param fkCompanyType the fkCompanyType to set
    */
-  public void setCompanyType(String companyType) {
-    this.companyType = companyType;
+  public void setFkCompanyType(String fkCompanyType) {
+    this.fkCompanyType = fkCompanyType;
   }
 
 
   /**
-   * @return the plateType
+   * @return the fkPlateType
    */
-  public String getPlateType() {
-    return plateType;
+  public String getFkPlateType() {
+    return fkPlateType;
   }
 
 
   /**
-   * @param plateType the plateType to set
+   * @param fkPlateType the fkPlateType to set
    */
-  public void setPlateType(String plateType) {
-    this.plateType = plateType;
+  public void setFkPlateType(String fkPlateType) {
+    this.fkPlateType = fkPlateType;
   }
 
 
   /**
-   * @return the fkSubordinateProvinces
+   * @return the fkSubordinatePro
    */
-  public String getFkSubordinateProvinces() {
-    return fkSubordinateProvinces;
+  public String getFkSubordinatePro() {
+    return fkSubordinatePro;
   }
 
 
   /**
-   * @param fkSubordinateProvinces the fkSubordinateProvinces to set
+   * @param fkSubordinatePro the fkSubordinatePro to set
    */
-  public void setFkSubordinateProvinces(String fkSubordinateProvinces) {
-    this.fkSubordinateProvinces = fkSubordinateProvinces;
+  public void setFkSubordinatePro(String fkSubordinatePro) {
+    this.fkSubordinatePro = fkSubordinatePro;
   }
 
 
   /**
-   * @return the liabilityDepartmentContactEmail
+   * @return the ldContactEmail
    */
-  public String getLiabilityDepartmentContactEmail() {
-    return liabilityDepartmentContactEmail;
+  public String getLdContactEmail() {
+    return ldContactEmail;
   }
 
 
   /**
-   * @param liabilityDepartmentContactEmail the liabilityDepartmentContactEmail to set
+   * @param ldContactEmail the ldContactEmail to set
    */
-  public void setLiabilityDepartmentContactEmail(String liabilityDepartmentContactEmail) {
-    this.liabilityDepartmentContactEmail = liabilityDepartmentContactEmail;
+  public void setLdContactEmail(String ldContactEmail) {
+    this.ldContactEmail = ldContactEmail;
   }
 
 
@@ -298,65 +253,98 @@ public class CompanyParam {
 
 
   /**
-   * @return the liabilityDepartmentContactName
+   * @return the ldContactName
    */
-  public String getLiabilityDepartmentContactName() {
-    return liabilityDepartmentContactName;
+  public String getLdContactName() {
+    return ldContactName;
   }
 
 
   /**
-   * @param liabilityDepartmentContactName the liabilityDepartmentContactName to set
+   * @param ldContactName the ldContactName to set
    */
-  public void setLiabilityDepartmentContactName(String liabilityDepartmentContactName) {
-    this.liabilityDepartmentContactName = liabilityDepartmentContactName;
+  public void setLdContactName(String ldContactName) {
+    this.ldContactName = ldContactName;
   }
 
 
   /**
-   * @return the responsibleDepartment
+   * @return the rDepartment
    */
-  public String getResponsibleDepartment() {
-    return responsibleDepartment;
+  public String getrDepartment() {
+    return rDepartment;
   }
 
 
   /**
-   * @param responsibleDepartment the responsibleDepartment to set
+   * @param rDepartment the rDepartment to set
    */
-  public void setResponsibleDepartment(String responsibleDepartment) {
-    this.responsibleDepartment = responsibleDepartment;
+  public void setrDepartment(String rDepartment) {
+    this.rDepartment = rDepartment;
   }
 
 
   /**
-   * @return the companyPrincipalEmail
+   * @return the companyPrincipalEm
    */
-  public String getCompanyPrincipalEmail() {
-    return companyPrincipalEmail;
+  public String getCompanyPrincipalEm() {
+    return companyPrincipalEm;
   }
 
 
   /**
-   * @param companyPrincipalEmail the companyPrincipalEmail to set
+   * @param companyPrincipalEm the companyPrincipalEm to set
    */
-  public void setCompanyPrincipalEmail(String companyPrincipalEmail) {
-    this.companyPrincipalEmail = companyPrincipalEmail;
-  }
-
-  /**
-   * @return the administrativeDivisionNum
-   */
-  public Integer getAdministrativeDivisionNum() {
-    return administrativeDivisionNum;
+  public void setCompanyPrincipalEm(String companyPrincipalEm) {
+    this.companyPrincipalEm = companyPrincipalEm;
   }
 
 
   /**
-   * @param administrativeDivisionNum the administrativeDivisionNum to set
+   * @return the deleteStatus
    */
-  public void setAdministrativeDivisionNum(Integer administrativeDivisionNum) {
-    this.administrativeDivisionNum = administrativeDivisionNum;
+  public Integer getDeleteStatus() {
+    return deleteStatus;
+  }
+
+
+  /**
+   * @param deleteStatus the deleteStatus to set
+   */
+  public void setDeleteStatus(Integer deleteStatus) {
+    this.deleteStatus = deleteStatus;
+  }
+
+
+  /**
+   * @return the ldContactPhone
+   */
+  public String getLdContactPhone() {
+    return ldContactPhone;
+  }
+
+
+  /**
+   * @param ldContactPhone the ldContactPhone to set
+   */
+  public void setLdContactPhone(String ldContactPhone) {
+    this.ldContactPhone = ldContactPhone;
+  }
+
+
+  /**
+   * @return the administrativeNum
+   */
+  public Integer getAdministrativeNum() {
+    return administrativeNum;
+  }
+
+
+  /**
+   * @param administrativeNum the administrativeNum to set
+   */
+  public void setAdministrativeNum(Integer administrativeNum) {
+    this.administrativeNum = administrativeNum;
   }
 
 
@@ -409,34 +397,34 @@ public class CompanyParam {
 
 
   /**
-   * @return the liabilityDepartmentContactPost
+   * @return the ldContactPost
    */
-  public String getLiabilityDepartmentContactPost() {
-    return liabilityDepartmentContactPost;
+  public String getLdContactPost() {
+    return ldContactPost;
   }
 
 
   /**
-   * @param liabilityDepartmentContactPost the liabilityDepartmentContactPost to set
+   * @param ldContactPost the ldContactPost to set
    */
-  public void setLiabilityDepartmentContactPost(String liabilityDepartmentContactPost) {
-    this.liabilityDepartmentContactPost = liabilityDepartmentContactPost;
+  public void setLdContactPost(String ldContactPost) {
+    this.ldContactPost = ldContactPost;
   }
 
 
   /**
-   * @return the gradeProtectionReportingComp
+   * @return the gpReportingComp
    */
-  public String getGradeProtectionReportingComp() {
-    return gradeProtectionReportingComp;
+  public String getGpReportingComp() {
+    return gpReportingComp;
   }
 
 
   /**
-   * @param gradeProtectionReportingComp the gradeProtectionReportingComp to set
+   * @param gpReportingComp the gpReportingComp to set
    */
-  public void setGradeProtectionReportingComp(String gradeProtectionReportingComp) {
-    this.gradeProtectionReportingComp = gradeProtectionReportingComp;
+  public void setGpReportingComp(String gpReportingComp) {
+    this.gpReportingComp = gpReportingComp;
   }
 
 
@@ -473,18 +461,18 @@ public class CompanyParam {
 
 
   /**
-   * @return the liabilityDepartmentContactWorkTel
+   * @return the ldContactWorkTel
    */
-  public String getLiabilityDepartmentContactWorkTel() {
-    return liabilityDepartmentContactWorkTel;
+  public String getLdContactWorkTel() {
+    return ldContactWorkTel;
   }
 
 
   /**
-   * @param liabilityDepartmentContactWorkTel the liabilityDepartmentContactWorkTel to set
+   * @param ldContactWorkTel the ldContactWorkTel to set
    */
-  public void setLiabilityDepartmentContactWorkTel(String liabilityDepartmentContactWorkTel) {
-    this.liabilityDepartmentContactWorkTel = liabilityDepartmentContactWorkTel;
+  public void setLdContactWorkTel(String ldContactWorkTel) {
+    this.ldContactWorkTel = ldContactWorkTel;
   }
 
 
@@ -501,6 +489,22 @@ public class CompanyParam {
    */
   public void setCompPrincipalName(String compPrincipalName) {
     this.compPrincipalName = compPrincipalName;
+  }
+
+
+  /**
+   * @return the companyIds
+   */
+  public String[] getCompanyIds() {
+    return companyIds;
+  }
+
+
+  /**
+   * @param companyIds the companyIds to set
+   */
+  public void setCompanyIds(String[] companyIds) {
+    this.companyIds = companyIds;
   }
 
 
@@ -566,7 +570,8 @@ public class CompanyParam {
   public void setSort(String sort) {
     this.sort = sort;
   }
- 
+
+
   public String toString() {
     return JSON.toJSONString(this);
   }

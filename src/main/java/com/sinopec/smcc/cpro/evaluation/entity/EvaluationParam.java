@@ -33,9 +33,9 @@ public class EvaluationParam{
   private String examOrg;
   private String examReport;
   private String examReportName;
-  private int fkexamStatus;
-  private String fkexamResult;
-  private int fkrectificationReutle;
+  private int fkExamStatus;
+  private String fkExamResult;
+  private int fkRectificationReu;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
   private String rectificationReport;
@@ -184,50 +184,50 @@ public class EvaluationParam{
 
 
   /**
-   * @return the fkexamStatus
+   * @return the fkExamStatus
    */
-  public int getFkexamStatus() {
-    return fkexamStatus;
+  public int getFkExamStatus() {
+    return fkExamStatus;
   }
 
 
   /**
-   * @param fkexamStatus the fkexamStatus to set
+   * @param fkExamStatus the fkExamStatus to set
    */
-  public void setFkexamStatus(int fkexamStatus) {
-    this.fkexamStatus = fkexamStatus;
+  public void setFkExamStatus(int fkExamStatus) {
+    this.fkExamStatus = fkExamStatus;
   }
 
 
   /**
-   * @return the fkexamResult
+   * @return the fkExamResult
    */
-  public String getFkexamResult() {
-    return fkexamResult;
+  public String getFkExamResult() {
+    return fkExamResult;
   }
 
 
   /**
-   * @param fkexamResult the fkexamResult to set
+   * @param fkExamResult the fkExamResult to set
    */
-  public void setFkexamResult(String fkexamResult) {
-    this.fkexamResult = fkexamResult;
+  public void setFkExamResult(String fkExamResult) {
+    this.fkExamResult = fkExamResult;
   }
 
 
   /**
-   * @return the fkrectificationReutle
+   * @return the fkRectificationReu
    */
-  public int getFkrectificationReutle() {
-    return fkrectificationReutle;
+  public int getFkRectificationReu() {
+    return fkRectificationReu;
   }
 
 
   /**
-   * @param fkrectificationReutle the fkrectificationReutle to set
+   * @param fkRectificationReu the fkRectificationReu to set
    */
-  public void setFkrectificationReutle(int fkrectificationReutle) {
-    this.fkrectificationReutle = fkrectificationReutle;
+  public void setFkRectificationReu(int fkRectificationReu) {
+    this.fkRectificationReu = fkRectificationReu;
   }
 
 

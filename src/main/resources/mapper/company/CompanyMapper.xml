@@ -3,43 +3,72 @@
 <mapper namespace="com.sinopec.smcc.cpro.company.mapper.CompanyMapper">
   <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.company.entity.CompanyListResult">
     <result column="pkId" property="companyId" jdbcType="VARCHAR" />
-    <result column="liabilityDepartmentContactEmail" property="liabilityDepartmentContactEmail" jdbcType="VARCHAR" />
+    <result column="ldContactEmail" property="ldContactEmail" jdbcType="VARCHAR" />
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
     <result column="compPrincipalWorkTel" property="compPrincipalWorkTel" jdbcType="VARCHAR" />
     <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="liabilityDepartmentContactName" property="liabilityDepartmentContactName" jdbcType="VARCHAR" />
-    <result column="responsibleDepartment" property="responsibleDepartment" jdbcType="VARCHAR" />
-    <result column="companyPrincipalEmail" property="companyPrincipalEmail" jdbcType="VARCHAR" />
-    <result column="liabilityDepartmentContactPhone" property="liabilityDepartmentContactPhone" jdbcType="VARCHAR" />
-    <result column="administrativeDivisionNum" property="administrativeDivisionNum" jdbcType="VARCHAR" />
+    <result column="ldContactName" property="ldContactName" jdbcType="VARCHAR" />
+    <result column="rDepartment" property="rDepartment" jdbcType="VARCHAR" />
+    <result column="companyPrincipalEm" property="companyPrincipalEm" jdbcType="VARCHAR" />
+    <result column="ldContactPhone" property="ldContactPhone" jdbcType="VARCHAR" />
+    <result column="administrativeNum" property="administrativeNum" jdbcType="VARCHAR" />
     <result column="compPrincipalPhone" property="compPrincipalPhone" jdbcType="VARCHAR" />
     <result column="companyCode" property="companyCode" jdbcType="VARCHAR" />
     <result column="compPrincipalPost" property="compPrincipalPost" jdbcType="VARCHAR" />
-    <result column="liabilityDepartmentContactPost" property="liabilityDepartmentContactPost" jdbcType="VARCHAR" />
-    <result column="gradeProtectionReportingComp" property="gradeProtectionReportingComp" jdbcType="VARCHAR" />
+    <result column="ldContactPost" property="ldContactPost" jdbcType="VARCHAR" />
+    <result column="gpReportingComp" property="gpReportingComp" jdbcType="VARCHAR" />
     <result column="companyAddress" property="companyAddress" jdbcType="VARCHAR" />
-    <result column="liabilityDepartmentContactWorkTel" property="liabilityDepartmentContactWorkTel" jdbcType="VARCHAR" />
+    <result column="ldContactWorkTel" property="ldContactWorkTel" jdbcType="VARCHAR" />
     <result column="compPrincipalName" property="compPrincipalName" jdbcType="VARCHAR" />
     <result column="codeName" property="provincesName" jdbcType="VARCHAR" />
     <result column="codeName" property="categoryName" jdbcType="VARCHAR" />
     <result column="codeName" property="affiliationName" jdbcType="VARCHAR" />
     <result column="codeName" property="companyTypeName" jdbcType="VARCHAR" />
     <result column="codeName" property="plateTypeName" jdbcType="VARCHAR" />
-    <result column="fkSubordinateProvinces" property="fkSubordinateProvinces" jdbcType="VARCHAR" />
-    <result column="industryCategory" property="industryCategory" jdbcType="VARCHAR" />
-    <result column="affiliation" property="affiliation" jdbcType="VARCHAR" />
-    <result column="companyType" property="companyType" jdbcType="VARCHAR" />
-    <result column="plateType" property="plateType" jdbcType="VARCHAR" />
-      
-    
+    <result column="fkSubordinatePro" property="fkSubordinatePro" jdbcType="VARCHAR" />
+    <result column="fkIndustryCategory" property="fkIndustryCategory" jdbcType="VARCHAR" />
+    <result column="fkAffiliation" property="fkAffiliation" jdbcType="VARCHAR" />
+    <result column="fkCompanyType" property="fkCompanyType" jdbcType="VARCHAR" />
+    <result column="fkPlateType" property="fkPlateType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="CompanyResult" type="com.sinopec.smcc.cpro.company.entity.CompanyResult">
+    <result column="pkId" property="companyId" jdbcType="VARCHAR" />
+    <result column="ldContactEmail" property="ldContactEmail" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+    <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
+    <result column="compPrincipalWorkTel" property="compPrincipalWorkTel" jdbcType="VARCHAR" />
+    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="ldContactName" property="ldContactName" jdbcType="VARCHAR" />
+    <result column="rDepartment" property="rDepartment" jdbcType="VARCHAR" />
+    <result column="companyPrincipalEm" property="companyPrincipalEm" jdbcType="VARCHAR" />
+    <result column="ldContactPhone" property="ldContactPhone" jdbcType="VARCHAR" />
+    <result column="administrativeNum" property="administrativeNum" jdbcType="VARCHAR" />
+    <result column="compPrincipalPhone" property="compPrincipalPhone" jdbcType="VARCHAR" />
+    <result column="companyCode" property="companyCode" jdbcType="VARCHAR" />
+    <result column="compPrincipalPost" property="compPrincipalPost" jdbcType="VARCHAR" />
+    <result column="ldContactPost" property="ldContactPost" jdbcType="VARCHAR" />
+    <result column="gpReportingComp" property="gpReportingComp" jdbcType="VARCHAR" />
+    <result column="companyAddress" property="companyAddress" jdbcType="VARCHAR" />
+    <result column="ldContactWorkTel" property="ldContactWorkTel" jdbcType="VARCHAR" />
+    <result column="compPrincipalName" property="compPrincipalName" jdbcType="VARCHAR" />
+    <result column="codeName" property="provincesName" jdbcType="VARCHAR" />
+    <result column="codeName" property="categoryName" jdbcType="VARCHAR" />
+    <result column="codeName" property="affiliationName" jdbcType="VARCHAR" />
+    <result column="codeName" property="companyTypeName" jdbcType="VARCHAR" />
+    <result column="codeName" property="plateTypeName" jdbcType="VARCHAR" />
+    <result column="fkSubordinatePro" property="fkSubordinatePro" jdbcType="VARCHAR" />
+    <result column="fkIndustryCategory" property="fkIndustryCategory" jdbcType="VARCHAR" />
+    <result column="fkAffiliation" property="fkAffiliation" jdbcType="VARCHAR" />
+    <result column="fkCompanyType" property="fkCompanyType" jdbcType="VARCHAR" />
+    <result column="fkPlateType" property="fkPlateType" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectAllByCompanyParam" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
   	SELECT 
       pkId AS companyId,
       companyName,
-      companyType,
-      liabilityDepartmentContactName,
+      fkCompanyType,
+      ldContactName
     FROM t_cpro_company
     WHERE deleteStatus = 1
     	<if test="companyName != null and companyName != ''">
@@ -48,31 +77,31 @@
     		  AND t_cpro_company.companyName LIKE #{companyName,jdbcType=VARCHAR}
     	  ]]>
     	</if>
-    	<if test="liabilityDepartmentContactName != null and liabilityDepartmentContactName != ''">
-    	  <bind name="liabilityDepartmentContactName" value="'%' + liabilityDepartmentContactName + '%'" />
+    	<if test="ldContactName != null and ldContactName != ''">
+    	  <bind name="ldContactName" value="'%' + ldContactName + '%'" />
     	  <![CDATA[
-    		  AND t_cpro_company.liabilityDepartmentContactName LIKE #{liabilityDepartmentContactName,jdbcType=VARCHAR}
+    		  AND t_cpro_company.ldContactName LIKE #{ldContactName,jdbcType=VARCHAR}
     	  ]]>
     	</if>
   </select>
   <insert id="insertCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" >
   	INSERT INTO t_cpro_company 
       (
-        pkId,industryCategory,affiliation,companyType,plateType,
-        fkSubordinateProvinces,liabilityDepartmentContactEmail,companyName,postalCode,compPrincipalWorkTel,
-        createUserName,remark,liabilityDepartmentContactName,responsibleDepartment,companyPrincipalEmail,
-        deleteStatus,liabilityDepartmentContactPhone,administrativeDivisionNum,compPrincipalPhone,companyCode,
-        compPrincipalPost,liabilityDepartmentContactPost,updateTime,gradeProtectionReportingComp,createTime,
-        companyAddress,liabilityDepartmentContactWorkTel,compPrincipalName
+        pkId,fkIndustryCategory,fkAffiliation,fkCompanyType,fkPlateType,
+        fkSubordinatePro,ldContactEmail,companyName,postalCode,compPrincipalWorkTel,
+        createUserName,remark,ldContactName,rDepartment,companyPrincipalEm,
+        deleteStatus,ldContactPhone,administrativeNum,compPrincipalPhone,companyCode,
+        compPrincipalPost,ldContactPost,updateTime,gpReportingComp,createTime,
+        companyAddress,ldContactWorkTel,compPrincipalName
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
           #{companyId,jdbcType=VARCHAR},
         ]]>
         <choose>
-          <when test="industryCategory != null and industryCategory != ''">
+          <when test="fkIndustryCategory != null and fkIndustryCategory != ''">
             <![CDATA[
-              #{industryCategory,jdbcType=VARCHAR},
+              #{fkIndustryCategory,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -82,9 +111,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="affiliation != null and affiliation != ''">
+          <when test="fkAffiliation != null and fkAffiliation != ''">
             <![CDATA[
-            #{affiliation,jdbcType=VARCHAR},
+            #{fkAffiliation,jdbcType=VARCHAR},
           ]]>
           </when>
           <otherwise>
@@ -94,9 +123,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="companyType != null and companyType != ''">
+          <when test="fkCompanyType != null and fkCompanyType != ''">
             <![CDATA[
-              #{companyType,jdbcType=VARCHAR},
+              #{fkCompanyType,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -106,9 +135,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="plateType != null and plateType != ''">
+          <when test="fkPlateType != null and fkPlateType != ''">
             <![CDATA[
-              #{plateType,jdbcType=VARCHAR},
+              #{fkPlateType,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -118,9 +147,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="fkSubordinateProvinces != null and fkSubordinateProvinces != ''">
+          <when test="fkSubordinatePro != null and fkSubordinatePro != ''">
             <![CDATA[
-              #{fkSubordinateProvinces,jdbcType=VARCHAR},
+              #{fkSubordinatePro,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -130,9 +159,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="liabilityDepartmentContactEmail != null and liabilityDepartmentContactEmail != ''">
+          <when test="ldContactEmail != null and ldContactEmail != ''">
             <![CDATA[
-              #{liabilityDepartmentContactEmail,jdbcType=VARCHAR},
+              #{ldContactEmail,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -202,9 +231,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="liabilityDepartmentContactName != null and liabilityDepartmentContactName != ''">
+          <when test="ldContactName != null and ldContactName != ''">
             <![CDATA[
-              #{liabilityDepartmentContactName,jdbcType=VARCHAR},
+              #{ldContactName,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -214,9 +243,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="responsibleDepartment != null and responsibleDepartment != ''">
+          <when test="rDepartment != null and rDepartment != ''">
             <![CDATA[
-              #{responsibleDepartment,jdbcType=VARCHAR},
+              #{rDepartment,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -226,9 +255,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="companyPrincipalEmail != null and companyPrincipalEmail != ''">
+          <when test="companyPrincipalEm != null and companyPrincipalEm != ''">
             <![CDATA[
-              #{companyPrincipalEmail,jdbcType=VARCHAR},
+              #{companyPrincipalEm,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -250,9 +279,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="liabilityDepartmentContactPhone != null ">
+          <when test="ldContactPhone != null and ldContactPhone != ''">
             <![CDATA[
-              #{liabilityDepartmentContactPhone,jdbcType=VARCHAR},
+              #{ldContactPhone,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -262,9 +291,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="administrativeDivisionNum != null ">
+          <when test="administrativeNum != null ">
             <![CDATA[
-              #{administrativeDivisionNum,jdbcType=INTEGER},
+              #{administrativeNum,jdbcType=INTEGER},
             ]]>
           </when>
           <otherwise>
@@ -278,7 +307,7 @@
             <![CDATA[
               #{compPrincipalPhone,jdbcType=VARCHAR},
             ]]>
-          </when>
+          </when> 
           <otherwise>
             <![CDATA[
               DEFAULT,
@@ -310,9 +339,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="liabilityDepartmentContactPost != null and liabilityDepartmentContactPost != ''">
+          <when test="ldContactPost != null and ldContactPost != ''">
             <![CDATA[
-              #{liabilityDepartmentContactPost,jdbcType=VARCHAR},
+              #{ldContactPost,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -334,9 +363,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="gradeProtectionReportingComp != null and gradeProtectionReportingComp != '' ">
+          <when test="gpReportingComp != null and gpReportingComp != '' ">
             <![CDATA[
-              #{gradeProtectionReportingComp,jdbcType=VARCHAR},
+              #{gpReportingComp,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -370,9 +399,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="liabilityDepartmentContactWorkTel != null and liabilityDepartmentContactWorkTel != ''">
+          <when test="ldContactWorkTel != null and ldContactWorkTel != ''">
             <![CDATA[
-              #{liabilityDepartmentContactWorkTel,jdbcType=VARCHAR},
+              #{ldContactWorkTel,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -397,20 +426,20 @@
     )
     ON DUPLICATE KEY UPDATE
       <trim suffixOverrides=",">
-        <if test="fkSubordinateProvinces != null and fkSubordinateProvinces != ''">
-        	fkSubordinateProvinces = #{fkSubordinateProvinces},
+        <if test="fkSubordinatePro != null and fkSubordinatePro != ''">
+        	fkSubordinatePro = #{fkSubordinatePro},
         </if>
-        <if test="industryCategory != null and industryCategory !='' ">
-      		industryCategory = #{industryCategory},
+        <if test="fkIndustryCategory != null and fkIndustryCategory !='' ">
+      		fkIndustryCategory = #{fkIndustryCategory},
         </if>
-        <if test="affiliation != null and affiliation !='' ">
-      		affiliation = #{affiliation},
+        <if test="fkAffiliation != null and fkAffiliation !='' ">
+      		fkAffiliation = #{fkAffiliation},
         </if>
-        <if test="companyType != null and companyType !='' ">
-      		companyType = #{companyType},
+        <if test="fkCompanyType != null and fkCompanyType !='' ">
+      		fkCompanyType = #{fkCompanyType},
         </if>
-        <if test="plateType != null and plateType !='' ">
-      		plateType = #{plateType},
+        <if test="fkPlateType != null and fkPlateType !='' ">
+      		fkPlateType = #{fkPlateType},
         </if>
         <if test="companyName != null and companyName !='' ">
       		companyName = #{companyName},
@@ -424,8 +453,8 @@
         <if test="postalCode != null and postalCode !='' ">
       		postalCode = #{postalCode},
         </if>
-        <if test="administrativeDivisionNum != null and administrativeDivisionNum !='' ">
-      		administrativeDivisionNum = #{administrativeDivisionNum},
+        <if test="administrativeNum != null and administrativeNum !='' ">
+      		administrativeNum = #{administrativeNum},
         </if>
         <if test="compPrincipalName != null and compPrincipalName !='' ">
       		compPrincipalName = #{compPrincipalName},
@@ -436,32 +465,32 @@
         <if test="compPrincipalPost != null and compPrincipalPost !='' ">
       		compPrincipalPost = #{compPrincipalPost},
         </if>
-        <if test="companyPrincipalEmail != null and companyPrincipalEmail !='' ">
-      		companyPrincipalEmail = #{companyPrincipalEmail},
+        <if test="companyPrincipalEm != null and companyPrincipalEm !='' ">
+      		companyPrincipalEm = #{companyPrincipalEm},
         </if>
         <if test="compPrincipalPhone != null and compPrincipalPhone !='' ">
       		compPrincipalPhone = #{compPrincipalPhone},
         </if>
-        <if test="liabilityDepartmentContactName != null and liabilityDepartmentContactName !='' ">
-      		liabilityDepartmentContactName = #{liabilityDepartmentContactName},
+        <if test="ldContactName != null and ldContactName !='' ">
+      		ldContactName = #{ldContactName},
         </if>
-        <if test="liabilityDepartmentContactWorkTel != null and liabilityDepartmentContactWorkTel !='' ">
-      		liabilityDepartmentContactWorkTel = #{liabilityDepartmentContactWorkTel},
+        <if test="ldContactWorkTel != null and ldContactWorkTel !='' ">
+      		ldContactWorkTel = #{ldContactWorkTel},
         </if>
-        <if test="liabilityDepartmentContactPost != null and liabilityDepartmentContactPost !='' ">
-      		liabilityDepartmentContactPost = #{liabilityDepartmentContactPost},
+        <if test="ldContactPost != null and ldContactPost !='' ">
+      		ldContactPost = #{ldContactPost},
         </if>
-        <if test="liabilityDepartmentContactEmail != null and liabilityDepartmentContactEmail !='' ">
-      		liabilityDepartmentContactEmail = #{liabilityDepartmentContactEmail},
+        <if test="ldContactEmail != null and ldContactEmail !='' ">
+      		ldContactEmail = #{ldContactEmail},
         </if>
-        <if test="liabilityDepartmentContactPhone != null and liabilityDepartmentContactPhone !='' ">
-      		liabilityDepartmentContactPhone = #{liabilityDepartmentContactPhone},
+        <if test="ldContactPhone != null and ldContactPhone !='' ">
+      		ldContactPhone = #{ldContactPhone},
         </if>
-        <if test="responsibleDepartment != null and responsibleDepartment !='' ">
-      		responsibleDepartment = #{responsibleDepartment},
+        <if test="rDepartment != null and rDepartment !='' ">
+      		rDepartment = #{rDepartment},
         </if>
-        <if test="gradeProtectionReportingComp != null and gradeProtectionReportingComp !='' ">
-      		gradeProtectionReportingComp = #{gradeProtectionReportingComp},
+        <if test="gpReportingComp != null and gpReportingComp !='' ">
+      		gpReportingComp = #{gpReportingComp},
         </if> 
       </trim>
   </insert> 
@@ -483,31 +512,31 @@
       deleteStatus = 1
       AND companyCode = #{companyCode}
   </select>
-  <select id="selectSingleCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
+  <select id="selectSingleCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="CompanyResult">
     SELECT 
       company.pkId AS companyId,
-      company.fkSubordinateProvinces,
-      company.industryCategory,
-      company.affiliation,
-      company.companyType,
-      company.plateType,
-		  company.liabilityDepartmentContactEmail,
+      company.fkSubordinatePro,
+      company.fkIndustryCategory,
+      company.fkAffiliation,
+      company.fkCompanyType,
+      company.fkPlateType,
+		  company.ldContactEmail,
 		  company.companyName,
 		  company.postalCode,
 		  company.compPrincipalWorkTel,
 		  company.createUserName,
-		  company.liabilityDepartmentContactName,
-		  company.responsibleDepartment,
-		  company.companyPrincipalEmail,
-		  company.liabilityDepartmentContactPhone,
-		  company.administrativeDivisionNum,
+		  company.ldContactName,
+		  company.rDepartment,
+		  company.companyPrincipalEm,
+		  company.ldContactPhone,
+		  company.administrativeNum,
 		  company.compPrincipalPhone,
 		  company.companyCode,
 		  company.compPrincipalPost,
-		  company.liabilityDepartmentContactPost,
-		  company.gradeProtectionReportingComp,
+		  company.ldContactPost,
+		  company.gpReportingComp,
 		  company.companyAddress,
-		  company.liabilityDepartmentContactWorkTel,
+		  company.ldContactWorkTel,
 		  company.compPrincipalName ,
 		  systemCodeProvinces.codeName AS provincesName,
 		  systemCodeCategory.codeName AS categoryName,
@@ -536,31 +565,31 @@
       AND  company.pkId = #{companyId}
   </select>
   
-  <select id="selectCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
+  <select id="selectCompanyByCompanyId" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="CompanyResult">
     SELECT 
-      company.pkId AS companyId,
-      company.fkSubordinateProvinces,
-      company.industryCategory,
-      company.affiliation,
-      company.companyType,
-      company.plateType,
-      company.liabilityDepartmentContactEmail,
+       company.pkId AS companyId,
+      company.fkSubordinatePro,
+      company.fkIndustryCategory,
+      company.fkAffiliation,
+      company.fkCompanyType,
+      company.fkPlateType,
+      company.ldContactEmail,
       company.companyName,
       company.postalCode,
       company.compPrincipalWorkTel,
       company.createUserName,
-      company.liabilityDepartmentContactName,
-      company.responsibleDepartment,
-      company.companyPrincipalEmail,
-      company.liabilityDepartmentContactPhone,
-      company.administrativeDivisionNum,
+      company.ldContactName,
+      company.rDepartment,
+      company.companyPrincipalEm,
+      company.ldContactPhone,
+      company.administrativeNum,
       company.compPrincipalPhone,
       company.companyCode,
       company.compPrincipalPost,
-      company.liabilityDepartmentContactPost,
-      company.gradeProtectionReportingComp,
+      company.ldContactPost,
+      company.gpReportingComp,
       company.companyAddress,
-      company.liabilityDepartmentContactWorkTel,
+      company.ldContactWorkTel,
       company.compPrincipalName ,
       systemCodeProvinces.codeName AS provincesName,
       systemCodeCategory.codeName AS categoryName,

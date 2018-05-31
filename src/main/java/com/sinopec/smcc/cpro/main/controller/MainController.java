@@ -79,7 +79,7 @@ public class MainController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/deleteMainBySystemId", method = RequestMethod.GET)
+  @RequestMapping(value = "/deleteMainBySystemId", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi deleteMainBySystemId(MainParam mainParam) throws BusinessException{
     this.mainServiceImpl.deleteMainBySystemId(mainParam);

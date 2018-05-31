@@ -22,12 +22,12 @@ import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
  * @version V1.0
  */
 public interface SystemUseServicesMapper {
-	/**
-	 * 
-	 * @Descrption
-	 * @author hanxin
-	 * @date 2018年5月27日下午5:13:03
-	 * @param list
-	 */
-	 void insertSystemUseServicesBySystemUseServicesId(List<SystemUseServices> list);
+  /**
+   * 
+   * @Descrption
+   * @author hanxin
+   * @date 2018年5月27日下午5:13:03
+   * @param list
+   */
+  void insertSystemUseServicesBySystemUseServicesId(List<SystemUseServices> list);
 }

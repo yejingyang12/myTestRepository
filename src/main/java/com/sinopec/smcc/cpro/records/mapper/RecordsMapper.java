@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.records.mapper;
 
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 
@@ -37,7 +38,7 @@ public interface RecordsMapper {
    * @param recordsParam
    * @return
    */
-  public RecordsListResult selectRecordsByFkSystemId(RecordsParam recordsParam);
+  public RecordsResult selectRecordsByFkSystemId(RecordsParam recordsParam);
 
   /**
    * @Descrption

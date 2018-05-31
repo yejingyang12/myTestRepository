@@ -23,6 +23,7 @@ import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 
@@ -45,7 +46,7 @@ public class CompanyController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryCompanyList", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryCompanyList", method = RequestMethod.GET)
   @ResponseBody
   public ResultApi queryCompanyList(HttpServletRequest request, CompanyParam companyParam)
       throws BusinessException {
@@ -108,10 +109,10 @@ public class CompanyController {
   @ResponseBody
   public ResultApi queryDetailsCompany(HttpServletRequest request,
       CompanyParam companyParam) throws BusinessException {
-    CompanyListResult companyListResult = 
+    CompanyResult companyResult = 
         this.companyServiceImpl.queryDetailsCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(companyListResult);
+    result.setData(companyResult);
     return result;
   }
   
@@ -124,14 +125,13 @@ public class CompanyController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryCompanyForUpdate", method = RequestMethod.GET)
+  @RequestMapping(value = "/queryEditCompany", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryCompanyForUpdate(HttpServletRequest request,
+  public ResultApi queryEditCompany(HttpServletRequest request,
       CompanyParam companyParam) throws BusinessException {
-    CompanyListResult companyListResult = 
-        this.companyServiceImpl.queryCompanyForUpdate(companyParam);
+    CompanyResult companyResult = this.companyServiceImpl.queryEditCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(companyListResult);
+    result.setData(companyResult);
     return result;
   }
 }
