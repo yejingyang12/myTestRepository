@@ -119,11 +119,12 @@
             <artifactId>commons-codec</artifactId>
         </dependency>
 
-        <!--admin client -->
+        <!--admin client 暂时不用Spring Admin做监控，先注释掉，避免监控检查报错
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
         </dependency>
+         -->
 
         <!-- json数据 -->
         <dependency>
