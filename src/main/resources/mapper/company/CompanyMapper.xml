@@ -10,7 +10,7 @@
     <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
     <result column="ldContactName" property="ldContactName" jdbcType="VARCHAR" />
     <result column="rDepartment" property="rDepartment" jdbcType="VARCHAR" />
-    <result column="companyPrincipalEm" property="companyPrincipalEm" jdbcType="VARCHAR" />
+    <result column="compPrincipalEm" property="compPrincipalEm" jdbcType="VARCHAR" />
     <result column="ldContactPhone" property="ldContactPhone" jdbcType="VARCHAR" />
     <result column="administrativeNum" property="administrativeNum" jdbcType="VARCHAR" />
     <result column="compPrincipalPhone" property="compPrincipalPhone" jdbcType="VARCHAR" />
@@ -41,7 +41,7 @@
     <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
     <result column="ldContactName" property="ldContactName" jdbcType="VARCHAR" />
     <result column="rDepartment" property="rDepartment" jdbcType="VARCHAR" />
-    <result column="companyPrincipalEm" property="companyPrincipalEm" jdbcType="VARCHAR" />
+    <result column="compPrincipalEm" property="compPrincipalEm" jdbcType="VARCHAR" />
     <result column="ldContactPhone" property="ldContactPhone" jdbcType="VARCHAR" />
     <result column="administrativeNum" property="administrativeNum" jdbcType="VARCHAR" />
     <result column="compPrincipalPhone" property="compPrincipalPhone" jdbcType="VARCHAR" />
@@ -89,7 +89,7 @@
       (
         pkId,fkIndustryCategory,fkAffiliation,fkCompanyType,fkPlateType,
         fkSubordinatePro,ldContactEmail,companyName,postalCode,compPrincipalWorkTel,
-        createUserName,remark,ldContactName,rDepartment,companyPrincipalEm,
+        createUserName,remark,ldContactName,rDepartment,compPrincipalEm,
         deleteStatus,ldContactPhone,administrativeNum,compPrincipalPhone,companyCode,
         compPrincipalPost,ldContactPost,updateTime,gpReportingComp,createTime,
         companyAddress,ldContactWorkTel,compPrincipalName
@@ -255,9 +255,9 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="companyPrincipalEm != null and companyPrincipalEm != ''">
+          <when test="compPrincipalEm != null and compPrincipalEm != ''">
             <![CDATA[
-              #{companyPrincipalEm,jdbcType=VARCHAR},
+              #{compPrincipalEm,jdbcType=VARCHAR},
             ]]>
           </when>
           <otherwise>
@@ -465,8 +465,8 @@
         <if test="compPrincipalPost != null and compPrincipalPost !='' ">
       		compPrincipalPost = #{compPrincipalPost},
         </if>
-        <if test="companyPrincipalEm != null and companyPrincipalEm !='' ">
-      		companyPrincipalEm = #{companyPrincipalEm},
+        <if test="compPrincipalEm != null and compPrincipalEm !='' ">
+      		compPrincipalEm = #{compPrincipalEm},
         </if>
         <if test="compPrincipalPhone != null and compPrincipalPhone !='' ">
       		compPrincipalPhone = #{compPrincipalPhone},
@@ -527,7 +527,7 @@
 		  company.createUserName,
 		  company.ldContactName,
 		  company.rDepartment,
-		  company.companyPrincipalEm,
+		  company.compPrincipalEm,
 		  company.ldContactPhone,
 		  company.administrativeNum,
 		  company.compPrincipalPhone,
@@ -546,19 +546,19 @@
     FROM
       t_cpro_company AS company
 		LEFT JOIN t_cpro_system_code AS systemCodeProvinces 
-		  ON company.fkSubordinateProvinces = systemCodeProvinces.systemCode
+		  ON company.fkSubordinatePro = systemCodeProvinces.systemCode
 		  AND systemCodeProvinces.fkCodeType = 21
 		LEFT JOIN t_cpro_system_code AS systemCodeCategory 
-		  ON company.industryCategory = systemCodeCategory.systemCode
+		  ON company.fkIndustryCategory = systemCodeCategory.systemCode
 		  AND systemCodeCategory.fkCodeType = 8
 		LEFT JOIN t_cpro_system_code AS systemCodeAffiliation 
-			ON company.industryCategory = systemCodeAffiliation.systemCode
+			ON company.fkIndustryCategory = systemCodeAffiliation.systemCode
 			AND systemCodeAffiliation.fkCodeType = 3
 		LEFT JOIN t_cpro_system_code AS systemCodeCompanyType 
-			ON company.industryCategory = systemCodeCompanyType.systemCode
+			ON company.fkIndustryCategory = systemCodeCompanyType.systemCode
 			AND systemCodeCompanyType.fkCodeType = 5
 		LEFT JOIN t_cpro_system_code AS systemCodePlateType 
-			ON company.industryCategory = systemCodePlateType.systemCode
+			ON company.fkIndustryCategory = systemCodePlateType.systemCode
 			AND systemCodePlateType.fkCodeType = 6
     WHERE 
       company.deleteStatus = 1
@@ -580,7 +580,7 @@
       company.createUserName,
       company.ldContactName,
       company.rDepartment,
-      company.companyPrincipalEm,
+      company.compPrincipalEm,
       company.ldContactPhone,
       company.administrativeNum,
       company.compPrincipalPhone,
@@ -599,19 +599,19 @@
     FROM
       t_cpro_company AS company
     LEFT JOIN t_cpro_system_code AS systemCodeProvinces 
-      ON company.fkSubordinateProvinces = systemCodeProvinces.systemCode
+      ON company.fkSubordinatePro = systemCodeProvinces.systemCode
       AND systemCodeProvinces.fkCodeType = 21
     LEFT JOIN t_cpro_system_code AS systemCodeCategory 
-      ON company.industryCategory = systemCodeCategory.systemCode
+      ON company.fkIndustryCategory = systemCodeCategory.systemCode
       AND systemCodeCategory.fkCodeType = 8
     LEFT JOIN t_cpro_system_code AS systemCodeAffiliation 
-      ON company.industryCategory = systemCodeAffiliation.systemCode
+      ON company.fkIndustryCategory = systemCodeAffiliation.systemCode
       AND systemCodeAffiliation.fkCodeType = 3
     LEFT JOIN t_cpro_system_code AS systemCodeCompanyType 
-      ON company.industryCategory = systemCodeCompanyType.systemCode
+      ON company.fkIndustryCategory = systemCodeCompanyType.systemCode
       AND systemCodeCompanyType.fkCodeType = 5
     LEFT JOIN t_cpro_system_code AS systemCodePlateType 
-      ON company.industryCategory = systemCodePlateType.systemCode
+      ON company.fkIndustryCategory = systemCodePlateType.systemCode
       AND systemCodePlateType.fkCodeType = 6
     WHERE 
       company.deleteStatus = 1

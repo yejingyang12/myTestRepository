@@ -65,8 +65,8 @@ public class EvaluationServiceImpl implements EvaluationService {
     //对实体内的对象进行处理
     evaluationParam.setDeleteStatus(1);
     //获得响应列表数据
-    List<EvaluationListResult> evaluationListResultList = evaluationMapper.
-    		selectAllByEvaluationParam(evaluationParam);
+    List<EvaluationListResult> evaluationListResultList = 
+        this.evaluationMapper.selectAllByEvaluationParam(evaluationParam);
     //装载列表数据
     PageInfo<EvaluationListResult> pageInfo = new PageInfo<>(evaluationListResultList);
     return pageInfo;
@@ -78,7 +78,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 	    throws BusinessException{
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
-    return evaluationMapper.selectSingleByEvaluationId(evaluationParam);
+    return this.evaluationMapper.selectSingleByEvaluationId(evaluationParam);
   }
 
 	@Override
@@ -91,7 +91,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 		}else{
 		  evaluationParam.setCreateTime(new Date());
 		}
-		evaluationMapper.saveEvaluationByEvaluationId(evaluationParam);
+		this.evaluationMapper.saveEvaluationByEvaluationId(evaluationParam);
 		return evaluationParam.getEvaluationId();
 	}
 
@@ -101,7 +101,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 	public void deleteEvaluation(EvaluationParam evaluationParam) throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))
 			throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
-		evaluationMapper.deleteEvaluationByEvaluationId(evaluationParam);
+		this.evaluationMapper.deleteEvaluationByEvaluationId(evaluationParam);
   }
 
   @Override
@@ -109,6 +109,6 @@ public class EvaluationServiceImpl implements EvaluationService {
   public EvaluationResult queryDetailsEvaluation(EvaluationParam evaluationParam) throws BusinessException {
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
-    return evaluationMapper.selectSingleDetailsByEvaluationId(evaluationParam);
+    return this.evaluationMapper.selectSingleDetailsByEvaluationId(evaluationParam);
   }
 }

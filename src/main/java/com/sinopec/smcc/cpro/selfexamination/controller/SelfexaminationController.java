@@ -75,10 +75,12 @@ public class SelfexaminationController {
    */
   @RequestMapping(value = "/saveSelfexamination", method = RequestMethod.GET)
   @ResponseBody
-  public String saveSelfexamination(SelfexaminationParam selfexaminationParam, 
+  public ResultApi saveSelfexamination(SelfexaminationParam selfexaminationParam, 
       Model model) throws BusinessException{
     String pkId = this.selfexaminationServiceImpl.
         saveSelfexamination(selfexaminationParam);
-    return pkId;
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(pkId);
+    return result;
   }
 }

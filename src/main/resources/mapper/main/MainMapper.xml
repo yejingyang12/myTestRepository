@@ -16,7 +16,7 @@
         system.pkId AS systemId, 
         system.systemName, 
         company.companyName, 
-        company.plateType, 
+        company.fkPlateType, 
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
         systemCodeSprankLevel.codeName AS SprankLevel,
         appIsInternet, 
@@ -30,7 +30,7 @@
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
       LEFT JOIN t_cpro_system_code AS systemCodeInfoSysTypeConstruction 
-        ON system.fkInfoSysTypeConstruction = systemCodeInfoSysTypeConstruction.systemCode 
+        ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
         AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
       LEFT JOIN t_cpro_score AS score 
         ON system.pkid = score.fkSystemId
@@ -152,7 +152,7 @@
       </if>
       <if test="plateType != null and plateType != ''">
           <![CDATA[
-            AND company.plateType = #{plateType,jdbcType=VARCHAR}
+            AND company.fkPlateType = #{plateType,jdbcType=VARCHAR}
           ]]>
       </if>
       <if test="sprankLevel != null and sprankLevel != ''">

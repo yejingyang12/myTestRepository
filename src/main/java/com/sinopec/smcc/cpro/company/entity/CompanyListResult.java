@@ -30,7 +30,7 @@ public class CompanyListResult {
   private String createUserName;
   private String ldContactName;
   private String rDepartment;
-  private String companyPrincipalEm;
+  private String compPrincipalEm;
   private String ldContactPhone;
   private Integer administrativeNum;
   private Integer compPrincipalPhone;
@@ -150,14 +150,14 @@ public class CompanyListResult {
   /**
    * @return the companyPrincipalEm
    */
-  public String getCompanyPrincipalEm() {
-    return companyPrincipalEm;
+  public String getCompPrincipalEm() {
+    return compPrincipalEm;
   }
   /**
    * @param companyPrincipalEm the companyPrincipalEm to set
    */
-  public void setCompanyPrincipalEm(String companyPrincipalEm) {
-    this.companyPrincipalEm = companyPrincipalEm;
+  public void setCompPrincipalEm(String compPrincipalEm) {
+    this.compPrincipalEm = compPrincipalEm;
   }
   /**
    * @return the ldContactPhone

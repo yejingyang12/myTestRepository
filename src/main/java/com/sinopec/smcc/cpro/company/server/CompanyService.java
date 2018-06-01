@@ -11,9 +11,9 @@ package com.sinopec.smcc.cpro.company.server;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 
 /**
  * @Title CompanyService.java

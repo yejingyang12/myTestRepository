@@ -125,7 +125,7 @@ public class CompanyController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryEditCompany", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryEditCompany", method = RequestMethod.GET)
   @ResponseBody
   public ResultApi queryEditCompany(HttpServletRequest request,
       CompanyParam companyParam) throws BusinessException {

@@ -129,7 +129,7 @@ public class EvaluationController {
   }
   
   /**
-   * 
+   * 获得测评详情信息
    * @author Aran
    * @date 2018年5月28日下午3:43:15
    * @param companyParam

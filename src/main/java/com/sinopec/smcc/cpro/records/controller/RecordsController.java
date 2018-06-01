@@ -66,7 +66,7 @@ public class RecordsController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryRecords", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryRecords", method = RequestMethod.GET)
   @ResponseBody
   public ResultApi queryRecords(HttpServletRequest request,
       RecordsParam recordsParam) throws BusinessException{

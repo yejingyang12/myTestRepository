@@ -33,9 +33,9 @@ public class EvaluationParam{
   private String examOrg;
   private String examReport;
   private String examReportName;
-  private int fkExamStatus;
+  private Integer fkExamStatus;
   private String fkExamResult;
-  private int fkRectificationReu;
+  private Integer fkRectificationReu;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
   private String rectificationReport;
@@ -186,7 +186,7 @@ public class EvaluationParam{
   /**
    * @return the fkExamStatus
    */
-  public int getFkExamStatus() {
+  public Integer getFkExamStatus() {
     return fkExamStatus;
   }
 
@@ -194,7 +194,7 @@ public class EvaluationParam{
   /**
    * @param fkExamStatus the fkExamStatus to set
    */
-  public void setFkExamStatus(int fkExamStatus) {
+  public void setFkExamStatus(Integer fkExamStatus) {
     this.fkExamStatus = fkExamStatus;
   }
 
@@ -218,7 +218,7 @@ public class EvaluationParam{
   /**
    * @return the fkRectificationReu
    */
-  public int getFkRectificationReu() {
+  public Integer getFkRectificationReu() {
     return fkRectificationReu;
   }
 
@@ -226,7 +226,7 @@ public class EvaluationParam{
   /**
    * @param fkRectificationReu the fkRectificationReu to set
    */
-  public void setFkRectificationReu(int fkRectificationReu) {
+  public void setFkRectificationReu(Integer fkRectificationReu) {
     this.fkRectificationReu = fkRectificationReu;
   }
 

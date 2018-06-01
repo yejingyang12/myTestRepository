@@ -44,6 +44,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   private SelfexaminationMapper selfexaminationMapper;
   
   @Override
+  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   public PageInfo<SelfexaminationListResult> querySelfexaminationList(
       SelfexaminationParam selfexaminationParam) throws BusinessException {
     StringBuffer orderBy = new StringBuffer();
@@ -53,7 +54,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
         orderBy.append(" ").append(selfexaminationParam.getSort());
       }
     }else {
-      orderBy.append("create_date desc");
+      orderBy.append("createTime desc");
     }
     PageHelper.startPage(selfexaminationParam.getCurrentPage(), 
         selfexaminationParam.getPageSize(), orderBy.toString());

@@ -26,15 +26,15 @@ import com.alibaba.fastjson.JSON;
 public class SelfexaminationParam {
   private String selfexaminationId;
   private String fkSystemId;
-  private int fkInspectionStatus;
-  private int inspectionStatusBegin;
-  private int inspectionStatusEnd;
-  private int fkInspectionReu;
-  private int inspectionReutleBegin;
-  private int inspectionReutleEnd;
-  private int fkRectificationReu;
-  private int rectificationReutleBegin;
-  private int rectificationReutleEnd;
+  private Integer fkInspectionStatus;
+  private Integer inspectionStatusBegin;
+  private Integer inspectionStatusEnd;
+  private Integer fkInspectionReu;
+  private Integer inspectionReutleBegin;
+  private Integer inspectionReutleEnd;
+  private Integer fkRectificationReu;
+  private Integer rectificationReutleBegin;
+  private Integer rectificationReutleEnd;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date inspectionDate;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -47,9 +47,9 @@ public class SelfexaminationParam {
   private Date rectificationDateBegin;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDateEnd;
-  private int deleteStatus;
-  private int deleteStatusBegin;
-  private int deleteStatusEnd;
+  private Integer deleteStatus;
+  private Integer deleteStatusBegin;
+  private Integer deleteStatusEnd;
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date createTime;

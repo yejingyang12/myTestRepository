@@ -9,6 +9,14 @@
     <result column="acceptDate" property="acceptDate" jdbcType="DATE"/>
     <result column="acceptCompany" property="acceptCompany" jdbcType="VARCHAR"/>
   </resultMap>
+   <resultMap id="RecordsResult" type="com.sinopec.smcc.cpro.records.entity.RecordsResult">
+    <id column="pkId" property="recordsId"/>
+    <result column="recordCompany" property="recordCompany" jdbcType="VARCHAR"/>
+    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR"/>
+    <result column="recordDate" property="recordDate" jdbcType="DATE"/>
+    <result column="acceptDate" property="acceptDate" jdbcType="DATE"/>
+    <result column="acceptCompany" property="acceptCompany" jdbcType="VARCHAR"/>
+  </resultMap>
   <insert id="insertRecords" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" >
   	INSERT INTO t_cpro_records 
       (
@@ -222,7 +230,7 @@
       </if>
     </trim>
   </insert> 
-   <select id="selectRecordsByFkSystemId" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="BaseResultMap">
+   <select id="selectRecordsByFkSystemId" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="RecordsResult">
     SELECT
       pkId AS recordsId,
       fkSystemId,

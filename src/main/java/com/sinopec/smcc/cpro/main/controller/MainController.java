@@ -49,10 +49,10 @@ public class MainController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryMainList", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryMainList", method = RequestMethod.GET)
   @ResponseBody
   public ResultApi queryMainList(HttpServletRequest request,
-      @RequestBody MainParam mainParam) throws BusinessException{
+      MainParam mainParam) throws BusinessException{
     //调用service实体，获得
     PageInfo<MainListResult> page = this.mainServiceImpl.queryMainList(mainParam);
     //通过resultApi实体组成返回参数
