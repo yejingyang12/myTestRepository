@@ -79,7 +79,8 @@ public class CheckController {
    */
   @RequestMapping(value = "/saveCheck", method = RequestMethod.GET)
   @ResponseBody
-  public ResultApi saveCheck(HttpRequest request,CheckParam checkParam) throws BusinessException {
+  public ResultApi saveCheck(HttpRequest request,
+      CheckParam checkParam) throws BusinessException {
     String checkId = this.checkServiceImpl.saveCheck(checkParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(checkId);

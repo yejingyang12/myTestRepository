@@ -9,14 +9,9 @@
 */
 package com.sinopec.smcc.cpro.file.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,8 +27,6 @@ import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
 import com.sinopec.smcc.cpro.file.entity.AttachFile;
-import com.sinopec.smcc.cpro.file.entity.SysAttachFile;
-import com.sinopec.smcc.cpro.file.entity.SysAttachFileParam;
 import com.sinopec.smcc.cpro.file.server.AttachFileService;
 
 /**
@@ -57,74 +50,44 @@ public class FileController {
   
   @ResponseBody
   @RequestMapping(value = "/fileUpload", method = { RequestMethod.POST, RequestMethod.GET })
-  public ResultApi fileUpload(HttpServletRequest request,
-      @RequestParam("file") MultipartFile[] files) throws BusinessException{
-    String fileName = "addfile";
-    attachFileService.SaveAttachFile(request, files, "sdweq", fileName);
-    int n = 0;
-    //判断file数组不能为空并且长度大于0  
-/*    List<AttachFile> list= sysAttachFileParam.getFileList();
-    AttachFile attachFile = new AttachFile();
-    File file = new File("d:/temp", "addfile.txt");
-    if  (!file .exists())     
-    {     
-        file .mkdir();   
+  public ResultApi fileUpload(HttpServletRequest request,String fkSystemId,String[] filePath,
+      String fkAttachType,String[] fileName) throws BusinessException{
+    String createUserName = (String) request.getSession().getAttribute("UserName");
+    ArrayList itemIds = new ArrayList();
+    for(int i=0;i<filePath.length;i++){
+      if(!"".equals(filePath[i])){
+        itemIds.add(filePath[i]);
+      }
+    }
+    ArrayList names = new ArrayList();
+    for(int j=0;j<filePath.length;j++){
+      if(!"".equals(filePath[j])){
+        itemIds.add(filePath[j]);
+      }
+    }
+    int count=0;
+    for(int i = 0;i<itemIds.size();i++){ 
+     String filePaths = (String) itemIds.get(i);
+     String filenStringName = (String) names.get(i);
+     count += this.attachFileService.SaveMongoAttachFile(fkSystemId, filePaths, filenStringName, fkAttachType,
+          createUserName);
     } 
-    attachFile.setFiles(file);
-    attachFile.setFileName("addfile");
-    attachFile.setAttachTypes("report");
-    list.add(attachFile);
-    System.out.println(list.toString());
-    if(!list.isEmpty()){  
-        //循环获取file数组中得文件  
-        for(int i = 0;i<list.size();i++){ 
-            SysAttachFile vo = new SysAttachFile();
-            //获取附件
-//            File file = list.get(i).getFiles();
-//            File file = new File("d:/temp", "addfile.txt");  
-            try {  
-                file.createNewFile(); // 创建文件  
-            } catch (IOException e) {  
-                e.printStackTrace();  
-            }  
-            String attachName = list.get(i).getFileName();
-            String attachTypes = list.get(i).getAttachTypes();
-            InputStream inputStream = null;
-            try {
-              // 读取文件内容 (输入流)  
-              inputStream = new FileInputStream(file);
-            } catch (IOException e2) {
-              e2.printStackTrace();
-            }
-            String fkSyssonId = null;
-            try {
-              //调用MongoDB接口保存文件到mongodb数据库并返回数据ID
-              fkSyssonId = "je1hje1e92831w9";
-//                  this.fileMongoServicee.uploadFile(inputStream, attachName);
-            } catch (Exception e1) {
-              e1.printStackTrace();
-            } 
-            vo.setAttachName(attachName);
-            vo.setCreateTime(new Date());
-            vo.setFkSystemId(sysAttachFileParam.getFkSystemId());
-            vo.setAttachType(attachTypes);
-            vo.setFkSyssonId(fkSyssonId);
-            vo.setDeleteStatus(1);
-            vo.setCreateUserName(sysAttachFileParam.getCreateUserName());
-            
-            try {
-            //通过附件上传接口AttachFileService调用新增附件方法
-//              n += this.attachFileService.SaveAttachFile(vo);
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-             
-        }  
-    } 
-    */
+//    AttachFile attachFile = attachFileService.SaveAttachFile(request, files, "type", fileName);
     //通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(n);
+    result.setData(count);
+    return result;
+  }
+  
+  @ResponseBody
+  @RequestMapping(value = "/initFileUpload", method = { RequestMethod.POST, RequestMethod.GET })
+  public ResultApi initFileUpload(HttpServletRequest request,
+      @RequestParam("file") MultipartFile[] files) throws BusinessException{
+    String fileName = "addfile";
+    AttachFile attachFile = attachFileService.SaveAttachFile(request, files, "type", fileName);
+    //通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(attachFile);
     return result;
   }
   

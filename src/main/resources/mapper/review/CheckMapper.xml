@@ -256,7 +256,7 @@
 						 ]]>
 					</if>
 					<if test="fkbusinessNode != null">
-							and s.fkbusinessNode = #{fkbusinessNode}
+							and a.fkbusinessNode = #{fkbusinessNode}
 					</if>
 
 </select>

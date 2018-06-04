@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,7 +51,7 @@ public class RecordsController {
   @RequestMapping(value = "/saveRecords", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi saveRecords(HttpServletRequest request,
-      RecordsParam recordsParam) throws BusinessException{
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
     String recordsId = this.recordsServiceImpl.saveRecords(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(recordsId);
@@ -66,10 +67,10 @@ public class RecordsController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryRecords", method = RequestMethod.GET)
+  @RequestMapping(value = "/queryRecords", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi queryRecords(HttpServletRequest request,
-      RecordsParam recordsParam) throws BusinessException{
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsResult recordsResult = 
         this.recordsServiceImpl.queryRecordsByFkSystemId(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -89,7 +90,7 @@ public class RecordsController {
   @RequestMapping(value = "/editRecords", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi editRecords(HttpServletRequest request,
-      RecordsParam recordsParam) throws BusinessException{
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
     this.recordsServiceImpl.editRecords(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
@@ -107,7 +108,7 @@ public class RecordsController {
   @RequestMapping(value = "/editRecordsForStatus", method = RequestMethod.POST)
   @ResponseBody 
   public ResultApi editRecordsStatus(HttpServletRequest request,
-      RecordsParam recordsParam) throws BusinessException{
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
     this.recordsServiceImpl.editRecordsForStatus(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;

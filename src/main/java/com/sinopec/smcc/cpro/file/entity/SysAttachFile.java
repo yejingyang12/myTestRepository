@@ -28,7 +28,7 @@ public class SysAttachFile {
   private String attachPath;
   private String attachId;
   private String fkSyssonId;
-  private String attachType;
+  private String fkAttachType;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
   private Integer deleteStatus;
@@ -56,11 +56,11 @@ public class SysAttachFile {
   public void setFkSyssonId(String fkSyssonId) {
     this.fkSyssonId = fkSyssonId;
   }
-  public String getAttachType() {
-    return attachType;
+  public String getFkAttachType() {
+    return fkAttachType;
   }
-  public void setAttachType(String attachType) {
-    this.attachType = attachType;
+  public void setFkAttachType(String fkAttachType) {
+    this.fkAttachType = fkAttachType;
   }
   public Date getCreateTime() {
     return createTime;

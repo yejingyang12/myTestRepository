@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 
 /**
  * @Title SelfexaminationService.java
@@ -41,7 +42,17 @@ public interface SelfexaminationService {
    * @param selfexamination  添加或修改的必要参数
    * @return  添加或修改数据成功后的id值
    */
-  String saveSelfexamination(SelfexaminationParam selfexaminationParam) 
+  String saveSelfexamination(SelfexaminationParam selfexaminationParam)  
+      throws BusinessException;
+
+  /**
+   * @Descrption 查询修改回显信息
+   * @author dongxu
+   * @date 2018年6月2日下午11:20:24
+   * @param selfexaminationParam
+   * @return
+   */
+  SelfexaminationResult queryEditSelfexamination(SelfexaminationParam selfexaminationParam)
       throws BusinessException;
 
 }

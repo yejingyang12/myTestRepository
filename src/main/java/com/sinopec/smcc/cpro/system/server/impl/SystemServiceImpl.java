@@ -25,8 +25,6 @@ import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeListResult;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -146,14 +144,14 @@ public class SystemServiceImpl implements SystemService {
 	/**
 	 * 查询系统代码信息
 	 */
-	@Override
+/*	@Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system_code")
   public List<SystemCodeListResult> querySystemCodeList(SystemCodeParam systemCodeParam) 
       throws BusinessException {
 	  List<SystemCodeListResult> systemCodeListResult = 
 	      this.systemMapper.selectSystemCodeListByParam(systemCodeParam);
     return systemCodeListResult;
-  }
+  }*/
 
 	/**
 	 * 查询系统信息详情

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinopec.smcc.cpro.file.mapper.AttachMapper">
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.file.entity.SysAttachFile">
+    <id column="pkId" property="attachId" jdbcType="VARCHAR" />
+    <result column="attachPath" property="attachPath" jdbcType="VARCHAR" />
+    <result column="fkSyssonId" property="fkSyssonId" jdbcType="VARCHAR" />
+    <result column="fkAttachType" property="fkAttachType" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="attachName" property="attachName" jdbcType="VARCHAR" />
+    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updateTime" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    attachPath,attachId,fkSyssonId,fkAttachType,createTime,deleteStatus,attachName,createUserName,
+    updateTime,remark,fkSystemId
+  </sql>
+  <insert id="insertAttach" parameterType="com.sinopec.smcc.cpro.file.entity.SysAttachFile">
+      <![CDATA[
+       INSERT INTO t_cpro_attach (
+        attachPath,pkId,fkSyssonId,fkAttachType,createTime,deleteStatus,attachName,createUserName
+        ,updateTime,remark,fkSystemId
+        )VALUES
+      ]]>
+        (
+      <trim suffixOverrides="," >
+        <choose>
+          <when test="attachPath != null ">
+            <![CDATA[
+              #{attachPath,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <if test="attachId != null and attachId != ''">
+            <![CDATA[
+              #{attachId,jdbcType=VARCHAR},
+            ]]>
+        </if>
+        <choose>
+          <when test="fkSyssonId != null ">
+            <![CDATA[
+              #{fkSyssonId,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="fkAttachType != null ">
+            <![CDATA[
+              #{fkAttachType,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <if test="createTime != null ">
+            <![CDATA[
+              #{createTime,jdbcType=TIMESTAMP},
+            ]]>
+        </if>
+        <choose>
+          <when test="deleteStatus != null ">
+            <![CDATA[
+              #{deleteStatus,jdbcType=INTEGER},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="attachName != null ">
+            <![CDATA[
+              #{attachName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="createUserName != null ">
+            <![CDATA[
+              #{createUserName,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="updateTime != null ">
+            <![CDATA[
+              #{updateTime,jdbcType=DATE},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <choose>
+          <when test="remark != null ">
+            <![CDATA[
+              #{remark,jdbcType=VARCHAR},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
+        <if test="fkSystemId != null and fkSystemId != ''">
+        <![CDATA[
+              #{fkSystemId,jdbcType=VARCHAR},
+            ]]>
+        </if>
+      </trim>
+      <![CDATA[
+        ) 
+      ]]>
+  </insert>
+  <update id="updateByAttach" parameterType="com.sinopec.smcc.cpro.file.entity.SysAttachFile" >
+    <![CDATA[
+      UPDATE t_cpro_attach 
+    ]]>
+    <set>
+      <if test="deleteStatus != null ">
+        <![CDATA[
+          deleteStatus = #{deleteStatus,jdbcType=INTEGER},
+        ]]>
+      </if>
+      <if test="updateTime != null ">
+        <![CDATA[
+          updateTime = #{updateTime,jdbcType=DATE},
+        ]]>
+      </if>
+    </set>
+    <where>
+      <if test="pkId != null and pkId != ''">
+        <![CDATA[
+          AND attachId = #{attachId,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="fkSyssonId != null and fkSyssonId != ''">
+        <![CDATA[
+          AND fkSyssonId = #{fkSyssonId,jdbcType=VARCHAR}
+        ]]>
+      </if>
+    </where>
+  </update>
+  <delete id="deleteByAttach" parameterType="com.sinopec.smcc.cpro.file.entity.SysAttachFile">
+    <![CDATA[
+     delete from t_cpro_attach 
+    ]]>
+    <where>
+      <if test="attachType != null and attachType != ''">
+        <![CDATA[
+          AND attachType = #{attachType,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="fkSystemId != null and fkSystemId != ''">
+        <![CDATA[
+          AND fkSystemId = #{fkSystemId,jdbcType=VARCHAR}
+        ]]>
+      </if>
+    </where>
+  </delete>
+</mapper>

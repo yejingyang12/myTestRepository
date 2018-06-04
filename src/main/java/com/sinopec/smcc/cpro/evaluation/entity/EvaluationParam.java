@@ -13,6 +13,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title EvaluationParam.java
@@ -27,7 +28,7 @@ public class EvaluationParam{
   private String evaluationId;
   private String systemId;
   private String examName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date examTime;
   private String examYear;
   private String examOrg;
@@ -36,13 +37,13 @@ public class EvaluationParam{
   private Integer fkExamStatus;
   private String fkExamResult;
   private Integer fkRectificationReu;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date rectificationDate;
   private String rectificationReport;
   private String rectificationReportName;
   private Integer deleteStatus;
   private String createUserName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
 
   //当页数量
@@ -106,6 +107,7 @@ public class EvaluationParam{
   /**
    * @return the examTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getExamTime() {
     return examTime;
   }
@@ -234,6 +236,7 @@ public class EvaluationParam{
   /**
    * @return the rectificationDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }

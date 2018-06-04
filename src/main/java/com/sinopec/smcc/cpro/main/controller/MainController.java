@@ -9,6 +9,7 @@
 package com.sinopec.smcc.cpro.main.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -49,10 +50,10 @@ public class MainController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/queryMainList", method = RequestMethod.GET)
+  @RequestMapping(value = "/queryMainList", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi queryMainList(HttpServletRequest request,
-      MainParam mainParam) throws BusinessException{
+      @RequestBody MainParam mainParam) throws BusinessException{
     //调用service实体，获得
     PageInfo<MainListResult> page = this.mainServiceImpl.queryMainList(mainParam);
     //通过resultApi实体组成返回参数
@@ -67,6 +68,7 @@ public class MainController {
     result.setTotal(page.getTotal());
     //响应的数据
     result.setData(page.getList());
+    
     return result;
   }
   
@@ -81,10 +83,59 @@ public class MainController {
    */
   @RequestMapping(value = "/deleteMainBySystemId", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi deleteMainBySystemId(MainParam mainParam) throws BusinessException{
+  public ResultApi deleteMainBySystemId(@RequestBody MainParam mainParam) throws BusinessException{
     this.mainServiceImpl.deleteMainBySystemId(mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   }
- 
+  
+  /**
+   * 一键导出
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月4日上午10:34:35
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/exportExcelForMain", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi exportExcelForMain(HttpServletRequest request) throws BusinessException{
+    this.mainServiceImpl.exportExcelForMain();
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * 下载
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月4日上午10:34:35
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/exportUploadApplicationInfo", method = RequestMethod.GET)
+  @ResponseBody
+  public ResultApi exportUploadApplicationInfo(HttpServletRequest request
+      ,HttpServletResponse response,@RequestBody String strFilePath) throws BusinessException{
+    this.mainServiceImpl.exportUploadApplicationInfo(request,response,strFilePath);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * 定级模板导出
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月4日下午5:48:12
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi exportExcelForGradeTemplate(HttpServletRequest request) throws BusinessException{
+    this.mainServiceImpl.exportExcelForGradeTemplate();
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
 }

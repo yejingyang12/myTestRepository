@@ -9,8 +9,6 @@
 */
 package com.sinopec.smcc.cpro.file.mapper;
 
-import java.util.List;
-
 import com.sinopec.smcc.cpro.file.entity.SysAttachFile;
 
 /**
@@ -39,6 +37,6 @@ public interface AttachMapper {
    * @return
    * @throws Exception
    */
-  public int deleteByAttach(SysAttachFile SysAttachFile) throws Exception;
+  public int deleteByAttach(String fkSyssonId) throws Exception;
 
 }

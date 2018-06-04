@@ -21,15 +21,33 @@
 	  <result column="reviewReportPath" property="reviewReportPath" />
 	  <result column="rectificationReportName" property="rectificationReportName" />
 	  <result column="rectificationReportPath" property="rectificationReportPath" />
+	  <result column="systemName" property="systemName" />
 	</resultMap>
+	
+	<resultMap type="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult" id="SelfexaminationResult">
+    <id column="pkId" property="selfexaminationId" />
+    <result column="fkSystemId" property="fkSystemId" />
+    <result column="fkInspectionStatus" property="fkInspectionStatus" />
+    <result column="fkInspectionReu" property="fkInspectionReu" />
+    
+    <result column="fkRectificationReu" property="fkRectificationReu" />
+    <result column="inspectionDate" property="inspectionDate" />
+    <result column="rectificationDate" property="rectificationDate" />
+    
+    <result column="reviewReportName" property="reviewReportName" />
+    <result column="reviewReportPath" property="reviewReportPath" />
+    <result column="rectificationReportName" property="rectificationReportName" />
+    <result column="rectificationReportPath" property="rectificationReportPath" />
+  </resultMap>
 	<select id="selectAllBySelfexaminationParam" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationListResult">
 		SELECT 
 			self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
-			self.fkRectificationReu,self.inspectionDate,self.rectificationDate,self.deleteStatus,
-			self.createUserName,self.createTime,self.updateTime,self.remark,
-			review.attachName as reviewReportName,review.attachPath as reviewReportPath,
-			rectification.attachName as rectificationReportName,rectification.attachPath as rectificationReportPath
-		FORM t_cpro_self_inspection as self
+			self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
+			self.createUserName,self.createTime,self.updateTime,review.attachName AS reviewReportName,
+			review.attachPath AS reviewReportPath,rectification.attachName AS rectificationReportName,
+			rectification.attachPath AS rectificationReportPath,
+			system.systemName AS systemName
+		FROM t_cpro_self_inspection AS self
 		LEFT JOIN t_cpro_attach review
 			ON self.fkSystemId = review.fkSystemId
 			AND self.pkId = review.fkSyssonId 
@@ -38,6 +56,14 @@
 			ON self.fkSystemId = rectification.fkSystemId
 			AND self.pkId = rectification.fkSyssonId
 			AND rectification.fkAttachType = 'rectificationReport'
+		LEFT JOIN t_cpro_system system
+		  ON system.pkId = self.fkSystemId
+			<where>
+	      <![CDATA[
+	        self.deleteStatus = 1
+	        AND self.fkSystemId = #{fkSystemId}
+	      ]]>
+      </where>
 	</select>
 	
 	<insert id="insertOrUpdateSelfexamination" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
@@ -47,7 +73,14 @@
 			createUserName,createTime,updateTime,remark
 		) values(
 			<trim suffixOverrides="," >
-				#{selfexaminationId},
+				<choose>
+          <when test="selfexaminationId != null and selfexaminationId != ''">
+            #{selfexaminationId},
+          </when>
+          <otherwise>
+            DEFAULT,
+          </otherwise>
+        </choose>
 				<choose>
 					<when test="fkSystemId != null and fkSystemId != ''">
 						#{fkSystemId},
@@ -144,4 +177,26 @@
 			inspectionDate = #{inspectionDate},
 			rectificationDate = #{rectificationDate}
 	</insert>
+  <select id="selectSingleBySelfexaminationId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationResult">
+    SELECT 
+      self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
+      self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
+      self.createUserName,self.createTime,self.updateTime,review.attachName AS reviewReportName,
+      review.attachPath AS reviewReportPath,rectification.attachName AS rectificationReportName,
+      rectification.attachPath AS rectificationReportPath
+    FROM t_cpro_self_inspection AS self
+    LEFT JOIN t_cpro_attach review
+      ON self.fkSystemId = review.fkSystemId
+      AND self.pkId = review.fkSyssonId 
+      AND review.fkAttachType = 'evaluationPresentation'
+    LEFT JOIN t_cpro_attach rectification
+      ON self.fkSystemId = rectification.fkSystemId
+      AND self.pkId = rectification.fkSyssonId
+      AND rectification.fkAttachType = 'rectificationReport'
+    <where>
+      <![CDATA[
+        AND self.pkId = #{selfexaminationId}
+      ]]>
+    </where>
+  </select>
 </mapper>

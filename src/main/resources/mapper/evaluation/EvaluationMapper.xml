@@ -12,7 +12,7 @@
     <result property="examReportName" column="examReportName" />
     <result property="fkExamStatus" column="fkExamStatus" />
     <result property="fkExamResult" column="fkExamResult" />
-    <result property="fkRectificationReutle" column="fkRectificationReutle" />
+    <result property="fkRectificationReu" column="fkRectificationReu" />
     <result property="rectificationDate" column="rectificationDate" />
     <result property="rectificationReport" column="rectificationReport" />
     <result property="rectificationReportName" column="rectificationReportName" />
@@ -21,7 +21,6 @@
   	<![CDATA[
       SELECT 
         cproEvaluation.pkId AS evaluationId,
-        cproSystem.systemName AS systemName,
         cproEvaluation.examName AS examName,
         cproEvaluation.examTime AS examTime,
         cproEvaluation.examYear AS examYear,
@@ -30,7 +29,7 @@
         cproAttach.attachName AS examReportName,
         cproEvaluation.fkExamStatus AS fkExamStatus,
         cproEvaluation.fkExamResult AS fkExamResult,
-        cproEvaluation.fkRectificationReutle AS fkRectificationReutle,
+        cproEvaluation.fkRectificationReu AS fkRectificationReu,
         rectificationDate AS rectificationDate,
         cproAttachRectification.attachPath AS rectificationReport,
         cproAttachRectification.attachName AS rectificationReportName
@@ -64,7 +63,7 @@
     <result property="examReportName" column="examReportName" />
     <result property="fkExamStatus" column="fkExamStatus" />
     <result property="fkExamResult" column="fkExamResult" />
-    <result property="fkRectificationReutle" column="fkRectificationReutle" />
+    <result property="fkRectificationReu" column="fkRectificationReu" />
     <result property="rectificationDate" column="rectificationDate" />
     <result property="rectificationReport" column="rectificationReport" />
     <result property="rectificationReportName" column="rectificationReportName" />
@@ -81,7 +80,7 @@
         cproAttach.attachName AS examReportName,
         cproEvaluation.fkExamStatus AS fkExamStatus,
         cproEvaluation.fkExamResult AS fkExamResult,
-        cproEvaluation.fkRectificationReutle AS fkRectificationReutle,
+        cproEvaluation.fkRectificationReu AS fkRectificationReu,
         rectificationDate AS rectificationDate,
         cproAttachRectification.attachPath AS rectificationReport,
         cproAttachRectification.attachName AS rectificationReportName
@@ -113,7 +112,7 @@
         examOrg,
         fkExamStatus,
         fkExamResult,
-        fkRectificationReutle,
+        fkRectificationReu,
         rectificationDate,
         createTime,
         createUserName,
@@ -146,7 +145,7 @@
         #{fkExamResult},
       ]]>
       <![CDATA[
-        #{fkRectificationReutle},
+        #{fkRectificationReu},
       ]]>
       <![CDATA[
 	       #{rectificationDate},
@@ -186,7 +185,7 @@
       examYear=#{examYear},
       examOrg=#{examOrg},
       fkExamStatus=#{fkExamStatus},
-      fkRectificationReutle=#{fkRectificationReutle},
+      fkRectificationReu=#{fkRectificationReu},
       rectificationDate=#{rectificationDate}
     ]]>
   </insert>
@@ -219,7 +218,7 @@
         cproAttach.attachName AS examReportName,
         cproEvaluation.fkExamStatus AS fkExamStatus,
         cproEvaluation.fkExamResult AS fkExamResult,
-        cproEvaluation.fkRectificationReutle AS fkRectificationReutle,
+        cproEvaluation.fkRectificationReu AS fkRectificationReu,
         rectificationDate AS rectificationDate,
         cproAttachRectification.attachPath AS rectificationReport,
         cproAttachRectification.attachName AS rectificationReportName

@@ -21,10 +21,12 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper;
 import com.sinopec.smcc.cpro.selfexamination.server.SelfexaminationService;
 import com.sinopec.smcc.cpro.selfexamination.utils.ConvertFieldUtil;
@@ -85,6 +87,19 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
     }
     this.selfexaminationMapper.insertOrUpdateSelfexamination(selfexaminationParam);
     return selfexaminationParam.getSelfexaminationId();
+  }
+  
+  /**
+   * 查询修改回显信息
+   */
+  @Override
+  @Transactional
+  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
+  public SelfexaminationResult queryEditSelfexamination(SelfexaminationParam selfexaminationParam)
+      throws BusinessException{
+    if (StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())) 
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    return this.selfexaminationMapper.selectSingleBySelfexaminationId(selfexaminationParam);
   }
 
 }

@@ -28,6 +28,10 @@ public class MainParam {
   private String acceptCompany;
   private String examOrg;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date auditTimeBegin;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date auditTimeEnd;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date recordDateBegin;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date recordDateEnd;
@@ -63,6 +67,35 @@ public class MainParam {
   private String sort;// 排序方式
 
   
+  
+  /**
+   * @return the auditTimeBegin
+   */
+  public Date getAuditTimeBegin() {
+    return auditTimeBegin;
+  }
+
+  /**
+   * @param auditTimeBegin the auditTimeBegin to set
+   */
+  public void setAuditTimeBegin(Date auditTimeBegin) {
+    this.auditTimeBegin = auditTimeBegin;
+  }
+
+  /**
+   * @return the auditTimeEnd
+   */
+  public Date getAuditTimeEnd() {
+    return auditTimeEnd;
+  }
+
+  /**
+   * @param auditTimeEnd the auditTimeEnd to set
+   */
+  public void setAuditTimeEnd(Date auditTimeEnd) {
+    this.auditTimeEnd = auditTimeEnd;
+  }
+
   /**
    * @return the systemCodeType
    */

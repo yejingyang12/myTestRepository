@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * @Title SelfexaminationListResult.java
  * @Package com.sinopec.smcc.cpro.selfexamination.entity
@@ -27,22 +29,35 @@ public class SelfexaminationListResult {
   private Integer fkInspectionStatus;
   private Integer fkInspectionReu;
   private Integer fkRectificationReu;
+  private String systemName;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date inspectionDate;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
-  private int deleteStatus;
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date createTime;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date updateTime;
-  private String remark;
 
   private String reviewReportName;
   private String reviewReportPath;
   private String rectificationReportName;
   private String rectificationReportPath;
+  
+  
+  /**
+   * @return the inspectionName
+   */
+  public String getSystemName() {
+    return systemName;
+  }
+  /**
+   * @param inspectionName the inspectionName to set
+   */
+  public void setSystemName(String systemName) {
+    this.systemName = systemName;
+  }
   /**
    * @return the selfexaminationId
    */
@@ -106,6 +121,7 @@ public class SelfexaminationListResult {
   /**
    * @return the inspectionDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getInspectionDate() {
     return inspectionDate;
   }
@@ -118,6 +134,7 @@ public class SelfexaminationListResult {
   /**
    * @return the rectificationDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }
@@ -127,18 +144,7 @@ public class SelfexaminationListResult {
   public void setRectificationDate(Date rectificationDate) {
     this.rectificationDate = rectificationDate;
   }
-  /**
-   * @return the deleteStatus
-   */
-  public int getDeleteStatus() {
-    return deleteStatus;
-  }
-  /**
-   * @param deleteStatus the deleteStatus to set
-   */
-  public void setDeleteStatus(int deleteStatus) {
-    this.deleteStatus = deleteStatus;
-  }
+
   /**
    * @return the createUserName
    */
@@ -154,6 +160,7 @@ public class SelfexaminationListResult {
   /**
    * @return the createTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTime() {
     return createTime;
   }
@@ -166,6 +173,7 @@ public class SelfexaminationListResult {
   /**
    * @return the updateTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTime() {
     return updateTime;
   }
@@ -175,18 +183,7 @@ public class SelfexaminationListResult {
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
-  /**
-   * @return the remark
-   */
-  public String getRemark() {
-    return remark;
-  }
-  /**
-   * @param remark the remark to set
-   */
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
+
   /**
    * @return the reviewReportName
    */

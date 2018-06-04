@@ -22,11 +22,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.cpro.grading.entity.AttachListResult;
-import com.sinopec.smcc.cpro.grading.entity.AttachParam;
+import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
+import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
-import com.sinopec.smcc.cpro.grading.server.AttachService;
+import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
 
 /**
@@ -44,7 +44,7 @@ public class GradingController {
   @Autowired
   private GradingService gradingServiceImpl;
   @Autowired
-  private AttachService AttachServiceImpl;
+  private AttachMaterialsService AttachServiceImpl;
   
   /**
    * 
@@ -117,12 +117,12 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryDetailsAttach", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryDetailsAttach(HttpServletRequest request,AttachParam attachParam) 
+  public ResultApi queryDetailsAttach(HttpServletRequest request,AttachMaterialsParam attachMaterialsParam) 
       throws BusinessException{
-    List<AttachListResult> attachListResult = 
-        this.AttachServiceImpl.queryDetailsAttach(attachParam);
+    List<AttachMaterialsListResult> attachMaterialsListResult = 
+        this.AttachServiceImpl.queryDetailsAttach(attachMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachListResult);
+    result.setData(attachMaterialsListResult);
     return result;
   }
   
@@ -132,17 +132,17 @@ public class GradingController {
    * @author hanxin
    * @date 2018年5月30日上午9:04:52
    * @param request
-   * @param attachParam
+   * @param attachMaterialsParam
    * @return
    * @throws BusinessException 
    */
   @RequestMapping(value = "/queryEditAttach", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryEditAttach(HttpServletRequest request,AttachParam attachParam) 
+  public ResultApi queryEditAttach(HttpServletRequest request,AttachMaterialsParam attachMaterialsParam) 
       throws BusinessException{
-    List<AttachListResult> attachListResult = this.AttachServiceImpl.queryEditAttach(attachParam);
+    List<AttachMaterialsListResult> attachMaterialsListResult = this.AttachServiceImpl.queryEditAttach(attachMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachListResult);
+    result.setData(attachMaterialsListResult);
     return result;
   }
 }

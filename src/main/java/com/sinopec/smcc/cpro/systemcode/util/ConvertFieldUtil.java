@@ -1,6 +1,6 @@
 package com.sinopec.smcc.cpro.systemcode.util;
 
-import com.sinopec.smcc.cpro.systemcode.constant.CheckConstant;
+import com.sinopec.smcc.cpro.systemcode.constant.CodeConstant;
 
 
 /**  
@@ -15,8 +15,8 @@ public class ConvertFieldUtil {
 
 	
 	public static String sortField(String field) {
-		if(CheckConstant.TABLE_SYSTEMCODE_CREATE_TIME.equalsIgnoreCase(field) ) {
-			field = CheckConstant.TABLE_SYSTEMCODE_CREATE_TIME;
+		if(CodeConstant.TABLE_SYSTEMCODE_CREATE_TIME.equalsIgnoreCase(field) ) {
+			field = CodeConstant.TABLE_SYSTEMCODE_CREATE_TIME;
 		}else {
 			
 		}

@@ -10,7 +10,10 @@ package com.sinopec.smcc.cpro.evaluation.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title EvaluationListResult.java
@@ -23,8 +26,8 @@ import com.alibaba.fastjson.JSON;
 public class EvaluationListResult {
 
   private String evaluationId;
-  private String systemName;
   private String examName;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date examTime;
   private String examYear;
   private String examOrg;
@@ -32,6 +35,7 @@ public class EvaluationListResult {
   private Integer fkExamStatus;
   private String fkExamResult;
   private Integer fkRectificationReu;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date rectificationDate;
   private String rectificationReport;
   private String examReportName;
@@ -53,23 +57,6 @@ public class EvaluationListResult {
     this.evaluationId = evaluationId;
   }
 
-
-  /**
-   * @return the systemName
-   */
-  public String getSystemName() {
-    return systemName;
-  }
-
-
-  /**
-   * @param systemName the systemName to set
-   */
-  public void setSystemName(String systemName) {
-    this.systemName = systemName;
-  }
-
-
   /**
    * @return the examName
    */
@@ -89,6 +76,7 @@ public class EvaluationListResult {
   /**
    * @return the examTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getExamTime() {
     return examTime;
   }
@@ -201,6 +189,7 @@ public class EvaluationListResult {
   /**
    * @return the rectificationDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }

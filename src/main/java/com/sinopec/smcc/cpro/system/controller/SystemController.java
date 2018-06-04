@@ -23,8 +23,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeListResult;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
@@ -101,16 +99,15 @@ public class SystemController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/querySystemCodeList", method = RequestMethod.POST)
+/*  @RequestMapping(value = "/querySystemCodeList", method = RequestMethod.GET)
   @ResponseBody
-  public ResultApi querySystemCodeList(HttpServletRequest request,SystemCodeParam systemCodeParam)
+  public ResultApi querySystemCodeList(SystemCodeParam systemCodeParam)
       throws BusinessException {
-    List<SystemCodeListResult> SystemCodeListResultList = 
-        this.systemServiceImpl.querySystemCodeList(systemCodeParam);
+    List<SystemCodeListResult> systemCodeListResultList = this.systemServiceImpl.querySystemCodeList(systemCodeParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(SystemCodeListResultList);
+    result.setData(systemCodeListResultList);
     return result;
-  }
+  }*/
   /**
    * 
    * 查询系统信息详情

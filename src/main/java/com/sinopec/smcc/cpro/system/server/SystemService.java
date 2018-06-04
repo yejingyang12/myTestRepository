@@ -13,8 +13,6 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeListResult;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
@@ -56,7 +54,7 @@ public interface SystemService {
    * @return
    * @throws BusinessException
    */
-  List<SystemCodeListResult> querySystemCodeList(SystemCodeParam systemCodeParam) throws BusinessException;
+//  List<SystemCodeListResult> querySystemCodeList(SystemCodeParam systemCodeParam) throws BusinessException;
   
   /**
    * 	查询系统信息详情

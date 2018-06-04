@@ -11,8 +11,6 @@ package com.sinopec.smcc.cpro.system.mapper;
 
 import java.util.List;
 
-import com.sinopec.smcc.cpro.system.entity.SystemCodeListResult;
-import com.sinopec.smcc.cpro.system.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
@@ -51,7 +49,7 @@ public interface SystemMapper {
    * @param systemCodeParam
    * @return
    */
-  List<SystemCodeListResult> selectSystemCodeListByParam(SystemCodeParam systemCodeParam);
+//  List<SystemCodeListResult> selectSystemCodeListByParam(SystemCodeParam systemCodeParam);
   
   /**
    * @Descrption

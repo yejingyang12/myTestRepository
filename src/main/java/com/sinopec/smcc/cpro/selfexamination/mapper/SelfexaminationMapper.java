@@ -14,6 +14,7 @@ import java.util.List;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 
 /**
  * @Title SelfexaminationMapper.java
@@ -43,4 +44,13 @@ public interface SelfexaminationMapper {
    * @throws BusinessException
    */
   void insertOrUpdateSelfexamination(SelfexaminationParam selfexaminationParam) throws BusinessException;
+
+  /**
+   * @Descrption 通过自查ID查询修改回显信息
+   * @author dongxu
+   * @date 2018年6月2日下午11:23:40
+   * @param selfexaminationParam
+   * @return
+   */
+  SelfexaminationResult selectSingleBySelfexaminationId(SelfexaminationParam selfexaminationParam);
 }

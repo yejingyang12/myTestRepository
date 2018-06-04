@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinopec.smcc.cpro.systemcode.mapper.SystemCodeMapper">
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.systemcode.entity.SystemCode">
+    <id column="pkId" property="SystemCodeId" jdbcType="VARCHAR" />
+    <result column="fkCodeType" property="fkCodeType" jdbcType="INTEGER" />
+    <result column="handleResult" property="handleResult" jdbcType="VARCHAR" />
+    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updateTime" jdbcType="DATE" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="codeOrder" property="codeOrder" jdbcType="VARCHAR" />
+    <result column="systemCode" property="systemCode" jdbcType="VARCHAR" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="codeName" property="codeName" jdbcType="VARCHAR" />
+    <result column="handleDate" property="handleDate" jdbcType="TIMESTAMP" />
+    <result column="systemFatherCode" property="systemFatherCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getConstantByName" parameterType="com.sinopec.smcc.cpro.systemcode.entity.SystemCode" resultMap="BaseResultMap">
+    <![CDATA[
+     SELECT 
+        fkCodeType,systemCode,codeName,systemFatherCode
+      FROM t_cpro_system_code
+    ]]>
+    <where>
+      <if test="fkCodeType != null and fkCodeType != ''">
+        <![CDATA[
+          AND fkCodeType = #{fkCodeType,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''">
+        <![CDATA[
+          AND deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+        ]]>
+      </if>
+    </where>
+  </select>
+  <select id="getConstantTreeByName" parameterType="com.sinopec.smcc.cpro.systemcode.entity.SystemCode" resultMap="BaseResultMap">
+    <![CDATA[
+     SELECT 
+        fkCodeType,systemCode,codeName,systemFatherCode
+      FROM t_cpro_system_code
+    ]]>
+    <where>
+      <if test="fkCodeType != null and fkCodeType != ''">
+        <![CDATA[
+          AND fkCodeType = #{fkCodeType,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''">
+        <![CDATA[
+          AND deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+        ]]>
+      </if>
+    </where>
+  </select>
+  <select id="selectConstantName" parameterType="com.sinopec.smcc.cpro.systemcode.entity.SystemCode" resultType="String">
+    <![CDATA[
+     SELECT codeName FROM t_cpro_system_code
+    ]]>
+    <where>
+      <if test="fkCodeType != null and fkCodeType != ''">
+        <![CDATA[
+          AND fkCodeType = #{fkCodeType,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="systemCode != null and systemCode != ''">
+        <![CDATA[
+          AND systemCode = #{systemCode,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="deleteStatus != null and deleteStatus != ''">
+        <![CDATA[
+          AND deleteStatus = #{deleteStatus,jdbcType=INTEGER}
+        ]]>
+      </if>
+    </where>
+  </select>
+</mapper>

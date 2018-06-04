@@ -14,6 +14,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SelfexaminationParam.java
@@ -26,6 +27,7 @@ import com.alibaba.fastjson.JSON;
 public class SelfexaminationParam {
   private String selfexaminationId;
   private String fkSystemId;
+  private String inspectionName;
   private Integer fkInspectionStatus;
   private Integer inspectionStatusBegin;
   private Integer inspectionStatusEnd;
@@ -78,40 +80,53 @@ public class SelfexaminationParam {
   private String sort;
   
   
+  
+  /**
+   * @return the inspectionName
+   */
+  public String getInspectionName() {
+    return inspectionName;
+  }
+  /**
+   * @param inspectionName the inspectionName to set
+   */
+  public void setInspectionName(String inspectionName) {
+    this.inspectionName = inspectionName;
+  }
   /**
    * @return the fkInspectionStatus
    */
-  public int getFkInspectionStatus() {
+  public Integer getFkInspectionStatus() {
     return fkInspectionStatus;
   }
   /**
    * @param fkInspectionStatus the fkInspectionStatus to set
    */
-  public void setFkInspectionStatus(int fkInspectionStatus) {
+  public void setFkInspectionStatus(Integer fkInspectionStatus) {
     this.fkInspectionStatus = fkInspectionStatus;
   }
   /**
    * @return the fkInspectionReu
    */
-  public int getFkInspectionReu() {
+  public Integer getFkInspectionReu() {
     return fkInspectionReu;
   }
   /**
    * @param fkInspectionReu the fkInspectionReu to set
    */
-  public void setFkInspectionReu(int fkInspectionReu) {
+  public void setFkInspectionReu(Integer fkInspectionReu) {
     this.fkInspectionReu = fkInspectionReu;
   }
   /**
    * @return the fkRectificationReu
    */
-  public int getFkRectificationReu() {
+  public Integer getFkRectificationReu() {
     return fkRectificationReu;
   }
   /**
    * @param fkRectificationReu the fkRectificationReu to set
    */
-  public void setFkRectificationReu(int fkRectificationReu) {
+  public void setFkRectificationReu(Integer fkRectificationReu) {
     this.fkRectificationReu = fkRectificationReu;
   }
   public String getSelfexaminationId() {
@@ -128,48 +143,49 @@ public class SelfexaminationParam {
     this.fkSystemId = fkSystemId;
   }
 
-  public int getInspectionStatusBegin() {
+  public Integer getInspectionStatusBegin() {
     return inspectionStatusBegin;
   }
-  public void setInspectionStatusBegin(int inspectionStatusBegin) {
+  public void setInspectionStatusBegin(Integer inspectionStatusBegin) {
     this.inspectionStatusBegin = inspectionStatusBegin;
   }
 
-  public int getInspectionStatusEnd() {
+  public Integer getInspectionStatusEnd() {
     return inspectionStatusEnd;
   }
-  public void setInspectionStatusEnd(int inspectionStatusEnd) {
+  public void setInspectionStatusEnd(Integer inspectionStatusEnd) {
     this.inspectionStatusEnd = inspectionStatusEnd;
   }
 
-  public int getInspectionReutleBegin() {
+  public Integer getInspectionReutleBegin() {
     return inspectionReutleBegin;
   }
-  public void setInspectionReutleBegin(int inspectionReutleBegin) {
+  public void setInspectionReutleBegin(Integer inspectionReutleBegin) {
     this.inspectionReutleBegin = inspectionReutleBegin;
   }
 
-  public int getInspectionReutleEnd() {
+  public Integer getInspectionReutleEnd() {
     return inspectionReutleEnd;
   }
-  public void setInspectionReutleEnd(int inspectionReutleEnd) {
+  public void setInspectionReutleEnd(Integer inspectionReutleEnd) {
     this.inspectionReutleEnd = inspectionReutleEnd;
   }
 
-  public int getRectificationReutleBegin() {
+  public Integer getRectificationReutleBegin() {
     return rectificationReutleBegin;
   }
-  public void setRectificationReutleBegin(int rectificationReutleBegin) {
+  public void setRectificationReutleBegin(Integer rectificationReutleBegin) {
     this.rectificationReutleBegin = rectificationReutleBegin;
   }
 
-  public int getRectificationReutleEnd() {
+  public Integer getRectificationReutleEnd() {
     return rectificationReutleEnd;
   }
-  public void setRectificationReutleEnd(int rectificationReutleEnd) {
+  public void setRectificationReutleEnd(Integer rectificationReutleEnd) {
     this.rectificationReutleEnd = rectificationReutleEnd;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDate() {
     return inspectionDate;
   }
@@ -190,7 +206,7 @@ public class SelfexaminationParam {
   public void setInspectionDateEnd(Date inspectionDateEnd) {
     this.inspectionDateEnd = inspectionDateEnd;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }
@@ -212,24 +228,24 @@ public class SelfexaminationParam {
     this.rectificationDateEnd = rectificationDateEnd;
   }
 
-  public int getDeleteStatus() {
+  public Integer getDeleteStatus() {
     return deleteStatus;
   }
-  public void setDeleteStatus(int deleteStatus) {
+  public void setDeleteStatus(Integer deleteStatus) {
     this.deleteStatus = deleteStatus;
   }
 
-  public int getDeleteStatusBegin() {
+  public Integer getDeleteStatusBegin() {
     return deleteStatusBegin;
   }
-  public void setDeleteStatusBegin(int deleteStatusBegin) {
+  public void setDeleteStatusBegin(Integer deleteStatusBegin) {
     this.deleteStatusBegin = deleteStatusBegin;
   }
 
-  public int getDeleteStatusEnd() {
+  public Integer getDeleteStatusEnd() {
     return deleteStatusEnd;
   }
-  public void setDeleteStatusEnd(int deleteStatusEnd) {
+  public void setDeleteStatusEnd(Integer deleteStatusEnd) {
     this.deleteStatusEnd = deleteStatusEnd;
   }
 

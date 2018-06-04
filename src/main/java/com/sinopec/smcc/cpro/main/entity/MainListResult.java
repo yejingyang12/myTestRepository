@@ -24,12 +24,12 @@ public class MainListResult {
   private String plateType;
   private String InfoSysTypeConstruction;
   private String SprankLevel;
-  private int appIsInternet;
-  private int gradingStatus;
-  private int examineStatus;
-  private int recordStatus;
-  private int evaluationStatus;
-  private int examinationStatus;
+  private Integer appIsInternet;
+  private Integer gradingStatus;
+  private Integer examineStatus;
+  private Integer recordStatus;
+  private Integer evaluationStatus;
+  private Integer examinationStatus;
   
   public String getSystemId() {
     return systemId;
@@ -67,40 +67,40 @@ public class MainListResult {
   public void setSprankLevel(String sprankLevel) {
     SprankLevel = sprankLevel;
   }
-  public int getAppIsInternet() {
+  public Integer getAppIsInternet() {
     return appIsInternet;
   }
-  public void setAppIsInternet(int appIsInternet) {
+  public void setAppIsInternet(Integer appIsInternet) {
     this.appIsInternet = appIsInternet;
   }
-  public int getGradingStatus() {
+  public Integer getGradingStatus() {
     return gradingStatus;
   }
-  public void setGradingStatus(int gradingStatus) {
+  public void setGradingStatus(Integer gradingStatus) {
     this.gradingStatus = gradingStatus;
   }
-  public int getExamineStatus() {
+  public Integer getExamineStatus() {
     return examineStatus;
   }
-  public void setExamineStatus(int examineStatus) {
+  public void setExamineStatus(Integer examineStatus) {
     this.examineStatus = examineStatus;
   }
-  public int getRecordStatus() {
+  public Integer getRecordStatus() {
     return recordStatus;
   }
-  public void setRecordStatus(int recordStatus) {
+  public void setRecordStatus(Integer recordStatus) {
     this.recordStatus = recordStatus;
   }
-  public int getEvaluationStatus() {
+  public Integer getEvaluationStatus() {
     return evaluationStatus;
   }
-  public void setEvaluationStatus(int evaluationStatus) {
+  public void setEvaluationStatus(Integer evaluationStatus) {
     this.evaluationStatus = evaluationStatus;
   }
-  public int getExaminationStatus() {
+  public Integer getExaminationStatus() {
     return examinationStatus;
   }
-  public void setExaminationStatus(int examinationStatus) {
+  public void setExaminationStatus(Integer examinationStatus) {
     this.examinationStatus = examinationStatus;
   }
 }

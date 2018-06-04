@@ -38,7 +38,7 @@ public class CompanyParam {
   private String remark;
   private String ldContactName;
   private String rDepartment;
-  private String companyPrincipalEm;
+  private String compPrincipalEm;
   private Integer deleteStatus;
   private String ldContactPhone;
   private Integer administrativeNum;
@@ -49,6 +49,8 @@ public class CompanyParam {
   private String gpReportingComp;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date updateTime;
   private String companyAddress;
   private String ldContactWorkTel;
   private String compPrincipalName;
@@ -58,8 +60,40 @@ public class CompanyParam {
   private int currentPage = 1;// 当前页数
   private String field; //接收字段
   private String sort;//排序
- 
+
   
+  /**
+   * @return the updateTime
+   */
+  public Date getUpdateTime() {
+    return updateTime;
+  }
+
+
+  /**
+   * @param updateTime the updateTime to set
+   */
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+
+
+  /**
+   * @return the compPrincipalEm
+   */
+  public String getCompPrincipalEm() {
+    return compPrincipalEm;
+  }
+
+
+  /**
+   * @param compPrincipalEm the compPrincipalEm to set
+   */
+  public void setCompPrincipalEm(String compPrincipalEm) {
+    this.compPrincipalEm = compPrincipalEm;
+  }
+
+
   /**
    * @return the companyId
    */
@@ -281,22 +315,6 @@ public class CompanyParam {
    */
   public void setrDepartment(String rDepartment) {
     this.rDepartment = rDepartment;
-  }
-
-
-  /**
-   * @return the companyPrincipalEm
-   */
-  public String getCompanyPrincipalEm() {
-    return companyPrincipalEm;
-  }
-
-
-  /**
-   * @param companyPrincipalEm the companyPrincipalEm to set
-   */
-  public void setCompanyPrincipalEm(String companyPrincipalEm) {
-    this.companyPrincipalEm = companyPrincipalEm;
   }
 
 

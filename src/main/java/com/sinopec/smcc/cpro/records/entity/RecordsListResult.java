@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * @Title RecordsListResult.java
  * @Package com.sinopec.smcc.cpro.records.entity
@@ -83,6 +85,7 @@ public class RecordsListResult {
   /**
    * @return the recordDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getRecordDate() {
     return recordDate;
   }
@@ -95,6 +98,7 @@ public class RecordsListResult {
   /**
    * @return the acceptDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getAcceptDate() {
     return acceptDate;
   }

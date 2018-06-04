@@ -14,6 +14,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title RecordsListResult.java
@@ -85,6 +86,7 @@ public class RecordsResult {
   /**
    * @return the recordDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getRecordDate() {
     return recordDate;
   }
@@ -97,6 +99,7 @@ public class RecordsResult {
   /**
    * @return the acceptDate
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getAcceptDate() {
     return acceptDate;
   }

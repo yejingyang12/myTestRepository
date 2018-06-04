@@ -23,7 +23,8 @@ public class AttachFile {
   
   private File files;
   private String attachTypes;
-  private String fileName;
+  private String returnFileName;
+  private String filePath;
 
   public File getFiles() {
     return files;
@@ -37,11 +38,17 @@ public class AttachFile {
   public void setAttachTypes(String attachTypes) {
     this.attachTypes = attachTypes;
   }
-  public String getFileName() {
-    return fileName;
+  public String getReturnFileName() {
+    return returnFileName;
   }
-  public void setFileName(String fileName) {
-    this.fileName = fileName;
+  public void setReturnFileName(String returnFileName) {
+    this.returnFileName = returnFileName;
+  }
+  public String getFilePath() {
+    return filePath;
+  }
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
   }
   
 }

@@ -9,6 +9,7 @@
     <result column="fkBizSprankLevel" property="fkBizSprankLevel" />
     <result column="fkBizSprankDegrees" property="fkBizSprankDegrees" />
     <result column="fkBizSprankLevels" property="fkBizSprankLevels" />
+    <result column="appIsInternet" property="appIsInternet" />
   </resultMap>
   <select id="selectAllByMainParam" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
     <![CDATA[
@@ -43,6 +44,8 @@
         ON system.pkId = evaluation.fkSystemId
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
+      LEFT JOIN t_cpro_check AS check 
+        ON system.pkId = check.fkSystemId
     ]]>
     <where>
       <!-- 缺少自定义筛选，待确认 --> 
@@ -63,7 +66,16 @@
           AND evaluation.examOrg LIKE #{examOrg,jdbcType=CHAR}
         ]]>
       </if>
-      <!-- 缺少申请时间，待确认 -->
+      <if test="auditTimeBegin != null ">
+        <![CDATA[
+          AND check.executeTime >= #{auditTimeBegin,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="auditTimeEnd != null ">
+        <![CDATA[
+          AND check.executeTime <= #{auditTimeEnd,jdbcType=DATE}
+        ]]>
+      </if>
       <if test="recordDateBegin != null ">
         <![CDATA[
           AND records.recordDate >= #{recordDateBegin,jdbcType=DATE}
