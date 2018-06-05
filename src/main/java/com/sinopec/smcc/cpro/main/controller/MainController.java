@@ -131,10 +131,11 @@ public class MainController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.POST)
+  @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.GET)
   @ResponseBody
-  public ResultApi exportExcelForGradeTemplate(HttpServletRequest request) throws BusinessException{
-    this.mainServiceImpl.exportExcelForGradeTemplate();
+  public ResultApi exportExcelForGradeTemplate(HttpServletRequest request,
+      HttpServletResponse response,String [] systemIds) throws BusinessException{
+    this.mainServiceImpl.exportExcelForGradeTemplate(response,systemIds);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   }

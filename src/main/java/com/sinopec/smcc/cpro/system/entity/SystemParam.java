@@ -56,6 +56,7 @@ public class SystemParam {
   private String changeContent;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  private Date updateTime;
   private Integer fkInfoSysTypeCon;
   private String npNetworkProperties;
   private Integer evaluationStatus;
@@ -64,7 +65,7 @@ public class SystemParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String sysBusSituationType;
   
-  private String systemIds;
+
   
   private List<SystemKeyProducts> SystemKeyProducts;
   private List<SystemUseServices> SystemUseServices;
@@ -76,6 +77,22 @@ public class SystemParam {
   
   
 	/**
+   * @return the updateTime
+   */
+  public Date getUpdateTime() {
+    return updateTime;
+  }
+
+
+  /**
+   * @param updateTime the updateTime to set
+   */
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+
+
+  /**
    * @return the systemId
    */
   public String getSystemId() {
@@ -616,22 +633,6 @@ public class SystemParam {
    */
   public void setSysBusSituationType(String sysBusSituationType) {
     this.sysBusSituationType = sysBusSituationType;
-  }
-
-
-  /**
-   * @return the systemIds
-   */
-  public String getSystemIds() {
-    return systemIds;
-  }
-
-
-  /**
-   * @param systemIds the systemIds to set
-   */
-  public void setSystemIds(String systemIds) {
-    this.systemIds = systemIds;
   }
 
 

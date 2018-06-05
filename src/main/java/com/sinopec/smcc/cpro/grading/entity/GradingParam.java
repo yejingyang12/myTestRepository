@@ -27,6 +27,7 @@ public class GradingParam {
 
   private String gradingId;
   private String fkSystemId;
+  private String [] fkSystemIds;
   private String fkBizSPRankDegree;
   private String fkBizSPRankLevel;
   private String fkBizSystemDegree;
@@ -49,6 +50,20 @@ public class GradingParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
+  
+  
+  /**
+   * @return the fkSystemIds
+   */
+  public String[] getFkSystemIds() {
+    return fkSystemIds;
+  }
+  /**
+   * @param fkSystemIds the fkSystemIds to set
+   */
+  public void setFkSystemIds(String[] fkSystemIds) {
+    this.fkSystemIds = fkSystemIds;
+  }
   /**
    * @return the gradingId
    */

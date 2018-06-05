@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -58,8 +59,8 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryDetailsGrading", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryDetailsGrading(HttpServletRequest request,GradingParam gradingParam) 
-      throws BusinessException{
+  public ResultApi queryDetailsGrading(HttpServletRequest request, 
+      @RequestBody GradingParam gradingParam) throws BusinessException{
     List<GradingListResult> gradingListResult = 
         this.gradingServiceImpl.queryDetailsGrading(gradingParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -79,8 +80,8 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryEditGrading", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryEditGrading(HttpServletRequest request,GradingParam gradingParam) 
-      throws BusinessException{
+  public ResultApi queryEditGrading(HttpServletRequest request,
+      @RequestBody GradingParam gradingParam) throws BusinessException{
     GradingListResult gradingListResult = this.gradingServiceImpl.queryEditGrading(gradingParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(gradingListResult);
@@ -98,7 +99,8 @@ public class GradingController {
    */
   @RequestMapping(value = "/saveGrading", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi saveGrading(HttpServletRequest request,GradingParam gradingParam){
+  public ResultApi saveGrading(HttpServletRequest request, @RequestBody GradingParam gradingParam)
+      throws BusinessException{
     String gradingId = this.gradingServiceImpl.saveGrading(gradingParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(gradingId);
@@ -117,8 +119,8 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryDetailsAttach", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryDetailsAttach(HttpServletRequest request,AttachMaterialsParam attachMaterialsParam) 
-      throws BusinessException{
+  public ResultApi queryDetailsAttach(HttpServletRequest request,
+      @RequestBody AttachMaterialsParam attachMaterialsParam) throws BusinessException{
     List<AttachMaterialsListResult> attachMaterialsListResult = 
         this.AttachServiceImpl.queryDetailsAttach(attachMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -138,9 +140,10 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryEditAttach", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryEditAttach(HttpServletRequest request,AttachMaterialsParam attachMaterialsParam) 
-      throws BusinessException{
-    List<AttachMaterialsListResult> attachMaterialsListResult = this.AttachServiceImpl.queryEditAttach(attachMaterialsParam);
+  public ResultApi queryEditAttach(HttpServletRequest request,
+      @RequestBody AttachMaterialsParam attachMaterialsParam) throws BusinessException{
+    List<AttachMaterialsListResult> attachMaterialsListResult = 
+        this.AttachServiceImpl.queryEditAttach(attachMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(attachMaterialsListResult);
     return result;

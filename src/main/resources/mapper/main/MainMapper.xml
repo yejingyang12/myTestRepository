@@ -20,6 +20,8 @@
         company.fkPlateType, 
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
         systemCodeSprankLevel.codeName AS SprankLevel,
+        score.fkBizSPRankLevel,
+        score.fkBizSystemLevel,
         appIsInternet, 
         gradingStatus, 
         examineStatus, 
@@ -44,8 +46,8 @@
         ON system.pkId = evaluation.fkSystemId
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
-      LEFT JOIN t_cpro_check AS check 
-        ON system.pkId = check.fkSystemId
+      LEFT JOIN t_cpro_check AS examine 
+        ON system.pkId = examine.fkSystemId
     ]]>
     <where>
       <!-- 缺少自定义筛选，待确认 --> 
@@ -68,12 +70,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND check.executeTime >= #{auditTimeBegin,jdbcType=DATE}
+          AND examine.executeTime >= #{auditTimeBegin,jdbcType=DATE}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND check.executeTime <= #{auditTimeEnd,jdbcType=DATE}
+          AND examine.executeTime <= #{auditTimeEnd,jdbcType=DATE}
         ]]>
       </if>
       <if test="recordDateBegin != null ">

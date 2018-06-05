@@ -9,12 +9,11 @@
 */
 package com.sinopec.smcc.cpro.system.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -56,7 +55,7 @@ public class SystemController {
   @RequestMapping(value="/querySystemList", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi querySystemList(HttpServletRequest request,
-      SystemParam systemParam) throws BusinessException{
+      @RequestBody SystemParam systemParam) throws BusinessException{
     //调用service实体获得方法，CompanyListResult填写返回的参数
     PageInfo<SystemListResult> page = this.systemServiceImpl.querySystemList(systemParam);
     //通过resultApi实体组成返回参数
@@ -84,8 +83,8 @@ public class SystemController {
    */
   @RequestMapping(value="/saveSystem", method =  RequestMethod.POST)
   @ResponseBody
-  public ResultApi saveSystem(HttpServletRequest request, SystemParam systemParam) 
-      throws  BusinessException{
+  public ResultApi saveSystem(HttpServletRequest request, @RequestBody SystemParam systemParam) 
+      throws BusinessException{
     String systemId = this.systemServiceImpl.saveSystem(systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemId);
@@ -119,8 +118,8 @@ public class SystemController {
    */
   @RequestMapping(value = "/queryDetailsSystem", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryDetailsSystem(HttpServletRequest request,SystemParam systemParam) 
-      throws BusinessException{
+  public ResultApi queryDetailsSystem(HttpServletRequest request,
+      @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryDetailsSystem(systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemResult);
@@ -139,8 +138,8 @@ public class SystemController {
    */
   @RequestMapping(value = "/queryEditSystem", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryEditSystem(HttpServletRequest request,SystemParam systemParam) 
-      throws BusinessException{
+  public ResultApi queryEditSystem(HttpServletRequest request,
+      @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryEditSystem(systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemResult);

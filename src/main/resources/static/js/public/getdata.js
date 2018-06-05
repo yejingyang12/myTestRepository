@@ -5,6 +5,7 @@ if(src_ele.dataset) {
 } else {
 	comp_src = $('#src-qianhou').data('src')
 }
+console.log(comp_src);
 var origin = 'http://shuju:8083/';
 //var origin = window.location.origin+"/";
 

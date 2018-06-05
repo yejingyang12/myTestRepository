@@ -49,5 +49,13 @@ public interface GradingMapper {
    * @param gradingParam
    */
   void insertGrading(GradingParam gradingParam);
-
+  
+  /**
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月5日下午6:36:52
+   * @param gradingParam
+   * @return
+   */
+  List<GradingListResult> selectGradingBySystemIds(GradingParam gradingParam);
 }

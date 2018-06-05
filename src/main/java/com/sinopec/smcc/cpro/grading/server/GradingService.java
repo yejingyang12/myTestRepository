@@ -52,6 +52,16 @@ public interface GradingService {
    * @param gradingParam
    * @return
    */
-  String saveGrading(GradingParam gradingParam);
-
+  String saveGrading(GradingParam gradingParam)throws BusinessException;
+  
+  /**
+   * @Descrption 根据系统ID查询定级列表
+   * @author dongxu
+   * @date 2018年6月5日下午6:38:03
+   * @param gradingParam
+   * @return
+   * @throws BusinessException
+   */
+  List<GradingListResult> queryGradingByParam(GradingParam gradingParam)
+      throws BusinessException;
 }

@@ -189,7 +189,6 @@ input[type="radio"]{
     border-right:1px solid #cecece;
 }
 .mcAddSysBuild{
-    /*border-right:none !important;*/
     line-height: 277px !important;
 }
 .addButton{
@@ -230,7 +229,27 @@ input[type="radio"]{
 .fillData>input{
     background: url("../../images/datatime.png") no-repeat right 7px top 7px;
 }
-
+.sysTitle{
+    padding:0;
+}
+.sysText{
+    margin-left:-35px;
+    padding:0;
+}
+.sysText>input{
+    height: 34px;
+    border:none;
+    border-bottom: 1px solid #cecece;
+}
+.sysText>p{
+    font:12px/24px "微软雅黑";
+    color: #999999;
+    margin:0;
+}
+.sysBtn{
+    padding:7px 33px;
+    margin-left:20px;
+}
 /*默认选中的颜色*/
 .btnColor{
     background-color: #3d95df;

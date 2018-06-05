@@ -7,12 +7,6 @@
     <result column="fkSyssonId" property="fkSyssonId" jdbcType="VARCHAR" />
     <result column="fkAttachType" property="fkAttachType" jdbcType="VARCHAR" />
     <result column="attachName" property="attachName" jdbcType="VARCHAR" />
-    <result column="attachPath" property="attachPath" jdbcType="VARCHAR" />
-    <result column="deleteStatus" property="deleteStatus" jdbcType="TINYINT" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="createTime" property="createTime" jdbcType="DATE" />
-    <result column="updateTime" property="updateTime" jdbcType="DATE" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectDetailsAttach" parameterType="com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam" resultMap="BaseResultMap">

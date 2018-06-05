@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加系统测评信息</title>
+    <link rel="stylesheet" href="../../../css/public/reset.css">
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+    <link rel="stylesheet" href="../../../css/private/evaluationAlert.css">
+</head>
+<body>
+<div class="evaluationAlert">
+    <div class="evaluation">
+        <span class="closes" onclick="closes()"></span>
+        <p class="clearfix cut">
+            <span class="fl revokeTitle">修改系统测评信息</span>
+            <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
+        </p>
+        <form action="">
+            <ul class="clearfix">
+                <li>测评</li>
+                <li class="row">
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            测评项目名称：
+                        </label>
+                        <div class="col-md-8 col-sm-3 evalName">
+                            <input type="text" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            测评时间：
+                        </label>
+                        <div  class="col-md-8 col-sm-3 evalName revData">
+                            <input type="text"  name="revData" id="revData">
+                        </div>
+                    </div>
+                </li>
+                <li class="row">
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            测评机构：
+                        </label>
+                        <div class="col-md-8 col-sm-3 evalName">
+                            <input type="text" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            测评年度：
+                        </label>
+                        <div  class="col-md-8 col-sm-3 evalName revData">
+                            <select name="" id="">
+                                <option value="">符合</option>
+                                <option value="">基本符合</option>
+                                <option value="">不符合</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="row">
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            测评状态：
+                        </label>
+                        <div class="col-md-8 col-sm-3 evalName">
+                            <select name="" id="">
+                                <option value="">未测评</option>
+                                <option value="">已测评</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            整改时间：
+                        </label>
+                        <div  class="col-md-8 col-sm-3 evalName revData">
+                            <input type="text"  name="revData" id="revData">
+                        </div>
+                    </div>
+                </li>
+                <li class="row">
+                    <div class="col-md-12 report">
+                        <label for="" class="col-md-2">
+                            <span class="xing">*</span>
+                            测评报告：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" class="col-md-12 upFile" name="systemUse" id="upLise">
+                            <input type="file" id="upLite" class="smt" style="margin-right:255px; display:none" onchange="getFile('#upLite', '#upLise', '#upList')">
+                            <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
+                        </div>
+                        <span class="btn btn-success sysBtn" onclick="upLite.click()">上传</span>
+                    </div>
+                </li>
+            </ul>
+            <ul class="clearfix">
+                <li>整改</li>
+                <li class="row">
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            整改结果：
+                        </label>
+                        <div class="col-md-8 col-sm-3 evalName">
+                            <select name="" id="">
+                                <option value="">已整改</option>
+                                <option value="">未整改</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="col-md-3">
+                            <span class="xing">*</span>
+                            整改时间：
+                        </label>
+                        <div  class="col-md-8 col-sm-3 evalName revData">
+                            <input type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="row">
+                    <div class="col-md-12 report">
+                        <label for="" class="col-md-2">
+                            <span class="xing">*</span>
+                            整改报告：
+                        </label>
+                        <div class="col-md-10">
+                            <input type="text" class="col-md-12 upFile" name="systemUse" id="upLise">
+                            <input type="file" id="upLite" class="smt" style="margin-right:255px; display:none" onchange="getFile('#upLite', '#upLise', '#upList')">
+                            <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
+                        </div>
+                        <span class="btn btn-success sysBtn" onclick="upLite.click()">上传</span>
+                    </div>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+</body>
+</html>

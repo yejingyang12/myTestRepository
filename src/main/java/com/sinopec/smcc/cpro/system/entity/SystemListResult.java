@@ -14,6 +14,7 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SystemListResult.java
@@ -27,10 +28,10 @@ public class SystemListResult {
 	
   private String systemId;
 	private String systemName;
-	private String sysBusSituationType;
 	private String sysBusDescription;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date whenInvestmentUse;
+	private String BusinessName;
 	
   private int pageSize = 10;// pageSize ，每一页显示多少
   private int currentPage = 1;// 当前页数
@@ -38,17 +39,18 @@ public class SystemListResult {
   private String sort;//排序
 	
   
+  
   /**
-   * @return the sysBusSituationType
+   * @return the businessName
    */
-  public String getSysBusSituationType() {
-    return sysBusSituationType;
+  public String getBusinessName() {
+    return BusinessName;
   }
   /**
-   * @param sysBusSituationType the sysBusSituationType to set
+   * @param businessName the businessName to set
    */
-  public void setSysBusSituationType(String sysBusSituationType) {
-    this.sysBusSituationType = sysBusSituationType;
+  public void setBusinessName(String businessName) {
+    BusinessName = businessName;
   }
   /**
    * @return the sysBusDescription
@@ -137,6 +139,7 @@ public class SystemListResult {
   /**
    * @return the whenInvestmentUse
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getWhenInvestmentUse() {
     return whenInvestmentUse;
   }

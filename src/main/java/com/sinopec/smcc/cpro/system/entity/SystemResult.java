@@ -1,56 +1,220 @@
 /**
-* 2018. 
+* 208. 
 * @Title SystemResult.java
 * @Package com.sinopec.smcc.cpro.system.entity
 * @Description: TODO:
 * @author hanxin
-* @date 2018年5月30日下午1:12:18
-* @version V1.0
+* @date 208年5月30日下午:2:8
+* @version V.0
 */
 package com.sinopec.smcc.cpro.system.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SystemResult.java
  * @Package com.sinopec.smcc.cpro.system.entity
  * @Description: TODO:
  * @author hanxin
- * @date 2018年5月30日下午1:12:18
- * @version V1.0
+ * @date 208年5月30日下午:2:8
+ * @version V.0
  */
 public class SystemResult {
   
   private String systemId;
   private String systemName;
-  private String interconnectionSit;
   private String standardizedCode;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date whenInvestmentUse;
   private String executiveOfficeName;
   private String sysBusDescription;
   private Integer subIsSystem;
   private String executiveDireCon;
-  private Integer fkInfoSysTypeCon;
   private String gradeRecordSysName;
-  private String sysBusinessDescriptionType;
-  private String sysServiceSitScope;
-  private String sysServiceSitObject;
-  private String npCoverageRange;
-  private String npNetworkProperties;
-  private String sysBusSituationType;
   private String fkResponsibleType; 
   private Integer fkProductsType;
   private Integer serviceIsUse;
   private Integer fkExaminStatus;
   private String productsNumber;
-  private Integer nationalUseProbability;
-  private String fknationalIsProducts;
+  private Integer nUseProbability;
+  private String fkNationalIsProducts;
   private String fkCompanyCode;
   private String executiveDireConTel;
- 
+  private String ConstructionTypeName;
+  private String CombinedName;
+  private String BusinessName;
+  private String ServiceScopeName;
+  private String ServiceObjectName;
+  private String CoverScopeName;
+  private String NewWorkNatureName;
+  private String SystemInterName;
   
+  
+  
+  /**
+   * @return the nUseProbability
+   */
+  public Integer getnUseProbability() {
+    return nUseProbability;
+  }
+
+
+  /**
+   * @param nUseProbability the nUseProbability to set
+   */
+  public void setnUseProbability(Integer nUseProbability) {
+    this.nUseProbability = nUseProbability;
+  }
+
+
+  /**
+   * @return the fkNationalIsProducts
+   */
+  public String getFkNationalIsProducts() {
+    return fkNationalIsProducts;
+  }
+
+
+  /**
+   * @param fkNationalIsProducts the fkNationalIsProducts to set
+   */
+  public void setFkNationalIsProducts(String fkNationalIsProducts) {
+    this.fkNationalIsProducts = fkNationalIsProducts;
+  }
+
+
+  /**
+   * @return the constructionTypeName
+   */
+  public String getConstructionTypeName() {
+    return ConstructionTypeName;
+  }
+
+
+  /**
+   * @param constructionTypeName the constructionTypeName to set
+   */
+  public void setConstructionTypeName(String constructionTypeName) {
+    ConstructionTypeName = constructionTypeName;
+  }
+
+
+  /**
+   * @return the combinedName
+   */
+  public String getCombinedName() {
+    return CombinedName;
+  }
+
+
+  /**
+   * @param combinedName the combinedName to set
+   */
+  public void setCombinedName(String combinedName) {
+    CombinedName = combinedName;
+  }
+
+
+  /**
+   * @return the businessName
+   */
+  public String getBusinessName() {
+    return BusinessName;
+  }
+
+
+  /**
+   * @param businessName the businessName to set
+   */
+  public void setBusinessName(String businessName) {
+    BusinessName = businessName;
+  }
+
+
+  /**
+   * @return the serviceScopeName
+   */
+  public String getServiceScopeName() {
+    return ServiceScopeName;
+  }
+
+
+  /**
+   * @param serviceScopeName the serviceScopeName to set
+   */
+  public void setServiceScopeName(String serviceScopeName) {
+    ServiceScopeName = serviceScopeName;
+  }
+
+
+  /**
+   * @return the serviceObjectName
+   */
+  public String getServiceObjectName() {
+    return ServiceObjectName;
+  }
+
+
+  /**
+   * @param serviceObjectName the serviceObjectName to set
+   */
+  public void setServiceObjectName(String serviceObjectName) {
+    ServiceObjectName = serviceObjectName;
+  }
+
+
+  /**
+   * @return the coverScopeName
+   */
+  public String getCoverScopeName() {
+    return CoverScopeName;
+  }
+
+
+  /**
+   * @param coverScopeName the coverScopeName to set
+   */
+  public void setCoverScopeName(String coverScopeName) {
+    CoverScopeName = coverScopeName;
+  }
+
+
+  /**
+   * @return the newWorkNatureName
+   */
+  public String getNewWorkNatureName() {
+    return NewWorkNatureName;
+  }
+
+
+  /**
+   * @param newWorkNatureName the newWorkNatureName to set
+   */
+  public void setNewWorkNatureName(String newWorkNatureName) {
+    NewWorkNatureName = newWorkNatureName;
+  }
+
+
+  /**
+   * @return the systemInterName
+   */
+  public String getSystemInterName() {
+    return SystemInterName;
+  }
+
+
+  /**
+   * @param systemInterName the systemInterName to set
+   */
+  public void setSystemInterName(String systemInterName) {
+    SystemInterName = systemInterName;
+  }
+
   /**
    * @return the systemId
    */
@@ -82,23 +246,6 @@ public class SystemResult {
     this.systemName = systemName;
   }
 
-
-  /**
-   * @return the interconnectionSit
-   */
-  public String getInterconnectionSit() {
-    return interconnectionSit;
-  }
-
-
-  /**
-   * @param interconnectionSit the interconnectionSit to set
-   */
-  public void setInterconnectionSit(String interconnectionSit) {
-    this.interconnectionSit = interconnectionSit;
-  }
-
-
   /**
    * @return the standardizedCode
    */
@@ -118,6 +265,7 @@ public class SystemResult {
   /**
    * @return the whenInvestmentUse
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getWhenInvestmentUse() {
     return whenInvestmentUse;
   }
@@ -196,22 +344,6 @@ public class SystemResult {
 
 
   /**
-   * @return the fkInfoSysTypeCon
-   */
-  public Integer getFkInfoSysTypeCon() {
-    return fkInfoSysTypeCon;
-  }
-
-
-  /**
-   * @param fkInfoSysTypeCon the fkInfoSysTypeCon to set
-   */
-  public void setFkInfoSysTypeCon(Integer fkInfoSysTypeCon) {
-    this.fkInfoSysTypeCon = fkInfoSysTypeCon;
-  }
-
-
-  /**
    * @return the gradeRecordSysName
    */
   public String getGradeRecordSysName() {
@@ -224,102 +356,6 @@ public class SystemResult {
    */
   public void setGradeRecordSysName(String gradeRecordSysName) {
     this.gradeRecordSysName = gradeRecordSysName;
-  }
-
-
-  /**
-   * @return the sysBusinessDescriptionType
-   */
-  public String getSysBusinessDescriptionType() {
-    return sysBusinessDescriptionType;
-  }
-
-
-  /**
-   * @param sysBusinessDescriptionType the sysBusinessDescriptionType to set
-   */
-  public void setSysBusinessDescriptionType(String sysBusinessDescriptionType) {
-    this.sysBusinessDescriptionType = sysBusinessDescriptionType;
-  }
-
-
-  /**
-   * @return the sysServiceSitScope
-   */
-  public String getSysServiceSitScope() {
-    return sysServiceSitScope;
-  }
-
-
-  /**
-   * @param sysServiceSitScope the sysServiceSitScope to set
-   */
-  public void setSysServiceSitScope(String sysServiceSitScope) {
-    this.sysServiceSitScope = sysServiceSitScope;
-  }
-
-
-  /**
-   * @return the sysServiceSitObject
-   */
-  public String getSysServiceSitObject() {
-    return sysServiceSitObject;
-  }
-
-
-  /**
-   * @param sysServiceSitObject the sysServiceSitObject to set
-   */
-  public void setSysServiceSitObject(String sysServiceSitObject) {
-    this.sysServiceSitObject = sysServiceSitObject;
-  }
-
-
-  /**
-   * @return the npCoverageRange
-   */
-  public String getNpCoverageRange() {
-    return npCoverageRange;
-  }
-
-
-  /**
-   * @param npCoverageRange the npCoverageRange to set
-   */
-  public void setNpCoverageRange(String npCoverageRange) {
-    this.npCoverageRange = npCoverageRange;
-  }
-
-
-  /**
-   * @return the npNetworkProperties
-   */
-  public String getNpNetworkProperties() {
-    return npNetworkProperties;
-  }
-
-
-  /**
-   * @param npNetworkProperties the npNetworkProperties to set
-   */
-  public void setNpNetworkProperties(String npNetworkProperties) {
-    this.npNetworkProperties = npNetworkProperties;
-  }
-
-
-  /**
-   * @return the sysBusSituationType
-   */
-  public String getSysBusSituationType() {
-    return sysBusSituationType;
-  }
-
-
-  /**
-   * @param sysBusSituationType the sysBusSituationType to set
-   */
-  public void setSysBusSituationType(String sysBusSituationType) {
-    this.sysBusSituationType = sysBusSituationType;
   }
 
 
@@ -400,38 +436,6 @@ public class SystemResult {
    */
   public void setProductsNumber(String productsNumber) {
     this.productsNumber = productsNumber;
-  }
-
-
-  /**
-   * @return the nationalUseProbability
-   */
-  public int getNationalUseProbability() {
-    return nationalUseProbability;
-  }
-
-
-  /**
-   * @param nationalUseProbability the nationalUseProbability to set
-   */
-  public void setNationalUseProbability(int nationalUseProbability) {
-    this.nationalUseProbability = nationalUseProbability;
-  }
-
-
-  /**
-   * @return the fknationalIsProducts
-   */
-  public String getFknationalIsProducts() {
-    return fknationalIsProducts;
-  }
-
-
-  /**
-   * @param fknationalIsProducts the fknationalIsProducts to set
-   */
-  public void setFknationalIsProducts(String fknationalIsProducts) {
-    this.fknationalIsProducts = fknationalIsProducts;
   }
 
 

@@ -71,6 +71,7 @@ public interface MainService {
    * @author dongxu
    * @date 2018年6月4日下午6:20:52
    */
-  void exportExcelForGradeTemplate()  throws BusinessException;
+  void exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds)
+      throws BusinessException;
   
 }

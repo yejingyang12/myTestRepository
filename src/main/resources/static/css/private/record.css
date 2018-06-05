@@ -1,4 +1,30 @@
 @charset "utf-8";
+input{
+    width: 100%;
+    border:1px solid #cecece;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    line-height: 34px;
+}
+label{
+    font:normal 14px/34px "微软雅黑";
+    padding:0 !important;
+}
+.dataForm>li{
+    margin-bottom:15px;
+    display: flex;
+    margin-left:70px;
+}
+.dataForm>li>div{
+    padding:0;
+}
+/*.dataForm>li>div>div{
+    padding:0;
+}*/
+.dataForm>li input{
+    width: 140%;
+}
 .recordMain{
     width: 1200px;
     margin:0 auto;
@@ -30,9 +56,19 @@
 }
 .datasBgAll{
     display: block;
-    width: 100px;
+    width: 101px;
     height: 100px;
-    background:no-repeat 0 0;
+    background:url("../../images/record.png") no-repeat -8px 0;
+    margin-left:32px;
+}
+.auditBg{
+    background-position: -116px 0;
+}
+.fillInBg{
+    background-position: -213px 0;
+}
+.overBg{
+    background-position: -315px 0;
 }
 .process{
     display: flex;
@@ -46,6 +82,7 @@
 .datasText,.recTitle{
     font:14px "微软雅黑";
     text-align: center;
+    height: 40px;
 }
 .recTitle{
     margin-top:20px;
@@ -53,7 +90,15 @@
 .dataLise{
     display: block;
     width: 60px;
-    height: 60px;
+    height: 61px;
+    background: url("../../images/record.png") no-repeat -8px -121px;
+    margin:10px 0 0 55px;
+}
+.dataAudit{
+    background-position:-108px -121px;
+}
+.dataFillIn{
+    background-position: -208px -121px;
 }
 .dataLise:after{
     content: '';
@@ -67,10 +112,43 @@
 }
 .dataLast{
     display: block;
-    width: 60px;
-    height: 60px;
+    width: 61px;
+    height: 61px;
+    background: url("../../images/record.png") no-repeat -308px -121px;
+    margin:10px 0 0 55px;
 }
 .datasMain{
     font:14px/1.5 "微软雅黑";
     margin:10% 5%;
+    display: none;
+}
+.useData>input{
+    background: url("../../images/datatime.png") no-repeat right 7px top 7px;
+}
+.sysText{
+    width: 64%;
+    padding:0;
+}
+.sysText>input{
+    height: 34px;
+    border:none;
+    border-bottom: 1px solid #cecece;
+}
+.sysText>p{
+    font:12px/24px "微软雅黑";
+    color: #999999;
+}
+.sysBtn{
+    padding:7px 15px;
+}
+#upBuil{
+    width: 100%;
+    padding:0;
+
+}
+.lastFile{
+    margin-left:-52px !important;
+}
+.xing{
+    color: red;
 }

@@ -1,17 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="../../../css/public/reset.css">
-    <link rel="stylesheet" href="../../../css/private/addCompanyInfoPage.css">
-    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
-    <link rel="stylesheet" href="../../../css/public/index.css">
-    <script src="../../../../../../../../Documents/WXWork/1688850875312242/Cache/File/2018-05/tools.js"></script>
 
-</head>
-<body>
-
+<!--<div>-->
     <div class="inner mcAddCover" id="app">
         <!--新建单位信息表一-->
         <div class="mcAddTian">
@@ -276,19 +264,6 @@
                                     <span class="xing">*</span>
                                     板块类型：
                                 </label>
-                                <!--<div class="col-lg-11 col-sm-3 baseMes">
-                                    <div class="col-lg-1">中央</div>
-                                    <div class="col-lg-3">省（自治区、直辖市）</div>
-                                    <div class="col-lg-3">地（区、市、州、盟）</div>
-                                    <div class="col-lg-2">县（区、市、旗）</div>
-                                    <div class="row">
-                                        &lt;!&ndash;<label for="" class="col-sm-1">其他: </label>&ndash;&gt;
-                                        &lt;!&ndash;<div>&ndash;&gt;
-                                        其他：
-                                        <input type="text" class="col-lg-2 baseMesIn">
-                                        &lt;!&ndash;</div>&ndash;&gt;
-                                    </div>
-                                </div>-->
                                 <div class="col-lg-11 col-sm-3 baseMes1">
                                     <div onclick="getClass($(this))">省（自治区、直辖市）</div>
                                     <div onclick="getClass($(this))">省（自治区、直辖市）</div>
@@ -306,91 +281,6 @@
                 </form>
             </div>
         </div>
-        <div class="_cover" id="cover"></div>
+        <!--<div class="cover" id="cover"></div>-->
     </div>
-</body>
-<script src="../../../js/public/vue.js"></script>
-<script src="../../../js/public/index.js"></script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script src="../../../js/public/messages_zh.js"></script>
-<script src="addForm.js"></script>
-<script>
-//    $("#Addform").validate();
-    //点击下一步页面跳转
-    function nextBtn() {
-        $("#btnNext").click(function () {
-            Ajax('GET','./addForm.html','../addFormSystem/addFormSystem.html');
-        })
-    };
-    //点击切换背景色
-    function getClass(obj) {
-        $(obj).addClass('btnColor').siblings().removeClass("btnColor");
-    }
-    function Ajax(type,url, href, data) {
-        $.ajax({
-            type:type,
-            url:url,
-            async:false,
-            data:data,
-            success:function (msg) {
-                if(msg){
-                    window.location.href = href;
-                }
-            }
-        })
-    }
-    var Main = {
-        data() {
-            return {
-                options: [{
-                    value: 'sousuo',
-                    label: '图标',
-                    }
-                    ,{
-                    value: 'ziyuan',
-                    label: '资源',
-                    children: [{
-                        value: 'axure',
-                        label: 'Axure Components'
-                    }, {
-                        value: 'sketch',
-                        label: 'Sketch Templates'
-                    }, {
-                        value: 'jiaohu',
-                        label: '组件交互文档'
-                    }]
-                },
-                    {
-                        value: 'qita',
-                        label: '资源',
-                        children: [{
-                            value: 'axure',
-                            label: 'Axure'
-                        }, {
-                            value: 'sketch',
-                            label: 'Sketch Templates'
-                        }, {
-                            value: 'jiaohu',
-                            label: '组件交互文档'
-                        }]
-                    },
-                    {
-                        value: 'zujian',
-                        label: '资源',
-                        children: [{
-                            value: 'axure',
-                            label: 'Axure Components'
-                        }, {
-                            value: 'sketch',
-                            label: 'Sketch Templates'
-                        }]
-                    }]
-            };
-        }
-    };
-    var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#wrap');
-</script>
-</html>
+<!--</div>-->

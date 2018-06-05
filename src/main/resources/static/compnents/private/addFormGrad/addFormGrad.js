@@ -1,10 +1,16 @@
-/**
- * Created by timha on 2018/5/21.
- */
+
 (function () {
     var data={
         sysName:'',//系统名称
-        safetyPro:'',//确定安全保护等级
+        safetyPro:{//确定安全保护等级
+            busInform:[//业务信息
+                {"radioId":"selectAll","disRadioId":"onlyCheck"},
+                {"radioId":"selAll","disRadioId":"onCheck"},
+            ],
+            sysInform:{//系统信息
+
+            }
+        },
         competent:[],//主管部门
         competentName:'',//主管部门名称
         competentGrad:[],//主管部门审批定级情况
@@ -115,4 +121,19 @@
         }
 
     }());
+    /*var vm = new Vue({
+        el:'#inner',
+        data:function () {
+            return{
+                busInform:[//业务信息
+                    {"radioId":"selectAll","disRadioId":"onlyCheck"},
+                    // {"radioId":"selAll","disRadioId":"onCheck"},
+                        {},
+                    {},
+                    {}
+                ]
+            }
+        },
+        template:``,
+    })*/
 }())

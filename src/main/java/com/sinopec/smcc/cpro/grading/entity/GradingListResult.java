@@ -26,8 +26,7 @@ import com.alibaba.fastjson.JSON;
 public class GradingListResult {
 
   private String fkSystemId;
-  private String systemCodeId;
-  private String codeName;
+  private String auditName;
   private String fkBizSPRankDegree;
   private String fkBizSPRankLevel;
   private String fkBizSystemDegree;
@@ -38,7 +37,6 @@ public class GradingListResult {
   private Date rankTime;
   private Integer competentIsExisting;
   private String competentName;
-  private Integer competentView;
   private Integer expertView;
   private String filler;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -49,10 +47,21 @@ public class GradingListResult {
   private String ExpertReviewId;
   private String EvaluationPresentationName;
   private String EvaluationPresentationId;
+  private String systemName;
   
   
-  
-
+  /**
+   * @return the systemName
+   */
+  public String getSystemName() {
+    return systemName;
+  }
+  /**
+   * @param systemName the systemName to set
+   */
+  public void setSystemName(String systemName) {
+    this.systemName = systemName;
+  }
   /**
    * @return the fkSystemId
    */
@@ -88,18 +97,6 @@ public class GradingListResult {
    */
   public void setCompetentIsExisting(Integer competentIsExisting) {
     this.competentIsExisting = competentIsExisting;
-  }
-  /**
-   * @return the competentView
-   */
-  public Integer getCompetentView() {
-    return competentView;
-  }
-  /**
-   * @param competentView the competentView to set
-   */
-  public void setCompetentView(Integer competentView) {
-    this.competentView = competentView;
   }
   /**
    * @return the expertView
@@ -294,31 +291,19 @@ public class GradingListResult {
   public void setFiller(String filler) {
     this.filler = filler;
   }
-  /**
-   * @return the codeName
-   */
-  public String getCodeName() {
-    return codeName;
-  }
-  /**
-   * @param codeName the codeName to set
-   */
-  public void setCodeName(String codeName) {
-    this.codeName = codeName;
-  }
-  /**
-   * @return the systemCodeId
-   */
-  public String getSystemCodeId() {
-    return systemCodeId;
-  }
-  /**
-   * @param systemCodeId the systemCodeId to set
-   */
-  public void setSystemCodeId(String systemCodeId) {
-    this.systemCodeId = systemCodeId;
-  }
   
+  /**
+   * @return the auditName
+   */
+  public String getAuditName() {
+    return auditName;
+  }
+  /**
+   * @param auditName the auditName to set
+   */
+  public void setAuditName(String auditName) {
+    this.auditName = auditName;
+  }
   public String toString(){
     return JSON.toJSONString(this);
   }

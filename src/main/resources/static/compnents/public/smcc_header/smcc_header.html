@@ -1,10 +1,207 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>头部内容</title>
-</head>
-<body>
-头部
-</body>
-</html>
+<div>
+    <div class="header">
+        <div class="header-1">
+            <div class="header-1-l">欢迎来光临</div>
+            <div class="header-1-r">
+                <div class="head-text">欢迎你：<span>emily.zhang</span><a href="#">退出</a></div>
+                <!--<div class="set"><img src="../../../images/shezhi.jpg" width="21" height="20" alt=""></div>-->
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="header-2"  id="tab">
+            <div class="header-2-l">
+                <div class="logo">
+                    <!--<img src="../../../images/logo.png" alt="" th:attr="src=@{/images/logo.png}">-->
+                    <slot name="smmc-header-img"></slot>
+                </div>
+                <div class="name">中国石化网络安全运营中心</div>
+                <div class="clear"></div>
+            </div>
+            <div class="header-2-r">
+                <div class="nav" id="nav">
+                    <ul id="navigation-list">
+                        <li id="nav-1" data-id="1"><a href="#">首页</a></li>
+                        <li id="nav-2" data-id="2"><a href="#">信息安全管理</a></li>
+                        <li id="nav-3" data-id="3"><a href="#">风险管理</a></li>
+                        <li id="nav-4" data-id="4"><a href="#">安全运维</a></li>
+                        <li id="nav-5" data-id="5"><a href="#">安全系统监控</a></li>
+                        <li id="nav-6" data-id="6"><a href="#">系统管理</a></li>
+                        <div class="clear"></div>
+                    </ul>
+                </div>
+                <div class="search">
+                    <img src="../../../images/sousuo.jpg" width="21" height="20" alt="">
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="search-bg">
+    </div>
+    <div class="search-con">
+        <div class="search-con-l-1"><input type="text" placeholder="请输入搜索内容" ></div>
+        <div class="search-con-l-2"><img src="../../../images/ss.png" width="20" height="20"></div>
+        <div class="clear"></div>
+    </div>
+    <div class="show-hide">
+        <div class="show-con" id="menu-1">
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>通报管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>三同步管理</h1></li>
+                    <li>等级保护</li>
+                    <li>上线验收检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>安全检查</h1></li>
+                    <li>年度检查</li>
+                    <li>年度检查</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="show-con" id="menu-2">
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>通报管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>三同步管理</h1></li>
+                    <li>等级保护</li>
+                    <li>上线验收检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>安全检查</h1></li>
+                    <li>年度检查</li>
+                    <li>年度检查</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="show-con" id="menu-3">
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>通报管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>三同步管理</h1></li>
+                    <li>等级保护</li>
+                    <li>上线验收检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>安全检查</h1></li>
+                    <li>年度检查</li>
+                    <li>年度检查</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="show-con" id="menu-4">
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>通报管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>三同步管理</h1></li>
+                    <li>等级保护</li>
+                    <li>上线验收检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>安全检查</h1></li>
+                    <li>年度检查</li>
+                    <li>年度检查</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="show-con" id="menu-5">
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>通报管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>三同步管理</h1></li>
+                    <li>等级保护</li>
+                    <li>上线验收检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>安全检查</h1></li>
+                    <li>年度检查</li>
+                    <li>年度检查</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="show-con" id="menu-6">
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>通报管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>三同步管理</h1></li>
+                    <li>等级保护</li>
+                    <li>上线验收检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>安全检查</h1></li>
+                    <li>年度检查</li>
+                    <li>年度检查</li>
+                </ul>
+            </div>
+            <div class="show-con-1">
+                <ul>
+                    <li><h1>系统信息管理</h1></li>
+                    <li>安全通报</li>
+                    <li>安全报告</li>
+                    <li>安全公告</li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

@@ -46,9 +46,9 @@ public class CheckController {
    * 创建时间:2018年5月26日 上午10:43:53
    * @return 
    */
-  @RequestMapping(value = "/querylist", method = RequestMethod.GET)
+  @RequestMapping(value = "/querylist", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryCheckList(HttpRequest request, CheckParam checkParam,
+  public ResultApi queryCheckList(HttpRequest request,@RequestBody CheckParam checkParam,
       HttpServletResponse response) throws BusinessException {
     response.setHeader("Access-Control-Allow-Origin", "*");
     // 调用service实体获得方法，CheckListResult填写返回的参数

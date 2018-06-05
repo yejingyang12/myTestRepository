@@ -71,7 +71,7 @@ public class SystemServiceImpl implements SystemService {
 			}
 		}else {
 			//默认排序规则
-			orderBy.append("createTime DESC");
+			orderBy.append("system.createTime DESC");
 		}
 		//初始化分页拦截器
 		PageHelper.startPage(systemParam.getCurrentPage(), systemParam.getPageSize(),
@@ -108,7 +108,6 @@ public class SystemServiceImpl implements SystemService {
       systemParam.setGradingStatus(1);
       systemParam.setFkChangeMatter(5);
       systemParam.setAppIsInternet(2);
-      systemParam.setFkInfoSysTypeCon(1);
       systemParam.setCreateTime(new Date());
       systemParam.setWhenInvestmentUse(new Date());
       systemParam.setEvaluationStatus(1);
@@ -117,6 +116,7 @@ public class SystemServiceImpl implements SystemService {
       systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
       systemKeyProducts.setFkSystemId(systemParam.getSystemId());
       systemKeyProducts.setDeleteStatus(1);
+      systemKeyProducts.setnUseProbability(20);
       systemKeyProducts.setFkExaminStatus(1);
       systemKeyProducts.setCreateTime(new Date());
       systemKeyProductsList.add(systemKeyProducts);
@@ -160,10 +160,9 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
 	public SystemResult queryDetailsSystem(SystemParam systemParam) throws BusinessException {
-	  if(StringUtils.isBlank(systemParam.getSystemId())) {
-	    return this.systemMapper.selectDetailsSystem(systemParam);
-	  }
-    throw new BusinessException(EnumResult.ERROR);
+	  if(StringUtils.isBlank(systemParam.getSystemId())) 
+	    throw new BusinessException(EnumResult.ERROR);
+	  return this.systemMapper.selectDetailsSystem(systemParam);   
 	}
 	
 	/**
@@ -173,10 +172,9 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException {
-	  if(StringUtils.isBlank(systemParam.getSystemId())) {
-	    return this.systemMapper.selectEditSystem(systemParam);
-	  }
-	  throw new BusinessException(EnumResult.ERROR);
+	  if(StringUtils.isBlank(systemParam.getSystemId())) 
+	    throw new BusinessException(EnumResult.ERROR);
+	  return this.systemMapper.selectEditSystem(systemParam);
 	}
 	
 	/**

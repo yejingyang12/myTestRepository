@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../../../css/private/addFormCha.css">
     <link rel="stylesheet" href="../../../css/public/bootstrap.css">
 </head>
-<body>
+<body>-->
 <div class="inner">
     <!--查询单位名称-->
     <div class="mcAddCha">
@@ -38,22 +38,23 @@
                     <option>驻外机构</option>
                 </select>
                 <div class="mcAddCli">
-                    没有找到单位？<a href="javascript:void(0);" id="cliThis" onclick="getCover()">点击此处</a>新建单位信息！
+                    没有找到单位？<a href="javascript:void(0);" id="cliThis" @click=getCover()>点击此处</a>新建单位信息！
                 </div>
             </div>
-            <button type="button" class="btn" id="btnOk" onclick="nextBtn()">确定</button>
+            <button type="button" class="btn" id="btnOk" @click=nextBtn()>确定</button>
         </form>
-        <!--<div class="cover" id="covers"></div>-->
+        <div class="cover" id="cover"></div>
     </div>
 </div>
+<!--
 </body>
 <script src="../../../js/public/bootstrap.min.js"></script>
 <script src="../../../js/public/jquery.min.js"></script>
 <script>
 
-        function getCover() {
+        /*function getCover() {
             $("#covers").removeClass('cover');
-        }
+        }*/
 
         (function nextBtn() {
             $("#btnOk").click(function () {
@@ -77,4 +78,4 @@
             })
         }
 </script>
-</html>
+</html>-->

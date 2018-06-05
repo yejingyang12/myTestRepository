@@ -9,8 +9,6 @@
 */
 package com.sinopec.smcc.cpro.system.server;
 
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
@@ -83,6 +81,6 @@ public interface SystemService {
    * @param systemParam
    * @return
    */
-  public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException ;
+  void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException ;
 
 }

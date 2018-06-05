@@ -45,10 +45,11 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
-  public List<AttachMaterialsListResult> queryDetailsAttach(AttachMaterialsParam attachMaterialsParam) 
-      throws BusinessException {
+  public List<AttachMaterialsListResult> queryDetailsAttach(
+      AttachMaterialsParam attachMaterialsParam) throws BusinessException {
     if(StringUtils.isBlank(attachMaterialsParam.getAttachId())){
-      List<AttachMaterialsListResult> list = this.attachMaterialsMapper.selectDetailsAttach(attachMaterialsParam);
+      List<AttachMaterialsListResult> list = 
+          this.attachMaterialsMapper.selectDetailsAttach(attachMaterialsParam);
       for (int i = 0; i < list.size(); i++) {
         String name = list.get(i).getAttachName().
             substring(0, list.get(i).getAttachName().lastIndexOf("."));
@@ -65,9 +66,11 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
-  public List<AttachMaterialsListResult> queryEditAttach(AttachMaterialsParam attachMaterialsParam) throws BusinessException {
+  public List<AttachMaterialsListResult> queryEditAttach(
+      AttachMaterialsParam attachMaterialsParam) throws BusinessException {
     if(StringUtils.isBlank(attachMaterialsParam.getAttachId())) {
-      List<AttachMaterialsListResult> list = this.attachMaterialsMapper.selectEditAttach(attachMaterialsParam);
+      List<AttachMaterialsListResult> list = 
+          this.attachMaterialsMapper.selectEditAttach(attachMaterialsParam);
       for (int i = 0; i < list.size(); i++) {
         String name = list.get(i).getAttachName().
             substring(0, list.get(i).getAttachName().lastIndexOf("."));

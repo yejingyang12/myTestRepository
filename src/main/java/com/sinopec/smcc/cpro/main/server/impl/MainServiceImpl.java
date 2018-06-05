@@ -10,9 +10,8 @@ package com.sinopec.smcc.cpro.main.server.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,27 +21,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jacob.com.Dispatch;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
+import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
+import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.mapper.GradingMapper;
+import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.mapper.MainMapper;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.main.utils.ConvertFieldUtil;
 import com.sinopec.smcc.cpro.tools.DateUtils;
+import com.sinopec.smcc.cpro.tools.FileOperateUtil;
+import com.sinopec.smcc.cpro.tools.JacobExcelTool;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
 import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
@@ -61,6 +64,9 @@ public class MainServiceImpl implements MainService{
 
   @Autowired
   private MainMapper mainMapper;
+  
+  @Autowired
+  private GradingService gradingServiceImpl;
   
   /**
    * 响应等保列表数据
@@ -258,35 +264,85 @@ public class MainServiceImpl implements MainService{
    * 定级模板导出
    */
   @Override
-  public void exportExcelForGradeTemplate() throws BusinessException {
-    File f = new File("F:\\桌面应用\\测试\\exportExcelModel.xlsm");
-    InputStream inputStream = null;
-    HSSFWorkbook xssfWorkbook = null;
+  public void exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds) 
+      throws BusinessException {
+    File file = new File("F:\\桌面应用\\测试\\exportExcelModel.xlsm");//原文件
+    String primaryfilePth = "F:\\桌面应用\\测试\\exportExcelModel.xlsm";//原文件路径
+    String filePath = "F:\\桌面应用\\压缩文件\\";//文件生成路径
+    String fileCopyPath = "F:\\桌面应用\\复制\\";//复制路径
+    String expName = "定级模板"+"_"+DateUtils.getMilliseconds();
+    GradingParam gradingParam = new GradingParam();
+    gradingParam.setFkSystemIds(systemIds);
+    List<GradingListResult> gradingListResultList = 
+        this.gradingServiceImpl.queryGradingByParam(gradingParam);
+    List<File> srcfile = new ArrayList<File>();// 生成的excel的文件的list
+    File fileCopy = null;
+    //Excel宏设置
+    JacobExcelTool tool = new JacobExcelTool();
+    //打开
+    tool.OpenExcel(primaryfilePth,false,false);
     try {
-      xssfWorkbook = new HSSFWorkbook(inputStream);
-      inputStream = new FileInputStream(f);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    HSSFSheet sheet1 = xssfWorkbook.getSheetAt(0);
-    for(Row row : sheet1){
-      for(Cell hssfCell : row){
-        if (hssfCell.getCellType() == hssfCell.CELL_TYPE_BOOLEAN) {
-        } else if (hssfCell.getCellType() == hssfCell.CELL_TYPE_NUMERIC) {
-            hssfCell.setCellValue("nihao");
-        } else if(hssfCell.getCellType() == Cell.CELL_TYPE_STRING){
-          String str = hssfCell.getStringCellValue();
-          if(str.equals("Fail")){
-              hssfCell.setCellValue("Yes");
+      for (GradingListResult gradingListResult : gradingListResultList) {
+        //如果业务信息级别与宏名相同则选中
+        if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
+          if(gradingListResult.getFkBizSPRankLevel().equals("101")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox11_Click");
           }
-          else if(str.equals("Block")){
-              hssfCell.setCellValue("NA");
-          }else if(str.equals("Warn")){
-              hssfCell.setCellValue("NO");
+          if(gradingListResult.getFkBizSPRankLevel().equals("102")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox12_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("103")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox13_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("104")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox14_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("105")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox15_Click");
           }
         }
+        //如果系统服务级别与宏名相同则选中
+        if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
+          if(gradingListResult.getFkBizSPRankLevel().equals("201")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox21_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("202")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox22_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("203")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox23_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("204")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox24_Click");
+          }
+          if(gradingListResult.getFkBizSPRankLevel().equals("205")){
+            tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox25_Click");
+          }
+        }
+
+        
+        //关闭并保存，释放对象
+        tool.CloseExcel(true, true);
+        //复制
+        fileCopy = new File(fileCopyPath + gradingListResult.getSystemName()+"_"+
+            DateUtils.getMilliseconds()+".xlsm");
+        FileInputStream ins = new FileInputStream(file);
+        FileOutputStream out = new FileOutputStream(fileCopy);
+        byte[] b = new byte[1024];
+        int count=0;
+        while((count=ins.read(b))!=-1){
+          out.write(b, 0, count);
+        }
+        srcfile.add(fileCopy);
+        ins.close();
+        out.close();
       }
+      // 将复制后的excel压缩
+      FileOperateUtil.createRar(response, filePath, srcfile, expName);
+      //压缩后清除复制的excel
+      FileOperateUtil.deleteAllFile(fileCopyPath);
+    }catch (Exception e){
+      e.printStackTrace();
     }
-    
   }
 }

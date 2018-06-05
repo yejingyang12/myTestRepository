@@ -23,6 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class MainParam {
 
   private String systemId;
+  private String[] systemIds;
   private String fkCompanyCode;
   private String customizedSearch;
   private String acceptCompany;
@@ -68,6 +69,20 @@ public class MainParam {
 
   
   
+  /**
+   * @return the systemIds
+   */
+  public String[] getSystemIds() {
+    return systemIds;
+  }
+
+  /**
+   * @param systemIds the systemIds to set
+   */
+  public void setSystemIds(String[] systemIds) {
+    this.systemIds = systemIds;
+  }
+
   /**
    * @return the auditTimeBegin
    */

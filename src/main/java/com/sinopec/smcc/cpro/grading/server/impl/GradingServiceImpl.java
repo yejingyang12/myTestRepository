@@ -48,11 +48,11 @@ public class GradingServiceImpl implements GradingService{
    */
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
-  public List<GradingListResult> queryDetailsGrading(GradingParam gradingParam) throws BusinessException {
-    if(StringUtils.isBlank(gradingParam.getGradingId())) {
-      return this.gradingMapper.selectDetailsGrading(gradingParam);
-    }
-    throw new BusinessException(EnumResult.ERROR);
+  public List<GradingListResult> queryDetailsGrading(GradingParam gradingParam) 
+      throws BusinessException {
+    if(StringUtils.isBlank(gradingParam.getGradingId())) 
+      throw new BusinessException(EnumResult.ERROR);
+    return this.gradingMapper.selectDetailsGrading(gradingParam);
   }
 
   /**
@@ -62,10 +62,9 @@ public class GradingServiceImpl implements GradingService{
   @Override
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public GradingListResult queryEditGrading(GradingParam gradingParam) throws BusinessException {
-    if (StringUtils.isBlank(gradingParam.getGradingId())) {
-      return this.gradingMapper.selectEditGrading(gradingParam);
-    }
-    throw new BusinessException(EnumResult.ERROR);
+    if (StringUtils.isBlank(gradingParam.getFkSystemId())) 
+      throw new BusinessException(EnumResult.ERROR);
+    return this.gradingMapper.selectEditGrading(gradingParam);
   }
 
   /**
@@ -74,7 +73,7 @@ public class GradingServiceImpl implements GradingService{
   @Override
   @Transactional
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_score")
-  public String saveGrading(GradingParam gradingParam) {
+  public String saveGrading(GradingParam gradingParam) throws BusinessException {
     if(StringUtils.isBlank(gradingParam.getGradingId())) {
       gradingParam.setGradingId(Utils.getUuidFor32());
       gradingParam.setCreateTime(new Date());
@@ -85,5 +84,16 @@ public class GradingServiceImpl implements GradingService{
     }
     this.gradingMapper.insertGrading(gradingParam);
     return gradingParam.getGradingId();
+  }
+
+  /**
+   * 根据系统ID查询定级列表
+   */
+  @Override
+  public List<GradingListResult> queryGradingByParam(GradingParam gradingParam)
+      throws BusinessException {
+    List<GradingListResult> gradingListResultList =
+        this.gradingMapper.selectGradingBySystemIds(gradingParam);
+    return gradingListResultList;
   }
 }
