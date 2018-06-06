@@ -18,7 +18,7 @@ td{
 .tdLineHei{
     line-height: 34px !important;
 }
-.addFormable{
+.addForm2Table{
     padding: 0px;
     margin-left: -30px;
 }
@@ -66,6 +66,9 @@ td{
 }
 .proWidth{
     width: 32%;
+}
+.formTable{
+    margin-bottom:15px;
 }
 .xing{
     color: red;

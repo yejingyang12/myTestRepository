@@ -10,6 +10,7 @@ input{
 label{
     font:normal 14px/34px "微软雅黑";
     padding:0 !important;
+    margin:0;
 }
 .dataForm>li{
     margin-bottom:15px;
@@ -19,9 +20,6 @@ label{
 .dataForm>li>div{
     padding:0;
 }
-/*.dataForm>li>div>div{
-    padding:0;
-}*/
 .dataForm>li input{
     width: 140%;
 }
@@ -41,7 +39,7 @@ label{
     height: 2px;
     background: #ededed;
 }
-.cut:before{
+/*.cut:before{
     content: "";
     display: inline-block;
     width: 2px;
@@ -49,7 +47,7 @@ label{
     background: #3d95df;
     vertical-align: middle;
     margin-right: 11px;
-}
+}*/
 .recordPro{
     width: 80%;
     margin:0 auto;
@@ -128,6 +126,7 @@ label{
 .sysText{
     width: 64%;
     padding:0;
+    margin-left:8px;
 }
 .sysText>input{
     height: 34px;
@@ -140,14 +139,18 @@ label{
 }
 .sysBtn{
     padding:7px 15px;
+    margin-left:8px;
 }
 #upBuil{
     width: 100%;
     padding:0;
-
 }
 .lastFile{
     margin-left:-52px !important;
+}
+.sysTitle{
+    margin-left:-22px;
+    width: 27%;
 }
 .xing{
     color: red;

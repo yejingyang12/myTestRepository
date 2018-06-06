@@ -349,43 +349,5 @@ public class JacobExcelTool {
         e.printStackTrace();  
     }  
   }  
-  
-  public static void main(String[] args) {
-//  JacobExcelTool tool = new JacobExcelTool();
-//  //打开
-//  tool.OpenExcel("F:\\桌面应用\\测试\\exportExcelModel.xlsm",false,false);
-//  //调用Excel宏
-//  tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox12_Click");
-//  //关闭并保存，释放对象
-//  tool.CloseExcel(true, true);
-    
-//    for (int i = 0; i < 5; i++) {
-//      File f = new File("F:\\桌面应用\\测试\\exportExcelModel.xlsm");
-//    }      
-    File f = new File("F:\\桌面应用\\测试\\exportExcelModel.xlsm");
-//    File f1 = new File("F:\\桌面应用\\复制\\exportExcelModel1.xlsm");
-    InputStream inputStream;
-    try {
-      
-      
-      FileInputStream inp = new FileInputStream(f); 
-      XSSFWorkbook wb = new XSSFWorkbook(inp);
-      XSSFSheet sheet = wb.getSheetAt(0); // 获得第三个工作薄(2008工作薄)
-      // 填充上面的表格,数据需要从数据库查询
-      XSSFRow row5 = sheet.getRow(21); // 获得工作薄的第五行
-      XSSFCell cell54 = row5.getCell(1);// 获得第五行的第四个单元格
-      cell54.setCellValue("测试纳税人名称");// 给单元格赋值
-   
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    
-    
-  }
- 
-   
+
 }

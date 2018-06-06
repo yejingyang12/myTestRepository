@@ -64,8 +64,7 @@ public class SystemParam {
   private String npCoverageRange;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String sysBusSituationType;
-  
-
+  private String[] systemIds;
   
   private List<SystemKeyProducts> SystemKeyProducts;
   private List<SystemUseServices> SystemUseServices;
@@ -75,8 +74,24 @@ public class SystemParam {
   private String field; //接收字段
   private String sort;//排序
   
-  
-	/**
+
+  /**
+   * @return the systemIds
+   */
+  public String[] getSystemIds() {
+    return systemIds;
+  }
+
+
+  /**
+   * @param systemIds the systemIds to set
+   */
+  public void setSystemIds(String[] systemIds) {
+    this.systemIds = systemIds;
+  }
+
+
+  /**
    * @return the updateTime
    */
   public Date getUpdateTime() {

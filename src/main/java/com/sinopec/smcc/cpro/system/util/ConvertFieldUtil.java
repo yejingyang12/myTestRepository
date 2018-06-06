@@ -29,8 +29,8 @@ public class ConvertFieldUtil {
 	 * @return
 	 */
   public static String sortField(String field) {
-    if(SystemConstant.CREATE_TIME.equalsIgnoreCase(field) ) {
-      field = SystemConstant.CREATE_TIME;
+    if(SystemConstant.TABLE_FIELD_SYSTEM_CREATE_TIME.equalsIgnoreCase(field) ) {
+      field = SystemConstant.TABLE_FIELD_SYSTEM_CREATE_TIME;
     }else {
     }
     return field;

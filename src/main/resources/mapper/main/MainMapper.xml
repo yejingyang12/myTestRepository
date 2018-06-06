@@ -20,14 +20,13 @@
         company.fkPlateType, 
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
         systemCodeSprankLevel.codeName AS SprankLevel,
-        score.fkBizSPRankLevel,
-        score.fkBizSystemLevel,
         appIsInternet, 
         gradingStatus, 
         examineStatus, 
         recordStatus, 
         evaluationStatus,
-        examinationStatus
+        examinationStatus,
+        
       FROM
         t_cpro_system AS system
       LEFT JOIN t_cpro_company AS company 
@@ -176,7 +175,7 @@
       </if>
       <if test="subordinateProvinces != null and subordinateProvinces != ''">
           <![CDATA[
-            AND company.fkSubordinateProvinces = #{subordinateProvinces,jdbcType=VARCHAR}
+            AND company.fkSubordinatePro = #{subordinateProvinces,jdbcType=VARCHAR}
           ]]>
       </if>
     </where>
@@ -184,13 +183,13 @@
   <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
     UPDATE 
       t_cpro_system AS system
-    INNER JOIN t_cpro_company AS company
+    LEFT JOIN t_cpro_company AS company
       ON system.fkCompanyCode = company.companyCode
-    INNER JOIN t_cpro_score AS score
+    LEFT JOIN t_cpro_score AS score
       ON system.pkid = score.fkSystemId
-    INNER JOIN t_cpro_check AS cproCheck
+    LEFT JOIN t_cpro_check AS cproCheck
       ON system.pkid = cproCheck.fkSystemId
-    INNER JOIN t_cpro_records AS records
+    LEFT JOIN t_cpro_records AS records
       ON system.pkid = records.fkSystemId
     SET system.deleteStatus = 2,
       company.deleteStatus = 2,

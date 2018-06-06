@@ -10,10 +10,12 @@
 package com.sinopec.smcc.cpro.system.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemTemplateListResult;
 
 /**
  * @Title SystemMapper.java
@@ -92,4 +94,30 @@ public interface SystemMapper {
    * @param systemParam
    */
   void updateSystemStatusBySystemId(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月5日上午10:33:34
+   * @param systemParam
+   * @return
+   */
+  List<SystemTemplateListResult> selectSystemTemPlate(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月5日下午4:14:48
+   * @return
+   */
+  List<SystemTemplateListResult> selectSystemCode();
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @param systemTemplateListResult 
+   * @date 2018年6月5日下午4:46:26
+   */
+  void insertSystemTemplate(List<SystemTemplateListResult> systemTemplateListResult);
+  
 }

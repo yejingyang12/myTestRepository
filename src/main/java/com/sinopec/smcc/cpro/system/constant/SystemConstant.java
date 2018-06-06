@@ -20,5 +20,5 @@ package com.sinopec.smcc.cpro.system.constant;
 
 public class SystemConstant {
 		
-	public final static String CREATE_TIME = "task_code";
+	public final static String TABLE_FIELD_SYSTEM_CREATE_TIME = "CREATE_TIME";
 }

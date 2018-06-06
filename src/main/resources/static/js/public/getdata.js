@@ -29,7 +29,7 @@ function FnGetData(url, type) {
 function FnPostData(url, type) {
 	var param = {};
 	var that = this;
-	this.FnSetParam(param)
+	this.FnSetParam(param);
 	$.ajax({
 		url: origin + url,
 		type: "POST",

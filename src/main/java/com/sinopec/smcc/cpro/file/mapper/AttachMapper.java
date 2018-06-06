@@ -1,42 +1,58 @@
 /**
-* 2018. 
 * @Title AttachMapper.java
 * @Package com.sinopec.smcc.cpro.file.mapper
 * @Description: TODO:
-* @author zhouyu
-* @date 2018年5月30日下午3:14:40
+* @author eric
+* @date 2018年6月4日下午8:40:59
 * @version V1.0
 */
 package com.sinopec.smcc.cpro.file.mapper;
 
-import com.sinopec.smcc.cpro.file.entity.SysAttachFile;
+import java.util.List;
+
+import com.sinopec.smcc.cpro.file.entity.AttachParam;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
 
 /**
  * @Title AttachMapper.java
  * @Package com.sinopec.smcc.cpro.file.mapper
  * @Description: TODO:
- * @author zhouyu
- * @date 2018年5月30日下午3:14:40
+ * @author eric
+ * @date 2018年6月4日下午8:40:59
  * @version V1.0
  */
 public interface AttachMapper {
+
   /**
-   * @Descrption 新增附件
-   * @author zhouyu
-   * @date 2018年5月30日下午4:28:57
-   * @param SysAttachFile
-   * @return 
-   * @throws Exception
+   * @Descrption
+   * @author eric
+   * @date 2018年6月4日下午8:59:37
+   * @param attachParam
    */
-  public int insertAttach(SysAttachFile SysAttachFile) throws Exception;
+  void insertAttach(AttachParam attachParam);
+
   /**
-   * @Descrption 删除附件
-   * @author zhouyu
-   * @date 2018年5月30日下午4:29:33
-   * @param SysAttachFile
-   * @return
-   * @throws Exception
+   * @Descrption
+   * @author eric
+   * @date 2018年6月4日下午9:20:42
+   * @param attachParam
    */
-  public int deleteByAttach(String fkSyssonId) throws Exception;
+  List<AttachResult> selectAllAttachByParam(AttachParam attachParam);
+
+  /**
+   * @Descrption
+   * @author eric
+   * @date 2018年6月4日下午9:30:34
+   * @param attachParam
+   */
+  void deleteAllAttachByParam(AttachParam attachParam);
+
+  /**
+   * @Descrption
+   * @author eric
+   * @date 2018年6月4日下午10:17:38
+   * @param attachParam
+   */
+  AttachResult selectSingleAttachByFileId(AttachParam attachParam);
 
 }

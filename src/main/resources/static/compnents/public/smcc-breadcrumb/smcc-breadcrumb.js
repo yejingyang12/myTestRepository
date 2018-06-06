@@ -16,7 +16,7 @@
     };
 
     Vue.component('smccBreadcrumb',function(resolve,reject){
-        $.get(comp_src+"/compents/public/smcc-breadcrumb/smcc-breadcrumb.html").then(function (res) {
+        $.get(comp_src+"/compnents/public/smcc-breadcrumb/smcc-breadcrumb.html").then(function (res) {
             resolve({
                 template: res,
                 data:function(){

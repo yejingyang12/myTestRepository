@@ -1,0 +1,27 @@
+
+<div id="app" class=" ">
+    <p class="recordTitle">中石化差旅管理服务平台</p>
+    <div class="clearfix recBtn">
+        <button class="btn btn-success btnBack comitBtm fl" type="submit">提交</button>
+        <button class="btn btn-danger btnBack comitBtm fl" type="submit">撤销备案</button>
+        <button class="btn btn-default btnBack fl" type="button">返回</button>
+    </div>
+    <template>
+        <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+            <el-tab-pane label="单位信息（备案表一）" name="first">单位信息（备案表一)</el-tab-pane>
+            <el-tab-pane label="系统信息（备案表二）" name="second">系统信息（备案表二）</el-tab-pane>
+            <el-tab-pane label="定级信息（备案表三）" name="third">定级信息（备案表三）</el-tab-pane>
+            <el-tab-pane label="提交材料情况（备案表四）" name="fourth">提交材料情况（备案表四）</el-tab-pane>
+            <el-tab-pane label="自查" name="examination">自查</el-tab-pane>
+            <el-tab-pane label="测评" name="evaluation">
+
+            </el-tab-pane>
+            <el-tab-pane label="备案" name="examine">备案</el-tab-pane>
+            <el-tab-pane label="审核" name="record">
+                <audit-grad></audit-grad>
+                <audit-change></audit-change>
+                <audit-cancel></audit-cancel>
+            </el-tab-pane>
+        </el-tabs>
+    </template>
+</div>

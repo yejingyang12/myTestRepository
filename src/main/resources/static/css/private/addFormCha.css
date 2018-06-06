@@ -1,5 +1,4 @@
 @charset "utf-8";
-/*@import "addCompanyInfoPage.css";*/
 /*查询单位名称*/
 .mcAddDan{
     margin-left:15px;
@@ -20,7 +19,7 @@
     width: 70px;
     height: 34px;
     background-color: #3d95df;
-    margin-top:50px;
+    margin-top:60px;
     color: #ffffff;
 }
 .form-control{

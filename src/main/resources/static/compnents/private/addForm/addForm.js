@@ -23,7 +23,7 @@
      msgUintType:[],//单位类型
      msgPlate:[]//板块类型
      };
-   /* $("#Addform").validate({
+    $("#Addform").validate({
         rules: {
             msgName: {
                 required: true,
@@ -112,27 +112,6 @@
                 msgInCate:true
             }
         },
-        /!*messages: {
-            msgName: {
-                required: "最少为2个字！"
-            },
-            tel: {
-                required: "请填写手机号码！",
-                isMobile: "请填写11位的手机号码!"
-            },
-            company: {
-                required: "公司名称最少为2个字符！"
-            },
-            address: {
-                required: '请填写地址！'
-            },
-            city: {
-                required: "请填写城市！"
-            },
-            num: {
-                required: "请填写正确的拿货量！"
-            }
-        },*!/
         onkeyup: false,
         errorPlacement: function (error, element) {
             error.appendTo(element.parent());
@@ -156,9 +135,9 @@
                 }
             })
         },
-    });*/
+    });
     //以下为自定义验证
-    /*$.validator.addMethod("msgName", function (value, element) {
+    $.validator.addMethod("msgName", function (value, element) {
         var re = /^\w[()-[]:.{},;@，；。《》、（）]{50}$/;
         return this.optional(element) || (re.test(value));
     }, "请正确填写您的单位名称");
@@ -236,7 +215,7 @@
     $.validator.addMethod("msgAdc", function (value, element) {
         var re = /^[0-9a-zA-Z]$/;
         return this.optional(element) || (re.test(value));
-    }, "请正确填写您的行政区划编码");*/
+    }, "请正确填写您的行政区划编码");
     //ajax请求后台端口
     /*$.ajax({
      type:'POST',
@@ -275,21 +254,88 @@
         })
 
     }*/
-    Vue.component('mcAddForm',function (resolve, reject) {
+
+    Vue.component('addForm',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/addForm/addForm.html').then(function (res) {
             resolve({
                 template:res,
                 data:function () {
-                    return data;
+                    return {
+                        options: [{
+                            value: 'zhinan',
+                            label: '指南',
+                            children: [{
+                                value: 'shejiyuanze',
+                                label: '设计原则'
+                            }, {
+                                value: 'daohang',
+                                label: '导航'
+                            }]
+                        }, {
+                            value: 'zujian',
+                            label: '组件',
+                            children: [{
+                                value: 'basic',
+                                label: 'Basic'
+                            }, {
+                                value: 'form',
+                                label: 'Form'
+                            }, {
+                                value: 'data',
+                                label: 'Data'
+                            }, {
+                                value: 'notice',
+                                label: 'Notice'
+                            }, {
+                                value: 'navigation',
+                                label: 'Navigation'
+                            }, {
+                                value: 'others',
+                                label: 'Others'
+                            }]
+                        }, {
+                            value: 'ziyuan',
+                            label: '资源',
+                            children: [{
+                                value: 'axure',
+                                label: 'Axure Components'
+                            }, {
+                                value: 'sketch',
+                                label: 'Sketch Templates'
+                            }, {
+                                value: 'jiaohu',
+                                label: '组件交互文档'
+                            }]
+                        }]
+                    };
                 },
                 methods:{
-
+                    Ajax:function(type,url, href, data){
+                        $.ajax({
+                            type:type,
+                            url:url,
+                            async:false,
+                            data:data,
+                            success:function (msg) {
+                                if(msg){
+                                    window.location.href = href;
+                                }
+                            }
+                        });
+                        $(".addBaseBg").css('background-position','0 -140px');
+                        $(".addSysBg").css('background-position','-70px 0');
+                    },
+                    //点击切换 添加class名
+                    getClass:function(e){
+                        $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                    }
                 },
                 created: function() {
 
                 },
                 mounted: function() {
                     // this.selectChange()
+                    new Ctor().$mount('#wrap');
                 }
             })
         })

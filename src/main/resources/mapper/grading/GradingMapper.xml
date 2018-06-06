@@ -23,6 +23,8 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="codeName" property="auditName" jdbcType="VARCHAR" />
     <result column="systemName" property="systemName" jdbcType="VARCHAR" />
+    <result column="competentView" property="competentView" jdbcType="TINYINT" />
+    <result column="expertView" property="expertView" jdbcType="TINYINT" />
   </resultMap>
   
   <resultMap id="systemCodeScore" type="com.sinopec.smcc.cpro.grading.entity.GradingListResult">
@@ -302,7 +304,7 @@
     WHERE systemCode.fkCodeType = 11
   </select>
   
-    <select id="selectGradingBySystemIds" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="BaseResultMap">
+  <select id="selectGradingBySystemIds" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="BaseResultMap">
     SELECT
       score.fkBizSPRankDegree,
       score.fkBizSPRankLevel,
@@ -313,6 +315,8 @@
       score.rankTime,
       score.competentIsExisting,
       score.competentName,
+      score.competentView,
+      score.expertView,
       systemCode.codeName AS auditName,
       score.filler,
       score.fillDate,
@@ -332,8 +336,13 @@
       AND attachExpertReview.fkAttachType = 'expertReview'
     LEFT JOIN t_cpro_attach AS attachEvaluationPresentation ON score.fkSystemId = attachEvaluationPresentation.fkSystemId
       AND attachEvaluationPresentation.fkAttachType = 'evaluationPresentation'
-    LEFT JOIN t_cpro_system AS system ON t_cpro_system.pkId = score.fkSystemId
+    LEFT JOIN t_cpro_system AS system ON system.pkId = score.fkSystemId
     WHERE
-      score.fkSystemId in (#{fkSystemIds})
+      score.fkSystemId in 
+      <foreach collection="fkSystemIds" item="item" index="index" open="(" separator="," close=")">
+        <![CDATA[
+          #{item,jdbcType=VARCHAR}
+        ]]>
+      </foreach>
   </select>
 </mapper>

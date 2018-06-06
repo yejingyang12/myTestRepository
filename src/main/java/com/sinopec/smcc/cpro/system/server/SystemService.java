@@ -9,6 +9,13 @@
 */
 package com.sinopec.smcc.cpro.system.server;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
@@ -83,4 +90,32 @@ public interface SystemService {
    */
   void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException ;
 
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月5日上午10:03:30
+   * @param systemParam
+   */
+  void exportExcelForSystemTemplate(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月5日下午3:24:51
+   * @throws IOException 
+   * @throws BusinessException 
+   */
+  void importForSystemTemplate() throws IOException, BusinessException;
+
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月6日下午3:36:33
+   * @param request
+   * @param response
+   * @param strFilePath
+   */
+  void exportUploadSystemInfo(HttpServletRequest request,
+      HttpServletResponse response, String strFilePath);
 }

@@ -9,11 +9,19 @@
 */
 package com.sinopec.smcc.cpro.system.server.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +37,19 @@ import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemTemplateListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 import com.sinopec.smcc.cpro.system.mapper.SystemKeyProductsMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemUseServicesMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.system.util.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
+import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
+import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
+import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
+import com.sinopec.smcc.cpro.tools.excel.bean.SheetBean;
 
 /**
  * @Title SystemServiceImpl.java
@@ -185,5 +199,151 @@ public class SystemServiceImpl implements SystemService {
   @Transactional
   public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException {
     this.systemMapper.updateSystemStatusBySystemId(systemParam);
+  }
+  
+  /**
+   * 系统信息模板导出
+   */
+  @Override
+  public void exportExcelForSystemTemplate(SystemParam systemParam) {
+    String strFilePath = "C://export/";
+    String strFileName = "xlsx"+"_"+DateUtils.getMilliseconds()+".xlsx";
+    
+    File file = new File(strFilePath);
+    if (!file.exists()) {
+      file.mkdirs();
+    }
+    // 生成excel
+    ExcelBean excelBean = new ExcelBean();
+    excelBean.setFilePath(strFilePath + strFileName);
+    
+    SheetBean sheetBean = new SheetBean();
+    sheetBean.setRowFixed(1);
+    Map<Integer, Short> columnWidthMap = new HashMap<Integer, Short>();
+    columnWidthMap.put(9, (short)25);
+    sheetBean.setColumnWidthMap(columnWidthMap);
+    sheetBean.setDefaultRowHeight((short) 20);
+    sheetBean.setDefaultColumnWidth((short) 15);
+    sheetBean.setSheetName("Sheet1");
+    List<List<CellBean>> dataList = new ArrayList<List<CellBean>>();
+    List<CellBean> cellList = new ArrayList<CellBean>();
+    // 装载第一行为表头
+    cellList.add(ExcelUtils.getExportCelBean("系统名称"));
+    cellList.add(ExcelUtils.getExportCelBean("系统编码"));
+    cellList.add(ExcelUtils.getExportCelBean("系统别名"));
+    cellList.add(ExcelUtils.getExportCelBean("应用范围"));
+    cellList.add(ExcelUtils.getExportCelBean("所属信息系统分类"));
+    cellList.add(ExcelUtils.getExportCelBean("所属系统群"));
+    cellList.add(ExcelUtils.getExportCelBean("业务主管部门"));
+    dataList.add(cellList);
+    
+   // List<SystemTemplateListResult> systemTemPlate = new ArrayList();
+    List<SystemTemplateListResult> systemTemPlate = 
+        this.systemMapper.selectSystemTemPlate(systemParam);
+    
+    if(systemTemPlate != null && systemTemPlate.size() > 0){
+      for (SystemTemplateListResult systemListResult : systemTemPlate) {
+        cellList = new ArrayList<CellBean>();
+        cellList.add(ExcelUtils.getExportCelBean(systemListResult.getSystemName()));
+        cellList.add(ExcelUtils.getExportCelBean(systemListResult.getStandardizedCode()));
+        cellList.add(ExcelUtils.getExportCelBean(systemListResult.getExecutiveOfficeName()));
+        dataList.add(cellList);
+      }
+    }
+    sheetBean.setDataList(dataList);
+    List<SheetBean> sheetBeanList = new ArrayList<SheetBean>();
+    sheetBeanList.add(sheetBean);
+    excelBean.setSheetList(sheetBeanList);
+    // 创建excel错误
+    try {
+      ExcelUtils.write(excelBean);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } 
+  }
+  /**
+   * 系统批量导入
+   * @throws IOException 
+   * @throws BusinessException 
+   */
+  @Override
+  public void importForSystemTemplate() throws IOException, BusinessException {
+    
+    List<SystemTemplateListResult> systemCode = systemMapper.selectSystemCode();
+    String strFilePath = "C://export/xlsx_1528181557754.xlsx";
+    
+    // 读取excel数据
+    List<String[]> dataList = null;
+    try {
+      dataList = ExcelUtils.read(strFilePath, "sheet1");
+    } catch (InvalidFormatException e) {
+      e.printStackTrace();
+    } 
+    
+    // 将excel取出的数据过滤后转成标准数据
+    List<SystemTemplateListResult> systemTemplateListResult = new ArrayList<SystemTemplateListResult>();
+    
+    int dataListSize = dataList.size();
+    if(dataListSize>5000){
+      throw new BusinessException(EnumResult.ERROR);
+    }
+    
+    for (int dataListTem = 1; dataListTem < dataListSize; dataListTem++) {
+      String[] strsData = dataList.get(dataListTem);
+      SystemTemplateListResult systemTemplate = new SystemTemplateListResult();
+      for (int i = 0; i < systemCode.size(); i++) {
+        if(strsData[1].equals(systemCode.get(i))){
+          System.out.println(systemCode.get(i)+"_______________"+strsData[1]);
+          throw new BusinessException(EnumResult.LINKEDID_ERROR);
+        }else{
+          systemTemplate.setSystemId(Utils.getUuidFor32());
+          systemTemplate.setExamineStatus(1);
+          systemTemplate.setExaminationStatus(1);
+          systemTemplate.setSubIsSystem(2);
+          systemTemplate.setFkSystemType(1);
+          systemTemplate.setFkSystemIsMerge(2);
+          systemTemplate.setRecordStatus(1);
+          systemTemplate.setGradingStatus(1);
+          systemTemplate.setFkChangeMatter(5);
+          systemTemplate.setAppIsInternet(2);
+          systemTemplate.setCreateTime(new Date());
+          systemTemplate.setWhenInvestmentUse(new Date());
+          systemTemplate.setEvaluationStatus(1);
+          systemTemplate.setFkInfoSysTypeCon(1);
+          systemTemplate.setSystemName(strsData[0]);
+          systemTemplate.setStandardizedCode(strsData[1]);
+          systemTemplate.setExecutiveOfficeName(strsData[2]);
+        }
+      }
+      systemTemplateListResult.add(systemTemplate);
+    }
+    // 处理数据
+    // 将数据放入数据库
+    if (systemTemplateListResult.size() > 0) {
+      // 将数据放入数据库
+      this.systemMapper.insertSystemTemplate(systemTemplateListResult);
+    }else {
+      throw new BusinessException(EnumResult.ERROR);
+    }
+  }
+
+
+  /**
+   * 下载
+   */
+  @Override
+  public void exportUploadSystemInfo(
+      HttpServletRequest request, HttpServletResponse response,
+      String strFilePath){
+    String strFilePaths = "C://export/xlsx_1528181557754.xlsx";
+    String filePath = strFilePaths.substring(0, strFilePaths.lastIndexOf("/")+1);
+    String fileName = strFilePaths.substring(strFilePaths.lastIndexOf("/")+1,strFilePaths.length());
+    // 下载文件
+    try {
+      com.sinopec.smcc.cpro.tools.FileOperateUtil.download(request, response, filePath,
+          fileName, "UTF-8", "ISO8859-1", 102400);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

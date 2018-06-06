@@ -3,8 +3,16 @@ li{
     margin-bottom:15px;
 }
 label{
-    margin-left:15px;
+
     font:normal 14px/34px "微软雅黑" !important;
+}
+.margin{
+    margin-left:15px;
+}
+.wrap{
+    width: 100%;
+    height: 1000px;
+    position: relative;
 }
 .closes{
     display: block;
@@ -23,20 +31,23 @@ label{
     width: 100%;
     height: 1000px;
     background-color: #767676;
+    opacity: .8;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index: 14;
 }
 .revokeTitle{
     line-height:60px;
     margin-left: 15px;
 }
 .revoke{
-    width: 80%;
+    width: 90%;
     height: 419px;
     position: absolute;
-    top:50%;
-    left:50%;
-    margin-left:-40%;
-    margin-top:-210px;
-    z-index: 2;
+    top:-74%;
+    left:5%;
+    z-index: 146;
     background-color: #fff;
 }
 .cut:after{
@@ -51,20 +62,20 @@ label{
     font: 12px/32px "微软雅黑";
     color: #333333;
 }
-.sysBtn{
-    padding:7px 33px;
+.sysBnt{
+    padding:7px 30px;
     margin-left:-8px;
 }
-.sysText{
+.sysTet{
     margin-left:-76px;
     width: 80% !important;
 }
-.sysText>input{
+.sysTet>input{
     height: 34px;
     border:none;
     border-bottom: 1px solid #cecece;
 }
-.sysText>p{
+.sysTet>p{
     font:12px/24px "微软雅黑";
     color: #999999;
 }

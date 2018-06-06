@@ -1,5 +1,4 @@
 /**
-* 2018. 
 * @Title FileController.java
 * @Package com.sinopec.smcc.cpro.file.controller
 * @Description: TODO:
@@ -9,14 +8,12 @@
 */
 package com.sinopec.smcc.cpro.file.controller;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.cpro.file.entity.AttachFile;
-import com.sinopec.smcc.cpro.file.server.AttachFileService;
+import com.sinopec.smcc.cpro.file.entity.AttachParam;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
+import com.sinopec.smcc.cpro.file.server.FileService;
 
 /**
  * @Title FileController.java
@@ -43,90 +41,59 @@ import com.sinopec.smcc.cpro.file.server.AttachFileService;
 public class FileController {
   
   @Autowired
-  public AttachFileService attachFileService;
-//  @Autowired
-//  public MongoService fileMongoServicee;
-  
-  
-  @ResponseBody
-  @RequestMapping(value = "/fileUpload", method = { RequestMethod.POST, RequestMethod.GET })
-  public ResultApi fileUpload(HttpServletRequest request,String fkSystemId,String[] filePath,
-      String fkAttachType,String[] fileName) throws BusinessException{
-    String createUserName = (String) request.getSession().getAttribute("UserName");
-    ArrayList itemIds = new ArrayList();
-    for(int i=0;i<filePath.length;i++){
-      if(!"".equals(filePath[i])){
-        itemIds.add(filePath[i]);
-      }
-    }
-    ArrayList names = new ArrayList();
-    for(int j=0;j<filePath.length;j++){
-      if(!"".equals(filePath[j])){
-        itemIds.add(filePath[j]);
-      }
-    }
-    int count=0;
-    for(int i = 0;i<itemIds.size();i++){ 
-     String filePaths = (String) itemIds.get(i);
-     String filenStringName = (String) names.get(i);
-     count += this.attachFileService.SaveMongoAttachFile(fkSystemId, filePaths, filenStringName, fkAttachType,
-          createUserName);
-    } 
-//    AttachFile attachFile = attachFileService.SaveAttachFile(request, files, "type", fileName);
-    //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(count);
-    return result;
-  }
-  
-  @ResponseBody
-  @RequestMapping(value = "/initFileUpload", method = { RequestMethod.POST, RequestMethod.GET })
-  public ResultApi initFileUpload(HttpServletRequest request,
-      @RequestParam("file") MultipartFile[] files) throws BusinessException{
-    String fileName = "addfile";
-    AttachFile attachFile = attachFileService.SaveAttachFile(request, files, "type", fileName);
-    //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachFile);
-    return result;
-  }
+  public FileService fileService;
   
   /**
-   * 根据日期格式，获取不同的系统当前时间
-   * @param timeFormat 日期格式 如：yyy-MM-dd HH:mm:ss
-   * @return
-   */
-  public static String getDateTime(String timeFormat){
-    Calendar calendar = Calendar.getInstance();
-    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat(timeFormat);
-    return df.format(calendar.getTime());
-  }
-  
-  /**
-   * 获取系统当前时间 <Timestamp>
-   * 
-   * @return 返回<Timestamp>类型对象
-   */
-  public static Timestamp getTimestampDateTime(){
-    String sysTime = getDateTime("yyyy-MM-dd HH:mm:ss");
-    Timestamp timestamp = Timestamp.valueOf(sysTime);
-    return timestamp;
-  }
-  
-  /**
-   * @Descrption 跳转至修改单位信息，查询单位信息
-   * @author dongxu
-   * @date 2018年5月30日下午6:34:43
+   * 上传文件
+   * @author eric
+   * @date 2018年6月6日下午7:13:32
    * @param request
-   * @param companyParam
+   * @param file
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/test", method = RequestMethod.GET)
-  public String test(HttpServletRequest request) throws BusinessException {
-
-    return "/index";
+  @ResponseBody
+  @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+  public ResultApi uploadFile(HttpServletRequest request,
+      @RequestParam("file") MultipartFile file) throws BusinessException{
+    AttachResult attachResult = this.fileService.uploadFile(request, file);
+    //通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(attachResult);
+    return result;
   }
   
-
+  @ResponseBody
+  @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
+  public ResultApi deleteFile(HttpServletRequest request, 
+      @RequestBody AttachParam attachParam) throws BusinessException{
+    this.fileService.deleteFile(attachParam);
+    //通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * 下载文件
+   * @author eric
+   * @date 2018年6月6日下午6:02:59
+   * @param request
+   * @param response
+   * @param attachParam：下载文件时包含两种方式下载。
+   *                     方式1：通过url下载，如传入uploadUrl则直接下载服务器端本地url数据文件。
+   *                     方式2：通过fileId下载，如传入fileId则支持下载mongodb内的文件数据。
+   *                     同一次调用支持方式1与方式2其中一种方法，首先判断uploadUrl，
+   *                     如uploadUrl存在无论是否传入mongoFileId均针对uploadUrl数据进行下载 
+   * @return 
+   * @throws BusinessException
+   */
+  @ResponseBody
+  @RequestMapping(value = "/downloadFile", method = RequestMethod.POST)
+  public ResultApi downloadFile(HttpServletRequest request, HttpServletResponse response, 
+      @RequestBody AttachParam attachParam) throws BusinessException{
+    this.fileService.downloadFile(request, response, attachParam);
+    //通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
 }

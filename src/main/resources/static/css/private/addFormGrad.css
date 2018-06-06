@@ -77,6 +77,9 @@ label{
     padding:0;
     margin-left:-32px;
 }
+.saveTableRow{
+
+}
 .saveTable ul .saveTableRowLine{
     border-top:1px solid #cecece;
 }
@@ -87,6 +90,7 @@ label{
     font:12px/34px "微软雅黑";
     border:1px solid #cecece;
     border-top:none;
+    margin-bottom:0;
 }
 .saveTableLast{
     border-left: 1px solid #cecece;

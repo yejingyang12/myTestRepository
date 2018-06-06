@@ -17,7 +17,7 @@
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
         <div class="mcAddMessge">
-            <form action="" method="post" id="AddformSystem" name="AddformSystem">
+            <form action="" method="post" id="AddformSystem" name="AddformSystem" @click="clickForm">
                 <ul class="clearfix">
                     <li class="row">
                         <div class="col-lg-6 col-md-6">
@@ -26,7 +26,7 @@
                                 系统名称:
                             </label>
                             <div class="col-lg-6 col-md-6" id="app">
-                                <el-cascader :options="options" :show-all-levels="false" name="sysName" id="sysName"></el-cascader>
+                                <el-cascader :options="options" :clearable="true" :show-all-levels="false" name="sysName" id="sysName"></el-cascader>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
@@ -45,9 +45,9 @@
                                 信息系统建设类型:
                             </label>
                             <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
-                                <input class="col-md-4" onclick="getClass($(this))" value="自建" name="sysMsgBuild" id="sysMsgBuild">
-                                <input class="col-md-4" onclick="getClass($(this))" value="统建" name="sysMsgBuild" id="sysMsgBuild">
-                                <input class="col-md-4" onclick="getClass($(this))" value="总部系统" name="sysMsgBuild" id="sysMsgBuild">
+                                <input class="col-md-4" @click="getClass($event)" value="自建" name="sysMsgBuild" id="sysMsgBuild">
+                                <input class="col-md-4" @click="getClass($event)" value="统建" name="sysMsgBuild" id="sysMsgBuild">
+                                <input class="col-md-4" @click="getClass($event)" value="总部系统" name="sysMsgBuild" id="sysMsgBuild">
                             </div>
                             <div class="mcAddSysBuildTxt"></div>
                         </div>
@@ -57,8 +57,8 @@
                                 是否为合并系统:
                             </label>
                             <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" >
-                                <div class="col-md-6 " onclick="btnBoolen($(this))">是</div>
-                                <div class="col-md-6 " onclick="btnBoolen($(this))">否</div>
+                                <input class="col-md-6 " @click="btnBoolen($event)" value="是"/>
+                                <input class="col-md-6 " @click="btnBoolen($event)" value="否"/>
                             </div>
                         </div>
                     </li>
@@ -69,7 +69,7 @@
                                 系统名称:
                             </label>
                             <div class="col-lg-6 col-md-6" id="wrap">
-                                <el-cascader :options="options" :show-all-levels="false"></el-cascader>
+                                <el-cascader :options="options" :clearable="true" :show-all-levels="false"></el-cascader>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-3">
-                                    <label for="" class="col-lg-3 col-md-3 text-right">
+                                    <label for="" class="col-lg-3 col-md-3 text-right" style="  margin-left: 22px !important;">
                                         子系统1标准化代码:
                                     </label>
                                     <div  class="col-md-6 col-sm-3">
@@ -115,7 +115,7 @@
                                 <div class="col-lg-6 col-md-6">
                                     <label class="col-lg-3 col-md-3 text-right">
                                         <span class="xing">*</span>
-                                        子系统 <span class="addNum">2</span>系统名称:
+                                        子系统2系统名称:
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
                                         <input type="text" placeholder="请输入">
@@ -123,14 +123,14 @@
                                 </div>
                                 <div class="col-lg-6 col-sm-3">
                                     <label for="" class="col-lg-3 col-md-3 text-right">
-                                        子系统 <span class="addNum">2</span>标准化代码:
+                                        子系统2标准化代码:
                                     </label>
                                     <div  class="col-md-6 col-sm-3">
                                         <input type="text" disabled>
                                     </div>
                                 </div>
                             </li>
-                            <li class="btn btn-success fr" onclick="addSys()" id="add">添加更多子系统</li>
+                            <li class="btn btn-success fr" @click="addSys($event)" id="add">添加更多子系统</li>
                         </ul>
                     </li>
                     <li class="row">
@@ -148,8 +148,8 @@
                                 是否为互联网应用:
                             </label>
                             <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" name="sysInter" id="sysInter">
-                                <div class="col-md-6 " onclick="getClass($(this))">是</div>
-                                <div class="col-md-6" onclick="getClass($(this))">否</div>
+                                <input class="col-md-6 " @click="getClass($event)" value="是">
+                                <input class="col-md-6" @click="getClass($event)" value="否">
                             </div>
                         </div>
                     </li>
@@ -166,12 +166,12 @@
                                 业务类型：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysType" id="sysType">
-                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
-                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
-                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
-                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
-                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
-                                <div class="baseMes" onclick="getClass($(this))">
+                                <div class="baseMes" @click="getClass($event)">生成作业</div>
+                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
+                                <div class="baseMes" @click="getClass($event)">管理控制</div>
+                                <div class="baseMes" @click="getClass($event)">内部办公</div>
+                                <div class="baseMes" @click="getClass($event)">公众服务</div>
+                                <div class="baseMes" @click="getClass($event)">
                                     其他：
                                     <input type="text" class="col-lg-4 baseMesIn">
                                 </div>
@@ -186,7 +186,7 @@
                             </label>
                             <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
 如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
-                            <div class="mcTextArea col-lg-11 col-sm-3">
+                            <div class="mcTextArea col-lg-11 col-sm-3" @click="text">
                                 <textarea cols="30" rows="10" placeholder="请输入" name="sysArea" id="sysArea"></textarea>
                                 <span class='textAll'><span id="textNum">0</span>/200</span>
                                 <!-- 最多100字符，0处显示的是已经写了多少字符 -->
@@ -206,12 +206,12 @@
                                 服务类型：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceType" id="sysServiceType">
-                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
-                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
-                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
-                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
-                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
-                                <div class="baseMes" onclick="getClass($(this))">
+                                <div class="baseMes" @click="getClass($event)">生成作业</div>
+                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
+                                <div class="baseMes" @click="getClass($event)">管理控制</div>
+                                <div class="baseMes" @click="getClass($event)">内部办公</div>
+                                <div class="baseMes" @click="getClass($event)">公众服务</div>
+                                <div class="baseMes" @click="getClass($event)">
                                     其他：
                                     <input type="text" class="col-lg-4 baseMesIn">
                                 </div>
@@ -225,13 +225,13 @@
                                 服务对象：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceObject" id="sysServiceObject">
-                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
-                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
-                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
-                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
-                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
-                                <div class="baseMes" onclick="getClass($(this))">
-                                    其他：
+                                <div class="baseMe" @click="getClass($event)">生成作业</div>
+                                <div class="baseMesnt" @click="getClass($event)">指挥调度</div>
+                                <div class="baseMesnt" @click="getClass($event)">管理控制</div>
+                                <div class="baseMesnt" @click="getClass($event)">内部办公</div>
+                                <div class="baseMesnt" @click="getClass($event)">公众服务</div>
+                                <div class="baseMesnt" @click="getClass($event)">
+                                    其他:
                                     <input type="text" class="col-lg-4 baseMesIn">
                                 </div>
                             </div>
@@ -250,12 +250,12 @@
                                 覆盖范围：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysCoverage" id="sysCoverage">
-                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
-                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
-                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
-                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
-                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
-                                <div class="baseMes" onclick="getClass($(this))">
+                                <div class="baseMes" @click="getClass($event)">生成作业</div>
+                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
+                                <div class="baseMes" @click="getClass($event)">管理控制</div>
+                                <div class="baseMes" @click="getClass($event)">内部办公</div>
+                                <div class="baseMes" @click="getClass($event)">公众服务</div>
+                                <div class="baseMes" @click="getClass($event)">
                                     其他：
                                     <input type="text" class="col-lg-4 baseMesIn">
                                 </div>
@@ -269,12 +269,12 @@
                                 网络性质：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysNetwork" id="sysNetwork">
-                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
-                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
-                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
-                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
-                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
-                                <div class="baseMes" onclick="getClass($(this))">
+                                <div class="baseMes" @click="getClass($event)">生成作业</div>
+                                <div class="baseMes"  @click="getClass($event)">指挥调度</div>
+                                <div class="baseMes"  @click="getClass($event)">管理控制</div>
+                                <div class="baseMes"  @click="getClass($event)">内部办公</div>
+                                <div class="baseMes"  @click="getClass($event)">公众服务</div>
+                                <div class="baseMes"  @click="getClass($event)">
                                     其他：
                                     <input type="text" class="col-lg-4 baseMesIn">
                                 </div>
@@ -291,12 +291,12 @@
                                 系统互联情况：
                             </label>
                             <div class="col-lg-10 col-sm-3 baseMes1 baseMss" name="sysIntercon" id="sysIntercon">
-                                <div class="baseMes" onclick="getClass($(this))">生成作业</div>
-                                <div class="baseMes" onclick="getClass($(this))">指挥调度</div>
-                                <div class="baseMes" onclick="getClass($(this))">管理控制</div>
-                                <div class="baseMes" onclick="getClass($(this))">内部办公</div>
-                                <div class="baseMes" onclick="getClass($(this))">公众服务</div>
-                                <div class="baseMes" onclick="getClass($(this))">
+                                <div class="baseMes" @click="getClass($event)">生成作业</div>
+                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
+                                <div class="baseMes" @click="getClass($event)">管理控制</div>
+                                <div class="baseMes" @click="getClass($event)">内部办公</div>
+                                <div class="baseMes" @click="getClass($event)">公众服务</div>
+                                <div class="baseMes" @click="getClass($event)">
                                     其他：
                                     <input type="text" class="col-lg-4 baseMesIn">
                                 </div>
@@ -304,7 +304,7 @@
                         </div>
                     </li>
                     <li class="row">
-
+                        <add-form-sys-table></add-form-sys-table>
                     </li>
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
@@ -348,8 +348,8 @@
                                 系统是否为分系统:
                             </label>
                             <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" name="sysSubsystem" id="sysSubsystem">
-                                <div class="col-md-6 " onclick="getClass($(this))">是</div>
-                                <div class="col-md-6" onclick="getClass($(this))">否</div>
+                                <input class="col-md-6 " @click="getClass($event)" value="是">
+                                <input class="col-md-6" @click="getClass($event)" value="否">
                             </div>
                         </div>
                     </li>
@@ -658,4 +658,5 @@
     new Ctor().$mount('#app');
     new Ctor().$mount('#wrap');
 </script>
-</html>-->
+</html>
+-->

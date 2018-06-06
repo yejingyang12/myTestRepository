@@ -1,6 +1,5 @@
-/**
- * Created by timha on 2018/5/18.
- */
+var emitdata = new Vue();
+
 (function () {
     var data = {};
     Vue.component('smccHeader',function (resolve, reject) {

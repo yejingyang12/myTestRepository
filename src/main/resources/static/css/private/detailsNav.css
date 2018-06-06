@@ -1,15 +1,16 @@
 @charset "utf-8";
 .inner{
-    width: 1900px;
-    margin:0 auto;
+    width: 95%;
+    margin:20px auto;
+    position: relative;
 }
 .recordTitle{
     font:24px/1.5 "微软雅黑";
 }
 .recBtn{
     position: absolute;
-    top: 8%;
-    right: 2%;
+    top: 1%;
+    right: 0;
     z-index: 10;
 }
 .comitBtm{

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,28 +7,28 @@
     <link rel="stylesheet" href="../../../css/public/bootstrap.css">
     <link rel="stylesheet" href="../../../css/private/record.css">
 </head>
-<body>
+<body>-->
     <div class="recordMain">
         <p class="cut">备案</p>
         <div class="recordPro">
             <p class="recTitle">备案流程</p>
             <ul class="process">
-                <li class="datas">
+                <li class="datas" @click="changeLi($event)">
                     <span class="datasBgAll"></span>
                     <p class="datasText">向公安部门提交等保资料（备案表1，2，3，4）</p>
                     <i class="dataLise"></i>
                 </li>
-                <li class="audit">
+                <li class="audit" @click="changeLi">
                     <span class="datasBgAll auditBg"></span>
                     <p class="datasText">管局审核</p>
                     <i class="dataLise dataAudit"></i>
                 </li>
-                <li class="fillIn">
+                <li class="fillIn" @click="changeLi">
                     <span class="datasBgAll fillInBg"></span>
                     <p class="datasText">填写备案信息</p>
                     <i class="dataLise dataFillIn"></i>
                 </li>
-                <li class="over">
+                <li class="over" @click="changeLi">
                     <span class="datasBgAll overBg"></span>
                     <p class="datasText">完成</p>
                     <i class="dataLast"></i>
@@ -36,14 +36,14 @@
             </ul>
             <div class="datasMain" style="display: block;">
                 所有备案表需要导出下载，并将备案表提交给相关公安部门，等待公安部门审核。点击下载备案
-                <a href="javascript:;" onclick="downloadFile()">表1</a>，<a href="javascript:;" onclick="downloadFile()">表2</a>，
-                <a href="javascript:;" onclick="downloadFile()">表3</a>，<a href="javascript:;" onclick="downloadFile()">表4</a>
+                <a href="javascript:;" @click="downloadFile(event)">表1</a>，<a href="javascript:;"  @click="downloadFile(event)">表2</a>，
+                <a href="javascript:;"  @click="downloadFile(event)">表3</a>，<a href="javascript:;"  @click="downloadFile(event)">表4</a>
             </div>
             <div class="datasMain">
                 相关公安部门人员将会对递交的材料进行审核，查验，通过审核的备案会得到信息系统安全等级保护备案证明。
             </div>
             <div class="datasMain">
-                <form action="">
+                <form action="#">
                     <ul class="clearfix dataForm">
                         <li class="row">
                             <div class="col-lg-6 col-sm-3">
@@ -105,7 +105,7 @@
                                 <div class="clearfix sysText col-md-8">
                                     <input type="text" class="col-md-12" name="systemSafety" id="upBuil">
                                     <input type="file" id="upBuld" class="smt" style="margin-right:255px; display:none" formmethod="POST"
-                                           value="上传文件" onchange="getFile('#upBuld', '#upBuil', '#upBuid')">
+                                           value="上传文件" @change="getFile('#upBuld', '#upBuil', '#upBuid')">
                                     <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                                 </div>
                                 <button class="btn btn-success sysBtn" onclick="upBuld.click()">上传</button>
@@ -119,32 +119,4 @@
             </div>
         </div>
     </div>
-</body>
-<script src="../../../js/public/jquery.min.js"></script>
-<script>
-    //下载和一键导出
-    function downloadFile(str) {
-        if (!str) {//没有值
-            str = "https://codeload.github.com/douban/douban-client/legacy.zip/master";//默认接口
-        }
-        var $eleForm = $("<form method='get'></form>");
-        $eleForm.attr("action", str);
-        $(document.body).append($eleForm);
-        //提交表单，实现下载
-        $eleForm.submit();
-    }
 
-    //点击切换选中的数字
-    $(".process>li").click(function (){
-        //改变自己的样式
-        var index = -+($(this).index()*100+8)+"px"+" -190px";
-        $(this).children('i').css('background-position',index);
-        $(this).prevAll().children('i').css('background-position','-8px -190px');
-        if($(this).index() == 2){
-            $('.comitBtm').show();
-        }
-        //改div 显示和隐藏
-        $(".recordPro>div").eq($(this).index()).css("display","block").siblings("div").css("display","none");
-    });
-</script>
-</html>

@@ -252,9 +252,7 @@ public class MainServiceImpl implements MainService{
     // 下载文件
     try {
       com.sinopec.smcc.cpro.tools.FileOperateUtil.download(request, response, filePath,
-          fileName, "application/x-xls",
-          "DATA_INFO_" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx",
-          "UTF-8", "ISO8859-1", 102400);
+          fileName,"UTF-8", "ISO8859-1", 102400);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -285,42 +283,77 @@ public class MainServiceImpl implements MainService{
       for (GradingListResult gradingListResult : gradingListResultList) {
         //如果业务信息级别与宏名相同则选中
         if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
-          if(gradingListResult.getFkBizSPRankLevel().equals("101")){
+          if(gradingListResult.getFkBizSPRankLevel().equals("1")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox11_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("102")){
+          if(gradingListResult.getFkBizSPRankLevel().equals("2")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox12_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("103")){
+          if(gradingListResult.getFkBizSPRankLevel().equals("3")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox13_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("104")){
+          if(gradingListResult.getFkBizSPRankLevel().equals("4")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox14_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("105")){
+          if(gradingListResult.getFkBizSPRankLevel().equals("5")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox15_Click");
           }
         }
         //如果系统服务级别与宏名相同则选中
-        if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
-          if(gradingListResult.getFkBizSPRankLevel().equals("201")){
+        if(StringUtils.isNotBlank(gradingListResult.getFkBizSystemLevel())){
+          if(gradingListResult.getFkBizSystemLevel().equals("1")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox21_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("202")){
+          if(gradingListResult.getFkBizSystemLevel().equals("2")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox22_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("203")){
+          if(gradingListResult.getFkBizSystemLevel().equals("3")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox23_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("204")){
+          if(gradingListResult.getFkBizSystemLevel().equals("4")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox24_Click");
           }
-          if(gradingListResult.getFkBizSPRankLevel().equals("205")){
+          if(gradingListResult.getFkBizSystemLevel().equals("5")){
             tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox25_Click");
           }
         }
+        //专家评审情况
+        if(gradingListResult.getExpertView() == 1){
+          tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox31_Click");
+        }
+        if(gradingListResult.getExpertView() == 2){
+          tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox32_Click");
+        }
+        //是否有主管部门
+        if(gradingListResult.getCompetentIsExisting() == 1){
+          tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox32_Click");
+        }
+        if(gradingListResult.getCompetentIsExisting() == 2){
+          tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox33_Click");
+        }
+        //主管部门审批定级情况
+        if(gradingListResult.getCompetentView() == 1){
+          tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox31_Click");
+        }
+        if(gradingListResult.getCompetentView() == 2){
+          tool.callMacro("exportExcelModel.xlsm!Sheet2.RedioBox30_Click");
+        }
+        //是否已上传定级报告(待添加)
 
-        
+        //打开excel文件
+        tool.OpenExcel(primaryfilePth,false,false);
+        //系统名称
+        tool.setValue(tool.getCurrentSheet(), "A6", "value",gradingListResult.getSystemName());
+        //系统名称
+        tool.setValue(tool.getCurrentSheet(), "A16", "value",gradingListResult.getSystemName());
+        //定级时间
+        tool.setValue(tool.getCurrentSheet(), "B22", "value",gradingListResult.getRankTime());
+        //主管部门名称
+        tool.setValue(tool.getCurrentSheet(), "B23", "value",gradingListResult.getCompetentName());
+        //主管部门名称
+        tool.setValue(tool.getCurrentSheet(), "B25", "value",gradingListResult.getFiller());
+        //主管部门名称
+        tool.setValue(tool.getCurrentSheet(), "D25", "value",gradingListResult.getFillDate());
         //关闭并保存，释放对象
         tool.CloseExcel(true, true);
         //复制

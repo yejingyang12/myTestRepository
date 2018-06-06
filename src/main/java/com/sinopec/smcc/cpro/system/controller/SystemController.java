@@ -9,15 +9,23 @@
 */
 package com.sinopec.smcc.cpro.system.controller;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
@@ -41,7 +49,7 @@ public class SystemController {
 
 	@Autowired
 	private SystemService systemServiceImpl;
-	
+
   /**
    * 
    * 系统信息列表
@@ -92,22 +100,6 @@ public class SystemController {
   }
 	
   /**
-   * 查询系统代码信息
-   * @author dongxu
-   * @date 2018年5月27日下午1:39:46
-   * @return
-   * @throws BusinessException
-   */
-/*  @RequestMapping(value = "/querySystemCodeList", method = RequestMethod.GET)
-  @ResponseBody
-  public ResultApi querySystemCodeList(SystemCodeParam systemCodeParam)
-      throws BusinessException {
-    List<SystemCodeListResult> systemCodeListResultList = this.systemServiceImpl.querySystemCodeList(systemCodeParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemCodeListResultList);
-    return result;
-  }*/
-  /**
    * 
    * 查询系统信息详情
    * @author hanxin
@@ -145,5 +137,63 @@ public class SystemController {
     result.setData(systemResult);
     return result;
   }
+  
+  /**
+   * 
+   * 系统模板导出
+   * @author hanxin
+   * @date 2018年6月6日上午10:11:09
+   * @param request
+   * @param systemParam
+   * @return
+   */
+  @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.GET)
+  @ResponseBody
+  public ResultApi exportExcelForSystemTemplate(HttpServletRequest request, 
+      SystemParam systemParam){
+    this.systemServiceImpl.exportExcelForSystemTemplate(systemParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * 
+   * 系统模板导入
+   * @author hanxin
+   * @date 2018年6月6日上午10:11:32
+   * @param request
+   * @return
+   * @throws IOException
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/importForSystemTemplate", method = RequestMethod.GET)
+  @ResponseBody
+  public ResultApi importForSystemTemplate(HttpServletRequest request) 
+      throws IOException, BusinessException{
+    this.systemServiceImpl.importForSystemTemplate();
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * 
+   * 下载
+   * @author hanxin
+   * @date 2018年6月6日下午6:14:01
+   * @param request
+   * @param response
+   * @param strFilePath
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/exportUploadSystemInfo", method = RequestMethod.GET)
+  @ResponseBody
+  public ResultApi exportUploadSystemInfo(HttpServletRequest request
+      ,HttpServletResponse response, String strFilePath) throws BusinessException{
+    this.systemServiceImpl.exportUploadSystemInfo(request,response,strFilePath);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  } 
+  
   
 }

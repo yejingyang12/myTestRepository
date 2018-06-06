@@ -48,8 +48,21 @@ public class GradingListResult {
   private String EvaluationPresentationName;
   private String EvaluationPresentationId;
   private String systemName;
+  private Integer competentView;
   
   
+  /**
+   * @return the competentView
+   */
+  public Integer getCompetentView() {
+    return competentView;
+  }
+  /**
+   * @param competentView the competentView to set
+   */
+  public void setCompetentView(Integer competentView) {
+    this.competentView = competentView;
+  }
   /**
    * @return the systemName
    */

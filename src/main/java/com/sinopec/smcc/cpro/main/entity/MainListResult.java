@@ -30,34 +30,8 @@ public class MainListResult {
   private Integer recordStatus;
   private Integer evaluationStatus;
   private Integer examinationStatus;
-  private String fkBizSPRankLevel;
-  private String fkBizSystemLevel;
   
-  
-  /**
-   * @return the fkBizSPRankLevel
-   */
-  public String getFkBizSPRankLevel() {
-    return fkBizSPRankLevel;
-  }
-  /**
-   * @param fkBizSPRankLevel the fkBizSPRankLevel to set
-   */
-  public void setFkBizSPRankLevel(String fkBizSPRankLevel) {
-    this.fkBizSPRankLevel = fkBizSPRankLevel;
-  }
-  /**
-   * @return the fkBizSystemLevel
-   */
-  public String getFkBizSystemLevel() {
-    return fkBizSystemLevel;
-  }
-  /**
-   * @param fkBizSystemLevel the fkBizSystemLevel to set
-   */
-  public void setFkBizSystemLevel(String fkBizSystemLevel) {
-    this.fkBizSystemLevel = fkBizSystemLevel;
-  }
+
   public String getSystemId() {
     return systemId;
   }

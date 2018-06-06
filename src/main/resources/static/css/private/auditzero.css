@@ -20,6 +20,13 @@
     text-align: center;
     vertical-align: middle;
 }
+.textLeft {
+    text-align: left
+}
+
+.textRight {
+    text-align: right
+}
 .clearPadding{
     padding: 0;
 }

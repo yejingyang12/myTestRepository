@@ -1,4 +1,23 @@
 @charset "utf-8";
+.form-control{
+    background-color: #FFFFFF;
+    /* background-image: none; */
+    border: 1px solid #cecece;
+    color: inherit;
+    display: block;
+    padding: 6px 12px;
+    -webkit-transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+    width: 320px;
+    height: 34px;
+    border-radius: 0;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: url(../../images/home/xialakuangxiala.png) no-repeat 98% 50% transparent;
+}
 li{
     margin-bottom:15px;
 }

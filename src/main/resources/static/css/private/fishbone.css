@@ -1,0 +1,125 @@
+/*楸奸鍥�*/
+.fishBone {
+    height: 400px;
+    width: 100%;
+    margin-top: 15px;
+    overflow: auto;
+}
+
+.fishBone ul {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.fishBone ul li {
+    display: inline-block;
+    list-style: none;
+    width: 250px;
+    height: 300px;
+    position: relative;
+}
+
+.fishBone ul li .item {
+    height: 168px;
+    width: 253px;
+}
+.fishBone ul li .text {
+    height: 168px;
+    width: auto;
+}
+
+.fishBone ul li .content {
+    height: auto;
+    width: 100%;
+    border: 1px solid #ededed;
+}
+
+.fishBone ul li .content .frist_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    background-color: #D8EAF9;
+    padding-left: 15%;
+}
+
+.fishBone ul li .content .second_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+
+    padding-left: 10%;
+}
+
+.fishBone ul li .content .thirs_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    padding-left: 5%;
+}
+
+.fishBone ul li .over_time {
+    color: #3399cc;
+    text-align: left;
+    margin: 5px 0;
+}
+
+.fishBone ul li .centerline {
+    margin-left: 5px;
+    height: 10%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    /*top: 40%;*/
+}
+
+.fishBone ul li .centerline .cricle {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: #3d95df;
+    background-color: #3d95df;
+    box-shadow: 0 0 20px #1e91e2;
+}
+
+.fishBone ul li .centerline .line {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 4%;
+    left: 13%;
+    display: inline-block;
+    height: 1px;
+    width: auto;
+    background-color: lightgray;
+}
+
+.top .item{
+
+}
+.top .content{
+
+}
+.bottom .item{
+    /*position: relative;*/
+}
+
+.bottom .centerline {
+    /*position: absolute;*/
+    /*top: 128px;*/
+}
+
+.bottom .over_time {
+    position: relative;
+    top:35%;
+}
+
+.bottom .content {
+    position: relative;
+    top: 185px;
+}

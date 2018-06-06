@@ -110,7 +110,6 @@ public class SystemCodeServiceImpl implements SystemCodeService {
       json.deleteCharAt(json.lastIndexOf(","));
     }
     json.append("]}");
-    System.out.println("多选树数据 ："+json.toString().replace("'", "\""));
     return json.toString().replace("'", "\"");
   }
 

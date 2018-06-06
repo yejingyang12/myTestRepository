@@ -21,15 +21,15 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Title FileOperateUtil.java
@@ -40,16 +40,35 @@ import javax.servlet.http.HttpServletResponse;
  * @version V1.0
  */
 public class FileOperateUtil {
-
+  
   /**
-   * @Descrption
+   * 文件上传
    * @author eric
-   * @date 2017年6月16日下午12:08:36
+   * @date 2018年6月1日下午4:18:21
+   * @param bytes MultipartFile对象
+   * @param filePath 文件路径
+   * @param fileName 文件名称
+   * @throws IOException 异常
+   */
+  public static void uploadFile(byte[] file, String filePath, 
+      String fileName) throws IOException {
+    File targetFile = new File(filePath);  
+    if(!targetFile.exists()){    
+        targetFile.mkdirs();    
+    }
+    FileOutputStream out = new FileOutputStream(filePath+fileName);
+    out.write(file);
+    out.flush();
+    out.close();
+  }
+  
+  /**
+   * 文件下载
+   * @author eric
+   * @date 2018年6月4日下午8:07:59
    * @param request 请求
    * @param response 响应
    * @param filePath 文件路径
-   * @param storeName 本地文件名
-   * @param contentType 文件的属性
    * @param realName 下载后的文件名
    * @param realNameCharacterSet 下载后文件名传入字符集
    * @param realNameExportCharacterSet 下载后文件本地字符集
@@ -57,7 +76,7 @@ public class FileOperateUtil {
    * @throws IOException
    */
   public static void download(HttpServletRequest request,
-      HttpServletResponse response, String filePath, String storeName, String contentType,
+      HttpServletResponse response, String filePath, 
       String realName, String realNameCharacterSet, String realNameExportCharacterSet, 
       int fileSize) throws IOException {
     BufferedInputStream bis = null;
@@ -67,9 +86,8 @@ public class FileOperateUtil {
       request.setCharacterEncoding("UTF-8");
       bis = null;
       bos = null;
-      String downLoadPath = filePath + storeName;
+      String downLoadPath = filePath;
       long fileLength = new File(downLoadPath).length();
-//    response.setContentType(contentType);
       response.setHeader("Content-disposition", "attachment; filename="
           + new String(realName.getBytes(realNameCharacterSet), realNameExportCharacterSet));
       response.setHeader("Content_Length", String.valueOf(fileLength));
