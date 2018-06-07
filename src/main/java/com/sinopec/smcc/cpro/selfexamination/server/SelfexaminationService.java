@@ -55,4 +55,14 @@ public interface SelfexaminationService {
   SelfexaminationResult queryEditSelfexamination(SelfexaminationParam selfexaminationParam)
       throws BusinessException;
 
+  /**
+   * @Descrption 删除自查信息数据
+   * @author yejingyang
+   * @date 2018年6月6日上午10:05:34
+   * @param selfexaminationParam
+   * @throws BusinessException
+   */
+  void deleteSelfexaminationBySelfexaminationId(SelfexaminationParam selfexaminationParam)
+      throws BusinessException;
+
 }

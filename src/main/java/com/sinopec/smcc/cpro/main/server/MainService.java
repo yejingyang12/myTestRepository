@@ -73,5 +73,13 @@ public interface MainService {
    */
   void exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds)
       throws BusinessException;
+
+  /**
+   * @Descrption 一键下载（表1 单位信息）
+   * @author dongxu
+   * @date 2018年6月7日下午12:01:45
+   * @param mainParam
+   */
+  void tableOneDownloads(MainParam mainParam) throws BusinessException;
   
 }

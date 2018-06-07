@@ -29,14 +29,14 @@ public class SelfexaminationParam {
   private String fkSystemId;
   private String inspectionName;
   private Integer fkInspectionStatus;
-  private Integer inspectionStatusBegin;
-  private Integer inspectionStatusEnd;
+  private Integer fkInspectionStatusBegin;
+  private Integer fkInspectionStatusEnd;
   private Integer fkInspectionReu;
-  private Integer inspectionReutleBegin;
-  private Integer inspectionReutleEnd;
+  private Integer fkInspectionReuBegin;
+  private Integer fkInspectionReuEnd;
   private Integer fkRectificationReu;
-  private Integer rectificationReutleBegin;
-  private Integer rectificationReutleEnd;
+  private Integer fkRectificationReuBegin;
+  private Integer fkRectificationReuEnd;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date inspectionDate;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -79,56 +79,6 @@ public class SelfexaminationParam {
   private String field;
   private String sort;
   
-  
-  
-  /**
-   * @return the inspectionName
-   */
-  public String getInspectionName() {
-    return inspectionName;
-  }
-  /**
-   * @param inspectionName the inspectionName to set
-   */
-  public void setInspectionName(String inspectionName) {
-    this.inspectionName = inspectionName;
-  }
-  /**
-   * @return the fkInspectionStatus
-   */
-  public Integer getFkInspectionStatus() {
-    return fkInspectionStatus;
-  }
-  /**
-   * @param fkInspectionStatus the fkInspectionStatus to set
-   */
-  public void setFkInspectionStatus(Integer fkInspectionStatus) {
-    this.fkInspectionStatus = fkInspectionStatus;
-  }
-  /**
-   * @return the fkInspectionReu
-   */
-  public Integer getFkInspectionReu() {
-    return fkInspectionReu;
-  }
-  /**
-   * @param fkInspectionReu the fkInspectionReu to set
-   */
-  public void setFkInspectionReu(Integer fkInspectionReu) {
-    this.fkInspectionReu = fkInspectionReu;
-  }
-  /**
-   * @return the fkRectificationReu
-   */
-  public Integer getFkRectificationReu() {
-    return fkRectificationReu;
-  }
-  /**
-   * @param fkRectificationReu the fkRectificationReu to set
-   */
-  public void setFkRectificationReu(Integer fkRectificationReu) {
-    this.fkRectificationReu = fkRectificationReu;
-  }
   public String getSelfexaminationId() {
     return selfexaminationId;
   }
@@ -143,46 +93,74 @@ public class SelfexaminationParam {
     this.fkSystemId = fkSystemId;
   }
 
-  public Integer getInspectionStatusBegin() {
-    return inspectionStatusBegin;
+  public String getInspectionName() {
+    return inspectionName;
   }
-  public void setInspectionStatusBegin(Integer inspectionStatusBegin) {
-    this.inspectionStatusBegin = inspectionStatusBegin;
-  }
-
-  public Integer getInspectionStatusEnd() {
-    return inspectionStatusEnd;
-  }
-  public void setInspectionStatusEnd(Integer inspectionStatusEnd) {
-    this.inspectionStatusEnd = inspectionStatusEnd;
+  public void setInspectionName(String inspectionName) {
+    this.inspectionName = inspectionName;
   }
 
-  public Integer getInspectionReutleBegin() {
-    return inspectionReutleBegin;
+  public Integer getFkInspectionStatus() {
+    return fkInspectionStatus;
   }
-  public void setInspectionReutleBegin(Integer inspectionReutleBegin) {
-    this.inspectionReutleBegin = inspectionReutleBegin;
-  }
-
-  public Integer getInspectionReutleEnd() {
-    return inspectionReutleEnd;
-  }
-  public void setInspectionReutleEnd(Integer inspectionReutleEnd) {
-    this.inspectionReutleEnd = inspectionReutleEnd;
+  public void setFkInspectionStatus(Integer fkInspectionStatus) {
+    this.fkInspectionStatus = fkInspectionStatus;
   }
 
-  public Integer getRectificationReutleBegin() {
-    return rectificationReutleBegin;
+  public Integer getFkInspectionStatusBegin() {
+    return fkInspectionStatusBegin;
   }
-  public void setRectificationReutleBegin(Integer rectificationReutleBegin) {
-    this.rectificationReutleBegin = rectificationReutleBegin;
+  public void setFkInspectionStatusBegin(Integer fkInspectionStatusBegin) {
+    this.fkInspectionStatusBegin = fkInspectionStatusBegin;
   }
 
-  public Integer getRectificationReutleEnd() {
-    return rectificationReutleEnd;
+  public Integer getFkInspectionStatusEnd() {
+    return fkInspectionStatusEnd;
   }
-  public void setRectificationReutleEnd(Integer rectificationReutleEnd) {
-    this.rectificationReutleEnd = rectificationReutleEnd;
+  public void setFkInspectionStatusEnd(Integer fkInspectionStatusEnd) {
+    this.fkInspectionStatusEnd = fkInspectionStatusEnd;
+  }
+
+  public Integer getFkInspectionReu() {
+    return fkInspectionReu;
+  }
+  public void setFkInspectionReu(Integer fkInspectionReu) {
+    this.fkInspectionReu = fkInspectionReu;
+  }
+
+  public Integer getFkInspectionReuBegin() {
+    return fkInspectionReuBegin;
+  }
+  public void setFkInspectionReuBegin(Integer fkInspectionReuBegin) {
+    this.fkInspectionReuBegin = fkInspectionReuBegin;
+  }
+
+  public Integer getFkInspectionReuEnd() {
+    return fkInspectionReuEnd;
+  }
+  public void setFkInspectionReuEnd(Integer fkInspectionReuEnd) {
+    this.fkInspectionReuEnd = fkInspectionReuEnd;
+  }
+
+  public Integer getFkRectificationReu() {
+    return fkRectificationReu;
+  }
+  public void setFkRectificationReu(Integer fkRectificationReu) {
+    this.fkRectificationReu = fkRectificationReu;
+  }
+
+  public Integer getFkRectificationReuBegin() {
+    return fkRectificationReuBegin;
+  }
+  public void setFkRectificationReuBegin(Integer fkRectificationReuBegin) {
+    this.fkRectificationReuBegin = fkRectificationReuBegin;
+  }
+
+  public Integer getFkRectificationReuEnd() {
+    return fkRectificationReuEnd;
+  }
+  public void setFkRectificationReuEnd(Integer fkRectificationReuEnd) {
+    this.fkRectificationReuEnd = fkRectificationReuEnd;
   }
 
   @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
@@ -193,6 +171,7 @@ public class SelfexaminationParam {
     this.inspectionDate = inspectionDate;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDateBegin() {
     return inspectionDateBegin;
   }
@@ -200,12 +179,14 @@ public class SelfexaminationParam {
     this.inspectionDateBegin = inspectionDateBegin;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDateEnd() {
     return inspectionDateEnd;
   }
   public void setInspectionDateEnd(Date inspectionDateEnd) {
     this.inspectionDateEnd = inspectionDateEnd;
   }
+
   @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
@@ -214,6 +195,7 @@ public class SelfexaminationParam {
     this.rectificationDate = rectificationDate;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDateBegin() {
     return rectificationDateBegin;
   }
@@ -221,6 +203,7 @@ public class SelfexaminationParam {
     this.rectificationDateBegin = rectificationDateBegin;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDateEnd() {
     return rectificationDateEnd;
   }
@@ -256,6 +239,7 @@ public class SelfexaminationParam {
     this.createUserName = createUserName;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getCreateTime() {
     return createTime;
   }
@@ -263,13 +247,15 @@ public class SelfexaminationParam {
     this.createTime = createTime;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getCreateTimeBegin() {
     return createTimeBegin;
   }
   public void setCreateTimeBegin(Date createTimeBegin) {
     this.createTimeBegin = createTimeBegin;
   }
-
+  
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getCreateTimeEnd() {
     return createTimeEnd;
   }
@@ -277,6 +263,7 @@ public class SelfexaminationParam {
     this.createTimeEnd = createTimeEnd;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getUpdateTime() {
     return updateTime;
   }
@@ -284,6 +271,7 @@ public class SelfexaminationParam {
     this.updateTime = updateTime;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getUpdateTimeBegin() {
     return updateTimeBegin;
   }
@@ -291,6 +279,7 @@ public class SelfexaminationParam {
     this.updateTimeBegin = updateTimeBegin;
   }
 
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getUpdateTimeEnd() {
     return updateTimeEnd;
   }
@@ -304,35 +293,35 @@ public class SelfexaminationParam {
   public void setRemark(String remark) {
     this.remark = remark;
   }
-  
+
   public String getReviewReportName() {
     return reviewReportName;
   }
   public void setReviewReportName(String reviewReportName) {
     this.reviewReportName = reviewReportName;
   }
-  
+
   public String getReviewReportPath() {
     return reviewReportPath;
   }
   public void setReviewReportPath(String reviewReportPath) {
     this.reviewReportPath = reviewReportPath;
   }
-  
+
   public String getRectificationReportName() {
     return rectificationReportName;
   }
   public void setRectificationReportName(String rectificationReportName) {
     this.rectificationReportName = rectificationReportName;
   }
-  
+
   public String getRectificationReportPath() {
     return rectificationReportPath;
   }
   public void setRectificationReportPath(String rectificationReportPath) {
     this.rectificationReportPath = rectificationReportPath;
   }
-  
+
   public int getPageSize() {
     return pageSize;
   }

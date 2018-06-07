@@ -1,25 +1,24 @@
 /**
-* 2018. 
-* @Title TypeInfoParam.java
-* @Package com.sinopec.smcc.cpro.systemcode.entity
-* @Description: TODO:
-* @author zhouyu
-* @date 2018年6月3日下午11:15:35
-* @version V1.0
-*/
+ * @Title SystemCode.java
+ * @Package com.sinopec.smcc.cpro.systemcode.entity
+ * @Description: TODO:
+ * @author zhouyu
+ * @date 2018年6月3日下午7:49:52
+ * @version V1.0
+ */
 package com.sinopec.smcc.cpro.systemcode.entity;
 
 import com.alibaba.fastjson.JSON;
 
 /**
- * @Title TypeInfoParam.java
+ * @Title SystemCode.java
  * @Package com.sinopec.smcc.cpro.systemcode.entity
  * @Description: TODO:
  * @author zhouyu
- * @date 2018年6月3日下午11:15:35
+ * @date 2018年6月3日下午7:49:52
  * @version V1.0
  */
-public class SystemCodeParam {
+public class SystemCodeListResult {
   
   private String codeId;
   private String codeType;
@@ -34,7 +33,7 @@ public class SystemCodeParam {
   private String createTime;
   private String updateTime;
   private String remark;
-  
+    
   public String getCodeId() {
     return codeId;
   }

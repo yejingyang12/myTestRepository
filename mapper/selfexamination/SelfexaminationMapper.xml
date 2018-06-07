@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper">
+	<resultMap type="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult" id="SelfexaminationListResult">
+		<id column="pkId" property="selfexaminationId" />
+		<result column="fkSystemId" property="fkSystemId" />
+		<result column="fkInspectionStatus" property="fkInspectionStatus" />
+		<result column="fkInspectionReu" property="fkInspectionReu" />
+		
+		<result column="fkRectificationReu" property="fkRectificationReu" />
+		<result column="inspectionDate" property="inspectionDate" />
+		<result column="rectificationDate" property="rectificationDate" />
+		<result column="deleteStatus" property="deleteStatus" />
+		
+		<result column="createUserName" property="createUserName" />
+		<result column="createTime" property="createTime" />
+		<result column="updateTime" property="updateTime" />
+	  <result column="remark" property="remark" />
+	  
+	  <result column="reviewReportName" property="reviewReportName" />
+	  <result column="reviewReportPath" property="reviewReportPath" />
+	  <result column="rectificationReportName" property="rectificationReportName" />
+	  <result column="rectificationReportPath" property="rectificationReportPath" />
+	  <result column="systemName" property="systemName" />
+	</resultMap>
+	
+	<resultMap type="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult" id="SelfexaminationResult">
+    <id column="pkId" property="selfexaminationId" />
+    <result column="fkSystemId" property="fkSystemId" />
+    <result column="fkInspectionStatus" property="fkInspectionStatus" />
+    <result column="fkInspectionReu" property="fkInspectionReu" />
+    
+    <result column="fkRectificationReu" property="fkRectificationReu" />
+    <result column="inspectionDate" property="inspectionDate" />
+    <result column="rectificationDate" property="rectificationDate" />
+    
+    <result column="reviewReportName" property="reviewReportName" />
+    <result column="reviewReportPath" property="reviewReportPath" />
+    <result column="rectificationReportName" property="rectificationReportName" />
+    <result column="rectificationReportPath" property="rectificationReportPath" />
+  </resultMap>
+  <!-- 根据条件查询分页自查信息列表 -->
+	<select id="selectAllBySelfexaminationParam" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationListResult">
+		SELECT 
+			self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
+			self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
+			self.createUserName,self.createTime,self.updateTime,review.attachName AS reviewReportName,
+			review.attachPath AS reviewReportPath,rectification.attachName AS rectificationReportName,
+			rectification.attachPath AS rectificationReportPath,
+			system.systemName AS systemName
+		FROM t_cpro_self_inspection AS self
+		LEFT JOIN t_cpro_attach review
+			ON self.fkSystemId = review.fkSystemId
+			AND self.pkId = review.fkSyssonId 
+			AND review.fkAttachType = 'evaluationPresentation'
+		LEFT JOIN t_cpro_attach rectification
+			ON self.fkSystemId = rectification.fkSystemId
+			AND self.pkId = rectification.fkSyssonId
+			AND rectification.fkAttachType = 'rectificationReport'
+		LEFT JOIN t_cpro_system system
+		  ON system.pkId = self.fkSystemId
+			<where>
+	      <![CDATA[
+	        self.deleteStatus = 1
+	        AND self.fkSystemId = #{fkSystemId}
+	      ]]>
+      </where>
+	</select>
+	<!-- 根据SelfexaminationId，有则修改、无则添加自查信息 -->
+	<insert id="insertOrUpdateSelfexamination" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
+		INSERT into t_cpro_self_inspection(
+			pkId,fkSystemId,fkInspectionStatus,fkInspectionReu,
+			fkRectificationReu,inspectionDate,rectificationDate,deleteStatus,
+			createUserName,createTime,updateTime,remark
+		) values(
+			<trim suffixOverrides="," >
+				<choose>
+          <when test="selfexaminationId != null and selfexaminationId != ''">
+            #{selfexaminationId},
+          </when>
+          <otherwise>
+            DEFAULT,
+          </otherwise>
+        </choose>
+				<choose>
+					<when test="fkSystemId != null and fkSystemId != ''">
+						#{fkSystemId},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="fkInspectionStatus != null and fkInspectionStatus != ''">
+						#{fkInspectionStatus},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="fkInspectionReu != null and fkInspectionReu != ''">
+						#{fkInspectionReu},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="fkRectificationReu != null and fkRectificationReu != ''">
+						#{fkRectificationReu},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="inspectionDate != null">
+						#{inspectionDate},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="rectificationDate != null">
+						#{rectificationDate},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="deleteStatus != null and deleteStatus != ''">
+						#{deleteStatus},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="createUserName != null and createUserName != ''">
+						#{createUserName},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="createTime != null">
+						#{createTime},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="updateTime != null">
+						#{updateTime},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+				<choose>
+					<when test="remark != null and remark != ''">
+						#{remark},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
+			</trim>
+		) ON DUPLICATE KEY UPDATE
+			fkInspectionStatus = #{fkInspectionStatus},
+			fkInspectionReu = #{fkInspectionReu},
+			fkRectificationReu = #{fkRectificationReu},
+			inspectionDate = #{inspectionDate},
+			rectificationDate = #{rectificationDate}
+	</insert>
+  <!-- 根据SelfexaminationId查询自查信息详情 -->
+  <select id="selectSingleBySelfexaminationId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationResult">
+    SELECT 
+      self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
+      self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
+      self.createUserName,self.createTime,self.updateTime,review.attachName AS reviewReportName,
+      review.attachPath AS reviewReportPath,rectification.attachName AS rectificationReportName,
+      rectification.attachPath AS rectificationReportPath
+    FROM t_cpro_self_inspection AS self
+    LEFT JOIN t_cpro_attach review
+      ON self.fkSystemId = review.fkSystemId
+      AND self.pkId = review.fkSyssonId 
+      AND review.fkAttachType = 'evaluationPresentation'
+    LEFT JOIN t_cpro_attach rectification
+      ON self.fkSystemId = rectification.fkSystemId
+      AND self.pkId = rectification.fkSyssonId
+      AND rectification.fkAttachType = 'rectificationReport'
+    <where>
+      <![CDATA[
+        AND self.pkId = #{selfexaminationId}
+        AND self.deleteStatus = 1
+      ]]>
+    </where>
+  </select>
+  <!-- 修改删除状态为删除状态 -->
+  <update id="updateSelfexaminationDeleteStatusBySelfexaminationId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
+  	UPDATE t_cpro_self_inspection
+		SET deleteStatus = 2
+		WHERE
+			pkId = #{selfexaminationId}
+  </update>
+</mapper>

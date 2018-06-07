@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinopec.smcc.cpro.file.mapper.AttachMapper">
+  <resultMap id="MainListResult" type="com.sinopec.smcc.cpro.file.entity.AttachResult">
+    <result column="mongodbFileId" property="mongodbFileId" jdbcType="VARCHAR" />
+    <result column="attachName" property="attachName" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insertAttach" parameterType="com.sinopec.smcc.cpro.file.entity.AttachParam">
+      <![CDATA[
+        INSERT INTO t_cpro_attach (
+          pkId,
+          fkSystemId,
+          fkSyssonId,
+          fkAttachType,
+          attachName,
+          mongoFileId,
+          createTime
+        )VALUES(
+      ]]>
+      <trim suffixOverrides="," >
+        <![CDATA[
+          #{fileId,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{fkSystemId,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{fkSyssonId,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{fkAttachType,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{attachName,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{mongoFileId,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{createTime,jdbcType=VARCHAR},
+        ]]>
+      </trim>
+      <![CDATA[
+        )
+      ]]>
+  </insert>
+  <select id="selectAllAttachByParam" parameterType="com.sinopec.smcc.cpro.file.entity.AttachParam" resultMap="MainListResult">
+    SELECT
+      mongoFileId
+    FROM t_cpro_attach AS attach
+    <where>
+      <if test="pkId != null and pkId != ''">
+        <![CDATA[
+          AND pkId = #{fileId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkSystemId != null and fkSystemId != ''">
+        <![CDATA[
+          AND fkSystemId = #{fkSystemId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkSyssonId != null and fkSyssonId != ''">
+        <![CDATA[
+          AND fkSyssonId = #{fkSyssonId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkAttachType != null and fkAttachType != ''">
+        <![CDATA[
+          AND fkAttachType = #{fkAttachType,jdbcType=INTEGER}
+        ]]>
+      </if>
+    </where>
+  </select>
+  <select id="selectSingleAttachByFileId" parameterType="com.sinopec.smcc.cpro.file.entity.AttachParam" resultMap="MainListResult">
+    SELECT
+      mongoFileId,
+      attachName
+    FROM t_cpro_attach AS attach
+    <where>
+      <if test="pkId != null and pkId != ''">
+        <![CDATA[
+          AND pkId = #{fileId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkSystemId != null and fkSystemId != ''">
+        <![CDATA[
+          AND fkSystemId = #{fkSystemId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkSyssonId != null and fkSyssonId != ''">
+        <![CDATA[
+          AND fkSyssonId = #{fkSyssonId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkAttachType != null and fkAttachType != ''">
+        <![CDATA[
+          AND fkAttachType = #{fkAttachType,jdbcType=INTEGER}
+        ]]>
+      </if>
+    </where>
+  </select>
+  <delete id="deleteAllAttachByParam" parameterType="com.sinopec.smcc.cpro.file.entity.AttachParam">
+    <![CDATA[
+     delete from t_cpro_attach 
+    ]]>
+    <where>
+      <if test="pkId != null and pkId != ''">
+        <![CDATA[
+          AND pkId = #{fileId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkSystemId != null and fkSystemId != ''">
+        <![CDATA[
+          AND fkSystemId = #{fkSystemId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkSyssonId != null and fkSyssonId != ''">
+        <![CDATA[
+          AND fkSyssonId = #{fkSyssonId,jdbcType=INTEGER}
+        ]]>
+      </if>
+      <if test="fkAttachType != null and fkAttachType != ''">
+        <![CDATA[
+          AND fkAttachType = #{fkAttachType,jdbcType=INTEGER}
+        ]]>
+      </if>
+    </where>
+  </delete>
+</mapper>

@@ -9,7 +9,7 @@ package com.sinopec.smcc.cpro.systemcode.mapper;
 
 import java.util.List;
 
-import com.sinopec.smcc.cpro.systemcode.entity.SystemCode;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 
 /**
@@ -19,28 +19,18 @@ import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
  */
 public interface SystemCodeMapper {
   /**
-   * @Descrption 
-   * @author zhouyu
-   * @date 2018年6月3日下午11:18:03
-   * @param type
-   * @return
-   */
-  public String selectConstantName(SystemCodeParam systemCodeParam);
-  /**
-   * @Descrption 单选key与value
-   * @author zhouyu
-   * @date 2018年6月4日上午9:20:32
-   * @param tParam
-   * @param type
-   * @return
-   */
-  public List<SystemCode> getConstantByName(SystemCodeParam systemCodeParam);
-  /**
-   * @Descrption 多选树结构
-   * @author zhouyu
-   * @date 2018年6月4日下午1:46:43
+   * @Descrption
+   * @author eric
+   * @date 2018年6月6日下午8:08:09
    * @param systemCodeParam
-   * @return
    */
-  public List<SystemCode> getConstantTreeByName(SystemCodeParam systemCodeParam);
+  List<SystemCodeListResult> selectSystemCodeForByParamKeySystemCode(SystemCodeParam systemCodeParam);
+  
+  /**
+   * @Descrption
+   * @author eric
+   * @date 2018年6月6日下午8:08:09
+   * @param systemCodeParam
+   */
+  List<SystemCodeListResult> selectSystemCodeForByParamKeyCodeName(SystemCodeParam systemCodeParam);
 }

@@ -9,8 +9,11 @@
 */
 package com.sinopec.smcc.cpro.systemcode.server;
 
+import java.util.List;
+
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 
 /**
  * @Title SystemCodeService.java
@@ -23,39 +26,38 @@ import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 public interface SystemCodeService {
   
   /**
-   * @Descrption 根据参数类型和参数值查询中文
+   * 获得下拉列表数据
    * @author zhouyu
-   * @date 2018年6月4日下午2:18:09
-   * @param type
-   * @return
+   * @date 2018年6月4日上午11:32:26
+   * @param request
+   * @param systemCodeParam：传入json格式数据，支持针对
+   *                         代码类型：codeType
+   *                         父级ID：systemFatherCode查询
+   *                         代码名称：codeName
+   *                         代码ID：pkId
+   *                         代码Code：systemCode
+   *                         进行查询
+   * @return list：返回数据中包含{systemCode：1,codeName: 北京 }
    * @throws BusinessException
    */
-  public String getConstantName(Integer fkCodeType,Integer deleteStatus,String systemCode) throws BusinessException;
+  List<SystemCodeListResult> querySystemCodeForKeySystemCode(
+      SystemCodeParam systemCodeParam) throws BusinessException;
 
   /**
-   * @Descrption 单选下拉框数据
+   * 获得下拉列表数据
    * @author zhouyu
-   * @date 2018年6月4日上午9:13:14
-   * @param tParam
-   * @return
+   * @date 2018年6月4日上午11:32:26
+   * @param request
+   * @param systemCodeParam：传入json格式数据，支持针对
+   *                         代码类型：codeType
+   *                         父级ID：systemFatherCode查询
+   *                         代码名称：codeName
+   *                         代码ID：pkId
+   *                         代码Code：systemCode
+   *                         进行查询
+   * @return list：返回数据中包含{systemCode：北京,codeName: 北京 }
+   * @throws BusinessException
    */
-  public String getConstantByName(SystemCodeParam systemCodeParam) throws BusinessException;
-
-  /**
-   * @Descrption
-   * @author zhouyu
-   * @date 2018年6月4日上午11:40:00
-   * @param systemCodeParam
-   * @return
-   */
-  public String getSingleSelect(SystemCodeParam systemCodeParam) throws BusinessException;
-
-  /**
-   * @Descrption 多选树结构
-   * @author zhouyu
-   * @date 2018年6月4日下午1:39:54
-   * @param systemCodeParam
-   * @return
-   */
-  public String getConstantTreeByName(SystemCodeParam systemCodeParam) throws BusinessException;
+  List<SystemCodeListResult> querySystemCodeForKeyCodeName(
+      SystemCodeParam systemCodeParam) throws BusinessException;
 }

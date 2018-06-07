@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinopec.smcc.cpro.system.mapper.SystemKeyProductsMapper">
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts">
+    <id column="pkId" property="pkId" jdbcType="VARCHAR" />
+    <result column="fkExaminStatus" property="fkExaminStatus" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
+    <result column="productsNumber" property="productsNumber" jdbcType="VARCHAR" />
+    <result column="nUseProbability" property="nUseProbability" jdbcType="INTEGER" />
+    <result column="otherName" property="otherName" jdbcType="VARCHAR" />
+    <result column="fkNationalIsProducts" property="fkNationalIsProducts" jdbcType="VARCHAR" />
+    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insertSystemKeyProductsBySystemKeyProductsId" parameterType="java.util.List">
+  INSERT INTO t_cpro_system_key_products
+  (
+  	pkId,fkExaminStatus,createTime,deleteStatus,productsNumber,nUseProbability,otherName,
+  	fkNationalIsProducts,fkSystemId
+  	) VALUES(
+  	<foreach collection="list" item="item" index="index" separator=",">
+	  	<trim suffixOverrides="," >
+	      <![CDATA[
+	        #{item.systemKeyProductsId,jdbcType=VARCHAR},
+	      ]]>
+	      <![CDATA[
+	        #{item.fkExaminStatus,jdbcType=INTEGER},
+	      ]]>
+	      <![CDATA[
+	        #{item.createTime,jdbcType=TIMESTAMP},
+	      ]]>
+	      <choose>
+	      	<when test="item.deleteStatus != null ">
+			 			<![CDATA[
+			   			#{item.deleteStatus,jdbcType=INTEGER},
+			  		]]>
+			  	</when>
+			  	<otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			    	]]>
+			    </otherwise>
+			  </choose>
+			  <choose>
+			    <when test="item.productsNumber != null ">
+			      <![CDATA[
+			        #{item.productsNumber,jdbcType=VARCHAR},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+			  </choose>
+			  <choose>
+			    <when test="item.nUseProbability != null ">
+			      <![CDATA[
+			        #{item.nUseProbability,jdbcType=INTEGER},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+			  </choose>
+			  <choose>
+			    <when test="item.otherName != null ">
+			      <![CDATA[
+			        #{item.otherName,jdbcType=VARCHAR},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+			  </choose>
+			  <choose>
+			    <when test="item.fkNationalIsProducts != null ">
+			      <![CDATA[
+			        #{item.fkNationalIsProducts,jdbcType=VARCHAR},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+			  </choose>
+			  <choose>
+			    <when test="item.fkSystemId != null ">
+			      <![CDATA[
+			        #{item.fkSystemId,jdbcType=VARCHAR},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+			  </choose>
+		  </trim>
+		  )
+		  ON DUPLICATE KEY UPDATE
+		  	<trim suffixOverrides=",">
+		  		<if test="item.fkExaminStatus != null and item.fkExaminStatus != ''">
+        		fkExaminStatus = #{item.fkExaminStatus},
+        	</if>
+        	<if test="item.createTime != null">
+        		createTime = #{item.createTime},
+        	</if>
+        	<if test="item.deleteStatus != null and item.deleteStatus != ''">
+        		deleteStatus = #{item.deleteStatus},
+        	</if>
+        	<if test="item.productsNumber != null and item.productsNumber != ''">
+        		productsNumber = #{item.productsNumber},
+        	</if>
+        	<if test="item.nUseProbability != null and item.nUseProbability != ''">
+        		nUseProbability = #{item.nUseProbability},
+        	</if>
+        	<if test="item.otherName != null and item.otherName != ''">
+        		otherName = #{item.otherName},
+        	</if>
+        	<if test="item.fkNationalIsProducts != null and item.fkNationalIsProducts != ''">
+        		fkNationalIsProducts = #{item.fkNationalIsProducts},
+        	</if>
+        	<if test="item.fkSystemId != null and item.fkSystemId != ''">
+        		fkSystemId = #{item.fkSystemId},
+        	</if>
+		  	</trim>
+	  </foreach>
+  </insert>
+</mapper>

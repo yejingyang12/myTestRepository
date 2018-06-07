@@ -22,6 +22,8 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
@@ -136,6 +138,25 @@ public class MainController {
   public ResultApi exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException{
     this.mainServiceImpl.exportExcelForGradeTemplate(response,systemIds);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * 一键下载（表1）
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月7日下午12:02:12
+   * @param request
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/tableOneDownloads", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi tableOmeDownloads(HttpServletRequest request,
+      @RequestBody MainParam mainParam) throws BusinessException {
+    this.mainServiceImpl.tableOneDownloads(mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   }

@@ -21,28 +21,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jacob.com.Dispatch;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
+import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
+import com.sinopec.smcc.cpro.company.server.CompanyService;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
-import com.sinopec.smcc.cpro.grading.mapper.GradingMapper;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.mapper.MainMapper;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.main.utils.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
+import com.sinopec.smcc.cpro.systemcode.server.SystemCodeService;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.FileOperateUtil;
 import com.sinopec.smcc.cpro.tools.JacobExcelTool;
@@ -50,6 +54,7 @@ import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
 import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.SheetBean;
+import com.sinopec.smcc.cpro.tools.word.WordUtils;
 
 /**
  * @Title MainServiceImpl.java
@@ -67,6 +72,13 @@ public class MainServiceImpl implements MainService{
   
   @Autowired
   private GradingService gradingServiceImpl;
+  
+  @Autowired
+  private CompanyService companyServiceImpl;
+  
+  @Autowired
+  private SystemCodeService systemCodeServiceImpl;
+  
   
   /**
    * 响应等保列表数据
@@ -377,5 +389,117 @@ public class MainServiceImpl implements MainService{
     }catch (Exception e){
       e.printStackTrace();
     }
+  }
+  
+  /**
+   * 一键下载（表1 单位信息）
+   */
+  @Override
+  public void tableOneDownloads(MainParam mainParam) throws BusinessException{
+    Map<String,Object> dataMap=new HashMap<String,Object>();
+    CompanyParam companyParam = new CompanyParam();
+    companyParam.setCompanyId(mainParam.getCompanyId());
+    //通过单位ID查询单位信息
+    CompanyResult companyResult = companyServiceImpl.queryDetailsCompany(companyParam);
+    if(companyResult != null){
+      //单位名称
+      if(StringUtils.isNotBlank(companyResult.getCompanyName())){
+        dataMap.put("companyName", companyResult.getCompanyName());
+      }
+      //所属省份
+      if(StringUtils.isNotBlank(companyResult.getFkSubordinatePro())){
+        SystemCodeParam systemCodeParam = new SystemCodeParam();
+        systemCodeParam.setCodeType("21");
+        systemCodeParam.setSystemCode(companyResult.getFkSubordinatePro());
+        List<SystemCodeListResult> systemCodeListResultList = 
+            systemCodeServiceImpl.querySystemCodeForKeySystemCode(systemCodeParam);
+        if(!ObjectUtils.isEmpty(systemCodeListResultList)){
+          dataMap.put("province", systemCodeListResultList.get(0).getCodeName());
+        }
+      }
+      //邮政编码
+      String postalCode = companyResult.getPostalCode();
+      if(StringUtils.isNotBlank(postalCode)){
+        char[] ch = postalCode.toCharArray();
+        for (int i = 0; i < ch.length; i++) {
+          dataMap.put("post"+i+1, ch[i]);
+        }
+      }
+      //行政区划代码
+      Integer administrativeNum = companyResult.getAdministrativeNum();
+      if(administrativeNum != null){
+        //转为int数组
+        String str = String.valueOf(administrativeNum);
+        int[] array = new int[str.length()];
+        for(int i=0; i<str.length(); i++){
+          array[i] = Integer.parseInt(str.charAt(i) + "");
+        }
+        for (int i = 0; i < array.length; i++) {
+          dataMap.put("code"+i+1, array[i]);
+        }
+      }
+      //单位负责人姓名
+      if(StringUtils.isNotBlank(companyResult.getCompPrincipalName())){
+        dataMap.put("compPrincipalName", companyResult.getCompPrincipalName());
+      }
+      //单位负责人职务
+      if(StringUtils.isNotBlank(companyResult.getCompPrincipalPost())){
+        dataMap.put("compPrincipalPost", companyResult.getCompPrincipalPost());
+      }
+      //单位负责人办公电话
+      if(StringUtils.isNotBlank(companyResult.getCompPrincipalPost())){
+        dataMap.put("compPrincipalPost", companyResult.getCompPrincipalPost());
+      }
+      //单位负责人电子邮件
+      if(StringUtils.isNotBlank(companyResult.getCompPrincipalEm())){
+        dataMap.put("compPrincipalEm", companyResult.getCompPrincipalEm());
+      }
+      //责任部门联系人姓名
+      if(StringUtils.isNotBlank(companyResult.getLdContactName())){
+        dataMap.put("ldContactName", companyResult.getLdContactName());
+      }
+      //责任部门联系人职务
+      if(StringUtils.isNotBlank(companyResult.getLdContactPost())){
+        dataMap.put("ldContactPost", companyResult.getLdContactPost());
+      }
+      //责任部门联系人职务
+      if(StringUtils.isNotBlank(companyResult.getLdContactPost())){
+        dataMap.put("ldContactPost", companyResult.getLdContactPost());
+      }
+      //责任部门联系人办公电话
+      if(StringUtils.isNotBlank(companyResult.getLdContactWorkTel())){
+        dataMap.put("ldContactWorkTel", companyResult.getLdContactWorkTel());
+      }
+      //责任部门联系人移动电话
+      if(StringUtils.isNotBlank(companyResult.getLdContactPhone())){
+        dataMap.put("ldContactPhone", companyResult.getLdContactPhone());
+      }
+      //责任部门联系人电子邮件
+      if(StringUtils.isNotBlank(companyResult.getLdContactEmail())){
+        dataMap.put("ldContactEmail", companyResult.getLdContactEmail());
+      }
+//      dataMap.put("city", companyResult.getLdContactEmail());
+//      dataMap.put("area", companyResult.getLdContactEmail());
+//      dataMap.put("systemCount", companyResult.getLdContactEmail());
+//      dataMap.put("systemCount2", companyResult.getLdContactEmail());
+//      dataMap.put("systemCount3", companyResult.getLdContactEmail());
+//      dataMap.put("systemCount4", companyResult.getLdContactEmail());
+//      dataMap.put("province", companyResult.getLdContactEmail());
+//      dataMap.put("post1", companyResult.getLdContactEmail());
+//      dataMap.put("post2", companyResult.getLdContactEmail());
+//      dataMap.put("post3", companyResult.getLdContactEmail());
+//      dataMap.put("post4", companyResult.getLdContactEmail());
+//      dataMap.put("post5", companyResult.getLdContactEmail());
+//      dataMap.put("post6", companyResult.getLdContactEmail());
+//      dataMap.put("code1", companyResult.getLdContactEmail());
+//      dataMap.put("code2", companyResult.getLdContactEmail());
+//      dataMap.put("code3", companyResult.getLdContactEmail());
+//      dataMap.put("code4", companyResult.getLdContactEmail());
+//      dataMap.put("code5", companyResult.getLdContactEmail());
+//      dataMap.put("code6", companyResult.getLdContactEmail());
+//      dataMap.put("compPrincipalWorkTel", companyResult.getLdContactEmail());
+
+    }
+    WordUtils.createWord(dataMap);
   }
 }

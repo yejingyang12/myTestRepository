@@ -59,6 +59,7 @@ public class MainParam {
   private String recordStatus;
   private String evaluationStatus;
   private String examinationStatus;
+  private String companyId;
 
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -69,6 +70,20 @@ public class MainParam {
 
   
   
+  /**
+   * @return the companyId
+   */
+  public String getCompanyId() {
+    return companyId;
+  }
+
+  /**
+   * @param companyId the companyId to set
+   */
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
   /**
    * @return the systemIds
    */

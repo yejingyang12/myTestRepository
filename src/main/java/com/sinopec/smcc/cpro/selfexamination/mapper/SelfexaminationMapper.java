@@ -43,7 +43,8 @@ public interface SelfexaminationMapper {
    * @param selfexaminationParam
    * @throws BusinessException
    */
-  void insertOrUpdateSelfexamination(SelfexaminationParam selfexaminationParam) throws BusinessException;
+  void insertOrUpdateSelfexamination(SelfexaminationParam selfexaminationParam) 
+      throws BusinessException;
 
   /**
    * @Descrption 通过自查ID查询修改回显信息
@@ -52,5 +53,15 @@ public interface SelfexaminationMapper {
    * @param selfexaminationParam
    * @return
    */
-  SelfexaminationResult selectSingleBySelfexaminationId(SelfexaminationParam selfexaminationParam);
+  SelfexaminationResult selectSingleBySelfexaminationId(SelfexaminationParam selfexaminationParam) 
+      throws BusinessException;
+
+  /**
+   * @Descrption  通过SelfexaminationId修改自查的删除状态
+   * @author yejingyang
+   * @date 2018年6月6日上午10:12:53
+   * @param selfexaminationParam
+   */
+  void updateSelfexaminationDeleteStatusBySelfexaminationId(
+      SelfexaminationParam selfexaminationParam) throws BusinessException;
 }

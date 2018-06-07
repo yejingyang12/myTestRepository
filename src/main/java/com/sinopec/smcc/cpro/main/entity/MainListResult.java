@@ -30,8 +30,21 @@ public class MainListResult {
   private Integer recordStatus;
   private Integer evaluationStatus;
   private Integer examinationStatus;
+  private String companyId;
   
 
+  /**
+   * @return the companyId
+   */
+  public String getCompanyId() {
+    return companyId;
+  }
+  /**
+   * @param companyId the companyId to set
+   */
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
   public String getSystemId() {
     return systemId;
   }

@@ -42,7 +42,7 @@ public class ControllerPage {
   @ResponseBody
   public String saveCompanyPage(HttpServletRequest request, Model model, 
       CompanyParam companyParam){
-    return "";
+    return "views/addCompanyInfoPage.html";
   }
   
   @RequestMapping(value="/queryDetailsCompanyPage", method = RequestMethod.POST)
@@ -56,7 +56,7 @@ public class ControllerPage {
   @ResponseBody
   public String queryEditCompanyPage(HttpServletRequest request, Model model, 
       CompanyParam companyParam){
-    return "";
+    return "views/applicationChange.html";
   }
   
   
@@ -100,9 +100,9 @@ public class ControllerPage {
   @ResponseBody
   public String queryEditGradingPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/applicationGrading.html";
   }
-  
+  //修改定级方法一样，修改材料信息
   @RequestMapping(value="/saveGradingPage", method = RequestMethod.POST)
   @ResponseBody
   public String saveGradingPage(HttpServletRequest request, Model model, 
@@ -121,7 +121,7 @@ public class ControllerPage {
   @ResponseBody
   public String queryEditAttachPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/applicationChangeMaterial.html";
   }
   
   
@@ -129,7 +129,7 @@ public class ControllerPage {
   @ResponseBody
   public String queryMainListPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/index.html";
   }
   
   
@@ -137,28 +137,28 @@ public class ControllerPage {
   @ResponseBody
   public String saveRecordsPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/companyRecord.html";
   }
   
   @RequestMapping(value="/queryRecordsPage", method = RequestMethod.POST)
   @ResponseBody
   public String queryRecordsPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/companyRecord.html";
   }
   
   @RequestMapping(value="/editRecordsPage", method = RequestMethod.POST)
   @ResponseBody
   public String editRecordsPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/companyRecord.html";
   }
   
   @RequestMapping(value="/editRecordsForStatusPage", method = RequestMethod.POST)
   @ResponseBody
   public String editRecordsForStatusPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/companyRecord.html";
   }
   
   
@@ -166,7 +166,7 @@ public class ControllerPage {
   @ResponseBody
   public String querylistPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/audit.html";
   }
   
   @RequestMapping(value="/saveCheckPage", method = RequestMethod.POST)
@@ -187,7 +187,7 @@ public class ControllerPage {
   @ResponseBody
   public String queryNodeAllListPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/auditChange.html";
   }
   
   
@@ -224,7 +224,7 @@ public class ControllerPage {
   @ResponseBody
   public String saveSystemPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";
+    return "views/addCompanySystem.html";
   }
   
   @RequestMapping(value="/queryDetailsSystemPage", method = RequestMethod.POST)
@@ -238,6 +238,6 @@ public class ControllerPage {
   @ResponseBody
   public String queryEditSystemPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
-    return "";  
+    return "views/applicatuibChangSystem.html";  
   }
 }

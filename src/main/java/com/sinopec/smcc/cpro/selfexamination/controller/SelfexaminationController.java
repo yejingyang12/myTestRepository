@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,8 +86,7 @@ public class SelfexaminationController {
   }
   
   /**
-   * 查询修改回显信息
-   * @Descrption
+   * @Descrption 查询修改回显信息
    * @author dongxu
    * @date 2018年6月2日下午11:20:08
    * @param request
@@ -107,4 +105,21 @@ public class SelfexaminationController {
     return result;
   }
   
+  /**
+   * @Descrption 删除自查信息（改删除状态）
+   * @author yejingyang
+   * @date 2018年6月6日上午10:57:56
+   * @param request
+   * @param selfexaminationParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/deleteSelfexaminationBySelfexaminationId", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi deleteSelfexaminationBySelfexaminationId(HttpServletRequest request, 
+      @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
+    this.selfexaminationServiceImpl.deleteSelfexaminationBySelfexaminationId(selfexaminationParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
 }
