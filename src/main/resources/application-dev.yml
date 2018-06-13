@@ -1,20 +1,4 @@
-server:
-  port: 8082
-  context-path: /
-  tomcat:
-    accesslog:
-      directory: ./logs
-      enabled: true
-logging:
-  config: classpath:logback.xml
-  file: ./logs/spring-cpro.log
-  level:
-    root: info
 spring:
-  freemarker:
-    cache: false 
-  application:
-    name: Class-Protection
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://103.249.52.8:13306/smcc_cpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
@@ -26,25 +10,4 @@ spring:
     initialSize: 1
     timeBetweenEvictionRunsMillis: 3000
     minEvictableIdleTimeMillis: 300000
-  thymeleaf:
-    enabled: true
-    mode: LEGACYHTML5
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-    check-template-location: true
-    content-type: text/html
-  # thymeleaf end
-  messages:
-    basename: /i18n/messages_en_US,i18n/messages_zh_CN
-mybatis:
-  mapperLocations: classpath*:mapper/*/*.xml
-pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
-    offset-as-page-num: true
-    row-bounds-with-count: true
-ubs.api.url: http://10.248.65.107
-appId: 907
+

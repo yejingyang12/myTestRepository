@@ -7,7 +7,7 @@ server:
       enabled: true
 logging:
   config: classpath:logback.xml
-  file: ./logs/spring-cpro.log
+  path: ./logs
   level:
     root: info
 spring:
@@ -15,17 +15,6 @@ spring:
     cache: false 
   application:
     name: Class-Protection
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://103.249.52.8:13306/smcc_cpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
-    username: root
-    password: esa@2011
-    driver-class-name: com.mysql.jdbc.Driver
-    minIdle: 1
-    maxActive: 20
-    initialSize: 1
-    timeBetweenEvictionRunsMillis: 3000
-    minEvictableIdleTimeMillis: 300000
   thymeleaf:
     enabled: true
     mode: LEGACYHTML5
