@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.mapper.AttachMaterialsMapper;
@@ -44,7 +42,6 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
   public List<AttachMaterialsListResult> queryDetailsAttach(
       AttachMaterialsParam attachMaterialsParam) throws BusinessException {
     if(StringUtils.isBlank(attachMaterialsParam.getAttachId())){
@@ -65,7 +62,6 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
   public List<AttachMaterialsListResult> queryEditAttach(
       AttachMaterialsParam attachMaterialsParam) throws BusinessException {
     if(StringUtils.isBlank(attachMaterialsParam.getAttachId())) {

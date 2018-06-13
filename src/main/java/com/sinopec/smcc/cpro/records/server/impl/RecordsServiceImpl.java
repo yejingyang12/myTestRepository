@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.records.mapper.RecordsMapper;
@@ -50,7 +48,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 修改或添加备案信息
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   @Transactional
   public String saveRecords(RecordsParam recordsParam) throws BusinessException {
     if(StringUtils.isBlank(recordsParam.getRecordsId())) {
@@ -74,7 +71,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 通过系统id查询备案信息
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public RecordsResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException{
     RecordsResult records = this.recordsMapper.selectRecordsByFkSystemId(recordsParam);
     return records;
@@ -84,7 +80,6 @@ public class RecordsServiceImpl implements RecordsService{
   * 撤销备案
   */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   @Transactional
   public void editRecords(RecordsParam recordsParam) {
     this.recordsMapper.updateRecordsBySystemId(recordsParam);
@@ -97,7 +92,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 修改备案状态
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   @Transactional
   public void editRecordsForStatus(RecordsParam recordsParam) {
     SystemParam systemParam = new SystemParam();

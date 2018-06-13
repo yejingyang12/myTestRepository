@@ -20,8 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.mapper.GradingMapper;
@@ -47,8 +45,7 @@ public class GradingServiceImpl implements GradingService{
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
-  public List<GradingListResult> queryDetailsGrading(GradingParam gradingParam) 
+  public List<GradingListResult> queryDetailsGrading(GradingParam gradingParam)
       throws BusinessException {
     if(StringUtils.isBlank(gradingParam.getGradingId())) 
       throw new BusinessException(EnumResult.ERROR);
@@ -60,7 +57,6 @@ public class GradingServiceImpl implements GradingService{
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public GradingListResult queryEditGrading(GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) 
       throw new BusinessException(EnumResult.ERROR);
@@ -72,7 +68,6 @@ public class GradingServiceImpl implements GradingService{
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public String saveGrading(GradingParam gradingParam) throws BusinessException {
     if(StringUtils.isBlank(gradingParam.getGradingId())) {
       gradingParam.setGradingId(Utils.getUuidFor32());

@@ -31,8 +31,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
@@ -84,7 +82,6 @@ public class MainServiceImpl implements MainService{
    * 响应等保列表数据
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   @Transactional
   public PageInfo<MainListResult> queryMainList(MainParam mainParam) throws BusinessException{
     //创建排序字段
@@ -115,7 +112,6 @@ public class MainServiceImpl implements MainService{
    * 通过systemId删除系统信息
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   @Transactional
   public void deleteMainBySystemId(MainParam mainParam) throws BusinessException{
     if(StringUtils.isBlank(mainParam.getSystemId())){

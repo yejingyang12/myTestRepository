@@ -23,8 +23,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.common.result.ResultApi;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
 import com.sinopec.smcc.cpro.review.entity.CheckNodeListResult;
@@ -55,7 +53,6 @@ public class CheckServiceImpl implements CheckService {
   
  
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public PageInfo<CheckListResult> queryCheckList(CheckParam checkParam) throws BusinessException{
   //创建排序字段
   StringBuffer orderBy = new StringBuffer();
@@ -85,7 +82,6 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_check_node")
   public String checkNodeSave(CheckNodeListResult checkNodeListResult,String fkExaminStatus,String fkbusinessNode,String checkId,String fkSystemId) throws BusinessException {
     if (StringUtils.isNotBlank(checkNodeListResult.getCheckNodeId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
@@ -198,7 +194,6 @@ public class CheckServiceImpl implements CheckService {
     * 审核节点列表 
     */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_check_node")
   public PageInfo<CheckNodeListResult> queryCheckNodeList(CheckNodeParam checkNodeParam) throws BusinessException{
     
     //创建排序字段
@@ -229,7 +224,6 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveCheck(CheckParam checkParam) throws BusinessException{
     if (StringUtils.isBlank(checkParam.getCheckId())) {
       checkParam.setCheckId(Utils.getUuidFor32());

@@ -23,8 +23,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.mapper.AttachMapper;
@@ -55,7 +53,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   private FileService fileServiceImpl;
   
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   public PageInfo<SelfexaminationListResult> querySelfexaminationList(
       SelfexaminationParam selfexaminationParam) throws BusinessException {
     StringBuffer orderBy = new StringBuffer();
@@ -78,7 +75,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   /**
    * 添加或修改
    */
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   @Transactional
   @Override
   public String saveSelfexamination(SelfexaminationParam selfexaminationParam) 
@@ -183,7 +179,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   public SelfexaminationResult queryEditSelfexamination(SelfexaminationParam selfexaminationParam)
       throws BusinessException{
     if (StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())) 
@@ -196,7 +191,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection") 
   public void deleteSelfexaminationBySelfexaminationId(SelfexaminationParam selfexaminationParam)
       throws BusinessException {
     if(StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())){

@@ -31,8 +31,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -72,7 +70,6 @@ public class SystemServiceImpl implements SystemService {
    * 响应系统列表数据
    */
   @Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public PageInfo<SystemListResult> querySystemList(SystemParam systemParam) {
 	//创建排序字段
     StringBuffer orderBy = new StringBuffer();
@@ -104,7 +101,6 @@ public class SystemServiceImpl implements SystemService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public String saveSystem(SystemParam systemParam) throws BusinessException {
     String standardizedCode = systemMapper.
         selectSystemByStandardizedCode(systemParam.getStandardizedCode());
@@ -172,7 +168,6 @@ public class SystemServiceImpl implements SystemService {
 	 * @throws BusinessException 
 	 */
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
 	public SystemResult queryDetailsSystem(SystemParam systemParam) throws BusinessException {
 	  if(StringUtils.isBlank(systemParam.getSystemId())) 
 	    throw new BusinessException(EnumResult.ERROR);
@@ -184,7 +179,6 @@ public class SystemServiceImpl implements SystemService {
 	 * @throws BusinessException 
 	 */
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException {
 	  if(StringUtils.isBlank(systemParam.getSystemId())) 
 	    throw new BusinessException(EnumResult.ERROR);
@@ -195,7 +189,6 @@ public class SystemServiceImpl implements SystemService {
    * 修改系统状态
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   @Transactional
   public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException {
     this.systemMapper.updateSystemStatusBySystemId(systemParam);

@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.mapper.SystemCodeMapper;
@@ -40,7 +38,6 @@ public class SystemCodeServiceImpl implements SystemCodeService {
   public SystemCodeMapper systemCodeMapper;
 
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system_code")
   @Transactional
   public List<SystemCodeListResult> querySystemCodeForKeySystemCode(
       SystemCodeParam systemCodeParam) throws BusinessException{
@@ -50,7 +47,6 @@ public class SystemCodeServiceImpl implements SystemCodeService {
   }
   
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system_code")
   @Transactional
   public List<SystemCodeListResult> querySystemCodeForKeyCodeName(
       SystemCodeParam systemCodeParam) throws BusinessException{
