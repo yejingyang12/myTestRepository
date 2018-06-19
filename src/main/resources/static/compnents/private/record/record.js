@@ -12,9 +12,7 @@ var data={
 		recordReportPath : null,
 		recordReportName : null
 	},
-	deleteFileParam:{
-		fileId:null,
-	},
+	deleteFileId: null,
 };
 (function () {
 	Vue.component('record',function (resolve,reject) {
@@ -84,13 +82,13 @@ var data={
 						this.formData.recordReportName='';
 						this.formData.recordReportPath='';
 						if(fileId != ''&&fileId!=null&&fileId!='undefined'){
-							this.deleteFileParam.fileId = fileId;
+							this.deleteFileId = fileId;
 						}
           },
           sureDelFile:function(_self){
-          	if(_self.deleteFileParam.fileId != null){
+          	if(_self.deleteFileId != null){
           		ajaxMethod(_self, 'post',
-          				'fileHandle/deleteFile', true,JSON.stringify(deleteFileParam), 'json',
+          				'fileHandle/deleteFile', true,'{"fileId":"'+_self.deleteFileId+'"}', 'json',
           				'application/json;charset=UTF-8',_self.fileDelSuccessMethod);
           	}
           },

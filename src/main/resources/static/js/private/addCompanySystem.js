@@ -27,23 +27,41 @@ window.onload = function () {
           },
           //上一页
           preBtn:function() {
-            ajaxMethod(this, 'post',
-                'system/saveSystem', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.preBtnSuccessMethod);
+            if(systemId!=''&&systemId!=null){
+              ajaxMethod(this, 'post',
+                  'system/editSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.preBtnSuccessMethod);
+            }else{
+              ajaxMethod(this, 'post',
+                  'system/saveSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.preBtnSuccessMethod);
+            }
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId;
+              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
           },
           //下一页
           nextBtn:function() {
-            ajaxMethod(this, 'post',
-                'system/saveSystem', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.nextBtnSuccessMethod);
+            console.log(JSON.stringify(data.formData.sysBusSituationType)+"-----------------")
+            console.log(JSON.stringify(data.formData))
+            if(systemId!=''&&systemId!=null){
+              ajaxMethod(this, 'post',
+                  'system/editSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.nextBtnSuccessMethod);
+            }else{
+              ajaxMethod(this, 'post',
+                  'system/saveSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.nextBtnSuccessMethod);
+            }
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {

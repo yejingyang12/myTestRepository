@@ -48,11 +48,11 @@
                                  审核结果:
                              </div>
                              <div class="col-md-8 h-col-md-9" >
-                                 <select class="form-control" id="selectResult">
-                                     <option value=0>请选择</option>
-                                     <option value=1>通过</option>
-                                     <option value=2>未通过</option>
-                                 </select>
+                               <template>
+                                  <el-select v-model="formData.scoreCheckResult" id="scoreCheckResult" filterable placeholder="请选择" >
+                                    <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
+                                  </el-select>
+                                </template>
                              </div>
 
                          </div>

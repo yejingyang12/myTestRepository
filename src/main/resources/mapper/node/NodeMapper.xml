@@ -26,11 +26,9 @@
         t_cpro_node 
     ]]>
     <where>
-      <if test="systemId != null and systemId != ''">
-        <![CDATA[
-          AND fkSystemId = #{systemId,jdbcType=CHAR}
-        ]]>
-      </if>
+      <![CDATA[
+        AND fkSystemId = #{systemId,jdbcType=CHAR}
+      ]]>
     </where>
   </select>
   

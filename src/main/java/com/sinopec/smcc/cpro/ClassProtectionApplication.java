@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.sinopec.smcc.common.consts.SmccConsts;
 
 /**
- * 项目名称:smcc-secp
+ * 项目名称:smcc-cpro
  * 类描述:  安全检测模块入口类
  * 创建人:  ziv
  * 创建时间: 2018/4/11 10:25
@@ -37,7 +37,7 @@ public class ClassProtectionApplication {
 
 	@RequestMapping("/")
 	public String mainPage() {
-		return "views/index";
+		return "page/indexPage";
 	}
 
 	/**

@@ -12,18 +12,12 @@ package com.sinopec.smcc.cpro.node.server.impl;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sinopec.siam.agent.common.SSOPrincipal;
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.common.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
@@ -55,7 +49,6 @@ public class NodeServiceImpl implements NodeService {
    * 响应单位列表数据
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_node")
   public List<NodeResult> queryNodeList(NodeParam nodeParam) {
     
     // 获得响应列表数据
@@ -69,7 +62,6 @@ public class NodeServiceImpl implements NodeService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_node")
   public void addNodeInfo(NodeParam nodeParam) {
     
     

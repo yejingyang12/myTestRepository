@@ -26,6 +26,7 @@ var  data={
         executiveDireConTel:"",
         whenInvestmentUse:"",
         subIsSystem:"",
+        comCode:"",
         addSystemSub:[{
           systemName:"",
           standardizedCode:""
@@ -197,9 +198,14 @@ var  data={
                     
                     if(e.target.innerHTML.indexOf("其它") != -1){
                       $("#sysBusSituationType").val($("#busSituationType").val());
+                      this.formData.sysBusSituationType = $("#busSituationType").val();
                     }else{
                       $("#sysBusSituationType").val(e.target.innerHTML);
+                      this.formData.sysBusSituationType = e.target.innerHTML;
                     }
+                  },
+                  getBus:function(){
+                    this.formData.sysBusSituationType = $("#busSituationType").val();
                   },
                   getScopeClass:function(e){
                     $("#sysSerScope div div").click(function(){
@@ -207,10 +213,27 @@ var  data={
                       $(this).addClass("btnColor");
                     });
                     if(e.target.innerHTML.indexOf("其它") != -1){
-                      $("#sysServiceSitScope").val($("#serviceSitScope").val());
+                      //$("#sysServiceSitScope").val($("#serviceSitScope").val());
+                      //this.formData.sysServiceSitScope = $("#serviceSitScope").val();
+                    }else if(e.target.innerHTML.indexOf("跨省（区、市）跨") != -1){
+                      //$("#sysServiceSitScope").val("跨省（区、市）跨个^"+$("#serviceSitScope2").val());
+                      //this.formData.sysServiceSitScope = "跨省（区、市）跨个^"+$("#serviceSitScope2").val();
+                    }else if(e.target.innerHTML.indexOf("跨地（区、市） 跨") != -1){
+                      //$("#sysServiceSitScope").val("跨地（区、市） 跨个^"+$("#serviceSitScope3").val());
+                      //this.formData.sysServiceSitScope = "跨地（区、市） 跨个^"+$("#serviceSitScope3").val();
                     }else{
-                      $("#sysServiceSitScope").val(e.target.innerHTML);
+                      //$("#sysServiceSitScope").val(e.target.innerHTML);
+                      this.formData.sysServiceSitScope = e.target.innerHTML;
                     }
+                  },
+                  getScope1:function(){
+                    this.formData.sysServiceSitScope = $("#serviceSitScope").val();
+                  },
+                  getScope2:function(){
+                    this.formData.sysServiceSitScope = "跨省（区、市）跨个^"+$("#serviceSitScope2").val();
+                  },
+                  getScope3:function(){
+                    this.formData.sysServiceSitScope = "跨地（区、市） 跨个^"+$("#serviceSitScope3").val();
                   },
                   getObjectClass:function(e){
                     $("#sysSerObject div div").click(function(){
@@ -219,9 +242,14 @@ var  data={
                     });
                     if(e.target.innerHTML.indexOf("其它") != -1){
                       $("#sysServiceSitObject").val($("#serviceSitObject").val());
+                      this.formData.sysServiceSitObject = $("#serviceSitObject").val();
                     }else{
                       $("#sysServiceSitObject").val(e.target.innerHTML);
+                      this.formData.sysServiceSitObject = e.target.innerHTML;
                     }
+                  },
+                  getObject:function(){
+                    this.formData.sysServiceSitObject = $("#serviceSitObject").val();
                   },
                   getCoverageClass:function(e){
                     $("#sysCoverage div div").click(function(){
@@ -234,6 +262,9 @@ var  data={
                       $("#npCoverageRange").val(e.target.innerHTML);
                     }
                   },
+                  getCoverage:function(){
+                    this.formData.npCoverageRange = $("#coverageRange").val();
+                  },
                   getNetworkClass:function(e){
                     $("#sysNetwork div div").click(function(){
                       $("#sysNetwork div div").removeClass("btnColor");
@@ -245,6 +276,9 @@ var  data={
                       $("#npNetworkProperties").val(e.target.innerHTML);
                     }
                   },
+                  getNetwork:function(){
+                    this.formData.npNetworkProperties = $("#networkProperties").val();
+                  },
                   getSitClass:function(e){
                     $("#sysIntercon div div").click(function(){
                       $("#sysIntercon div div").removeClass("btnColor");
@@ -255,6 +289,9 @@ var  data={
                     }else{
                       $("#interconnectionSit").val(e.target.innerHTML);
                     }
+                  },
+                  getSit:function(){
+                    this.formData.interconnectionSit = $("#interconnection").val();
                   },
                   getSubClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -420,6 +457,9 @@ var  data={
                     // 获取服务范围信息成功
                     getServiceRangeSuccessMethod : function(_self, responseData) {
                       _self.sysServiceScope = responseData.data;
+                      if(_self.sysServiceScope.length > 5){
+                        $("#sysSerScope").addClass("baseMes2");
+                      }
                     },
                     //获取单位信息
                     getCompanyMethod:function(_self){
@@ -609,8 +649,18 @@ var  data={
                           }
                         }
                         if(other){
-                          $("#sysServiceType1").addClass('btnColor');
-                          $("#serviceSitScope").val(_self.formData.sysServiceSitScope);
+                          if(_self.formData.sysServiceSitScope.indexOf("跨省（区、市）跨个") != -1){
+                            $("#sysServiceType2").addClass('btnColor');
+                            var num = _self.formData.sysServiceSitScope.split("^");
+                            $("#serviceSitScope2").val(num[1]);
+                          }else if(_self.formData.sysServiceSitScope.indexOf("跨地（区、市） 跨个") != -1){
+                            $("#sysServiceType3").addClass('btnColor');
+                            var num = _self.formData.sysServiceSitScope.split("^");
+                            $("#serviceSitScope3").val(num[1]);
+                          }else{
+                            $("#sysServiceType1").addClass('btnColor');
+                            $("#serviceSitScope").val(_self.formData.sysServiceSitScope);
+                          }
                         }
                       }
                       if(_self.formData.sysServiceSitObject!=''){
@@ -736,13 +786,18 @@ var  data={
 //                      
 //                      
 //                    }
-                    if(systemId!=''&&systemId!=null){
-                      this.change = true;
-                      this.formData.systemId = systemId;
-                      this.formData.companyId = companyId;
-                      this.getGetSystemMethod(this,systemId);
-                    }
-                    //new Ctor().$mount('#wrap');
+                  this.formData.companyId = companyId;
+                  this.formData.fkCompanyCode = companyCode;
+                  if(companyCode!=''&&companyCode!=null){
+                    this.formData.comCode = "1";
+                  }else{
+                    this.formData.comCode = "";
+                  }
+                  if(systemId!=''&&systemId!=null){
+                    this.change = true;
+                    this.formData.systemId = systemId;
+                    this.getGetSystemMethod(this,systemId);
+                  }
                 }
             })
         })

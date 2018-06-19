@@ -20,11 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.common.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
@@ -63,7 +60,6 @@ public class CheckServiceImpl implements CheckService {
    * 获取备案信息列表数据
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public PageInfo<CheckListResult> queryCheckList(CheckParam checkParam) throws BusinessException{
     //创建排序字段
     StringBuffer orderBy = new StringBuffer();
@@ -92,7 +88,6 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveGradCheck(String userName, CheckParam checkParam) 
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
@@ -159,7 +154,6 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveGradChangeCheck(String userName, CheckParam checkParam)
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
@@ -227,7 +221,6 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveCancelRecordsCheck(String userName, CheckParam checkParam)
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {

@@ -19,6 +19,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
+            data.formData.gradingId = responseData.data;
             this.$message({
               message: '保存成功！',
               type: 'success'
@@ -28,7 +29,7 @@ window.onload = function () {
           //提交
           submitBtn:function() {
             ajaxMethod(this, 'post',
-                'grading/saveGrading', true,
+                'grading/submitGrading', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.submitBtnSuccessMethod);
@@ -47,7 +48,8 @@ window.onload = function () {
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
+            data.formData.gradingId = responseData.data;
+            window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
           },
           //下一页
           next1Btn:function() {
@@ -59,6 +61,7 @@ window.onload = function () {
           },
           // 获取成功
           nextBtnSuccessMethod : function(_self, responseData) {
+            data.formData.gradingId = responseData.data;
             window.location.href = originUrl+"page/addCompanyMaterialPage?systemId="+systemId;
           }
         }

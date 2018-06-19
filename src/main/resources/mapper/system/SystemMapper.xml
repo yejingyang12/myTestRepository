@@ -101,6 +101,7 @@
   </resultMap>
   <select id="selectgradingEditAudit" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="selectGradingChangeAuditMap">
     SELECT 
+      system.pkId,
       system.fkChangeMatter,
       system.changeContent,
       system.changeReason 
@@ -1425,7 +1426,7 @@
     LEFT JOIN t_cpro_system_code AS systemCodeCombined
       ON system.fkSystemIsMerge = systemCodeCombined.systemCode 
       AND systemCodeCombined.fkCodeType = 29
-    WHERE system.pkId IN ('0e966d596404489eb47088ddccd1582e')
+    WHERE system.pkId IN ('2c966f77f9e742c9bc4d5802fa2add5c')
   </select>
   
 	<select id="selectDetailsSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
@@ -1501,7 +1502,7 @@
     LEFT JOIN t_cpro_system_code AS codeNationalIsProducts
     	ON systemKeyProducts.fkNationalIsProducts = codeNationalIsProducts.systemCode
     	AND codeNationalIsProducts.fkCodeType = 9
-    WHERE systemKeyProducts.fkSystemId IN (#{systemId,jdbcType=VARCHAR})
+    WHERE systemKeyProducts.fkSystemId IN ('2c966f77f9e742c9bc4d5802fa2add5c')
   </select>
   
   <resultMap id="BaseUseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemUseResult">
@@ -1533,7 +1534,7 @@
     LEFT JOIN t_cpro_system_code AS codeResponsibleType
     	ON systemUseServices.fkResponsibleType = codeResponsibleType.systemCode
     	AND codeResponsibleType.fkCodeType = 15
-    WHERE systemUseServices.fkSystemId IN (#{systemId,jdbcType=VARCHAR})
+    WHERE systemUseServices.fkSystemId IN ('2c966f77f9e742c9bc4d5802fa2add5c')
     ORDER BY
     CASE 
     	WHEN productsTypeName = '等级测评' then 1

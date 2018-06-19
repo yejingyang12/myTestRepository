@@ -23,7 +23,7 @@
         fkAffiliation:"",
         fkPlateType:"",
         fkCompanyType:"",
-        companyId:"",
+        companyId:""
       },
       msgName : [],// 单位名称
       msgProvince : [],// 所属省份
@@ -57,6 +57,10 @@
                   this.formData.fkAffiliation = e.target.innerHTML;
                 }
               },
+              getAffiliation : function() {
+                this.formData.fkAffiliation = $("#affiliation").val();
+              },
+              
               // 点击切换 添加class名
               getUintTypeClass : function(e) {
                 $("#baseMes2 div div").click(function(){
@@ -69,6 +73,9 @@
                   this.formData.fkCompanyType = e.target.innerHTML;
                 }
               },
+              getCompanyType : function() {
+                this.formData.fkCompanyType = $("#companyType").val();
+              },
               // 点击切换 添加class名
               getPlateClass : function(e) {
                 $("#baseMes3 div div").click(function(){
@@ -80,6 +87,9 @@
                 }else{
                   this.formData.fkPlateType = e.target.innerHTML;
                 }
+              },
+              getPlateType : function() {
+                this.formData.fkPlateType = $("#plateType").val();
               },
               // 获取省份
               getProvinceMethod : function(_self) {
@@ -220,6 +230,12 @@
                   this.formData={};
                   this.formData.companyName = _self.transmitParam[1];
                   this.formData.companyCode = _self.transmitParam[1];
+                  $("#baseMes1 div div").removeClass("btnColor");
+                  $("#baseMes2 div div").removeClass("btnColor");
+                  $("#baseMes3 div div").removeClass("btnColor");
+                  $("#affiliation").val("");
+                  $("#companyType").val("");
+                  $("#plateType").val("");
                 }
               },
               //获取单位信息
@@ -239,20 +255,21 @@
                     'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
               },
               submitHandlerSuccessMethod: function(_self,data){
-                console.log(companyCode!=''&&companyCode!=null)
-                if(type=='create'){
-                  window.location.href = "addCompanySystemPage?companyId=" + data.data;
-                }else if(type=='change'){
-                  window.location.href = "applicatuibChangSystemPage?companyId=" + data.data+"&systemId=" + systemId;
-                }else if(type=='new'){
-                  window.location.href = "mainCompanyInfoPage";
-                }else if(type=='update'){
-                  window.location.href = "mainCompanyInfoPage";
-                }
+//                console.log(companyCode!=''&&companyCode!=null)
+//                if(type=='create'){
+//                  window.location.href = "addCompanySystemPage?companyId=" + data.data;
+//                }else if(type=='change'){
+//                  window.location.href = "applicatuibChangSystemPage?companyId=" + data.data+"&systemId=" + systemId;
+//                }else if(type=='new'){
+//                  window.location.href = "mainCompanyInfoPage";
+//                }else if(type=='update'){
+//                  window.location.href = "mainCompanyInfoPage";
+//                }
               },
               
               msgNameMethod:function(){
                 this.formData.companyCode = $("#companyName").val();
+                
               },
               industryCategory: function(){
                 bus.$emit("industryCategory","1");
@@ -299,7 +316,7 @@
               });
               
               var coverH = $(".mcAddMessge").height();
-              $(".cover").css("height",coverH + parseInt(10));
+              $(".cover").css("height",coverH + parseInt(54));
             }
           })
         })

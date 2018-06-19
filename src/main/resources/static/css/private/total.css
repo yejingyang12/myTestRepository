@@ -111,7 +111,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .useData .el-input__inner{
     padding:0 10px;
-    height: 34px;
+    height: 34px !important;
     line-height: 34px;
     border-radius: 0px;
     border:1px solid #cecece;
@@ -196,10 +196,10 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     justify-content: flex-start;
 }
 .dataForm .baseMes2>div{
-    width: calc(20% + 1.156px);
-    margin-right: -1.156px;
+    width: calc(20% + 1px);
+    margin-right: -1px;
     margin-bottom: -1px;
-    border-bottom:1px solid #cecece;
+    border-bottom: 1px solid #cecece;
 }
 .dataForm .baseMes2>div:last-child{
     border-right: 1px solid #cecece;
@@ -252,7 +252,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 /*定级信息*/
 .liAddsty div label{
-    width:185px;
+    width:185px !important;
 }
 .liAddsty .saveTitle{
     margin-left:0;

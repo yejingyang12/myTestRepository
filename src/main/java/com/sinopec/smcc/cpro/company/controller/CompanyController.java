@@ -28,8 +28,6 @@ import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
-import com.sinopec.smcc.cpro.main.entity.MainListResult;
-import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 
 

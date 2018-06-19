@@ -9,37 +9,26 @@
 */
 package com.sinopec.smcc.cpro.system.server.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
@@ -54,7 +43,6 @@ import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
-import com.sinopec.smcc.cpro.system.constant.SystemConstant;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
@@ -70,13 +58,9 @@ import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemUseServicesMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.system.util.ConvertFieldUtil;
-import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.JacobExcelTool;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
-import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
-import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
-import com.sinopec.smcc.cpro.tools.excel.bean.SheetBean;
 
 /**
  * @Title SystemServiceImpl.java
@@ -100,7 +84,6 @@ public class SystemServiceImpl implements SystemService {
    * 响应系统列表数据
    */
   @Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public PageInfo<SystemListResult> querySystemList(SystemParam systemParam) {
 	//创建排序字段
     StringBuffer orderBy = new StringBuffer();
@@ -131,10 +114,9 @@ public class SystemServiceImpl implements SystemService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public String saveSystem(String userName, SystemParam systemParam) 
       throws BusinessException {
-    String fkCompanyCode = "100";
+    String fkCompanyCode = "0101";
     
     List<SystemKeyProducts> keyList = systemParam.getSystemKeyProducts();
     List<SystemParam> systemCode = systemParam.getAddSystemSub();
@@ -150,14 +132,18 @@ public class SystemServiceImpl implements SystemService {
       systemParam.setExamineStatus(1);
       systemParam.setExaminationStatus(1);
       systemParam.setSubIsSystem(2);
-      systemParam.setFkSystemType(1);
+      systemParam.setFkSystemType(2);
       systemParam.setRecordStatus(1);
       systemParam.setGradingStatus(1);
       systemParam.setFkChangeMatter(5);
       systemParam.setAppIsInternet(2);
       systemParam.setCreateTime(new Date());
       systemParam.setEvaluationStatus(1);
-      systemParam.setFkCompanyCode(fkCompanyCode);
+      if (systemParam.getFkComCode() == 1) {
+        systemParam.setFkCompanyCode(systemParam.getFkCompanyCode());
+      }else if(systemParam.getFkComCode() == 2){
+        systemParam.setFkCompanyCode(fkCompanyCode);
+      }
       subSystemList.add(systemParam);
       
       for (int key = 0; key < keyList.size(); key++) {
@@ -170,6 +156,7 @@ public class SystemServiceImpl implements SystemService {
         systemKeyProductsBean.setProductsNumber(keyList.get(key).getProductsNumber());
         systemKeyProductsBean.setFkNationalIsProducts(keyList.get(key).getFkNationalIsProducts());
         systemKeyProductsBean.setnUseProbability(keyList.get(key).getnUseProbability());
+        systemKeyProductsBean.setOtherName(keyList.get(key).getOtherName());
         systemKeyProductsList.add(systemKeyProductsBean);
       }
     
@@ -182,6 +169,7 @@ public class SystemServiceImpl implements SystemService {
         SystemUseServicesBean.setFkProductsType(useList.get(use).getFkProductsType());
         SystemUseServicesBean.setServiceIsUse(useList.get(use).getServiceIsUse());
         SystemUseServicesBean.setFkResponsibleType(useList.get(use).getFkResponsibleType());
+        SystemUseServicesBean.setOtherName(useList.get(use).getOtherName());
         systemUseServicesList.add(SystemUseServicesBean);
       }
       
@@ -192,7 +180,7 @@ public class SystemServiceImpl implements SystemService {
           systemParamSub.setSystemId(Utils.getUuidFor32());
           systemParamSub.setExamineStatus(systemParam.getExaminationStatus());
           systemParamSub.setExaminationStatus(systemParam.getExaminationStatus());
-          systemParamSub.setFkSystemType(systemParam.getFkSystemType());
+          systemParamSub.setFkSystemType(3);
           systemParamSub.setRecordStatus(systemParam.getRecordStatus());
           systemParamSub.setGradingStatus(systemParam.getGradingStatus());
           systemParamSub.setFkChangeMatter(systemParam.getFkChangeMatter());
@@ -200,7 +188,7 @@ public class SystemServiceImpl implements SystemService {
           systemParamSub.setCreateTime(systemParam.getCreateTime());
           systemParamSub.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
           systemParamSub.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
-          systemParamSub.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
+          systemParamSub.setFkSystemIsMerge(2);
           systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
           systemParamSub.setGradeRecordSysName(systemParam.getGradeRecordSysName());
           systemParamSub.setSysBusSituationType(systemParam.getSysBusSituationType());
@@ -230,6 +218,7 @@ public class SystemServiceImpl implements SystemService {
             systemKeyProductsBeanSub.setProductsNumber(subKeyList.get(subKey).getProductsNumber());
             systemKeyProductsBeanSub.setFkNationalIsProducts(subKeyList.get(subKey).getFkNationalIsProducts());
             systemKeyProductsBeanSub.setnUseProbability(subKeyList.get(subKey).getnUseProbability());
+            systemKeyProductsBeanSub.setOtherName(subKeyList.get(subKey).getOtherName());
             systemKeyProductsList.add(systemKeyProductsBeanSub);
           }
          
@@ -242,6 +231,7 @@ public class SystemServiceImpl implements SystemService {
             SystemUseServicesBeanSub.setFkProductsType(subUseList.get(subUse).getFkProductsType());
             SystemUseServicesBeanSub.setFkResponsibleType(subUseList.get(subUse).getFkResponsibleType());
             SystemUseServicesBeanSub.setCreateTime(new Date());
+            SystemUseServicesBeanSub.setOtherName(subUseList.get(subUse).getOtherName());
             systemUseServicesList.add(SystemUseServicesBeanSub);
           }
         }
@@ -282,7 +272,6 @@ public class SystemServiceImpl implements SystemService {
 	 * @throws BusinessException 
 	 */
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
 	public SystemResult queryDetailsSystem(SystemParam systemParam) throws BusinessException {
 	  
 	  List<SystemKeyResult> systemKey = new ArrayList<SystemKeyResult>();
@@ -341,7 +330,6 @@ public class SystemServiceImpl implements SystemService {
 	 */
 	@Override
 	@Transactional
-	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public String editSystem(String userName, SystemParam systemParam) throws BusinessException {
 	  
 	  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
@@ -361,7 +349,6 @@ public class SystemServiceImpl implements SystemService {
       for (SystemResult subSys : subSystemList) {
         subSys.getSystemId();
         subSys.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
-        subSys.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
         subSys.setAppIsInternet(systemParam.getAppIsInternet());
         subSys.setGradeRecordSysName(systemParam.getGradeRecordSysName());
         subSys.setSysBusSituationType(systemParam.getSysBusSituationType());
@@ -473,16 +460,16 @@ public class SystemServiceImpl implements SystemService {
         systemParamSub.setSystemId(Utils.getUuidFor32());
         systemParamSub.setExamineStatus(1);
         systemParamSub.setExaminationStatus(1);
-        systemParamSub.setFkSystemType(1);
+        systemParamSub.setFkSystemType(3);
         systemParamSub.setRecordStatus(1);
         systemParamSub.setGradingStatus(1);
         systemParamSub.setFkChangeMatter(5);
         systemParamSub.setAppIsInternet(2);
         systemParamSub.setEvaluationStatus(1);
         systemParamSub.setCreateTime(new Date());
+        systemParamSub.setFkSystemIsMerge(2);
         systemParamSub.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
         systemParamSub.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
-        systemParamSub.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
         systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
         systemParamSub.setGradeRecordSysName(systemParam.getGradeRecordSysName());
         systemParamSub.setSysBusSituationType(systemParam.getSysBusSituationType());
@@ -671,13 +658,13 @@ public class SystemServiceImpl implements SystemService {
         this.systemMapper.insertAttachMaterialsTemp(attachMaterialsParam);
         this.systemMapper.insertCheckTemp(checkParam);
     }
-	  this.systemMapper.insertBatchSystem(systemParamAddList);
+	  
 	  this.systemMapper.insertEvaluationTemp(evaluationList);
 	  this.systemMapper.insertSelfexaminationTemp(selfexaminationList);
 	  
 	  }
    }
-	  
+	  this.systemMapper.insertBatchSystem(systemParamAddList);
     this.systemKeyProductsMapper
         .insertSystemKeyProductsBySystemKeyProductsId(subSystemKeyProductsList);
     this.systemUseServicesMapper
@@ -690,7 +677,6 @@ public class SystemServiceImpl implements SystemService {
    * 修改系统状态
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   @Transactional
   public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException {
     this.systemMapper.updateSystemStatusBySystemId(systemParam);
@@ -703,8 +689,7 @@ public class SystemServiceImpl implements SystemService {
    */
   @Override
   public void exportExcelForSystemTemplate(SystemParam systemParam) throws FileNotFoundException, IOException {
-    List<SystemTemplateListResult> systemTemPlate = 
-        this.systemMapper.selectSystemTemPlate(systemParam);
+
 //    String url="C://Users//hasee//Desktop//模板文件//信息系统导入模版 - 副本.xlsm";
 //    File fi = new File(url);
 //    POIFSFileSystem fs = new POIFSFileSystem(new FileInputStream(fi));
@@ -726,7 +711,8 @@ public class SystemServiceImpl implements SystemService {
 //    
 //    String primaryfilePth = SystemConstant.EXCEL_FILE_PATH;//原文件路径
     
-    
+    List<SystemTemplateListResult> systemTemPlate = 
+        this.systemMapper.selectSystemTemPlate(systemParam);
     List<SystemUseResult> useTempPlate = 
         this.systemMapper.selectUseTemp(systemParam);
     List<SystemKeyResult> keyTempPlate = 
@@ -734,11 +720,11 @@ public class SystemServiceImpl implements SystemService {
     
     JacobExcelTool tool = new JacobExcelTool();
     //打开excel文件
-    tool.OpenExcel("C://Users//hasee//Desktop//模板文件//信息系统导入模版 - 副本.xlsm",false,false);
+    tool.OpenExcel("C://Users//hasee//Desktop//模板文件//信息模板.xlsm",false,false);
     for (SystemUseResult systemUseResult : useTempPlate) {
       
       //服务类型
-      tool.setValue(tool.getCurrentSheet(), "AC", "value",systemUseResult.getProductsTypeName());
+//      tool.setValue(tool.getCurrentSheet(), "AC", "value",systemUseResult.getProductsTypeName());
       //是否有此服务类型
       if (systemUseResult.getProductsTypeName().equals("等级测评")) {
         tool.setValue(tool.getCurrentSheet(), "AD5", "value","是");
@@ -780,9 +766,18 @@ public class SystemServiceImpl implements SystemService {
     }
     
     for (SystemKeyResult systemKeyResult : keyTempPlate) {
-      //系统名称
-      tool.setValue(tool.getCurrentSheet(), "Y8", "value",systemKeyResult.getExaminStatusName());
       //数量
+      if (systemKeyResult.getExaminStatusName().equals("安全专用产品")) {
+        tool.setValue(tool.getCurrentSheet(), "Z5", "value",systemKeyResult.getProductsNumber());
+      }else if(systemKeyResult.getExaminStatusName().equals("网络产品")){
+        tool.setValue(tool.getCurrentSheet(), "Z6", "value",systemKeyResult.getProductsNumber());
+      }else if(systemKeyResult.getExaminStatusName().equals("操作系统")){
+        tool.setValue(tool.getCurrentSheet(), "Z7", "value",systemKeyResult.getProductsNumber());
+      }else if(systemKeyResult.getExaminStatusName().equals("数据库")){
+        tool.setValue(tool.getCurrentSheet(), "Z8", "value",systemKeyResult.getProductsNumber());
+      }else if(systemKeyResult.getExaminStatusName().equals("服务器")){
+        tool.setValue(tool.getCurrentSheet(), "Z9", "value",systemKeyResult.getProductsNumber());
+      }
       tool.setValue(tool.getCurrentSheet(), "Z8", "value",systemKeyResult.getProductsNumber());
       //使用情况
       tool.setValue(tool.getCurrentSheet(), "AA8", "value",systemKeyResult.getFkNationalIsProducts());
@@ -793,11 +788,11 @@ public class SystemServiceImpl implements SystemService {
     
     for (SystemTemplateListResult systemTempResult : systemTemPlate) {
       //系统名称
-//      tool.setValue(tool.getCurrentSheet(), "B5", "value",systemTempResult.getSystemName());
+      tool.setValue(tool.getCurrentSheet(), "B5", "value",systemTempResult.getSystemName());
       //系统编码
-//      tool.setValue(tool.getCurrentSheet(), "C5", "value",systemTempResult.getStandardizedCode());
+      tool.setValue(tool.getCurrentSheet(), "C5", "value",systemTempResult.getStandardizedCode());
       //等保备案名称
-//      tool.setValue(tool.getCurrentSheet(), "D5", "value",systemTempResult.getGradeRecordSysName());
+      tool.setValue(tool.getCurrentSheet(), "D5", "value",systemTempResult.getGradeRecordSysName());
       //所属单位名称
       tool.setValue(tool.getCurrentSheet(), "E5", "value",systemTempResult.getCompanyName());
       //何时投入使用
@@ -841,10 +836,10 @@ public class SystemServiceImpl implements SystemService {
         tool.setValue(tool.getCurrentSheet(), "M9", "value","否");
       }
       if (!systemTempResult.getSysBusSituationType().equals("生产作业")
-          &&systemTempResult.getSysBusSituationType().equals("指挥调度")
-          &&systemTempResult.getSysBusSituationType().equals("管理控制")
-          &&systemTempResult.getSysBusSituationType().equals("内部办公")
-          &&systemTempResult.getSysBusSituationType().equals("公众服务")) {
+          &&!systemTempResult.getSysBusSituationType().equals("指挥调度")
+          &&!systemTempResult.getSysBusSituationType().equals("管理控制")
+          &&!systemTempResult.getSysBusSituationType().equals("内部办公")
+          &&!systemTempResult.getSysBusSituationType().equals("公众服务")) {
         tool.setValue(tool.getCurrentSheet(), "M10", "value",systemTempResult.getSysBusSituationType());
       }
       //业务描述
@@ -877,8 +872,12 @@ public class SystemServiceImpl implements SystemService {
       }
       if (systemTempResult.getNpCoverageRange().equals("其他")) {
         tool.setValue(tool.getCurrentSheet(), "T10", "value",systemTempResult.getNpCoverageRange());
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "T10", "value","否");
+      }
+      if (!systemTempResult.getNpCoverageRange().equals("局域网")
+          &&!systemTempResult.getNpCoverageRange().equals("城域网")
+          &&!systemTempResult.getNpCoverageRange().equals("广域网")
+          ) {
+        tool.setValue(tool.getCurrentSheet(), "T8", "value",systemTempResult.getNpCoverageRange());
       }
       //网络性质
       tool.setValue(tool.getCurrentSheet(), "U8", "value",systemTempResult.getNpNetworkProperties());
@@ -904,8 +903,11 @@ public class SystemServiceImpl implements SystemService {
       }
       if (systemTempResult.getInterconnectionSit().equals("其他")) {
         tool.setValue(tool.getCurrentSheet(), "X10", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "T10", "value","否");
+      }
+      if (!systemTempResult.getInterconnectionSit().equals("与其他行业系统连接") 
+        &&!systemTempResult.getInterconnectionSit().equals("与本行业其他单位系统连接")
+        &&!systemTempResult.getInterconnectionSit().equals("与本单位其他系统连接")){
+        tool.setValue(tool.getCurrentSheet(), "X8", "value",systemTempResult.getInterconnectionSit());
       }
     }
     FileOutputStream out = new FileOutputStream("C://Users//hasee//Desktop//模板文件//备份1.xlsm");
@@ -1209,7 +1211,6 @@ public class SystemServiceImpl implements SystemService {
    * 修改系统信息回显
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException {
     List<SystemKeyResult> systemKey = new ArrayList<SystemKeyResult>();
     List<SystemUseResult> systemUse = new ArrayList<SystemUseResult>();
@@ -1255,7 +1256,6 @@ public class SystemServiceImpl implements SystemService {
   }
 
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public SystemGradingChangeResult queryGradingEditAudit(SystemParam systemParam) {
     return this.systemMapper.selectgradingEditAudit(systemParam);
   }

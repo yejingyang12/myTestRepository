@@ -18,7 +18,7 @@
                 <div class="col-md-8 col-sm-6">
                   <select placeholder="请选择" name="companyName" class="formControl" id="companyName" @change="msgNameMethod()" v-model="formData.companyName" :disabled="nameReadonly">
                     <option v-for="item in msgName"
-                      :key="item.orgCode" :label="item.orgName" :value="item.orgCode"></option>
+                      :key="item.orgCode" :label="item.orgName" :value="item.orgName"></option>
                   </select> <span class="caretd"></span>
                 </div>
               </div>
@@ -202,7 +202,7 @@
                 <div v-for="item in msgaAffi">
                   <div v-if="item.codeName==='其它'">
                     <div @click="getClass($event)" id="other1">
-                      其它: <input type="text" class="col-lg-8 baseMesIn" id="affiliation" name="affiliation">
+                      其它: <input type="text" class="col-lg-8 baseMesIn" id="affiliation" name="affiliation" @change="getAffiliation()">
                     </div>
                   </div>
                   <div v-else>
@@ -222,7 +222,7 @@
                 <div v-for="item in msgUintType">
                   <div v-if="item.codeName==='其它'">
                     <div @click="getUintTypeClass($event)" id="other2">
-                      其它: <input type="text" class="col-lg-8 baseMesIn" id="companyType" name="companyType" >
+                      其它: <input type="text" class="col-lg-8 baseMesIn" id="companyType" name="companyType" @change="getCompanyType()">
                     </div>
                   </div>
                   <div v-else>
@@ -242,7 +242,7 @@
                 <div v-for="item in msgPlate">
                   <div v-if="item.codeName==='其它'">
                     <div @click="getPlateClass($event)" id="other3">
-                                                                   其它: <input type="text" class="col-lg-8 baseMesIn" id="plateType" name="plateType">
+                                                                   其它: <input type="text" class="col-lg-8 baseMesIn" id="plateType" name="plateType" @change="getPlateType()">
                     </div>
                   </div>
                   <div v-else>

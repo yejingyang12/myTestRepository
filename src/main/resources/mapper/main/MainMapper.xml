@@ -405,7 +405,7 @@
   </update>
   <update id="updateSystemStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
     <![CDATA[
-      UPDATE t_cpro_system
+      UPDATE t_cpro_system AS system
     ]]>
     <set>
       <if test="gradingStatus != null">

@@ -18,11 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
@@ -59,7 +56,6 @@ public class EvaluationServiceImpl implements EvaluationService {
   private MainService mainServiceImpl;
 	
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public PageInfo<EvaluationListResult> queryEvaluationList(
 			EvaluationParam evaluationParam) throws BusinessException{
     StringBuffer orderBy = new StringBuffer();
@@ -86,7 +82,6 @@ public class EvaluationServiceImpl implements EvaluationService {
   }
 
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public EvaluationResult queryEditEvaluation(EvaluationParam evaluationParam) 
 	    throws BusinessException{
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
@@ -96,7 +91,6 @@ public class EvaluationServiceImpl implements EvaluationService {
 
 	@Override
 	@Transactional
-	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public String saveEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId())) {
@@ -108,14 +102,14 @@ public class EvaluationServiceImpl implements EvaluationService {
       mainParam.setSystemId(evaluationParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
 			try {
-			  if (StringUtils.isNotBlank(evaluationParam.getEvaluationPresentationPath())) {
+			  if (StringUtils.isNotBlank(evaluationParam.getExamReportPath())) {
 			    AttachParam evaluationPresentation = new AttachParam();
 			    evaluationPresentation.setFileId(Utils.getUuidFor32());
 			    evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
 			    evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
 			    evaluationPresentation.setAttachType("evaluationPresentation");
-			    evaluationPresentation.setUploadUrl(evaluationParam.getEvaluationPresentationPath());
-			    evaluationPresentation.setAttachName(evaluationParam.getEvaluationPresentationName());
+			    evaluationPresentation.setUploadUrl(evaluationParam.getExamReportPath());
+			    evaluationPresentation.setAttachName(evaluationParam.getExamReportName());
 			    this.fileServiceImpl.addFile(evaluationPresentation);
 			  }
 			  if (StringUtils.isNotBlank(evaluationParam.getRectificationReportPath())) {
@@ -183,7 +177,6 @@ public class EvaluationServiceImpl implements EvaluationService {
 
 	@Override
 	@Transactional
-	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public void deleteEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))
@@ -201,7 +194,6 @@ public class EvaluationServiceImpl implements EvaluationService {
   }
 
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
   public EvaluationResult queryDetailsEvaluation(EvaluationParam evaluationParam) throws BusinessException {
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);

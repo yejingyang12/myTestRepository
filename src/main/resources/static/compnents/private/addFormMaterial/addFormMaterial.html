@@ -16,8 +16,8 @@
                         <div class="clearfix sysText col-md-8 uploadBox">
                             <div class="uploadSty">
                                 <ul class="fileList" id="fileList"></ul>
-                                <el-button type="primary" v-if="formData.topologyDescriptionName!==''" size="small">上传</el-button>
-                                <el-button type="primary" v-else size="small">继续上传</el-button>
+                                <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null" size="small">继续上传</el-button>
+                                <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
                             <input type="file" value="" id="file" @change='onUpload'>
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
@@ -42,8 +42,8 @@
                             <div class="uploadSty">
                                 <ul class="fileList" id="fileList2">
                                 </ul>
-                                <el-button type="primary" v-if="formData.organizationManagementName!==''" size="small">上传</el-button>
-                                <el-button type="primary" v-else size="small">继续上传</el-button>
+                                <el-button type="primary" v-if="formData.organizationManagementName!==''&&formData.organizationManagementName!==null" size="small">继续上传</el-button>
+                                <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
                             <input type="file" value="" id="file" @change='onUpload2'>
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
@@ -68,8 +68,8 @@
                             <div class="uploadSty">
                                 <ul class="fileList" id="fileList3">
                                 </ul>
-                                <el-button type="primary" v-if="formData.implementationPlanName!==''" size="small">上传</el-button>
-                                <el-button type="primary" v-else size="small">继续上传</el-button>
+                                <el-button type="primary" v-if="formData.implementationPlanName!==''&&formData.implementationPlanName!==null" size="small">继续上传</el-button>
+                                <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
                             <input type="file" value="" id="file" @change='onUpload3'>
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
@@ -94,8 +94,8 @@
                             <div class="uploadSty">
                                 <ul class="fileList" id="fileList4">
                                 </ul>
-                                <el-button type="primary" v-if="formData.licenseCertificateName!==''" size="small">上传</el-button>
-                                <el-button type="primary" v-else size="small">继续上传</el-button>
+                                <el-button type="primary" v-if="formData.licenseCertificateName!==''&&formData.licenseCertificateName!==null" size="small">继续上传</el-button>
+                                <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
                             <input type="file" value="" id="file" @change='onUpload4'>
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>

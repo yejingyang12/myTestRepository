@@ -94,6 +94,8 @@ var data={
                     $(".del").click(function(){
                       $(this).parent("li").remove();
                       _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      _self.formData.topologyDescriptionName='';
+                      _self.formData.topologyDescriptionPath='';
                     });
                     $(".updwon").click(function(){
                       //$(this).parent("li").remove();
@@ -114,6 +116,8 @@ var data={
                     $(".del").click(function(){
                       $(this).parent("li").remove();
                       _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      _self.formData.organizationManagementName='';
+                      _self.formData.organizationManagementPath='';
                     });
                     $(".updwon").click(function(){
                       //$(this).parent("li").remove();
@@ -134,6 +138,8 @@ var data={
                     $(".del").click(function(){
                       $(this).parent("li").remove();
                       _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      _self.formData.implementationPlanName='';
+                      _self.formData.implementationPlanPath='';
                     });
                     $(".updwon").click(function(){
                       //$(this).parent("li").remove();
@@ -154,6 +160,8 @@ var data={
                     $(".del").click(function(){
                       $(this).parent("li").remove();
                       _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      _self.formData.licenseCertificateName='';
+                      _self.formData.licenseCertificatePath='';
                     });
                     $(".updwon").click(function(){
                       //$(this).parent("li").remove();
@@ -203,6 +211,8 @@ var data={
                       $(".del").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.topologyDescriptionId,2);
+                        _self.formData.topologyDescriptionName = '';
+                        _self.formData.topologyDescriptionId = '';
                       });
                       $(".updwon").click(function(){
                         //$(this).parent("li").remove();
@@ -216,6 +226,8 @@ var data={
                       $(".del").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.organizationManagementId,2);
+                        _self.formData.organizationManagementName = '';
+                        _self.formData.organizationManagementId = '';
                       });
                       $(".updwon").click(function(){
                         //$(this).parent("li").remove();
@@ -229,6 +241,8 @@ var data={
                       $(".del").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.implementationPlanId,2);
+                        _self.formData.implementationPlanName = '';
+                        _self.formData.implementationPlanId = '';
                       });
                       $(".updwon").click(function(){
                         //$(this).parent("li").remove();
@@ -242,6 +256,8 @@ var data={
                       $(".del").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.licenseCertificateId,2);
+                        _self.formData.licenseCertificateName = '';
+                        _self.formData.licenseCertificateId = '';
                       });
                       $(".updwon").click(function(){
                         //$(this).parent("li").remove();

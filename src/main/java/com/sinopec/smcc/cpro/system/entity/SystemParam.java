@@ -34,7 +34,6 @@ public class SystemParam {
   private String createUserName;
   private String remark;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date whenInvestmentUse;
   private Integer examineStatus;
   private String executiveOfficeName;
@@ -73,7 +72,7 @@ public class SystemParam {
   private List<SystemUseServices> systemUseServices;
   private List<SystemUseResult> systemUseResult;
   private List<SystemResult> systemResult;
-  
+  private Integer fkComCode;
 
 
 
@@ -85,6 +84,22 @@ public class SystemParam {
   private String sort;//排序
   
 
+
+
+  /**
+   * @return the fkComCode
+   */
+  public Integer getFkComCode() {
+    return fkComCode;
+  }
+
+
+  /**
+   * @param fkComCode the fkComCode to set
+   */
+  public void setFkComCode(Integer fkComCode) {
+    this.fkComCode = fkComCode;
+  }
 
 
   /**

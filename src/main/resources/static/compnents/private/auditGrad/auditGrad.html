@@ -1,14 +1,71 @@
  <div>
      <div class="container h-padding" style="margin-bottom:15px">
          <!--系统定级备案测评列表-->
-         <div class="container" style="background:#fff;padding: 15px">
-             <div style="height: 50px;line-height: 50px;margin-top: -15px">
+         <div class="container" style="background:#fff;padding: 15px；margin-top: -15px;">
+             <div style="height: 50px;line-height: 50px;marign-top:-15px;">
                  <i class="h-list-line" style="vertical-align:middle;"></i>
                  <p style="display: inline-block">审核意见</p>
              </div>
              <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+             <!--变更事项-->
+             <div class="row auditChangeshixiang" style="    margin-top: 15px;" v-show="fkChangeMatterShow">
+                 <div class="col-md-12 text-left clearPadding" >
+                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px;">  变更事项： </span>
+                     <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px; padding: 0;">
+                        <p class="textArea">{{formData.fkChangeMatter}}</p> 
+                     </div>
+                 </div>
+             </div>
+             <!--变更原因-->
+             <div class="row auditChangeshixiang" v-show="changeContentShow">
+                 <div class="col-md-12 text-left clearPadding" >
+                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px;">  变更原因： </span>
+                     <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
+                         <p class="textArea">{{formData.changeContent}}</p>
+                     </div>
+                 </div>
+             </div>
+             <!--变更内容-->
+             <div class="row auditChangeshixiang" v-show="changeReasonShow">
+                 <div class="col-md-12 text-left clearPadding" >
+                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px; margin-top: 10px;">  变更内容： </span>
+                     <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;" >
+                         <p class="textArea">{{formData.changeReason}}</p>
+                     </div>
+                 </div>
+             </div>
+             <!--变更事项-->
+             <div class="row auditChangeshixiang" style="margin-top: 10px;" v-show="fkrevokematterShow">
+                <div class="col-md-12 text-left clearPadding" >
+                    <span class="col-md-1  clearPadding"  style=" width: 100px;margin-left: 20px;">  变更事项： </span>
+                    <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
+                       <p   class="textArea">{{formData.fkrevokematter}}
+                        </p> 
+                    </div>
+                </div>
+             </div>
+             <!--撤销原因-->
+             <div class="row auditChangeshixiang" v-show="revokereasonShow">
+                 <div class="col-md-12 text-left clearPadding" >
+                     <span class="col-md-1  clearPadding" style="  width: 100px;  margin-left: 20px; margin-bottom: 10px;" >  撤销原因： </span>
+                     <div class="auditChangeyuanyin col-md-10" >
+                         <p class="textArea">{{formData.revokereason}}</p>
+                     </div>
+                 </div>
+             </div>
+             <!--撤销证明-->
+            <div class="row auditChangeshixiang" style="margin-left:0.5%;margin-right: -3.7%" v-show="revokeRecordsNameShow">
+                <div class="col-md-12 text-left clearPadding" >
+                    <span class="col-md-1  clearPadding" style="width: auto">  撤销证明： </span>
+                    <div class="auditChangeyuanyin col-md-10" style="padding-left: 0">
+                        <p class="textArea">
+                            <a onclick="downloadFile()" href="#"> {{formData.revokeRecordsName}}</a>
+                        </p>
+                    </div>
+                </div>
+             </div>
              <!--审核意见-->
-             <div class="row h-table-border" style="margin:0">
+             <div class="row h-table-border" style="margin:0 ;    margin-bottom: 15px;">
                  <div class="col-md-12">
                      <!--审核结果-->
                      <div class="row" style="margin: 15px -15px">

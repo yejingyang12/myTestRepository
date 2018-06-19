@@ -20,7 +20,9 @@ var data1={
       queryData:{
         systemName:'',
         currentPage:''
-      }
+      },
+      txt:'',
+      systemIds:[]
     }
   };
 (function () {
@@ -33,6 +35,61 @@ var data1={
           return data1;
         },
         methods:{
+        //上一页下一页点击事件
+          clickPage: function (page) {
+            if (page <= 0) {
+              //alert("当前页面已经是第一页")
+            } else if (page > this.systemForm.totalPages) {
+              //alert("当前页面已经是最后一页")
+            } else {
+              this.systemForm.queryData.currentPage = page;
+              this.getSystemListInfoMethod(this,this.systemForm.queryData);
+            }
+          },
+          hpageNum:function(_this){
+            var a=this.systemForm.txt;
+            if(a<=0||a>this.systemForm.totalPages){
+              this.$message({
+                message: '请输入正确页数',
+                type: 'warning'
+              });
+            }else{
+              this.systemForm.queryData.currentPage = a;
+              this.getSystemListInfoMethod(this,this.systemForm.queryData);
+            }
+          },
+          checkboxAllMethod:function(){
+            if($("#checkboxAll1").is(':checked')){
+              $(".firstChecked input").prop("checked",true);
+            }else{
+              $(".firstChecked input").removeAttr("checked");
+            }
+          },
+          
+          checkboxMethod:function(e,id){
+            var value=10;
+            $(".ids[type='checkbox']").each(function(i){
+              if(!$(this).is(':checked')){
+                value--;
+              }
+            });
+            if(value==10){
+              $("#checkboxAll").prop("checked",true);
+            }else{
+              $("#checkboxAll").removeAttr("checked");
+            }
+            if($(e.target).is(':checked')){
+              this.systemForm.systemIds.push(id);
+            }else{
+              var ids = [];
+              for(d in this.systemForm.systemIds){
+                if(this.systemForm.systemIds[d]==id){}else{
+                  ids.push(this.systemForm.systemIds[d]);
+                }
+              }
+              this.systemForm.systemIds=ids;
+            }
+          },
           querySystemListInfoMethod:function() {
             this.getSystemListInfoMethod(this,this.systemForm.queryData);
           },
@@ -65,6 +122,10 @@ var data1={
          // 获取成功
          getSystemListInfoSuccessMethod : function(_self, responseData) {
             _self.systemForm.formData = responseData.data;
+            _self.systemForm.totalPages = responseData.totalPages;
+            _self.systemForm.pagesize = responseData.pagesize;
+            _self.systemForm.currentPage = responseData.currentPage;
+            _self.systemForm.total = responseData.total;
          }
         },
         created: function() {

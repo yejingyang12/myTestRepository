@@ -17,19 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
-import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
 import com.sinopec.smcc.cpro.records.mapper.RecordsMapper;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
@@ -63,7 +60,6 @@ public class RecordsServiceImpl implements RecordsService{
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public String saveRecords(String userName, RecordsParam recordsParam) 
       throws BusinessException {
     if(StringUtils.isBlank(recordsParam.getFkSystemId())){
@@ -139,7 +135,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 通过系统id查询备案信息
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public RecordsResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException{
     if(StringUtils.isBlank(recordsParam.getFkSystemId())){
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
@@ -154,14 +149,15 @@ public class RecordsServiceImpl implements RecordsService{
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public void saveRevokeRecordsInfo(String userName,RecordsParam recordsParam) 
       throws BusinessException {
     if(StringUtils.isBlank(recordsParam.getFkSystemId())){
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
     }
     this.recordsMapper.updateRecordsBySystemIdForRevokeRecords(recordsParam);
-    
+    RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
+        selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
+    recordsParam.setRecordsId(selectRecordsByFkSystemIdForRecordsDetail.getRecordsId());
     if (StringUtils.isNotBlank(recordsParam.getRevokeAttachPath())) {
       try {
         //保存撤销备案附件
@@ -192,7 +188,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 获取撤销备案信息
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public RevokeRecordsResult queryRevokeRecords(RecordsParam recordsParam) throws BusinessException {
     if (StringUtils.isBlank(recordsParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
@@ -207,7 +202,6 @@ public class RecordsServiceImpl implements RecordsService{
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public void editRecordsForStatus(RecordsParam recordsParam) {
     SystemParam systemParam = new SystemParam();
     systemParam.setRecordStatus(recordsParam.getRecordStatus());
@@ -219,7 +213,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 查询备案详情
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public RecordsDetailResult queryRecordsDetail(RecordsParam recordsParam) throws BusinessException {
     if (StringUtils.isBlank(recordsParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.LINKEDID_ERROR);

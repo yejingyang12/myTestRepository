@@ -166,7 +166,7 @@
                               <div v-for="item in sysType">
                                 <div v-if="item.codeName==='其它'">
                                   <div @click="getClass($event)" id="sysType1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="busSituationType" name="busSituationType">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="busSituationType" name="busSituationType" @change="getBus()">
                                   </div>
                                 </div>
                                 <div v-else>
@@ -206,7 +206,17 @@
                               <div v-for="item in sysServiceScope">
                                 <div v-if="item.codeName==='其它'">
                                   <div @click="getScopeClass($event)" id="sysSerScope1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope" name="serviceSitScope">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope" name="serviceSitScope" @change="getScope1()">
+                                  </div>
+                                </div>
+                                <div v-else-if="item.codeName==='跨省（区、市）跨个'">
+                                  <div @click="getScopeClass($event)" id="sysSerScope2">
+                                                                                                           跨省（区、市）跨： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope2" style="width: 30px;padding:0;" name="serviceSitScope2" @change="getScope2()">个
+                                  </div>
+                                </div>
+                                <div v-else-if="item.codeName==='跨地（区、市） 跨个'">
+                                  <div @click="getScopeClass($event)" id="sysSerScope3">
+                                                                                                          跨地（区、市） 跨： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope3" style="width: 30px;padding:0;" name="serviceSitScope3" @change="getScope3()">个
                                   </div>
                                 </div>
                                 <div v-else>
@@ -226,7 +236,7 @@
                               <div v-for="item in sysServiceObject">
                                 <div v-if="item.codeName==='其它'">
                                   <div @click="getObjectClass($event)" id="sysSerObject1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitObject" name="serviceSitObject">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitObject" name="serviceSitObject"  @change="getObject()">
                                   </div>
                                 </div>
                                 <div v-else>
@@ -253,7 +263,7 @@
                               <div v-for="item in sysCoverage">
                                 <div v-if="item.codeName==='其它'">
                                   <div @click="getCoverageClass($event)" id="sysCoverage1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="coverageRange" name="coverageRange">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="coverageRange" name="coverageRange" @change="getCoverage()">
                                   </div>
                                 </div>
                                 <div v-else>
@@ -274,7 +284,7 @@
                               <div v-for="item in sysServiceObject">
                                 <div v-if="item.codeName==='其它'">
                                   <div @click="getNetworkClass($event)" id="sysNetwork1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="networkProperties" name="networkProperties">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="networkProperties" name="networkProperties" @change="getNetwork()">
                                   </div>
                                 </div>
                                 <div v-else>
@@ -298,7 +308,7 @@
                               <div v-for="item in sysIntercon">
                                 <div v-if="item.codeName==='其它'">
                                   <div @click="getSitClass($event)" id="sysIntercon1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="interconnection" name="interconnection">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="interconnection" name="interconnection" @change="getSit()">
                                   </div>
                                 </div>
                                 <div v-else>

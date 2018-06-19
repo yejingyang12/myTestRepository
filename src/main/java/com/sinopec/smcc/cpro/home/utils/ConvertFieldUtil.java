@@ -29,10 +29,5 @@ public class ConvertFieldUtil {
     }
     return field;
   } 
-  
-  private static String fieldStr(String str) {
-    String o = str.replace("_", "");
-    return o;
-  }
 }
 

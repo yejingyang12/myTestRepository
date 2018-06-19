@@ -16,8 +16,8 @@ window.onload = function () {
                 'company/saveCompany', true,JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
           },
-          submitHandlerSuccessMethod: function(_self,data){
-            window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + data.data;
+          submitHandlerSuccessMethod: function(_self,returnData){
+            window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + returnData.data+"&companyCode="+data.formData.companyCode;
           },
         }
     })

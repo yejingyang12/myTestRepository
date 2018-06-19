@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.entity.DiagramResult;
@@ -43,7 +40,6 @@ public class DiagramServiceImpl implements DiagramService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "")
   public DiagramResult querySystemLevelDiagram(DiagramParam diagramParam) 
       throws BusinessException {
     
@@ -55,7 +51,6 @@ public class DiagramServiceImpl implements DiagramService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "")
   public DiagramResult querySystemLevelBySystemType(DiagramParam diagramParam)
       throws BusinessException {
     
@@ -67,7 +62,6 @@ public class DiagramServiceImpl implements DiagramService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "")
   public List<DiagramListResult> queryRecordCompanyTop10(DiagramParam diagramParam)
       throws BusinessException {
     
@@ -79,7 +73,6 @@ public class DiagramServiceImpl implements DiagramService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "")
   public List<DiagramListResult> queryAcceptCompanyTop10(DiagramParam diagramParam)
       throws BusinessException {
     

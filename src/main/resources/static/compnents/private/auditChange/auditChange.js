@@ -1,21 +1,14 @@
 (function () {
   var data = {
-    textArea:null,
-    result:{
-      "code": "0",
-      "msg": "成功",
-      "pagesize": 0,
-      "currentPage": 0,
-      "total": 0,
-      "totalPages": 0,
-      "data":
-        {
-        "systemId": null,
-        "fkChangeMatter": "系统合并",
-        "changeContent": "系统的变更内容",
-        "changeReason": "系统的变更原因"
-      }
-    }
+		formData:{
+    	fkSystemId: null,
+  		scoreCheckResult: null,
+  		scoreCheckReason: null
+    },
+    scoreCheckResultList:[
+     {codeId: 1,codeName: '通过'},
+     {codeId: 2,codeName: '不通过'}
+    ]
   };
   Vue.component('auditChange',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/auditChange/auditChange.html').then(function (res) {
@@ -24,13 +17,16 @@
         data:function () {
           return data;
         },
+        created: function(){
+        	this.formData.fkSystemId = smccId;
+        	this.queryGradingEditAudit(this);
+        },
         methods:{
         	//获取变更信息
         	queryGradingEditAudit: function(_self){
-        		var queryGradingEditAuditParam = {"systemId":smccId};
         		ajaxMethod(_self,"post",
-        				"/system/queryGradingEditAudit",false,
-        				JSON.stringify(queryGradingEditAuditParam),"json",
+        				"system/queryGradingEditAudit",false,
+        				JSON.stringify(this.formData),"json",
         				'application/json;charset=UTF-8', _self.queryGradingEditAuditSuccess);
         	},
         	queryGradingEditAuditSuccess: function(_self,responseData){
@@ -65,9 +61,6 @@
               }
             })
           },
-        },
-        created:function(){
-        	this.queryGradingEditAudit(this);
         },
         mounted: function() {
         	var _self=this;

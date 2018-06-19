@@ -17,11 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
@@ -60,7 +57,6 @@ public class GradingServiceImpl implements GradingService{
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public GradingListResult queryDetailsGrading(GradingParam gradingParam) 
       throws BusinessException {
     if(StringUtils.isBlank(gradingParam.getFkSystemId()))
@@ -73,7 +69,6 @@ public class GradingServiceImpl implements GradingService{
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public GradingListResult queryEditGrading(GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) 
       throw new BusinessException(EnumResult.ERROR);
@@ -85,7 +80,6 @@ public class GradingServiceImpl implements GradingService{
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public String saveGrading(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.ERROR);
@@ -200,7 +194,6 @@ public class GradingServiceImpl implements GradingService{
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public String submitGrading(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.ERROR);

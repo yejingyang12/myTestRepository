@@ -14,7 +14,8 @@ var revokeRecordData={
 		revokereason: "",
 		revokeAttachPath: "",
 		revokeAttachName: ""
-	}
+	},
+	fileDelete: null,
 };
 (function() {
 	Vue.component('revokeRecord', function(resolve, reject) {
@@ -46,13 +47,13 @@ var revokeRecordData={
 						this.formData.revokeAttachName='';
 						this.formData.revokeAttachPath='';
 						if(fileId != ''&&fileId!=null&&fileId!='undefined'){
-							this.deleteFileParam.fileId = fileId;
+							this.fileDelete = fileId;
 						}
           },
           sureDelFile:function(_self){
-          	if(_self.deleteFileParam.fileId != null){
+          	if(_self.fileDelete != null){
           		ajaxMethod(_self, 'post',
-          				'fileHandle/deleteFile', true,JSON.stringify(deleteFileParam), 'json',
+          				'fileHandle/deleteFile', true,'{"fileId":"'+_self.fileDelete+'"}', 'json',
           				'application/json;charset=UTF-8',_self.fileDelSuccessMethod);
           	}
           },

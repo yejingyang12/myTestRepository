@@ -40,7 +40,7 @@
           var url="node/queryNodeList";//鱼骨图
           var _self=this;
           var dataparmars={
-            "fkSystemId": systemId,//鱼骨图的系统id
+            "systemId": systemId,//鱼骨图的系统id
           };
           ajaxMethod(_self,"post",url,false,JSON.stringify(dataparmars),"json",'application/json;charset=UTF-8', _self.listSuccess)
         },

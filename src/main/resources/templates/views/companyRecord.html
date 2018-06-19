@@ -9,11 +9,6 @@
     <!--时间选择器-->
 		<link rel="stylesheet" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
     <!--组件样式-->
-    <!-- <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
-    <link rel="stylesheet" href="../../static/css/private/detailsNav.css" th:attr="href=@{/css/private/detailsNav.css}">
-    <link rel="stylesheet" href="../../static/css/private/record.css" th:attr="href=@{/css/private/record.css}">
-    <link rel="stylesheet" href="../../static/css/private/revokeRecord.css" th:attr="href=@{/css/private/revokeRecord.css}">
-    <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}"> -->
     
     <link rel="stylesheet" href="../../static/css/private/record.css" th:attr="href=@{/css/private/record.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/private/fishbone.css" th:attr="href=@{/css/private/fishbone.css}">
@@ -56,25 +51,24 @@
 		    margin:0;
 		    margin-bottom:30px;
 			}
-			/* .innerSys>div>p.cut{
-		    overflow:  hidden;
-		    margin-top: -35px;
-		    margin-bottom: 30px;
-			} */
 			.cut:after{margin-left:0;}
 			.process .line{
-			width:100%;
+				width:100%;
 			}
 			.uploadBox input{
-    width:70px;
-    height: 34px;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0;
+			    width:70px;
+			    height: 34px;
+			    margin: 0;
+			    padding: 0;
+			    overflow: hidden;
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    opacity: 0;
+			}
+			.cut:after, .recordMain:after {
+    content: "";
+    display: none; 
 }
 			    
     </style>

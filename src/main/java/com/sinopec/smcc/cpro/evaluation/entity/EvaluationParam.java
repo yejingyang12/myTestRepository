@@ -13,7 +13,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title EvaluationParam.java
@@ -34,6 +33,7 @@ public class EvaluationParam{
   private String examOrg;
   private String examReport;
   private String examReportName;
+  private String examReportPath;
   private Integer fkExamStatus;
   private Integer fkExamResult;
   private Integer fkRectificationReu;
@@ -213,6 +213,16 @@ public class EvaluationParam{
    */
   public void setExamReportName(String examReportName) {
     this.examReportName = examReportName;
+  }
+
+
+  public String getExamReportPath() {
+    return examReportPath;
+  }
+
+
+  public void setExamReportPath(String examReportPath) {
+    this.examReportPath = examReportPath;
   }
 
 

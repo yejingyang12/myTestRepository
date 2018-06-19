@@ -36,12 +36,14 @@ public class GradingParam {
   private Integer expertView;
   private String rankExplainDesc;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")  
   private Date rankTime;
   private Integer competentIsExisting;
   private String competentName;
   private Integer competentView;
   private String filler;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")  
   private Date fillDate;
   
   private String gradingReportName;
@@ -119,7 +121,7 @@ public class GradingParam {
   public void setRankExplainDesc(String rankExplainDesc) {
     this.rankExplainDesc = rankExplainDesc;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+//  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getRankTime() {
     return rankTime;
   }
@@ -150,7 +152,7 @@ public class GradingParam {
   public void setFiller(String filler) {
     this.filler = filler;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+//  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getFillDate() {
     return fillDate;
   }

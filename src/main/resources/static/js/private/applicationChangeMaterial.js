@@ -21,6 +21,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
+            data.formData.systemMaterialsId = responseData.data;
             this.$message({
               message: '保存成功！',
               type: 'success'
@@ -30,13 +31,14 @@ window.onload = function () {
           //提交
           submitBtn:function() {
             ajaxMethod(this, 'post',
-                'grading/saveSystemMaterials', true,
+                'grading/submitSystemMaterials', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.submitBtnSuccessMethod);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
+            data.formData.systemMaterialsId = responseData.data;
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
@@ -49,7 +51,8 @@ window.onload = function () {
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+            data.formData.systemMaterialsId = responseData.data;
+            window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
           }
         }
     })

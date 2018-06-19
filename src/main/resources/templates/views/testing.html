@@ -10,114 +10,65 @@
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
 
     <!--private-->
-    <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css" th:attr="href=@{/css/private/auditzero.css}">
-    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
-    <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css" th:attr="href=@{/css/private/pagebox.css}">
-    <link rel="stylesheet" type="text/css" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
-    <link rel="stylesheet" type="text/css" href="../../static/css/private/fishbone.css" th:attr="href=@{/css/private/fishbone.css}">
+    
     <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
-    <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
-    <link rel="stylesheet" href="../../static/css/private/detailsNav.css" th:attr="href=@{/css/private/detailsNav.css}">
-    <link rel="stylesheet" href="../../static/css/private/evaluationAlert.css" th:attr="href=@{/css/private/evaluationAlert.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
+    <link rel="stylesheet" href="../../static/css/private/record.css" th:attr="href=@{/css/private/record.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/fishbone.css" th:attr="href=@{/css/private/fishbone.css}">
+    <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+    <link rel="stylesheet" href="../../static/css/private/viewDetailsNav.css" th:attr="href=@{/css/private/viewDetailsNav.css}">
+    <link rel="stylesheet" href="../../static/css/private/viewDetailsInfor.css" th:attr="href=@{/css/private/viewDetailsInfor.css}">
+    <link rel="stylesheet" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
+    <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
+    <link rel="stylesheet" href="../../static/css/private/revokeRecord.css" th:attr="href=@{/css/private/revokeRecord.css}">
 </head>
-<style>
-    li{
-        margin-bottom: 15px;
-    }
-    .form-control, .h-form-control {
-        background-color: #FFFFFF;
-        /* background-image: none; */
-        border: 1px solid #cecece;
-        color: inherit;
-        display: block;
-        padding: 6px 12px;
-        -webkit-transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-        width: 100%;
-        font-size: 14px;
-    }
-    .h-borde-hover:hover{
-        border-color: #d0d0d0;
-    }
 
-    .el-button {
-        margin-right: 0;
-        display: inline;
-        line-height: 1;
-        white-space:inherit;
-        cursor: pointer;
-        background: none;
-        border: none;
-        -webkit-appearance: none;
-        text-align: center;
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        outline: 0;
-        margin: 0;
-        -webkit-transition: .1s;
-        transition: .1s;
-        padding:0;
-        font-size: 14px;
-        border-radius:0;
-        color:#1e91e2;
-    }
-    .breadcrumb a{
-        color: black;
-    }
-    .el-tabs--border-card {
-         background: #ededed;
-    }
-    .el-tabs--border-card>.el-tabs__content{
-        padding:0;
-    }
-    .inner {
-        width: 95%;
-        margin: -31px auto;
-        margin-left: 15px;
-        position: relative;
-    }
-            .seachstarttime.block .el-date-editor.el-input, .el-date-editor.el-input__inner {
-    width: 100%;
-}
-.el-date-editor.el-input, .el-date-editor.el-input__inner {
-    width: 100%;
-}
-  .seachstarttime .el-input__prefix{
-	color:black;
-	background:url("../../../images/datatime.png") no-repeat center;
-	background-size:100% 60%;
-	margin-left:92%;
-} 
-.seachstarttime .el-input__icon{
-    font-size:0;
- }
- .evaluation .btn {
-    padding: 2px 10px;
-    position: relative;
-    height: 30px;
-    width: auto;
-    font-size: 14px;
-}
-    .uploadBox{
-        width: calc(100% - 155px);
-        padding-left:0;
-    }
-    .uploadBox input {
-        width: 70px;
-        height: 34px;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        position: absolute;
-        right: 0;
-        top: 0;
-        opacity: 0;
-    }
-    .uploadBox .el-button--primary{
-        background-color:#409EFF;
-    }
-    /*加号 按钮*/
+<style>
+        .mcAdd .addBaseBg,.mcAdd  .addSysBg{
+            background-position: 0px -140px;
+        }
+        .mcAdd .addRankBg{
+            background-position:-140px -70px;
+        }
+        .mcAddWrap .line{
+            background:#58B24B;
+        }
+      .saveTitle {
+			    margin-left: 8px;
+			}
+			.bottom .content {
+			     position: relative;  
+			    top: 208px;
+			}
+			.fishBone ul {
+			    height: 100%;
+			    white-space: nowrap;
+			    overflow-x: auto;
+			}
+			.innerSys p.cut:before{
+				display:none;
+			}
+			.innerSys p .tianMsg{
+		    margin:0;
+		    margin-bottom:30px;
+			}
+			.cut:after{margin-left:-15px;}
+			.process .line{
+				width:100%;
+			}
+			.uploadBox input{
+			    width:70px;
+			    height: 34px;
+			    margin: 0;
+			    padding: 0;
+			    overflow: hidden;
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    opacity: 0;
+			}
+			 /*加号 按钮*/
     .h-btn-add{
         background-image: url("../../images/xinzeng.png");
         background-color:#fff;
@@ -126,8 +77,38 @@
     .h-btn-add:hover{
         background-image: url("../../images/xinzenggreen.png");
          background-size: 100% 100%;
+    }   
+    .h-padding{margin-top:-15px;}
+    .container{
+    	padding:0;
     }
-</style>
+    
+    .el-button {
+    color: #337ab7;
+    border: none;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    /* border: 1px solid #dcdfe6; */
+    /* color: #606266; */
+    -webkit-appearance: none;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    -webkit-transition: .1s;
+    transition: .1s;
+    padding: 12px 0px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+  .el-button span {
+  	 color: #337ab7;
+  }
+    </style>
 <body class="h-body">
 <div id="app">
     <smcc-header>

@@ -1,6 +1,6 @@
 (function () {
   var data = {
-		//查询条件数据
+  	//查询条件数据
 		formData: {
 			instanceName: null,
 			initiator: null,
@@ -23,74 +23,15 @@
 		                   {codeId: '4',codeName: '总部安全管理员审核未通过'},
 		                   {codeId: '5',codeName: '归档'}
 		                  ],
-		result:{
-      "code": "0",
-      "msg": "成功",
-      "pagesize": 0,//页面显示条数
-      "currentPage": 1,//currentPage
-      "total": 17,
-      "totalPages": 9,
-      "data": [
-        {
-          "checkId": "78b79b4ff3d54571934d579ceb321998",//审核数据id
-          "fkSystemId": "9f3c348b5e36464981fcee87533b4139",//系统id
-          "fkExaminStatus": "1",//审核状态
-          "fkBusinessNode": "1",//业务节点
-          "instanceName": "中石化差旅管理服务平台",//流程实例实例名称
-          "initiator": "发起人",//发起人
-          "prevExecutor": "王思",//上一步执行人
-          "executeTime": "2018-05-29",//执行时间
-          "scoreCheckResult": null,//
-          "scoreCheckReason": null,//expertReviewName
-          "scoreCheckChangeResult": null,
-          "scoreCheckChangeReason": null,
-          "cancelRecordsResult": null,
-          "cancelRecordsReason": null,
-          "deleteStatus": null,
-          "createUserName": null,
-          "createTime": null,
-          "updateTime": null,
-          "remark": null,
-          "expertReviewId": null,
-          "expertReviewName":'',//专家评审意见附件名
-          "recordReportId": null,
-          "recordReportName": null//备案附件名
-        },
-        {
-          "checkId": "78b79b4ff3d54571934d579eeb321998",
-          "fkSystemId": "9f3c348b5e36464981fcee87533b4139",
-          "fkExaminStatus": "2",//状态
-          "fkBusinessNode": "1",//业务节点
-          "instanceName": "中石化差旅管理服务平台",
-          "initiator": "发起人",
-          "prevExecutor": "王二",
-          "executeTime": "2018-05-29",
-          "scoreCheckResult": null,
-          "scoreCheckReason": null,
-          "scoreCheckChangeResult": null,
-          "scoreCheckChangeReason": null,
-          "cancelRecordsResult": null,
-          "cancelRecordsReason": null,
-          "deleteStatus": null,
-          "createUserName": null,
-          "createTime": null,
-          "updateTime": null,
-          "remark": null,
-          "expertReviewId": null,
-          "expertReviewName": "报告",
-          "recordReportId": null,
-          "recordReportName": null
-        }
-      ]},
 		auditBtn:null,
 		flag:true,
-	};
+  };
   Vue.component('audit',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/audit/audit.html').then(function (res) {
       resolve({
         template:res,
         data:function () {
-        return data;
+          return data;
         },
         created: function() {
         	this.queryCheckList(this);
@@ -118,7 +59,7 @@
           clickPage: function (page) {
             if (page <= 0) {
               alert("当前页面已经是第一页")
-            } else if (page > data.result.totalPages) {
+            } else if (page > this.tableData.totalPages) {
               alert("当前页面已经是最后一页")
             } else {
             	this.formData.currentPage = page;
@@ -137,22 +78,10 @@
           
           //审核
           checkThisRow: function(fkBusinessNode,systemId){
-          	switch (fkBusinessNode) {
-						//定级
-          	case "1":
-							window.location.href="/page/auditGradPage?systemId="+systemId;
-							break;
-						//撤销备案
-						case "2":
-							window.location.href="/page/auditCancelPage?systemId="+systemId;
-							break;
-						//定级信息变更
-						case "3":
-							window.location.href="/page/auditChangePage?systemId="+systemId;
-							break;
-						default:
-							break;
-						}
+						//定级：1
+          	//撤销备案：2
+          	//定级信息变更：3
+						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode;
           },
           
           //专家评审意见和备案证明下载
@@ -162,7 +91,7 @@
           
           /*点击全部 待办 已办 对应的样式*/
           changColor: function () {
-            for (var i = 0; i < data.auditBtn.length; i++) { 
+            for (var i = 0; i < data.auditBtn.length; i++) {
               data.auditBtn[i].index = i;
               data.auditBtn[i].onclick = function () {
                 this.style.color = "white";
@@ -178,8 +107,8 @@
             }
           },
           //下载
-          downloadFile:function (str) { 
-           var $eleForm = $("<form method='get'></form>");
+          downloadFile:function (str) {
+            var $eleForm = $("<form method='get'></form>");
             $eleForm.attr("action", str);
             $(document.body).append($eleForm);
             //提交表单，实现下载

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 
 /**
@@ -48,6 +49,7 @@ public class ControllerPage {
       CompanyParam companyParam){
     model.addAttribute("companyId", companyParam.getCompanyId());
     model.addAttribute("systemId", companyParam.getSystemId());
+    model.addAttribute("companyCode", companyParam.getCompanyCode());
     return "views/addCompanySystem";
   }
   //新建定级信息填写
@@ -105,8 +107,10 @@ public class ControllerPage {
   }
   //审核定级
   @RequestMapping("/auditGradPage")
-  public String auditGradPage(HttpServletRequest request, Model model, SystemParam systemParam){
+  public String auditGradPage(HttpServletRequest request, Model model, 
+      SystemParam systemParam, CheckParam checkParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("fkBusinessNode", checkParam.getFkBusinessNode());
     return "views/auditGrad";
   }
   //审核申请变更
