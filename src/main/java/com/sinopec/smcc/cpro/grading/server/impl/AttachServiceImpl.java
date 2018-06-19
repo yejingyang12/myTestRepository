@@ -18,8 +18,6 @@ import org.springframework.stereotype.Service;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.grading.entity.AttachListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachParam;
 import com.sinopec.smcc.cpro.grading.mapper.AttachMapper;
@@ -44,8 +42,7 @@ public class AttachServiceImpl implements AttachService {
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
-  public List<AttachListResult> queryDetailsAttach(AttachParam attachParam) 
+  public List<AttachListResult> queryDetailsAttach(AttachParam attachParam)
       throws BusinessException {
     if(StringUtils.isBlank(attachParam.getAttachId())){
       List<AttachListResult> list = this.attachMapper.selectDetailsAttach(attachParam);
@@ -64,7 +61,6 @@ public class AttachServiceImpl implements AttachService {
    * @throws BusinessException 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
   public List<AttachListResult> queryEditAttach(AttachParam attachParam) throws BusinessException {
     if(StringUtils.isBlank(attachParam.getAttachId())) {
       List<AttachListResult> list = this.attachMapper.selectEditAttach(attachParam);

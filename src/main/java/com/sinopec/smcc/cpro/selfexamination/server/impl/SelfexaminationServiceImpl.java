@@ -22,8 +22,12 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
+=======
+import com.sinopec.smcc.cpro.file.constant.FileConstant;
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
@@ -58,7 +62,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   private MainService mainServiceImpl;
   
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   public PageInfo<SelfexaminationListResult> querySelfexaminationList(
       SelfexaminationParam selfexaminationParam) throws BusinessException {
     StringBuffer orderBy = new StringBuffer();
@@ -83,7 +86,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   /**
    * 添加或修改
    */
-  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   @Transactional
   @Override
   public String saveSelfexamination(String userName, 
@@ -186,7 +188,6 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
    */
   @Override
   @Transactional
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection")  
   public SelfexaminationResult queryEditSelfexamination(SelfexaminationParam selfexaminationParam)
       throws BusinessException{
     if (StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())) 
@@ -199,9 +200,14 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
    */
   @Override
   @Transactional
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection") 
   public void deleteSelfexaminationBySelfexaminationId(String userName, 
       SelfexaminationParam selfexaminationParam) throws BusinessException {
+=======
+  public void deleteSelfexaminationBySelfexaminationId(SelfexaminationParam selfexaminationParam)
+      throws BusinessException {
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
     if(StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())){
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }

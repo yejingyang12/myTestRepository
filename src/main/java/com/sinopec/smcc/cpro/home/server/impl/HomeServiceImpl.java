@@ -19,8 +19,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.home.entity.HomeParam;
@@ -46,7 +44,6 @@ public class HomeServiceImpl implements HomeService {
    * 查询首页top10备案统计
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "v_records_10top")
   public PageInfo<HomeResult> homeRecordStatisticsList(HomeParam hParam) throws BusinessException {
     
     // 初始化分页拦截器
@@ -63,7 +60,6 @@ public class HomeServiceImpl implements HomeService {
    * 
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "v_score_lj_score")
   public PageInfo<HomeResult> homeScoreStatisticsList(HomeParam hParam) throws BusinessException {
 
  // 初始化分页拦截器

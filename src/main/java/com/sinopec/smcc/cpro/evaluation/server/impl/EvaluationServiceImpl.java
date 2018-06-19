@@ -21,8 +21,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.log.aop.EnableOperateLog;
-import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
@@ -59,7 +57,6 @@ public class EvaluationServiceImpl implements EvaluationService {
   private MainService mainServiceImpl;
 	
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public PageInfo<EvaluationListResult> queryEvaluationList(
 			EvaluationParam evaluationParam) throws BusinessException{
     StringBuffer orderBy = new StringBuffer();
@@ -86,8 +83,7 @@ public class EvaluationServiceImpl implements EvaluationService {
   }
 
 	@Override
-	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
-	public EvaluationResult queryEditEvaluation(EvaluationParam evaluationParam) 
+	public EvaluationResult queryEditEvaluation(EvaluationParam evaluationParam)
 	    throws BusinessException{
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
@@ -95,10 +91,15 @@ public class EvaluationServiceImpl implements EvaluationService {
   }
 
 	@Override
+<<<<<<< HEAD
 	@Transactional
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public String saveEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
+=======
+  @Transactional
+	public String saveEvaluation(EvaluationParam evaluationParam) throws BusinessException{
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId())) {
 			evaluationParam.setEvaluationId(Utils.getUuidFor32());
 			evaluationParam.setCreateTime(new Date());
@@ -186,6 +187,8 @@ public class EvaluationServiceImpl implements EvaluationService {
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public void deleteEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
+  @Transactional
+	public void deleteEvaluation(EvaluationParam evaluationParam) throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))
 			throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
 		this.evaluationMapper.deleteEvaluationByEvaluationId(evaluationParam);
@@ -201,7 +204,6 @@ public class EvaluationServiceImpl implements EvaluationService {
   }
 
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
   public EvaluationResult queryDetailsEvaluation(EvaluationParam evaluationParam) throws BusinessException {
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);

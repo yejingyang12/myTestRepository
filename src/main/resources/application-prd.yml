@@ -7,41 +7,25 @@ server:
       enabled: true
 logging:
   config: classpath:logback.xml
-  path: ./logs
+  file: ./logs/spring-cpro.log
   level:
     root: info
 spring:
-  profiles:
-    #dev|uat|prd
-    active: dev
   freemarker:
     cache: false 
   application:
     name: Class-Protection
-<<<<<<< HEAD
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://10.248.74.58:3306/smcc_uatcpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true
-    username: smccuat
-    password: smcc2018
+    url: jdbc:mysql://103.249.52.8:13306/smcc_cpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
+    username: root
+    password: esa@2011
     driver-class-name: com.mysql.jdbc.Driver
     minIdle: 1
     maxActive: 20
     initialSize: 1
     timeBetweenEvictionRunsMillis: 3000
     minEvictableIdleTimeMillis: 300000
-  redis:
-    host: 10.248.66.199
-    port: 6379
-    database: 0
-    timeout: 5000
-    pool:
-      max-active: 8
-      max-wait: -1
-      max-idle: 8
-      min-idle: 0
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   thymeleaf:
     enabled: true
     mode: LEGACYHTML5
@@ -63,5 +47,4 @@ pagehelper:
     offset-as-page-num: true
     row-bounds-with-count: true
 ubs.api.url: http://10.248.65.107
-cpro.api.url: http://10.246.173.229:8092/
 appId: 907

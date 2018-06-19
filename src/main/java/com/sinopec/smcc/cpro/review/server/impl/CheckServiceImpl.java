@@ -23,11 +23,15 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.common.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
+=======
+import com.sinopec.smcc.common.result.ResultApi;
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.mapper.CheckMapper;
@@ -63,7 +67,6 @@ public class CheckServiceImpl implements CheckService {
    * 获取备案信息列表数据
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public PageInfo<CheckListResult> queryCheckList(CheckParam checkParam) throws BusinessException{
     //创建排序字段
     StringBuffer orderBy = new StringBuffer();
@@ -92,10 +95,15 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveGradCheck(String userName, CheckParam checkParam) 
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+=======
+  public String checkNodeSave(CheckNodeListResult checkNodeListResult,String fkExaminStatus,String fkbusinessNode,String checkId,String fkSystemId) throws BusinessException {
+    if (StringUtils.isNotBlank(checkNodeListResult.getCheckNodeId())) {
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     //获取系统信息，判别信息系统建设类型(code)：1：自建；2：统建；3：总部系统；
@@ -148,10 +156,43 @@ public class CheckServiceImpl implements CheckService {
     default:
       break;
     }
+<<<<<<< HEAD
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);
     this.checkMapper.updateCheckBySystemId(checkParam);
     return checkParam.getFkSystemId();
+=======
+    return checkNodeListResult.getCheckNodeId();
+
+  }
+   /**
+    * 审核节点列表 
+    */
+  @Override
+  public PageInfo<CheckNodeListResult> queryCheckNodeList(CheckNodeParam checkNodeParam) throws BusinessException{
+    
+    //创建排序字段
+    StringBuffer orderBy = new StringBuffer();
+    //判断field是否有值
+    if(StringUtils.isNotBlank(checkNodeParam.getField())){
+     //如有值，则将排序字段放入orderBy对象
+     orderBy.append(ConvertFieldUtil.sortField(checkNodeParam.getField()));
+     if(StringUtils.isNotBlank(checkNodeParam.getSort())){
+      orderBy.append(" ").append(checkNodeParam.getSort());
+     }
+    }else {
+     //默认排序规则
+     orderBy.append("createtime desc");
+    }
+    //初始化分页拦截器
+    PageHelper.startPage(checkNodeParam.getCurrentPage(), checkNodeParam.getPageSize(),orderBy.toString());
+    //获得相应列表数据
+    List<CheckNodeListResult> list = this.checkMapper.selectAllByCheckNodeParam(checkNodeParam);
+    //装载列表数据
+    PageInfo<CheckNodeListResult> pageInfo = new PageInfo<>(list);
+
+    return pageInfo;
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   }
 
   /**
@@ -159,11 +200,20 @@ public class CheckServiceImpl implements CheckService {
    */
   @Override
   @Transactional
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveGradChangeCheck(String userName, CheckParam checkParam)
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+=======
+  public String saveCheck(CheckParam checkParam) throws BusinessException{
+    if (StringUtils.isBlank(checkParam.getCheckId())) {
+      checkParam.setCheckId(Utils.getUuidFor32());
+      checkParam.setDeleteStatus(1);
+      checkParam.setExecuteTime(new Date());
+      checkParam.setCreateTime(new Date());
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
     }
     
     //获取系统信息，判别信息系统建设类型(code)：1：自建；2：统建；3：总部系统；

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
@@ -28,6 +29,8 @@ import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
@@ -139,7 +142,6 @@ public class RecordsServiceImpl implements RecordsService{
    * 通过系统id查询备案信息
    */
   @Override
-  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_records")
   public RecordsResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException{
     if(StringUtils.isBlank(recordsParam.getFkSystemId())){
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
