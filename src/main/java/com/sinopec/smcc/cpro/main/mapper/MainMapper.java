@@ -41,4 +41,43 @@ public interface MainMapper {
    */
   void updateMainDeleteStatusBySystemId(MainParam mainParam);
 
+  /**
+   * @Descrption 高级搜索获取系统名称
+   * @author dongxu
+   * @date 2018年6月11日上午11:47:07
+   */
+  List<MainListResult> selectSystemName(MainParam mainParam);
+  
+  /**
+   * @Descrption 高级搜索获取系统名称
+   * @author dongxu
+   * @date 2018年6月11日上午11:47:07
+   */
+  List<MainListResult> selectCompanyName(MainParam mainParam);
+
+  /**
+   * @Descrption 高级搜索获取受理备案单位
+   * @author dongxu
+   * @date 2018年6月11日下午3:41:20
+   * @param mainParam
+   * @return
+   */
+  Object selectRecordCompany(MainParam mainParam);
+
+  /**
+   * @Descrption 修改申请变更（弹窗）
+   * @author dongxu
+   * @date 2018年6月13日下午5:55:42
+   * @param mainParam
+   */
+  void updateApplicationChangeBySystemId(MainParam mainParam);
+
+  /**
+   * @Descrption 修改所有状态
+   * @author dongxu
+   * @date 2018年6月18日上午2:05:27
+   * @param mainParam
+   */
+  void updateSystemStatusBySystemId(MainParam mainParam);
+
 }

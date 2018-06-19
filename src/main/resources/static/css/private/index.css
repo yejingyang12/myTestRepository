@@ -12,6 +12,16 @@
 .h-table-border table{
     border-collapse:collapse;
 }
+.h-table-border table th{
+   font-size: 14px;
+    font-family: Arial,"微软雅黑", Helvetica, sans-serif;
+    font-weight: normal;
+}
+.h-table-border table td{
+    font-size: 12px;
+    font-family: Arial,"微软雅黑", Helvetica, sans-serif;
+    font-weight: normal;
+}
 /*状态*/
 .h-weijinxing{
     background: url("../../images/home/s01ztweijinxing.png") no-repeat 8px center  ;
@@ -24,6 +34,10 @@
 }
 .h-chexiao{
     background: url("../../images/home/s01ztyichexiao.png") no-repeat 8px center  ;
+}
+/*  表格变灰*/
+.tr-row-gray{
+		color:#bfbfbf;!important
 }
 /*下载*/
 .h-xiazai{
@@ -81,20 +95,23 @@
     position: relative;
     height: 34px;
     width: 125px;
+    font-size: 14px;
+
 }
 .h-btn {
 
     height: 34px;
     width: 34px;
 }
+ 
 .h-add {
     position: absolute;
     left: 50%;
     top: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-    width: 20px;
-    height: 20px;
+    margin-left: -16px;
+    margin-top: -16px;
+    width: 32px;
+    height: 32px;
 }
 .h-table {
     width: 1834px;
@@ -118,7 +135,24 @@
     color:#333
 }
 
-
+.text h3{
+    font-size: 22px;
+    width: 111%;
+    margin-left: -5%;
+}
+.text p{
+    font-size: 12px;
+    margin-top:13%;
+}
+.box3-text h3{
+    font-size: 22px;
+    width: 111%;
+    margin-left: -5%;
+}
+.box3-text p{
+    font-size: 12px;
+    margin-top:13%;
+}
 .all {
     width: 100%;
     height: 250px;
@@ -162,11 +196,13 @@
     float: left;
     display: inline-block;
     width: 77%;
-    height: 85%;
+    height: 113%;
     margin-top: 11.67%;
     background-color: #ededed;
     border: 1px solid lightgray;
-
+    background:url("../../../images/home/dianjidanweixitong.png") no-repeat ;
+  background-position:center;
+	background-size: 0% 0%;
 }
 
 .box1 .bg-item1 .content {
@@ -179,10 +215,11 @@
 
 .box1 .bg-item1 .content h4 {
     float: left;
-    width: 90%;
-    text-align: left;
+    width: 78%;
+    text-align: center;
     color: #333;
     font-weight: normal;
+    font-size: 22px;
 }
 
 .box1 .bg-item1 .content .img-1 {
@@ -198,7 +235,7 @@
     float: left;
     width: 23%;
     background: url("../../images/home/help/jiantou.png") no-repeat center;
-    height: 100%;
+    height: 130%;
 }
 /*box 2*/
 
@@ -206,10 +243,13 @@
     float: left;
     display: inline-block;
     width: 77%;
-    height: 85%;
+    height: 113%;
     background-color: #ededed;
     margin-top: 11.67%;
     border: 1px solid lightgray;
+    background:url("../../../images/home/dianjidanweixitong.png");
+    background-position:center;
+	background-size: 0% 0%;
 }
 
 .box2 .bg-item2 .content {
@@ -226,6 +266,7 @@
     text-align: center;
     color: #333;
     font-weight: normal;
+    font-size: 22px;
 }
 
 .box2 .bg-item2 .content .img-1 {
@@ -241,20 +282,23 @@
     float: left;
     width: 23%;
     background: url("../../images/home/help/jiantou.png") no-repeat center;
-    height: 100%;
+    height: 130%;
 }
 /*box 4*/
 .box4 .bg-item4 {
     float: left;
     display: inline-block;
     width: 77%;
-    height: 85%;
+    height: 113%;
     /*background-image: url("img/普通状态底图.jpg");*/
     /*background-size: 100% 100%;*/
     /*background-color: orangered;*/
     background-color: #ededed;
     margin-top: 11.67%;
     border: 1px solid lightgray;
+     background:url("../../../images/home/dianjishenqing.png");
+      background-position:center;
+	background-size: 0% 0%;
 }
 
 .box4 .bg-item4 .content {
@@ -271,6 +315,7 @@
     text-align: center;
     color: #333;
     font-weight: normal;
+    font-size: 22px;
 }
 
 .box4 .bg-item4 .content .img-1 {
@@ -286,12 +331,18 @@
     float: left;
     width: 23%;
     background: url("../../images/home/help/jiantou.png") no-repeat center;
-    height: 100%;
+    height: 130%;
 }
 /*box3*/
-
+.bg-item3{
+height: 113%;
+	 background:url("../../../images/home/dianjishenhecepzicha.png");
+    background-position:center;
+	background-size: 0% 0%;
+	
+}
 .box3-item{
-    height: 85%;
+    height: 87%;
     width: 25%;
     float: left;
     display: inline-block;
@@ -347,6 +398,7 @@
     text-align: center;
     color: #333;
     font-weight: normal;
+    font-size: 22px;
 }
 
 /*hover*/
@@ -413,7 +465,8 @@
 }
 
 .h-system {
-    width:81px;
+    width:100px;
+    min-width:104px;
     padding-right: 0;
     line-height: 34px;
 }
@@ -553,3 +606,115 @@
 .laydate-set-ym:hover{
     background-color: #eeeeee;
 }
+
+/*高级查询input的radio框样式*/ 
+ /*所属板块*/ 
+ .checkName1 {
+            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            display: inline-block;
+           margin-right: -15px;
+		    outline: none;
+		    width: 15px;
+		    height: 15px;
+            /*border-radius: 10px;*/
+            cursor: pointer;
+            vertical-align: middle;
+            box-shadow: hsla(0,0%,100%,.15) 0 1px 1px, inset hsla(0,0%,0%,.5) 0 0 0 1px;
+            /*background-color: hsla(0,0%,0%,0.6);*/
+            background-image:url("../../images/true.png");
+            background-repeat: no-repeat;
+           /* -webkit-transition: background-position .15s cubic-bezier(.8, 0, 1, 1),
+            -webkit-transform .25s cubic-bezier(.8, 0, 1, 1);*/
+            background-position: 0 24px;
+        }
+    .checkName1:active {
+            background-position: center;
+        }
+  .checkName1:checked{
+            background-position:center;
+        } 
+
+ /* 状态*/
+ .checkName2 {
+            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            display: inline-block;
+           margin-right: -15px;
+		    outline: none;
+		    width: 15px;
+		    height: 15px;
+            /*border-radius: 10px;*/
+            cursor: pointer;
+            vertical-align: middle;
+            box-shadow: hsla(0,0%,100%,.15) 0 1px 1px, inset hsla(0,0%,0%,.5) 0 0 0 1px;
+            /*background-color: hsla(0,0%,0%,0.6);*/
+            background-image:url("../../images/true.png");
+            background-repeat: no-repeat;
+           /* -webkit-transition: background-position .15s cubic-bezier(.8, 0, 1, 1),
+            -webkit-transform .25s cubic-bezier(.8, 0, 1, 1);*/
+            background-position: 0 24px;
+        }
+    .checkName2:active {
+            background-position: center;
+        }
+  .checkName2:checked{
+            background-position:center;
+        } 
+         /*等保级别*/
+ .checkName3 {
+            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            display: inline-block;
+           margin-right: -15px;
+		    outline: none;
+		    width: 15px;
+		    height: 15px;
+            /*border-radius: 10px;*/
+            cursor: pointer;
+            vertical-align: middle;
+            box-shadow: hsla(0,0%,100%,.15) 0 1px 1px, inset hsla(0,0%,0%,.5) 0 0 0 1px;
+            /*background-color: hsla(0,0%,0%,0.6);*/
+            background-image:url("../../images/true.png");
+            background-repeat: no-repeat;
+           /* -webkit-transition: background-position .15s cubic-bezier(.8, 0, 1, 1),
+            -webkit-transform .25s cubic-bezier(.8, 0, 1, 1);*/
+            background-position: 0 24px;
+        }
+    .checkName3:active {
+            background-position: center;
+        }
+  .checkName3:checked{
+            background-position:center;
+        } 
+         /*地区*/
+ .checkName4 {
+            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            display: inline-block;
+           margin-right: -15px;
+		    outline: none;
+		    width: 15px;
+		    height: 15px;
+            /*border-radius: 10px;*/
+            cursor: pointer;
+            vertical-align: middle;
+            box-shadow: hsla(0,0%,100%,.15) 0 1px 1px, inset hsla(0,0%,0%,.5) 0 0 0 1px;
+            /*background-color: hsla(0,0%,0%,0.6);*/
+            background-image:url("../../images/true.png");
+            background-repeat: no-repeat;
+           /* -webkit-transition: background-position .15s cubic-bezier(.8, 0, 1, 1),
+            -webkit-transform .25s cubic-bezier(.8, 0, 1, 1);*/
+            background-position: 0 24px;
+        }
+    .checkName4:active {
+            background-position: center;
+        }
+  .checkName4:checked{
+            background-position:center;
+        } 
+        
+.form-group .control-label{
+	width: 92px; 
+	padding: 0; 
+	margin-left: 33px; 
+	min-width: 91px;
+	text-align: right;
+}
+      

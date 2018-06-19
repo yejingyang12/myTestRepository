@@ -9,65 +9,35 @@
                 template:res,
                 data:function () {
                     return {
-                        options: [
-                            {
-                                value: 'zhinan',
-                                label: '指南',
-                                children: [{
-                                    value: 'shejiyuanze',
-                                    label: '设计原则'
-                                }, {
-                                    value: 'daohang',
-                                    label: '导航'
-                                }]
-                            }, {
-                                value: 'zujian',
-                                label: '组件',
-                                children: [{
-                                    value: 'basic',
-                                    label: 'Basic'
-                                }, {
-                                    value: 'form',
-                                    label: 'Form'
-                                }, {
-                                    value: 'data',
-                                    label: 'Data'
-                                }, {
-                                    value: 'notice',
-                                    label: 'Notice'
-                                }, {
-                                    value: 'navigation',
-                                    label: 'Navigation'
-                                }, {
-                                    value: 'others',
-                                    label: 'Others'
-                                }]
-                            }, {
-                                value: 'ziyuan',
-                                label: '资源',
-                                children: [{
-                                    value: 'axure',
-                                    label: 'Axure Components'
-                                }, {
-                                    value: 'sketch',
-                                    label: 'Sketch Templates'
-                                }, {
-                                    value: 'jiaohu',
-                                    label: '组件交互文档'
-                                }]
-                            }]
+                      companyOptions: [],
+                      selectedOptions: []
                     }
                 },
                 methods:{
                     getCover:function () {
                         $("#cover").removeClass('cover');
+                    },
+                    handleChange:function(value) {
+                      if(this.selectedOptions.length>0){
+                        $("#cover").removeClass('cover');
+                        bus.$emit("selectedOptions",this.selectedOptions);
+                      }
+                    },
+                    getCompanyNameMethod: function(_self){
+                      ajaxMethod(_self, 'post',
+                          'organizationapi/queryOrganizationApi', true,
+                          '{}', 'json','application/json;charset=UTF-8',
+                          _self.getCompanyNameSuccessMethod);
+                    },
+                    getCompanyNameSuccessMethod:function(_self,data){
+                      _self.companyOptions = data.data;
                     }
                 },
                 created: function() {
-
+                  this.getCompanyNameMethod(this);
                 },
                 mounted: function() {
-                    new Ctor().$mount('#add');
+                    //new Ctor().$mount('#add');
                 }
             })
         })

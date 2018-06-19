@@ -25,7 +25,7 @@ public class CompanyResult {
   private String companyId;//主键
   private String ldContactEmail;
   private String companyName;
-  private String postalCode;
+  private Integer postalCode;
   private String compPrincipalWorkTel;
   private String createUserName;
   private String ldContactName;
@@ -33,7 +33,7 @@ public class CompanyResult {
   private String compPrincipalEm;
   private String ldContactPhone;
   private Integer administrativeNum;
-  private Integer compPrincipalPhone;
+  private String compPrincipalPhone;
   private String companyCode;
   private String compPrincipalPost;
   private String ldContactPost;
@@ -104,7 +104,7 @@ public class CompanyResult {
   /**
    * @return the postalCode
    */
-  public String getPostalCode() {
+  public Integer getPostalCode() {
     return postalCode;
   }
 
@@ -112,7 +112,7 @@ public class CompanyResult {
   /**
    * @param postalCode the postalCode to set
    */
-  public void setPostalCode(String postalCode) {
+  public void setPostalCode(Integer postalCode) {
     this.postalCode = postalCode;
   }
 
@@ -232,7 +232,7 @@ public class CompanyResult {
   /**
    * @return the compPrincipalPhone
    */
-  public Integer getCompPrincipalPhone() {
+  public String getCompPrincipalPhone() {
     return compPrincipalPhone;
   }
 
@@ -240,7 +240,7 @@ public class CompanyResult {
   /**
    * @param compPrincipalPhone the compPrincipalPhone to set
    */
-  public void setCompPrincipalPhone(Integer compPrincipalPhone) {
+  public void setCompPrincipalPhone(String compPrincipalPhone) {
     this.compPrincipalPhone = compPrincipalPhone;
   }
 

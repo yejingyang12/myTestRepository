@@ -22,13 +22,13 @@
           #{fileId,jdbcType=VARCHAR},
         ]]>
         <![CDATA[
-          #{fkSystemId,jdbcType=VARCHAR},
+          #{systemId,jdbcType=VARCHAR},
         ]]>
         <![CDATA[
-          #{fkSyssonId,jdbcType=VARCHAR},
+          #{syssonId,jdbcType=VARCHAR},
         ]]>
         <![CDATA[
-          #{fkAttachType,jdbcType=VARCHAR},
+          #{attachType,jdbcType=VARCHAR},
         ]]>
         <![CDATA[
           #{attachName,jdbcType=VARCHAR},
@@ -49,24 +49,24 @@
       mongoFileId
     FROM t_cpro_attach AS attach
     <where>
-      <if test="pkId != null and pkId != ''">
+      <if test="fileId != null and fileId != ''">
         <![CDATA[
           AND pkId = #{fileId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkSystemId != null and fkSystemId != ''">
+      <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND fkSystemId = #{fkSystemId,jdbcType=INTEGER}
+          AND fkSystemId = #{systemId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkSyssonId != null and fkSyssonId != ''">
+      <if test="syssonId != null and syssonId != ''">
         <![CDATA[
-          AND fkSyssonId = #{fkSyssonId,jdbcType=INTEGER}
+          AND fkSyssonId = #{syssonId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkAttachType != null and fkAttachType != ''">
+      <if test="attachType != null and attachType != ''">
         <![CDATA[
-          AND fkAttachType = #{fkAttachType,jdbcType=INTEGER}
+          AND fkAttachType = #{attachType,jdbcType=INTEGER}
         ]]>
       </if>
     </where>
@@ -77,24 +77,24 @@
       attachName
     FROM t_cpro_attach AS attach
     <where>
-      <if test="pkId != null and pkId != ''">
+      <if test="fileId != null and fileId != ''">
         <![CDATA[
           AND pkId = #{fileId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkSystemId != null and fkSystemId != ''">
+      <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND fkSystemId = #{fkSystemId,jdbcType=INTEGER}
+          AND fkSystemId = #{systemId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkSyssonId != null and fkSyssonId != ''">
+      <if test="syssonId != null and syssonId != ''">
         <![CDATA[
-          AND fkSyssonId = #{fkSyssonId,jdbcType=INTEGER}
+          AND fkSyssonId = #{syssonId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkAttachType != null and fkAttachType != ''">
+      <if test="attachType != null and attachType != ''">
         <![CDATA[
-          AND fkAttachType = #{fkAttachType,jdbcType=INTEGER}
+          AND fkAttachType = #{attachType,jdbcType=INTEGER}
         ]]>
       </if>
     </where>
@@ -104,24 +104,24 @@
      delete from t_cpro_attach 
     ]]>
     <where>
-      <if test="pkId != null and pkId != ''">
+      <if test="fileId != null and fileId != ''">
         <![CDATA[
           AND pkId = #{fileId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkSystemId != null and fkSystemId != ''">
+      <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND fkSystemId = #{fkSystemId,jdbcType=INTEGER}
+          AND fkSystemId = #{systemId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkSyssonId != null and fkSyssonId != ''">
+      <if test="syssonId != null and syssonId != ''">
         <![CDATA[
-          AND fkSyssonId = #{fkSyssonId,jdbcType=INTEGER}
+          AND fkSyssonId = #{syssonId,jdbcType=INTEGER}
         ]]>
       </if>
-      <if test="fkAttachType != null and fkAttachType != ''">
+      <if test="attachType != null and attachType != ''">
         <![CDATA[
-          AND fkAttachType = #{fkAttachType,jdbcType=INTEGER}
+          AND fkAttachType = #{attachType,jdbcType=INTEGER}
         ]]>
       </if>
     </where>

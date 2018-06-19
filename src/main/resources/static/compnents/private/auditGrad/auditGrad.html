@@ -1,46 +1,41 @@
  <div>
-     <div class="container h-padding" style="margin:-15px 15px 15px">
+     <div class="container h-padding" style="margin-bottom:15px">
          <!--系统定级备案测评列表-->
          <div class="container" style="background:#fff;padding: 15px">
-             <div style="height: 50px;line-height: 50px">
+             <div style="height: 50px;line-height: 50px;margin-top: -15px">
                  <i class="h-list-line" style="vertical-align:middle;"></i>
                  <p style="display: inline-block">审核意见</p>
              </div>
-             <div class="h-bottom-line  h-bottom-position"></div>
+             <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
              <!--审核意见-->
-             <div class="row" style="margin:0">
+             <div class="row h-table-border" style="margin:0">
                  <div class="col-md-12">
                      <!--审核结果-->
                      <div class="row" style="margin: 15px -15px">
                          <div class="col-md-4 clearPadding">
-
                              <div class="col-md-2 h-system clearPadding">
                                  <span class="xing">*</span>
-                                 系统名称:
+                                 审核结果:
                              </div>
-                             <div class="col-md-8 h-col-md-9" >
-                                 <select class="form-control">
-                                     <option>请选择</option>
-                                     <option>1</option>
-                                     <option>2</option>
-                                     <option>3</option>
-                                     <option>4</option>
-                                     <option>5</option>
-                                 </select>
+                             <div class="col-md-8 h-col-md-9" style="margin-left:10px;">
+                              <template>
+                                <el-select v-model="formData.scoreCheckResult" id="scoreCheckResult" filterable placeholder="请选择" >
+                                  <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
+                                </el-select>
+                              </template>
                              </div>
-
                          </div>
                      </div>
                      <!--业务描述-->
                      <div class="row" >
                          <div class="col-md-8 text-left clearPadding" >
-                             <label for="" class="col-md-2 col-sm-1 saveTextTitle">
+                             <span for="" class="col-md-2 col-sm-1 saveTextTitle" style="width: 100px;ssss min-width: 104px;">
                                  <span class="xing">*</span>
-                                 业务描述：
-                             </label>
-                             <div @click="text" class="auditGradYewuDescribe col-md-8 col-md-offset-1 col-sm-3" style="border-radius:4px;">
-                                 <textarea id="textArea" cols="30" rows="10" placeholder="请输入"></textarea>
-                                 <span class='textAll'><span id="textNum">0</span>/200</span>
+                                 审核原因:
+                             </span>
+                             <div @click="text" class="auditGradYewuDescribe col-md-8 col-md-offset-1 col-sm-3" style="border-radius:4px;margin-left:10px;">
+                               <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.scoreCheckReason"></textarea>
+                               <span class='textAll'><span id="textNum">0</span>/200</span>
                              </div>
                          </div>
                      </div>
@@ -48,45 +43,19 @@
              </div>
          </div>
      </div>
-     <!--审核历史列表-->
-     <div class="container h-padding" style="margin:0 15px;">
+     <!--申请处理记录-->
+     <div class="container h-padding">
          <div class="container" style="background:#fff;padding: 15px">
-             <div style="height: 50px;line-height: 50px">
+             <div style="height: 50px;line-height: 50px;margin-top: -15px;">
                  <i class="h-list-line" style="vertical-align:middle;"></i>
-                 <p style="display: inline-block">审核历史</p>
+                 <p style="display: inline-block">申请处理记录</p>
              </div>
-             <div class="h-bottom-line  h-bottom-position"></div>
+             <div class="h-bottom-line  h-bottom-position" style="margin:0 -15px"></div>
              <!--审核历史列表-->
-             <div class="row" style="margin:15px 0">
+             <div class="row" style="margin:0">
                  <div class="col-md-12">
                      <div class="row table-responsive" style="font-size: 12px;color:#333333">
-                         <!--默认显示列表-->
-                         <table  id="h-list-show" class="table table-bordered table-striped">
-                             <tr class="h-tr1">
-                                 <th style="min-width:25px">#</th>
-                                 <th>动作<img src="../../../images/home/paixujiantou.png" alt=""></th>
-                                 <th>执行人<img src="../../../images/home/paixujiantou.png" alt=""></th>
-                                 <th>执行时间<img src="../../../images/home/paixujiantou.png" alt=""></th>
-                                 <th>审核结果<img src="../../../images/home/paixujiantou.png" alt=""></th>
-                                 <th>审核意见<img src="../../../images/home/paixujiantou.png" alt=""></th>
-                             </tr>
-                             <tr>
-                                 <th style="min-width:25px">1</th>
-                                 <th>创建</th>
-                                 <th>张三</th>
-                                 <th>2018-02-01 14：46：48</th>
-                                 <th>通过</th>
-                                 <th>这是一段审核意见这是一段审核意见</th>
-                             </tr>
-                             <tr>
-                                 <th style="min-width:25px">2</th>
-                                 <th>创建</th>
-                                 <th>张三</th>
-                                 <th>2018-02-01 14：46：48</th>
-                                 <th>通过</th>
-                                 <th>这是一段审核意见这是一段审核意见</th>
-                             </tr>
-                         </table>
+                         <fishbone></fishbone>
                      </div>
                  </div>
              </div>

@@ -1,0 +1,37 @@
+<div id="main" class="inner">
+    <p class="recordTitle">中石化差旅管理服务平台</p>
+    <div class="recBtn">
+        <button class="btn btn-success btnBack comitBtm fl" type="submit">提交</button>
+        <button class="btn btn-danger btnBack comitBtm fl" type="submit" @click="recordFn">撤销备案</button>
+        <button class="btn btn-default btnBack fl" type="button"  @click="toIndexPage()">返回</button>
+    </div>
+    <template>
+        <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+            <el-tab-pane label="单位信息（备案表一）" name="information">
+                <view-details-infor></view-details-infor>
+            </el-tab-pane>
+            <el-tab-pane label="系统信息（备案表二）" name="system">
+                <view-details-system></view-details-system>
+            </el-tab-pane>
+            <el-tab-pane label="定级信息（备案表三）" name="grad">
+                <view-details-grad></view-details-grad>
+            </el-tab-pane>
+            <el-tab-pane label="提交材料情况（备案表四）" name="material">
+                <view-details-material></view-details-material>
+            </el-tab-pane>
+            <el-tab-pane label="自查" name="examination">
+                <view-details-selfe></view-details-selfe>
+            </el-tab-pane>
+            <el-tab-pane label="测评" name="evaluation">
+                <view-details-evalu></view-details-evalu>
+            </el-tab-pane>
+            <el-tab-pane label="备案" name="record">
+                <view-details-record></view-details-record>
+            </el-tab-pane>
+            <el-tab-pane label="审核" name="examine">
+                <view-details-examine></view-details-examine>
+            </el-tab-pane>
+        </el-tabs>
+    </template>
+</div>
+

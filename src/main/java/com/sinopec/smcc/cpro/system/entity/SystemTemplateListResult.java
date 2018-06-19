@@ -10,10 +10,12 @@
 package com.sinopec.smcc.cpro.system.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SystemTemplate.java
@@ -55,22 +57,245 @@ public class SystemTemplateListResult {
   private String changeContent;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private Integer fkInfoSysTypeCon;
   private String npNetworkProperties;
   private Integer evaluationStatus;
   private String executiveDireConTel;
   private String npCoverageRange;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String sysBusSituationType;
   
-  private int pageSize = 10;// pageSize ，每一页显示多少
-  private int currentPage = 1;// 当前页数
-  private String field; //接收字段
-  private String sort;//排序
+  private Integer fkResponsibleType; 
+  private Integer fkProductsType;
+  private Integer serviceIsUse;
+  private Integer fkExaminStatus;
+  private String productsNumber;
+  private Integer nUseProbability;
+  private Integer fkNationalIsProducts;
+  private String ConstructionTypeName;
+  private String CombinedName;
+  private String companyName;
   
   
- 
+  private List<SystemKeyResult> systemKeyProducts;
+  private List<SystemUseResult> systemUseServices;
+
+
+
+  /**
+   * @return the systemKeyProducts
+   */
+  public List<SystemKeyResult> getSystemKeyProducts() {
+    return systemKeyProducts;
+  }
+
+
+
+  /**
+   * @param systemKeyProducts the systemKeyProducts to set
+   */
+  public void setSystemKeyProducts(List<SystemKeyResult> systemKeyProducts) {
+    this.systemKeyProducts = systemKeyProducts;
+  }
+
+
+
+  /**
+   * @return the systemUseServices
+   */
+  public List<SystemUseResult> getSystemUseServices() {
+    return systemUseServices;
+  }
+
+
+
+  /**
+   * @param systemUseServices the systemUseServices to set
+   */
+  public void setSystemUseServices(List<SystemUseResult> systemUseServices) {
+    this.systemUseServices = systemUseServices;
+  }
+
+
+
+  /**
+   * @return the companyName
+   */
+  public String getCompanyName() {
+    return companyName;
+  }
+
+
+
+  /**
+   * @param companyName the companyName to set
+   */
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
+  }
+
+
+  /**
+   * @return the fkResponsibleType
+   */
+  public Integer getFkResponsibleType() {
+    return fkResponsibleType;
+  }
+
+
+
+  /**
+   * @param fkResponsibleType the fkResponsibleType to set
+   */
+  public void setFkResponsibleType(Integer fkResponsibleType) {
+    this.fkResponsibleType = fkResponsibleType;
+  }
+
+
+
+  /**
+   * @return the fkProductsType
+   */
+  public Integer getFkProductsType() {
+    return fkProductsType;
+  }
+
+
+
+  /**
+   * @param fkProductsType the fkProductsType to set
+   */
+  public void setFkProductsType(Integer fkProductsType) {
+    this.fkProductsType = fkProductsType;
+  }
+
+
+
+  /**
+   * @return the fkExaminStatus
+   */
+  public Integer getFkExaminStatus() {
+    return fkExaminStatus;
+  }
+
+
+
+  /**
+   * @param fkExaminStatus the fkExaminStatus to set
+   */
+  public void setFkExaminStatus(Integer fkExaminStatus) {
+    this.fkExaminStatus = fkExaminStatus;
+  }
+
+
+
+  /**
+   * @return the fkNationalIsProducts
+   */
+  public Integer getFkNationalIsProducts() {
+    return fkNationalIsProducts;
+  }
+
+
+
+  /**
+   * @param fkNationalIsProducts the fkNationalIsProducts to set
+   */
+  public void setFkNationalIsProducts(Integer fkNationalIsProducts) {
+    this.fkNationalIsProducts = fkNationalIsProducts;
+  }
+
+
+
+  /**
+   * @return the serviceIsUse
+   */
+  public Integer getServiceIsUse() {
+    return serviceIsUse;
+  }
+
+
+
+  /**
+   * @param serviceIsUse the serviceIsUse to set
+   */
+  public void setServiceIsUse(Integer serviceIsUse) {
+    this.serviceIsUse = serviceIsUse;
+  }
+
+  /**
+   * @return the productsNumber
+   */
+  public String getProductsNumber() {
+    return productsNumber;
+  }
+
+
+
+  /**
+   * @param productsNumber the productsNumber to set
+   */
+  public void setProductsNumber(String productsNumber) {
+    this.productsNumber = productsNumber;
+  }
+
+
+
+  /**
+   * @return the nUseProbability
+   */
+  public Integer getnUseProbability() {
+    return nUseProbability;
+  }
+
+
+
+  /**
+   * @param nUseProbability the nUseProbability to set
+   */
+  public void setnUseProbability(Integer nUseProbability) {
+    this.nUseProbability = nUseProbability;
+  }
+
+
+
+  /**
+   * @return the constructionTypeName
+   */
+  public String getConstructionTypeName() {
+    return ConstructionTypeName;
+  }
+
+
+
+  /**
+   * @param constructionTypeName the constructionTypeName to set
+   */
+  public void setConstructionTypeName(String constructionTypeName) {
+    ConstructionTypeName = constructionTypeName;
+  }
+
+
+
+  /**
+   * @return the combinedName
+   */
+  public String getCombinedName() {
+    return CombinedName;
+  }
+
+
+
+  /**
+   * @param combinedName the combinedName to set
+   */
+  public void setCombinedName(String combinedName) {
+    CombinedName = combinedName;
+  }
+
+
+
   /**
    * @return the systemId
    */
@@ -182,6 +407,7 @@ public class SystemTemplateListResult {
   /**
    * @return the whenInvestmentUse
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getWhenInvestmentUse() {
     return whenInvestmentUse;
   }
@@ -699,77 +925,6 @@ public class SystemTemplateListResult {
     this.sysBusSituationType = sysBusSituationType;
   }
 
-
-
-  /**
-   * @return the pageSize
-   */
-  public int getPageSize() {
-    return pageSize;
-  }
-
-
-
-  /**
-   * @param pageSize the pageSize to set
-   */
-  public void setPageSize(int pageSize) {
-    this.pageSize = pageSize;
-  }
-
-
-
-  /**
-   * @return the currentPage
-   */
-  public int getCurrentPage() {
-    return currentPage;
-  }
-
-
-
-  /**
-   * @param currentPage the currentPage to set
-   */
-  public void setCurrentPage(int currentPage) {
-    this.currentPage = currentPage;
-  }
-
-
-
-  /**
-   * @return the field
-   */
-  public String getField() {
-    return field;
-  }
-
-
-
-  /**
-   * @param field the field to set
-   */
-  public void setField(String field) {
-    this.field = field;
-  }
-
-
-
-  /**
-   * @return the sort
-   */
-  public String getSort() {
-    return sort;
-  }
-
-
-
-  /**
-   * @param sort the sort to set
-   */
-  public void setSort(String sort) {
-    this.sort = sort;
-  }
 
 
 

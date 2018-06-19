@@ -12,6 +12,8 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * @Title MainParam.java
  * @Package com.sinopec.smcc.cpro.main.entity
@@ -60,7 +62,13 @@ public class MainParam {
   private String evaluationStatus;
   private String examinationStatus;
   private String companyId;
-
+  private Integer status;
+  private Integer fkExaminStatus;
+  private String customFiltering;
+  private Integer fkChangeMatter;
+  private String changeReason;
+  private String changeContent;
+  
   // pagesize ，每一页显示多少
   private int pageSize = 10;
   // 当前页数
@@ -70,6 +78,90 @@ public class MainParam {
 
   
   
+  /**
+   * @return the changeReason
+   */
+  public String getChangeReason() {
+    return changeReason;
+  }
+
+  /**
+   * @param changeReason the changeReason to set
+   */
+  public void setChangeReason(String changeReason) {
+    this.changeReason = changeReason;
+  }
+
+  /**
+   * @return the changeContent
+   */
+  public String getChangeContent() {
+    return changeContent;
+  }
+
+  /**
+   * @param changeContent the changeContent to set
+   */
+  public void setChangeContent(String changeContent) {
+    this.changeContent = changeContent;
+  }
+
+  /**
+   * @return the fkChangeMatter
+   */
+  public Integer getFkChangeMatter() {
+    return fkChangeMatter;
+  }
+
+  /**
+   * @param fkChangeMatter the fkChangeMatter to set
+   */
+  public void setFkChangeMatter(Integer fkChangeMatter) {
+    this.fkChangeMatter = fkChangeMatter;
+  }
+
+  /**
+   * @return the customFiltering
+   */
+  public String getCustomFiltering() {
+    return customFiltering;
+  }
+
+  /**
+   * @param customFiltering the customFiltering to set
+   */
+  public void setCustomFiltering(String customFiltering) {
+    this.customFiltering = customFiltering;
+  }
+
+  /**
+   * @return the fkExaminStatus
+   */
+  public Integer getFkExaminStatus() {
+    return fkExaminStatus;
+  }
+
+  /**
+   * @param fkExaminStatus the fkExaminStatus to set
+   */
+  public void setFkExaminStatus(Integer fkExaminStatus) {
+    this.fkExaminStatus = fkExaminStatus;
+  }
+
+  /**
+   * @return the status
+   */
+  public Integer getStatus() {
+    return status;
+  }
+
+  /**
+   * @param status the status to set
+   */
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
+
   /**
    * @return the companyId
    */
@@ -417,20 +509,6 @@ public class MainParam {
   }
 
   public String toString() {
-
-    return "{" + "\"systemId\":\"" + systemId + "\"," + "\"fkCompanyCode\":\""
-        + fkCompanyCode + "\"," + "\"customizedSearch\":\"" + customizedSearch
-        + "\"," + "\"acceptCompany\":\"" + acceptCompany + "\","
-        + "\"examOrg\":\"" + examOrg + "\"," + "\"recordDateBegin\":\""
-        + recordDateBegin + "\"," + "\"recordDateEnd\":\"" + recordDateEnd
-        + "\"," + "\"examTimeBegin\":\"" + examTimeBegin + "\","
-        + "\"examTimeEnd\":\"" + examTimeEnd + "\"," + "\"rankTimeBegin\":\""
-        + rankTimeBegin + "\"," + "\"rankTimeEnd\":\"" + rankTimeEnd + "\","
-        + "\"inspectionDateBegin\":\"" + inspectionDateBegin + "\","
-        + "\"inspectionDateEnd\":\"" + inspectionDateEnd + "\","
-
-        + "\"pageSize\":\"" + pageSize + "\"," + "\"currentPage\":\""
-        + currentPage + "\"," + "\"field\":\"" + field + "\"," + "\"sort\":\""
-        + sort + "\"" + "}";
+    return JSON.toJSONString(this);
   }
 }

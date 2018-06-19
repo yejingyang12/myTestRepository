@@ -33,4 +33,14 @@ public interface SystemCodeMapper {
    * @param systemCodeParam
    */
   List<SystemCodeListResult> selectSystemCodeForByParamKeyCodeName(SystemCodeParam systemCodeParam);
+
+  /**
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年6月11日下午6:38:59
+   * @param systemCodeParam
+   * @return
+   */
+  List<SystemCodeListResult> selectSystemCodeAndCodeNameAndSystemFatherCodeByParamKeyCodeName(
+      SystemCodeParam systemCodeParam);
 }

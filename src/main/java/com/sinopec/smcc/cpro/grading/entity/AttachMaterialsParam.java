@@ -28,6 +28,7 @@ public class AttachMaterialsParam {
   private String fkSyssonId;
   private String fkAttachType;
   private String attachName;
+  private String mongoFileId;
   private String attachPath;
   private Integer deleteStatus;
   private String createUserName;
@@ -35,6 +36,21 @@ public class AttachMaterialsParam {
   private Date updateTime;
   private String remark;
   
+  
+  
+  
+  /**
+   * @return the mongoFileId
+   */
+  public String getMongoFileId() {
+    return mongoFileId;
+  }
+  /**
+   * @param mongoFileId the mongoFileId to set
+   */
+  public void setMongoFileId(String mongoFileId) {
+    this.mongoFileId = mongoFileId;
+  }
   /**
    * @return the attachId
    */

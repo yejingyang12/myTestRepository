@@ -1,0 +1,51 @@
+@charset "utf-8";
+.inner{
+    width: 1200px;
+    margin:0 auto;
+}
+.mcAddWrap{
+    width: 100%;
+    height: 103px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:45px;
+}
+.mcAdd{
+    width: 84px;
+    text-align: center;
+}
+.mcAdd>p{
+    width: 60px;
+    height: 60px;
+    margin:0 auto;
+    background: url("../../images/addIcon.png") no-repeat;
+    background-repeat:no-repeat;
+}
+.linen{
+    width: 37%;
+    height: 3px;
+    margin-top:30px;
+    background: #cecece;
+}
+.mcAdd .addBaseBg{
+    background-position: 0px -70px;
+}
+.mcAdd .addSysBg{
+    background-position: -70px 0px;
+}
+.mcAdd .addRankBg{
+    background-position:-140px 0px;
+}
+.mcAdd .addUpBg{
+    background-position: -210px 0px;
+}
+.lineNaa{
+    width: 20%;
+}
+.active{
+    display: none;
+}
+span{
+    font:14px "微软雅黑";
+    color: #565656;
+}

@@ -13,8 +13,8 @@
           }
         },
         methods:{
-          handleClick(tab, event) {
-            console.log(tab, event);
+          handleClick:function(tab, event) {
+            //console.log(tab, event);
           }
         },
         created: function() {

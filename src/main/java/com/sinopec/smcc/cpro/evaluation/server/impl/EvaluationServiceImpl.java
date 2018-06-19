@@ -29,6 +29,13 @@ import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
 import com.sinopec.smcc.cpro.evaluation.mapper.EvaluationMapper;
 import com.sinopec.smcc.cpro.evaluation.server.EvaluationService;
+import com.sinopec.smcc.cpro.file.entity.AttachParam;
+import com.sinopec.smcc.cpro.file.server.FileService;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -44,6 +51,12 @@ public class EvaluationServiceImpl implements EvaluationService {
 
 	@Autowired
   private EvaluationMapper evaluationMapper;
+  @Autowired
+  private NodeService nodeServiceImpl;
+  @Autowired
+  private FileService fileServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
 	
 	@Override
 	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
@@ -82,26 +95,109 @@ public class EvaluationServiceImpl implements EvaluationService {
   }
 
 	@Override
+	@Transactional
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
-  @Transactional
-	public String saveEvaluation(EvaluationParam evaluationParam) throws BusinessException{
+	public String saveEvaluation(String userName, EvaluationParam evaluationParam) 
+	    throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId())) {
 			evaluationParam.setEvaluationId(Utils.getUuidFor32());
 			evaluationParam.setCreateTime(new Date());
+		  //修改测评状态为已完成
+      MainParam mainParam = new MainParam();
+      mainParam.setEvaluationStatus("3");
+      mainParam.setSystemId(evaluationParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+			try {
+			  if (StringUtils.isNotBlank(evaluationParam.getEvaluationPresentationPath())) {
+			    AttachParam evaluationPresentation = new AttachParam();
+			    evaluationPresentation.setFileId(Utils.getUuidFor32());
+			    evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
+			    evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
+			    evaluationPresentation.setAttachType("evaluationPresentation");
+			    evaluationPresentation.setUploadUrl(evaluationParam.getEvaluationPresentationPath());
+			    evaluationPresentation.setAttachName(evaluationParam.getEvaluationPresentationName());
+			    this.fileServiceImpl.addFile(evaluationPresentation);
+			  }
+			  if (StringUtils.isNotBlank(evaluationParam.getRectificationReportPath())) {
+			    AttachParam rectificationReport = new AttachParam();
+			    rectificationReport.setFileId(Utils.getUuidFor32());
+			    rectificationReport.setSystemId(evaluationParam.getFkSystemId());
+			    rectificationReport.setSyssonId(evaluationParam.getEvaluationId());
+			    rectificationReport.setAttachType("rectificationReport");
+			    rectificationReport.setUploadUrl(evaluationParam.getRectificationReportPath());
+			    rectificationReport.setAttachName(evaluationParam.getRectificationReportName());
+			    this.fileServiceImpl.addFile(rectificationReport);
+			  }
+      } catch (Exception e) {
+        //TODO: "保存附件出错";
+      }
+			
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(evaluationParam.getFkSystemId());
+      nodeParam.setOperation("添加测评");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
 		}else{
 		  evaluationParam.setCreateTime(new Date());
+		  try {
+		    if (StringUtils.isNotBlank(evaluationParam.getEvaluationPresentationPath())) {
+		      AttachParam evaluationPresentation = new AttachParam();
+		      evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
+		      evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
+		      evaluationPresentation.setAttachType("evaluationPresentation");
+		      this.fileServiceImpl.deleteFile(evaluationPresentation);
+		      evaluationPresentation.setFileId(Utils.getUuidFor32());
+		      evaluationPresentation.setUploadUrl(evaluationParam.getEvaluationPresentationPath());
+		      evaluationPresentation.setAttachName(evaluationParam.getEvaluationPresentationName());
+		      this.fileServiceImpl.addFile(evaluationPresentation);
+		    }
+		    if (StringUtils.isNotBlank(evaluationParam.getRectificationReportPath())) {
+		      AttachParam rectificationReport = new AttachParam();
+		      rectificationReport.setSystemId(evaluationParam.getFkSystemId());
+		      rectificationReport.setSyssonId(evaluationParam.getEvaluationId());
+		      rectificationReport.setAttachType("rectificationReport");
+		      this.fileServiceImpl.deleteFile(rectificationReport);
+		      rectificationReport.setFileId(Utils.getUuidFor32());
+		      rectificationReport.setUploadUrl(evaluationParam.getRectificationReportPath());
+		      rectificationReport.setAttachName(evaluationParam.getRectificationReportName());
+		      this.fileServiceImpl.addFile(rectificationReport);
+		    }
+      } catch (Exception e) {
+      //TODO: return "保存附件出错";
+      }
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(evaluationParam.getFkSystemId());
+      nodeParam.setOperation("修改测评");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
 		}
 		this.evaluationMapper.saveEvaluationByEvaluationId(evaluationParam);
 		return evaluationParam.getEvaluationId();
 	}
 
 	@Override
+	@Transactional
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
-  @Transactional
-	public void deleteEvaluation(EvaluationParam evaluationParam) throws BusinessException{
+	public void deleteEvaluation(String userName, EvaluationParam evaluationParam) 
+	    throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))
 			throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
 		this.evaluationMapper.deleteEvaluationByEvaluationId(evaluationParam);
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(evaluationParam.getFkSystemId());
+    
+    nodeParam.setOperation("删除测评");
+    nodeParam.setOperationResult("已创建");
+    nodeParam.setOperationOpinion("");
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
   }
 
   @Override
@@ -110,5 +206,14 @@ public class EvaluationServiceImpl implements EvaluationService {
     if (StringUtils.isBlank(evaluationParam.getEvaluationId())) 
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     return this.evaluationMapper.selectSingleDetailsByEvaluationId(evaluationParam);
+  }
+
+  /**
+   * 首页高级查询测评单位
+   */
+  @Override
+  public List<EvaluationListResult> queryExamOrgCompany(RecordsParam recordsParam)
+      throws BusinessException {
+    return this.evaluationMapper.selectExamOrgCompany(recordsParam);
   }
 }

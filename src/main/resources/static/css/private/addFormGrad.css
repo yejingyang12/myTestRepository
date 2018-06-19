@@ -11,7 +11,6 @@ input{
     border-radius:2px;
     border:1px solid #cecece;
     padding-left:13px;
-    color: #999999;
 }
 .liMargin{
     margin-top:15px;
@@ -28,6 +27,7 @@ input{
     width: 100%;
     height: 100%;
     background: #fff;
+    margin-bottom:33px;
 }
 .cut:after{
     content: "";
@@ -76,9 +76,6 @@ label{
 .saveTable{
     padding:0;
     margin-left:-32px;
-}
-.saveTableRow{
-
 }
 .saveTable ul .saveTableRowLine{
     border-top:1px solid #cecece;
@@ -207,6 +204,7 @@ input[type="radio"]{
     margin: 0 30px 0 10px;
     width: 30%;
     float: right;
+    padding:0;
 }
 .formChange{
     width: 52%;
@@ -225,6 +223,7 @@ input[type="radio"]{
     border-radius:4px;
 }
 .btnReview{
+    width: 28%;
     float: left;
     padding:6px 19px;
     height: 34px;
@@ -235,6 +234,7 @@ input[type="radio"]{
 }
 .sysTitle{
     padding:0;
+    margin-left:15px;
 }
 .sysText{
     margin-left:-35px;
@@ -252,7 +252,7 @@ input[type="radio"]{
 }
 .sysBtn{
     padding:7px 33px;
-    margin-left:20px;
+    margin-left:7px;
 }
 /*默认选中的颜色*/
 .btnColor{
@@ -261,4 +261,12 @@ input[type="radio"]{
 }
 .material{
     display: none;
+}
+.active{
+    border:1px solid #3d95df;
+}
+.active>i{
+    border-left:1px solid #3d95df;
+    color:#3d95df;
+    cursor: pointer;
 }

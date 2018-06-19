@@ -1,13 +1,24 @@
-<div>
-    <div class="row margin-clear">
-        <ol class="breadcrumb">
-            <li><a v-for="(a,index) in breadcrumb"
-                   :href="a.href">{{a.name}} <span
-                    v-if="index !== (breadcrumb.length-1)">></span> </a>
-            </li>
-        </ol>
-        <div class="clear"></div>
-    </div>
-    <!--<slot name="a1">123</slot>-->
-</div>
+<div class="margin-clear">
+    <ol class="breadcrumb"  style="background-color: transparent;">
+        <li style="width: 100%">
+            <a v-for="(a,index) in breadcrumb"
+                :href="a.href"  style="color: #565656;">{{a.name}} <span
+                v-if="index !== (breadcrumb.length-1)">></span>
+            </a>
 
+            <i  @click="hReturn()">
+                <slot name="breadcrumb-return"></slot>
+            </i>
+            <i @click="submit()">
+                <slot name="breadcrumb-sumbit"></slot>
+            </i>
+            <!-- <div v-if="grad"> -->
+              <slot name="gradChange"></slot>
+            <!-- </div>
+            <div v-else> -->
+              <slot name="materialChangeBtn"></slot>
+            <!-- </div> -->
+        </li>
+    </ol>
+    <div class="clear"></div>
+</div>

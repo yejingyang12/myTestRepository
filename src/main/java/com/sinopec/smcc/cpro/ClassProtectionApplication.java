@@ -1,8 +1,6 @@
 
 package com.sinopec.smcc.cpro;
 
-import com.sinopec.smcc.common.consts.SmccConsts;
-
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sinopec.smcc.common.consts.SmccConsts;
 
 /**
  * 项目名称:smcc-secp
@@ -37,7 +37,7 @@ public class ClassProtectionApplication {
 
 	@RequestMapping("/")
 	public String mainPage() {
-		return "index";
+		return "views/index";
 	}
 
 	/**

@@ -6,6 +6,7 @@ input{
     -moz-border-radius:2px;
     border-radius:2px;
     line-height: 34px;
+    height: 34px;
 }
 label{
     font:normal 14px/34px "微软雅黑";
@@ -24,30 +25,34 @@ label{
     width: 140%;
 }
 .recordMain{
-    width: 1200px;
-    margin:0 auto;
+    /*width: 1200px;*/
+    /*margin:0 auto;*/
+    margin-top:-5px;
 }
 .cut{
-    font:14px/50px "微软雅黑";
-    margin:0 16px;
+    font:14px/34px "微软雅黑";
+    /*margin:0 16px 40px;*/
 }
-
-.cut:after,.recordMain:after{
-    content: "";
-    display: block;
-    width: 100%;
-    height: 2px;
-    background: #ededed;
-}
-/*.cut:before{
+.cut:before{
     content: "";
     display: inline-block;
     width: 2px;
     height: 20px;
     background: #3d95df;
-    vertical-align: middle;
-    margin-right: 11px;
-}*/
+    margin: -4px 10px -4px 0;
+}
+.cut:after{
+    position: absolute;
+    top: 50px;
+}
+.cut:after,.recordMain:after{
+    content: "";
+    display: block;
+    width: 103%;
+    margin-left:-31px;
+    height: 2px;
+    background: #ededed;
+}
 .recordPro{
     width: 80%;
     margin:0 auto;
@@ -57,7 +62,8 @@ label{
     width: 101px;
     height: 100px;
     background:url("../../images/record.png") no-repeat -8px 0;
-    margin-left:32px;
+    /*margin-left:32px;*/
+    margin:0 auto;
 }
 .auditBg{
     background-position: -116px 0;
@@ -89,8 +95,9 @@ label{
     display: block;
     width: 60px;
     height: 61px;
-    background: url("../../images/record.png") no-repeat -8px -121px;
-    margin:10px 0 0 55px;
+    background: url("../../images/record.png") no-repeat -8px -190px;
+    /*margin:10px 0 0 55px;*/
+    margin:0 auto;
 }
 .dataAudit{
     background-position:-108px -121px;
@@ -98,7 +105,7 @@ label{
 .dataFillIn{
     background-position: -208px -121px;
 }
-.dataLise:after{
+.line{
     content: '';
     display: block;
     width: 100%;
@@ -106,14 +113,15 @@ label{
     background: #cecece;
     position: absolute;
     bottom: 20px;
-    left:85%;
+    left:80%;
 }
 .dataLast{
     display: block;
     width: 61px;
     height: 61px;
     background: url("../../images/record.png") no-repeat -308px -121px;
-    margin:10px 0 0 55px;
+    /*margin:10px 0 0 55px;*/
+    margin: 0 auto;
 }
 .datasMain{
     font:14px/1.5 "微软雅黑";

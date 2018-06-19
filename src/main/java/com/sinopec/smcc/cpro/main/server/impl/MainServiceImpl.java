@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,14 +37,28 @@ import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
+import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
+import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
+import com.sinopec.smcc.cpro.main.constant.MainConstant;
+import com.sinopec.smcc.cpro.main.constant.WordConstant;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.mapper.MainMapper;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.main.utils.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.records.server.RecordsService;
+import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
+import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
+import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.server.SystemCodeService;
@@ -79,6 +94,17 @@ public class MainServiceImpl implements MainService{
   @Autowired
   private SystemCodeService systemCodeServiceImpl;
   
+  @Autowired
+  private  SystemService  systemServiceImpl;
+ 
+  @Autowired
+  private  SystemMapper  systemMapper;
+  
+  @Autowired
+  private  AttachMaterialsService attachMaterialsServiceImpl;
+  
+  @Autowired
+  private  RecordsService recordsServiceImpl;
   
   /**
    * 响应等保列表数据
@@ -103,6 +129,10 @@ public class MainServiceImpl implements MainService{
     //初始化分页拦截器
     PageHelper.startPage(mainParam.getCurrentPage(), mainParam.getPageSize(), 
         orderBy.toString());
+    //处理高级查询状态
+    if(mainParam.getStatus() != null){
+      this.handleStatus(mainParam);
+    }
     //获得相应列表数据
     List<MainListResult> list = this.mainMapper.selectAllByMainParam(mainParam);
 
@@ -128,9 +158,9 @@ public class MainServiceImpl implements MainService{
    * 导出excel
    */
   @Override
-  public void exportExcelForMain() throws BusinessException {    
-    String strFilePath = "E://export/";
-    String strFileName = "xlsx"+"_"+DateUtils.getMilliseconds()+".xlsx";
+  public String exportExcelForMain() throws BusinessException {    
+    String strFilePath = MainConstant.TEMPORARY_FILE_PATH;
+    String strFileName = "系统信息导出"+"_"+DateUtils.getMilliseconds()+".xlsx";
     
     File file = new File(strFilePath);
     if (!file.exists()) {
@@ -249,6 +279,7 @@ public class MainServiceImpl implements MainService{
     } catch (IOException e) {
       e.printStackTrace();
     } 
+    return strFilePath + strFileName;
   }
   
   /**
@@ -274,12 +305,12 @@ public class MainServiceImpl implements MainService{
    * 定级模板导出
    */
   @Override
-  public void exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds) 
+  public String exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds) 
       throws BusinessException {
-    File file = new File("F:\\桌面应用\\测试\\exportExcelModel.xlsm");//原文件
-    String primaryfilePth = "F:\\桌面应用\\测试\\exportExcelModel.xlsm";//原文件路径
-    String filePath = "F:\\桌面应用\\压缩文件\\";//文件生成路径
-    String fileCopyPath = "F:\\桌面应用\\复制\\";//复制路径
+    File file = new File(MainConstant.EXCEL_FILE_PATH);//原文件
+    String primaryfilePth = MainConstant.EXCEL_FILE_PATH;//原文件路径
+    String filePath = MainConstant.TEMPORARY_FILE_PATH;//文件生成路径
+    String fileCopyPath = MainConstant.COPY_EXCEL_FILE_PATH;//复制路径
     String expName = "定级模板"+"_"+DateUtils.getMilliseconds();
     GradingParam gradingParam = new GradingParam();
     gradingParam.setFkSystemIds(systemIds);
@@ -389,13 +420,14 @@ public class MainServiceImpl implements MainService{
     }catch (Exception e){
       e.printStackTrace();
     }
+    return filePath + expName;
   }
   
   /**
    * 一键下载（表1 单位信息）
    */
   @Override
-  public void tableOneDownloads(MainParam mainParam) throws BusinessException{
+  public Map<String,Object> tableCompany(MainParam mainParam) throws BusinessException{
     Map<String,Object> dataMap=new HashMap<String,Object>();
     CompanyParam companyParam = new CompanyParam();
     companyParam.setCompanyId(mainParam.getCompanyId());
@@ -405,6 +437,8 @@ public class MainServiceImpl implements MainService{
       //单位名称
       if(StringUtils.isNotBlank(companyResult.getCompanyName())){
         dataMap.put("companyName", companyResult.getCompanyName());
+      }else{
+        dataMap.put("companyName","");
       }
       //所属省份
       if(StringUtils.isNotBlank(companyResult.getFkSubordinatePro())){
@@ -416,90 +450,1892 @@ public class MainServiceImpl implements MainService{
         if(!ObjectUtils.isEmpty(systemCodeListResultList)){
           dataMap.put("province", systemCodeListResultList.get(0).getCodeName());
         }
+      }else{
+        dataMap.put("province", "");
       }
       //邮政编码
-      String postalCode = companyResult.getPostalCode();
-      if(StringUtils.isNotBlank(postalCode)){
-        char[] ch = postalCode.toCharArray();
-        for (int i = 0; i < ch.length; i++) {
-          dataMap.put("post"+i+1, ch[i]);
+      Integer postalCode = companyResult.getPostalCode();
+      if(postalCode != null){
+        //转为int数组
+        String str = String.valueOf(postalCode);
+        int[] array = new int[str.length()];
+        if(str.length() == 6){
+          for(int i=0; i<str.length(); i++){
+            array[i] = Integer.parseInt(str.charAt(i) + "");
+          }
+          for (int i = 0; i < array.length; i++) {
+            int j = i+1; 
+            dataMap.put("post"+j, array[i]);
+          }
+        }else{
+          dataMap.put("post1", "");dataMap.put("post2", "");dataMap.put("post3", ""); 
+          dataMap.put("post4", "");dataMap.put("post5", "");dataMap.put("post6", "");
         }
+        
+      }else{
+        dataMap.put("post1", "");dataMap.put("post2", "");dataMap.put("post3", ""); 
+        dataMap.put("post4", "");dataMap.put("post5", "");dataMap.put("post6", "");
       }
       //行政区划代码
       Integer administrativeNum = companyResult.getAdministrativeNum();
       if(administrativeNum != null){
         //转为int数组
         String str = String.valueOf(administrativeNum);
-        int[] array = new int[str.length()];
-        for(int i=0; i<str.length(); i++){
-          array[i] = Integer.parseInt(str.charAt(i) + "");
+        if(str.length() == 6){
+          int[] array = new int[str.length()];
+          for(int i=0; i<str.length(); i++){
+            array[i] = Integer.parseInt(str.charAt(i) + "");
+          }
+          for (int i = 0; i < array.length; i++) {
+            int j = i+1; 
+            dataMap.put("code"+j, array[i]);
+          }
+        }else{
+          dataMap.put("code1","");dataMap.put("code2","");dataMap.put("code3","");
+          dataMap.put("code4","");dataMap.put("code5","");dataMap.put("code6","");
         }
-        for (int i = 0; i < array.length; i++) {
-          dataMap.put("code"+i+1, array[i]);
-        }
+      }else{
+        dataMap.put("code1","");dataMap.put("code2","");dataMap.put("code3","");
+        dataMap.put("code4","");dataMap.put("code5","");dataMap.put("code6","");
       }
       //单位负责人姓名
       if(StringUtils.isNotBlank(companyResult.getCompPrincipalName())){
         dataMap.put("compPrincipalName", companyResult.getCompPrincipalName());
+      }else{
+        dataMap.put("compPrincipalName", "");
       }
       //单位负责人职务
       if(StringUtils.isNotBlank(companyResult.getCompPrincipalPost())){
         dataMap.put("compPrincipalPost", companyResult.getCompPrincipalPost());
+      }else{
+        dataMap.put("compPrincipalPost", "");
       }
       //单位负责人办公电话
-      if(StringUtils.isNotBlank(companyResult.getCompPrincipalPost())){
-        dataMap.put("compPrincipalPost", companyResult.getCompPrincipalPost());
+      if(StringUtils.isNotBlank(companyResult.getCompPrincipalWorkTel())){
+        dataMap.put("compPrincipalWorkTel", companyResult.getCompPrincipalWorkTel());
+      }else{
+        dataMap.put("compPrincipalWorkTel", "");
       }
       //单位负责人电子邮件
       if(StringUtils.isNotBlank(companyResult.getCompPrincipalEm())){
         dataMap.put("compPrincipalEm", companyResult.getCompPrincipalEm());
+      }else{
+        dataMap.put("compPrincipalEm", "");
       }
       //责任部门联系人姓名
       if(StringUtils.isNotBlank(companyResult.getLdContactName())){
         dataMap.put("ldContactName", companyResult.getLdContactName());
+      }else{
+        dataMap.put("ldContactName", "");
       }
       //责任部门联系人职务
       if(StringUtils.isNotBlank(companyResult.getLdContactPost())){
         dataMap.put("ldContactPost", companyResult.getLdContactPost());
-      }
-      //责任部门联系人职务
-      if(StringUtils.isNotBlank(companyResult.getLdContactPost())){
-        dataMap.put("ldContactPost", companyResult.getLdContactPost());
+      }else{
+        dataMap.put("ldContactPost", "");
       }
       //责任部门联系人办公电话
       if(StringUtils.isNotBlank(companyResult.getLdContactWorkTel())){
         dataMap.put("ldContactWorkTel", companyResult.getLdContactWorkTel());
+      }else{
+        dataMap.put("ldContactWorkTel", "");
       }
       //责任部门联系人移动电话
       if(StringUtils.isNotBlank(companyResult.getLdContactPhone())){
         dataMap.put("ldContactPhone", companyResult.getLdContactPhone());
+      }else{
+        dataMap.put("ldContactPhone", "");
       }
       //责任部门联系人电子邮件
       if(StringUtils.isNotBlank(companyResult.getLdContactEmail())){
         dataMap.put("ldContactEmail", companyResult.getLdContactEmail());
+      }else{
+        dataMap.put("ldContactEmail", "");
       }
-//      dataMap.put("city", companyResult.getLdContactEmail());
-//      dataMap.put("area", companyResult.getLdContactEmail());
-//      dataMap.put("systemCount", companyResult.getLdContactEmail());
-//      dataMap.put("systemCount2", companyResult.getLdContactEmail());
-//      dataMap.put("systemCount3", companyResult.getLdContactEmail());
-//      dataMap.put("systemCount4", companyResult.getLdContactEmail());
-//      dataMap.put("province", companyResult.getLdContactEmail());
-//      dataMap.put("post1", companyResult.getLdContactEmail());
-//      dataMap.put("post2", companyResult.getLdContactEmail());
-//      dataMap.put("post3", companyResult.getLdContactEmail());
-//      dataMap.put("post4", companyResult.getLdContactEmail());
-//      dataMap.put("post5", companyResult.getLdContactEmail());
-//      dataMap.put("post6", companyResult.getLdContactEmail());
-//      dataMap.put("code1", companyResult.getLdContactEmail());
-//      dataMap.put("code2", companyResult.getLdContactEmail());
-//      dataMap.put("code3", companyResult.getLdContactEmail());
-//      dataMap.put("code4", companyResult.getLdContactEmail());
-//      dataMap.put("code5", companyResult.getLdContactEmail());
-//      dataMap.put("code6", companyResult.getLdContactEmail());
-//      dataMap.put("compPrincipalWorkTel", companyResult.getLdContactEmail());
-
+      //责任部门
+      if(StringUtils.isNotBlank(companyResult.getrDepartment())){
+        dataMap.put("rDepartment", companyResult.getrDepartment());
+      }else{
+        dataMap.put("rDepartment", "");
+      }
+      //隶属关系
+      String affType = "";
+      if(StringUtils.isNotBlank(companyResult.getFkAffiliation())){
+        if(companyResult.getFkAffiliation().equals(WordConstant.STR_CENTER)){
+          dataMap.put("aff1", "✓");
+          affType = "aff1";
+        }else if(companyResult.getFkAffiliation().equals(WordConstant.STR_PROVINCE)){
+          dataMap.put("aff2", "✓");
+          affType = "aff2";
+        }else if(companyResult.getFkAffiliation().equals(WordConstant.STR_CITY)){
+          dataMap.put("aff3", "✓");
+          affType = "aff3";
+        }
+        else if(companyResult.getFkAffiliation().equals(WordConstant.STR_AREA)){
+          dataMap.put("aff4", "✓");
+          affType = "aff4";
+        }else{
+          dataMap.put("aff9", "✓");
+          dataMap.put("aff", companyResult.getFkAffiliation());
+          affType = "aff9";
+        }
+      }
+      //单位类型
+      String companyType = "";
+      if(StringUtils.isNotBlank(companyResult.getFkCompanyType())){
+        if(companyResult.getFkCompanyType().equals(WordConstant.STR_PARTY)){
+          dataMap.put("type1", "✓");
+          companyType = "type1";
+        }else if(companyResult.getFkCompanyType().equals(WordConstant.STR_GOVERNMENT)){
+          dataMap.put("type2", "✓");
+          companyType = "type2";
+        }else if(companyResult.getFkCompanyType().equals(WordConstant.STR_CAUSE)){
+          dataMap.put("type3", "✓");
+          companyType = "type3";
+        }
+        else if(companyResult.getFkCompanyType().equals(WordConstant.STR_ENTERPRISE)){
+          dataMap.put("type4", "✓");
+          companyType = "type4";
+        }else{
+          dataMap.put("type9", "✓");
+          dataMap.put("type", companyResult.getFkCompanyType());
+          companyType = "type9";
+        }
+      }
+      //行业类别
+      String indType = "";
+      if(StringUtils.isNotBlank(companyResult.getFkIndustryCategory())){
+        if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TELECOM)){
+          dataMap.put("ind11", "✓");
+          indType = "ind11";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_RADIO)){
+          dataMap.put("ind12", "✓");
+          indType = "ind12";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_INTERNET)){
+          dataMap.put("ind13", "✓");
+          indType = "ind13";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_RAILWAY)){
+          dataMap.put("ind21", "✓");
+          indType = "ind21";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_BANK)){
+          dataMap.put("ind22", "✓");
+          indType = "ind22";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CUSTOMS)){
+          dataMap.put("ind23", "✓");
+          indType = "ind23";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TAX)){
+          dataMap.put("ind24", "✓");
+          indType = "ind24";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CIVIL)){
+          dataMap.put("ind25", "✓");
+          indType = "ind25";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_POWER)){
+          dataMap.put("ind26", "✓");
+          indType = "ind26";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SECURITIES)){
+          dataMap.put("ind27", "✓");
+          indType = "ind27";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_INSURANCE)){
+          dataMap.put("ind28", "✓");
+          indType = "ind28";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_NATIONAL)){
+          dataMap.put("ind31", "✓");
+          indType = "ind31";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SECURITY)){
+          dataMap.put("ind32", "✓");
+          indType = "ind32";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_PERSONNEL)){
+          dataMap.put("ind33", "✓");
+          indType = "ind33";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_FINANCE)){
+          dataMap.put("ind34", "✓");
+          indType = "ind34";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_AUDIT)){
+          dataMap.put("ind35", "✓");
+          indType = "ind35";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TRADE)){
+          dataMap.put("ind36", "✓");
+          indType = "ind36";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_RESOURCES)){
+          dataMap.put("ind37", "✓");
+          indType = "ind37";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_ENERGY)){
+          dataMap.put("ind38", "✓");
+          indType = "ind38";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TRAFFIC)){
+          dataMap.put("ind39", "✓");
+          indType = "ind39";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_STATISTICS)){
+          dataMap.put("ind40", "✓");
+          indType = "ind40";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_BUSINESS)){
+          dataMap.put("ind41", "✓");
+          indType = "ind41";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_POSTOFFICE)){
+          dataMap.put("ind42", "✓");
+          indType = "ind42";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_EDUCATION)){
+          dataMap.put("ind43", "✓");
+          indType = "ind43";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CULTURE)){
+          dataMap.put("ind44", "✓");
+          indType = "ind44";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_HYGIENE)){
+          dataMap.put("ind45", "✓");
+          indType = "ind45";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_AGRICULTURE)){
+          dataMap.put("ind46", "✓");
+          indType = "ind46";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CONSERVANCY)){
+          dataMap.put("ind47", "✓");
+          indType = "ind47";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_INTERNATIONAL)){
+          dataMap.put("ind48", "✓");
+          indType = "ind48";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_REFORM)){
+          dataMap.put("ind49", "✓");
+          indType = "ind49";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SCIENCE)){
+          dataMap.put("ind50", "✓");
+          indType = "ind50";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_PROPAGANDA)){
+          dataMap.put("ind51", "✓");
+          indType = "ind51";
+        }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SUPERVISE)){
+          dataMap.put("ind52", "✓");
+          indType = "ind52";
+        }else{
+          dataMap.put("ind99", "✓");
+          indType = "ind99";
+          dataMap.put("ind", companyResult.getFkIndustryCategory());
+        }
+      }
+ 
+      //将隶属关系未选中的值替换为空字符串
+      String [] affTypeArray = {"aff1","aff2","aff3","aff4","aff9"};
+      for (int i = 0; i < affTypeArray.length; i++) {
+        if(StringUtils.isBlank(affType)){
+          dataMap.put("aff", "");
+        }
+        if(!affTypeArray[i].equals(affType)){
+          dataMap.put(affTypeArray[i], "");
+        }else{
+          if(!affTypeArray[i].equals("aff9")){
+            dataMap.put("aff", "");
+          }
+        }
+      }
+      //将单位类型未选中的值替换为空字符串
+      String [] companyTypeArray = {"type1","type2","type3","type4","type9"};
+      for (int i = 0; i < companyTypeArray.length; i++) {
+        if(StringUtils.isBlank(companyType)){
+          dataMap.put("type", "");
+        }
+        if(!companyTypeArray[i].equals(companyType)){
+          dataMap.put(companyTypeArray[i], "");
+        }else{
+          if(!companyTypeArray[i].equals("type9")){
+            dataMap.put("type", "");
+          }
+        }
+      }
+      //将行业类别未选中的值替换为空字符串
+      String [] indTypeArray = {"ind11","ind12","ind13","ind21","ind22","ind23","ind24","ind25",
+                                "ind26","ind27","ind28","ind31","ind32","ind33","ind34","ind35",
+                                "ind36","ind37","ind38","ind39","ind40","ind41","ind42","ind43",
+                                "ind44","ind45","ind46","ind47","ind48","ind48","ind49","ind50",
+                                "ind51","ind52","ind99"};
+      for (int i = 0; i < indTypeArray.length; i++) {
+        if(StringUtils.isBlank(indType)){
+          dataMap.put("ind", "");
+        }
+        if(!indTypeArray[i].equals(indType)){
+          dataMap.put(indTypeArray[i], "");
+        }else{
+          if(!indTypeArray[i].equals("ind99")){
+            dataMap.put("ind", "");
+          }
+        }
+      }
+      //信息系统总数
+      List<MainListResult> mainListResultList = 
+          this.mainMapper.selectAllByMainParam(new MainParam());
+      dataMap.put("sn", mainListResultList.size());
+      //定级信息系统
+      int twoLevel = 0;
+      int threeLevel = 0;
+      int fourLevel = 0;
+      int fiveLevel = 0;
+      for(MainListResult mainListResult : mainListResultList){
+        if(StringUtils.isNotBlank(mainListResult.getFkSpRanklevel())){
+          if(mainListResult.getFkSpRanklevel().equals("302")){
+            twoLevel++;
+          }
+          if(mainListResult.getFkSpRanklevel().equals("303")){
+            threeLevel++;
+          }
+          if(mainListResult.getFkSpRanklevel().equals("304")){
+            fourLevel++;
+          }
+          if(mainListResult.getFkSpRanklevel().equals("305")){
+            fiveLevel++;
+          }
+        }
+      }
+      dataMap.put("sy2", twoLevel);
+      dataMap.put("sy3", threeLevel);
+      dataMap.put("sy4", fourLevel);
+      dataMap.put("sy5", fiveLevel);
+    }else{
+      dataMap.put("companyName", "");dataMap.put("province", "");
+      dataMap.put("compPrincipalWorkTel", "");dataMap.put("compPrincipalName", "");
+      dataMap.put("compPrincipalPost", "");dataMap.put("compPrincipalEm", "");
+      dataMap.put("rDepartment", ""); dataMap.put("ldContactName", "");
+      dataMap.put("ldContactPost", "");dataMap.put("ldContactWorkTel", "");
+      dataMap.put("ldContactPhone", "");dataMap.put("ldContactEmail", "");
+      dataMap.put("aff1", ""); dataMap.put("aff2", "");
+      dataMap.put("aff3", ""); dataMap.put("aff4", "");
+      dataMap.put("aff9", "");dataMap.put("aff", "");
+      dataMap.put("type1", "");dataMap.put("type2", "");
+      dataMap.put("type4", "");dataMap.put("type9", "");
+      dataMap.put("type3", "");dataMap.put("ind11", "");
+      dataMap.put("ind12", "");dataMap.put("ind13", "");
+      dataMap.put("ind21", "");dataMap.put("ind22", "");
+      dataMap.put("ind23", "");dataMap.put("ind24", "");
+      dataMap.put("ind25", "");dataMap.put("ind26", "");
+      dataMap.put("ind27", "");dataMap.put("ind28", "");
+      dataMap.put("ind31", "");dataMap.put("ind32", "");
+      dataMap.put("ind33", "");dataMap.put("ind34", "");
+      dataMap.put("ind35", "");dataMap.put("ind36", "");
+      dataMap.put("ind37", "");dataMap.put("ind38", "");
+      dataMap.put("ind39", "");dataMap.put("ind40", "");
+      dataMap.put("ind41", "");dataMap.put("ind42", "");
+      dataMap.put("ind43", "");dataMap.put("ind44", "");
+      dataMap.put("ind45", "");dataMap.put("ind46", "");
+      dataMap.put("ind47", "");dataMap.put("ind48", "");
+      dataMap.put("ind49", "");dataMap.put("ind50", "");
+      dataMap.put("ind51", "");dataMap.put("ind52", "");
+      dataMap.put("ind99", "");dataMap.put("ind", "");
+      dataMap.put("sn", "");dataMap.put("sy2", "");
+      dataMap.put("sy3", "");dataMap.put("sy4", "");
+      dataMap.put("sy5", "");dataMap.put("post1", ""); 
+      dataMap.put("post2", "");dataMap.put("post3", ""); 
+      dataMap.put("post4", "");dataMap.put("post5", ""); 
+      dataMap.put("post6", "");dataMap.put("code1", ""); 
+      dataMap.put("code2", "");dataMap.put("code3", ""); 
+      dataMap.put("code4", "");dataMap.put("code5", ""); 
+      dataMap.put("code6", ""); dataMap.put("type", ""); 
     }
-    WordUtils.createWord(dataMap);
+    Map<String,Object> result = new HashMap<>();
+    result.put("url", WordUtils.createWord(dataMap,"company.ftl","单位信息"));
+    result.put("tableCompanyResult", dataMap);
+    return result;
+  }
+
+  /**
+   * 一键下载（表2 系统信息）
+   */
+  @Override
+  public Map<String,Object> tableSystem(MainParam mainParam) throws BusinessException{
+    Map<String,Object> dataMap=new HashMap<String,Object>();
+    //查询系统信息
+    SystemParam systemParam = new SystemParam();
+    systemParam.setSystemId(mainParam.getSystemId());
+    SystemResult systemResult = systemServiceImpl.queryDetailsSystem(systemParam);
+    if(systemResult != null){
+      //系统名称
+      if(StringUtils.isNotBlank(systemResult.getSystemName())){
+        dataMap.put("systemName", systemResult.getSystemName());
+      }else{
+        dataMap.put("systemName", "");
+      }
+      //系统编号
+      if(StringUtils.isNotBlank(systemResult.getStandardizedCode())){
+        dataMap.put("sysCode", systemResult.getStandardizedCode());
+      }else{
+        dataMap.put("sysCode", "");
+      }
+      //业务类型
+      String busType = "";
+      if(StringUtils.isNotBlank(systemResult.getSysBusSituationType())){
+        if(systemResult.getSysBusSituationType().equals("生产作业")){
+          dataMap.put("bus1", "✓");
+          busType = "bus1";
+        }else if(systemResult.getSysBusSituationType().equals("指挥调度")){
+          dataMap.put("bus2", "✓");
+          busType = "bus2";
+        }else if(systemResult.getSysBusSituationType().equals("管理控制")){
+          dataMap.put("bus3", "✓");
+          busType = "bus3";
+        }else if(systemResult.getSysBusSituationType().equals("内部办公")){
+          dataMap.put("bus4", "✓");
+          busType = "bus4";
+        }else if(systemResult.getSysBusSituationType().equals("公众服务")){
+          dataMap.put("bus5", "✓");
+          busType = "bus5";
+        }else{
+          dataMap.put("bus9", "✓");
+          busType = "bus9";
+          dataMap.put("bus", systemResult.getSysBusSituationType());
+        }
+      }
+      //业务描述
+      if(StringUtils.isNotBlank(systemResult.getSysBusDescription())){
+        dataMap.put("description", systemResult.getSysBusDescription());
+      }else{
+        dataMap.put("description", "");
+      }
+      //服务范围
+      String ranType = "";
+      String cope[] = systemResult.getSysServiceSitScope().split("\\^");
+      if(StringUtils.isNotBlank(systemResult.getSysServiceSitScope())){
+        if(systemResult.getSysServiceSitScope().equals("全国")){
+          dataMap.put("ran1", "✓");
+          ranType = "ran1";
+        }else if(cope[0].equals("跨省（区、市）跨个")){
+          dataMap.put("ran2", "✓");
+          dataMap.put("rvl2", cope[1]);
+          ranType = "ran2";
+        }else if(systemResult.getSysServiceSitScope().equals("全省（区、市）")){
+          dataMap.put("ran3", "✓");
+          ranType = "ran3";
+        }else if(cope[0].equals("跨地（区、市）跨个")){
+          dataMap.put("ran4", "✓");
+          dataMap.put("rvl4", cope[1]);
+          ranType = "ran4";
+        }else if(systemResult.getSysServiceSitScope().equals("地（市、区）内")){
+          dataMap.put("ran5", "✓");
+          ranType = "ran5";
+        }else{
+          dataMap.put("ran99", "✓");
+          dataMap.put("ran", systemResult.getSysServiceSitScope());
+          ranType = "ran99";
+        }
+      }
+      //服务对象
+      String objType = "";
+      if(StringUtils.isNotBlank(systemResult.getSysServiceSitObject())){
+        if(systemResult.getSysServiceSitObject().equals("单位内部人员")){
+          dataMap.put("obj1", "✓");
+          objType = "obj1";
+        }else if(systemResult.getSysServiceSitObject().equals("社会公众人员")){
+          dataMap.put("obj2", "✓");
+          objType = "obj2";
+        }else if(systemResult.getSysServiceSitObject().equals("两者均包括")){
+          dataMap.put("obj3", "✓");
+          objType = "obj3";
+        }else{
+          dataMap.put("obj9", "✓");
+          objType = "obj9";
+          dataMap.put("obj", systemResult.getSysServiceSitObject());
+        }
+      }
+      //覆盖范围
+      String coverType = "";
+      if(StringUtils.isNotBlank(systemResult.getNpCoverageRange())){
+        if(systemResult.getNpCoverageRange().equals("局域网")){
+          dataMap.put("cover1", "✓");
+          coverType = "cover1";
+        }else if(systemResult.getNpCoverageRange().equals("城域网")){
+          dataMap.put("cover2", "✓");
+          coverType = "cover2";
+        }else if(systemResult.getNpCoverageRange().equals("广域网")){
+          dataMap.put("cover3", "✓");
+          coverType = "cover4";
+        }else{
+          dataMap.put("cover9", "✓");
+          coverType = "cover9";
+          dataMap.put("cover", systemResult.getNpCoverageRange());
+        }
+      }
+      //网络性质
+      String natType = "";
+      if(StringUtils.isNotBlank(systemResult.getNpNetworkProperties())){
+        if(systemResult.getNpNetworkProperties().equals("局域网")){
+          dataMap.put("nat1", "✓");
+          natType = "nat1";
+        }else if(systemResult.getNpNetworkProperties().equals("互联网")){
+          dataMap.put("nat2", "✓");
+          natType = "nat2";
+        }else{
+          dataMap.put("nat9", "✓");
+          natType = "nat9";
+          dataMap.put("nat", systemResult.getNpNetworkProperties());
+        }
+      }
+      //系统互联情况
+      String ionType = "";
+      if(StringUtils.isNotBlank(systemResult.getInterconnectionSit())){
+        if(systemResult.getInterconnectionSit().equals("与其他行业系统连接")){
+          dataMap.put("ion1", "✓");
+          ionType = "ion1";
+        }else if(systemResult.getInterconnectionSit().equals("与本行业其他单位系统连接")){
+          dataMap.put("ion2", "✓");
+          ionType = "ion2";
+        }else if(systemResult.getInterconnectionSit().equals("与本单位其他系统连接")){
+          dataMap.put("ion3", "✓");
+          ionType = "ion3";
+        }else{
+          dataMap.put("ion9", "✓");
+          ionType = "ion9";
+          dataMap.put("ion", systemResult.getInterconnectionSit());
+        }
+      }
+      //关键产品使用情况
+      int securityCount = 0;
+      int networkCount = 0;
+      int systemCount = 0;
+      int baseCount = 0;
+      int serverCount = 0;
+      int productOtherCount = 0;
+      if(!ObjectUtils.isEmpty(systemResult.getSystemKeyProducts())){
+        for(SystemKeyResult systemRes : systemResult.getSystemKeyProducts()){
+          if(systemRes.getFkExaminStatus() != null){
+            //安全专用产品
+            if(systemRes.getFkExaminStatus() == 1){
+              securityCount = 1;
+              //数量
+              if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
+                dataMap.put("nu1", systemRes.getProductsNumber());
+              }
+              //是否使用国产品
+              if(systemRes.getFkNationalIsProducts() != null){
+                if(systemRes.getFkNationalIsProducts() == 1){
+                  dataMap.put("nan1","✓");
+                  dataMap.put("nan2"," ");
+                  dataMap.put("nan3"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 2){
+                  dataMap.put("nan2","✓");
+                  dataMap.put("nan1"," ");
+                  dataMap.put("nan3"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 3){
+                  dataMap.put("nan3","✓");
+                  dataMap.put("nan2"," ");
+                  dataMap.put("nan1"," ");
+                }
+              }
+              //使用率
+              if(systemRes.getnUseProbability() != null){
+                  dataMap.put("nvl1",systemRes.getnUseProbability());
+              }
+            }else if(systemRes.getFkExaminStatus() == 2){//网络产品
+              networkCount = 1;
+              //数量
+              if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
+                dataMap.put("nu2", systemRes.getProductsNumber());
+              }
+              //是否使用国产品
+              if(systemRes.getFkNationalIsProducts() != null){
+                if(systemRes.getFkNationalIsProducts() == 1){
+                  dataMap.put("nan4","✓");
+                  dataMap.put("nan5"," ");
+                  dataMap.put("nan6"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 2){
+                  dataMap.put("nan5","✓");
+                  dataMap.put("nan4"," ");
+                  dataMap.put("nan6"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() ==3){
+                  dataMap.put("nan6","✓");
+                  dataMap.put("nan5"," ");
+                  dataMap.put("nan4"," ");
+                }
+              }
+              //使用率
+              if(systemRes.getnUseProbability() != null){
+                  dataMap.put("nvl2",systemRes.getnUseProbability());
+              }
+            }else if(systemRes.getFkExaminStatus() == 3){//操作系统
+              systemCount = 1;
+              //数量
+              if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
+                dataMap.put("nu3", systemRes.getProductsNumber());
+              }
+              //是否使用国产品
+              if(systemRes.getFkNationalIsProducts() != null){
+                if(systemRes.getFkNationalIsProducts() == 1){
+                  dataMap.put("nan7","✓");
+                  dataMap.put("nan8"," ");
+                  dataMap.put("nan9"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 2){
+                  dataMap.put("nan8","✓");
+                  dataMap.put("nan7"," ");
+                  dataMap.put("nan9"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 3){
+                  dataMap.put("nan9","✓");
+                  dataMap.put("nan8"," ");
+                  dataMap.put("nan7"," ");
+                }
+              }
+              //使用率
+              if(systemRes.getnUseProbability() != null){
+                  dataMap.put("nvl3",systemRes.getnUseProbability());
+              }
+            }else if(systemRes.getFkExaminStatus() == 4){//数据库
+              baseCount = 1;
+              //数量
+              if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
+                dataMap.put("nu4", systemRes.getProductsNumber());
+              }
+              //是否使用国产品
+              if(systemRes.getFkNationalIsProducts() != null){
+                if(systemRes.getFkNationalIsProducts() == 1){
+                  dataMap.put("nan10","✓");
+                  dataMap.put("nan11"," ");
+                  dataMap.put("nan12"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 2){
+                  dataMap.put("nan11","✓");
+                  dataMap.put("nan10"," ");
+                  dataMap.put("nan12"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 3){
+                  dataMap.put("nan12","✓");
+                  dataMap.put("nan11"," ");
+                  dataMap.put("nan10"," ");
+                }
+              }
+              //使用率
+              if(systemRes.getnUseProbability() != null){
+                  dataMap.put("nvl4",systemRes.getnUseProbability());
+              }
+            }else if(systemRes.getFkExaminStatus() == 5){ //服务器
+              serverCount = 1;
+              //数量
+              if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
+                dataMap.put("nu5", systemRes.getProductsNumber());
+              }
+              //是否使用国产品
+              if(systemRes.getFkNationalIsProducts() != null){
+                if(systemRes.getFkNationalIsProducts() == 1){
+                  dataMap.put("nan13","✓");
+                  dataMap.put("nan14"," ");
+                  dataMap.put("nan15"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 2){
+                  dataMap.put("nan14","✓");
+                  dataMap.put("nan13"," ");
+                  dataMap.put("nan15"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 3){
+                  dataMap.put("nan15","✓");
+                  dataMap.put("nan14"," ");
+                  dataMap.put("nan15"," ");
+                }
+              }
+              //使用率
+              if(systemRes.getnUseProbability() != null){
+                  dataMap.put("nvl5",systemRes.getnUseProbability());
+              }
+            }else{ //其他
+              productOtherCount = 1;
+              dataMap.put("nu", systemRes.getOtherName());
+              //数量
+              if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
+                dataMap.put("nu6", systemRes.getProductsNumber());
+              }else{
+                dataMap.put("nu6","");
+              }
+              //是否使用国产品
+              if(systemRes.getFkNationalIsProducts() != null){
+                if(systemRes.getFkNationalIsProducts() == 1){
+                  dataMap.put("nan16","✓");
+                  dataMap.put("nan17"," ");
+                  dataMap.put("nan18"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 2){
+                  dataMap.put("nan17","✓");
+                  dataMap.put("nan16"," ");
+                  dataMap.put("nan18"," ");
+                }
+                if(systemRes.getFkNationalIsProducts() == 3){
+                  dataMap.put("nan18","✓");
+                  dataMap.put("nan17"," ");
+                  dataMap.put("nan16"," ");
+                }
+              }
+              //使用率
+              if(systemRes.getnUseProbability() != null){
+                  dataMap.put("nvl6",systemRes.getnUseProbability());
+              }else{
+                dataMap.put("nvl6", "");
+              }
+            }
+          }
+        }
+      }
+      
+      
+      //系统采用服务情况
+      int gradeCount = 0;
+      int riskCount = 0;
+      int disasterCount = 0;
+      int emergencyCount = 0;
+      int tntegrateCount = 0;
+      int consultationCount = 0;
+      int trainCount = 0;
+      int serviceOtherCount = 0;
+      if(!ObjectUtils.isEmpty(systemResult.getSystemUseServices())){
+        for(SystemUseResult systemRes : systemResult.getSystemUseServices()){
+          //系统采用服务情况开始
+            if(systemRes.getFkProductsType() != null){
+              if(systemRes.getFkProductsType() == 1){//等级测评
+                gradeCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a1","✓");
+                    dataMap.put("a2"," ");
+                  }else{
+                    dataMap.put("a2","✓");
+                    dataMap.put("a1"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b1","✓");
+                    dataMap.put("b2"," ");
+                    dataMap.put("b3"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b2","✓");
+                    dataMap.put("b1"," ");
+                    dataMap.put("b3"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b3","✓");
+                    dataMap.put("b2"," ");
+                    dataMap.put("b1"," ");
+                  }
+                }
+              }else if(systemRes.getFkProductsType() == 2){
+                riskCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a3","✓");
+                    dataMap.put("a4"," ");
+                  }else{
+                    dataMap.put("a4","✓");
+                    dataMap.put("a3"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b4","✓");
+                    dataMap.put("b5"," ");
+                    dataMap.put("b6"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b5","✓");
+                    dataMap.put("b4"," ");
+                    dataMap.put("b6"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b6","✓");
+                    dataMap.put("b5"," ");
+                    dataMap.put("b4"," ");
+                  }
+                }
+              }else if(systemRes.getFkProductsType() == 3){//灾难恢复
+                disasterCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse() == 1){
+                    dataMap.put("a5","✓");
+                    dataMap.put("a6"," ");
+                  }else{
+                    dataMap.put("a6","✓");
+                    dataMap.put("a5"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b7","✓");
+                    dataMap.put("b8"," ");
+                    dataMap.put("b9"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b8","✓");
+                    dataMap.put("b7"," ");
+                    dataMap.put("b9"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b9","✓");
+                    dataMap.put("b8"," ");
+                    dataMap.put("b7"," ");
+                  }
+                }
+              }else if(systemRes.getFkProductsType() == 4){//应急响应
+                emergencyCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a7","✓");
+                    dataMap.put("a8"," ");
+                  }else{
+                    dataMap.put("a8","✓");
+                    dataMap.put("a7"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b10","✓");
+                    dataMap.put("b11"," ");
+                    dataMap.put("b12"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b11","✓");
+                    dataMap.put("b10"," ");
+                    dataMap.put("b12"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b12","✓");
+                    dataMap.put("b11"," ");
+                    dataMap.put("b10"," ");
+                  }
+                }
+              }else if(systemRes.getFkProductsType() == 5){//系统集成
+                tntegrateCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a9","✓");
+                    dataMap.put("a10","");
+                  }else{
+                    dataMap.put("a10","✓");
+                    dataMap.put("a9"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b13","✓");
+                    dataMap.put("b15"," ");
+                    dataMap.put("b14"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b14","✓");
+                    dataMap.put("b13"," ");
+                    dataMap.put("b15"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b15","✓");
+                    dataMap.put("b14"," ");
+                    dataMap.put("b13"," ");
+                  }
+                }
+              }else if(systemRes.getFkProductsType() == 6){//安全咨询
+                consultationCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a11","✓");
+                    dataMap.put("a12"," ");
+                  }else{
+                    dataMap.put("a12","✓");
+                    dataMap.put("a11"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b16","✓");
+                    dataMap.put("b17"," ");
+                    dataMap.put("b18"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b17","✓");
+                    dataMap.put("b18"," ");
+                    dataMap.put("b16"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b18","✓");
+                  }
+                }
+              }else if(systemRes.getFkProductsType() == 7){//安全培训
+                trainCount = 1;
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a13","✓");
+                    dataMap.put("a14"," ");
+                  }else{
+                    dataMap.put("a14","✓");
+                    dataMap.put("a13"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b19","✓");
+                    dataMap.put("b20"," ");
+                    dataMap.put("b21"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b20","✓");
+                    dataMap.put("b19"," ");
+                    dataMap.put("b21"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b21","✓");
+                    dataMap.put("b20"," ");
+                    dataMap.put("b19"," ");
+                  }
+                }
+              }else{
+                serviceOtherCount = 1;
+                dataMap.put("a",systemRes.getOtherName());
+                //是否采用
+                if(systemRes.getServiceIsUse() != null){
+                  if(systemRes.getServiceIsUse().equals("1")){
+                    dataMap.put("a15","✓");
+                    dataMap.put("a16"," ");
+                  }else{
+                    dataMap.put("a16","✓");
+                    dataMap.put("a15"," ");
+                  }
+                }
+                //服务责任方类型
+                if(systemRes.getFkResponsibleType() != null){
+                  if(systemRes.getFkResponsibleType() == 1){
+                    dataMap.put("b22","✓");
+                    dataMap.put("b23"," ");
+                    dataMap.put("b24"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 2){
+                    dataMap.put("b23","✓");
+                    dataMap.put("b22"," ");
+                    dataMap.put("b24"," ");
+                  }
+                  if(systemRes.getFkResponsibleType() == 3){
+                    dataMap.put("b24","✓");
+                    dataMap.put("b23"," ");
+                    dataMap.put("b22"," ");
+                  }
+                }
+              }
+            }
+          }
+      }
+ 
+     
+      //等级测评单位名称
+      if(StringUtils.isNotBlank(systemResult.getStandardizedCode())){
+        dataMap.put("companyName", systemResult.getStandardizedCode());
+      }else{
+        dataMap.put("companyName","");
+      }
+      //何时投入运行使用
+      if(systemResult.getWhenInvestmentUse() != null){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String date = simpleDateFormat.format(systemResult.getWhenInvestmentUse());
+        dataMap.put("date", date);
+      }else{
+        dataMap.put("date", "");
+      }
+      //系统是否是分系统
+      if(systemResult.getSubIsSystem() != null){
+        if(systemResult.getSubIsSystem().equals("1")){
+          dataMap.put("bra1", "✓");
+          dataMap.put("bra2", "");
+        }else{
+          dataMap.put("bra2", "✓");
+          dataMap.put("bra1", "");
+        } 
+      }else{
+        dataMap.put("bra2", " ");
+        dataMap.put("bra1", " ");
+      }
+      dataMap.put("superiorSystemName", "");
+      dataMap.put("companySystemName", "");
+      
+      if(securityCount != 1){
+        dataMap.put("nu1", "");
+        dataMap.put("nan1", "");
+        dataMap.put("nan2", "");
+        dataMap.put("nan3", "");
+        dataMap.put("nvl1", "");
+      }
+      if(networkCount != 1){
+        dataMap.put("nu2", "");
+        dataMap.put("nan4", "");
+        dataMap.put("nan5", "");
+        dataMap.put("nan6", "");
+        dataMap.put("nvl2", "");
+      }
+      if(systemCount != 1){
+        dataMap.put("nu3", "");
+        dataMap.put("nan7", "");
+        dataMap.put("nan8", "");
+        dataMap.put("nan9", "");
+        dataMap.put("nvl3", "");
+      }
+      if(baseCount != 1){
+        dataMap.put("nu4", "");
+        dataMap.put("nan10", "");
+        dataMap.put("nan11", "");
+        dataMap.put("nan12", "");
+        dataMap.put("nvl4", "");
+      }
+      if(serverCount != 1){
+        dataMap.put("nu5", "");
+        dataMap.put("nan13", "");
+        dataMap.put("nan14", "");
+        dataMap.put("nan15", "");
+        dataMap.put("nvl5", "");
+      }
+      if(productOtherCount != 1){
+        dataMap.put("nu6", "");
+        dataMap.put("nu", "");
+        dataMap.put("nan16", "");
+        dataMap.put("nan17", "");
+        dataMap.put("nan18", "");
+        dataMap.put("nvl6", "");
+      }
+      if(gradeCount != 1){
+        dataMap.put("a1", "");
+        dataMap.put("a2", "");
+        dataMap.put("b1", "");
+        dataMap.put("b2", "");
+        dataMap.put("b3", "");
+      }
+      if(riskCount  != 1){
+        dataMap.put("a3", "");
+        dataMap.put("a4", "");
+        dataMap.put("b4", "");
+        dataMap.put("b5", "");
+        dataMap.put("b6", "");
+      }
+      if(disasterCount  != 1){
+        dataMap.put("a5", "");
+        dataMap.put("a6", "");
+        dataMap.put("b7", "");
+        dataMap.put("b8", "");
+        dataMap.put("b9", "");
+      }
+      if(emergencyCount  != 1){
+        dataMap.put("a7", "");
+        dataMap.put("a8", "");
+        dataMap.put("b10", "");
+        dataMap.put("b11", "");
+        dataMap.put("b12", "");
+      }
+      if(tntegrateCount  != 1){
+        dataMap.put("a9", "");
+        dataMap.put("a10", "");
+        dataMap.put("b13", "");
+        dataMap.put("b14", "");
+        dataMap.put("b15", "");
+      }
+      if(consultationCount  != 1){
+        dataMap.put("a11", "");
+        dataMap.put("a12", "");
+        dataMap.put("b16", "");
+        dataMap.put("b17", "");
+        dataMap.put("b18", "");
+      }
+      if(trainCount  != 1){
+        dataMap.put("a13", "");
+        dataMap.put("a14", "");
+        dataMap.put("b19", "");
+        dataMap.put("b20", "");
+        dataMap.put("b21", "");
+      }
+      if(serviceOtherCount  != 1){
+        dataMap.put("a15", "");
+        dataMap.put("a16", "");
+        dataMap.put("b22", "");
+        dataMap.put("b23", "");
+        dataMap.put("b24", "");
+        dataMap.put("a", "");
+      }
+      //将业务类型未选中的值替换为空字符串
+      String [] busTypeArray = {"bus1","bus2","bus3","bus4","bus5","bus9"};
+      for (int i = 0; i < busTypeArray.length; i++) {
+        if(StringUtils.isBlank(busType)){
+          dataMap.put("bus", "");
+        }
+        if(!busTypeArray[i].equals(busType)){
+          dataMap.put(busTypeArray[i], "");
+        }else{
+          if(!busTypeArray[i].equals("bus9")){
+            dataMap.put("bus", "");
+          }
+        }
+      }
+      //将服务范围未选中的值替换为空字符串
+      String [] ranTypeArray = {"ran1","ran2","ran3","ran4","ran5","ran99"};
+      for (int i = 0; i < ranTypeArray.length; i++) {
+        if(StringUtils.isBlank(ranType)){
+          dataMap.put("ran", "");
+          dataMap.put("rvl2", "");
+          dataMap.put("rvl4", "");
+        }
+        if(!ranTypeArray[i].equals(ranType)){
+          dataMap.put(ranTypeArray[i], "");
+        }else{
+          if(!ranTypeArray[i].equals("ran9")){
+            dataMap.put("ran", "");
+          }
+          if(!ranTypeArray[i].equals("ran2")){
+            dataMap.put("rvl2", "");
+          }
+          if(!ranTypeArray[i].equals("ran4")){
+            dataMap.put("rvl4", "");
+          }
+        }
+      }
+      //将服务对象未选中的值替换为空字符串
+      String [] objTypeArray = {"obj1","obj2","obj3","obj9"};
+      for (int i = 0; i < objTypeArray.length; i++) {
+        if(StringUtils.isBlank(objType)){
+          dataMap.put("obj", "");
+        }
+        if(!objTypeArray[i].equals(objType)){
+          dataMap.put(objTypeArray[i], "");
+        }else{
+          if(!objTypeArray[i].equals("obj9")){
+            dataMap.put("obj", "");
+          }
+        }
+      }
+      //将覆盖范围未选中的值替换为空字符串
+      String [] coberTypeArray = {"cover1","cover2","cover3","cover9"};
+      for (int i = 0; i < coberTypeArray.length; i++) {
+        if(StringUtils.isBlank(coverType)){
+          dataMap.put("cover", "");
+        }
+        if(!coberTypeArray[i].equals(coverType)){
+          dataMap.put(coberTypeArray[i], "");
+        }else{
+          if(!coberTypeArray[i].equals("cover9")){
+            dataMap.put("cover", "");
+          }
+        }
+      }
+      //将网络性质未选中的值替换为空字符串
+      String [] natTypeArray = {"nat1","nat2","nat9"};
+      for (int i = 0; i < natTypeArray.length; i++) {
+        if(StringUtils.isBlank(natType)){
+          dataMap.put("nat", "");
+        }
+        if(!natTypeArray[i].equals(natType)){
+          dataMap.put(natTypeArray[i], "");
+        }else{
+          if(!natTypeArray[i].equals("nat9")){
+            dataMap.put("nat", "");
+          }
+        }
+      }
+      //将系统互联情况未选中的值替换为空字符串
+      String [] ionTypeArray = {"ion1","ion2","ion3","ion9"};
+      for (int i = 0; i < ionTypeArray.length; i++) {
+        if(StringUtils.isBlank(ionType)){
+          dataMap.put("ion", "");
+        }
+        if(!ionTypeArray[i].equals(ionType)){
+          dataMap.put(ionTypeArray[i], "");
+        }else{
+          if(!ionTypeArray[i].equals("ion9")){
+            dataMap.put("ion", "");
+          }
+        }
+      }
+    }else{
+      dataMap.put("systemName", "");dataMap.put("sysCode", "");dataMap.put("bus1", "");
+      dataMap.put("bus2", "");dataMap.put("bus3", "");dataMap.put("bus4", "");
+      dataMap.put("bus5", "");dataMap.put("bus9", "");dataMap.put("bus", "");
+      dataMap.put("description", "");dataMap.put("ran1", "");dataMap.put("ran2", "");
+      dataMap.put("rvl2", "");dataMap.put("ran3", ""); dataMap.put("ran4", "");
+      dataMap.put("rvl4", "");dataMap.put("ran5", "");dataMap.put("ran99", "");
+      dataMap.put("ran", "");dataMap.put("obj1", "");dataMap.put("obj2", "");
+      dataMap.put("obj3", "");dataMap.put("obj9", "");dataMap.put("obj", "");
+      dataMap.put("cover1", "");dataMap.put("cover2", "");dataMap.put("cover3", "");
+      dataMap.put("cover9", "");dataMap.put("cover", "");dataMap.put("nat1", "");
+      dataMap.put("nat2", "");dataMap.put("nat9", "");dataMap.put("ion1", "");
+      dataMap.put("ion2", "");dataMap.put("ion3", "");dataMap.put("ion9", "");
+      dataMap.put("ion", "");dataMap.put("nu1", "");dataMap.put("nu2", "");
+      dataMap.put("nu3", "");dataMap.put("nu4", "");dataMap.put("nu5", "");
+      dataMap.put("nu6", "");dataMap.put("nu", "");dataMap.put("nan1", "");
+      dataMap.put("nan2", "");dataMap.put("nan3", "");dataMap.put("nan4", "");
+      dataMap.put("nan5", "");dataMap.put("nan6", "");dataMap.put("nan7", "");
+      dataMap.put("nan8", "");dataMap.put("nan9", "");dataMap.put("nan10", "");
+      dataMap.put("nan11", "");dataMap.put("nan12", "");dataMap.put("nan13", "");
+      dataMap.put("nan14", "");dataMap.put("nan15", "");dataMap.put("nan16", "");
+      dataMap.put("nan17", "");dataMap.put("nan18", "");dataMap.put("nvl1", "");
+      dataMap.put("nvl2", "");dataMap.put("nvl3", "");dataMap.put("nvl4", "");
+      dataMap.put("nvl5", "");dataMap.put("nvl6", "");dataMap.put("a1", "");
+      dataMap.put("a2", "");dataMap.put("a3", "");dataMap.put("a4", "");
+      dataMap.put("a5", "");dataMap.put("a6", "");dataMap.put("a7", "");
+      dataMap.put("a8", "");dataMap.put("a9", "");dataMap.put("a10", "");
+      dataMap.put("a11", "");dataMap.put("a12", "");dataMap.put("a13", "");
+      dataMap.put("a14", "");dataMap.put("a15", "");dataMap.put("a16", "");
+      dataMap.put("b1", "");dataMap.put("b2", "");dataMap.put("b3", "");
+      dataMap.put("b4", ""); dataMap.put("b5", "");dataMap.put("b6", "");
+      dataMap.put("b7", "");dataMap.put("b8", "");dataMap.put("b9", "");
+      dataMap.put("b10", "");dataMap.put("b11", "");dataMap.put("b12", "");
+      dataMap.put("b13", "");dataMap.put("b14", ""); dataMap.put("b15", "");
+      dataMap.put("b16", "");dataMap.put("b17", "");dataMap.put("b18", "");
+      dataMap.put("b19", "");dataMap.put("b20", "");dataMap.put("b21", "");
+      dataMap.put("b22", "");dataMap.put("b23", "");dataMap.put("b24", "");
+      dataMap.put("companyName", "");dataMap.put("date", "");dataMap.put("bra1", "");
+      dataMap.put("bra2", "");dataMap.put("superiorSystemName", "");
+      dataMap.put("companySystemName", "");
+    }
+    Map<String,Object> result = new HashMap<>();
+    result.put("url",WordUtils.createWord(dataMap,"system.ftl","系统信息"));
+    result.put("tableSystemResult", dataMap);
+    return result;
+  }
+
+  /**
+   * 一键下载（表3 定级信息）
+   */
+  @Override
+  public Map<String,Object> tableGrading(MainParam mainParam) throws BusinessException {
+    Map<String,Object> dataMap=new HashMap<String,Object>();
+    //查询定级信息
+    GradingParam gradingParam = new GradingParam();
+    gradingParam.setFkSystemId(mainParam.getSystemId());
+    GradingListResult gradingListResult = gradingServiceImpl.queryEditGrading(gradingParam);
+    String selected = "";
+    if(gradingListResult != null){
+      //确定业务信息安全保护等级
+      if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
+        if(gradingListResult.getFkBizSPRankLevel().equals("1")){
+          selected = "v1";
+        }
+        if(gradingListResult.getFkBizSPRankLevel().equals("2")){
+          selected = "v2";
+        }
+        if(gradingListResult.getFkBizSPRankLevel().equals("3")){
+          selected = "v3";
+        }
+        if(gradingListResult.getFkBizSPRankLevel().equals("4")){
+          selected = "v4";
+        }
+        if(gradingListResult.getFkBizSPRankLevel().equals("5")){
+          selected = "v5";
+        }
+      }
+      //确定系统服务安全保护等级
+      String select = "";
+      if(StringUtils.isNotBlank(gradingListResult.getFkBizSystemLevel())){
+        if(gradingListResult.getFkBizSystemLevel().equals("1")){
+          select = "s1";
+        }
+        if(gradingListResult.getFkBizSystemLevel().equals("2")){
+          select = "s2";
+        }
+        if(gradingListResult.getFkBizSystemLevel().equals("3")){
+          select = "s3";
+        }
+        if(gradingListResult.getFkBizSystemLevel().equals("4")){
+          select = "s4";
+        }
+        if(gradingListResult.getFkBizSystemLevel().equals("5")){
+          select = "s5";
+        }
+      }
+      //信息系统安全保护等级
+      String selectType = "";
+      if(StringUtils.isNotBlank(gradingListResult.getFkSpRanklevel())){
+        if(gradingListResult.getFkSpRanklevel().equals("301")){
+          dataMap.put("c1", "✓");
+          selectType = "c1";
+        }
+        if(gradingListResult.getFkSpRanklevel().equals("302")){
+          dataMap.put("c2", "✓");
+          selectType = "c2";
+        }
+        if(gradingListResult.getFkSpRanklevel().equals("303")){
+          dataMap.put("c3", "✓");
+          selectType = "c3";
+        }
+        if(gradingListResult.getFkSpRanklevel().equals("304")){
+          dataMap.put("c4", "✓");
+          selectType = "c4";
+        }
+        if(gradingListResult.getFkSpRanklevel().equals("305")){
+          dataMap.put("c5", "✓");
+          selectType = "c5";
+        }
+      }
+      //定级时间
+      if(gradingListResult.getRankTime() != null){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String date = simpleDateFormat.format(gradingListResult.getRankTime());
+        dataMap.put("gradingDate", date);
+      }else{
+        dataMap.put("gradingDate", "");
+      }
+      //专家评审情况
+      if(gradingListResult.getExpertView() != null){
+        if(gradingListResult.getExpertView() == 1){
+          dataMap.put("review1", "✓");
+          dataMap.put("review2", " ");
+        }else{
+          dataMap.put("review2", "✓");
+          dataMap.put("review1", " ");
+        }
+      }else{
+        dataMap.put("review2", " ");
+        dataMap.put("review1", " ");
+      }
+      //是否有主管部门
+      if(gradingListResult.getCompetentIsExisting() != null){
+        //如果有主管部门则添加主管部门名称和主管部门审批定级情况则填入值，如没有主管部门名称和主管部门审批定级情况为空
+        if(gradingListResult.getCompetentIsExisting() == 1){
+          dataMap.put("director1", "✓");
+          dataMap.put("director2", " ");
+          if(StringUtils.isNotBlank(gradingListResult.getCompetentName())){
+            dataMap.put("competentName", gradingListResult.getCompetentName());
+          }
+          if(gradingListResult.getCompetentView() != null){
+            if(gradingListResult.getCompetentView() == 1){
+              dataMap.put("approval", "✓");
+              dataMap.put("approva2", " ");
+            }else{
+              dataMap.put("approva2", "✓");
+              dataMap.put("approval", " ");
+            }
+          }
+        }else{
+          dataMap.put("director2", "✓");
+          dataMap.put("director1", " ");
+          dataMap.put("competentName", " ");
+          dataMap.put("approval", " ");
+          dataMap.put("approva2", " ");
+        }
+      }else{
+        dataMap.put("director2", " ");
+        dataMap.put("director1", " ");
+        dataMap.put("competentName", " ");
+        dataMap.put("approval", " ");
+        dataMap.put("approva2", " ");
+      }
+      //系统定级报告
+      if(StringUtils.isNotBlank(gradingListResult.getGradingReportName())){
+        dataMap.put("grading1", "✓");
+        dataMap.put("grading2", "");
+        dataMap.put("enc", gradingListResult.getGradingReportName());
+      }else{
+        dataMap.put("grading2", "✓");
+        dataMap.put("grading1", "");
+        dataMap.put("enc", "");
+      }
+      //填表人
+      if(StringUtils.isNotBlank(gradingListResult.getFiller())){
+        dataMap.put("addTableName", gradingListResult.getFiller());
+      }else{
+        dataMap.put("addTableName", "");
+      }
+      //填日期
+      if(gradingListResult.getFillDate() != null){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String date = simpleDateFormat.format(gradingListResult.getFillDate());
+        dataMap.put("tableDate", date);
+      }else{
+        dataMap.put("tableDate","");
+      }
+
+      dataMap.put("v1", "");
+      dataMap.put("v2", "");
+      dataMap.put("v3", "");
+      dataMap.put("v4", "");
+      dataMap.put("v5", "");
+      dataMap.put("s1", "");
+      dataMap.put("s2", "");
+      dataMap.put("s3", "");
+      dataMap.put("s4", "");
+      dataMap.put("s5", "");
+      
+      dataMap.put("snu1", "");
+      dataMap.put("snu2", "");
+      dataMap.put("snu3", "");
+      dataMap.put("snu4", "");
+      dataMap.put("snu5", "");
+      dataMap.put("snu6", "");
+      dataMap.put("snu7", "");
+      dataMap.put("snu8", "");
+      dataMap.put("snu9", "");
+      
+      dataMap.put("snb1", "");
+      dataMap.put("snb2", "");
+      dataMap.put("snb3", "");
+      dataMap.put("snb4", "");
+      dataMap.put("snb5", "");
+      dataMap.put("snb6", "");
+      dataMap.put("snb7", "");
+      dataMap.put("snb8", "");
+      dataMap.put("snb9", "");
+      //将业务信息选中的值替换为✓
+      if(selected.equals("v1")){
+        dataMap.put("v1", "✓");
+        dataMap.put("snu1", "✓");
+      }else if(selected.equals("v2")){
+        dataMap.put("v2", "✓");
+        dataMap.put("snu2", "✓");
+        dataMap.put("snu3", "✓");
+      }else if(selected.equals("v3")){
+        dataMap.put("v3", "✓");
+        dataMap.put("snu4", "✓");
+        dataMap.put("snu5", "✓");
+        dataMap.put("snu6", "✓");
+      }else if(selected.equals("v4")){
+        dataMap.put("v4", "✓");
+        dataMap.put("snu7", "✓");
+        dataMap.put("snu8", "✓");
+      }else{
+        dataMap.put("v5", "✓");
+        dataMap.put("snu9", "✓");
+      }
+      //将系统服务信息选中的值替换为✓
+      if(select.equals("s1")){
+        dataMap.put("s1", "✓");
+        dataMap.put("snb1", "✓");
+      }else if(select.equals("s2")){
+        dataMap.put("s2", "✓");
+        dataMap.put("snb2", "✓");
+        dataMap.put("snb3", "✓");
+      }else if(select.equals("s3")){
+        dataMap.put("s3", "✓");
+        dataMap.put("snb4", "✓");
+        dataMap.put("snb5", "✓");
+        dataMap.put("snb6", "✓");
+      }else if(select.equals("s4")){
+        dataMap.put("s4", "✓");
+        dataMap.put("snb7", "✓");
+        dataMap.put("snb8", "✓");
+      }else{
+        dataMap.put("s5", "✓");
+        dataMap.put("snb9", "✓");
+      }  
+      //将业务类型未选中的值替换为空字符串
+      String [] selectTypeArray = {"c1","c2","c3","c4","c5"};
+      for (int i = 0; i < selectTypeArray.length; i++) {
+        if(!selectTypeArray[i].equals(selectType)){
+          dataMap.put(selectTypeArray[i], "");
+        }
+      }
+    }else{
+      dataMap.put("snu1", "");dataMap.put("snu2", "");dataMap.put("snu3", "");
+      dataMap.put("snu4", "");dataMap.put("snu5", "");dataMap.put("snu6", "");
+      dataMap.put("snu7", "");dataMap.put("snu8", "");dataMap.put("snu9", "");
+      dataMap.put("snb1", "");dataMap.put("snb2", "");dataMap.put("snb3", "");
+      dataMap.put("snb4", "");dataMap.put("snb5", "");dataMap.put("snb6", "");
+      dataMap.put("snb7", "");dataMap.put("snb8", "");dataMap.put("snb9", "");
+      dataMap.put("v1", "");dataMap.put("v2", "");dataMap.put("v3", "");
+      dataMap.put("v4", "");dataMap.put("v5", "");dataMap.put("s1", "");
+      dataMap.put("s2", "");dataMap.put("s3", "");dataMap.put("s4", "");
+      dataMap.put("s5", "");dataMap.put("c1", "");dataMap.put("c2", "");
+      dataMap.put("c3", "");dataMap.put("c4", "");dataMap.put("c5", "");
+      dataMap.put("gradingDate", "");dataMap.put("review1", "");dataMap.put("review2", "");
+      dataMap.put("director1", "");dataMap.put("director2", "");dataMap.put("competentName", "");
+      dataMap.put("approval", "");dataMap.put("approva2", "");dataMap.put("grading1", "");
+      dataMap.put("grading2", "");dataMap.put("enc", "");dataMap.put("addTableName", "");
+      dataMap.put("tableDate", "");
+    }
+    Map<String,Object> result = new HashMap<>();
+    result.put("url",WordUtils.createWord(dataMap,"grading.ftl","定级信息"));
+    result.put("tableGradingResult", dataMap);
+    return result;
+  }
+
+  /**
+   *  一键下载（表4 附件信息）
+   */
+  @Override
+  public Map<String,Object> tableAttach(MainParam mainParam) throws BusinessException {
+    Map<String,Object> dataMap=new HashMap<String,Object>();
+    //查询系统信息
+    AttachMaterialsParam attachMaterialsParam = new AttachMaterialsParam();
+    attachMaterialsParam.setFkSystemId(mainParam.getSystemId());
+    List<AttachMaterialsListResult> attachMaterialsListResultList 
+      = attachMaterialsServiceImpl.queryEditAttach(attachMaterialsParam);
+    if(!ObjectUtils.isEmpty(attachMaterialsListResultList)){
+      //计数器
+      int topologyCount = 0;
+      int organizationCount = 0;
+      int implementationCount = 0;
+      int licenseCount = 0;
+      int evaluationCount = 0;
+      int expertCount = 0;
+      int directorCount = 0;
+      for(AttachMaterialsListResult attachMaterialsListResult : attachMaterialsListResultList){
+        //系统拓扑结构及说明
+        if(topologyCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("topologyDescription")){
+            dataMap.put("has1", "✓");
+            dataMap.put("has2", " ");
+            dataMap.put("name1", attachMaterialsListResult.getAttachName());
+            topologyCount = 1;
+          }else{
+            dataMap.put("has2", "✓");
+            dataMap.put("has1", " ");
+            dataMap.put("name1", " ");
+          }
+        }
+        //系统安全组织机构及管理制度
+        if(organizationCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("organizationManagement")){
+            dataMap.put("has3", "✓");
+            dataMap.put("has4", " ");
+            dataMap.put("name2", attachMaterialsListResult.getAttachName());
+            organizationCount = 1;
+          }else{
+            dataMap.put("has4", "✓");
+            dataMap.put("has3", " ");
+            dataMap.put("name2", " ");
+          }
+        }
+        //系统安全保护设施设计实施方案或改建实施方案
+        if(implementationCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("implementationPlan")){
+            dataMap.put("has5", "✓");
+            dataMap.put("has6", " ");
+            dataMap.put("name3", attachMaterialsListResult.getAttachName());
+            implementationCount = 1;
+          }else{
+            dataMap.put("has6", "✓");
+            dataMap.put("has5", " ");
+            dataMap.put("name3", " ");
+          }
+        }
+        //系统使用的安全产品清单及认证、销售许可证明
+        if(licenseCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("licenseCertificate")){
+            dataMap.put("has7", "✓");
+            dataMap.put("has8", " ");
+            dataMap.put("name4", attachMaterialsListResult.getAttachName());
+            licenseCount = 1;
+          }else{
+            dataMap.put("has8", "✓");
+            dataMap.put("has7", " ");
+            dataMap.put("name4", " ");
+          }
+        }
+        //系统等级测评报告
+        if(evaluationCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("evaluationPresentation")){
+            dataMap.put("has9", "✓");
+            dataMap.put("has10", " ");
+            dataMap.put("name5", attachMaterialsListResult.getAttachName());
+            evaluationCount = 1;
+          }else{
+            dataMap.put("has10", "✓");
+            dataMap.put("has9", " ");
+            dataMap.put("name5", " ");
+          }
+        }
+        //专家评审情况
+        if(expertCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("expertReview")){
+            dataMap.put("has11", "✓");
+            dataMap.put("has12", " ");
+            dataMap.put("name6", attachMaterialsListResult.getAttachName());
+            expertCount = 1;
+          }else{
+            dataMap.put("has12", "✓");
+            dataMap.put("has11", " ");
+            dataMap.put("name6", " ");
+          }
+        }
+        //上级主管部门审批意见
+        if(directorCount != 1){
+          if(attachMaterialsListResult.getFkAttachType().equals("directorOpinion")){
+            dataMap.put("has13", "✓");
+            dataMap.put("has14", " ");
+            dataMap.put("name7", attachMaterialsListResult.getAttachName());
+            directorCount = 1;
+          }else{
+            dataMap.put("has14", "✓");
+            dataMap.put("has13", " ");
+            dataMap.put("name7", " ");
+          }
+        }
+      }
+    }else{
+      dataMap.put("has1", " ");dataMap.put("has2", " ");dataMap.put("has3", " ");
+      dataMap.put("has4", " ");dataMap.put("has5", " ");dataMap.put("has6", " ");
+      dataMap.put("has7", " ");dataMap.put("has8", " ");dataMap.put("has9", " ");
+      dataMap.put("has10", " ");dataMap.put("has11", " ");dataMap.put("has12", " ");
+      dataMap.put("has13", " ");dataMap.put("has14", " ");dataMap.put("name1", " ");
+      dataMap.put("name2", " ");dataMap.put("name3", " ");dataMap.put("name4", " ");
+      dataMap.put("name5", " ");dataMap.put("name6", " ");dataMap.put("name7", " ");
+    }
+    Map<String,Object> result = new HashMap<>();
+    result.put("url",WordUtils.createWord(dataMap,"attach.ftl","附件信息"));
+    result.put("tableAttachResult", dataMap);
+    return result;
+  }
+  
+  /**
+   *  备案表表头相关信息
+   */
+  @Override
+  public Map<String,Object> tableRecord(MainParam mainParam) throws BusinessException {
+    Map<String,Object> dataMap=new HashMap<String,Object>();
+    //查询备案信息
+    RecordsParam recordsParam = new RecordsParam();
+    recordsParam.setFkSystemId(mainParam.getSystemId());
+    RecordsDetailResult recordsDetailResult = recordsServiceImpl.queryRecordsDetail(recordsParam);
+    if(!ObjectUtils.isEmpty(recordsDetailResult)){
+      //备案表编号
+      if(StringUtils.isNotBlank(recordsDetailResult.getRecordCode())){
+        String recordCode = recordsDetailResult.getRecordCode();
+        //转为int数组
+        int[] array = new int[recordCode.length()];
+        for(int i=0; i<recordCode.length(); i++){
+          array[i] = Integer.parseInt(recordCode.charAt(i) + "");
+        }
+        for (int i = 0; i < array.length; i++) {
+          int j = i+1; 
+          dataMap.put("i"+j, array[i]);
+        }
+      }else{
+        dataMap.put("i1", "");
+        dataMap.put("i2", "");
+        dataMap.put("i3", "");
+        dataMap.put("i4", "");
+        dataMap.put("i5", "");
+        dataMap.put("i6", "");
+        dataMap.put("i7", "");
+        dataMap.put("i8", "");
+        dataMap.put("i9", "");
+        dataMap.put("i10", "");
+        dataMap.put("i11", "");
+      }
+      //备 案 日 期
+      if(recordsDetailResult.getRecordDate() != null){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String date = simpleDateFormat.format(recordsDetailResult.getRecordDate());
+        dataMap.put("recordDate", date);
+      }else{
+        dataMap.put("recordDate", "");
+      }
+      //受 理 日 期
+      if(recordsDetailResult.getAcceptDate() != null){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
+        String date = simpleDateFormat.format(recordsDetailResult.getAcceptDate());
+        dataMap.put("ptanceDate", date);
+      }else{
+        dataMap.put("ptanceDate", "");
+      }
+    }else{
+      dataMap.put("i1", "");
+      dataMap.put("i2", "");
+      dataMap.put("i3", "");
+      dataMap.put("i4", "");
+      dataMap.put("i5", "");
+      dataMap.put("i6", "");
+      dataMap.put("i7", "");
+      dataMap.put("i8", "");
+      dataMap.put("i9", "");
+      dataMap.put("i10", "");
+      dataMap.put("i11", "");
+      dataMap.put("recordDate", "");
+      dataMap.put("ptanceDate", "");
+    }
+    return dataMap;
+  }
+
+  /**
+   * 一键下载
+   */
+  @Override
+  public String oneButtonDownloading(HttpServletResponse response,
+      MainParam mainParam) throws BusinessException{
+    Map<String,Object> result = new HashMap<>();
+    //表头信息
+    Map<String,Object> tableRecordResult = tableRecord(mainParam);
+    //表1 单位信息
+    Map<String,Object> tableCompanyResult = tableCompany(mainParam);
+    //表2 系统信息
+    Map<String,Object> tableSystemResult = tableSystem(mainParam);
+    //表3 定级信息
+    Map<String,Object> tableGradingResult = tableGrading(mainParam);
+    //表4 附件信息
+    Map<String,Object> tableAttachResult = tableAttach(mainParam);
+ 
+    //将所有返回结果存进Map
+    if(tableRecordResult != null){
+      result.putAll(tableRecordResult);
+    }
+    if(tableCompanyResult != null){
+      result.putAll((Map<String,Object>)tableCompanyResult.get("tableCompanyResult"));
+      //删除文件
+      File companyFile = new File(tableCompanyResult.get("url").toString());
+      companyFile.delete();
+    }
+    if(tableSystemResult != null){
+      result.putAll((Map<String,Object>)tableSystemResult.get("tableSystemResult"));
+      //删除文件
+      File file = new File(tableSystemResult.get("url").toString());
+      file.delete();
+    }
+    if(tableGradingResult != null){
+      result.putAll((Map<String,Object>)tableGradingResult.get("tableGradingResult"));
+      //删除文件
+      File file = new File(tableGradingResult.get("url").toString());
+      file.delete();
+    }
+    if(tableAttachResult != null){
+      result.putAll((Map<String,Object>)tableAttachResult.get("tableAttachResult"));
+      //删除文件
+      File file = new File(tableAttachResult.get("url").toString());
+      file.delete();
+    } 
+    return  WordUtils.createWord(result,"recordSheet.ftl","备案表");
+  }
+
+  /**
+   * 高级搜索获取系统名称
+   */
+  @Override
+  public List<MainListResult> querySystemName(MainParam mainParam) throws BusinessException {
+    return this.mainMapper.selectSystemName(mainParam);
+  }
+  
+  /**
+   *  处理高级查询状态
+   */
+  @Override
+  public void handleStatus(MainParam mainParam) throws BusinessException {
+    if(mainParam.getStatus() == 1){
+      mainParam.setSystemCodeType("23");
+      mainParam.setGradingStatus("1");
+    }
+    if(mainParam.getStatus() == 2){
+      mainParam.setSystemCodeType("23");
+      mainParam.setGradingStatus("2");
+    }
+    if(mainParam.getStatus() == 3){
+      mainParam.setSystemCodeType("23");
+      mainParam.setGradingStatus("3");
+    }
+    //状态为未审核，则查询未定级
+    if(mainParam.getStatus() == 4 ){
+      mainParam.setSystemCodeType("23");
+      mainParam.setGradingStatus("1");
+    }
+    //状态为待审核，查询审核状态为：
+    //1：待企业安全员管理审核；
+    //2：待总部安全管理员审核；
+    if(mainParam.getStatus() == 5){
+      mainParam.setFkExaminStatus(1);
+    }
+    //状态为已审核，查询审核状态为归档
+    if(mainParam.getStatus() == 6){
+      mainParam.setFkExaminStatus(2);
+    }
+    //状态为审核未通过，查询审核状态为
+    //3：企业安全员管理审核未通过；
+    //4：总部安全管理员审核未通过；
+    if(mainParam.getStatus() == 7){
+      mainParam.setFkExaminStatus(3);
+    }
+    if(mainParam.getStatus() == 8){
+      mainParam.setSystemCodeType("25");
+      mainParam.setRecordStatus("1");
+    }
+    if(mainParam.getStatus() == 9){
+      mainParam.setSystemCodeType("25");
+      mainParam.setRecordStatus("3");
+    }
+    if(mainParam.getStatus() == 10){
+      mainParam.setSystemCodeType("25");
+      mainParam.setRecordStatus("4");
+    }
+    if( mainParam.getStatus() == 11){
+      mainParam.setSystemCodeType("26");
+      mainParam.setEvaluationStatus("1");
+    }
+    if( mainParam.getStatus() == 12){
+      mainParam.setSystemCodeType("26");
+      mainParam.setEvaluationStatus("3");
+    }
+    if( mainParam.getStatus() == 13 || mainParam.getStatus() == 14){
+      mainParam.setSystemCodeType("27");
+      mainParam.setExaminationStatus("1");
+    }
+    if(mainParam.getStatus() == 14){
+      mainParam.setSystemCodeType("27");
+      mainParam.setExaminationStatus("3");
+    }
+  }
+
+  /**
+   * 定级模板导入
+   */
+  @Override
+  public void importExcelForGradeTemplate(String filePath) throws BusinessException {
+    File file = new File(filePath);//原文件
+    String primaryfilePth = MainConstant.EXCEL_FILE_PATH;//原文件路径
+
+    GradingParam gradingParam = new GradingParam();
+    List<File> srcfile = new ArrayList<File>();// 生成的excel的文件的list
+    File fileCopy = null;
+    //Excel宏设置
+    JacobExcelTool tool = new JacobExcelTool();
+    //打开
+    tool.OpenExcel(filePath,false,false);
+    try {
+        //打开excel文件
+        tool.OpenExcel(primaryfilePth,false,false);
+        
+        //关闭并保存，释放对象
+        tool.CloseExcel(true, true);
+       
+        FileInputStream ins = new FileInputStream(file);
+        FileOutputStream out = new FileOutputStream(fileCopy);
+        byte[] b = new byte[1024];
+        int count=0;
+        while((count=ins.read(b))!=-1){
+          out.write(b, 0, count);
+        }
+        srcfile.add(fileCopy);
+        ins.close();
+        out.close();
+      
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+
+  }
+
+  /**
+   * 修改申请变更（弹窗）
+   */
+  @Override
+  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
+  @Transactional
+  public String queryApplicationChange(MainParam mainParam) throws BusinessException{
+    if(StringUtils.isBlank(mainParam.getSystemId()))
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    mainMapper.updateApplicationChangeBySystemId(mainParam);
+    return mainParam.getSystemId();
+  }
+  
+  /**
+   * 修改所有状态
+   */
+  @Override
+  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
+  @Transactional
+  public void editSystemStatusBySystemId(MainParam mainParam) throws BusinessException{
+    if(StringUtils.isBlank(mainParam.getSystemId()))
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    mainMapper.updateSystemStatusBySystemId(mainParam);
   }
 }

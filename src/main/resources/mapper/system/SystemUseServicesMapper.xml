@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sinopec.smcc.cpro.system.mapper.SystemUseServicesMapper">
   <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemUseServices">
-    <id column="pkId" property="pkId" jdbcType="VARCHAR" />
+    <id column="pkId" property="systemUseServicesId" jdbcType="VARCHAR" />
     <result column="fkResponsibleType" property="fkResponsibleType" jdbcType="VARCHAR" />
     <result column="fkProductsType" property="fkProductsType" jdbcType="INTEGER" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
@@ -14,11 +14,31 @@
   <sql id="Base_Column_List">
     pkId,fkResponsibleType,fkProductsType,createTime,deleteStatus,serviceIsUse,otherName,fkSystemId
   </sql>
+  
+  <delete id="deleteUse" parameterType="com.sinopec.smcc.cpro.system.entity.SystemUseServices">
+    DELETE FROM t_cpro_system_use_services WHERE fkSystemId = #{systemId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteSubUse" parameterType="java.util.List">
+    DELETE FROM t_cpro_system_use_services WHERE fkSystemId IN
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item.systemId}
+      </foreach>
+  </delete>
+  
+  <delete id="deleteSystemUseServicesBySystemUseServicesId" parameterType="java.util.List">
+    DELETE FROM t_cpro_system_use_services WHERE pkId in
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+  </delete>
+  
   <insert id="insertSystemUseServicesBySystemUseServicesId" parameterType="java.util.List">
   	INSERT INTO t_cpro_system_use_services
   		(pkId,fkResponsibleType,fkProductsType,createTime,deleteStatus,serviceIsUse,otherName,
-  		fkSystemId) VALUES(
+  		fkSystemId) VALUES
   		<foreach collection="list" item="item" index="index" separator=",">
+        (
 	  		<trim suffixOverrides="," >
 				  <![CDATA[
 				        #{item.systemUseServicesId,jdbcType=VARCHAR},
@@ -108,31 +128,7 @@
 				    </otherwise>
 		  		</choose>
 	  	  </trim>
-	  	  )
-		  	ON DUPLICATE KEY UPDATE
-		  	<trim suffixOverrides="," >
-				    <if test="item.fkResponsibleType != null and item.fkResponsibleType != ''">
-				        fkResponsibleType = #{item.fkResponsibleType,jdbcType=VARCHAR},
-				    </if>
-				    <if test="item.fkProductsType != null and item.fkProductsType != ''">
-				        fkProductsType = #{item.fkProductsType,jdbcType=INTEGER},
-				    </if>
-				    <if test="item.createTime != null ">
-				        createTime = #{item.createTime,jdbcType=TIMESTAMP},
-				    </if>
-				    <if test="item.deleteStatus != null and item.deleteStatus != ''">
-				        deleteStatus = #{item.deleteStatus,jdbcType=INTEGER},
-				    </if>
-				    <if test="item.serviceIsUse != null and item.serviceIsUse != ''">
-				        serviceIsUse = #{item.serviceIsUse,jdbcType=INTEGER},
-				    </if>
-				    <if test="item.otherName != null and item.otherName != ''">
-				        otherName = #{item.otherName,jdbcType=VARCHAR},
-				    </if>
-				    <if test="item.fkSystemId != null and item.fkSystemId != ''">
-				        fkSystemId = #{item.fkSystemId,jdbcType=VARCHAR},
-				    </if>
-	  	  </trim>
+        )
 	  	 </foreach>
   </insert>
 </mapper>

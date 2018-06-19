@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.grading.mapper.SystemMaterialsMapper">
+  <resultMap id="SystemMaterialsResult" type="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsResult">
+    <id column="pkId" property="systemMaterialsId"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    
+    <result column="topologyDescriptionId" property="topologyDescriptionId"/>
+    <result column="topologyDescriptionName" property="topologyDescriptionName"/>
+    
+    <result column="organizationManagementId" property="organizationManagementId"/>
+    <result column="organizationManagementName" property="organizationManagementName"/>
+    
+    <result column="implementationPlanId" property="implementationPlanId"/>
+    <result column="implementationPlanName" property="implementationPlanName"/>
+    
+    <result column="licenseCertificateId" property="licenseCertificateId"/>
+    <result column="licenseCertificateName" property="licenseCertificateName"/>
+    
+    <result column="evaluationPresentationId" property="evaluationPresentationId"/>
+    <result column="evaluationPresentationName" property="evaluationPresentationName"/>
+    
+    <result column="expertReviewId" property="expertReviewId"/>
+    <result column="expertReviewName" property="expertReviewName"/>
+    
+    <result column="directorOpinionId" property="directorOpinionId"/>
+    <result column="directorOpinionName" property="directorOpinionName"/>
+  </resultMap>
+  <select id="selectSystemMaterials" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam" resultMap="SystemMaterialsResult">
+	  SELECT
+		  sys.pkId AS fkSystemId,
+		  topologyDescription.pkId AS topologyDescriptionId,
+		  topologyDescription.attachName AS topologyDescriptionName,
+		  organizationManagement.pkId AS organizationManagementId,
+		  organizationManagement.attachName AS organizationManagementName,
+		  implementationPlan.pkId AS implementationPlanId,
+		  implementationPlan.attachName AS implementationPlanName,
+		  licenseCertificate.pkId AS licenseCertificateId,
+		  licenseCertificate.attachName AS licenseCertificateName,
+		  evaluationPresentation.pkId AS evaluationPresentationId,
+		  evaluationPresentation.attachName AS evaluationPresentationName,
+		  expertReview.pkId AS expertReviewId,
+		  expertReview.attachName AS expertReviewName,
+		  directorOpinion.pkId AS directorOpinionId,
+		  directorOpinion.attachName AS directorOpinionName
+	 FROM
+	  t_cpro_system sys
+		LEFT JOIN t_cpro_evaluation eva ON eva.fkSystemId = sys.pkId
+		LEFT JOIN t_cpro_attach evaluationPresentation ON evaluationPresentation.fkSystemId = eva.fkSystemId
+			AND evaluationPresentation.fkSyssonId = eva.pkId
+			AND evaluationPresentation.fkAttachType = 'evaluationPresentation'
+		LEFT JOIN t_cpro_score sco ON sco.fkSystemId = sys.pkId
+		LEFT JOIN t_cpro_attach expertReview ON expertReview.fkSystemId = sco.fkSystemId
+			AND expertReview.fkSyssonId = sco.pkId
+			AND expertReview.fkAttachType = 'expertReview'
+	  LEFT JOIN t_cpro_attach directorOpinion ON directorOpinion.fkSystemId = sco.fkSystemId
+			AND directorOpinion.fkSyssonId = sco.pkId
+			AND directorOpinion.fkAttachType = 'directorOpinion'
+		LEFT JOIN t_cpro_provide_system_material mata ON sys.pkId = mata.fkSystemId
+		LEFT JOIN t_cpro_provide_system_material matb ON sys.pkId = matb.fkSystemId
+		LEFT JOIN t_cpro_provide_system_material matc ON sys.pkId = matc.fkSystemId
+		LEFT JOIN t_cpro_provide_system_material matd ON sys.pkId = matd.fkSystemId
+		LEFT JOIN t_cpro_attach topologyDescription ON topologyDescription.fkSystemId = mata.fkSystemId
+			AND topologyDescription.fkSyssonId = mata.pkId
+			AND topologyDescription.fkAttachType = 'topologyDescription'
+	  LEFT JOIN t_cpro_attach organizationManagement ON organizationManagement.fkSystemId = matb.fkSystemId
+			AND organizationManagement.fkSyssonId = matb.pkId
+			AND organizationManagement.fkAttachType = 'organizationManagement'
+	  LEFT JOIN t_cpro_attach implementationPlan ON implementationPlan.fkSystemId = matc.fkSystemId
+			AND implementationPlan.fkSyssonId = matc.pkId
+			AND implementationPlan.fkAttachType = 'implementationPlan'
+	  LEFT JOIN t_cpro_attach licenseCertificate ON licenseCertificate.fkSystemId = matd.fkSystemId
+			AND licenseCertificate.fkSyssonId = matd.pkId
+			AND licenseCertificate.fkAttachType = 'licenseCertificate'
+	 WHERE
+	  sys.pkId = #{fkSystemId}
+   GROUP BY
+	  sys.pkid
+		LIMIT 0,1
+  </select>
+  
+  <insert id="insertSystemMaterials" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam">
+  	INSERT INTO t_cpro_provide_system_material
+      (
+        pkId,fkSystemId,deleteStatus,createUserName,createTime,updateTime,remark
+      ) VALUES (
+      <trim suffixOverrides="," >
+        <![CDATA[
+        #{systemMaterialsId},
+        ]]>
+        <![CDATA[
+        #{fkSystemId},
+        ]]>
+        <choose>
+         <when test="deleteStatus != null and deleteStatus != ''">
+           <![CDATA[
+             #{deleteStatus},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="createUserName != null and createUserName != ''">
+           <![CDATA[
+             #{createUserName},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="createTime != null ">
+           <![CDATA[
+             #{createTime},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="updateTime != null ">
+           <![CDATA[
+             #{updateTime},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="remark != null and remark != ''">
+           <![CDATA[
+             #{remark},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+     </trim>
+     ) ON DUPLICATE KEY UPDATE
+     pkId = #{systemMaterialsId},
+     fkSystemId = #{fkSystemId}
+  </insert>
+  
+  
+</mapper>

@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.sinopec.smcc.cpro.grading.mapper.GradingMapper">
-  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.grading.entity.GradingListResult">
-    <id column="pkId" property="gradingId" jdbcType="VARCHAR" />
-    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
-    <result column="fkBizSPRankDegree" property="fkBizSPRankDegree" jdbcType="VARCHAR" />
-    <result column="fkBizSPRankLevel" property="fkBizSPRankLevel" jdbcType="VARCHAR" />
-    <result column="fkBizSystemDegree" property="fkBizSystemDegree" jdbcType="VARCHAR" />
-    <result column="fkBizSystemLevel" property="fkBizSystemLevel" jdbcType="VARCHAR" />
-    <result column="fkSpRanklevel" property="fkSpRanklevel" jdbcType="VARCHAR" />
-    <result column="expertView" property="expertView" jdbcType="TINYINT" />
-    <result column="rankExplainDesc" property="rankExplainDesc" jdbcType="VARCHAR" />
-    <result column="rankTime" property="rankTime" jdbcType="DATE" />
-    <result column="competentIsExisting" property="competentIsExisting" jdbcType="TINYINT" />
-    <result column="competentName" property="competentName" jdbcType="VARCHAR" />
-    <result column="filler" property="filler" jdbcType="VARCHAR" />
-    <result column="fillDate" property="fillDate" jdbcType="DATE" />
-    <result column="deleteStatus" property="deleteStatus" jdbcType="TINYINT" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="createTime" property="createTime" jdbcType="DATE" />
-    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="codeName" property="auditName" jdbcType="VARCHAR" />
-    <result column="systemName" property="systemName" jdbcType="VARCHAR" />
-    <result column="competentView" property="competentView" jdbcType="TINYINT" />
-    <result column="expertView" property="expertView" jdbcType="TINYINT" />
+  <resultMap id="GradingListResult" type="com.sinopec.smcc.cpro.grading.entity.GradingListResult">
+    <id column="pkId" property="gradingId"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    <result column="systemName" property="systemName"/>
+    <result column="fkBizSPRankDegree" property="fkBizSPRankDegree"/>
+    <result column="fkBizSPRankLevel" property="fkBizSPRankLevel"/>
+    <result column="fkBizSystemDegree" property="fkBizSystemDegree"/>
+    <result column="fkBizSystemLevel" property="fkBizSystemLevel"/>
+    <result column="fkSpRanklevel" property="fkSpRanklevel"/>
+    <result column="expertView" property="expertView"/>
+    <result column="rankExplainDesc" property="rankExplainDesc"/>
+    <result column="rankTime" property="rankTime"/>
+    <result column="competentIsExisting" property="competentIsExisting"/>
+    <result column="competentName" property="competentName"/>
+    <result column="expertView" property="expertView"/>
+    <result column="filler" property="filler"/>
+    <result column="fillDate" property="fillDate"/>
+    
+    <result column="gradingReportName" property="gradingReportName"/>
+    <result column="gradingReportId" property="gradingReportId"/>
+    <result column="expertReviewName" property="expertReviewName"/>
+    <result column="expertReviewId" property="expertReviewId"/>
+    <result column="directorOpinionName" property="directorOpinionName"/>
+    <result column="directorOpinionId" property="directorOpinionId"/>
   </resultMap>
   
-  <resultMap id="systemCodeScore" type="com.sinopec.smcc.cpro.grading.entity.GradingListResult">
-  </resultMap>
+  <!-- 修改系统定级状态 -->
+  <update id="updateGradingStatus" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam">
+    UPDATE t_cpro_system
+    SET gradingStatus=2
+    WHERE pkId = #{fkSystemId}
+  </update>
   
-  <insert id="insertGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingListResult">
+  <insert id="insertGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam">
     INSERT INTO t_cpro_score
       (
         pkId,fkSystemId,fkBizSPRankDegree,fkBizSPRankLevel,fkBizSystemDegree,fkBizSystemLevel,
@@ -261,88 +265,131 @@
          </otherwise>
         </choose>
      </trim>
-     )
+     ) ON DUPLICATE KEY UPDATE
+     pkId = #{gradingId},
+     fkSystemId = #{fkSystemId},
+     fkBizSPRankDegree = #{fkBizSPRankDegree},
+     fkBizSPRankLevel = #{fkBizSPRankLevel},
+     fkBizSystemDegree = #{fkBizSystemDegree},
+     fkBizSystemLevel = #{fkBizSystemLevel},
+     fkSpRanklevel = #{fkSpRanklevel},
+     expertView = #{expertView},
+     rankExplainDesc = #{rankExplainDesc},
+     rankTime = #{rankTime},
+     competentIsExisting = #{competentIsExisting},
+     <if test="competentIsExisting == 1">
+	     competentName = #{competentName},
+	     competentView = #{competentView},
+     </if>
+     filler = #{filler},
+     fillDate = #{fillDate}
   </insert>
   
-  <select id="selectEditGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="BaseResultMap">
+  <select id="selectEditGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="GradingListResult">
     SELECT
-      score.fkBizSPRankDegree,
-      score.fkBizSPRankLevel,
-      score.fkBizSystemDegree,
-      score.fkBizSystemLevel,
-      score.fkSpRanklevel,
+			sco.pkId AS gradingId,
+			sco.fkSystemId,
+			sys.systemName,
+			sco.fkBizSPRankDegree,
+			sco.fkBizSPRankLevel,
+			sco.fkBizSystemDegree,
+			sco.fkBizSystemLevel,
+			sco.fkSpRanklevel,
+			sco.rankExplainDesc,
+			sco.rankTime,
+			sco.competentIsExisting,
+			sco.competentName,
+			sco.filler,
+			sco.fillDate,
+			sco.expertView,
+      sco.competentView,
+			gradingReport.attachName AS gradingReportName,
+			gradingReport.pkId AS gradingReportId,
+			expertReview.attachName AS expertReviewName,
+			expertReview.pkId AS expertReviewId,
+			directorOpinion.attachName AS directorOpinionName,
+			directorOpinion.pkId AS directorOpinionId
+		FROM
+			t_cpro_score sco
+		LEFT JOIN t_cpro_system sys ON sco.fkSystemId = sys.pkId
+		LEFT JOIN t_cpro_attach gradingReport ON gradingReport.fkSystemId = sco.fkSystemId
+		AND gradingReport.fkSyssonId = sco.pkId
+		AND gradingReport.fkAttachType = 'gradingReport'
+		LEFT JOIN t_cpro_attach expertReview ON expertReview.fkSystemId = sco.fkSystemId
+		AND expertReview.fkSyssonId = sco.pkId
+		AND expertReview.fkAttachType = 'expertReview'
+		LEFT JOIN t_cpro_attach directorOpinion ON directorOpinion.fkSystemId = sco.fkSystemId
+		AND directorOpinion.fkSyssonId = sco.pkId
+		AND directorOpinion.fkAttachType = 'directorOpinion'
+    WHERE sco.fkSystemId = #{fkSystemId}
+    LIMIT 0,1
+  </select>
+  
+  <select id="selectDetailsGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="GradingListResult">
+    SELECT
+			sco.pkId AS gradingId,
+			sco.fkSystemId,
+			sys.systemName,
+			sco.fkBizSPRankDegree,
+			sco.fkBizSPRankLevel,
+			sco.fkBizSystemDegree,
+			sco.fkBizSystemLevel,
+			sco.fkSpRanklevel,
+			sco.rankExplainDesc,
+			sco.rankTime,
+			sco.competentIsExisting,
+			sco.competentName,
+			sco.filler,
+			sco.fillDate,
+			gradingReport.attachName AS gradingReportName,
+			gradingReport.pkId AS gradingReportId,
+			expertReview.attachName AS expertReviewName,
+			expertReview.pkId AS expertReviewId
+		FROM
+			t_cpro_score sco
+		LEFT JOIN t_cpro_system sys ON sco.fkSystemId = sys.pkId
+		LEFT JOIN t_cpro_attach gradingReport ON gradingReport.fkSystemId = sco.fkSystemId
+		AND gradingReport.fkSyssonId = sco.pkId
+		AND gradingReport.fkAttachType = 'gradingReport'
+		LEFT JOIN t_cpro_attach expertReview ON expertReview.fkSystemId = sco.fkSystemId
+		AND expertReview.fkSyssonId = sco.pkId
+		AND expertReview.fkAttachType = 'expertReview'
+    WHERE sco.fkSystemId = #{fkSystemId}
+    LIMIT 0,1
+  </select>
+  
+    <select id="insertBatchGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="GradingListResult">
+    select 
+      codeBusiness.codeName AS codeBusinessName,
+      codeRankLevel.codeName AS codeRankLevelName,
+      codeSystemDegree.codeName AS codeSystemDegreeName,
+      codeSystemLevel.codeName AS codeSystemLevelName,
+      codeSpRanklevel.codeName AS codeSpRanklevelName,
       score.rankExplainDesc,
       score.rankTime,
       score.competentIsExisting,
       score.competentName,
-			systemCode.codeName AS auditName,
-      score.filler,
-      score.fillDate,
-      attachGradingReport.attachName AS GradingReportName,
-      attachGradingReport.fkSyssonId AS GradingReportId,
-      attachExpertReview.attachName AS ExpertReviewName,
-      attachExpertReview.fkSyssonId AS ExpertReviewId,
-      attachEvaluationPresentation.attachName AS EvaluationPresentationName,
-      attachEvaluationPresentation.fkSyssonId AS EvaluationPresentationId
-    FROM t_cpro_score AS score
-		LEFT JOIN t_cpro_system_code AS systemCode ON score.expertView = systemCode.systemCode 
-			AND systemCode.fkCodeType = 19
-    LEFT JOIN t_cpro_attach AS attachGradingReport ON score.fkSystemId = attachGradingReport.fkSystemId
-    	AND  attachGradingReport.fkAttachType = 'gradingReport' 
-    LEFT JOIN t_cpro_attach AS attachExpertReview ON score.fkSystemId = attachExpertReview.fkSystemId
-    	AND attachExpertReview.fkAttachType = 'expertReview'
-    LEFT JOIN t_cpro_attach AS attachEvaluationPresentation ON score.fkSystemId = attachEvaluationPresentation.fkSystemId
-    	AND attachEvaluationPresentation.fkAttachType = 'evaluationPresentation'
-    WHERE
-	    score.fkSystemId = #{fkSystemId}
-  </select>
-  
-  <select id="selectDetailsGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="BaseResultMap">
-    SELECT
-      systemCode.codeName
-    FROM t_cpro_system_code AS systemCode
-    WHERE systemCode.fkCodeType = 11
-  </select>
-  
-  <select id="selectGradingBySystemIds" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="BaseResultMap">
-    SELECT
-      score.fkBizSPRankDegree,
-      score.fkBizSPRankLevel,
-      score.fkBizSystemDegree,
-      score.fkBizSystemLevel,
-      score.fkSpRanklevel,
-      score.rankExplainDesc,
-      score.rankTime,
-      score.competentIsExisting,
-      score.competentName,
-      score.competentView,
       score.expertView,
-      systemCode.codeName AS auditName,
-      score.filler,
-      score.fillDate,
+      score.competentView,
       attachGradingReport.attachName AS GradingReportName,
-      attachGradingReport.fkSyssonId AS GradingReportId,
       attachExpertReview.attachName AS ExpertReviewName,
-      attachExpertReview.fkSyssonId AS ExpertReviewId,
-      attachEvaluationPresentation.attachName AS EvaluationPresentationName,
-      attachEvaluationPresentation.fkSyssonId AS EvaluationPresentationId,
-      system.systemName
+      score.filler,
+      score.fillDate
     FROM t_cpro_score AS score
-    LEFT JOIN t_cpro_system_code AS systemCode ON score.expertView = systemCode.systemCode 
-      AND systemCode.fkCodeType = 19
-    LEFT JOIN t_cpro_attach AS attachGradingReport ON score.fkSystemId = attachGradingReport.fkSystemId
-      AND  attachGradingReport.fkAttachType = 'gradingReport' 
-    LEFT JOIN t_cpro_attach AS attachExpertReview ON score.fkSystemId = attachExpertReview.fkSystemId
-      AND attachExpertReview.fkAttachType = 'expertReview'
-    LEFT JOIN t_cpro_attach AS attachEvaluationPresentation ON score.fkSystemId = attachEvaluationPresentation.fkSystemId
-      AND attachEvaluationPresentation.fkAttachType = 'evaluationPresentation'
-    LEFT JOIN t_cpro_system AS system ON system.pkId = score.fkSystemId
-    WHERE
-      score.fkSystemId in 
-      <foreach collection="fkSystemIds" item="item" index="index" open="(" separator="," close=")">
-        <![CDATA[
-          #{item,jdbcType=VARCHAR}
-        ]]>
-      </foreach>
+      LEFT JOIN t_cpro_system_code AS codeBusiness
+      ON score.fkBizSPRankDegree = codeBusiness.systemCode AND codeBusiness.fkCodeType = 11
+      LEFT JOIN t_cpro_system_code AS codeRankLevel
+      ON score.fkBizSPRankLevel = codeRankLevel.systemCode AND codeRankLevel.fkCodeType = 11
+      LEFT JOIN t_cpro_system_code AS codeSystemDegree
+      ON score.fkBizSystemDegree = codeSystemDegree.systemCode AND codeSystemDegree.fkCodeType = 11
+      LEFT JOIN t_cpro_system_code AS codeSystemLevel
+      ON score.fkBizSystemLevel = codeSystemLevel.systemCode AND codeSystemLevel.fkCodeType = 11
+      LEFT JOIN t_cpro_system_code AS codeSpRanklevel
+      ON score.fkSpRanklevel = codeSpRanklevel.systemCode AND codeSpRanklevel.fkCodeType = 11
+      LEFT JOIN t_cpro_attach AS attachGradingReport 
+      ON score.fkSystemId = attachGradingReport.fkSystemId
+      LEFT JOIN t_cpro_attach AS attachExpertReview
+      ON score.fkSystemId = attachExpertReview.fkSystemId
+    WHERE score.fkSystemId = #{fkSystemId}
   </select>
 </mapper>

@@ -1,122 +1,116 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>备案</title>
-    <link rel="stylesheet" href="../../../css/private/reset.css">
-    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
-    <link rel="stylesheet" href="../../../css/private/record.css">
-</head>
-<body>-->
-    <div class="recordMain">
-        <p class="cut">备案</p>
-        <div class="recordPro">
-            <p class="recTitle">备案流程</p>
-            <ul class="process">
-                <li class="datas" @click="changeLi($event)">
-                    <span class="datasBgAll"></span>
-                    <p class="datasText">向公安部门提交等保资料（备案表1，2，3，4）</p>
-                    <i class="dataLise"></i>
-                </li>
-                <li class="audit" @click="changeLi">
-                    <span class="datasBgAll auditBg"></span>
-                    <p class="datasText">管局审核</p>
-                    <i class="dataLise dataAudit"></i>
-                </li>
-                <li class="fillIn" @click="changeLi">
-                    <span class="datasBgAll fillInBg"></span>
-                    <p class="datasText">填写备案信息</p>
-                    <i class="dataLise dataFillIn"></i>
-                </li>
-                <li class="over" @click="changeLi">
-                    <span class="datasBgAll overBg"></span>
-                    <p class="datasText">完成</p>
-                    <i class="dataLast"></i>
-                </li>
-            </ul>
-            <div class="datasMain" style="display: block;">
-                所有备案表需要导出下载，并将备案表提交给相关公安部门，等待公安部门审核。点击下载备案
-                <a href="javascript:;" @click="downloadFile(event)">表1</a>，<a href="javascript:;"  @click="downloadFile(event)">表2</a>，
-                <a href="javascript:;"  @click="downloadFile(event)">表3</a>，<a href="javascript:;"  @click="downloadFile(event)">表4</a>
-            </div>
-            <div class="datasMain">
-                相关公安部门人员将会对递交的材料进行审核，查验，通过审核的备案会得到信息系统安全等级保护备案证明。
-            </div>
-            <div class="datasMain">
-                <form action="#">
-                    <ul class="clearfix dataForm">
-                        <li class="row">
-                            <div class="col-lg-6 col-sm-3">
-                                <label for="" class="col-lg-3 col-md-3 text-right">
-                                    <span class="xing">*</span>
-                                    备案编号:
-                                </label>
-                                <div  class="col-md-6 col-sm-3">
-                                    <input type="text"  placeholder="请输入" name="sysOfficeName">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-3">
-                                <label for="" class="col-lg-3 col-md-3 text-right">
-                                    <span class="xing">*</span>
-                                    编号单位:
-                                </label>
-                                <div  class="col-md-6 col-sm-3">
-                                    <input type="text"  placeholder="请输入" name="sysOfficeName">
-                                </div>
-                            </div>
-                        </li>
-                        <li class="row">
-                            <div class="col-lg-6 col-sm-3">
-                                <label for="" class="col-lg-3 col-md-3 text-right">
-                                    <span class="xing">*</span>
-                                    备案时间:
-                                </label>
-                                <div  class="col-md-6 col-sm-3 useData">
-                                    <input type="text"  placeholder="请输入" id="useData" name="useData">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-3">
-                                <label for="" class="col-lg-3 col-md-3 text-right">
-                                    <span class="xing">*</span>
-                                    受理备案单位:
-                                </label>
-                                <div  class="col-md-6 col-sm-3">
-                                    <input type="text"  placeholder="请输入" name="sysOfficeName">
-                                </div>
-                            </div>
-                        </li>
-                        <li class="row">
-                            <div class="col-lg-6 col-sm-3">
-                                <label for="" class="col-lg-3 col-md-3 text-right">
-                                    <span class="xing">*</span>
-                                    受理日期:
-                                </label>
-                                <div  class="col-md-6 col-sm-3 useData">
-                                    <input type="text"  placeholder="请输入" id="useData" name="useData">
-                                </div>
-                            </div>
-                        </li>
-                        <li class="row lastFile">
-                            <div class="col-md-12">
-                                <label for="" class="col-md-3 text-right sysTitle">
-                                    <span class="xing">*</span>
-                                    信息系统安全等级保护备案证明：
-                                </label>
-                                <div class="clearfix sysText col-md-8">
-                                    <input type="text" class="col-md-12" name="systemSafety" id="upBuil">
-                                    <input type="file" id="upBuld" class="smt" style="margin-right:255px; display:none" formmethod="POST"
-                                           value="上传文件" @change="getFile('#upBuld', '#upBuil', '#upBuid')">
-                                    <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
-                                </div>
-                                <button class="btn btn-success sysBtn" onclick="upBuld.click()">上传</button>
-                            </div>
-                        </li>
-                    </ul>
-                </form>
-            </div>
-            <div class="datasMain">
-                完成
-            </div>
-        </div>
+<div class="recordMain">
+  <div>
+    <p class="">
+      <span class="cut">备案</span>
+    </p>
+  </div>
+  <div class="recordPro">
+    <p class="recTitle">备案流程</p>
+    <ul class="process">
+      <li class="datas" @click="changeLi($event)">
+        <span class="datasBgAll"></span>
+        <p class="datasText">向公安部门提交等保资料（备案表1，2，3，4）</p>
+        <i class="dataLise"></i> <span class="line"></span>
+      </li>
+      <li class="audit" @click="changeLi">
+        <span class="datasBgAll auditBg"></span>
+        <p class="datasText">管局审核</p>
+        <i class="dataLise dataAudit"></i>
+        <span class="line"></span>
+      </li>
+      <li class="fillIn" @click="changeLi">
+        <span class="datasBgAll fillInBg"></span>
+        <p class="datasText">填写备案信息</p>
+        <i class="dataLise dataFillIn"></i>
+        <span class="line"></span>
+      </li>
+      <li class="over" @click="changeLi">
+        <span class="datasBgAll overBg"></span>
+        <p class="datasText">完成</p>
+        <i class="dataLast"></i>
+      </li>
+    </ul>
+    <div class="datasMain" style="display: block;">
+                所有备案表需要导出下载，并将备案表提交给相关公安部门，等待公安部门审核。点击下载备案 
+      <a href="javascript:;" @click="downloadFile(1)">表1</a>，
+      <a href="javascript:;" @click="downloadFile(2)">表2</a>，
+      <a href="javascript:;" @click="downloadFile(3)">表3</a>，
+      <a href="javascript:;" @click="downloadFile(4)">表4</a>
     </div>
+    <div class="datasMain">
+                相关公安部门人员将会对递交的材料进行审核，查验，通过审核的备案会得到信息系统安全等级保护备案证明。
+    </div>
+    <div class="datasMain">
+      <form action="#">
+        <ul class="clearfix dataForm">
+          <li class="row">
+            <div class="col-lg-6 col-sm-3">
+              <label for="" class="col-lg-3 col-md-3 text-right">
+                <span class="xing">*</span> 备案编号:
+              </label>
+              <div class="col-md-6 col-sm-3">
+                <input type="text" placeholder="请输入" name="recordCode" id="recordCode" v-model="formData.recordCode" >
+              </div>
+            </div>
+            <div class="col-lg-6 col-sm-3">
+              <label for="" class="col-lg-3 col-md-3 text-right">
+                <span class="xing">*</span> 备案单位:
+              </label>
+              <div class="col-md-6 col-sm-3">
+                <input type="text" placeholder="请输入" name="recordCompany" id="recordCompany" v-model="formData.recordCompany">
+              </div>
+            </div>
+          </li>
+          <li class="row">
+            <div class="col-lg-6 col-sm-3">
+              <label for="" class="col-lg-3 col-md-3 text-right">
+                <span class="xing">*</span> 备案时间:
+              </label>
+              <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.recordDate" type="date"></el-date-picker>
+            </div>
+            <div class="col-lg-6 col-sm-3">
+              <label for="" class="col-lg-3 col-md-3 text-right">
+                <span class="xing">*</span> 受理备案单位:
+              </label>
+              <div class="col-md-6 col-sm-3">
+                <input type="text" placeholder="请输入" name="acceptCompany" id="acceptCompany" v-model="formData.acceptCompany">
+              </div>
+            </div>
+          </li>
+          <li class="row">
+            <div class="col-lg-6 col-sm-3">
+              <label for="" class="col-lg-3 col-md-3 text-right">
+                <span class="xing">*</span> 受理日期:
+              </label>
+              <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.acceptDate" type="date"></el-date-picker>
+            </div>
+          </li>
+          <li class="row lastFile">
+            <div class="col-md-12">
+              <label for="" class="col-md-3 text-right sysTitle">
+                <span class="xing">*</span> 信息系统安全等级保护备案证明:
+              </label>
+              <div class="clearfix sysText col-md-9 uploadBox">
+                <div class="uploadSty">
+                  <ul class="fileList" id="fileList">
+                  	<li v-if="!(formData.recordReportName == null || formData.recordReportName == '')">
+	                  	<div class="fl"  @click="fileDownload(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" >{{formData.recordReportName}}</div>
+                  		<i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
+                  	</li>
+                  </ul>
+                  <el-button type="primary" size="small">上传</el-button>
+                </div>
+                <input type="file" value="" id="file" @change='onUpload'>
+                <p>
+                                                附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </form>
+    </div>
+    <div class="datasMain">备案已完成</div>
+  </div>
+</div>
 

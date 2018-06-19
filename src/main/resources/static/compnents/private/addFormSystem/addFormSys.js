@@ -1,633 +1,748 @@
 /**
  * Created by timha on 2018/5/21.
  */
-(function () {
-    var data={
-        sysName:[],//系统名称
-        sysCode:'',//系统标准化代码
-        sysMsgBuild:[],//信息系统建设类型
-        sysMerge:[],//是否为合并系统
-        sysRecord:'',//等保备案系统名称
-        sysInter:[],//是否为互联网应用
-        sysType:[],//业务类型
-        sysArea:'',//业务描述
-        sysServiceType:[],//服务类型
-        sysServiceObject:[],//服务对象
-        sysCoverage:[],//覆盖范围
-        sysNetwork:[],//网络性质
-        sysIntercon:[],//系统互联情况
-        sysComName:'',//所属单位名称
-        useData:'',//何时投入使用
-        sysOfficeName:'',//主管处室名称
-        sysSubsystem:[],//系统是否为分系统
-        sysPerson:'',//主管联系人
-        sysPersonTel:'',//主管联系人电话
-        num : 2 //定义一个变量
+var  data={
+      formData:{
+        systemId:"",
+        companyId:"",
+        fkInfoSysTypeCon:"",
+        fkSystemIsMerge:"",
+        systemName:"",
+        standardizedCode:"",
+        gradeRecordSysName:"",
+        sysBusSituationType:"",
+        sysBusDescription:"",
+        sysServiceSitScope:"",
+        sysServiceSitObject:"",
+        npCoverageRange:"",
+        npNetworkProperties:"",
+        interconnectionSit:"",
+        productsNumber:"",
+        fkNationalIsProducts:"",
+        fkResponsibleType:"",
+        fkCompanyCode:"",
+        executiveOfficeName:"",
+        executiveDireCon:"",
+        executiveDireConTel:"",
+        whenInvestmentUse:"",
+        subIsSystem:"",
+        addSystemSub:[{
+          systemName:"",
+          standardizedCode:""
+        },
+        {
+          systemName:"",
+          standardizedCode:""
+        }],
+        systemKeyProducts:[{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        }],
+        systemUseServices:[{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        }]
+      },
+      sysName:[],//系统名称
+      sysType:[],//业务类型
+      sysServiceScope:[],//服务范围
+      sysServiceObject:[],//服务对象
+      sysCoverage:[],//覆盖范围
+      sysNetwork:[],//网络性质
+      sysIntercon:[],//系统互联情况
+      msgName : [],//所属单位名称
+      sysSubsystem:[],//系统是否为分系统
+      num : 2, //定义一个变量
+      systemInfo:true,
+      systemSonInfo:false,
+      change:false,
+      sysProductType:[],
+      //获取数量
+      sysNumber:[],
+      //获取是否使用国产品
+      sysNationalProducts:[],
+      //获取服务类型
+      sysServiceType:[],
+      //获取服务责任方类型
+      sysResponsible:[]
     };
-    /*$("#AddformSystem").validate({
-        rules: {
-            sysName: {
-                required: true,
-                maxlength: 50,
-                sysName:true
-            },
-            sysCode: {
-                required: true,
-                sysCode:true
-            },
-            sysMsgBuild: {
-                required: true,
-                minlength: 2,
-                sysMsgBuild:true,
-            },
-            sysRecord: {
-                required: true,
-                maxlength: 100,
-                sysRecord:true
-            },
-            sysInter: {
-                required: true,
-                sysInter:true
-            },
-            sysType: {
-                required: false,
-                sysType:true
-            },
-            sysArea: {
-                required: true,
-                rangelength: [1, 100],
-                sysArea:true
-            },
-            sysServiceType: {
-                required: true,
-                email: true,
-                sysServiceType:true
-            },
-            sysServiceObject: {
-                required: true,
-                sysServiceObject:true
-            },
-            sysCoverage: {
-                required: true,
-                maxlength: 11,
-                isMobile: true,
-                sysCoverage:true
-            },
-            sysNetwork: {
-                required: true,
-                sysNetwork:true
-            },
-            sysIntercon: {
-                required: true,
-                sysIntercon:true
-            },
-            sysComName: {
-                required: true,
-                sysComName:true
-            },
-            useData: {
-                required: true,
-                useData:true
-            },
-            sysOfficeName: {
-                required: true,
-                sysOfficeName:true
-            },
-            sysSubsystem: {
-                required: true,
-                email: true,
-                sysSubsystem:true
-            },
-            sysPerson: {
-                required: true,
-                sysPerson:true
-            },
-            sysPersonTel: {
-                required: true,
-                sysPersonTel:true
-            }
-        },
-        onkeyup: false,
-        errorPlacement: function (error, element) {
-            error.appendTo(element.parent());
-            //忽略自定义方法的错误提示
-            if (error.text() == "ignore") {
-                return '';
-            }
-        },
-        errorElement: "span",
-        submitHandler: function (form) {
-            console.log(form);
-            $(form).ajaxSubmit({
-                url: "php/order.php",
-                type: "post",
-                success: function () {
-                    alert("提交成功！");
-                    $(".shadow").show();
-                    $(".confirm_btn").click(function () {
-                        window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                    })
-                }
-            })
-        },
-    });
-    //以下为自定义验证
-    $.validator.addMethod("sysName", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的系统名称");
 
-    $.validator.addMethod("sysRecord", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{50}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的等保备案系统名称");
-
-    $.validator.addMethod("sysArea", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{200}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的业务描述");*/
+(function () {
 
     Vue.component('addFormSystem',function (resolve,reject) {
         $.get(comp_src+'/compnents/private/addFormSystem/addFormSystem.html').then(function (res) {
             resolve({
                 template:res,
                 data:function () {
-                    return {
-                        options: [
-                            {
-                            value: 'zhinan',
-                            label: '指南',
-                            children: [{
-                                value: 'shejiyuanze',
-                                label: '设计原则'
-                            }, {
-                                value: 'daohang',
-                                label: '导航'
-                            }]
-                        }, {
-                            value: 'zujian',
-                            label: '组件',
-                            children: [{
-                                value: 'basic',
-                                label: 'Basic'
-                            }, {
-                                value: 'form',
-                                label: 'Form'
-                            }, {
-                                value: 'data',
-                                label: 'Data'
-                            }, {
-                                value: 'notice',
-                                label: 'Notice'
-                            }, {
-                                value: 'navigation',
-                                label: 'Navigation'
-                            }, {
-                                value: 'others',
-                                label: 'Others'
-                            }]
-                        }, {
-                            value: 'ziyuan',
-                            label: '资源',
-                            children: [{
-                                value: 'axure',
-                                label: 'Axure Components'
-                            }, {
-                                value: 'sketch',
-                                label: 'Sketch Templates'
-                            }, {
-                                value: 'jiaohu',
-                                label: '组件交互文档'
-                            }]
-                        }],
-                        data
-                    };
+                    return data;
+                },
+                watch:{
+
                 },
                 methods:{
                     //点击切换 添加class名
-                    getClass:function(e){
-                        $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
-                    },
-                    btnBoolen(e){
+                  getTypeClass:function(e,param){
+                    $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                    this.formData.fkInfoSysTypeCon = param;
+                  },
+                  getMergeClass:function(e,param){
+                    $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                    this.formData.fkSystemIsMerge = param;
+                    if(param==1){
+                      this.systemInfo = false;
+                      this.systemSonInfo = true;
+                      this.formData.systemName = "";
+                      this.formData.standardizedCode = "";
+                    }else{
+                      this.systemInfo = true;
+                      this.systemSonInfo = false;
+                      this.formData.addSystemSub=[{
+                        systemName:"",
+                        standardizedCode:""
+                      },
+                      {
+                        systemName:"",
+                        standardizedCode:""
+                      }];
+                      this.formData.systemName = "";
+                    }
+                  },
+                  getRecordClass:function(e,param){
+                    $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                    this.formData.appIsInternet = param;
+                  },
+                  getClass:function(e){
+                    $("#sysType div div").click(function(){
+                      $("#sysType div div").removeClass("btnColor");
+                      $(this).addClass("btnColor");
+                    });
+                    
+                    if(e.target.innerHTML.indexOf("其它") != -1){
+                      $("#sysBusSituationType").val($("#busSituationType").val());
+                    }else{
+                      $("#sysBusSituationType").val(e.target.innerHTML);
+                    }
+                  },
+                  getScopeClass:function(e){
+                    $("#sysSerScope div div").click(function(){
+                      $("#sysSerScope div div").removeClass("btnColor");
+                      $(this).addClass("btnColor");
+                    });
+                    if(e.target.innerHTML.indexOf("其它") != -1){
+                      $("#sysServiceSitScope").val($("#serviceSitScope").val());
+                    }else{
+                      $("#sysServiceSitScope").val(e.target.innerHTML);
+                    }
+                  },
+                  getObjectClass:function(e){
+                    $("#sysSerObject div div").click(function(){
+                      $("#sysSerObject div div").removeClass("btnColor");
+                      $(this).addClass("btnColor");
+                    });
+                    if(e.target.innerHTML.indexOf("其它") != -1){
+                      $("#sysServiceSitObject").val($("#serviceSitObject").val());
+                    }else{
+                      $("#sysServiceSitObject").val(e.target.innerHTML);
+                    }
+                  },
+                  getCoverageClass:function(e){
+                    $("#sysCoverage div div").click(function(){
+                      $("#sysCoverage div div").removeClass("btnColor");
+                      $(this).addClass("btnColor");
+                    });
+                    if(e.target.innerHTML.indexOf("其它") != -1){
+                      $("#npCoverageRange").val($("#coverageRange").val());
+                    }else{
+                      $("#npCoverageRange").val(e.target.innerHTML);
+                    }
+                  },
+                  getNetworkClass:function(e){
+                    $("#sysNetwork div div").click(function(){
+                      $("#sysNetwork div div").removeClass("btnColor");
+                      $(this).addClass("btnColor");
+                    });
+                    if(e.target.innerHTML.indexOf("其它") != -1){
+                      $("#npNetworkProperties").val($("#networkProperties").val());
+                    }else{
+                      $("#npNetworkProperties").val(e.target.innerHTML);
+                    }
+                  },
+                  getSitClass:function(e){
+                    $("#sysIntercon div div").click(function(){
+                      $("#sysIntercon div div").removeClass("btnColor");
+                      $(this).addClass("btnColor");
+                    });
+                    if(e.target.innerHTML.indexOf("其它") != -1){
+                      $("#interconnectionSit").val($("#interconnection").val());
+                    }else{
+                      $("#interconnectionSit").val(e.target.innerHTML);
+                    }
+                  },
+                  getSubClass:function(e,param){
+                    $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                    this.formData.subIsSystem = param;
+                  },
+
+
+                    btnBoolen:function(e){
                         $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                         if($(e.target).val() == '是'){
-                            $("#falseSys").show();
-                            $("#trueSys").hide();
-                        }else{
                             $("#trueSys").show();
                             $("#falseSys").hide();
+                        }else{
+                            $("#falseSys").show();
+                            $("#trueSys").hide();
                         }
                     },
                     addSys:function (e) {
-                        data.num ++;
-                        var str = `<li class="row">
-                                <div class="col-lg-6 col-md-6">
-                                    <label class="col-lg-3 col-md-3 text-right">
-                                        <span class="xing">*</span>
-                                        子系统 ${data.num}系统名称:
-                                    </label>
-                                    <div class="col-lg-6 col-md-6 childSystem">
-                                        <input type="text" placeholder="请输入">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-sm-3">
-                                    <label for="" class="col-lg-3 col-md-3 text-right">
-                                        子系统${data.num}标准化代码:
-                                    </label>
-                                    <div  class="col-md-6 col-sm-3">
-                                        <input type="text" disabled>
-                                    </div>
-                                </div>
-                            </li>`;
+                        this.num ++;
+                        var str = '<li class="row">'+
+                                '<div class="col-lg-6 col-md-6">'+
+                                    '<label class="col-lg-3 col-md-3 text-right">'+
+                                        '<span class="xing">*</span>'+
+                                        '子系统  '+this.num+'系统名称：'+
+                                   ' </label>'+
+                                    '<div class="col-lg-6 col-md-6 childSystem">'+
+                                      '  <input type="text" placeholder="请输入">'+
+                                    '</div>'+
+                                '</div>'+
+                                '<div class="col-lg-6 col-sm-3">'+
+                                   ' <label for="" class="col-lg-3 col-md-3 text-right">'+
+                                       ' 子系统'+this.num+'标准化代码：'+
+                                   ' </label>'+
+                                   ' <div  class="col-md-6 col-md-6 childSystem">'+
+                                        '<input type="text" disabled>'+
+                                    '</div>'+
+                               ' </div>'+
+                           ' </li>';
                         $('#add').before(str);
                     },
                     text:function(){
-                        $('#sysArea').on("keyup",function(){
-                            $('#textNum').text($('#sysArea').val().length);//这句是在键盘按下时，实时的显示字数
-                            if($('#sysArea').val().length > 200){
+                        $('#sysBusDescription').on("keyup",function(){
+                            $('#textNum').text($('#sysBusDescription').val().length);//这句是在键盘按下时，实时的显示字数
+                            if($('#sysBusDescription').val().length > 200){
                                 $('#textNum').text(200);//长度大于200时0处显示的也只是200
-                                $('#sysArea').val($('#sysArea').val().substring(0,200));//长度大于100时截取钱100个字符
+                                $('#sysBusDescription').val($('#sysBusDescription').val().substring(0,200));//长度大于100时截取钱100个字符
                             }
                         })
                     },
-                    clickForm:function () {
-                        $("#AddformSystem").validate({
-                         rules: {
-                         sysName: {
-                         required: true,
-                         maxlength: 50,
-                         sysName:true
-                         },
-                         sysCode: {
-                         required: true,
-                         sysCode:true
-                         },
-                         sysMsgBuild: {
-                         required: true,
-                         minlength: 2,
-                         sysMsgBuild:true,
-                         },
-                         sysRecord: {
-                         required: true,
-                         maxlength: 100,
-                         sysRecord:true
-                         },
-                         sysInter: {
-                         required: true,
-                         sysInter:true
-                         },
-                         sysType: {
-                         required: false,
-                         sysType:true
-                         },
-                         sysArea: {
-                         required: true,
-                         rangelength: [1, 100],
-                         sysArea:true
-                         },
-                         sysServiceType: {
-                         required: true,
-                         email: true,
-                         sysServiceType:true
-                         },
-                         sysServiceObject: {
-                         required: true,
-                         sysServiceObject:true
-                         },
-                         sysCoverage: {
-                         required: true,
-                         maxlength: 11,
-                         isMobile: true,
-                         sysCoverage:true
-                         },
-                         sysNetwork: {
-                         required: true,
-                         sysNetwork:true
-                         },
-                         sysIntercon: {
-                         required: true,
-                         sysIntercon:true
-                         },
-                         sysComName: {
-                         required: true,
-                         sysComName:true
-                         },
-                         useData: {
-                         required: true,
-                         useData:true
-                         },
-                         sysOfficeName: {
-                         required: true,
-                         sysOfficeName:true
-                         },
-                         sysSubsystem: {
-                         required: true,
-                         email: true,
-                         sysSubsystem:true
-                         },
-                         sysPerson: {
-                         required: true,
-                         sysPerson:true
-                         },
-                         sysPersonTel: {
-                         required: true,
-                         sysPersonTel:true
-                         }
-                         },
-                         onkeyup: false,
-                         errorPlacement: function (error, element) {
-                         error.appendTo(element.parent());
-                         //忽略自定义方法的错误提示
-                         if (error.text() == "ignore") {
-                         return '';
-                         }
-                         },
-                         errorElement: "span",
-                         submitHandler: function (form) {
-                         console.log(form);
-                         $(form).ajaxSubmit({
-                         url: "php/order.php",
-                         type: "post",
-                         success: function () {
-                         alert("提交成功！");
-                         $(".shadow").show();
-                         $(".confirm_btn").click(function () {
-                         window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                         })
-                         }
-                         })
-                         },
-                         });
-                         //以下为自定义验证
-                         $.validator.addMethod("sysName", function (value, element) {
-                         var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-                         return this.optional(element) || (re.test(value));
-                         }, "请正确填写您的系统名称");
+                    fnSave:function() {
+                      ajaxMethod(this, 'post',
+                          'system/saveSystem', true,
+                          JSON.stringify(this.formData), 'json',
+                          'application/json;charset=UTF-8',
+                          this.fnSaveSuccessMethod);
+                    },
+                    // 获取系统信息成功
+                    fnSaveSuccessMethod : function(_self, responseData) {
+                      if(type=="change"){
+                        window.location.href = "applicationChangeGradPage?systemId="+responseData.data;
+                      }else{
+                        window.location.href = "addCompanyGradPage?systemId="+responseData.data;
+                      }
+                    },
 
-                         $.validator.addMethod("sysRecord", function (value, element) {
-                         var re = /^\w[()-[]:.{},;@，；。《》、（）]{50}$/;
-                         return this.optional(element) || (re.test(value));
-                         }, "请正确填写您的等保备案系统名称");
+                    // 获取系统下拉列表
+                    getSystemInfoMethod : function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemapi/querySystemApi', true,
+                          '{}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getSystemInfoSuccessMethod);
+                    },
+                    // 获取系统信息成功
+                    getSystemInfoSuccessMethod : function(_self, responseData) {
+                      for (var i = 0; i < responseData.data.length; i++) {
+                        _self.sysName.push({
+                          "systemName" : responseData.data[i].systemName,
+                          "systemCode" : responseData.data[i].systemCode
+                        });
+                      }
+                    },
+                    // 获取业务承受信息
+                    getBearInfoMethod : function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"22"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getBearInfoSuccessMethod);
+                    },
+                    // 获取业务承受信息成功
+                    getBearInfoSuccessMethod : function(_self, responseData) {
+                      _self.sysType = responseData.data;
+                      
+                      if(_self.sysType.length > 5){
+                        $("#sysType").addClass("baseMes2");
+                      }
+                    },
+                    // 获取服务对象信息
+                    getServiceObjectMethod : function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"16"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getServiceObjectSuccessMethod);
+                    },
+                    // 获取服务对象成功
+                    getServiceObjectSuccessMethod : function(_self, responseData) {
+                      _self.sysServiceObject = responseData.data;
+                    },
+                    // 获取覆盖范围信息
+                    getCoverageRangeMethod : function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"17"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getCoverageRangeSuccessMethod);
+                    },
+                    // 获取覆盖范围成功
+                    getCoverageRangeSuccessMethod : function(_self, responseData) {
+                      _self.sysCoverage = responseData.data;
+                    },
+                    // 获取网络性质信息
+                    getNetworkMethod : function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"18"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getNetworkSuccessMethod);
+                    },
+                    // 获取网络性质成功
+                    getNetworkSuccessMethod : function(_self, responseData) {
+                      _self.sysNetwork = responseData.data;
+                    },
+                    //获取系统互连信息
+                    getInterconnectionMethod: function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"13"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getInterconnectionSuccessMethod);
+                    },
+                    // 获取系统互连成功
+                    getInterconnectionSuccessMethod : function(_self, responseData) {
+                      _self.sysIntercon = responseData.data;
+                    },
+                    //获取产品类型信息
+                    getProductTypeMethod: function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"12"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getProductTypeSuccessMethod);
+                    },
+                    //获取服务范围信息
+                    getServiceRangeMethod: function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          '{"codeType":"20"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getServiceRangeSuccessMethod);
+                    },
+                    // 获取服务范围信息成功
+                    getServiceRangeSuccessMethod : function(_self, responseData) {
+                      _self.sysServiceScope = responseData.data;
+                    },
+                    //获取单位信息
+                    getCompanyMethod:function(_self){
+                      ajaxMethod(_self, 'post',
+                          'organizationapi/queryOrganizationForKeyOrganizationCode', true,'{}', 'json',
+                          'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
+                    },
+                    //获取单位信息
+                    getCompanySuccessMethod:function(_self,responseData){
+                      for (var i = 0; i < responseData.data.length; i++) {
+                        _self.msgName.push({
+                          "orgName" : responseData.data[i].orgName,
+                          "orgCode" : responseData.data[i].orgCode
+                        });
+                      }
+                    },
+                    setStandardizedCode:function(e,val){
+                      if(e!=null){
+                        for(var i=0;i<this.sysName.length;i++){
+                          if(e==this.sysName[i].systemName){
+                            if(val==1){
+                              this.formData.standardizedCode = this.sysName[i].systemCode;
+                            }else if(val==2){
+                              this.formData.addSystemSub[0].standardizedCode = this.sysName[i].systemCode;
+                            }else if(val==3){
+                              this.formData.addSystemSub[1].standardizedCode = this.sysName[i].systemCode;
+                            }
+                          }
+                        }
+                      }
+                    },
+                    getGetSystemMethod:function(_self,systemId){
+                      ajaxMethod(_self, 'post',
+                          'system/queryEditSystem', true,JSON.stringify(_self.formData), 'json',
+                          'application/json;charset=UTF-8',_self.getGetSystemSuccessMethod);
+                    },
+                    getGetSystemSuccessMethod: function(_self, responseData) {
+                      this.formData = responseData.data;
+                      //var response='{"fkInfoSysTypeCon":"1","appIsInternet":"1","fkSystemIsMerge":"1","systemName":"胜利时刻","standardizedCode":"271","gradeRecordSysName":"等保时刻","sysBusSituationType":"公众服务","sysBusDescription":"公众描述","sysServiceSitScope":"全国","sysServiceSitObject":"单位内部人员","npCoverageRange":"局域网","npNetworkProperties":"互联网","interconnectionSit":"与其他行业系统连接","fkExaminStatus":"数据库","productsNumber":"无","fkNationalIsProducts":"全部使用","fkProductsType":"等级测评","fkResponsibleType":"国外服务商","fkCompanyCode":"100","executiveOfficeName":"主管室时刻","executiveDireCon":"主管联系人","executiveDireConTel":"2710000","whenInvestmentUseL":"2018-05-24 11:13:17","subIsSystem":"1","addSystemSub":[{"systemName":"子1时刻","standardizedCode":"27101"},{"systemName":"子2时刻","standardizedCode":"27102"}],"systemKeyProducts":[{"fkNationalIsProducts":"1","fkExaminStatus":"2","productsNumber":"无","nUseProbability":1,"otherName":""}],"systemUseServices":[{"fkResponsibleType":"1","fkProductsType":"2","serviceIsUse":"1","otherName":"暂无"}]}';
+                      //response = JSON.parse(response);
+                      var response = responseData.data;
+                      for(var i=0;i<100;i++){
+                        if(response.addSystemSub!=null){
+                          if(response.addSystemSub.length<_self.formData.addSystemSub.length){
+                            response.addSystemSub.push({
+                              "systemName":"",
+                              "standardizedCode":""
+                            });
+                          }else if(response.addSystemSub.length>_self.formData.addSystemSub.length){
+                            _self.formData.addSystemSub.push({
+                              "systemName":"",
+                              "standardizedCode":""
+                            });
+                          }
+                        }
+                        if(response.systemKeyProducts==null){
+                          response.systemKeyProducts = []
+                          response.systemKeyProducts.push({
+                            "fkNationalIsProducts":"",
+                            "fkExaminStatus":"",
+                            "productsNumber":"",
+                            "nUseProbability":0,
+                            "otherName":""
+                          });
+                        }else{
+                          
+                          if(response.systemKeyProducts.length<_self.formData.systemKeyProducts.length){
+                            response.systemKeyProducts.push({
+                              "fkNationalIsProducts":"",
+                              "fkExaminStatus":"",
+                              "productsNumber":"",
+                              "nUseProbability":0,
+                              "otherName":""
+                            });
+                          }else if(response.systemKeyProducts.length>_self.formData.systemKeyProducts.length){
+                            _self.formData.systemKeyProducts.push({
+                              "fkNationalIsProducts":"",
+                              "fkExaminStatus":"",
+                              "productsNumber":"",
+                              "nUseProbability":0,
+                              "otherName":""
+                            });
+                          }
+                        }
+                        if(response.systemUseServices==null){
+                          response.systemUseServices = []
+                          response.systemUseServices.push({
+                            "fkResponsibleType":"",
+                            "fkProductsType":"",
+                            "fkSystemId":"",
+                            "serviceIsUse":"",
+                            "otherName":""
+                          });
+                        }else{
+                          if(response.systemUseServices.length<_self.formData.systemUseServices.length){
+                            response.systemUseServices.push({
+                              "fkResponsibleType":"",
+                              "fkProductsType":"",
+                              "fkSystemId":"",
+                              "serviceIsUse":"",
+                              "otherName":""
+                            });
+                          }else if(response.systemUseServices.length>_self.formData.systemUseServices.length){
+                            _self.formData.systemUseServices.push({
+                              "fkResponsibleType":"",
+                              "fkProductsType":"",
+                              "fkSystemId":"",
+                              "serviceIsUse":"",
+                              "otherName":""
+                            });
+                          }
+                        }
+                      }
+                      _self.formData = response;
+                      if(_self.formData.fkInfoSysTypeCon!=''){
+                        var array = $('#baseMes1').find('div').map(function (index, ele) {
+                          if(_self.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
+                            return ele;
+                          }else if(_self.formData.fkInfoSysTypeCon==2&&ele.innerHTML=='统建'){
+                            return ele;
+                          }else if(_self.formData.fkInfoSysTypeCon==3&&ele.innerHTML=='总部系统'){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                        }).get();
+                        $(array).addClass('btnColor')
+                      }
+                      if(_self.formData.fkSystemIsMerge!=''){
+                        var array = $('#baseMes2').find('div').map(function (index, ele) {
+                          if(_self.formData.fkSystemIsMerge==1&&ele.innerHTML=='是'){
+                            return ele;
+                          }else if(_self.formData.fkSystemIsMerge==2&&ele.innerHTML=='否'){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                        }).get();
+                        $(array).addClass('btnColor')
+                      }
+                      if(_self.formData.appIsInternet!=''){
+                        var array = $('#baseMes3').find('div').map(function (index, ele) {
+                          if(_self.formData.appIsInternet==1&&ele.innerHTML=='是'){
+                            return ele;
+                          }else if(_self.formData.appIsInternet==2&&ele.innerHTML=='否'){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                        }).get();
+                        $(array).addClass('btnColor')
+                      }
 
-                         $.validator.addMethod("sysArea", function (value, element) {
-                         var re = /^\w[()-[]:.{},;@，；。《》、（）]{200}$/;
-                         return this.optional(element) || (re.test(value));
-                         }, "请正确填写您的业务描述");
+                      if(_self.formData.sysBusSituationType!=''){
+                        var array = $('#sysType').find('div').map(function (index, ele) {
+                          if(ele.innerHTML==_self.formData.sysBusSituationType){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                       }).get();
+                        var other=true;
+                        for(var i=0;i<array.length;i++){
+                          if(array[i]!=''){
+                            array[i].classList.add("btnColor");
+                            other=false;
+                          }
+                        }
+                        if(other){
+                          $("#sysType1").addClass('btnColor');
+                          $("#busSituationType").val(_self.formData.sysBusSituationType);
+                        }
+                      }
+                      if(_self.formData.sysServiceSitScope!=''){
+                        var array = $('#sysSerScope').find('div').map(function (index, ele) {
+                          if(ele.innerHTML==_self.formData.sysServiceSitScope){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                       }).get();
+                        var other=true;
+                        for(var i=0;i<array.length;i++){
+                          if(array[i]!=''){
+                            array[i].classList.add("btnColor");
+                            other=false;
+                          }
+                        }
+                        if(other){
+                          $("#sysServiceType1").addClass('btnColor');
+                          $("#serviceSitScope").val(_self.formData.sysServiceSitScope);
+                        }
+                      }
+                      if(_self.formData.sysServiceSitObject!=''){
+                        var array = $('#sysSerObject').find('div').map(function (index, ele) {
+                          if(ele.innerHTML==_self.formData.sysServiceSitObject){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                       }).get();
+                        var other=true;
+                        for(var i=0;i<array.length;i++){
+                          if(array[i]!=''){
+                            array[i].classList.add("btnColor");
+                            other=false;
+                          }
+                        }
+                        if(other){
+                          $("#sysSerObject1").addClass('btnColor');
+                          $("#serviceSitObject").val(_self.formData.sysServiceSitObject);
+                        }
+                      }
+
+                      if(_self.formData.npCoverageRange!=''){
+                        var array = $('#sysCoverage').find('div').map(function (index, ele) {
+                          if(ele.innerHTML==_self.formData.npCoverageRange){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                       }).get();
+                        var other=true;
+                        for(var i=0;i<array.length;i++){
+                          if(array[i]!=''){
+                            array[i].classList.add("btnColor");
+                            other=false;
+                          }
+                        }
+                        if(other){
+                          $("#sysCoverage1").addClass('btnColor');
+                          $("#coverageRange").val(_self.formData.npCoverageRange);
+                        }
+                      }
+
+                      if(_self.formData.npNetworkProperties!=''){
+                        var array = $('#sysNetwork').find('div').map(function (index, ele) {
+                          if(ele.innerHTML==_self.formData.npNetworkProperties){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                       }).get();
+                        var other=true;
+                        for(var i=0;i<array.length;i++){
+                          if(array[i]!=''){
+                            array[i].classList.add("btnColor");
+                            other=false;
+                          }
+                        }
+                        if(other){
+                          $("#sysNetwork1").addClass('btnColor');
+                          $("#networkProperties").val(_self.formData.npNetworkProperties);
+                        }
+                      }
+
+                      if(_self.formData.interconnectionSit!=''){
+                        var array = $('#sysIntercon').find('div').map(function (index, ele) {
+                          if(ele.innerHTML==_self.formData.interconnectionSit){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                       }).get();
+                        var other=true;
+                        for(var i=0;i<array.length;i++){
+                          if(array[i]!=''){
+                            array[i].classList.add("btnColor");
+                            other=false;
+                          }
+                        }
+                        if(other){
+                          $("#sysIntercon1").addClass('btnColor');
+                          $("#interconnection").val(_self.formData.interconnectionSit);
+                        }
+                      }
+                      if(_self.formData.subIsSystem!=''){
+                        var array = $('#sysSubsystem').find('div').map(function (index, ele) {
+                          if(_self.formData.subIsSystem==1&&ele.innerHTML=='是'){
+                            return ele;
+                          }else if(_self.formData.subIsSystem==2&&ele.innerHTML=='否'){
+                            return ele;
+                          }else{
+                             return "";
+                          }
+                        }).get();
+                        $(array).addClass('btnColor')
+                      }
                     }
                 },
                 created: function() {
-                    /*$("#AddformSystem").validate({
-                        rules: {
-                            sysName: {
-                                required: true,
-                                maxlength: 50,
-                                sysName:true
-                            },
-                            sysCode: {
-                                required: true,
-                                sysCode:true
-                            },
-                            sysMsgBuild: {
-                                required: true,
-                                minlength: 2,
-                                sysMsgBuild:true,
-                            },
-                            sysRecord: {
-                                required: true,
-                                maxlength: 100,
-                                sysRecord:true
-                            },
-                            sysInter: {
-                                required: true,
-                                sysInter:true
-                            },
-                            sysType: {
-                                required: false,
-                                sysType:true
-                            },
-                            sysArea: {
-                                required: true,
-                                rangelength: [1, 100],
-                                sysArea:true
-                            },
-                            sysServiceType: {
-                                required: true,
-                                email: true,
-                                sysServiceType:true
-                            },
-                            sysServiceObject: {
-                                required: true,
-                                sysServiceObject:true
-                            },
-                            sysCoverage: {
-                                required: true,
-                                maxlength: 11,
-                                isMobile: true,
-                                sysCoverage:true
-                            },
-                            sysNetwork: {
-                                required: true,
-                                sysNetwork:true
-                            },
-                            sysIntercon: {
-                                required: true,
-                                sysIntercon:true
-                            },
-                            sysComName: {
-                                required: true,
-                                sysComName:true
-                            },
-                            useData: {
-                                required: true,
-                                useData:true
-                            },
-                            sysOfficeName: {
-                                required: true,
-                                sysOfficeName:true
-                            },
-                            sysSubsystem: {
-                                required: true,
-                                email: true,
-                                sysSubsystem:true
-                            },
-                            sysPerson: {
-                                required: true,
-                                sysPerson:true
-                            },
-                            sysPersonTel: {
-                                required: true,
-                                sysPersonTel:true
-                            }
-                        },
-                        onkeyup: false,
-                        errorPlacement: function (error, element) {
-                            error.appendTo(element.parent());
-                            //忽略自定义方法的错误提示
-                            if (error.text() == "ignore") {
-                                return '';
-                            }
-                        },
-                        errorElement: "span",
-                        submitHandler: function (form) {
-                            console.log(form);
-                            $(form).ajaxSubmit({
-                                url: "php/order.php",
-                                type: "post",
-                                success: function () {
-                                    alert("提交成功！");
-                                    $(".shadow").show();
-                                    $(".confirm_btn").click(function () {
-                                        window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                                    })
-                                }
-                            })
-                        },
-                    });
-                    //以下为自定义验证
-                    $.validator.addMethod("sysName", function (value, element) {
-                        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-                        return this.optional(element) || (re.test(value));
-                    }, "请正确填写您的系统名称");
+                  // 获取系统信息
+                  this.getSystemInfoMethod(this);
+                  // 获取业务承受业务类型
+                  this.getBearInfoMethod(this);
+                  // 获取服务范围
+                  this.getServiceRangeMethod(this);
+                  // 获取服务对象
+                  this.getServiceObjectMethod(this);
+                  // 获取覆盖范围
+                  this.getCoverageRangeMethod(this);
+                  // 获取网络性质
+                  this.getNetworkMethod(this);
+                  //系统互联情况
+                  this.getInterconnectionMethod(this);
+                  //获取单位信息
+                  this.getCompanyMethod(this);
 
-                    $.validator.addMethod("sysRecord", function (value, element) {
-                        var re = /^\w[()-[]:.{},;@，；。《》、（）]{50}$/;
-                        return this.optional(element) || (re.test(value));
-                    }, "请正确填写您的等保备案系统名称");
-
-                    $.validator.addMethod("sysArea", function (value, element) {
-                        var re = /^\w[()-[]:.{},;@，；。《》、（）]{200}$/;
-                        return this.optional(element) || (re.test(value));
-                    }, "请正确填写您的业务描述");*/
                 },
                 mounted: function() {
                     // this.selectChange()
-                    laydate.render({
-                        elem: '#useData'
-                    });
-                    new Ctor().$mount('#app');
-                    new Ctor().$mount('#wrap');
-                    /*$("#AddformSystem").validate({
-                        rules: {
-                            sysName: {
-                                required: true,
-                                maxlength: 50,
-                                sysName:true
-                            },
-                            sysCode: {
-                                required: true,
-                                sysCode:true
-                            },
-                            sysMsgBuild: {
-                                required: true,
-                                minlength: 2,
-                                sysMsgBuild:true,
-                            },
-                            sysRecord: {
-                                required: true,
-                                maxlength: 100,
-                                sysRecord:true
-                            },
-                            sysInter: {
-                                required: true,
-                                sysInter:true
-                            },
-                            sysType: {
-                                required: false,
-                                sysType:true
-                            },
-                            sysArea: {
-                                required: true,
-                                rangelength: [1, 100],
-                                sysArea:true
-                            },
-                            sysServiceType: {
-                                required: true,
-                                email: true,
-                                sysServiceType:true
-                            },
-                            sysServiceObject: {
-                                required: true,
-                                sysServiceObject:true
-                            },
-                            sysCoverage: {
-                                required: true,
-                                maxlength: 11,
-                                isMobile: true,
-                                sysCoverage:true
-                            },
-                            sysNetwork: {
-                                required: true,
-                                sysNetwork:true
-                            },
-                            sysIntercon: {
-                                required: true,
-                                sysIntercon:true
-                            },
-                            sysComName: {
-                                required: true,
-                                sysComName:true
-                            },
-                            useData: {
-                                required: true,
-                                useData:true
-                            },
-                            sysOfficeName: {
-                                required: true,
-                                sysOfficeName:true
-                            },
-                            sysSubsystem: {
-                                required: true,
-                                email: true,
-                                sysSubsystem:true
-                            },
-                            sysPerson: {
-                                required: true,
-                                sysPerson:true
-                            },
-                            sysPersonTel: {
-                                required: true,
-                                sysPersonTel:true
-                            }
-                        },
-                        onkeyup: false,
-                        errorPlacement: function (error, element) {
-                            error.appendTo(element.parent());
-                            //忽略自定义方法的错误提示
-                            if (error.text() == "ignore") {
-                                return '';
-                            }
-                        },
-                        errorElement: "span",
-                        submitHandler: function (form) {
-                            console.log(form);
-                            $(form).ajaxSubmit({
-                                url: "php/order.php",
-                                type: "post",
-                                success: function () {
-                                    alert("提交成功！");
-                                    $(".shadow").show();
-                                    $(".confirm_btn").click(function () {
-                                        window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                                    })
-                                }
-                            })
-                        },
-                    });
-                    //以下为自定义验证
-                    $.validator.addMethod("sysName", function (value, element) {
-                        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-                        return this.optional(element) || (re.test(value));
-                    }, "请正确填写您的系统名称");
-
-                    $.validator.addMethod("sysRecord", function (value, element) {
-                        var re = /^\w[()-[]:.{},;@，；。《》、（）]{50}$/;
-                        return this.optional(element) || (re.test(value));
-                    }, "请正确填写您的等保备案系统名称");
-
-                    $.validator.addMethod("sysArea", function (value, element) {
-                        var re = /^\w[()-[]:.{},;@，；。《》、（）]{200}$/;
-                        return this.optional(element) || (re.test(value));
-                    }, "请正确填写您的业务描述");*/
+                    //获取回显
+//                    if(type=='update'||type=='change'){
+//                      
+//                      
+//                    }
+                    if(systemId!=''&&systemId!=null){
+                      this.change = true;
+                      this.formData.systemId = systemId;
+                      this.formData.companyId = companyId;
+                      this.getGetSystemMethod(this,systemId);
+                    }
+                    //new Ctor().$mount('#wrap');
                 }
             })
         })

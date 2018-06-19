@@ -1,0 +1,91 @@
+<div class="innerSys">
+    <p class="clearfix cut">
+        <span class="fl tianMsg">系统信息</span>
+    </p>
+    <ul v-if="fkrevokematter != 4">
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">备案编号：</span>
+                <span class="col-md-5 text-left">{{recordCode}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">备案单位：</span>
+                <span class="col-md-6 text-left">{{recordCompany}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">备案日期：</span>
+                <span class="col-md-5 text-left">{{recordDate}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">受理备案单位：</span>
+                <span class="col-md-6 text-left">{{acceptCompany}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">受理日期：</span>
+                <span class="col-md-5 text-left">{{acceptDate}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">信息系统安全等级保护备案证明：</span>
+                <a class="col-md-6 text-left"  @click="download(recordReportId)"  style="cursor:pointer"
+                >{{recordReportName}}</a>
+            </p>
+        </li>
+    </ul>
+    <ul class="clearfix" v-else>
+        <li class="col-md-12 text-center">
+            <h2>该申请已撤销备案</h2>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-3 text-right">备案编号：</span>
+                <span class="col-md-3 text-left">{{recordCode}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">备案单位：</span>
+                <span class="col-md-3 text-left">{{recordCompany}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-3 text-right">备案日期：</span>
+                <span class="col-md-3 text-left">{{recordDate}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">受理备案单位：</span>
+                <span class="col-md-3 text-left">{{acceptCompany}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-3 text-right">受理日期：</span>
+                <span class="col-md-3 text-left">{{acceptDate}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">信息系统安全等级保护备案证明：</span>
+                <a class="col-md-6 text-left"  style="cursor:pointer"
+                 @click="download(recordReportId)">{{recordReportName}}</a>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-3 text-right">变更事项：</span>
+                <span class="col-md-3 text-left">撤销备案</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">撤销证明：</span>
+               
+                  <a class="col-md-6 text-left"  style="cursor:pointer"
+                   @click="download(revokeRecordsId)">{{revokeRecordsName}}</a>
+                
+            </p>
+        </li>
+        <li class="col-md-12">
+            <span class="col-md-2 text-right saveText">撤销原因：</span>
+            <span class="col-md-10 text-left">{{revokereason}}</span>
+        </li>
+    </ul>
+</div>

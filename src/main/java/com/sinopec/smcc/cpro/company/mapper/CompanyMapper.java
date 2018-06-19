@@ -11,9 +11,9 @@ package com.sinopec.smcc.cpro.company.mapper;
 
 import java.util.List;
 
-import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 
 /**
  * @Title CompanyMapper.java
@@ -78,5 +78,24 @@ public interface CompanyMapper {
    * @return
    */
   CompanyResult selectCompanyByCompanyId(CompanyParam companyParam);
+
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年6月9日下午3:52:58
+   * @param companyParam
+   * @return
+   */
+  CompanyResult selectCompanyInfoByCompanyCode(CompanyParam companyParam);
+
+  /**
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月11日下午7:37:49
+   * @param companyParam
+   * @return
+   */
+  List<CompanyListResult> selectCompanyName(CompanyParam companyParam);
 
 }

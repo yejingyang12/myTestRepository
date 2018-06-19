@@ -42,7 +42,7 @@ public interface SelfexaminationService {
    * @param selfexamination  添加或修改的必要参数
    * @return  添加或修改数据成功后的id值
    */
-  String saveSelfexamination(SelfexaminationParam selfexaminationParam)  
+  String saveSelfexamination(String userName, SelfexaminationParam selfexaminationParam)  
       throws BusinessException;
 
   /**
@@ -62,7 +62,7 @@ public interface SelfexaminationService {
    * @param selfexaminationParam
    * @throws BusinessException
    */
-  void deleteSelfexaminationBySelfexaminationId(SelfexaminationParam selfexaminationParam)
-      throws BusinessException;
+  void deleteSelfexaminationBySelfexaminationId(String userName, 
+      SelfexaminationParam selfexaminationParam) throws BusinessException;
 
 }

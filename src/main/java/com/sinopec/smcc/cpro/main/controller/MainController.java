@@ -8,6 +8,9 @@
 */
 package com.sinopec.smcc.cpro.main.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,8 +25,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.cpro.company.entity.CompanyParam;
-import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
@@ -102,8 +103,9 @@ public class MainController {
   @RequestMapping(value = "/exportExcelForMain", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi exportExcelForMain(HttpServletRequest request) throws BusinessException{
-    this.mainServiceImpl.exportExcelForMain();
+    String filePath = this.mainServiceImpl.exportExcelForMain();
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(filePath);
     return result;
   }
   
@@ -129,7 +131,7 @@ public class MainController {
    * @Descrption
    * @author dongxu
    * @date 2018年6月4日下午5:48:12
-   * @param request
+   * @param request 
    * @return
    * @throws BusinessException
    */
@@ -143,21 +145,159 @@ public class MainController {
   }
   
   /**
-   * 一键下载（表1）
+   * 一键下载（表1 单位信息）
    * @Descrption
    * @author dongxu
    * @date 2018年6月7日下午12:02:12
+   * @param request
+   * @param mainParam 单位ID
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/tableCompany", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi tableCompany(HttpServletRequest request,
+      @RequestBody MainParam mainParam) throws BusinessException {
+    Map<String,Object> resultMap= this.mainServiceImpl.tableCompany(mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(resultMap.get("url"));
+    return result;
+  }
+  
+  /**
+   * 一键下载（表2 系统信息）
+   * @Descrption
+   * @author dongxu
+   * @date 2018年6月7日下午12:02:12
+   * @param request
+   * @param mainParam 系统ID
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/tableSystem", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi tableSystem(HttpServletRequest request,
+      @RequestBody MainParam mainParam) throws BusinessException {
+    Map<String,Object> resultMap = this.mainServiceImpl.tableSystem(mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(resultMap.get("url"));
+    return result;
+  }
+  
+  /**
+   * @Descrption 一键下载（表3 定级信息）
+   * @author dongxu
+   * @date 2018年6月9日下午5:14:16
    * @param request
    * @param mainParam
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/tableOneDownloads", method = RequestMethod.POST)
+  @RequestMapping(value = "/tableGrading", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi tableOmeDownloads(HttpServletRequest request,
+  public ResultApi tableGrading(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
-    this.mainServiceImpl.tableOneDownloads(mainParam);
+    Map<String,Object> resultMap = this.mainServiceImpl.tableGrading(mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(resultMap.get("url"));
+    return result;
+  }
+  
+  /**
+  * @Descrption 一键下载（表4 附件信息）
+  * @author dongxu
+  * @date 2018年6月10日上午9:09:22
+  * @param request
+  * @param mainParam
+  * @return
+  * @throws BusinessException
+  */
+  @RequestMapping(value = "/tableAttach", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi tableAttach(HttpServletRequest request,
+      @RequestBody MainParam mainParam) throws BusinessException {
+    Map<String,Object> resultMap = this.mainServiceImpl.tableAttach(mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(resultMap.get("url"));
+    return result;
+  }
+  
+  /**
+   * @Descrption 一键下载
+   * @author dongxu
+   * @date 2018年6月10日下午3:34:45
+   * @param request
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/oneButtonDownloading", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
+      @RequestBody MainParam mainParam) throws BusinessException {
+    String filePath = this.mainServiceImpl.oneButtonDownloading(response,mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(filePath);
+    return result;
+  }
+  
+  /**
+   * @Descrption 高级搜索获取所有系统名称
+   * @author dongxu
+   * @date 2018年6月11日上午11:31:47
+   * @param request
+   * @param response
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/querySystemName", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi querySystemName(HttpServletRequest request
+      ,@RequestBody MainParam mainParam) 
+      throws BusinessException {
+    List<MainListResult> mainList = this.mainServiceImpl.querySystemName(mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(mainList);
+    return result;
+  }
+  
+  /**
+   * @Descrption 定级模板导入
+   * @author dongxu
+   * @date 2018年6月12日下午5:12:21
+   * @param request
+   * @param file
+   * @return
+   * @throws BusinessException
+   */  
+  @RequestMapping(value = "/importExcelForGradeTemplate", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi importExcelForGradeTemplate(HttpServletRequest request,
+      @RequestBody String file) 
+      throws BusinessException {
+    this.mainServiceImpl.importExcelForGradeTemplate(file);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * @Descrption 添加申请变更（弹窗）
+   * @author dongxu
+   * @date 2018年6月13日下午5:47:37
+   * @param request
+   * @param file
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryApplicationChange", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryApplicationChange(HttpServletRequest request,
+      @RequestBody MainParam mainParam) 
+      throws BusinessException {
+    String systemId = this.mainServiceImpl.queryApplicationChange(mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(systemId);
     return result;
   }
 }

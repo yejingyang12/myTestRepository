@@ -42,7 +42,7 @@ public class CompanyParam {
   private Integer deleteStatus;
   private String ldContactPhone;
   private Integer administrativeNum;
-  private Integer compPrincipalPhone;
+  private String compPrincipalPhone;
   private String companyCode;
   private String compPrincipalPost;
   private String ldContactPost;
@@ -61,7 +61,13 @@ public class CompanyParam {
   private String field; //接收字段
   private String sort;//排序
 
-  
+  private String systemId;
+  public String getSystemId() {
+    return systemId;
+  }
+  public void setSystemId(String systemId) {
+    this.systemId = systemId;
+  }
   /**
    * @return the updateTime
    */
@@ -369,7 +375,7 @@ public class CompanyParam {
   /**
    * @return the compPrincipalPhone
    */
-  public Integer getCompPrincipalPhone() {
+  public String getCompPrincipalPhone() {
     return compPrincipalPhone;
   }
 
@@ -377,7 +383,7 @@ public class CompanyParam {
   /**
    * @param compPrincipalPhone the compPrincipalPhone to set
    */
-  public void setCompPrincipalPhone(Integer compPrincipalPhone) {
+  public void setCompPrincipalPhone(String compPrincipalPhone) {
     this.compPrincipalPhone = compPrincipalPhone;
   }
 

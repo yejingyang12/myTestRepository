@@ -8,26 +8,14 @@
                 <div class="mcAddForm1Text">
                     请选择一个单位名称：
                 </div>
-                <!--<select class="form-control col-lg-11 col-xs-3">
-                    <option>请选择</option>
-                    <option>总部部门</option>
-                    <option>油田板块</option>
-                    <option>炼化板块</option>
-                    <option>销售板块</option>
-                    <option>石油工程</option>
-                    <option>炼化工程</option>
-                    <option>科研单位</option>
-                    <option>专业公司及其他</option>
-                    <option>驻外机构</option>
-                </select>-->
                 <div id="add" class="col-lg-10 col-xs-3">
-                    <el-cascader :options="options" :clearable="true" :show-all-levels="false"></el-cascader>
+                    <el-cascader :options="companyOptions" :clearable="true" filterable :show-all-levels="false" v-model ="selectedOptions" name="companyName"></el-cascader>
                     <div class="mcAddCli">
                         没有找到单位？<a href="javascript:void(0);" id="cliThis" @click=getCover()>点击此处</a>新建单位信息！
                     </div>
                 </div>
             </div>
-            <button type="button" class="btn" id="btnOk" @click=nextBtn()>确定</button>
+            <input type="button" class="btn" id="btnOk" @click='handleChange()' value="确定">
         </form>
         <div class="cover" id="cover"></div>
     </div>

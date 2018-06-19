@@ -37,7 +37,7 @@ import com.sinopec.smcc.cpro.file.server.FileService;
  */
 
 @Controller
-@RequestMapping("/cpro")
+@RequestMapping("/fileHandle")
 public class FileController {
   
   @Autowired
@@ -88,9 +88,9 @@ public class FileController {
    * @throws BusinessException
    */
   @ResponseBody
-  @RequestMapping(value = "/downloadFile", method = RequestMethod.POST)
+  @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
   public ResultApi downloadFile(HttpServletRequest request, HttpServletResponse response, 
-      @RequestBody AttachParam attachParam) throws BusinessException{
+      AttachParam attachParam) throws BusinessException{
     this.fileService.downloadFile(request, response, attachParam);
     //通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);

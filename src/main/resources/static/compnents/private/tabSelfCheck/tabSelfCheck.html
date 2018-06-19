@@ -1,0 +1,51 @@
+
+<div id="app" class="inner ">
+    <p class="recordTitle">中石化差旅管理服务平台</p>
+    <div class="clearfix recBtn">
+        <!--<button class="btn btn-success btnBack comitBtm fl" type="submit">提交</button>-->
+        <!--<button class="btn btn-danger btnBack comitBtm fl" type="submit">撤销备案</button>-->
+        <!--<button class="btn btn-default btnBack fl" type="button">返回</button>-->
+    </div>
+    <template>
+        <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+            <el-tab-pane label="单位信息（备案表一）" name="information">
+                <view-details-infor></view-details-infor>
+            </el-tab-pane>
+            <el-tab-pane label="系统信息（备案表二）" name="system">
+                <view-details-system></view-details-system>
+            </el-tab-pane>
+            <el-tab-pane label="定级信息（备案表三）" name="grad">
+                <view-details-grad></view-details-grad>
+            </el-tab-pane>
+            <el-tab-pane label="提交材料情况（备案表四）" name="material">
+                <view-details-material></view-details-material>
+            </el-tab-pane>
+            <el-tab-pane label="自查" name="examination">
+                <self-check>
+                    <!--新建按钮图标-->
+                    <img class="h-add " src="/images/xinzeng.png" alt="" th:attr="src=@{/images/xinzeng.png}" slot="xinzengdengbao">
+                    <img class="h-add " id="h-add" src="/images/xinzenggreen.png" alt="" th:attr="src=@{/images/xinzenggreen.png}" 
+                    slot="xinzengdengbaogreen" style="display:none;">
+                   
+                    <!--排序图标-->
+                    <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{../images/home/paixujiantou.png}" slot="paixujiantou">
+                    <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
+                    <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
+                    <img src=" /images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou4">
+                    <img src=" /images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou5">
+                    <img src=" /images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou6">
+                    <img src=" /images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou7">
+                </self-check>
+            </el-tab-pane>
+            <el-tab-pane label="测评" name="evaluation">
+                <view-details-evalu></view-details-evalu>
+            </el-tab-pane>
+            <el-tab-pane label="备案" name="record">
+                <view-details-record></view-details-record>
+            </el-tab-pane>
+            <el-tab-pane label="审核" name="examine">
+                <view-details-examine></view-details-examine>
+            </el-tab-pane>
+        </el-tabs>
+    </template>
+</div>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>维护单位系统信息</title>
+    <!--public-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
+
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
+    <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
+    <!--private-->
+    <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css" th:attr="href=@{/css/private/auditzero.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css" th:attr="href=@{/css/private/pagebox.css}">
+    <!--<link rel="stylesheet" type="text/css" href="../../static/css/private/record.css" >-->
+</head>
+<style>
+    li{
+        margin-bottom: 15px;
+    }
+    .el-tabs__nav-scroll {
+        overflow: hidden;
+        background: #ededed;
+    }
+    .el-tabs--border-card {
+        background: #ededed;
+        border: 0;
+        -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12), 0 0 6px 0 rgba(0, 0, 0, .04);
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0), 0 0 6px 0 rgba(0, 0, 0, 0);
+    }
+    .form-control, .h-form-control {
+        background-color: #FFFFFF;
+        /* background-image: none; */
+        border: 1px solid #cecece;
+        color: inherit;
+        display: block;
+        padding: 6px 12px;
+        -webkit-transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        width: 100%;
+        font-size: 14px;
+    }
+    .h-borde-hover:hover{
+        border-color: #d0d0d0;
+    }
+    .el-button {
+        margin-right: 0;
+        display: inline;
+        line-height: 1;
+        white-space:inherit;
+        cursor: pointer;
+        background: none;
+        border: none;
+        -webkit-appearance: none;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        -webkit-transition: .1s;
+        transition: .1s;
+        padding:0;
+        font-size: 14px;
+        border-radius:0;
+        color:#1e91e2;
+    }
+    /*.breadcrumb {*/
+        /*padding: 0 0;*/
+        /*margin-bottom: 20px;*/
+        /*list-style: none;*/
+        /*background-color: #ededed;*/
+        /*border-radius: 4px;*/
+    /*}*/
+    .breadcrumb a{
+        color: black;
+    }
+    .el-tabs__nav{
+        margin-left: 15px;
+    }
+    .hh-btn {
+        height: 34px;
+        width: 34px;
+        border: none;
+    }
+    .hh-add {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -16px;
+        margin-top: -16px;
+        width: 100%;
+        height: 100%;
+    }
+    /*tr:hover{*/
+        /*!*border: 1px solid #3d95df;*!*/
+        /*background: #acd1f4;*/
+    /*}*/
+    /*td:hover{*/
+        /*!*border: 1px solid #3d95df;*!*/
+        /*!*background: #e9f4e1;*!*/
+        /*!*border-top: 1px solid red;*!*/
+    /*}*/
+</style>
+<body class="h-body">
+<div id="app">
+    <smcc-header>
+        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
+        <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
+        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss"> -->
+    </smcc-header>
+    <smcc-breadcrumb></smcc-breadcrumb>
+    <tab-main-company-info>
+
+    </tab-main-company-info>
+</div>
+</body>
+<!--插件-->
+<script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
+
+<!--ajax路径-->
+<script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
+<script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
+
+<!--头部组件-->
+<script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
+<!--面包屑导航-->
+<script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
+<!--tabMainCompanyInfo-->
+<script async src="../../static/compnents/private/tabMainCompanyInfo/tabMainCompanyInfo.js" th:attr="src=@{/compnents/private/tabMainCompanyInfo/tabMainCompanyInfo.js}"></script>
+<!--mainCompanyInfo组件-->
+<script async src="../../static/compnents/private/mainCompanyInfo/mainCompanyInfo.js" th:attr="src=@{/compnents/private/mainCompanyInfo/mainCompanyInfo.js}"></script>
+<!--mainSystemInfo组件-->
+<script async src="../../static/compnents/private/mainSystemInfo/mainSystemInfo.js" th:attr="src=@{/compnents/private/mainSystemInfo/mainSystemInfo.js}"></script>
+
+<!--分页-->
+<script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
+<!--表格的一键导出、下载、删除、全选 反选点选框的实现-->
+<!-- <script src="../../static/js/private/homelist.js" th:attr="src=@{/js/private/homelist.js}"></script> -->
+<script>
+
+  //首页表格的删除弹框
+  var Main = {
+    data() {
+      return {
+        visible2: false,
+      };
+    }
+  };
+  var Ctor = Vue.extend(Main);
+</script>
+</html>

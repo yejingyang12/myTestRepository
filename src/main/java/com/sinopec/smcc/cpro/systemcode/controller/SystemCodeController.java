@@ -24,6 +24,7 @@ import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemGradingInfoOneResult;
 import com.sinopec.smcc.cpro.systemcode.server.SystemCodeService;
 
 /**
@@ -97,4 +98,24 @@ public class SystemCodeController {
     return result;
   }
   
+  /**
+   * 获取定级页面3级数据
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年6月11日下午5:02:58
+   * @param request
+   * @param systemParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryGradingInfoList", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryGradingInfoList(HttpServletRequest request,
+      @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
+    List<SystemGradingInfoOneResult> SystemGradingInfoResultList = this.systemCodeServiceImpl.
+        queryGradingInfoList(systemCodeParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(SystemGradingInfoResultList);
+    return result;
+  }
 }

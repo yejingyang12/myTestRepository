@@ -8,6 +8,8 @@
  */
 package com.sinopec.smcc.cpro.evaluation.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
 import com.sinopec.smcc.cpro.evaluation.server.EvaluationService;
+import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 
 /**
  * @Title CompanyController.java
@@ -40,6 +44,8 @@ public class EvaluationController {
 
   @Autowired
   private EvaluationService evaluationServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
 
   /**
    * 查询测评列表
@@ -101,7 +107,8 @@ public class EvaluationController {
   @ResponseBody
   public ResultApi saveEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
-    String strId = this.evaluationServiceImpl.saveEvaluation(evaluationParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String strId = this.evaluationServiceImpl.saveEvaluation(userName, evaluationParam);
     // 通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(strId);
@@ -121,8 +128,9 @@ public class EvaluationController {
   @ResponseBody
   public ResultApi deleteEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     // 调用service实体，获得
-    this.evaluationServiceImpl.deleteEvaluation(evaluationParam);
+    this.evaluationServiceImpl.deleteEvaluation(userName, evaluationParam);
     // 通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
@@ -144,6 +152,26 @@ public class EvaluationController {
         this.evaluationServiceImpl.queryDetailsEvaluation(evaluationParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(evaluationResult);
+    return result;
+  }
+  
+  /**
+   * @Descrption 首页高级查询测评单位
+   * @author dongxu
+   * @date 2018年6月11日下午4:19:09
+   * @param request
+   * @param recordsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryExamOrgCompany", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryExamOrgCompany(HttpServletRequest request,
+      @RequestBody RecordsParam recordsParam) throws BusinessException {
+    List<EvaluationListResult> evaluationListResultList = 
+        this.evaluationServiceImpl.queryExamOrgCompany(recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(evaluationListResultList);
     return result;
   }
 }

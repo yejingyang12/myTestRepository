@@ -1,20 +1,35 @@
 /**
  * Created by timha on 2018/5/24.
  */
-(function () {
-    var data={
-        systemTopology:"",//系统拓扑结构及说明
-        systemSecurity:"",//系统安全组织机构及管理制度
-        systemSafety:[],//系统安全保护设施设计实施方案或改建实施方案
-        systemUse:"",//系统使用的安全产品清单及认证、销售许可证明
-        competentGrad:[],//主管部门审批定级情况
-        gradPresen:'',//定级报告
-        gradPresenName:'',//定级报告名称
-        expertReview:[],//专家评审
-        expertReviewName:'',//专家评审情况
-        fillFormPerson:'',//填表人
-        fillData:{}//填表时间
+var data={
+        formData:{
+          systemMaterialsId:'',
+          fkSystemId:'',
+          topologyDescriptionId:'',
+          topologyDescriptionPath:'',
+          topologyDescriptionName:'',
+          organizationManagementId:'',
+          organizationManagementPath:'',
+          organizationManagementName:'',
+          implementationPlanId:'',
+          implementationPlanPath:'',
+          implementationPlanName:'',
+          licenseCertificateId:'',
+          licenseCertificatePath:'',
+          licenseCertificateName:'',
+          evaluationPresentationId:'',
+          evaluationPresentationPath:'',
+          evaluationPresentationName:'',
+          expertReviewId:'',
+          expertReviewPath:'',
+          expertReviewName:'',
+          directorOpinionId:'',
+          directorOpinionPath:'',
+          directorOpinionName:''
+        }
     };
+(function () {
+    
     $("#addFormGrad").validate({
         systemTopology:{
             required:true,
@@ -61,50 +76,202 @@
             resolve({
                 template:res,
                 data:function () {
-                    return data
+                    return data;
                 },
                 methods:{
-                    getFile:function(obj, ele, elm){
-                        var btn = $(obj);
-                        var oInup = $(ele);
-                        var fileName = $(elm);
-                        var btnValue = btn.val();
-                        var arr = [];
-                        var str = btnValue.split("\\");
-                        arr.push(str[str.length-1]);
-        //        console.log(str);
-                        oInup.val(str[str.length-1]);
-                        fileName.val(str[str.length-1]);
-        //        console.log(arr);
-                        // 返回 KB，保留小数点后两位
-                        var file = obj.value;
-                        //        console.log(file);
-                        if(!/.(word|pdf|exl|zip|rar|sep)$/.test(file)){
-                            obj.value = '';
-                            alert("文件类型必须是.word、pdf、exl、zip、rar、sep中的一种");
-                            return false;
-                        }else{
-                            //返回Byte(B),保留小数点后两位
-                            if(((obj.files[0].size).toFixed(2))>=(30*1024*1024)){
 
-                                alert("请上传小于30M的文件");
-                                return false;
-                            }
-                        }
-                    },
-                    downloadFile:function(str) {
-                        if (!str) {//没有值
-                            str = "https://codeload.github.com/douban/douban-client/legacy.zip/master";//默认接口
-                        }
-                        var $eleForm = $("<form method='get'></form>");
-                        $eleForm.attr("action", str);
-                        $(document.body).append($eleForm);
-                        //提交表单，实现下载
-                        $eleForm.submit();
+                  onUpload(e){
+                    var uploadData = new FormData(); 
+                    uploadData.append('file', e.target.files[0]);
+                    uploadData.append('type', 'test');
+                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+                  },
+                  onUploadSuccessMethod: function(_self,responseData){
+                    this.formData.topologyDescriptionName=responseData.data.attachName;
+                    this.formData.topologyDescriptionPath=responseData.data.uploadUrl;
+                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    $("#fileList").html(fileHtml);
+                    $(".del").click(function(){
+                      $(this).parent("li").remove();
+                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                    $(".updwon").click(function(){
+                      //$(this).parent("li").remove();
+                      _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                  },
+                  onUpload2(e){
+                    var uploadData = new FormData(); 
+                    uploadData.append('file', e.target.files[0]);
+                    uploadData.append('type', 'test');
+                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
+                  },
+                  onUploadSuccessMethod2: function(_self,responseData){
+                    this.formData.organizationManagementName=responseData.data.attachName;
+                    this.formData.organizationManagementPath=responseData.data.uploadUrl;
+                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    $("#fileList2").html(fileHtml);
+                    $(".del").click(function(){
+                      $(this).parent("li").remove();
+                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                    $(".updwon").click(function(){
+                      //$(this).parent("li").remove();
+                      _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                  },
+                  onUpload3(e){
+                    var uploadData = new FormData(); 
+                    uploadData.append('file', e.target.files[0]);
+                    uploadData.append('type', 'test');
+                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod3);
+                  },
+                  onUploadSuccessMethod3: function(_self,responseData){
+                    this.formData.implementationPlanName=responseData.data.attachName;
+                    this.formData.implementationPlanPath=responseData.data.uploadUrl;
+                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    $("#fileList3").html(fileHtml);
+                    $(".del").click(function(){
+                      $(this).parent("li").remove();
+                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                    $(".updwon").click(function(){
+                      //$(this).parent("li").remove();
+                      _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                  },
+                  onUpload4(e){
+                    var uploadData = new FormData(); 
+                    uploadData.append('file', e.target.files[0]);
+                    uploadData.append('type', 'test');
+                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
+                  },
+                  onUploadSuccessMethod4: function(_self,responseData){
+                    this.formData.licenseCertificateName=responseData.data.attachName;
+                    this.formData.licenseCertificatePath=responseData.data.uploadUrl;
+                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    $("#fileList4").html(fileHtml);
+                    $(".del").click(function(){
+                      $(this).parent("li").remove();
+                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                    $(".updwon").click(function(){
+                      //$(this).parent("li").remove();
+                      _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    });
+                  },
+                  fileDel:function(path,type){
+                    var url='';
+                    if(type==1){
+                      url = '{"downloadFile":"'+path+'"}';
+                    }else{
+                      url = '{"downloadId":"'+path+'"}'
                     }
+                    ajaxMethod(this, 'post',
+                        'fileHandle/deleteFile', true,url, 'json',
+                        'application/json;charset=UTF-8',this.fileDelSuccessMethod);
+                  },
+                  fileDelSuccessMethod:function(_self,responseData){
+                      $(this).parent("li").remove();
+                  },
+                  fileDownload:function(path,type,name){
+                    
+                    if(type=='1'){
+                      //下载路径
+                      window.location.href = "http://localhost:8082/fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name;
+                    }else{
+                      //下载路径
+                      window.location.href = "http://localhost:8082/fileHandle/downloadFile?fileId="+path;
+                    }
+                      
+                  },
+                  getMaterialsInfo: function(_self,id) {
+                    ajaxMethod(_self, 'post','grading/queryEditSystemMaterials', true,
+                        '{"fkSystemId":"'+id+'"}', 'json',
+                        'application/json;charset=UTF-8',
+                        _self.getMaterialsInfoSuccessMethod);
+                  },
+                  // 获取回显安全按等级成功
+                  getMaterialsInfoSuccessMethod : function(_self, responseData) {
+                    if(responseData.data!=null){
+                      _self.formData = responseData.data;
+                    }
+                    
+                    if(responseData.data.topologyDescriptionName!=null){
+                      var fileHtml='<li><div class="fl updwon">'+responseData.data.topologyDescriptionName+'</div><i class="el-icon-close fl del"></i></li>'
+                      $("#fileList").html(fileHtml);
+                      $(".del").click(function(){
+                        $(this).parent("li").remove();
+                        _self.fileDel(responseData.data.topologyDescriptionId,2);
+                      });
+                      $(".updwon").click(function(){
+                        //$(this).parent("li").remove();
+                        _self.fileDownload(responseData.data.topologyDescriptionId,2);
+                      });
+                    }
+                    
+                    if(responseData.data.organizationManagementName!=null){
+                      var fileHtml='<li><div class="fl updwon">'+responseData.data.organizationManagementName+'</div><i class="el-icon-close fl del"></i></li>'
+                      $("#fileList2").html(fileHtml);
+                      $(".del").click(function(){
+                        $(this).parent("li").remove();
+                        _self.fileDel(responseData.data.organizationManagementId,2);
+                      });
+                      $(".updwon").click(function(){
+                        //$(this).parent("li").remove();
+                        _self.fileDownload(responseData.data.organizationManagementId,2);
+                      });
+                    }
+                    
+                    if(responseData.data.implementationPlanName!=null){
+                      var fileHtml='<li><div class="fl updwon">'+responseData.data.implementationPlanName+'</div><i class="el-icon-close fl del"></i></li>'
+                      $("#fileList3").html(fileHtml);
+                      $(".del").click(function(){
+                        $(this).parent("li").remove();
+                        _self.fileDel(responseData.data.implementationPlanId,2);
+                      });
+                      $(".updwon").click(function(){
+                        //$(this).parent("li").remove();
+                        _self.fileDownload(responseData.data.implementationPlanId,2);
+                      });
+                    }
+                    
+                    if(responseData.data.licenseCertificateName!=null){
+                      var fileHtml='<li><div class="fl updwon">'+responseData.data.licenseCertificateName+'</div><i class="el-icon-close fl del"></i></li>'
+                      $("#fileList4").html(fileHtml);
+                      $(".del").click(function(){
+                        $(this).parent("li").remove();
+                        _self.fileDel(responseData.data.licenseCertificateId,2);
+                      });
+                      $(".updwon").click(function(){
+                        //$(this).parent("li").remove();
+                        _self.fileDownload(responseData.data.licenseCertificateId,2);
+                      });
+                    }
+                  },
+                  downloadFile:function(str) {
+                    window.location.href = "fileHandle/downloadFile?fileId="+str;
+                  },
+                  submitGradeMaterialsInfo: function() {
+                    
+                    ajaxMethod(this, 'post',
+                    'grading/saveSystemMaterials', true,
+                    JSON.stringify(this.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    this.submitGradeMaterialsInfoSuccessMethod);
+                  },
+                  // 获取安全按等级成功
+                  submitGradeMaterialsInfoSuccessMethod : function(_self, responseData) {
+                    //window.location.href = "page/addCompanyMaterialPage?systemId=f7821c57865d4983b9db6f8db08efb3c";
+                    
+                  }
                 },
                 created: function() {
-
+                   //获取资料信息
+                  if(systemId!=null&&systemId!=''){
+                    this.formData.fkSystemId = systemId;
+                    this.getMaterialsInfo(this,systemId);
+                  }
                 },
                 mounted: function() {
                     // this.selectChange()

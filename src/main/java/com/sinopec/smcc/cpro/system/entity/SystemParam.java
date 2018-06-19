@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SystemParam.java
@@ -33,6 +34,7 @@ public class SystemParam {
   private String createUserName;
   private String remark;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date whenInvestmentUse;
   private Integer examineStatus;
   private String executiveOfficeName;
@@ -56,6 +58,7 @@ public class SystemParam {
   private String changeContent;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private Integer fkInfoSysTypeCon;
   private String npNetworkProperties;
@@ -64,30 +67,121 @@ public class SystemParam {
   private String npCoverageRange;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String sysBusSituationType;
-  private String[] systemIds;
+  private String companyId;
   
-  private List<SystemKeyProducts> SystemKeyProducts;
-  private List<SystemUseServices> SystemUseServices;
+  private List<SystemKeyProducts> systemKeyProducts;
+  private List<SystemUseServices> systemUseServices;
+  private List<SystemUseResult> systemUseResult;
+  private List<SystemResult> systemResult;
   
+
+
+
+  private List<SystemParam> addSystemSub;
+  private List<SystemParam> deleteSystemSub;
   private int pageSize = 10;// pageSize ，每一页显示多少
   private int currentPage = 1;// 当前页数
   private String field; //接收字段
   private String sort;//排序
   
 
+
+
   /**
-   * @return the systemIds
+   * @return the companyId
    */
-  public String[] getSystemIds() {
-    return systemIds;
+  public String getCompanyId() {
+    return companyId;
   }
 
 
   /**
-   * @param systemIds the systemIds to set
+   * @param companyId the companyId to set
    */
-  public void setSystemIds(String[] systemIds) {
-    this.systemIds = systemIds;
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+
+  /**
+   * @return the systemResult
+   */
+  public List<SystemResult> getSystemResult() {
+    return systemResult;
+  }
+
+
+  /**
+   * @param systemResult the systemResult to set
+   */
+  public void setSystemResult(List<SystemResult> systemResult) {
+    this.systemResult = systemResult;
+  }
+
+
+
+  /**
+   * @return the fkInfoSysTypeCon
+   */
+  public Integer getFkInfoSysTypeCon() {
+    return fkInfoSysTypeCon;
+  }
+
+
+  /**
+   * @param fkInfoSysTypeCon the fkInfoSysTypeCon to set
+   */
+  public void setFkInfoSysTypeCon(Integer fkInfoSysTypeCon) {
+    this.fkInfoSysTypeCon = fkInfoSysTypeCon;
+  }
+
+
+  /**
+   * @return the systemUseResult
+   */
+  public List<SystemUseResult> getSystemUseResult() {
+    return systemUseResult;
+  }
+
+
+  /**
+   * @param systemUseResult the systemUseResult to set
+   */
+  public void setSystemUseResult(List<SystemUseResult> systemUseResult) {
+    this.systemUseResult = systemUseResult;
+  }
+
+
+  /**
+   * @return the addSystemSub
+   */
+  public List<SystemParam> getAddSystemSub() {
+    return addSystemSub;
+  }
+
+
+  /**
+   * @param addSystemSub the addSystemSub to set
+   */
+  public void setAddSystemSub(List<SystemParam> addSystemSub) {
+    this.addSystemSub = addSystemSub;
+  }
+
+
+
+  /**
+   * @return the deleteSystemSub
+   */
+  public List<SystemParam> getDeleteSystemSub() {
+    return deleteSystemSub;
+  }
+
+
+  /**
+   * @param deleteSystemSub the deleteSystemSub to set
+   */
+  public void setDeleteSystemSub(List<SystemParam> deleteSystemSub) {
+    this.deleteSystemSub = deleteSystemSub;
   }
 
 
@@ -556,22 +650,6 @@ public class SystemParam {
 
 
   /**
-   * @return the fkInfoSysTypeCon
-   */
-  public Integer getFkInfoSysTypeCon() {
-    return fkInfoSysTypeCon;
-  }
-
-
-  /**
-   * @param fkInfoSysTypeCon the fkInfoSysTypeCon to set
-   */
-  public void setFkInfoSysTypeCon(Integer fkInfoSysTypeCon) {
-    this.fkInfoSysTypeCon = fkInfoSysTypeCon;
-  }
-
-
-  /**
    * @return the npNetworkProperties
    */
   public String getNpNetworkProperties() {
@@ -651,11 +729,12 @@ public class SystemParam {
   }
 
 
+
   /**
    * @return the systemKeyProducts
    */
   public List<SystemKeyProducts> getSystemKeyProducts() {
-    return SystemKeyProducts;
+    return systemKeyProducts;
   }
 
 
@@ -663,7 +742,7 @@ public class SystemParam {
    * @param systemKeyProducts the systemKeyProducts to set
    */
   public void setSystemKeyProducts(List<SystemKeyProducts> systemKeyProducts) {
-    SystemKeyProducts = systemKeyProducts;
+    this.systemKeyProducts = systemKeyProducts;
   }
 
 
@@ -671,7 +750,7 @@ public class SystemParam {
    * @return the systemUseServices
    */
   public List<SystemUseServices> getSystemUseServices() {
-    return SystemUseServices;
+    return systemUseServices;
   }
 
 
@@ -679,7 +758,7 @@ public class SystemParam {
    * @param systemUseServices the systemUseServices to set
    */
   public void setSystemUseServices(List<SystemUseServices> systemUseServices) {
-    SystemUseServices = systemUseServices;
+    this.systemUseServices = systemUseServices;
   }
 
 

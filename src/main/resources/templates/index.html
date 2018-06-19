@@ -21,7 +21,7 @@
 <script type="text/javascript">
   function test(){
     var date = new Date();
-    
+
     document.getElementById("paramData").innerHTML = "";
     document.getElementById("resultData").innerHTML = "";
     var url = document.getElementById("url").value;
@@ -41,7 +41,7 @@
 	}
 
 	function backto(){
-  	//readyState的取值如下: 0 (未初始化) 1 (正在装载) 2 (装载完毕) 3 (交互中) 4 (完成) 
+  	//readyState的取值如下: 0 (未初始化) 1 (正在装载) 2 (装载完毕) 3 (交互中) 4 (完成)
 		if (xmlHttp.readyState==4){
 		//status 200:好了
 			if (xmlHttp.status == 200){
@@ -52,7 +52,7 @@
 			}
 		}
 	}
-	
+
 	//造xmlHttp
 	function GetXmlHttpObject(){
 		var xmlHttp=null;

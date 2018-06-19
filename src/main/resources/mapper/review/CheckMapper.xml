@@ -1,525 +1,227 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sinopec.smcc.cpro.review.mapper.CheckMapper">
-  <resultMap id="BaseCheckResultMap" type="com.sinopec.smcc.cpro.review.entity.CheckListResult">
-    <id column="pkId" property="checkId" jdbcType="VARCHAR" />
-    <result column="instanceName" property="instanceName" jdbcType="VARCHAR" />
-    <result column="fkbusinessNode" property="fkbusinessNode" jdbcType="VARCHAR" />
-    <result column="initiator" property="initiator" jdbcType="VARCHAR" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updateTime" jdbcType="DATE" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
-    <result column="fkExaminStatus" property="fkExaminStatus" jdbcType="VARCHAR" />
-    <result column="prevExecutor" property="prevExecutor" jdbcType="VARCHAR" />
-    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
-    <result column="executeTime" property="executeTime" jdbcType="TIMESTAMP" />
-    <result column="expertReviewId" property="expertReviewId" jdbcType="VARCHAR" />
-    <result column="gradingReportId" property="gradingReportId" jdbcType="VARCHAR" />
-    <result column="expertReviewName" property="expertReviewName" jdbcType="VARCHAR" />
-    <result column="gradingReportName" property="gradingReportName" jdbcType="VARCHAR" />
-    <result column="revokeReportId" property="revokeReportId" jdbcType="VARCHAR" />
-    <result column="revokeReportName" property="revokeReportName" jdbcType="VARCHAR" />
-    <result column="revokeReason" property="revokeReason" jdbcType="VARCHAR" />
-    <result column="fkrevokeMatter" property="fkrevokeMatter" jdbcType="VARCHAR" />
-    <result column="revokeContent" property="revokeContent" jdbcType="VARCHAR" />
-    <result column="fkChangeMatter" property="fkChangeMatter" jdbcType="VARCHAR" />
-    <result column="changeReason" property="changeReason" jdbcType="VARCHAR" />
-    <result column="changeContent" property="changeContent" jdbcType="VARCHAR" />
+  <resultMap id="CheckResultMap" type="com.sinopec.smcc.cpro.review.entity.CheckResult">
+    <id column="pkId" property="checkId"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    <result column="fkExaminStatus" property="fkExaminStatus"/>
+    <result column="fkBusinessNode" property="fkBusinessNode"/>
+    <result column="instanceName" property="instanceName"/>
+    <result column="initiator" property="initiator"/>
+    <result column="prevExecutor" property="prevExecutor"/>
+    <result column="executeTime" property="executeTime"/>
+    <result column="scoreCheckResult" property="scoreCheckResult"/>
+    <result column="scoreCheckReason" property="scoreCheckReason"/>
+    <result column="scoreCheckChangeResult" property="scoreCheckChangeResult"/>
+    <result column="scoreCheckChangeReason" property="scoreCheckChangeReason"/>
+    <result column="cancelRecordsResult" property="cancelRecordsResult"/>
+    <result column="cancelRecordsReason" property="cancelRecordsReason"/>
+    <result column="deleteStatus" property="deleteStatus"/>
+    <result column="createUserName" property="createUserName"/>
+    <result column="createTime" property="createTime"/>
+    <result column="updateTime" property="updateTime"/>
+    <result column="remark" property="remark"/>
+    <result column="expertReviewId" property="expertReviewId"/>
+    <result column="expertReviewName" property="expertReviewName"/>
+    <result column="recordReportId" property="recordReportId"/>
+    <result column="recordReportName" property="recordReportName"/>
+    <result column="fkInfoSysTypeCon" property="fkInfoSysTypeCon"/>
   </resultMap>
-  
-  <resultMap id="BaseCheckNodeResultMap" type="com.sinopec.smcc.cpro.review.entity.CheckNodeListResult">
-    <id column="pkId" property="checkNodeId" jdbcType="VARCHAR" />
-    <result column="examineResult" property="examineResult" jdbcType="INTEGER" />
-    <result column="fkCheckId" property="fkCheckId" jdbcType="VARCHAR" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updateTime" jdbcType="DATE" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
-    <result column="examineReason" property="examineReason" jdbcType="VARCHAR" />
-    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="executor" property="executor" jdbcType="VARCHAR" />
-    <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
-    <result column="fkActionName" property="fkActionName" jdbcType="VARCHAR" />
-    <result column="fkExaminStatus" property="fkExaminStatus" jdbcType="VARCHAR" />
-    <result column="executeTime" property="executeTime" jdbcType="TIMESTAMP" />
+  <resultMap id="CheckListResult" type="com.sinopec.smcc.cpro.review.entity.CheckListResult">
+    <id column="pkId" property="checkId"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    <result column="instanceName" property="instanceName"/>
+    <result column="initiator" property="initiator"/>
+    <result column="prevExecutor" property="prevExecutor"/>
+    <result column="executeTime" property="executeTime"/>
+    <result column="fkBusinessNode" property="fkBusinessNode"/>
+    <result column="fkExaminStatus" property="fkExaminStatus"/>
+    <result column="expertReviewId" property="expertReviewId"/>
+    <result column="expertReviewName" property="expertReviewName"/>
+    <result column="recordReportId" property="recordReportId"/>
+    <result column="recordReportName" property="recordReportName"/>
+    <result column="fkInfoSysTypeCon" property="fkInfoSysTypeCon"/>
   </resultMap>
-<insert id="insertByCheck" parameterType="com.sinopec.smcc.cpro.review.entity.CheckNodeListResult" >
-  <![CDATA[
-    INSERT INTO t_cpro_check (
-  ]]>
-    pkId,instanceName,fkbusinessNode,initiator,createUserName,updateTime,remark,fkSystemId,fkExaminStatus,prevExecutor,createTime,deleteStatus,executeTime
-    )VALUES(
-        <trim suffixOverrides="," >
-        <choose>
-          <when test="checkId != null ">
-            <![CDATA[
-              #{checkId,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="instanceName != null ">
-            <![CDATA[
-              #{instanceName,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="fkbusinessNode != null ">
-            <![CDATA[
-              #{fkbusinessNode,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="initiator != null ">
-            <![CDATA[
-              #{initiator,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="createUserName != null ">
-            <![CDATA[
-              #{createUserName,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="updateTime != null ">
-            <![CDATA[
-              #{updateTime,jdbcType=DATE},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="remark != null ">
-            <![CDATA[
-              #{remark,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="fkSystemId != null ">
-            <![CDATA[
-              #{fkSystemId,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="fkExaminStatus != null ">
-            <![CDATA[
-              #{fkExaminStatus,jdbcType=INTEGER},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <choose>
-          <when test="prevExecutor != null ">
-            <![CDATA[
-              #{prevExecutor,jdbcType=VARCHAR},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <if test="createTime != null">
-             #{createTime,jdbcType=TIMESTAMP},
-          </if>
-        <choose>
-          <when test="deleteStatus != null ">
-            <![CDATA[
-              #{deleteStatus,jdbcType=INTEGER},
-            ]]>
-          </when>
-          <otherwise>
-            <![CDATA[
-              DEFAULT,
-            ]]>
-          </otherwise>
-        </choose>
-        <if test="executeTime != null">
-             #{executeTime,jdbcType=TIMESTAMP},
-          </if>
-      </trim>
-      <![CDATA[
-        ) 
-      ]]>
-</insert>  
-<select id="selectAllByCheckParam" parameterType="String" resultMap="BaseCheckResultMap">
-	SELECT
-	a.pkId checkId,
-	a.fkSystemId,
-	a.fkExaminStatus,
-	a.instanceName,
-	a.initiator,
-	a.prevExecutor,
-	a.executeTime,
-	a.fkbusinessNode,
-	a.createUserName,
-	a.createTime,
-	a.remark,
-	s.fkChangeMatter,
-	s.changeReason,
-	s.changeContent,
-	b.fkSyssonId as expertReviewId,
-	b.attachName as expertReviewName,
-	c.fkSyssonId as gradingReportId,
-	c.attachName as gradingReportName,
-	r.revokeReason,
-	r.revokeContent,
-    r.fkrevokeMatter,
-    d.fkSyssonId as revokeReportId,
-    d.attachName as revokeReportName
-
-	FROM t_cpro_check a
-	INNER JOIN t_cpro_system s ON a.fkSystemId = s.pkId
-    LEFT JOIN t_cpro_records r ON a.fkSystemId = r.fkSystemId
-	LEFT JOIN t_cpro_attach b ON a.fkSystemId = b.fkSystemId AND b.fkAttachType = 'expertReview'
-	LEFT JOIN t_cpro_attach c ON a.fkSystemId = c.fkSystemId AND c.fkAttachType = 'gradingReport'
-    LEFT JOIN t_cpro_attach d ON a.fkSystemId = d.fkSystemId AND d.fkAttachType = 'revokeReport'
-	where a.deleteStatus = #{deleteStatus}
-					<if test="fkExaminStatus != null">
-							and a.fkExaminStatus = #{fkExaminStatus}
-					</if>
-<!-- 					<if test="examineResult != null"> -->
-<!-- 						<if test="examineResult != null"> -->
-<!-- 							and n.examineResult = #{examineResult} -->
-<!-- 						</if> -->
-<!-- 							and n.examineResult IS NOT NULL -->
-<!-- 					</if> -->
-					<if test="instanceName != null and instanceName != ''">
-						 <bind name="instanceName" value="'%' + instanceName + '%'" />
-					  <![CDATA[
-						AND instanceName LIKE #{instanceName,jdbcType=VARCHAR}
-						 ]]>
-				</if>
-				<if test="initiator != null and initiator != ''">
-					 <bind name="initiator" value="'%' + initiator + '%'" />
-				  <![CDATA[
-						AND initiator LIKE #{initiator,jdbcType=VARCHAR}
-						 ]]>
-				</if>
-				<if test="attachName != null and attachName != ''">
-					 <bind name="attachName" value="'%' + attachName + '%'" />
-				  <![CDATA[
-						AND (b.attachName LIKE #{attachName,jdbcType=VARCHAR} or c.attachName LIKE #{attachName,jdbcType=VARCHAR})
-						 ]]>
-					</if>
-					<if test="fkbusinessNode != null">
-							and a.fkbusinessNode = #{fkbusinessNode}
-					</if>
-
-</select>
-<select id="selectAllCheckNodeParam" parameterType="String" resultMap="BaseCheckResultMap">
-  SELECT  pkId,examineResult,fkCheckId,createUserName,updateTime,remark,fkSystemId,examineReason,createTime,executor,deleteStatus,fkActionName,executeTime 
-  FROM  t_cpro_check_node 
-  where 1=1 and deleteStatus = #{deleteStatus}
-          <if test="fkSystemId != null and fkSystemId != ''">
-              AND fkSystemId  = #{fkSystemId,jdbcType=VARCHAR}
-          </if>
-          <if test="fkCheckId != null and fkCheckId != ''">
-              AND fkCheckId = #{fkCheckId,jdbcType=VARCHAR}
-          </if>
-</select>
- <update id="updateKeyCheck" parameterType="com.sinopec.smcc.cpro.review.entity.CheckListResult" >
-    	UPDATE t_cpro_check 
-  <set>
-    <if test="initiator != null ">
-      <![CDATA[
-      initiator = #{initiator,jdbcType=VARCHAR},
-    ]]>
-  </if>
-  <if test="updateTime != null ">
-    <![CDATA[
-      updateTime = #{updateTime,jdbcType=DATE},
-    ]]>
-  </if>
-  <if test="fkExaminStatus != null ">
-    <![CDATA[
-      fkExaminStatus = #{fkExaminStatus,jdbcType=VARCHAR},
-    ]]>
-  </if>
-  <if test="prevExecutor != null ">
-    <![CDATA[
-      prevExecutor = #{prevExecutor,jdbcType=VARCHAR},
-    ]]>
-  </if>
-  <if test="executeTime != null ">
-    <![CDATA[
-      executeTime = #{executeTime,jdbcType=TIMESTAMP},
-    ]]>
-    </if>
-  </set>
-    where 1=1
-    <if test="checkId != null and checkId != ''">
-        AND pkId = #{checkId,jdbcType=VARCHAR}
-    </if>
-</update>
-<select id="selectAllByCheckNodeParam" parameterType="String" resultMap="BaseCheckNodeResultMap">
-     SELECT 
-    examineResult,createUserName,remark,examineReason,executor,fkActionName,executeTime
-          FROM t_cpro_check_node
-    <where>
-      <if test="examineResult != null and examineResult != ''">
+  <!-- 获取审核列表 -->
+  <select id="selectAllByCheckParam" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam" resultMap="CheckListResult">
+  	<![CDATA[
+  		SELECT
+				che.pkId AS checkId,
+				che.fkSystemId,
+				che.instanceName,
+				che.initiator,
+				che.prevExecutor,
+				che.executeTime,
+				che.fkBusinessNode,
+				che.fkExaminStatus,
+				expertReview.pkId AS expertReviewId,
+				expertReview.attachName AS expertReviewName,
+				recordReport.pkId AS recordReportId,
+				recordReport.attachName AS recordReportName,
+				sys.fkInfoSysTypeCon
+			FROM
+				t_cpro_check che
+			LEFT JOIN t_cpro_system sys ON che.fkSystemId = sys.pkId
+			LEFT JOIN t_cpro_attach expertReview ON che.fkSystemId = expertReview.fkSystemId AND expertReview.fkAttachType = 'expertReview'
+			LEFT JOIN t_cpro_attach recordReport ON che.fkSystemId = recordReport.fkSystemId AND recordReport.fkAttachType = 'recordReport'
+  	]]>
+  	<where>
+  		<if test="instanceName != null and instanceName != ''">
+        <bind name="instanceName" value="'%' + _parameter.instanceName + '%'" />
         <![CDATA[
-        AND examineResult = #{examineResult,jdbcType=INTEGER}
+          AND instanceName like #{instanceName}
+        ]]>
+      </if>
+      <if test="initiator != null and initiator != ''">
+        <bind name="initiator" value="'%' + _parameter.initiator + '%'" />
+        <![CDATA[
+          AND initiator like #{initiator}
+        ]]>
+      </if>
+      <if test="attachName != null and attachName != ''">
+        <bind name="attachName" value="'%' + _parameter.attachName + '%'" />
+        <![CDATA[
+          AND (expertReview.attachName like #{attachName} OR recordReport.attachName like #{attachName})
+        ]]>
+      </if>
+      <if test="fkBusinessNode != null and fkBusinessNode != ''">
+        <![CDATA[
+          AND fkBusinessNode = #{fkBusinessNode}
+        ]]>
+      </if>
+      <if test="fkExaminStatus != null and fkExaminStatus != ''">
+        <![CDATA[
+          AND fkExaminStatus = #{fkExaminStatus}
+        ]]>
+      </if>
+      <choose>
+      	<when test="handlingState == 1">
+      		<choose>
+      			<when test="'企业审核员' == '企业审核员'">
+      				AND fkExaminStatus = '1'
+      			</when>
+      			<when test="'总部安全管理员' == '总部安全管理员1'">
+      				AND fkExaminStatus = '2'
+      			</when>
+      		</choose>
+      	</when>
+      	<when test="handlingState == 2">
+      		<choose>
+      			<when test="'企业审核员' == '企业审核员'">
+      				AND 
+      				(
+      					(
+	      					(
+	      						fkExaminStatus = '2' 
+	      						OR fkExaminStatus = '4' 
+	      						OR fkExaminStatus = '5' 
+	      					) 
+	      					AND 
+	      					(
+	      						sys.fkInfoSysTypeCon = '1' 
+	      						OR sys.fkInfoSysTypeCon = '2' 
+	      					)
+	      				)
+	      				OR fkExaminStatus = '3' 
+	      			)
+      			</when>
+      			<when test="'总部安全管理员' == '总部安全管理员1'">
+      				AND 
+      				(
+      					fkExaminStatus = '4' OR fkExaminStatus = '5' 
+      				)
+      			</when>
+      		</choose>
+      	</when>
+      </choose>
+  	</where>
+  </select>
+  
+  <update id="updateCheckBySystemId" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam">
+  	<![CDATA[
+      UPDATE t_cpro_check AS examine
+      LEFT JOIN t_cpro_system AS system
+        ON system.pkId = examine.fkSystemId
+    ]]>
+    <set>
+    	<if test="scoreCheckResult != null ">
+        <![CDATA[
+          examine.scoreCheckResult = #{scoreCheckResult},
+          examine.scoreCheckReason = #{scoreCheckReason},
+        ]]>
+        <!-- 如果申请定级通过，则审核状态改为已完成-->
+        <if test="scoreCheckResult ==1">
+	        <![CDATA[
+	          system.examineStatus = 3,
+	        ]]>
+        </if>
+        <!-- 如果申请定级未通过，则审核状态改为进行中-->
+        <if test="scoreCheckResult ==2">
+          <![CDATA[
+            system.examineStatus = 2,
+          ]]>
+        </if>
+      </if>
+    	<if test="scoreCheckChangeResult != null ">
+        <![CDATA[
+          examine.scoreCheckChangeResult = #{scoreCheckChangeResult},
+          examine.scoreCheckChangeReason = #{scoreCheckChangeReason},
+        ]]>
+        <!-- 如果申请变更通过，则审核状态改为已完成 -->
+         <if test="scoreCheckChangeResult ==1">
+          <![CDATA[
+            system.examineStatus = 3,
+          ]]>
+        </if>
+        <!-- 如果申请变更未通过，则审核状态改为进行中 -->
+        <if test="scoreCheckChangeResult ==2">
+          <![CDATA[
+            system.examineStatus = 2,
+          ]]>
+        </if>
+      </if>
+    	<if test="cancelRecordsResult != null ">
+        <![CDATA[
+          examine.cancelRecordsResult = #{cancelRecordsResult},
+          examine.cancelRecordsReason = #{cancelRecordsReason},
+        ]]>
+        <!-- 如果撤销备案通过，则初始化定级状态、审核状态、备案状态、测评状态、自查状态。备案状态未已撤销 -->
+        <if test="cancelRecordsResult==1">
+	        <![CDATA[
+	         system.recordStatus = 4,
+	         system.gradingStatus = 1,
+	         system.examineStatus = 1,
+	         system.evaluationStatus = 1,
+	         system.examinationStatus = 1,
+	        ]]>
+        </if>
+        <!-- 如果撤销备案未通过，则审核状态改为未通过 -->
+        <if test="cancelRecordsResult==2">
+          <![CDATA[
+            system.examineStatus = 2,
+          ]]> 
+        </if>
+      </if>
+      <if test="fkExaminStatus != null">
+      	<![CDATA[
+          examine.fkExaminStatus = #{fkExaminStatus},
+      	]]>
+      </if>
+      <if test="prevExecutor != null">
+      	<![CDATA[
+          examine.prevExecutor = #{prevExecutor},
+      	]]>
+      </if>
+      <if test="executeTime != null">
+      	<![CDATA[
+          examine.executeTime = #{executeTime},
+      	]]>
+      </if>
+    </set>
+    <where>
+    	<![CDATA[
+        AND examine.fkSystemId = #{fkSystemId}
       ]]>
-    </if>
-    <if test="fkCheckId != null and fkCheckId != ''">
-      <![CDATA[
-        AND fkCheckId = #{fkCheckId,jdbcType=VARCHAR}
-      ]]>
-    </if>
-    <if test="createUserName != null and createUserName != ''">
-      <bind name="createUserName" value="'%' + _parameter.createUserName + '%'" />
-      <![CDATA[
-        AND createUserName LIKE #{createUserName,jdbcType=VARCHAR}
-      ]]>
-    </if>
-    <if test="fkSystemId != null and fkSystemId != ''">
-      <![CDATA[
-        AND fkSystemId  = #{fkSystemId,jdbcType=VARCHAR}
-      ]]>
-    </if>
-    <if test="examineReason != null and examineReason != ''">
-      <bind name="examineReason" value="'%' + _parameter.examineReason + '%'" />
-      <![CDATA[
-        AND examineReason LIKE #{examineReason,jdbcType=VARCHAR}
-      ]]>
-    </if>
-    <if test="executor != null and executor != ''">
-      <bind name="executor" value="'%' + _parameter.executor + '%'" />
-      <![CDATA[
-        AND executor LIKE #{executor,jdbcType=VARCHAR}
-      ]]>
-    </if>
-    <if test="deleteStatus != null and deleteStatus != ''">
-      <![CDATA[
-        AND deleteStatus = #{deleteStatus,jdbcType=INTEGER}
-      ]]>
-    </if>
-    <if test="executeTime != null ">
-      <![CDATA[
-        AND executeTime = #{executeTime,jdbcType=TIMESTAMP}
-      ]]>
-    </if>
-  </where>
-</select>
-<insert id="checkNodeSave" parameterType="com.sinopec.smcc.cpro.review.entity.CheckNodeListResult" >
-    INSERT INTO t_cpro_check_node (
-     pkId,examineResult,fkCheckId,createUserName,updateTime,remark,fkSystemId,examineReason,createTime,executor,deleteStatus,fkActionName,fkExaminStatus,executeTime
-    )VALUES(
-    <trim suffixOverrides="," >
-          <![CDATA[
-            #{checkNodeId,jdbcType=VARCHAR},
-          ]]>
-      <choose>
-        <when test="examineResult != null ">
-          <![CDATA[
-            #{examineResult,jdbcType=INTEGER},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="fkCheckId != null ">
-          <![CDATA[
-            #{fkCheckId,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="createUserName != null ">
-          <![CDATA[
-            #{createUserName,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="updateTime != null ">
-          <![CDATA[
-            #{updateTime,jdbcType=DATE},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="remark != null ">
-          <![CDATA[
-            #{remark,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="fkSystemId != null ">
-          <![CDATA[
-            #{fkSystemId,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="examineReason != null ">
-          <![CDATA[
-            #{examineReason,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="createTime != null ">
-          <![CDATA[
-            #{createTime,jdbcType=TIMESTAMP},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="executor != null ">
-          <![CDATA[
-            #{executor,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="deleteStatus != null ">
-          <![CDATA[
-            #{deleteStatus,jdbcType=INTEGER},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="fkActionName != null ">
-          <![CDATA[
-            #{fkActionName,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="fkExaminStatus != null ">
-          <![CDATA[
-            #{fkExaminStatus,jdbcType=VARCHAR},
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
-        </otherwise>
-      </choose>
-      <choose>
-        <when test="executeTime != null ">
-          <![CDATA[
-            #{executeTime,jdbcType=DATE}
-          ]]>
-        </when>
-        <otherwise>
-          <![CDATA[
-            DEFAULT
-          ]]>
-          </otherwise>
-        </choose>
-        ) 
-       </trim>  
-  </insert>	
+    </where>
+  </update>
 </mapper>

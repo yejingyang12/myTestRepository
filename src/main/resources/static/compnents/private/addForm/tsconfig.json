@@ -1,0 +1,8 @@
+{
+  "msgName":[123241],//单位名称
+  "msgPwd":"fdfsa",//单位编码
+  "msgDress":"dffdafa",//单位地址
+  "msgPostal":"dsfad",//邮政编码
+  "msgProvince":[43213454],//所属省份
+  "msgAdc":"dad"//行政区划编码
+}

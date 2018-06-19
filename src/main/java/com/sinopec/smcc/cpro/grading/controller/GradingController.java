@@ -9,8 +9,6 @@
 */
 package com.sinopec.smcc.cpro.grading.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
-import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
-import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsResult;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
+import com.sinopec.smcc.cpro.grading.server.SystemMaterialsService;
+import com.sinopec.smcc.cpro.node.server.NodeService;
 
 /**
  * @Title GradingController.java
@@ -45,11 +44,13 @@ public class GradingController {
   @Autowired
   private GradingService gradingServiceImpl;
   @Autowired
-  private AttachMaterialsService AttachServiceImpl;
+  private SystemMaterialsService systemMaterialsServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
   
   /**
    * 
-   * 查询定级信息
+   * 查询定级详情信息
    * @author hanxin
    * @date 2018年5月29日上午10:21:19
    * @param request
@@ -61,7 +62,7 @@ public class GradingController {
   @ResponseBody
   public ResultApi queryDetailsGrading(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
-    List<GradingListResult> gradingListResult = 
+    GradingListResult gradingListResult = 
         this.gradingServiceImpl.queryDetailsGrading(gradingParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(gradingListResult);
@@ -70,7 +71,7 @@ public class GradingController {
   
   /**
    * 
-   * 查询定级信息详情
+   * 查询定级回显信息
    * @author hanxin
    * @date 2018年5月29日上午10:21:33
    * @param request
@@ -90,7 +91,7 @@ public class GradingController {
   
   /**
    * 
-   * 添加定级信息
+   * 保存定级信息
    * @author hanxin
    * @date 2018年5月31日上午11:37:14
    * @param request
@@ -101,7 +102,8 @@ public class GradingController {
   @ResponseBody
   public ResultApi saveGrading(HttpServletRequest request, @RequestBody GradingParam gradingParam)
       throws BusinessException{
-    String gradingId = this.gradingServiceImpl.saveGrading(gradingParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String gradingId = this.gradingServiceImpl.saveGrading(userName,gradingParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(gradingId);
     return result;
@@ -109,7 +111,26 @@ public class GradingController {
   
   /**
    * 
-   * 提交材料信息
+   * 提交定级信息修改定级状态
+   * @author hanxin
+   * @date 2018年6月8日下午5:04:03
+   * @param request
+   * @param gradingParam
+   * @return
+   */
+  @RequestMapping(value = "/submitGrading", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi submitGrading(HttpServletRequest request, 
+      @RequestBody GradingParam gradingParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String gradingId = this.gradingServiceImpl.submitGrading(userName, gradingParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(gradingId);
+    return result;
+  }
+  
+  /**
+   * 获取提交材料信息
    * @author hanxin
    * @date 2018年5月29日下午3:29:13
    * @param request
@@ -117,20 +138,20 @@ public class GradingController {
    * @return
    * @throws BusinessException 
    */
-  @RequestMapping(value = "/queryDetailsAttach", method = RequestMethod.POST)
+  @RequestMapping(value = "/querySystemMaterials", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryDetailsAttach(HttpServletRequest request,
-      @RequestBody AttachMaterialsParam attachMaterialsParam) throws BusinessException{
-    List<AttachMaterialsListResult> attachMaterialsListResult = 
-        this.AttachServiceImpl.queryDetailsAttach(attachMaterialsParam);
+  public ResultApi querySystemMaterials(HttpServletRequest request,
+      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+    SystemMaterialsResult systemMaterialsResult = 
+        this.systemMaterialsServiceImpl.querySystemMaterials(systemMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachMaterialsListResult);
+    result.setData(systemMaterialsResult);
     return result;
   }
   
   /**
    * 
-   * 材料信息详情
+   * 获取材料回显信息
    * @author hanxin
    * @date 2018年5月30日上午9:04:52
    * @param request
@@ -138,14 +159,56 @@ public class GradingController {
    * @return
    * @throws BusinessException 
    */
-  @RequestMapping(value = "/queryEditAttach", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryEditSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryEditAttach(HttpServletRequest request,
-      @RequestBody AttachMaterialsParam attachMaterialsParam) throws BusinessException{
-    List<AttachMaterialsListResult> attachMaterialsListResult = 
-        this.AttachServiceImpl.queryEditAttach(attachMaterialsParam);
+  public ResultApi queryEditSystemMaterials(HttpServletRequest request,
+      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+    SystemMaterialsResult systemMaterialsResult = 
+        this.systemMaterialsServiceImpl.queryEditSystemMaterials(systemMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachMaterialsListResult);
+    result.setData(systemMaterialsResult);
+    return result;
+  }
+
+  /**
+   * 
+   * 保存材料信息
+   * @author hanxin
+   * @date 2018年6月8日下午5:29:31
+   * @param request
+   * @param attachMaterialsParam
+   * @return
+   */
+  @RequestMapping(value = "/saveSystemMaterials", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi saveSystemMaterials(HttpServletRequest request, 
+      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.systemMaterialsServiceImpl.
+        saveSystemMaterials(userName,systemMaterialsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
+  }
+  
+  /**
+   * 
+   * 提交材料信息修改状态
+   * @author hanxin
+   * @date 2018年6月8日下午6:10:39
+   * @param request
+   * @param gradingParam
+   * @return
+   */
+  @RequestMapping(value = "/submitSystemMaterials", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi submitSystemMaterials(HttpServletRequest request, 
+      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.systemMaterialsServiceImpl.
+        submitSystemMaterials(userName,systemMaterialsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
     return result;
   }
 }

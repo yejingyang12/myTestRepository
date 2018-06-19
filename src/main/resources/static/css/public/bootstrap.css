@@ -10,8 +10,7 @@ html {
 	-ms-text-size-adjust: 100%
 }
 body {
-	margin: 0;
-	background:red;!important;
+	margin: 0
 }
 article,
 aside,
@@ -2065,6 +2064,7 @@ pre code {
 	min-height: 1px;
 	padding-right: 15px;
 	padding-left: 15px
+	
 }
 
 .col-xs-1,

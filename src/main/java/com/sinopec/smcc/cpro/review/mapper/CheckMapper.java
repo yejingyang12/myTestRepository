@@ -9,10 +9,7 @@ package com.sinopec.smcc.cpro.review.mapper;
 
 import java.util.List;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckNodeListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckNodeParam;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 
 /**
@@ -23,7 +20,7 @@ import com.sinopec.smcc.cpro.review.entity.CheckParam;
 public interface CheckMapper {
 
   /**
-   * @Descrption
+   * @Descrption获取审核列表
    * @author zhouyu
    * @date 2018年5月25日下午3:04:45
    * @param checkParam
@@ -32,43 +29,11 @@ public interface CheckMapper {
   public List<CheckListResult> selectAllByCheckParam(CheckParam checkParam);
 
   /**
-   * @Descrption
-   * @author zhouyu
-   * @date 2018年5月28日下午12:58:57
-   */
-  public void updateKeyCheck(CheckParam checkParam);
-  
-  /**
-   * @Descrption 新增审核
-   * @author zhouyu
-   * @date 2018年5月25日下午1:50:04
-   * @param checkParam 参数
-   * @return 数据
-   */
-  public void checkNodeSave(CheckNodeListResult checkNodeListResult) throws BusinessException;
-
-  /**
-   * @Descrption 审核节点列表
-   * @author zhouyu
-   * @date 2018年5月28日上午9:51:24
-   * @param checkNodeParam
-   * @return
-   */
-  public List<CheckNodeListResult> selectAllByCheckNodeParam(CheckNodeParam checkNodeParam);
-
-  /**
-   * @Descrption 新增审核信息
-   * @author zhouyu
-   * @date 2018年5月29日下午4:13:39
+   * @Descrption修改审核信息
+   * @author yejingyang
+   * @date 2018年6月8日下午2:28:35
    * @param checkParam
    */
-  public void insertByCheck(CheckParam checkParam);
-  /**
-   * @Descrption
-   * @author zhouyu
-   * @date 2018年5月29日下午7:49:41
-   * @param checkNodeParam
-   * @return
-   */
-  public List<CheckNodeListResult> selectAllCheckNodeParam(CheckNodeParam checkNodeParam);
+  public void updateCheckBySystemId(CheckParam checkParam);
+  
 }

@@ -25,75 +25,15 @@ import com.alibaba.fastjson.JSON;
  */
 public class SystemUseServices {
   private String systemUseServicesId;
-  private String fkResponsibleType;
   private Integer fkProductsType;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTime;
-  private Integer deleteStatus;
+  private String fkResponsibleType;
   private Integer serviceIsUse;
   private String otherName;
   private String fkSystemId;
-  
-  private int pageSize = 10;// pageSize ，每一页显示多少
-  private int currentPage = 1;// 当前页数
-  private String field; //接收字段
-  private String sort;//排序
 
-  /**
-	 * @return the pageSize
-	 */
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	/**
-	 * @param pageSize the pageSize to set
-	 */
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	/**
-	 * @return the currentPage
-	 */
-	public int getCurrentPage() {
-		return currentPage;
-	}
-
-	/**
-	 * @param currentPage the currentPage to set
-	 */
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	/**
-	 * @return the field
-	 */
-	public String getField() {
-		return field;
-	}
-
-	/**
-	 * @param field the field to set
-	 */
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	/**
-	 * @return the sort
-	 */
-	public String getSort() {
-		return sort;
-	}
-
-	/**
-	 * @param sort the sort to set
-	 */
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date createTime;
+  private Integer deleteStatus;
 
 	private SystemUseServices cproSystemUseServices; 
 
@@ -103,6 +43,20 @@ public class SystemUseServices {
   }
 
 	/**
+   * @return the fkProductsType
+   */
+  public Integer getFkProductsType() {
+    return fkProductsType;
+  }
+
+  /**
+   * @param fkProductsType the fkProductsType to set
+   */
+  public void setFkProductsType(Integer fkProductsType) {
+    this.fkProductsType = fkProductsType;
+  }
+
+  /**
 	 * @return the systemUseServicesId
 	 */
 	public String getSystemUseServicesId() {
@@ -130,21 +84,8 @@ public class SystemUseServices {
 		this.fkResponsibleType = fkResponsibleType;
 	}
 
-	/**
-	 * @return the fkProductsType
-	 */
-	public Integer getFkProductsType() {
-		return fkProductsType;
-	}
 
-	/**
-	 * @param fkProductsType the fkProductsType to set
-	 */
-	public void setFkProductsType(Integer fkProductsType) {
-		this.fkProductsType = fkProductsType;
-	}
-
-	/**
+  /**
 	 * @return the createTime
 	 */
 	public Date getCreateTime() {

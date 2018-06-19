@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.system.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,35 +28,295 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class SystemResult {
   
   private String systemId;
+  private String constructionTypeName;
+  private String combinedName;
   private String systemName;
+  private Integer appIsInternet;
   private String standardizedCode;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date whenInvestmentUse;
-  private String executiveOfficeName;
-  private String sysBusDescription;
-  private Integer subIsSystem;
-  private String executiveDireCon;
   private String gradeRecordSysName;
+  private String sysBusSituationType;
+  private String sysBusDescription;
+  private String sysServiceSitScope;
+  private String sysServiceSitObject;
+  private String npCoverageRange;
+  private String npNetworkProperties;
+  private String interconnectionSit;
+  private String companyName;
+  private String executiveOfficeName;
+  private String executiveDireCon;
+  private String executiveDireConTel;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private Date whenInvestmentUse;
+  private Integer subIsSystem;
+  private String fkFatherSystemId;
+  private Integer fkSystemType;
+  
+  private List<SystemKeyResult> systemKeyProducts;
+  private List<SystemUseResult> systemUseServices;
+  private List<SystemSubResult> addSystemSub;
+  
+  
   private String fkResponsibleType; 
-  private Integer fkProductsType;
+  private String fkProductsType;
   private Integer serviceIsUse;
-  private Integer fkExaminStatus;
+  private String fkExaminStatus;
   private String productsNumber;
   private Integer nUseProbability;
   private String fkNationalIsProducts;
+  
+
   private String fkCompanyCode;
-  private String executiveDireConTel;
-  private String ConstructionTypeName;
-  private String CombinedName;
-  private String BusinessName;
-  private String ServiceScopeName;
-  private String ServiceObjectName;
-  private String CoverScopeName;
-  private String NewWorkNatureName;
-  private String SystemInterName;
+  private Integer fkInfoSysTypeCon;
+  private Integer fkSystemIsMerge;
+
   
-  
-  
+  /**
+   * @return the fkFatherSystemId
+   */
+  public String getFkFatherSystemId() {
+    return fkFatherSystemId;
+  }
+
+
+  /**
+   * @param fkFatherSystemId the fkFatherSystemId to set
+   */
+  public void setFkFatherSystemId(String fkFatherSystemId) {
+    this.fkFatherSystemId = fkFatherSystemId;
+  }
+
+
+  /**
+   * @return the fkSystemType
+   */
+  public Integer getFkSystemType() {
+    return fkSystemType;
+  }
+
+
+  /**
+   * @param fkSystemType the fkSystemType to set
+   */
+  public void setFkSystemType(Integer fkSystemType) {
+    this.fkSystemType = fkSystemType;
+  }
+
+
+  /**
+   * @return the fkCompanyCode
+   */
+  public String getFkCompanyCode() {
+    return fkCompanyCode;
+  }
+
+
+  /**
+   * @param fkCompanyCode the fkCompanyCode to set
+   */
+  public void setFkCompanyCode(String fkCompanyCode) {
+    this.fkCompanyCode = fkCompanyCode;
+  }
+
+
+
+  /**
+   * @return the fkInfoSysTypeCon
+   */
+  public Integer getFkInfoSysTypeCon() {
+    return fkInfoSysTypeCon;
+  }
+
+
+  /**
+   * @param fkInfoSysTypeCon the fkInfoSysTypeCon to set
+   */
+  public void setFkInfoSysTypeCon(Integer fkInfoSysTypeCon) {
+    this.fkInfoSysTypeCon = fkInfoSysTypeCon;
+  }
+
+
+  /**
+   * @return the fkSystemIsMerge
+   */
+  public Integer getFkSystemIsMerge() {
+    return fkSystemIsMerge;
+  }
+
+
+  /**
+   * @param fkSystemIsMerge the fkSystemIsMerge to set
+   */
+  public void setFkSystemIsMerge(Integer fkSystemIsMerge) {
+    this.fkSystemIsMerge = fkSystemIsMerge;
+  }
+
+
+  /**
+   * @return the addSystemSub
+   */
+  public List<SystemSubResult> getAddSystemSub() {
+    return addSystemSub;
+  }
+
+
+  /**
+   * @param addSystemSub the addSystemSub to set
+   */
+  public void setAddSystemSub(List<SystemSubResult> addSystemSub) {
+    this.addSystemSub = addSystemSub;
+  }
+
+
+
+  /**
+   * @return the systemKeyProducts
+   */
+  public List<SystemKeyResult> getSystemKeyProducts() {
+    return systemKeyProducts;
+  }
+
+
+  /**
+   * @param systemKeyProducts the systemKeyProducts to set
+   */
+  public void setSystemKeyProducts(List<SystemKeyResult> systemKeyProducts) {
+    this.systemKeyProducts = systemKeyProducts;
+  }
+
+
+
+
+  /**
+   * @return the systemUseServices
+   */
+  public List<SystemUseResult> getSystemUseServices() {
+    return systemUseServices;
+  }
+
+
+  /**
+   * @param systemUseServices the systemUseServices to set
+   */
+  public void setSystemUseServices(List<SystemUseResult> systemUseServices) {
+    this.systemUseServices = systemUseServices;
+  }
+
+
+  /**
+   * @return the npNetworkProperties
+   */
+  public String getNpNetworkProperties() {
+    return npNetworkProperties;
+  }
+
+
+  /**
+   * @param npNetworkProperties the npNetworkProperties to set
+   */
+  public void setNpNetworkProperties(String npNetworkProperties) {
+    this.npNetworkProperties = npNetworkProperties;
+  }
+
+
+  /**
+   * @return the interconnectionSit
+   */
+  public String getInterconnectionSit() {
+    return interconnectionSit;
+  }
+
+
+  /**
+   * @param interconnectionSit the interconnectionSit to set
+   */
+  public void setInterconnectionSit(String interconnectionSit) {
+    this.interconnectionSit = interconnectionSit;
+  }
+
+
+  /**
+   * @return the npCoverageRange
+   */
+  public String getNpCoverageRange() {
+    return npCoverageRange;
+  }
+
+
+  /**
+   * @param npCoverageRange the npCoverageRange to set
+   */
+  public void setNpCoverageRange(String npCoverageRange) {
+    this.npCoverageRange = npCoverageRange;
+  }
+
+
+  /**
+   * @return the sysServiceSitObject
+   */
+  public String getSysServiceSitObject() {
+    return sysServiceSitObject;
+  }
+
+
+  /**
+   * @param sysServiceSitObject the sysServiceSitObject to set
+   */
+  public void setSysServiceSitObject(String sysServiceSitObject) {
+    this.sysServiceSitObject = sysServiceSitObject;
+  }
+
+
+  /**
+   * @return the sysServiceSitScope
+   */
+  public String getSysServiceSitScope() {
+    return sysServiceSitScope;
+  }
+
+
+  /**
+   * @param sysServiceSitScope the sysServiceSitScope to set
+   */
+  public void setSysServiceSitScope(String sysServiceSitScope) {
+    this.sysServiceSitScope = sysServiceSitScope;
+  }
+
+
+  /**
+   * @return the sysBusSituationType
+   */
+  public String getSysBusSituationType() {
+    return sysBusSituationType;
+  }
+
+
+  /**
+   * @param sysBusSituationType the sysBusSituationType to set
+   */
+  public void setSysBusSituationType(String sysBusSituationType) {
+    this.sysBusSituationType = sysBusSituationType;
+  }
+
+
+  /**
+   * @return the companyName
+   */
+  public String getCompanyName() {
+    return companyName;
+  }
+
+
+  /**
+   * @param companyName the companyName to set
+   */
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
+  }
+
+
+
+
   /**
    * @return the nUseProbability
    */
@@ -92,7 +353,25 @@ public class SystemResult {
    * @return the constructionTypeName
    */
   public String getConstructionTypeName() {
-    return ConstructionTypeName;
+    return constructionTypeName;
+  }
+
+
+
+
+  /**
+   * @return the appIsInternet
+   */
+  public Integer getAppIsInternet() {
+    return appIsInternet;
+  }
+
+
+  /**
+   * @param appIsInternet the appIsInternet to set
+   */
+  public void setAppIsInternet(Integer appIsInternet) {
+    this.appIsInternet = appIsInternet;
   }
 
 
@@ -100,15 +379,17 @@ public class SystemResult {
    * @param constructionTypeName the constructionTypeName to set
    */
   public void setConstructionTypeName(String constructionTypeName) {
-    ConstructionTypeName = constructionTypeName;
+    this.constructionTypeName = constructionTypeName;
   }
+
+
 
 
   /**
    * @return the combinedName
    */
   public String getCombinedName() {
-    return CombinedName;
+    return combinedName;
   }
 
 
@@ -116,104 +397,9 @@ public class SystemResult {
    * @param combinedName the combinedName to set
    */
   public void setCombinedName(String combinedName) {
-    CombinedName = combinedName;
+    this.combinedName = combinedName;
   }
 
-
-  /**
-   * @return the businessName
-   */
-  public String getBusinessName() {
-    return BusinessName;
-  }
-
-
-  /**
-   * @param businessName the businessName to set
-   */
-  public void setBusinessName(String businessName) {
-    BusinessName = businessName;
-  }
-
-
-  /**
-   * @return the serviceScopeName
-   */
-  public String getServiceScopeName() {
-    return ServiceScopeName;
-  }
-
-
-  /**
-   * @param serviceScopeName the serviceScopeName to set
-   */
-  public void setServiceScopeName(String serviceScopeName) {
-    ServiceScopeName = serviceScopeName;
-  }
-
-
-  /**
-   * @return the serviceObjectName
-   */
-  public String getServiceObjectName() {
-    return ServiceObjectName;
-  }
-
-
-  /**
-   * @param serviceObjectName the serviceObjectName to set
-   */
-  public void setServiceObjectName(String serviceObjectName) {
-    ServiceObjectName = serviceObjectName;
-  }
-
-
-  /**
-   * @return the coverScopeName
-   */
-  public String getCoverScopeName() {
-    return CoverScopeName;
-  }
-
-
-  /**
-   * @param coverScopeName the coverScopeName to set
-   */
-  public void setCoverScopeName(String coverScopeName) {
-    CoverScopeName = coverScopeName;
-  }
-
-
-  /**
-   * @return the newWorkNatureName
-   */
-  public String getNewWorkNatureName() {
-    return NewWorkNatureName;
-  }
-
-
-  /**
-   * @param newWorkNatureName the newWorkNatureName to set
-   */
-  public void setNewWorkNatureName(String newWorkNatureName) {
-    NewWorkNatureName = newWorkNatureName;
-  }
-
-
-  /**
-   * @return the systemInterName
-   */
-  public String getSystemInterName() {
-    return SystemInterName;
-  }
-
-
-  /**
-   * @param systemInterName the systemInterName to set
-   */
-  public void setSystemInterName(String systemInterName) {
-    SystemInterName = systemInterName;
-  }
 
   /**
    * @return the systemId
@@ -265,7 +451,7 @@ public class SystemResult {
   /**
    * @return the whenInvestmentUse
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getWhenInvestmentUse() {
     return whenInvestmentUse;
   }
@@ -378,7 +564,7 @@ public class SystemResult {
   /**
    * @return the fkProductsType
    */
-  public Integer getFkProductsType() {
+  public String getFkProductsType() {
     return fkProductsType;
   }
 
@@ -386,7 +572,7 @@ public class SystemResult {
   /**
    * @param fkProductsType the fkProductsType to set
    */
-  public void setFkProductsType(Integer fkProductsType) {
+  public void setFkProductsType(String fkProductsType) {
     this.fkProductsType = fkProductsType;
   }
 
@@ -407,10 +593,12 @@ public class SystemResult {
   }
 
 
+
+
   /**
    * @return the fkExaminStatus
    */
-  public Integer getFkExaminStatus() {
+  public String getFkExaminStatus() {
     return fkExaminStatus;
   }
 
@@ -418,7 +606,7 @@ public class SystemResult {
   /**
    * @param fkExaminStatus the fkExaminStatus to set
    */
-  public void setFkExaminStatus(Integer fkExaminStatus) {
+  public void setFkExaminStatus(String fkExaminStatus) {
     this.fkExaminStatus = fkExaminStatus;
   }
 
@@ -436,22 +624,6 @@ public class SystemResult {
    */
   public void setProductsNumber(String productsNumber) {
     this.productsNumber = productsNumber;
-  }
-
-
-  /**
-   * @return the fkCompanyCode
-   */
-  public String getFkCompanyCode() {
-    return fkCompanyCode;
-  }
-
-
-  /**
-   * @param fkCompanyCode the fkCompanyCode to set
-   */
-  public void setFkCompanyCode(String fkCompanyCode) {
-    this.fkCompanyCode = fkCompanyCode;
   }
 
 

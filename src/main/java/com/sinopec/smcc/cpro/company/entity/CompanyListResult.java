@@ -33,7 +33,7 @@ public class CompanyListResult {
   private String compPrincipalEm;
   private String ldContactPhone;
   private Integer administrativeNum;
-  private Integer compPrincipalPhone;
+  private String compPrincipalPhone;
   private String companyCode;
   private String compPrincipalPost;
   private String ldContactPost;
@@ -186,13 +186,13 @@ public class CompanyListResult {
   /**
    * @return the compPrincipalPhone
    */
-  public Integer getCompPrincipalPhone() {
+  public String getCompPrincipalPhone() {
     return compPrincipalPhone;
   }
   /**
    * @param compPrincipalPhone the compPrincipalPhone to set
    */
-  public void setCompPrincipalPhone(Integer compPrincipalPhone) {
+  public void setCompPrincipalPhone(String compPrincipalPhone) {
     this.compPrincipalPhone = compPrincipalPhone;
   }
   /**

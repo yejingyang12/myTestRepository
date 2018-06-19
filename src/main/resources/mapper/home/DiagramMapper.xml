@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sinopec.smcc.cpro.home.mapper.DiagramMapper">
+  <resultMap id="DiagramResult" type="com.sinopec.smcc.cpro.home.entity.DiagramResult">
+    <result column="level1" property="level1" jdbcType="INTEGER" />
+    <result column="level2" property="level2" jdbcType="INTEGER" />
+    <result column="level3" property="level3" jdbcType="INTEGER" />
+    <result column="level4" property="level4" jdbcType="INTEGER" />
+    <result column="level5" property="level5" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="DiagramListResult" type="com.sinopec.smcc.cpro.home.entity.DiagramListResult">
+    <result column="level1" property="level1" jdbcType="INTEGER" />
+    <result column="level2" property="level2" jdbcType="INTEGER" />
+    <result column="level3" property="level3" jdbcType="INTEGER" />
+    <result column="level4" property="level4" jdbcType="INTEGER" />
+    <result column="level5" property="level5" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="DiagramTrendResult" type="com.sinopec.smcc.cpro.home.entity.DiagramTrendResult">
+    <result column="month" property="month" jdbcType="VARCHAR" />
+    <result column="exceptGradCount" property="exceptGradCount" jdbcType="INTEGER" />
+    <result column="checkGradCount" property="checkGradCount" jdbcType="INTEGER" />
+    <result column="recordsCount" property="recordsCount" jdbcType="INTEGER" />
+    <result column="evaluationCount" property="evaluationCount" jdbcType="INTEGER" />
+    <result column="selfInspectionCount" property="selfInspectionCount" jdbcType="INTEGER" />
+  </resultMap>
+
+	<!-- 系统等保等级分布 -->
+	<select id="selectSystemLevelProtectionDistribution" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam"
+	  resultMap="DiagramResult">
+		<![CDATA[
+			SELECT
+				SUM(IF (sce.fkSpRanklevel = 301, 1, 0)) AS Level1,
+				SUM(IF (sce.fkSpRanklevel = 302, 1, 0)) AS Level2,
+				SUM(IF (sce.fkSpRanklevel = 303, 1, 0)) AS Level3,
+				SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
+				SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5
+			FROM
+				t_cpro_system sys
+			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
+		]]>
+		<where>
+			<choose>
+				<when test="systemType == 1">
+					<![CDATA[
+		        AND sys.fkSystemType < 3
+		      ]]>
+				</when>
+				<when test="systemType == 2">
+					<![CDATA[
+		        AND sys.fkSystemType = 3
+		      ]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+		        AND sys.fkSystemType = 0
+		      ]]>
+				</otherwise>
+			</choose>
+			<if test="dateBegin != null">
+				<![CDATA[
+	        AND sce.rankTime >= #{dateBegin}
+	      ]]>
+			</if>
+			<if test="dateEnd != null">
+				<![CDATA[
+	        AND sce.rankTime <= #{dateEnd}
+	      ]]>
+			</if>
+		</where>
+	</select>
+	<!-- 不同等保级别系统在不同等保管理状态下详情 -->
+	<select id="selectSystemLevelBySystemType" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam"
+	  resultMap="DiagramResult">
+		<![CDATA[
+			SELECT
+				SUM(IF (sce.fkSpRanklevel = 301, 1, 0)) AS Level1,
+				SUM(IF (sce.fkSpRanklevel = 302, 1, 0)) AS Level2,
+				SUM(IF (sce.fkSpRanklevel = 303, 1, 0)) AS Level3,
+				SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
+				SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5
+			FROM
+				t_cpro_system sys
+			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
+		]]>
+		<where>
+			<choose>
+				<when test="systemType == 1">
+					<![CDATA[
+		        AND sys.fkSystemType < 3
+		      ]]>
+				</when>
+				<when test="systemType == 2">
+					<![CDATA[
+		        AND sys.fkSystemType = 3
+		      ]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+		        AND sys.fkSystemType = 0
+		      ]]>
+				</otherwise>
+			</choose>
+			<if test="dateBegin != null">
+				<![CDATA[
+	        AND sce.rankTime >= #{dateBegin}
+	      ]]>
+			</if>
+			<if test="dateEnd != null">
+				<![CDATA[
+	        AND sce.rankTime <= #{dateEnd}
+	      ]]>
+			</if>
+			<if test="codeName == '完成测评数'">
+				<![CDATA[
+	        AND sys.evaluationStatus = 3
+	      ]]>
+			</if>
+			<if test="codeName == '完成自查数'">
+				<![CDATA[
+	        AND sys.examinationStatus = 3
+	      ]]>
+			</if>
+			<if test="codeName == '定级备案数'">
+				<![CDATA[
+	        
+	      ]]>
+			</if>
+			<if test="codeName == '未自查数'">
+				<![CDATA[
+	        AND sys.examinationStatus < 3
+	      ]]>
+			</if>
+			<if test="codeName == '企业自建数'">
+				<![CDATA[
+	        AND sys.fkInfoSysTypeCon = 1
+	      ]]>
+			</if>
+			<if test="codeName == '总部统建数'">
+				<![CDATA[
+	        AND sys.fkInfoSysTypeCon = 3
+	      ]]>
+			</if>
+			<if test="codeName == '未测评数'">
+				<![CDATA[
+	        AND sys.evaluationStatus < 3
+	      ]]>
+			</if>
+		</where>
+	</select>
+	<!-- 备案单位数量Top10 -->
+	<select id="selectRecordCompanyTop10" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam"
+	  resultMap="DiagramListResult">
+		<![CDATA[
+			SELECT
+				SUM(IF (sce.fkSpRanklevel = 301, 1, 0)) AS Level1,
+				SUM(IF (sce.fkSpRanklevel = 302, 1, 0)) AS Level2,
+				SUM(IF (sce.fkSpRanklevel = 303, 1, 0)) AS Level3,
+				SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
+				SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5,
+				SUM(IF (sce.fkSpRanklevel = 305, 1, 1)) AS Level,
+				rec.recordCompany
+			FROM
+				t_cpro_system sys
+			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
+			LEFT JOIN t_cpro_records rec ON rec.fkSystemId = sys.pkId
+		]]>
+		<where>
+			<choose>
+				<when test="systemType == 1">
+					<![CDATA[
+		        AND sys.fkSystemType < 3
+		      ]]>
+				</when>
+				<when test="systemType == 2">
+					<![CDATA[
+		        AND sys.fkSystemType = 3
+		      ]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+		        AND sys.fkSystemType = 0
+		      ]]>
+				</otherwise>
+			</choose>
+			<if test="dateBegin != null">
+				<![CDATA[
+	        AND rec.recordDate >= #{dateBegin}
+	      ]]>
+			</if>
+			<if test="dateEnd != null">
+				<![CDATA[
+	        AND rec.recordDate <= #{dateEnd}
+	      ]]>
+			</if>
+		</where>
+		<![CDATA[
+			GROUP BY rec.recordCompany
+	    ORDER BY Level
+	    LIMIT 0,10
+	  ]]>
+	</select>
+	<!-- 受理备案单位数量Top10 -->
+	<select id="selectAcceptCompanyTop10" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam"
+	  resultMap="DiagramListResult">
+		<![CDATA[
+			SELECT
+				SUM(IF (sce.fkSpRanklevel = 301, 1, 0)) AS Level1,
+				SUM(IF (sce.fkSpRanklevel = 302, 1, 0)) AS Level2,
+				SUM(IF (sce.fkSpRanklevel = 303, 1, 0)) AS Level3,
+				SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
+				SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5,
+				SUM(IF (sce.fkSpRanklevel = 305, 1, 1)) AS Level,
+				rec.acceptCompany
+			FROM
+				t_cpro_system sys
+			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
+			LEFT JOIN t_cpro_records rec ON rec.fkSystemId = sys.pkId
+		]]>
+		<where>
+			<choose>
+				<when test="systemType == 1">
+					<![CDATA[
+		        AND sys.fkSystemType < 3
+		      ]]>
+				</when>
+				<when test="systemType == 2">
+					<![CDATA[
+		        AND sys.fkSystemType = 3
+		      ]]>
+				</when>
+				<otherwise>
+					<![CDATA[
+		        AND sys.fkSystemType = 0
+		      ]]>
+				</otherwise>
+			</choose>
+			<if test="dateBegin != null">
+				<![CDATA[
+	        AND rec.acceptDate >= #{dateBegin}
+	      ]]>
+			</if>
+			<if test="dateEnd != null">
+				<![CDATA[
+	        AND rec.acceptDate <= #{dateEnd}
+	      ]]>
+			</if>
+		</where>
+		<![CDATA[
+			GROUP BY rec.acceptCompany
+	    ORDER BY Level
+	    LIMIT 0,10
+	  ]]>
+	</select>
+	<!-- 系统等保管理阶段趋势 -->
+	<select id="selectSystemTrendByYear" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam" resultMap="DiagramTrendResult">
+		SELECT
+			MONTH(node.createTime) AS month,
+			SUM(IF(node.operation = '定级审核',1,0)) AS checkGradCount,
+			SUM(IF(node.operation = '备案',1,0)) AS recordsCount,
+			SUM(IF(node.operation = '添加测评',1,0)) AS evaluationCount,
+			SUM(IF(node.operation = '添加自查',1,0)) AS selfInspectionCount
+		FROM
+			t_cpro_node node 
+		WHERE YEAR(node.createTime) = #{year}
+		GROUP BY MONTH(node.createTime)
+	</select>
+</mapper>

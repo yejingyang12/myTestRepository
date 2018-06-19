@@ -1,0 +1,119 @@
+
+<div class="container h-padding" style="margin:0">
+    <div class="container h-table-border" style="background:#fff;padding: 15px;margin-top: -15px">
+        <div style="height: 50px;line-height: 50px;margin-top: -15px">
+            <i class="h-list-line" style="vertical-align:middle;"></i>
+            单位基本信息列表
+        </div>
+        <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+            <div class="row" style="margin-top: 15px">
+                <div class="col-md-12">
+                    <div class="col-md-3 h-system h-padding" style="width: 5%">
+                        单位名称:
+                    </div>
+                    <div class="col-md-3 h-col-md-9 h-padding pos-relative">
+                        <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.companyName"/>
+                    </div>
+                    <div class="col-md-4 h-system h-padding" style="margin-left: -3%;width: 8%;">
+                        责任部门负责人:
+                    </div>
+                    <div class="col-md-3 h-col-md-9 h-padding pos-relative">
+                        <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.ldContactName">
+                    </div>
+                    <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="...">
+                        <button type="button" @click="queryCompanyListInfoMethod()" class="btn btn-default" style="width:70px;background:#3d95df;color:#fff;">查询</button>
+                        <button type="button" class="btn btn-default" style="width:70px" @click="clearHeadle">   清空</button>
+                    </div>
+                </div>
+            </div>
+        <!--</div>-->
+        <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+        <p class="h-p" style="margin: 15px 0;">
+            <button type="button" @click="newCompanyInfoMethod()" class="h-btn btn btn-default" id="h-btn-add">
+                <img class="h-add   btn-default" src="/images/home/xinzengdengbao.png" alt="">
+                <slot name="xinzengdengbao"></slot>
+            </button>
+            <button type="button" class="hh-btn btn btn-default h-bagimg" id="h-btn-add">
+                <img class="hh-add   btn-default" src="/images/del.png" alt="">
+                <slot name="shanchu"></slot>
+            </button>
+        </p>
+        <div class="row" style="margin:0">
+            <div class="col-md-12">
+                <div class="row table-responsive">
+                    <table id="h-list-show" class="table table-bordered table-striped">
+                        <tr class="tr-row rowOne">
+                            <th class="firstChecked"
+                                style="width:4%;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
+                                <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;"></th>
+                            <th style="min-width:47px">序号</th>
+                            <th>单位名称
+                                <slot name="paixujiantou"></slot>
+                            </th>
+                            <th>单位类型
+                                <slot name="paixujiantou2"></slot>
+                            </th>
+                            <th>责任部门负责人
+
+                                <slot name="paixujiantou3"></slot>
+                            </th>
+                            <th>操作</th>
+                        </tr>
+                        <tr class="tr-row" v-for="(item,index) in companyForm.formData">
+                            <td class="firstChecked"
+                                style="min-width:34px;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
+                                <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
+                            <td>{{index+1}}</td>
+                            <td>{{item.companyName}} </td>
+                            <td>{{item.fkCompanyType}} </td>
+                            <td>{{item.ldContactName}}</td>
+                            <!--操作-->
+                            <td style="color:#1e91e2;">
+                                <!--class="hide3"-->
+                                <a class="hide3">
+                                    <el-button @click="handleClick(item.companyId)" type="text" size="small">编辑</el-button>
+                                    <el-button @click="deleteClick(item.companyId)" type="text" size="small">删除</el-button>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--分页-->
+        <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
+            <span style="float: left;padding-top: 18px">显示1到10行，共45行记录</span>
+            <div class="h-page">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+                        <li class="current"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                        共40页，跳到
+                        <li>
+                            <input type="text" id="txt" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                   onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                   style="overflow: visible;">
+                            <div class="box" id="box"></div>
+                        </li>
+                        页
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+

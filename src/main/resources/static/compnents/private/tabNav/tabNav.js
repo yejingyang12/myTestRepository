@@ -4,7 +4,7 @@
 (function () {
   var data={};
   Vue.component('tabNav',function (resolve,reject) {
-    $.get(comp_src+'/compnents/private/tabNav/tabtesting.html').then(function(res){
+    $.get(comp_src+'/compnents/private/tabNav/tabNav.html').then(function(res){
       resolve({
         template:res,
         data:function () {

@@ -1,114 +1,14 @@
 <div class="fishBone">
     <ul>
-        <li class="top">
+        <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data">
             <div class="item">
-                <div>
                     <div class="content">
-                        <div class="frist_div">操作：创建</div>
-                        <div class="second_div">创建人：张三</div>
-                        <div class="thirs_div">操作意见：无</div>
+                        <div class="frist_div">操作：{{pro.operation}}</div>
+                        <div class="second_div">操作人：{{pro.operator}}</div>
+                        <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
+                        <div class="thirs_div">操作意见：{{pro.operationOpinion}}</div>
                     </div>
-                    <div class="over_time">完成时间:March 1st 2018</div>
-                </div>
-
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="bottom">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">2操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="top">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="bottom">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">2操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="top">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="bottom">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">2操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="top">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>
-        <li class="bottom">
-            <div class="item">
-                <div class="content">
-                    <div class="frist_div">2操作：创建</div>
-                    <div class="second_div">创建人：张三</div>
-                    <div class="thirs_div">操作意见：无</div>
-                </div>
-                <div class="over_time">完成时间:March 1st 2018</div>
+                    <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div>
                 <div class="centerline">
                     <div class="cricle"></div>
                     <div class="line"></div>

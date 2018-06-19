@@ -1,0 +1,16 @@
+
+
+<div style="width:100%;height:100%;overflow: hidden;position:fixed;top:0;background:rgba(0,0,0,.3);z-index:203;" v-show="industryShow">
+    <el-form ref="form" :model="form" label-width="100px" class="addFormBox">
+        <el-form-item label="行业类别：">
+            <el-radio-group v-model="form.resource" class="addFromRadio">
+                <el-radio v-for="item in radios" :label="item.lable" :key="item.lable">{{item.lable}}</el-radio>
+                <el-radio :label="message">其他<input type="text" v-model="messageParam" class="addInput"/></el-radio>
+            </el-radio-group>
+        </el-form-item>
+        <div class="btnBox">
+          <el-button type="primary" size="" @click="addRadion(form)">确认</el-button>
+          <el-button @click="industryShow=false">取消</el-button>
+        </div>
+    </el-form>
+</div>

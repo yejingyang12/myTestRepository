@@ -13,6 +13,7 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -34,146 +35,150 @@ public class SelfexaminationResult {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
 
-  private String reviewReportName;
-  private String reviewReportPath;
-  private String rectificationReportName;
-  private String rectificationReportPath;
+  private String examinationReportId;
+  private String examinationReportName;
+  private String examinationRectificationReportId;
+  private String examinationRectificationReportName;
+  
+  private Integer deleteStatus;
+  private String createUserName;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date createTime;
+  private Date updateTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private String remark;
+  
+  
   
   /**
-   * @return the selfexaminationId
+   * @return the deleteStatus
    */
+  public Integer getDeleteStatus() {
+    return deleteStatus;
+  }
+  /**
+   * @param deleteStatus the deleteStatus to set
+   */
+  public void setDeleteStatus(Integer deleteStatus) {
+    this.deleteStatus = deleteStatus;
+  }
+  /**
+   * @return the createUserName
+   */
+  public String getCreateUserName() {
+    return createUserName;
+  }
+  /**
+   * @param createUserName the createUserName to set
+   */
+  public void setCreateUserName(String createUserName) {
+    this.createUserName = createUserName;
+  }
+  /**
+   * @return the createTime
+   */
+  public Date getCreateTime() {
+    return createTime;
+  }
+  /**
+   * @param createTime the createTime to set
+   */
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+  /**
+   * @return the updateTime
+   */
+  public Date getUpdateTime() {
+    return updateTime;
+  }
+  /**
+   * @param updateTime the updateTime to set
+   */
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+  /**
+   * @return the remark
+   */
+  public String getRemark() {
+    return remark;
+  }
+  /**
+   * @param remark the remark to set
+   */
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
   public String getSelfexaminationId() {
     return selfexaminationId;
   }
-  /**
-   * @param selfexaminationId the selfexaminationId to set
-   */
   public void setSelfexaminationId(String selfexaminationId) {
     this.selfexaminationId = selfexaminationId;
   }
-  /**
-   * @return the fkSystemId
-   */
   public String getFkSystemId() {
     return fkSystemId;
   }
-  /**
-   * @param fkSystemId the fkSystemId to set
-   */
   public void setFkSystemId(String fkSystemId) {
     this.fkSystemId = fkSystemId;
   }
-  /**
-   * @return the fkInspectionStatus
-   */
   public Integer getFkInspectionStatus() {
     return fkInspectionStatus;
   }
-  /**
-   * @param fkInspectionStatus the fkInspectionStatus to set
-   */
   public void setFkInspectionStatus(Integer fkInspectionStatus) {
     this.fkInspectionStatus = fkInspectionStatus;
   }
-  /**
-   * @return the fkInspectionReu
-   */
   public Integer getFkInspectionReu() {
     return fkInspectionReu;
   }
-  /**
-   * @param fkInspectionReu the fkInspectionReu to set
-   */
   public void setFkInspectionReu(Integer fkInspectionReu) {
     this.fkInspectionReu = fkInspectionReu;
   }
-  /**
-   * @return the fkRectificationReu
-   */
   public Integer getFkRectificationReu() {
     return fkRectificationReu;
   }
-  /**
-   * @param fkRectificationReu the fkRectificationReu to set
-   */
   public void setFkRectificationReu(Integer fkRectificationReu) {
     this.fkRectificationReu = fkRectificationReu;
   }
-  /**
-   * @return the inspectionDate
-   */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDate() {
     return inspectionDate;
   }
-  /**
-   * @param inspectionDate the inspectionDate to set
-   */
   public void setInspectionDate(Date inspectionDate) {
     this.inspectionDate = inspectionDate;
   }
-  /**
-   * @return the rectificationDate
-   */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }
-  /**
-   * @param rectificationDate the rectificationDate to set
-   */
   public void setRectificationDate(Date rectificationDate) {
     this.rectificationDate = rectificationDate;
   }
-
-  /**
-   * @return the reviewReportName
-   */
-  public String getReviewReportName() {
-    return reviewReportName;
+  public String getExaminationReportId() {
+    return examinationReportId;
   }
-  /**
-   * @param reviewReportName the reviewReportName to set
-   */
-  public void setReviewReportName(String reviewReportName) {
-    this.reviewReportName = reviewReportName;
+  public void setExaminationReportId(String examinationReportId) {
+    this.examinationReportId = examinationReportId;
   }
-  /**
-   * @return the reviewReportPath
-   */
-  public String getReviewReportPath() {
-    return reviewReportPath;
+  public String getExaminationReportName() {
+    return examinationReportName;
   }
-  /**
-   * @param reviewReportPath the reviewReportPath to set
-   */
-  public void setReviewReportPath(String reviewReportPath) {
-    this.reviewReportPath = reviewReportPath;
+  public void setExaminationReportName(String examinationReportName) {
+    this.examinationReportName = examinationReportName;
   }
-  /**
-   * @return the rectificationReportName
-   */
-  public String getRectificationReportName() {
-    return rectificationReportName;
+  public String getExaminationRectificationReportId() {
+    return examinationRectificationReportId;
   }
-  /**
-   * @param rectificationReportName the rectificationReportName to set
-   */
-  public void setRectificationReportName(String rectificationReportName) {
-    this.rectificationReportName = rectificationReportName;
+  public void setExaminationRectificationReportId(String examinationRectificationReportId) {
+    this.examinationRectificationReportId = examinationRectificationReportId;
   }
-  /**
-   * @return the rectificationReportPath
-   */
-  public String getRectificationReportPath() {
-    return rectificationReportPath;
+  public String getExaminationRectificationReportName() {
+    return examinationRectificationReportName;
   }
-  /**
-   * @param rectificationReportPath the rectificationReportPath to set
-   */
-  public void setRectificationReportPath(String rectificationReportPath) {
-    this.rectificationReportPath = rectificationReportPath;
+  public void setExaminationRectificationReportName(String examinationRectificationReportName) {
+    this.examinationRectificationReportName = examinationRectificationReportName;
   }
-  
-  
+  public String toString(){
+    return JSON.toJSONString(this);
+  }
 }

@@ -9,6 +9,8 @@
 */
 package com.sinopec.smcc.cpro.records.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
+import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
 
 /**
@@ -38,6 +44,8 @@ import com.sinopec.smcc.cpro.records.server.RecordsService;
 public class RecordsController {
   @Autowired
   private RecordsService recordsServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
   
   /**
    * @Descrption 添加或修改备案信息
@@ -52,14 +60,15 @@ public class RecordsController {
   @ResponseBody
   public ResultApi saveRecords(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
-    String recordsId = this.recordsServiceImpl.saveRecords(recordsParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.recordsServiceImpl.saveRecords(userName, recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(recordsId);
+    result.setData(fkSystemId);
     return result;
   }
   
   /**
-   * @Descrption 查询备案信息
+   * @Descrption 查询回显备案信息
    * @author dongxu
    * @date 2018年5月29日下午5:41:15
    * @param request
@@ -79,20 +88,41 @@ public class RecordsController {
   }
   
   /**
-   * @Descrption
-   * @author dongxu 撤销备案
-   * @date 2018年5月30日上午10:08:03
+   * @Descrption 点击撤销备案，填写信息后保存
+   * @author yejingyang
+   * @date 2018年6月9日上午10:17:40
    * @param request
    * @param recordsParam
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/editRecords", method = RequestMethod.POST)
+  @RequestMapping(value = "/saveRevokeRecordsInfo", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi editRecords(HttpServletRequest request,
+  public ResultApi saveRevokeRecordsInfo(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
-    this.recordsServiceImpl.editRecords(recordsParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    this.recordsServiceImpl.saveRevokeRecordsInfo(userName, recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * @Descrption 获取撤销备案回显信息
+   * @author yejingyang
+   * @date 2018年6月9日上午10:11:30
+   * @param request
+   * @param recordsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryRevokeRecords", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryRevokeRecords(HttpServletRequest request,
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
+    RevokeRecordsResult revokeRecordsResult = this.recordsServiceImpl.
+        queryRevokeRecords(recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(revokeRecordsResult);
     return result;
   }
   
@@ -111,6 +141,46 @@ public class RecordsController {
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     this.recordsServiceImpl.editRecordsForStatus(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  
+  /**
+   * @Descrption 查询备案详情
+   * @author yejingyang
+   * @date 2018年6月10日上午10:16:38
+   * @param request
+   * @param recordsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryRecordsDetail", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryRecordsDetail(HttpServletRequest request,
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
+    RecordsDetailResult recordsDetailResult = 
+        this.recordsServiceImpl.queryRecordsDetail(recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(recordsDetailResult);
+    return result;
+  }
+  
+  /**
+   * @Descrption 高级搜索获取受理备案单位
+   * @author dongxu
+   * @date 2018年6月11日下午3:38:51
+   * @param request
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryRecordCompany", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryRecordCompany(HttpServletRequest request,
+      @RequestBody RecordsParam recordsParam) throws BusinessException {
+    List<RecordsListResult> recordsListResultList = 
+        this.recordsServiceImpl.queryRecordCompany(recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(recordsListResultList);
     return result;
   }
 }

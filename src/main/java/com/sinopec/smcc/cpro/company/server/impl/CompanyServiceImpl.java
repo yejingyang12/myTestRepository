@@ -12,6 +12,8 @@ package com.sinopec.smcc.cpro.company.server.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +26,9 @@ import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
-import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.mapper.CompanyMapper;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
@@ -71,12 +73,13 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_company")
   @Transactional
-  public String saveCompany(CompanyParam companyParam) throws BusinessException {
-    String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
-    //判断单位编码是否被创建，如果已创建则抛出异常不进行添加或修改
-    if(StringUtils.isNotBlank(companyCode))
-      throw new BusinessException(EnumResult.LINKEDID_ERROR);
+  public String saveCompany(HttpServletRequest request,CompanyParam companyParam) 
+      throws BusinessException {
     if (StringUtils.isBlank(companyParam.getCompanyId())) {
+      String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
+      //判断单位编码是否被创建，如果已创建则抛出异常不进行添加或修改
+      if(StringUtils.isNotBlank(companyCode))
+        throw new BusinessException(EnumResult.LINKEDID_ERROR);
       companyParam.setCompanyId(Utils.getUuidFor32());
       companyParam.setDeleteStatus(1);
       companyParam.setCreateTime(new Date());
@@ -94,6 +97,7 @@ public class CompanyServiceImpl implements CompanyService {
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_company")
   @Transactional
   public void delelteCompany(CompanyParam companyParam) throws BusinessException {
+    System.out.println("companyParam:"+companyParam);
     if(companyParam.getCompanyIds() == null || companyParam.getCompanyIds().length == 0)
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     this.companyMapper.updateCompanyByCompanyIds(companyParam);
@@ -117,4 +121,21 @@ public class CompanyServiceImpl implements CompanyService {
     return this.companyMapper.selectCompanyByCompanyId(companyParam);
   }
 
+  /**
+   * 查询单位信息 根据code
+   */
+  @Override
+  public CompanyResult queryCompanyByCode(CompanyParam companyParam) {
+   
+    return this.companyMapper.selectCompanyInfoByCompanyCode(companyParam);
+  }
+
+  /**
+   * 高级搜索获取单位名称
+   */
+  @Override
+  public List<CompanyListResult> queryCompanyName(CompanyParam companyParam)
+      throws BusinessException {
+    return this.companyMapper.selectCompanyName(companyParam);
+  }
 }

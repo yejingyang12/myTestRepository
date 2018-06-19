@@ -43,5 +43,21 @@ public interface AttachMaterialsMapper {
    */
   List<AttachMaterialsListResult> selectEditAttach(AttachMaterialsParam attachMaterialsParam);
 
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午5:53:08
+   * @param attachMaterialsParam
+   */
+  void insertAttach(AttachMaterialsParam attachMaterialsParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午6:22:08
+   * @param attachMaterialsParam
+   */
+  void updateAttachStatus(AttachMaterialsParam attachMaterialsParam);
+
 
 }

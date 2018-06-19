@@ -9,6 +9,10 @@
 */
 package com.sinopec.smcc.cpro.company.server;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
@@ -43,7 +47,7 @@ public interface CompanyService {
    * @return
    * @throws BusinessException 
    */
-  String saveCompany(CompanyParam companyParam) throws BusinessException;
+  String saveCompany(HttpServletRequest request,CompanyParam companyParam) throws BusinessException;
   
   /**
    * @Descrption 删除单位信息
@@ -71,5 +75,23 @@ public interface CompanyService {
    * @return
    */
   CompanyResult queryEditCompany(CompanyParam companyParam);
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年6月9日下午3:45:58
+   * @param companyParam
+   * @return
+   */
+  CompanyResult queryCompanyByCode(CompanyParam companyParam);
+  
+  /**
+   * @Descrption 高级搜索获取单位名称
+   * @author dongxu
+   * @date 2018年6月11日上午11:30:51
+   * @param response
+   * @param mainParam
+   */
+  List<CompanyListResult> queryCompanyName(CompanyParam companyParam) throws BusinessException; 
 
 }

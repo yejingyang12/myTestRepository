@@ -30,10 +30,10 @@ public class RecordsParam {
   private Integer fkrevokematter;
   private String recordCode;
   private String recordCompany;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date recordDate;
   private String acceptCompany;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date acceptDate;
   private String acceptReason;
   private String revokereason;
@@ -47,7 +47,36 @@ public class RecordsParam {
   private String remark;
   private Integer recordStatus;
   
-  
+  //信息系统安全等级保护备案证明
+  private String recordReportPath;
+  private String recordReportName;
+  //撤销备案证明
+  private String revokeAttachPath;
+  private String revokeAttachName;
+  public String getRecordReportPath() {
+    return recordReportPath;
+  }
+  public void setRecordReportPath(String recordReportPath) {
+    this.recordReportPath = recordReportPath;
+  }
+  public String getRecordReportName() {
+    return recordReportName;
+  }
+  public void setRecordReportName(String recordReportName) {
+    this.recordReportName = recordReportName;
+  }
+  public String getRevokeAttachPath() {
+    return revokeAttachPath;
+  }
+  public void setRevokeAttachPath(String revokeAttachPath) {
+    this.revokeAttachPath = revokeAttachPath;
+  }
+  public String getRevokeAttachName() {
+    return revokeAttachName;
+  }
+  public void setRevokeAttachName(String revokeAttachName) {
+    this.revokeAttachName = revokeAttachName;
+  }
   /**
    * @return the recordStatus
    */
@@ -123,7 +152,7 @@ public class RecordsParam {
   /**
    * @return the recordDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRecordDate() {
     return recordDate;
   }
@@ -148,7 +177,7 @@ public class RecordsParam {
   /**
    * @return the acceptDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getAcceptDate() {
     return acceptDate;
   }
@@ -221,6 +250,7 @@ public class RecordsParam {
   /**
    * @return the createTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTime() {
     return createTime;
   }
@@ -233,6 +263,7 @@ public class RecordsParam {
   /**
    * @return the updateTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTime() {
     return updateTime;
   }

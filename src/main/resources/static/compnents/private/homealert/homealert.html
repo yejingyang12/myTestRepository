@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>申请变更</title>
+    <link rel="stylesheet" href="../../../css/public/reset.css">
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+    <link rel="stylesheet" href="../../../css/private/evaluationAlert.css">
+    <link rel="stylesheet" href="../../../css/private/revokeRecord.css">
+    <link rel="stylesheet" href="../../../css/private/index.css">
+</head>
+<style>
+    .active{
+        border:1px solid #3d95df;
+    }
+    .active>i{
+        border-left:1px solid #3d95df;
+        color:#3d95df;
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="evaluationAlert" >
+    <div class="evaluation" style="border: 1px solid #cecece">
+        <!--<span class="closes" onclick="closes()"></span>-->
+        <p class="clearfix cut">
+            <span class="fl revokeTitle">
+                申请变更
+            </span>
+            <span class="fr revokeTitle" style="margin-right: 15px">X</span>
+        </p>
+        <div>
+                    <div class="row" style="margin:0">
+                        <div class="col-md-12">
+                            <!--审核结果-->
+                            <div class="row" style="margin: 15px -15px">
+                                <div class="col-md-12 clearPadding">
+
+                                    <div class="col-md-3 h-system clearPadding">
+                                        <span class="xing">*</span>
+                                        变更事项:
+                                    </div>
+                                    <div class="col-md-9 h-col-md-9" style="width: 90%">
+                                        <select class="form-control">
+                                            <option>请选择</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--审核结果-->
+                            <div class="row" >
+                                <div class="col-md-12 text-left clearPadding" >
+                                    <label for="" class="col-md-3 col-sm-1 saveTextTitle" style="margin-right:-1.1%">
+                                        <span class="xing">*</span>
+                                        变更原因：
+                                    </label>
+                                    <div @click="text" class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9" style="border-radius:4px;border: 1px solid #cecece;margin-left: -16.5%;height: 100px;width: 90%">
+                                        <textarea id="textArea" cols="30" rows="10" placeholder="请输入"></textarea>
+                                        <span class='textAll'><span id="textNum">0</span>/200</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--审核结果-->
+                            <div class="row" style="padding-top: 10px">
+                                <div class="col-md-12 text-left clearPadding" >
+                                    <label for="" class="col-md-3 col-sm-1 saveTextTitle" style="margin-right:-1.1%;">
+                                        <span class="xing">*</span>
+                                        变更内容：
+                                    </label>
+                                    <div @click="text" class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9" style="border-radius:4px;border: 1px solid #cecece;margin-left: -16.5%;height: 100px;width: 90%">
+                                        <textarea id="textArea" cols="30" rows="10" placeholder="请输入"></textarea>
+                                        <span class='textAll'><span id="textNum">0</span>/200</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+       </div>
+        <p class="h-p" style="width:100%;margin:15px;">
+
+            <button type="button" class="btn btn-default" style="float:right; margin-bottom: 15px;padding: 6px 10px;margin-right:4%">
+                取消</button>
+            <button type="button" class="btn"
+                    style="float:right;margin-right:10px;margin-bottom:15px;background-color: #1e91e2;color:#fff;">确认
+            </button>
+
+        </p>
+    </div>
+</div>
+
+<script src="../../../js/public/jquery.min.js"></script>
+<script src="testalert.js"></script>
+
+</body>
+</html>

@@ -24,7 +24,7 @@ label{
     border-radius:50%;
     background: url("../../images/close.png") no-repeat;
     position: absolute;
-    top:-12%;
+    top:-8%;
     right:-6%;
 }
 .revokeBg{
@@ -45,12 +45,12 @@ label{
     width: 90%;
     height: 419px;
     position: absolute;
-    top:-74%;
+    top:-71%;
     left:5%;
     z-index: 146;
     background-color: #fff;
 }
-.cut:after{
+.cuto:after{
     content: "";
     display: block;
     width: 100%;
@@ -67,10 +67,10 @@ label{
     margin-left:-8px;
 }
 .sysTet{
-    margin-left:-76px;
+    margin-left:-10%;
     width: 80% !important;
 }
-.sysTet>input{
+.sysTet>div,.sysTet>input{
     height: 34px;
     border:none;
     border-bottom: 1px solid #cecece;
@@ -80,7 +80,7 @@ label{
     color: #999999;
 }
 .revokeText{
-    margin-left:-62px;
+    margin-left:-9%;
     line-height: 34px;
 }
 /*描述*/
@@ -112,6 +112,20 @@ label{
     bottom:3px;
     right:10px;
     position:absolute;
+}
+.btn{
+    margin-right:10px;
+}
+.btnRight{
+    margin-right:31px;
+}
+.active{
+    border:1px solid #3d95df;
+}
+.active>i{
+    border-left:1px solid #3d95df;
+    color:#3d95df;
+    cursor: pointer;
 }
 .xing{
     color: red;

@@ -18,7 +18,8 @@
     width: 60px;
     height: 60px;
     margin:0 auto;
-    background: url("../../images/addIcon.png") no-repeat;
+    background: url("../../images/addIcon.png");
+    background-repeat:no-repeat;
 }
 .line{
     width: 37%;
@@ -26,14 +27,17 @@
     margin-top:30px;
     background: #cecece;
 }
-.addSysBg{
-    background-position: -140px 0px;
+.mcAdd .addBaseBg{
+    background-position: 0px -70px;
 }
-.addRankBg{
-    background-position:-70px -70px;
+.mcAdd .addSysBg{
+    background-position: -70px 0px;
 }
-.addUpBg{
-    background-position: -140px -70px;
+.mcAdd .addRankBg{
+    background-position:-140px 0px;
+}
+.mcAdd .addUpBg{
+    background-position:-210px 0px;
 }
 .lineNa{
     width: 25%;

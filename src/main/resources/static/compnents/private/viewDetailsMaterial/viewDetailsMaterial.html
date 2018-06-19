@@ -1,0 +1,113 @@
+<div class="innerSys">
+    <p class="clearfix cut">
+        <span class="fl tianMsg">信息系统提交材料情况（备案表4）</span>
+    </p>
+    <ul>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">1.系统拓扑结构及说明：</span>
+                <a class="col-md-5 text-left"   style="cursor:pointer"
+                 @click="download(topologyDescriptionId)" v-if="topologyDescriptionId != ''">{{topologyDescriptionName}}</a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                  <div v-if="topologyDescriptionName != ''">
+                    {{topologyDescriptionName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">2.系统安全组织机构及管理制度：</span>
+                <a class="col-md-5 text-left"  style="cursor:pointer"
+                 @click="download(organizationManagementId)" v-if="organizationManagementId != ''">{{organizationManagementName}}</a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                 <div v-if="organizationManagementName != ''">
+                    {{organizationManagementName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right titleName">3.系统安全保护设施设计实施方案或改建实施方案：</span>
+	              <a class="col-md-5 text-left" style="cursor:pointer"
+	              @click="download(implementationPlanId)" v-if="implementationPlanId != ''">{{implementationPlanName}}</a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                <div v-if="implementationPlanName != ''">
+                    {{implementationPlanName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right titleName">4.系统使用的安全产品清单及认证、销售许可证明：</span>
+                <a class="col-md-5 text-left" style="cursor:pointer"
+                @click="download(licenseCertificateId)"  v-if="licenseCertificateId != ''">{{licenseCertificateName}}</a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                <div v-if="licenseCertificateName != ''">
+                    {{licenseCertificateName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">5.系统等级测评报告：</span>
+                <a class="col-md-5 text-left" style="cursor:pointer"
+                @click="download(evaluationPresentationId)" v-if="evaluationPresentationId != ''">{{evaluationPresentationName}}</a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                <div v-if="evaluationPresentationName != ''">
+                    {{evaluationPresentationName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">6.专家评审情况：</span>
+                <a class="col-md-5 text-left" style="cursor:pointer"
+                @click="download(expertReviewId)" v-if="expertReviewId != ''">
+                  {{expertReviewName}}
+                </a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                <div v-if="expertReviewName != ''">
+                    {{expertReviewName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-7 text-right">7.上级主管部门审批意见：</span>
+                <a class="col-md-5 text-left" style="cursor:pointer" @click="download(directorOpinionId)" v-if="directorOpinionId != ''">{{directorOpinionName}}</a>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-6 text-right">附件名称：</span>
+                <span class="col-md-6 text-left">
+                <div v-if="directorOpinionName != ''">
+                    {{directorOpinionName}}
+                 </div>
+                </span>
+            </p>
+        </li>
+    </ul>
+</div>

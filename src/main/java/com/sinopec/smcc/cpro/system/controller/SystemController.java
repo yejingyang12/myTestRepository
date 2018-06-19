@@ -9,27 +9,25 @@
 */
 package com.sinopec.smcc.cpro.system.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
@@ -49,6 +47,8 @@ public class SystemController {
 
 	@Autowired
 	private SystemService systemServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
 
   /**
    * 
@@ -93,7 +93,8 @@ public class SystemController {
   @ResponseBody
   public ResultApi saveSystem(HttpServletRequest request, @RequestBody SystemParam systemParam) 
       throws BusinessException{
-    String systemId = this.systemServiceImpl.saveSystem(systemParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String systemId = this.systemServiceImpl.saveSystem(userName, systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemId);
     return result;
@@ -120,7 +121,7 @@ public class SystemController {
   
   /**
    * 
-   * 修改系统信息查询详情
+   * 修改系统信息
    * @author hanxin
    * @date 2018年5月28日下午5:44:39
    * @param request
@@ -128,16 +129,36 @@ public class SystemController {
    * @return
    * @throws BusinessException 
    */
+  @RequestMapping(value = "/editSystem", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi editSystem(HttpServletRequest request,
+      @RequestBody SystemParam systemParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String systemResult = this.systemServiceImpl.editSystem(userName,systemParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(systemResult);
+    return result;
+  }
+  
+  /**
+   * 
+   * 修改系统信息页面
+   * @author hanxin
+   * @date 2018年6月8日下午4:48:35
+   * @param request
+   * @param systemParam
+   * @return
+   * @throws BusinessException
+   */
   @RequestMapping(value = "/queryEditSystem", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryEditSystem(HttpServletRequest request,
+  public ResultApi queryEditDetailsSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryEditSystem(systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemResult);
     return result;
   }
-  
   /**
    * 
    * 系统模板导出
@@ -146,11 +167,13 @@ public class SystemController {
    * @param request
    * @param systemParam
    * @return
+   * @throws IOException 
+   * @throws FileNotFoundException 
    */
   @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.GET)
   @ResponseBody
   public ResultApi exportExcelForSystemTemplate(HttpServletRequest request, 
-      SystemParam systemParam){
+      SystemParam systemParam) throws FileNotFoundException, IOException{
     this.systemServiceImpl.exportExcelForSystemTemplate(systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
@@ -194,6 +217,26 @@ public class SystemController {
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   } 
+  
+  /**
+   * 
+   * 系统定级变更审核
+   * @author hanxin
+   * @date 2018年6月12日上午10:49:23
+   * @param request
+   * @param systemParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryGradingEditAudit", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryGradingEditAudit(HttpServletRequest request,
+      @RequestBody SystemParam systemParam) throws BusinessException{
+    SystemGradingChangeResult systemResult = this.systemServiceImpl.queryGradingEditAudit(systemParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(systemResult);
+    return result;
+  }
   
   
 }

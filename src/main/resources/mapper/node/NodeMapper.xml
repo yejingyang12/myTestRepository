@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.node.mapper.NodeMapper">
+  <resultMap id="NodeResult"
+    type="com.sinopec.smcc.cpro.node.entity.NodeResult">
+    <id column="pkId" property="nodeId" />
+    <result column="fkSystemId" property="systemId" />
+    <result column="operation" property="operation" />
+    <result column="operator" property="operator" />
+    <result column="operationResult" property="operationResult" />
+    <result column="operationOpinion" property="operationOpinion" />
+    <result column="createTime" property="createTime" />
+
+  </resultMap>
+  <select id="selectAllBynodeParam" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam" resultMap="NodeResult">
+    <![CDATA[
+      SELECT
+        pkId,
+        fkSystemId,
+        operation,
+        operator,
+        operationResult,
+        operationOpinion,
+        createTime
+      FROM
+        t_cpro_node 
+    ]]>
+    <where>
+      <if test="systemId != null and systemId != ''">
+        <![CDATA[
+          AND fkSystemId = #{systemId,jdbcType=CHAR}
+        ]]>
+      </if>
+    </where>
+  </select>
+  
+  <insert id="insertBynodeParam" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam">
+      <![CDATA[
+        INSERT INTO t_cpro_node (
+          pkId,
+          fkSystemId,
+          operation,
+          operator,
+          operationResult,
+          operationOpinion,
+          createTime
+        )VALUES(
+      ]]>
+      <trim suffixOverrides="," >
+        <![CDATA[
+          #{nodeId},
+        ]]>
+        <![CDATA[
+          #{systemId},
+        ]]>
+        <![CDATA[
+          #{operation},
+        ]]>
+        <![CDATA[
+          #{operator},
+        ]]>
+        <![CDATA[
+          #{operationResult},
+        ]]>
+        <![CDATA[
+          #{operationOpinion},
+        ]]>
+        <![CDATA[
+          #{createTime},
+        ]]>
+      </trim>
+      <![CDATA[
+        )
+      ]]>
+  </insert>
+</mapper>

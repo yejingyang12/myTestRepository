@@ -34,7 +34,8 @@ public interface AttachMaterialsService {
    * @return
    * @throws BusinessException 
    */
-  List<AttachMaterialsListResult> queryDetailsAttach(AttachMaterialsParam attachMaterialsParam) throws BusinessException;
+  List<AttachMaterialsListResult> queryDetailsAttach(AttachMaterialsParam attachMaterialsParam) 
+      throws BusinessException;
 
   /**
    * @Descrption
@@ -44,6 +45,28 @@ public interface AttachMaterialsService {
    * @return
    * @throws BusinessException 
    */
-  List<AttachMaterialsListResult> queryEditAttach(AttachMaterialsParam attachMaterialsParam) throws BusinessException;
+  List<AttachMaterialsListResult> queryEditAttach(AttachMaterialsParam attachMaterialsParam) 
+      throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午5:35:24
+   * @param attachMaterialsParam
+   * @return
+   */
+  String saveAttach(String userName, AttachMaterialsParam attachMaterialsParam) 
+      throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午6:12:08
+   * @param gradingParam
+   * @return
+   */
+  String submitAttach(String userName, AttachMaterialsParam attachMaterialsParam) 
+      throws BusinessException;
+
 
 }

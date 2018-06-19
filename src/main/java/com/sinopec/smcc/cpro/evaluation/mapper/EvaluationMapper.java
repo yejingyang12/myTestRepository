@@ -13,6 +13,7 @@ import java.util.List;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 
 /**
  * @Title EvaluationMapper.java
@@ -67,5 +68,14 @@ public interface EvaluationMapper {
    * @return
    */
   EvaluationResult selectSingleDetailsByEvaluationId(EvaluationParam evaluationParam);
+
+  /**
+   * @Descrption 首页高级查询测评单位
+   * @author dongxu
+   * @date 2018年6月11日下午4:20:58
+   * @param recordsParam
+   * @return
+   */
+  List<EvaluationListResult> selectExamOrgCompany(RecordsParam recordsParam);
 
 }

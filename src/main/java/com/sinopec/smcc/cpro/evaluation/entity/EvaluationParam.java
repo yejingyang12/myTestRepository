@@ -26,25 +26,32 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class EvaluationParam{
 
   private String evaluationId;
-  private String systemId;
+  private String fkSystemId;
   private String examName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date examTime;
   private String examYear;
   private String examOrg;
   private String examReport;
   private String examReportName;
   private Integer fkExamStatus;
-  private String fkExamResult;
+  private Integer fkExamResult;
   private Integer fkRectificationReu;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
-  private String rectificationReport;
-  private String rectificationReportName;
   private Integer deleteStatus;
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date updateTime;
+  private String remark;
+  
+  
+  private String rectificationReportPath;
+  private String rectificationReportName;
+  private String evaluationPresentationPath;
+  private String evaluationPresentationName;
 
   //当页数量
   private int pageSize = 10;
@@ -56,6 +63,38 @@ public class EvaluationParam{
   private String sort;
  
   
+  /**
+   * @return the remark
+   */
+  public String getRemark() {
+    return remark;
+  }
+
+
+  /**
+   * @param remark the remark to set
+   */
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+
+
+  /**
+   * @return the updateTime
+   */
+  public Date getUpdateTime() {
+    return updateTime;
+  }
+
+
+  /**
+   * @param updateTime the updateTime to set
+   */
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+
+
   /**
    * @return the evaluationId
    */
@@ -70,21 +109,13 @@ public class EvaluationParam{
   public void setEvaluationId(String evaluationId) {
     this.evaluationId = evaluationId;
   }
-
-
-  /**
-   * @return the systemId
-   */
-  public String getSystemId() {
-    return systemId;
+  
+  
+  public String getFkSystemId() {
+    return fkSystemId;
   }
-
-
-  /**
-   * @param systemId the systemId to set
-   */
-  public void setSystemId(String systemId) {
-    this.systemId = systemId;
+  public void setFkSystemId(String fkSystemId) {
+    this.fkSystemId = fkSystemId;
   }
 
 
@@ -107,7 +138,7 @@ public class EvaluationParam{
   /**
    * @return the examTime
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  //@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getExamTime() {
     return examTime;
   }
@@ -204,7 +235,7 @@ public class EvaluationParam{
   /**
    * @return the fkExamResult
    */
-  public String getFkExamResult() {
+  public Integer getFkExamResult() {
     return fkExamResult;
   }
 
@@ -212,7 +243,7 @@ public class EvaluationParam{
   /**
    * @param fkExamResult the fkExamResult to set
    */
-  public void setFkExamResult(String fkExamResult) {
+  public void setFkExamResult(Integer fkExamResult) {
     this.fkExamResult = fkExamResult;
   }
 
@@ -236,7 +267,7 @@ public class EvaluationParam{
   /**
    * @return the rectificationDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  //@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }
@@ -248,40 +279,8 @@ public class EvaluationParam{
   public void setRectificationDate(Date rectificationDate) {
     this.rectificationDate = rectificationDate;
   }
-
-
-  /**
-   * @return the rectificationReport
-   */
-  public String getRectificationReport() {
-    return rectificationReport;
-  }
-
-
-  /**
-   * @param rectificationReport the rectificationReport to set
-   */
-  public void setRectificationReport(String rectificationReport) {
-    this.rectificationReport = rectificationReport;
-  }
-
-
-  /**
-   * @return the rectificationReportName
-   */
-  public String getRectificationReportName() {
-    return rectificationReportName;
-  }
-
-
-  /**
-   * @param rectificationReportName the rectificationReportName to set
-   */
-  public void setRectificationReportName(String rectificationReportName) {
-    this.rectificationReportName = rectificationReportName;
-  }
-
-
+  
+  
   /**
    * @return the deleteStatus
    */
@@ -327,6 +326,31 @@ public class EvaluationParam{
    */
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+  
+  public String getRectificationReportName() {
+    return rectificationReportName;
+  }
+  public void setRectificationReportName(String rectificationReportName) {
+    this.rectificationReportName = rectificationReportName;
+  }
+  public String getRectificationReportPath() {
+    return rectificationReportPath;
+  }
+  public void setRectificationReportPath(String rectificationReportPath) {
+    this.rectificationReportPath = rectificationReportPath;
+  }
+  public String getEvaluationPresentationPath() {
+    return evaluationPresentationPath;
+  }
+  public void setEvaluationPresentationPath(String evaluationPresentationPath) {
+    this.evaluationPresentationPath = evaluationPresentationPath;
+  }
+  public String getEvaluationPresentationName() {
+    return evaluationPresentationName;
+  }
+  public void setEvaluationPresentationName(String evaluationPresentationName) {
+    this.evaluationPresentationName = evaluationPresentationName;
   }
 
 

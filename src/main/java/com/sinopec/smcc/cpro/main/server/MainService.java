@@ -8,10 +8,11 @@
 */
 package com.sinopec.smcc.cpro.main.server;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
@@ -50,7 +51,7 @@ public interface MainService {
    * @author dongxu
    * @date 2018年6月4日上午9:25:56
    */
-  void exportExcelForMain()throws BusinessException;
+  String exportExcelForMain()throws BusinessException;
   
   /**
    * @Descrption 下载
@@ -71,7 +72,7 @@ public interface MainService {
    * @author dongxu
    * @date 2018年6月4日下午6:20:52
    */
-  void exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds)
+  String exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds)
       throws BusinessException;
 
   /**
@@ -80,6 +81,97 @@ public interface MainService {
    * @date 2018年6月7日下午12:01:45
    * @param mainParam
    */
-  void tableOneDownloads(MainParam mainParam) throws BusinessException;
+  Map<String,Object> tableCompany(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption 一键下载（表2 系统信息）
+   * @author dongxu
+   * @date 2018年6月8日上午10:44:32
+   * @param mainParam
+   * @return
+   */
+  Map<String,Object> tableSystem(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption 一键下载（表3 定级信息）
+   * @author dongxu
+   * @date 2018年6月9日下午5:13:38
+   * @param mainParam
+   * @return
+   */
+  Map<String,Object> tableGrading(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption  一键下载（表4 附件信息）
+   * @author dongxu
+   * @date 2018年6月10日上午9:09:34
+   * @param mainParam
+   * @return
+   */
+  Map<String,Object> tableAttach(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption 一键下载
+   * @author dongxu
+   * @date 2018年6月10日下午3:35:36
+   * @param mainParam
+   * @return
+   */
+  String oneButtonDownloading(HttpServletResponse response,MainParam mainParam) 
+      throws BusinessException;
+
+  /**
+   * @Descrption 高级搜索获取系统名称
+   * @author dongxu
+   * @date 2018年6月11日上午11:30:51
+   * @param response
+   * @param mainParam
+   */
+  List<MainListResult> querySystemName(MainParam mainParam) throws BusinessException;
   
+  /** 
+   * @Descrption 处理高级查询状态
+   * @author dongxu
+   * @date 2018年6月12日下午3:59:15
+   * @param mainParam
+   * @throws BusinessException
+   */
+  public void handleStatus(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption 定级模板导入
+   * @author dongxu
+   * @date 2018年6月12日下午3:59:04
+   * @param mainParam
+   */
+  void importExcelForGradeTemplate(String file) throws BusinessException;
+
+  /**
+   * @Descrption 修改申请变更（弹窗）
+   * @author dongxu
+   * @date 2018年6月13日下午5:50:36
+   * @param mainParam
+   * @return
+   */
+  String queryApplicationChange(MainParam mainParam) throws BusinessException;
+  
+  /**
+   * @Descrption 备案表表头相关信息
+   * @author dongxu
+   * @date 2018年6月16日上午10:18:59
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  public Map<String,Object> tableRecord(MainParam mainParam) throws BusinessException;
+  
+  /**
+   * @Descrption 修改所有状态
+   * @author dongxu
+   * @date 2018年6月18日上午2:04:09
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  public void editSystemStatusBySystemId(MainParam mainParam) throws BusinessException;
 }

@@ -31,7 +31,7 @@ public interface GradingMapper {
    * @param gradingParam
    * @return
    */
-  List<GradingListResult> selectDetailsGrading(GradingParam gradingParam);
+  GradingListResult selectDetailsGrading(GradingParam gradingParam);
 
   /**
    * @Descrption
@@ -49,7 +49,7 @@ public interface GradingMapper {
    * @param gradingParam
    */
   void insertGrading(GradingParam gradingParam);
-  
+
   /**
    * @Descrption
    * @author dongxu
@@ -58,4 +58,39 @@ public interface GradingMapper {
    * @return
    */
   List<GradingListResult> selectGradingBySystemIds(GradingParam gradingParam);
+  
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午2:18:39
+   * @param gradingParam
+   */
+  void updateGradingStatus(GradingParam gradingParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午6:24:04
+   * @param gradingParam
+   * @return 
+   */
+  List<GradingParam> selectSubSystem(GradingParam gradingParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午6:45:34
+   * @param subSystemId
+   * @return
+   */
+  List<GradingListResult> selectsubGrading(List<GradingParam> subSystemId);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午7:12:04
+   * @param subGrading
+   */
+  void insertBatchGrading(List<GradingParam> subGrading);
+
 }

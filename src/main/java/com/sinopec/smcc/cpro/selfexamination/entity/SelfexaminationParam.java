@@ -53,26 +53,24 @@ public class SelfexaminationParam {
   private Integer deleteStatusBegin;
   private Integer deleteStatusEnd;
   private String createUserName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTimeEnd;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTimeEnd;
   private String remark;
   
-  //测评报告
-  private String reviewReportName;
-  private String reviewReportPath;
-  //整改报告
-  private String rectificationReportName;
-  private String rectificationReportPath;
+  private String examinationReportPath;
+  private String examinationReportName;
+  private String examinationRectificationReportPath;
+  private String examinationRectificationReportName;
   
   private int pageSize;
   private int currentPage;
@@ -239,7 +237,7 @@ public class SelfexaminationParam {
     this.createUserName = createUserName;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTime() {
     return createTime;
   }
@@ -247,7 +245,7 @@ public class SelfexaminationParam {
     this.createTime = createTime;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTimeBegin() {
     return createTimeBegin;
   }
@@ -255,7 +253,7 @@ public class SelfexaminationParam {
     this.createTimeBegin = createTimeBegin;
   }
   
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTimeEnd() {
     return createTimeEnd;
   }
@@ -263,7 +261,7 @@ public class SelfexaminationParam {
     this.createTimeEnd = createTimeEnd;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTime() {
     return updateTime;
   }
@@ -271,7 +269,7 @@ public class SelfexaminationParam {
     this.updateTime = updateTime;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTimeBegin() {
     return updateTimeBegin;
   }
@@ -279,7 +277,7 @@ public class SelfexaminationParam {
     this.updateTimeBegin = updateTimeBegin;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTimeEnd() {
     return updateTimeEnd;
   }
@@ -293,35 +291,32 @@ public class SelfexaminationParam {
   public void setRemark(String remark) {
     this.remark = remark;
   }
-
-  public String getReviewReportName() {
-    return reviewReportName;
+  
+  public String getExaminationReportPath() {
+    return examinationReportPath;
   }
-  public void setReviewReportName(String reviewReportName) {
-    this.reviewReportName = reviewReportName;
+  public void setExaminationReportPath(String examinationReportPath) {
+    this.examinationReportPath = examinationReportPath;
   }
-
-  public String getReviewReportPath() {
-    return reviewReportPath;
+  public String getExaminationReportName() {
+    return examinationReportName;
   }
-  public void setReviewReportPath(String reviewReportPath) {
-    this.reviewReportPath = reviewReportPath;
+  public void setExaminationReportName(String examinationReportName) {
+    this.examinationReportName = examinationReportName;
   }
-
-  public String getRectificationReportName() {
-    return rectificationReportName;
+  public String getExaminationRectificationReportPath() {
+    return examinationRectificationReportPath;
   }
-  public void setRectificationReportName(String rectificationReportName) {
-    this.rectificationReportName = rectificationReportName;
+  public void setExaminationRectificationReportPath(String examinationRectificationReportPath) {
+    this.examinationRectificationReportPath = examinationRectificationReportPath;
   }
-
-  public String getRectificationReportPath() {
-    return rectificationReportPath;
+  public String getExaminationRectificationReportName() {
+    return examinationRectificationReportName;
   }
-  public void setRectificationReportPath(String rectificationReportPath) {
-    this.rectificationReportPath = rectificationReportPath;
+  public void setExaminationRectificationReportName(String examinationRectificationReportName) {
+    this.examinationRectificationReportName = examinationRectificationReportName;
   }
-
+  
   public int getPageSize() {
     return pageSize;
   }

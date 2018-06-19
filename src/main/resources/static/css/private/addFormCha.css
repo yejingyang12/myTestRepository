@@ -16,11 +16,12 @@
     font:18px/49px "微软雅黑";
 }
 .btn {
-    width: 70px;
-    height: 34px;
+    width: 68px;
+    height: 39px;
     background-color: #3d95df;
-    margin-top:60px;
+    margin-top: 57px;
     color: #ffffff;
+    margin-left: 10px;
 }
 .form-control{
     border-radius: 1px !important;
@@ -35,7 +36,6 @@
 }
 .cover{
     width: 100%;
-    height: 874px;
     background: #f6f6f6;
     opacity:0.5;
     position: absolute;

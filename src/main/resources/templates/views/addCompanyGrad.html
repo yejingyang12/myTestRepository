@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建定级信息</title>
+    <!--公用样式-->
+    <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
+    <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <!--组件样式-->
+    <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+    <link rel="stylesheet" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
+    <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
+    <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
+    <style>
+        .mcAdd .addBaseBg,.mcAdd  .addSysBg{
+            background-position: 0px -140px;
+        }
+        .mcAdd .addRankBg{
+            background-position:-140px -70px;
+        }
+        .mcAddWrap .line{
+            background:#58B24B;
+        }
+        /*.saveTextTitle{*/
+            /*width: 12%;*/
+            /*padding-left: 15px;*/
+        /*}*/
+        /*.mcTextArea{*/
+            /*width: calc(88% - 26px);*/
+            /*margin-left: 2px;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div id="app">
+    <smcc-header>
+        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
+        <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousuo.jpg}" slot="smmc-header-sou">
+        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">-->
+    </smcc-header>
+    <smcc-breadcrumb></smcc-breadcrumb>
+    <add-list></add-list>
+    <add-form-grad>
+        <li slot="gradBtn" class="fr liMargin">
+          <div class="saveBnt">
+            <button type="button" class="btn btn-success " id="submit" @click="submitBtn()">提交</button>
+            <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
+            <button type="button" class="btn btn-default" id="pre" @click="preBtn()">上一步</button>
+          </div>
+        </li>
+        <li slot="gradNextBtn" class="fr liMargin">
+          <div class="saveBnt">
+            <button type="button" class="btn btn-default " id="pre" @click="preBtn()">上一步</button>
+            <button type="button" class="btn btn-default " id="safe" @click="saveBtn()">保存</button>
+            <button type="button" class="btn btn-success " id="next" @click="next1Btn()">下一步</button>
+          </div>
+        </li>
+    </add-form-grad>
+
+</div>
+</body>
+<script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+
+<script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
+<script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
+<script src="../../static/js/public/messages_zh.js" th:attr="src=@{/js/public/messages_zh.js}"></script>
+
+<script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
+<script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
+
+<script async src="../../static/compnents/private/addList/addList.js" th:attr="src=@{/compnents/private/addList/addList.js}"></script>
+<script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
+<script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
+<script async src="../../static/compnents/private/addFormGrad/addFormGrad.js" th:attr="src=@{/compnents/private/addFormGrad/addFormGrad.js}"></script>
+<script async src="../../static/js/private/addCompanyGrad.js" th:attr="src=@{/js/private/addCompanyGrad.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+var systemId = [[${systemId}]]; 
+var type='';
+</script>
+</html>

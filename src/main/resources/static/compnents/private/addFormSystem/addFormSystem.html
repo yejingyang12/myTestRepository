@@ -1,160 +1,156 @@
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>表二</title>
-    <link rel="stylesheet" href="../../../css/public/reset.css">
-    <link rel="stylesheet" href="../../../css/private/addCompanyInfoPage.css">
-    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
-    <link rel="stylesheet" href="../../../css/public/index.css">
-</head>
-<body>-->
+
 <div class="inner">
     <!--表二-->
     <div class="mcAddTian">
         <p class="clearfix cut">
-            <span class="fl tianMsg">单位信息</span>
+            <span class="fl tianMsg">系统信息</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
         <div class="mcAddMessge">
-            <form action="" method="post" id="AddformSystem" name="AddformSystem" @click="clickForm">
-                <ul class="clearfix">
+            <form action="" method="post" id="AddformSystem" name="AddformSystem">
+                <ul class="clearfix dataForm">
                     <li class="row">
-                        <div class="col-lg-6 col-md-6">
-                            <label class="col-lg-3 col-md-3 text-right">
-                                <span class="xing">*</span>
-                                系统名称:
-                            </label>
-                            <div class="col-lg-6 col-md-6" id="app">
-                                <el-cascader :options="options" :clearable="true" :show-all-levels="false" name="sysName" id="sysName"></el-cascader>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <label class="col-lg-3 col-md-3 text-right">
-                                标准化代码:
-                            </label>
-                            <div class="col-lg-6 col-md-6">
-                                <input type="text" disabled placeholder="请输入" name="sysCode" id="sysCode">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="row">
-                        <div class="col-lg-6 col-sm-3">
+                        <div class="col-lg-6 col-sm-3" v-if="change">
                             <label for="" class="col-lg-3 col-md-3 text-right">
-                                <span class="xing">*</span>
-                                信息系统建设类型:
+                                <span class="xing">*</span> 信息系统建设类型：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
-                                <input class="col-md-4" @click="getClass($event)" value="自建" name="sysMsgBuild" id="sysMsgBuild">
-                                <input class="col-md-4" @click="getClass($event)" value="统建" name="sysMsgBuild" id="sysMsgBuild">
-                                <input class="col-md-4" @click="getClass($event)" value="总部系统" name="sysMsgBuild" id="sysMsgBuild">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1">
+                              <input type="hidden" name="formData.fkInfoSysTypeCon" v-model="formData.fkInfoSysTypeCon">
+                              <div class="baseMes" >自建</div>
+                              <div class="baseMes" >统建</div>
+                              <div class="baseMes" >总部系统</div>
                             </div>
                             <div class="mcAddSysBuildTxt"></div>
                         </div>
-                        <div class="col-lg-6 col-sm-3">
+                        <div class="col-lg-6 col-sm-3" v-else>
                             <label for="" class="col-lg-3 col-md-3 text-right">
-                                <span class="xing">*</span>
-                                是否为合并系统:
+                                <span class="xing">*</span> 信息系统建设类型：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" >
-                                <input class="col-md-6 " @click="btnBoolen($event)" value="是"/>
-                                <input class="col-md-6 " @click="btnBoolen($event)" value="否"/>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1">
+                              <input type="hidden" name="formData.fkInfoSysTypeCon" v-model="formData.fkInfoSysTypeCon">
+                              <div class="baseMes" @click="getTypeClass($event,1)">自建</div>
+                              <div class="baseMes" @click="getTypeClass($event,2)">统建</div>
+                              <div class="baseMes" @click="getTypeClass($event,3)">总部系统</div>
+                            </div>
+                            <div class="mcAddSysBuildTxt"></div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3" v-if="change">
+                            <label class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>是否为合并系统：
+                            </label>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2">
+                              <input type="hidden" name="formData.fkSystemIsMerge" v-model="formData.fkSystemIsMerge">
+                              <div class="baseMes">是</div>
+                              <div class="baseMes">否</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-3" v-else>
+                            <label class="col-lg-3 col-md-3 text-right">
+                                <span class="xing">*</span>是否为合并系统：
+                            </label>
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2">
+                              <input type="hidden" name="formData.fkSystemIsMerge" v-model="formData.fkSystemIsMerge">
+                              <div class="baseMes" @click="getMergeClass($event,1)">是</div>
+                              <div class="baseMes" @click="getMergeClass($event,2)">否</div>
                             </div>
                         </div>
                     </li>
-                    <li class="row" id="falseSys" style="display: none;">
-                        <div class="col-lg-6 col-md-6">
-                            <label class="col-lg-3 col-md-3 text-right">
-                                <span class="xing">*</span>
-                                系统名称:
-                            </label>
-                            <div class="col-lg-6 col-md-6" id="wrap">
-                                <el-cascader :options="options" :clearable="true" :show-all-levels="false"></el-cascader>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6">
-                            <label class="col-lg-3 col-md-3 text-right">
-                                标准化代码:
-                            </label>
-                            <div class="col-lg-6 col-md-6">
-                                <input type="text" disabled placeholder="请输入">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="row" id="trueSys" style="display: none">
-                        <ul class="clearfix">
-                            <li class="row col-lg-6 col-md-3">
-                                <label class="col-lg-3 col-md-3 text-right">
-                                    <span class="xing">*</span>
-                                    系统名称:
-                                </label>
-                                <div class="col-lg-6 col-md-6 childSystem">
-                                    <input type="text" placeholder="请输入">
+                    <li class="row" v-show="systemInfo">
+                      <div class="col-lg-6 col-md-6">
+                          <label class="col-lg-3 col-md-3 text-right">
+                              <span class="xing">*</span>系统名称：
+                          </label>
+                          <div class="col-lg-6 col-md-6">
+                            <el-select v-model="formData.systemName" :disabled = "change"  filterable placeholder="请选择" @change="setStandardizedCode(formData.systemName,1)">
+                              <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
+                            </el-select>
+                          </div>
+                      </div>
+                      <div class="col-lg-6 col-md-6">
+                          <label class="col-lg-3 col-md-3 text-right">标准化代码：
+                          </label>
+                          <div class="col-lg-6 col-md-6">
+                              <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.standardizedCode" id="standardizedCode">
+                          </div>
+                      </div>
+                   </li>
+                    <li class="row" id="trueSys" v-show="systemSonInfo">
+                        <ul class="clearfix trueSys" style="position: relative;">
+                            <li class="row">
+                                <div class="col-lg-6 col-md-3">
+                                    <label class="col-lg-3 col-md-3 text-right" style="padding-left: 15px;">
+                                        <span class="xing">*</span> 系统名称：
+                                    </label>
+                                    <div class="col-lg-6 col-md-6 childSystem">
+                                        <input type="text" placeholder="请输入" v-model="formData.systemName">
+                                    </div>
                                 </div>
                             </li>
-                            <li class="row col-lg-12 col-md-6">
+                            <li class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <label class="col-lg-3 col-md-3 text-right">
-                                        <span class="xing">*</span>
-                                        子系统1系统名称:
+                                        <span class="xing">*</span>子系统1系统名称：
                                     </label>
-                                    <div class="col-lg-6 col-md-6">
-                                        <input type="text" placeholder="请输入">
+                                    <div class="col-lg-6 col-md-6 childSystem">
+                                        <el-select v-model="formData.addSystemSub[0].systemName" filterable placeholder="请选择" @change="setStandardizedCode(formData.addSystemSub[0].systemName,2)">
+                                          <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
+                                        </el-select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-3">
-                                    <label for="" class="col-lg-3 col-md-3 text-right" style="  margin-left: 22px !important;">
-                                        子系统1标准化代码:
+                                    <label for="" class="col-lg-3 col-md-3 text-right"> 子系统1标准化代码：
                                     </label>
-                                    <div  class="col-md-6 col-sm-3">
-                                        <input type="text" disabled>
+                                    <div  class="col-md-6 col-md-6 childSystem">
+                                        <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[0].standardizedCode" id="standardizedCode">
                                     </div>
                                 </div>
                             </li>
                             <li class="row" id="newNode">
                                 <div class="col-lg-6 col-md-6">
                                     <label class="col-lg-3 col-md-3 text-right">
-                                        <span class="xing">*</span>
-                                        子系统2系统名称:
+                                        <span class="xing">*</span> 子系统2系统名称：
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
-                                        <input type="text" placeholder="请输入">
+                                        <el-select v-model="formData.addSystemSub[1].systemName" filterable placeholder="请选择" @change="setStandardizedCode(formData.addSystemSub[1].systemName,3)">
+                                          <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
+                                        </el-select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-sm-3">
                                     <label for="" class="col-lg-3 col-md-3 text-right">
-                                        子系统2标准化代码:
+                                        子系统2标准化代码：
                                     </label>
-                                    <div  class="col-md-6 col-sm-3">
-                                        <input type="text" disabled>
+                                    <div  class="col-md-6 col-md-6 childSystem">
+                                        <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[1].standardizedCode" id="standardizedCode">
                                     </div>
                                 </div>
                             </li>
-                            <li class="btn btn-success fr" @click="addSys($event)" id="add">添加更多子系统</li>
+                            <li class="btn btn-success fr sysSun" @click="addSys($event)" id="add">添加更多子系统</li>
                         </ul>
                     </li>
                     <li class="row">
                         <div class="col-lg-6 col-md-6">
                             <label class="col-lg-3 col-md-3 text-right">
-                                等保备案系统名称:
+                                等保备案系统名称：
                             </label>
                             <div class="col-lg-6 col-md-6">
-                                <input type="text" placeholder="请输入" name="sysRecord" id="sysRecord">
+                                <input type="text" placeholder="请输入" name="gradeRecordSysName" id="gradeRecordSysName" v-model="formData.gradeRecordSysName">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
                                 <span class="xing">*</span>
-                                是否为互联网应用:
+                                是否为互联网应用：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" name="sysInter" id="sysInter">
-                                <input class="col-md-6 " @click="getClass($event)" value="是">
-                                <input class="col-md-6" @click="getClass($event)" value="否">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes3">
+                              <input type="hidden" id="appIsInternet" v-model="formData.appIsInternet"/>
+                              <div class="baseMes" @click="getRecordClass($event,1)">是</div>
+                              <div class="baseMes" @click="getRecordClass($event,2)">否</div>
                             </div>
                         </div>
                     </li>
                 </ul>
-                <ul class="clearfix">
+                <ul class="clearfix dataForm">
                     <li class="sysTitle">
                         <span>系统承受业务情况</span>
                     </li>
@@ -166,35 +162,36 @@
                                 业务类型：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysType" id="sysType">
-                                <div class="baseMes" @click="getClass($event)">生成作业</div>
-                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
-                                <div class="baseMes" @click="getClass($event)">管理控制</div>
-                                <div class="baseMes" @click="getClass($event)">内部办公</div>
-                                <div class="baseMes" @click="getClass($event)">公众服务</div>
-                                <div class="baseMes" @click="getClass($event)">
-                                    其他：
-                                    <input type="text" class="col-lg-4 baseMesIn">
+                              <input type="hidden" id="sysBusSituationType" name="sysBusSituationType" v-model="formData.sysBusSituationType">
+                              <div v-for="item in sysType">
+                                <div v-if="item.codeName==='其它'">
+                                  <div @click="getClass($event)" id="sysType1">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="busSituationType" name="busSituationType">
+                                  </div>
                                 </div>
+                                <div v-else>
+                                  <div @click="getClass($event)">{{item.codeName}}</div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </li>
                     <li class="row">
                         <div class="col-lg-11 text-center baseMesWrap">
                             <label for="" class="col-lg-1 col-sm-1">
-                                <span class="xing">*</span>
-                                业务描述：
+                                <span class="xing">*</span> 业务描述：
                             </label>
                             <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
 如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
                             <div class="mcTextArea col-lg-11 col-sm-3" @click="text">
-                                <textarea cols="30" rows="10" placeholder="请输入" name="sysArea" id="sysArea"></textarea>
+                                <textarea cols="30" rows="10" placeholder="请输入" name="sysBusDescription" id="sysBusDescription" class="sysArea" v-model="formData.sysBusDescription"></textarea>
                                 <span class='textAll'><span id="textNum">0</span>/200</span>
                                 <!-- 最多100字符，0处显示的是已经写了多少字符 -->
                             </div>
                         </div>
                     </li>
                 </ul>
-                <ul class="clearfix">
+                <ul class="clearfix dataForm">
                     <li class="sysTitle">
                         <span>系统服务情况</span>
                     </li>
@@ -202,43 +199,45 @@
                     <li class="row">
                         <div class="col-lg-11 text-center baseMesWrap">
                             <label for="" class="col-lg-1 col-sm-1">
-                                <span class="xing">*</span>
-                                服务类型：
+                                <span class="xing">*</span> 服务范围：
                             </label>
-                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceType" id="sysServiceType">
-                                <div class="baseMes" @click="getClass($event)">生成作业</div>
-                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
-                                <div class="baseMes" @click="getClass($event)">管理控制</div>
-                                <div class="baseMes" @click="getClass($event)">内部办公</div>
-                                <div class="baseMes" @click="getClass($event)">公众服务</div>
-                                <div class="baseMes" @click="getClass($event)">
-                                    其他：
-                                    <input type="text" class="col-lg-4 baseMesIn">
+                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceType" id="sysSerScope">
+                              <input type="hidden"  name="sysServiceSitScope" id="sysServiceSitScope" v-model="formData.sysServiceSitScope">
+                              <div v-for="item in sysServiceScope">
+                                <div v-if="item.codeName==='其它'">
+                                  <div @click="getScopeClass($event)" id="sysSerScope1">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope" name="serviceSitScope">
+                                  </div>
                                 </div>
+                                <div v-else>
+                                  <div @click="getScopeClass($event)">{{item.codeName}}</div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </li>
                     <li class="row">
                         <div class="col-lg-11 text-center baseMesWrap">
                             <label for="" class="col-lg-1 col-sm-1">
-                                <span class="xing">*</span>
-                                服务对象：
+                                <span class="xing">*</span>  服务对象：
                             </label>
-                            <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceObject" id="sysServiceObject">
-                                <div class="baseMe" @click="getClass($event)">生成作业</div>
-                                <div class="baseMesnt" @click="getClass($event)">指挥调度</div>
-                                <div class="baseMesnt" @click="getClass($event)">管理控制</div>
-                                <div class="baseMesnt" @click="getClass($event)">内部办公</div>
-                                <div class="baseMesnt" @click="getClass($event)">公众服务</div>
-                                <div class="baseMesnt" @click="getClass($event)">
-                                    其他:
-                                    <input type="text" class="col-lg-4 baseMesIn">
+                            <div class="col-lg-11 col-sm-3 baseMes1" id="sysSerObject">
+                              <input type="hidden" name="sysServiceSitObject" id="sysServiceSitObject" v-model="formData.sysServiceSitObject">
+                              <div v-for="item in sysServiceObject">
+                                <div v-if="item.codeName==='其它'">
+                                  <div @click="getObjectClass($event)" id="sysSerObject1">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitObject" name="serviceSitObject">
+                                  </div>
                                 </div>
+                                <div v-else>
+                                  <div @click="getObjectClass($event)">{{item.codeName}}</div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </li>
                 </ul>
-                <ul class="clearfix">
+                <ul class="clearfix dataForm">
                     <li class="sysTitle">
                         <span>系统网络平台</span>
                     </li>
@@ -250,15 +249,17 @@
                                 覆盖范围：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysCoverage" id="sysCoverage">
-                                <div class="baseMes" @click="getClass($event)">生成作业</div>
-                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
-                                <div class="baseMes" @click="getClass($event)">管理控制</div>
-                                <div class="baseMes" @click="getClass($event)">内部办公</div>
-                                <div class="baseMes" @click="getClass($event)">公众服务</div>
-                                <div class="baseMes" @click="getClass($event)">
-                                    其他：
-                                    <input type="text" class="col-lg-4 baseMesIn">
+                              <input type="hidden" name="npCoverageRange" id="npCoverageRange" v-model="formData.npCoverageRange">
+                              <div v-for="item in sysCoverage">
+                                <div v-if="item.codeName==='其它'">
+                                  <div @click="getCoverageClass($event)" id="sysCoverage1">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="coverageRange" name="coverageRange">
+                                  </div>
                                 </div>
+                                <div v-else>
+                                  <div @click="getCoverageClass($event)">{{item.codeName}}</div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </li>
@@ -269,37 +270,41 @@
                                 网络性质：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysNetwork" id="sysNetwork">
-                                <div class="baseMes" @click="getClass($event)">生成作业</div>
-                                <div class="baseMes"  @click="getClass($event)">指挥调度</div>
-                                <div class="baseMes"  @click="getClass($event)">管理控制</div>
-                                <div class="baseMes"  @click="getClass($event)">内部办公</div>
-                                <div class="baseMes"  @click="getClass($event)">公众服务</div>
-                                <div class="baseMes"  @click="getClass($event)">
-                                    其他：
-                                    <input type="text" class="col-lg-4 baseMesIn">
+                              <input type="hidden" name="npNetworkProperties" id="npNetworkProperties" v-model="formData.npNetworkProperties">
+                              <div v-for="item in sysServiceObject">
+                                <div v-if="item.codeName==='其它'">
+                                  <div @click="getNetworkClass($event)" id="sysNetwork1">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="networkProperties" name="networkProperties">
+                                  </div>
                                 </div>
+                                <div v-else>
+                                  <div @click="getNetworkClass($event)">{{item.codeName}}</div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </li>
                 </ul>
-                <ul class="clearfix">
+                <ul class="clearfix dataForm">
                     <li class="lastLine curLine"></li>
                     <li class="row">
-                        <div class="col-lg-12 text-center">
+                        <div class="col-lg-12 text-center baseMesWrap">
                             <label for="" class="col-lg-2 col-sm-1 baseMse">
                                 <span class="xing">*</span>
                                 系统互联情况：
                             </label>
                             <div class="col-lg-10 col-sm-3 baseMes1 baseMss" name="sysIntercon" id="sysIntercon">
-                                <div class="baseMes" @click="getClass($event)">生成作业</div>
-                                <div class="baseMes" @click="getClass($event)">指挥调度</div>
-                                <div class="baseMes" @click="getClass($event)">管理控制</div>
-                                <div class="baseMes" @click="getClass($event)">内部办公</div>
-                                <div class="baseMes" @click="getClass($event)">公众服务</div>
-                                <div class="baseMes" @click="getClass($event)">
-                                    其他：
-                                    <input type="text" class="col-lg-4 baseMesIn">
+                              <input type="hidden" name="interconnectionSit" id="interconnectionSit" v-model="formData.interconnectionSit">
+                              <div v-for="item in sysIntercon">
+                                <div v-if="item.codeName==='其它'">
+                                  <div @click="getSitClass($event)" id="sysIntercon1">
+                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="interconnection" name="interconnection">
+                                  </div>
                                 </div>
+                                <div v-else>
+                                  <div @click="getSitClass($event)">{{item.codeName}}</div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </li>
@@ -310,353 +315,77 @@
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
                                 <span class="xing">*</span>
-                                所属单位名称:
+                                所属单位名称：
                             </label>
-                            <div class="col-md-8 col-sm-6 industry">
-                                <select name="sysComName" id="sysComName" class="formControl" >
+                            <div class="col-lg-6 col-sm-3 industry">
+                                <!-- <select name="sysComName" id="sysComName" class="formControl" >
                                     <option value="">请选择</option>
                                     <option value="">XXX</option>
                                     <option value="">XXX</option>
                                     <option value="">XXXX</option>
                                     <option value="">xxxx</option>
-                                </select>
+                                </select> -->
+                                <select name="fkCompanyCode" class="formControl" id="fkCompanyCode" v-model="formData.fkCompanyCode">
+                                  <option v-for="item in msgName"
+                                    :key="item.orgCode" :label="item.orgName" :value="item.orgName"></option>
+                                </select> <span class="caretd"></span>
                                 <span class="caretd"></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
                                 <span class="xing">*</span>
-                                何时投入使用:
+                                何时投入使用：
                             </label>
-                            <div  class="col-md-6 col-sm-3 useData">
-                                <input type="text"  placeholder="请输入" id="useData" name="useData">
-                            </div>
+                            <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.whenInvestmentUse" type="date" placeholder="选择日期"></el-date-picker>
                         </div>
                     </li>
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
-                                主管处室名称:
+                                主管处室名称：
                             </label>
                             <div  class="col-md-6 col-sm-3">
-                                <input type="text"  placeholder="请输入" name="sysOfficeName" id="sysOfficeName">
+                                <input type="text"  placeholder="请输入" name="executiveOfficeName" id="executiveOfficeName" v-model="formData.executiveOfficeName">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
                                 <span class="xing">*</span>
-                                系统是否为分系统:
+                                系统是否为分系统：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" name="sysSubsystem" id="sysSubsystem">
-                                <input class="col-md-6 " @click="getClass($event)" value="是">
-                                <input class="col-md-6" @click="getClass($event)" value="否">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" name="sysSubsystem" id="sysSubsystem">
+                                <input type="hidden" name="subIsSystem" v-model="formData.subIsSystem">
+                                <div class="baseMes" @click="getSubClass($event,1)">是</div>
+                                <div class="baseMes" @click="getSubClass($event,2)">否</div>
                             </div>
                         </div>
                     </li>
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
-                                主管联系人:
+                                主管联系人：
                             </label>
                             <div  class="col-md-6 col-sm-3">
-                                <input type="text"  placeholder="请输入" name="sysPerson" id="sysPerson">
+                                <input type="text"  placeholder="请输入" name="executiveDireCon" id="executiveDireCon" v-model="formData.executiveDireCon">
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <label for="" class="col-lg-3 col-md-3 text-right">
-                                主管联系人电话:
+                                主管联系人电话：
                             </label>
                             <div  class="col-md-6 col-sm-3">
-                                <input type="text"  placeholder="请输入" name="sysPersonTel" id="sysPersonTel">
+                                <input type="text"  placeholder="请输入" name="executiveDireConTel" id="executiveDireConTel" v-model="formData.executiveDireConTel">
                             </div>
                         </div>
                     </li>
                     <li class="fr">
-                        <div>
-                            <button type="button" class="btn btn-success " id="save">保存</button>
-                            <button type="button" class="btn btn-default " id="pre" @click="preBtn()">上一步</button>
-                            <button type="button" class="btn btn-default" id="next" @click="nextBtn()">下一步</button>
-                        </div>
+                        <slot name="addSysBtn"></slot>
+                        <slot name="newSys"></slot>
+                        <slot name="changeBtn"></slot>
                     </li>
                 </ul>
             </form>
         </div>
     </div>
 </div>
-<!--
-</body>
-<script src="../../../js/public/vue.js"></script>
-<script src="../../../js/public/index.js"></script>
-<script src="../../../js/public/bootstrap.min.js"></script>
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-<script src="https://cdn.bootcss.com/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script src="../../../js/public/messages_zh.js"></script>
-<script src="../../../js/public/layDate/laydate/laydate.js"></script>
-<script>
-
-    function addSys() {
-        console.log($('#add').before($('#newNode').clone()));
-        $('#add').before($('#newNode').clone());
-    }
-
-    //使用时间
-    laydate.render({
-        elem: '#useData'
-    });
-
-    $('#sysArea').on("keyup",function(){
-        $('#textNum').text($('#sysArea').val().length);//这句是在键盘按下时，实时的显示字数
-        if($('#sysArea').val().length > 200){
-            $('#textNum').text(200);//长度大于200时0处显示的也只是200
-            $('#sysArea').val($('#sysArea').val().substring(0,200));//长度大于100时截取钱100个字符
-        }
-    })
-    $('#textNum').text($('#sysArea').val().length);//这句是在刷新的时候仍然显示字数
-    //页面跳转
-    (function nextBtn() {
-        $("#next").click(function () {
-            Ajax('GET','./addFormSystem.html','../addFormGrad/addFormGrad.html');
-        })
-    }());
-    (function preBtn() {
-        $("#pre").click(function () {
-            Ajax('GET','./addFormSystem.html','../addForm/addForm.html');
-        })
-    }());
-    //点击切换按钮颜色
-    function getClass(obj) {
-//        console.log(obj);
-        $(obj).addClass('btnColor').siblings().removeClass("btnColor");
-
-    }
-    function btnBoolen(ele) {
-        $(ele).addClass('btnColor').siblings().removeClass("btnColor");
-        if($(ele).text() == '是'){
-            $("#falseSys").show();
-            $("#trueSys").hide();
-        }else{
-            $("#trueSys").show();
-            $("#falseSys").hide();
-        }
-    }
-    //页面跳转的封装
-    function Ajax(type,url, href, data) {
-        $.ajax({
-            type:type,
-            url:url,
-            async:false,
-            data:data,
-            success:function (msg) {
-                if(msg){
-                    window.location.href = href;
-                }
-            }
-        })
-    }
-    var Main = {
-        data() {
-            return {
-                options: [{
-                    value: 'zhinan',
-                    label: '指南',
-                    children: [{
-                        value: 'shejiyuanze',
-                        label: '设计原则',
-                        children: [{
-                            value: 'yizhi',
-                            label: '一致'
-                        }, {
-                            value: 'fankui',
-                            label: '反馈'
-                        }, {
-                            value: 'xiaolv',
-                            label: '效率'
-                        }, {
-                            value: 'kekong',
-                            label: '可控'
-                        }]
-                    }, {
-                        value: 'daohang',
-                        label: '导航',
-                        children: [{
-                            value: 'cexiangdaohang',
-                            label: '侧向导航'
-                        }, {
-                            value: 'dingbudaohang',
-                            label: '顶部导航'
-                        }]
-                    }]
-                }, {
-                    value: 'zujian',
-                    label: '组件',
-                    children: [{
-                        value: 'basic',
-                        label: 'Basic',
-                        children: [{
-                            value: 'layout',
-                            label: 'Layout 布局'
-                        }, {
-                            value: 'color',
-                            label: 'Color 色彩'
-                        }, {
-                            value: 'typography',
-                            label: 'Typography 字体'
-                        }, {
-                            value: 'icon',
-                            label: 'Icon 图标'
-                        }, {
-                            value: 'button',
-                            label: 'Button 按钮'
-                        }]
-                    }, {
-                        value: 'form',
-                        label: 'Form',
-                        children: [{
-                            value: 'radio',
-                            label: 'Radio 单选框'
-                        }, {
-                            value: 'checkbox',
-                            label: 'Checkbox 多选框'
-                        }, {
-                            value: 'input',
-                            label: 'Input 输入框'
-                        }, {
-                            value: 'input-number',
-                            label: 'InputNumber 计数器'
-                        }, {
-                            value: 'select',
-                            label: 'Select 选择器'
-                        }, {
-                            value: 'cascader',
-                            label: 'Cascader 级联选择器'
-                        }, {
-                            value: 'switch',
-                            label: 'Switch 开关'
-                        }, {
-                            value: 'slider',
-                            label: 'Slider 滑块'
-                        }, {
-                            value: 'time-picker',
-                            label: 'TimePicker 时间选择器'
-                        }, {
-                            value: 'date-picker',
-                            label: 'DatePicker 日期选择器'
-                        }, {
-                            value: 'datetime-picker',
-                            label: 'DateTimePicker 日期时间选择器'
-                        }, {
-                            value: 'upload',
-                            label: 'Upload 上传'
-                        }, {
-                            value: 'rate',
-                            label: 'Rate 评分'
-                        }, {
-                            value: 'form',
-                            label: 'Form 表单'
-                        }]
-                    }, {
-                        value: 'data',
-                        label: 'Data',
-                        children: [{
-                            value: 'table',
-                            label: 'Table 表格'
-                        }, {
-                            value: 'tag',
-                            label: 'Tag 标签'
-                        }, {
-                            value: 'progress',
-                            label: 'Progress 进度条'
-                        }, {
-                            value: 'tree',
-                            label: 'Tree 树形控件'
-                        }, {
-                            value: 'pagination',
-                            label: 'Pagination 分页'
-                        }, {
-                            value: 'badge',
-                            label: 'Badge 标记'
-                        }]
-                    }, {
-                        value: 'notice',
-                        label: 'Notice',
-                        children: [{
-                            value: 'alert',
-                            label: 'Alert 警告'
-                        }, {
-                            value: 'loading',
-                            label: 'Loading 加载'
-                        }, {
-                            value: 'message',
-                            label: 'Message 消息提示'
-                        }, {
-                            value: 'message-box',
-                            label: 'MessageBox 弹框'
-                        }, {
-                            value: 'notification',
-                            label: 'Notification 通知'
-                        }]
-                    }, {
-                        value: 'navigation',
-                        label: 'Navigation',
-                        children: [{
-                            value: 'menu',
-                            label: 'NavMenu 导航菜单'
-                        }, {
-                            value: 'tabs',
-                            label: 'Tabs 标签页'
-                        }, {
-                            value: 'breadcrumb',
-                            label: 'Breadcrumb 面包屑'
-                        }, {
-                            value: 'dropdown',
-                            label: 'Dropdown 下拉菜单'
-                        }, {
-                            value: 'steps',
-                            label: 'Steps 步骤条'
-                        }]
-                    }, {
-                        value: 'others',
-                        label: 'Others',
-                        children: [{
-                            value: 'dialog',
-                            label: 'Dialog 对话框'
-                        }, {
-                            value: 'tooltip',
-                            label: 'Tooltip 文字提示'
-                        }, {
-                            value: 'popover',
-                            label: 'Popover 弹出框'
-                        }, {
-                            value: 'card',
-                            label: 'Card 卡片'
-                        }, {
-                            value: 'carousel',
-                            label: 'Carousel 走马灯'
-                        }, {
-                            value: 'collapse',
-                            label: 'Collapse 折叠面板'
-                        }]
-                    }]
-                }, {
-                    value: 'ziyuan',
-                    label: '资源',
-                    children: [{
-                        value: 'axure',
-                        label: 'Axure Components'
-                    }, {
-                        value: 'sketch',
-                        label: 'Sketch Templates'
-                    }, {
-                        value: 'jiaohu',
-                        label: '组件交互文档'
-                    }]
-                }]
-            };
-        }
-    };
-    var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app');
-    new Ctor().$mount('#wrap');
-</script>
-</html>
--->

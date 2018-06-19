@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审核管理</title>
+    <!--public-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <!--private-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
+    <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css" th:attr="href=@{/css/private/auditzero.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css" th:attr="href=@{/css/private/pagebox.css}">
+    <link rel="stylesheet" href="../../static/css/private/audit.css" th:attr="href=@{/css/private/audit.css}">
+
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
+    <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" href="../../static/css/private/detailsNav.css" th:attr="href=@{/css/private/detailsNav.css}">
+
+</head>
+<style>
+.table-striped .liststatus span{
+   color: #fff;
+    background: #acacac;
+    border: 1px solid #acacac;
+    padding: 3px;
+}
+    .h-status .el-input.el-input--suffix{width:100%;}
+   .h-status .el-select{width:100%;}
+   .h-status input{    border-color: #999;}
+    .h-audit input{ height:34px;}
+    .breadcrumb a{
+        vertical-align: middle;
+        color: black;
+    }
+    .h-load-audit a{
+        display: block;
+        height:20px;
+        width: 100%;
+        background: url("../../images/home/xiazaikexiazai.png") left no-repeat ;
+    }
+    .h-load-audit span{
+        display: block;
+        height:20px;
+        width: 100%;
+        background: url("../../images/home/xiazai bukexiazai.png") left no-repeat ;
+    }
+</style>
+<body class="h-body">
+<div id="app">
+    <smcc-header>
+        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
+        <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">-->
+        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">
+    </smcc-header>
+    <smcc-breadcrumb>
+        <!--<div slot="a1"></div>-->
+    </smcc-breadcrumb>
+    <audit>
+    	<!--排序图标-->
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou4">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou5">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou6">
+  	 <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou7">
+  		
+    </audit>
+</div>
+
+</body>
+<!--插件-->
+<script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script>
+    var bus=new Vue();
+</script>
+<script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
+<script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script src="../../static/js/public/layDate-v5.0.9/laydate/laydate.js" th:attr="src=@{/js/public/layDate-v5.0.9/laydate/laydate.js}"></script>
+
+<!--ajax路径-->
+<script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
+<script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
+
+<!--头部组件-->
+<script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
+<!--面包屑导航-->
+<script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
+<!--audit组件-->
+<script async src="../../static/compnents/private/audit/audit.js" th:attr="src=@{/compnents/private/audit/audit.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
+
+
+<!--分页-->
+<script src="../../static/js/private/pagebox.js"></script>
+
+<script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>
+<script src="../../static/js/private/audit.js" th:attr="src=@{/js/private/audit.js}"></script>
+<script>
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#test1' ,//指定元素
+  });
+  laydate.render({
+    elem: '#test2' ,//指定元素
+  });
+</script>
+
+</html>

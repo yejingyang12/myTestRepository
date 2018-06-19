@@ -231,3 +231,20 @@ body{
     height: 100%;
     background: #ededed;
 }
+/*element  input初始文字显示颜色*/
+input.el-input__inner::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #666;
+}
+input.el-input__inner:-moz-placeholder, textarea:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #666;
+}
+input.el-input__inner::-moz-placeholder, textarea::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #666;
+}
+input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #666;
+}

@@ -11,6 +11,9 @@ package com.sinopec.smcc.cpro.system.mapper;
 
 import java.util.List;
 
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 
 /**
@@ -30,4 +33,30 @@ public interface SystemUseServicesMapper {
    * @param list
    */
   void insertSystemUseServicesBySystemUseServicesId(List<SystemUseServices> list);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月12日上午11:39:37
+   * @param subUseList
+   */
+  void deleteSystemUseServicesBySystemUseServicesId(
+      List<SystemUseServices> subUseList);
+
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月14日下午9:31:52
+   * @param systemParam
+   */
+  void deleteUse(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月14日下午9:40:36
+   * @param subSystemList
+   */
+  void deleteSubUse(List<SystemResult> subSystemList);
 }

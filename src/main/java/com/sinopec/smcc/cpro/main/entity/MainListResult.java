@@ -31,8 +31,86 @@ public class MainListResult {
   private Integer evaluationStatus;
   private Integer examinationStatus;
   private String companyId;
+  private String fkSpRanklevel;
+  private String gradingPkId; 
+  private String checkPkId;
+  private String evaluationPkId;
+  private String selfPkId;
+  private String companyCode;
   
-
+  
+  /**
+   * @return the companyCode
+   */
+  public String getCompanyCode() {
+    return companyCode;
+  }
+  /**
+   * @param companyCode the companyCode to set
+   */
+  public void setCompanyCode(String companyCode) {
+    this.companyCode = companyCode;
+  }
+  /**
+   * @return the gradingPkId
+   */
+  public String getGradingPkId() {
+    return gradingPkId;
+  }
+  /**
+   * @param gradingPkId the gradingPkId to set
+   */
+  public void setGradingPkId(String gradingPkId) {
+    this.gradingPkId = gradingPkId;
+  }
+  /**
+   * @return the checkPkId
+   */
+  public String getCheckPkId() {
+    return checkPkId;
+  }
+  /**
+   * @param checkPkId the checkPkId to set
+   */
+  public void setCheckPkId(String checkPkId) {
+    this.checkPkId = checkPkId;
+  }
+  /**
+   * @return the evaluationPkId
+   */
+  public String getEvaluationPkId() {
+    return evaluationPkId;
+  }
+  /**
+   * @param evaluationPkId the evaluationPkId to set
+   */
+  public void setEvaluationPkId(String evaluationPkId) {
+    this.evaluationPkId = evaluationPkId;
+  }
+  /**
+   * @return the selfPkId
+   */
+  public String getSelfPkId() {
+    return selfPkId;
+  }
+  /**
+   * @param selfPkId the selfPkId to set
+   */
+  public void setSelfPkId(String selfPkId) {
+    this.selfPkId = selfPkId;
+  }
+  /**
+   * @return the fkSpRanklevel
+   */
+  public String getFkSpRanklevel() {
+    return fkSpRanklevel;
+  }
+  /**
+   * @param fkSpRanklevel the fkSpRanklevel to set
+   */
+  public void setFkSpRanklevel(String fkSpRanklevel) {
+    this.fkSpRanklevel = fkSpRanklevel;
+  }
   /**
    * @return the companyId
    */

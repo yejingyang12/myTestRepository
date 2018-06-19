@@ -11,6 +11,7 @@ td{
     height: 34px;
     padding:0 !important;
     position: relative;
+    text-align: left;
 }
 .tdWith{
     width: 85%;

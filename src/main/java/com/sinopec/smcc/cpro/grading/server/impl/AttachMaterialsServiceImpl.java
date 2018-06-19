@@ -9,11 +9,13 @@
 */
 package com.sinopec.smcc.cpro.grading.server.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
@@ -24,6 +26,9 @@ import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.mapper.AttachMaterialsMapper;
 import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
  * @Title AttachServiceImpl.java
@@ -38,6 +43,8 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
 
   @Autowired
   private AttachMaterialsMapper attachMaterialsMapper;
+  @Autowired
+  private NodeService nodeServiceImpl;
   
   /**
    * 初始化提交材料信息
@@ -47,7 +54,7 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
   public List<AttachMaterialsListResult> queryDetailsAttach(
       AttachMaterialsParam attachMaterialsParam) throws BusinessException {
-    if(StringUtils.isBlank(attachMaterialsParam.getAttachId())){
+    if(StringUtils.isNotBlank(attachMaterialsParam.getFkSystemId())){
       List<AttachMaterialsListResult> list = 
           this.attachMaterialsMapper.selectDetailsAttach(attachMaterialsParam);
       for (int i = 0; i < list.size(); i++) {
@@ -80,5 +87,78 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
     }
     throw new BusinessException(EnumResult.ERROR);
   }
-  
+
+  /**
+   * 保存材料信息
+   */
+  @Override
+  @Transactional
+  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
+  public String saveAttach(String userName, AttachMaterialsParam attachMaterialsParam) {
+    if (StringUtils.isBlank(attachMaterialsParam.getAttachId())) {
+      attachMaterialsParam.setAttachId(Utils.getUuidFor32());
+      attachMaterialsParam.setCreateTime(new Date());
+      
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(attachMaterialsParam.getFkSystemId());
+      nodeParam.setOperation("创建");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      this.attachMaterialsMapper.insertAttach(attachMaterialsParam);
+    }else{
+      attachMaterialsParam.setCreateTime(new Date());
+      
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(attachMaterialsParam.getFkSystemId());
+      nodeParam.setOperation("变更");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      this.attachMaterialsMapper.insertAttach(attachMaterialsParam);
+    }
+    return attachMaterialsParam.getAttachId();
+  }
+
+  /**
+   * 提交材料信息修改状态
+   */
+  @Override
+  @Transactional
+  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
+  public String submitAttach(String userName, AttachMaterialsParam attachMaterialsParam) {
+    if (StringUtils.isBlank(attachMaterialsParam.getAttachId())) {
+      attachMaterialsParam.setAttachId(Utils.getUuidFor32());
+      attachMaterialsParam.setCreateTime(new Date());
+      this.attachMaterialsMapper.insertAttach(attachMaterialsParam);
+      
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(attachMaterialsParam.getFkSystemId());
+      nodeParam.setOperation("创建");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      this.attachMaterialsMapper.insertAttach(attachMaterialsParam);
+    }else{
+      this.attachMaterialsMapper.updateAttachStatus(attachMaterialsParam);
+      
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(attachMaterialsParam.getFkSystemId());
+      nodeParam.setOperation("变更");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      this.attachMaterialsMapper.insertAttach(attachMaterialsParam);
+    }
+    return attachMaterialsParam.getAttachId();
+  }
+
 }

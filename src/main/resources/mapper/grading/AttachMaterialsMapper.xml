@@ -9,6 +9,152 @@
     <result column="attachName" property="attachName" jdbcType="VARCHAR" />
   </resultMap>
   
+  <insert id="insertAttach" parameterType="com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam" >
+    INSERT INTO t_cpro_company
+      (
+      pkId,fkSystemId,fkSyssonId,fkAttachType,attachName,mongoFileId,attachPath,deleteStatus,
+      createUserName,createTime,updateTime,remark
+      )VALUES(
+        <trim suffixOverrides="," >
+          <![CDATA[
+            #{attachId,jdbcType=VARCHAR},
+          ]]>
+          <choose>
+            <when test="fkSystemId != null and fkSystemId != ''">
+              <![CDATA[
+                #{fkSystemId,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="fkSyssonId != null and fkSyssonId != ''">
+              <![CDATA[
+                #{fkSyssonId,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="fkAttachType != null and fkAttachType != ''">
+              <![CDATA[
+                #{fkAttachType,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="attachName != null and attachName != ''">
+              <![CDATA[
+                #{attachName,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="mongoFileId != null and mongoFileId != ''">
+              <![CDATA[
+                #{mongoFileId,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="attachPath != null and attachPath != ''">
+              <![CDATA[
+                #{attachPath,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="deleteStatus != null and deleteStatus != ''">
+              <![CDATA[
+                #{deleteStatus,jdbcType=TINYINT},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="createUserName != null and createUserName != ''">
+              <![CDATA[
+                #{createUserName,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="createTime != null and createTime != ''">
+              <![CDATA[
+                #{createTime,jdbcType=DATE},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="updateTime != null and updateTime != ''">
+              <![CDATA[
+                #{updateTime,jdbcType=DATE},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="remark != null and remark != ''">
+              <![CDATA[
+                #{remark,jdbcType=VARCHAR},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+        </trim>
+      )
+  </insert>
+  
   <select id="selectDetailsAttach" parameterType="com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam" resultMap="BaseResultMap">
     SELECT 
       attach.fkSystemId,
@@ -31,8 +177,8 @@
     WHERE
       (fkAttachType = 'topologyDescription' OR fkAttachType = 'organizationManagement' 
         OR fkAttachType = 'implementationPlan' OR fkAttachType = 'licenseCertificate'
-        OR fkAttachType = 'gradingReport' OR  fkAttachType = 'expertReview' 
+        OR fkAttachType = 'directorOpinion' OR  fkAttachType = 'expertReview' 
         OR fkAttachType = 'evaluationPresentation') 
-      AND fkSystemId = #{fkSystemId}
+      AND fkSystemId = #{fkSystemId} AND deleteStatus = 1
   </select>
 </mapper>

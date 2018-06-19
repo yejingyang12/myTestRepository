@@ -33,7 +33,7 @@ public interface GradingService {
    * @return
    * @throws BusinessException 
    */
-  List<GradingListResult> queryDetailsGrading(GradingParam gradingParam) throws BusinessException;
+  GradingListResult queryDetailsGrading(GradingParam gradingParam) throws BusinessException;
   
   /**
    * @Descrption
@@ -52,8 +52,17 @@ public interface GradingService {
    * @param gradingParam
    * @return
    */
-  String saveGrading(GradingParam gradingParam)throws BusinessException;
-  
+  String saveGrading(String userName,GradingParam gradingParam) throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午1:37:25
+   * @param gradingParam
+   * @return
+   */
+  String submitGrading(String userName,GradingParam gradingParam) throws BusinessException;
+
   /**
    * @Descrption 根据系统ID查询定级列表
    * @author dongxu

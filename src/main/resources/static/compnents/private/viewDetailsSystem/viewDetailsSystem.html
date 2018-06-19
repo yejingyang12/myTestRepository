@@ -1,0 +1,176 @@
+<div class="innerSys">
+    <p class="clearfix cut">
+        <span class="fl tianMsg">系统信息</span>
+    </p>
+    <ul class="clearfix">
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">信息系统建设类型：</span>
+                <span class="col-md-3 text-left">{{constructionTypeName}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">是否为合并系统的定级：</span>
+                <span class="col-md-3 text-left">{{combinedName}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">系统名称：</span>
+                <span class="col-md-3 text-left">{{systemName}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">标准化代码：</span>
+                <span class="col-md-3 text-left">{{standardizedCode}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">等保备案系统名称：</span>
+                <span class="col-md-3 text-left">{{gradeRecordSysName}}</span>
+            </p>
+        </li>
+    </ul>
+    <ul class="clearfix">
+        <li class="sysTitle">
+            <span>系统承受业务情况</span>
+        </li>
+        <li class="lastLine curLine"></li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">业务类型：</span>
+                <span class="col-md-3 text-left">{{sysBusSituationType}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <span class="col-md-2 text-right">业务描述：</span>
+            <span class="col-md-8 text-left">{{sysBusDescription}}</span>
+        </li>
+    </ul>
+    <ul class="clearfix">
+        <li class="sysTitle">
+            <span>系统服务情况</span>
+        </li>
+        <li class="lastLine curLine"></li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">服务范围：</span>
+                <span class="col-md-3 text-left">{{sysServiceSitScope}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">服务对象：</span>
+                <span class="col-md-3 text-left">{{sysServiceSitObject}}</span>
+            </p>
+        </li>
+    </ul>
+    <ul class="clearfix">
+        <li class="sysTitle">
+            <span>系统网络平台</span>
+        </li>
+        <li class="lastLine curLine"></li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">覆盖范围：</span>
+                <span class="col-md-3 text-left">{{npCoverageRange}}</span>
+            </p>
+        </li>
+        <li class="lastLine curLine"></li>
+    </ul>
+    <ul class="clearfix">
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">系统互联情况：</span>
+                <span class="col-md-3 text-left">{{interconnectionSit}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <span class="col-md-2 text-right">关键产品使用情况：</span>
+            <table class="col-md-10 text-left table-bordered table-responsive">
+                <tr class="table-bordered">
+                    <th style="width: 5%">序号</th>
+                    <th style="width: 20%">产品类型</th>
+                    <th style="width: 20%">数量</th>
+                    <th style="width: 20%">是否使用国产品</th>
+                    <th style="width: 20%">使用国产品率</th>
+                </tr>
+                <tr class="table-bordered" v-for="(item,index) in systemKeyProducts">
+                    <td>{{index+1}}</td>
+                    <td v-if="item.fkExaminStatus != 6">
+                      {{item.examinStatusName}}                                         
+                    </td>
+                    <td v-else>
+                                                            其他 ：{{item.otherName}}                      
+                    </td>
+                    <td>{{item.productsNumber}}</td>
+                    <td>{{item.nationalIsProductsName}}</td>
+                    <td>{{item.nUseProbability}} <span class="fr">%</span></td>
+                </tr>
+            </table>
+        </li>
+        <li class="col-md-12">
+            <span class="col-md-2 text-right">系统采用服务情况：</span>
+            <table class="col-md-10 text-left table-bordered table-responsive">
+                <tr class="table-bordered">
+                    <th style="width: 5%">序号</th>
+                    <th style="width: 20%">服务类型 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
+                    <th style="width: 20%">是否采用 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
+                    <th style="width: 20%">服务责任方类型 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
+                </tr>
+                <tr class="table-bordered" v-for="(item,index) in systemUseServices">
+                    <td>{{index+1 }}</td>
+                    <td v-if="item.fkProductsType != 8">
+                      {{item.productsTypeName}}                                         
+                    </td>
+                    <td v-else>
+                                                            其他 ：{{item.otherName}}                      
+                    </td>
+                    <td>
+                       <div  v-if="item.serviceIsUse == '1'">
+                                                                      是
+                       </div>
+                       <div  v-if="item.serviceIsUse == '2'">
+                                                                     否
+                       </div> 
+                    </td>
+                    <td>{{item.responsibleTypeName}}</td>
+                </tr>
+            </table>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">所属单位名称：</span>
+                <span class="col-md-3 text-left">{{companyName}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">何时投入使用：</span>
+                <span class="col-md-3 text-left">{{whenInvestmentUse}}</span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">主管处室名称：</span>
+                <span class="col-md-3 text-left">{{executiveOfficeName}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">系统是否为分系统：</span>
+                <span class="col-md-3 text-left">
+                  <div v-if="subIsSystem === 1">
+                                                               是                                 
+                  </div>
+                  <div v-else>
+                                                          否              
+                  </div>
+                </span>
+            </p>
+        </li>
+        <li class="col-md-12">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">主管联系人：</span>
+                <span class="col-md-3 text-left">{{executiveDireCon}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">主管联系人电话：</span>
+                <span class="col-md-3 text-left">{{executiveDireConTel}}</span>
+            </p>
+        </li>
+    </ul>
+</div>

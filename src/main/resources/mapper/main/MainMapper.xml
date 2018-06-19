@@ -10,6 +10,7 @@
     <result column="fkBizSprankDegrees" property="fkBizSprankDegrees" />
     <result column="fkBizSprankLevels" property="fkBizSprankLevels" />
     <result column="appIsInternet" property="appIsInternet" />
+    <result column="fkSpRanklevel" property="fkSpRanklevel" />
   </resultMap>
   <select id="selectAllByMainParam" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
     <![CDATA[
@@ -17,20 +18,29 @@
         system.pkId AS systemId, 
         system.systemName, 
         company.companyName, 
-        company.fkPlateType, 
+        company.fkPlateType AS plateType, 
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
         systemCodeSprankLevel.codeName AS SprankLevel,
+        score.fkSpRanklevel AS fkSpRanklevel,
         appIsInternet, 
         gradingStatus, 
         examineStatus, 
         recordStatus, 
         evaluationStatus,
         examinationStatus,
-        
+        company.pkId AS companyId,
+        company.companyCode,
+        gradingAttch.pkId AS gradingPkId,
+        checkAttch.pkId AS checkPkId,
+        evaluationAttch.pkId AS evaluationPkId,
+        selfAttch.pkId AS selfPkId 
       FROM
         t_cpro_system AS system
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
+      LEFT JOIN t_cpro_system_code AS systemCodeAppIsInternet
+        ON system.appIsInternet = systemCodeAppIsInternet.systemCode 
+        AND systemCodeAppIsInternet.fkCodeType = 10
       LEFT JOIN t_cpro_system_code AS systemCodeInfoSysTypeConstruction 
         ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
         AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
@@ -38,23 +48,169 @@
         ON system.pkid = score.fkSystemId
       LEFT JOIN t_cpro_system_code AS systemCodeSprankLevel 
         ON score.fkSprankLevel = systemCodeSprankLevel.systemCode 
-        AND systemCodeSprankLevel.fkCodeType = 4
+        AND systemCodeSprankLevel.fkCodeType = 11
       LEFT JOIN t_cpro_records AS records 
         ON system.pkId = records.fkSystemId
       LEFT JOIN t_cpro_evaluation AS evaluation 
         ON system.pkId = evaluation.fkSystemId
+        AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
+                                     WHERE eval.fkSystemId = system.pkId  LIMIT 1)
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
+        AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
+                                         WHERE inspec.fkSystemId =  system.pkId LIMIT 1)
       LEFT JOIN t_cpro_check AS examine 
         ON system.pkId = examine.fkSystemId
+      LEFT JOIN t_cpro_attach AS gradingAttch 
+        ON score.fkSystemId = gradingAttch.fkSystemId
+        AND score.pkId = gradingAttch.fkSyssonId
+        AND gradingAttch.fkAttachType = 'gradingReport'
+      LEFT JOIN t_cpro_attach AS checkAttch 
+        ON examine.fkSystemId = checkAttch.fkSystemId
+        AND examine.pkId = checkAttch.fkSyssonId
+        AND checkAttch.fkAttachType = 'expertReview'
+      LEFT JOIN t_cpro_attach AS evaluationAttch 
+        ON evaluation.fkSystemId = evaluationAttch.fkSystemId
+        AND evaluation.pkId = evaluationAttch.fkSyssonId
+        AND evaluationAttch.fkAttachType = 'evaluationPresentation'
+      LEFT JOIN t_cpro_attach AS selfAttch 
+        ON selfInspection.fkSystemId = selfAttch.fkSystemId
+        AND selfInspection.pkId = selfAttch.fkSyssonId
+        AND selfAttch.fkAttachType = 'expertReview'
+      LEFT JOIN t_cpro_system_code AS gradingSystemCode 
+        ON system.gradingStatus = gradingSystemCode.systemCode
+        AND gradingSystemCode.fkCodeType = 25
+	    LEFT JOIN t_cpro_system_code AS examineSystemCode 
+	      ON system.examineStatus = examineSystemCode.systemCode
+	      AND examineSystemCode.fkCodeType = 25
+	    LEFT JOIN t_cpro_system_code AS recordSystemCode 
+	      ON system.recordStatus = recordSystemCode.systemCode
+	      AND recordSystemCode.fkCodeType = 25
+	    LEFT JOIN t_cpro_system_code AS evaluationSystemCode 
+	      ON system.evaluationStatus = evaluationSystemCode.systemCode
+	      AND evaluationSystemCode.fkCodeType = 25
+	    LEFT JOIN t_cpro_system_code AS examinationSystemCode 
+	      ON system.examinationStatus = examinationSystemCode.systemCode
+	      AND examinationSystemCode.fkCodeType = 25
     ]]>
     <where>
-      <!-- 缺少自定义筛选，待确认 --> 
+      <if test="customFiltering != null and customFiltering != ''">
+        <bind name="customFiltering" value="'%' + _parameter.customFiltering + '%'" />
+          <![CDATA[
+             system.systemName LIKE #{customFiltering,jdbcType=VARCHAR} 
+             AND (system.deleteStatus=1 
+				     AND system.fkSystemType != 3
+				     AND fkSystemIsMerge = 2)
+             OR company.companyName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR company.fkPlateType LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR systemCodeSprankLevel.codeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.appIsInternet LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR systemCodeInfoSysTypeConstruction.codeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR examine.fkExaminStatus LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.standardizedCode LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.gradeRecordSysName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysBusSituationType LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysBusDescription LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysServiceSitScope LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysServiceSitObject LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.npCoverageRange LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.npNetworkProperties LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.executiveOfficeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.executiveDireCon LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.executiveDireConTel LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.changeReason LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.changeContent LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR gradingSystemCode.codeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR examineSystemCode.codeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR recordSystemCode.codeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR evaluationSystemCode.codeName LIKE #{customFiltering,jdbcType=VARCHAR}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR examinationSystemCode.codeName LIKE #{customFiltering,jdbcType=VARCHAR}  
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR systemCodeAppIsInternet.codeName LIKE #{customFiltering,jdbcType=VARCHAR} 
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+          ]]>
+      </if>
+      AND system.deleteStatus=1 
+      AND system.fkSystemType != 3
       <if test="customizedSearch != null ">
         <![CDATA[
           AND records.recordDate >= #{customizedSearch,jdbcType=DATE}
         ]]>
       </if>
+      <!-- 受理备案单位 -->
       <if test="acceptCompany != null and acceptCompany != ''">
         <bind name="acceptCompany" value="'%' + _parameter.acceptCompany + '%'" />
         <![CDATA[
@@ -133,11 +289,25 @@
           AND system.gradingStatus = #{gradingStatus,jdbcType=VARCHAR}
         ]]>
       </if>
-      <!-- 审核状态 -->
-      <if test="systemCodeType != null and systemCodeType == '24'">
-        <![CDATA[
-          AND system.examineStatus = #{examineStatus,jdbcType=VARCHAR}
-        ]]>
+      <!-- 审核状态  待审核-->
+	    <if test="fkExaminStatus != null and fkExaminStatus == 1">
+	        <![CDATA[
+	          AND (examine.fkExaminStatus = 1 
+	          OR  examine.fkExaminStatus = 2 )
+	        ]]>
+	    </if>
+	    <!-- 审核状态 已审核-->
+      <if test="fkExaminStatus != null and fkExaminStatus == 2">
+          <![CDATA[
+            AND examine.fkExaminStatus = 5
+          ]]>
+      </if>
+      <!-- 审核状态 审核未通过-->
+      <if test="fkExaminStatus != null and fkExaminStatus == 3">
+          <![CDATA[
+             AND (examine.fkExaminStatus = 3 
+            OR  examine.fkExaminStatus = 4 )
+          ]]>
       </if>
       <!-- 备案状态 -->
       <if test="systemCodeType != null and systemCodeType == '25'">
@@ -196,7 +366,78 @@
       cproCheck.deleteStatus = 2,
       records.deleteStatus = 2,
       score.deleteStatus = 2
-    WHERE system.pkId = #{systemId}
-      AND company.companyCode = #{fkCompanyCode}
+    <where>
+      <if test="systemId != null and systemId != ''">
+          <![CDATA[
+             system.pkId = #{systemId}
+          ]]>
+      </if>
+      <if test="companyId != null and companyId != ''">
+          <![CDATA[
+            AND company.pkId = #{companyId}
+          ]]>
+      </if>
+    </where>
+  </update>
+  
+  <select id="selectSystemName" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
+    SELECT
+      systemName,
+      pkId AS systemId
+    FROM 
+      t_cpro_system
+    WHERE deleteStatus=1 and fkSystemType != 3
+  </select>
+  <update id="updateApplicationChangeBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
+    UPDATE 
+      t_cpro_system 
+    SET 
+      fkChangeMatter = #{fkChangeMatter},
+      changeReason = #{changeReason},
+      changeContent = #{changeContent}
+    <where>
+      <if test="systemId != null and systemId != ''">
+          <![CDATA[
+             pkId = #{systemId}
+          ]]>
+      </if>
+    </where>
+  </update>
+  <update id="updateSystemStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
+    <![CDATA[
+      UPDATE t_cpro_system
+    ]]>
+    <set>
+      <if test="gradingStatus != null">
+        <![CDATA[
+         system.gradingStatus = #{gradingStatus},
+        ]]>
+      </if>
+     <if test="examineStatus != null">
+        <![CDATA[
+         system.examineStatus = #{examineStatus},
+        ]]>
+      </if>
+      <if test="recordStatus != null">
+        <![CDATA[
+         system.recordStatus = #{recordStatus},
+        ]]>
+      </if>
+      <if test="evaluationStatus != null">
+        <![CDATA[
+         system.evaluationStatus = #{evaluationStatus},
+        ]]>
+      </if>
+      <if test="examinationStatus != null">
+        <![CDATA[
+         system.examinationStatus = #{examinationStatus},
+        ]]>
+      </if>
+    </set>
+    <where>
+      <![CDATA[
+         pkId = #{systemId}
+      ]]>
+    </where>
   </update>
 </mapper>

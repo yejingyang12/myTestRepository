@@ -1,0 +1,281 @@
+
+<div class="container h-padding" style="margin:15px;font-size: 14px;font-style: normal">
+        <div class="container h-table-border" style="background:#fff;padding: 15px">
+            <div style="height: 50px;line-height: 50px;margin-top: -15px">
+                <i class="h-list-line" style="vertical-align:middle;"></i>
+                漏洞统计排行
+                <span class="xiahuaxian" style="float: right;">
+                    标准化网站系统
+                </span>
+                <span class="xiahuaxian" style="float: right;margin-right: 20px;">
+                    定级系统
+                </span>
+            </div>
+            <!--分割线-->
+            <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+            <div class="row" style="height:450px;margin:0;">
+                <div class="col-md-12">
+                     <div class="row">
+                         <div class="col-md-6 chart chart1 padding-0"  >
+                             <!--饼状图-->
+                            <div class="col-md-6 bingzhuangtu">
+                                <div style="height: 100px">
+                                    <p class="p1">系统等保等级分布</p>
+                                    <p class="p2">系统等保等级分布</p>
+                                    <div class="p3">
+                                        <p class="float-le h-applyTime" >时间:</p>
+                                        <div class="float-le timeInput   chartstarttime">
+                                            <template>
+                                                <div class="block">
+                                                    <!--<span class="demonstration">默认</span>-->
+                                                    <el-date-picker class="h-applyTime input"
+                                                                    v-model="value1"
+                                                                    type="date"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <p class="float-le"> 到 </p>
+                                        <div class="float-le timeInput chartstarttime"  >
+                                            <template>
+                                                <div class="block">
+                                                    <!--<span class="demonstration">默认</span>-->
+                                                    <el-date-picker class="h-applyTime input"
+                                                                    v-model="value1"
+                                                                    type="date"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bingzhuangBox pos-relative">
+                                    <!--饼状图表说明-->
+                                    <div class="instructor">
+                                        <p class="level1">
+                                            <i></i>
+                                            一级
+                                        </p>
+                                        <p class="level2">
+                                            <i></i>
+                                            二级
+                                        </p>
+                                        <p class="level3">
+                                            <i></i>
+                                            三级
+                                        </p>
+                                        <p class="level4">
+                                            <i></i>
+                                            四级
+                                        </p>
+                                        <p class="level5">
+                                            <i></i>
+                                            五级
+                                        </p>
+                                    </div>
+                                    <div class="bingtubiao">
+                                        这里是饼状图表
+                                    </div>
+                                </div>
+                            </div>
+                             <!--小堆叠图-->
+                            <div class="col-md-6 xiaoduidie" >
+                                <div style="height: 100px">
+                                    <p class="p1">不同等保级别系统在不同管理状态下详情</p>
+                                    <p class="p2">点击图表查看不同管理状态下不同等保级别的系统详情</p>
+                                    <div class="p3">
+                                        <p class="float-le h-applyTime" >时间:</p>
+                                        <div class="float-le timeInput chartstarttime">
+                                            <template>
+                                                <div class="block">
+                                                    <!--<span class="demonstration">默认</span>-->
+                                                    <el-date-picker class="h-applyTime input"
+                                                                    v-model="value1"
+                                                                    type="date"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <p class="float-le"> 到 </p>
+                                        <div class="float-le timeInput chartstarttime"  >
+                                            <template>
+                                                <div class="block">
+                                                    <!--<span class="demonstration">默认</span>-->
+                                                    <el-date-picker class="h-applyTime input"
+                                                            v-model="value1"
+                                                            type="date"
+                                                            placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="xiaoduidieBox">
+                                    <div>
+                                        <p class="h-line float-le">类型:</p>
+                                        <div class=" duidieIns float-le pos-relative">
+                                            <!--<span>|</span>-->
+                                            <template>
+                                                <el-select v-model="value8" filterable placeholder="请选择">
+                                                    <el-option
+                                                            v-for="item in options"
+                                                            :key="item.value"
+                                                            :label="item.label"
+                                                            :value="item.value">
+                                                    </el-option>
+                                                </el-select>
+                                            </template>
+                                            <div class="xiaoduitubiao">这里是小堆叠图</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                         </div>
+                         <!--大堆叠图1-->
+                         <div class="col-md-6 chart chart2 bingzhuangtu" >
+                             <div style="height: 100px">
+                                 <p class="p1">备案单位数量Top10</p>
+                                 <p class="p2">备案数量前10的单位排名</p>
+                                 <div class="p3 pos-relative">
+                                          <div>
+                                             <p class="float-le" style="min-width: 5%">时间:</p>
+                                             <div class="float-le timeInput chartstarttime">
+                                                 <template>
+                                                     <div class="block">
+                                                         <!--<span class="demonstration">默认</span>-->
+                                                         <el-date-picker class="h-applyTime input"
+                                                                         v-model="value1"
+                                                                         type="date"
+                                                                         placeholder="选择日期">
+                                                         </el-date-picker>
+                                                     </div>
+                                                 </template>
+                                             </div>
+                                             <p class="float-le"> 到 </p>
+                                             <div class="float-le timeInput chartstarttime"  >
+                                                 <template>
+                                                     <div class="block">
+                                                         <!--<span class="demonstration">默认</span>-->
+                                                         <el-date-picker class="h-applyTime input"
+                                                                         v-model="value1"
+                                                                         type="date"
+                                                                         placeholder="选择日期">
+                                                         </el-date-picker>
+                                                     </div>
+                                                 </template>
+                                             </div>
+                                          </div>
+                                         <p class="float-ri tubiaocon">
+                                             <span class="float-ri"><i class="sekuai"></i> 五级</span>
+                                             <span class="float-ri"><i class="sekuai"></i> 四级</span>
+                                             <span class="float-ri"><i class="sekuai"> </i> 三级</span>
+                                             <span class="float-ri"><i class="sekuai"></i> 二级</span>
+                                             <span class="float-ri"><i class="sekuai"></i> 一级</span>
+                                         </p>
+
+                                     </div>
+                             </div>
+                             <div class="bingzhuangBox">
+                                 这里是大堆叠图1
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </div>
+            <div class="row" style="margin:0;height:450px; ">
+                <div class="col-md-12 paddind-0">
+                    <div class="row">
+                        <!--折线图-->
+                        <div class="col-md-6 chart chart3 bingzhuangtu" >
+                            <div style="height: 100px">
+                                <div class="pos-relative">
+                                    <p class="p1">系统等保管理趋势</p>
+                                    <p class="p2">不同等保管理状态下系统数量</p>
+                                    <!--<span>|</span>-->
+                                    <template>
+                                        <el-select v-model="value8" filterable placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
+                                            <el-option
+                                                    v-for="item in options"
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value">
+                                            </el-option>
+                                        </el-select>
+                                    </template>
+                                </div>
+
+                                <div class="p3 pos-relative">
+                                    <p class="float-ri tubiaocon">
+                                        <span class="float-ri"><i class="sekuai5"></i>自查数</span>
+                                        <span class="float-ri"><i class="sekuai4"></i>测评数</span>
+                                        <span class="float-ri"><i class="sekuai3"> </i>备案数</span>
+                                        <span class="float-ri"><i class="sekuai2"></i>审核级数</span>
+                                        <span class="float-ri"><i class="sekuai1"></i>预定级数</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="bingzhuangBox">
+                                这里是折线图
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 chart2 chart4 bingzhuangtu" >
+                            <div style="height: 100px">
+                                <p class="p1">受理备案单位数量Top10</p>
+                                <p class="p2">受理备案数量前10的单位排名</p>
+                                <div class="p3 pos-relative">
+                                    <div>
+                                        <p class="float-le" style="min-width: 5%">时间:</p>
+                                        <div class="float-le timeInput chartstarttime">
+                                            <template>
+                                                <div class="block">
+                                                    <!--<span class="demonstration">默认</span>-->
+                                                    <el-date-picker class="h-applyTime input"
+                                                                    v-model="value1"
+                                                                    type="date"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                        <p class="float-le"> 到 </p>
+                                        <div class="float-le timeInput chartstarttime"  >
+                                            <template>
+                                                <div class="block">
+                                                    <!--<span class="demonstration">默认</span>-->
+                                                    <el-date-picker class="h-applyTime input"
+                                                                    v-model="value1"
+                                                                    type="date"
+                                                                    placeholder="选择日期">
+                                                    </el-date-picker>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <p class="float-ri tubiaocon">
+                                        <span class="float-ri"><i class="sekuai"></i> 五级</span>
+                                        <span class="float-ri"><i class="sekuai"></i> 四级</span>
+                                        <span class="float-ri"><i class="sekuai"> </i> 三级</span>
+                                        <span class="float-ri"><i class="sekuai"></i> 二级</span>
+                                        <span class="float-ri"><i class="sekuai"></i> 一级</span>
+                                    </p>
+
+                                </div>
+                            </div>
+                            <div class="bingzhuangBox">
+                                这里是大堆叠图2
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

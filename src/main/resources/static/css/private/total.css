@@ -1,0 +1,338 @@
+input.el-input__inner::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+     /* WebKit browsers */
+     color: #333;
+ }
+input.el-input__inner:-moz-placeholder, textarea:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #666;
+}
+input.el-input__inner::-moz-placeholder, textarea::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #666;
+}
+input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #666;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    /* WebKit browsers */
+    color: #666;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: #666;
+}
+input::-moz-placeholder, textarea::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: #666;
+}
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    color: #666;
+}
+.form-control::-moz-placeholder {
+    color: #666;
+    opacity: 1
+}
+
+.form-control:-ms-input-placeholder {
+    color: #666
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #666
+}
+.dataForm{
+    overflow: hidden;
+}
+.dataForm .btnColor input{
+    color:#fff;
+}
+.dataForm .baseMes1 div input{
+  width:70%
+}
+.dataForm .tdWith{
+  width:85%;
+}
+.dataForm .el-input{
+    width: 100%;
+}
+.dataForm .el-select{
+  width:100%;
+}
+.dataForm .tdLineHei div{
+  position: relative;
+    width: 80%;
+    top: -30px;
+    left: 40px;
+    margin-bottom: -30px;
+}
+.dataForm>li{
+    overflow: hidden;
+    margin-left: 0 !important;
+    margin-right:0;
+}
+.dataForm>li div{
+    padding:0;
+}
+.dataForm>li>div>div{
+    padding-right: 0;
+    overflow:hidden;
+    padding-left: 15px;
+}
+
+.dataForm>li>div>label{
+    margin-left: 25%;
+}
+.dataForm>li>div>label.sysTitle{
+    margin-left: 0;
+    width: 25%;
+}
+.dataForm>li input{
+    padding:0 10px;
+    width: 100%;
+    margin-left: 0;
+}
+
+/*时间框样式*/
+.useData.el-input{
+    width: 50%;
+    margin-bottom: -20px;
+}
+.useData span.el-input__suffix{
+    height:16px;
+    position: relative;
+    top: -28px;
+    left:calc(100% - 30px);
+    border-left:1px solid #cecece;
+}
+.useData span i{
+    display: none;
+}
+.useData .el-input__inner{
+    padding:0 10px;
+    height: 34px;
+    line-height: 34px;
+    border-radius: 0px;
+    border:1px solid #cecece;
+}
+
+/*上传样式*/
+.uploadBox{
+    width: 75%;
+    overflow: hidden;
+    padding-left: 15px;
+    margin: 0;
+}
+.uploadBox>div{
+    width: 100%;
+    height: 34px;
+}
+.dataForm .uploadBox input{
+    width:70px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.uploadSty button{
+    position: absolute;
+    width: 70px;
+    right: 0;
+    top: 0;
+    padding: 0;
+    height: 34px;
+    border-radius:2px;
+}
+.uploadSty button span{
+    color: #fff;
+}
+.uploadSty .fileList{
+    width:calc(100% - 80px);
+    border-bottom: 1px solid #cecece;
+    height: 34px;
+    overflow: hidden;
+}
+.fileList li{
+    float: left;
+    margin: 5px 20px 0 0;
+    border:1px solid #5AA5E4;
+    background-color: #F5FAFD;
+    height: 24px;
+    line-height: 24px;
+}
+.fileList li div{
+    padding: 0 5px;
+}
+.fileList li i{
+    margin-left:5px;
+    border-left: 1px solid #5AA5E4;
+    width:22px;
+    text-align: center;
+    height: 22px;
+    line-height: 22px;
+}
+.dataForm .mcAddSysBuildChange{
+    width: calc(50% - 15px) !important
+}
+.dataForm  .baseMesWrap{
+    margin:0;
+    width: 100%;
+}
+.dataForm  .baseMesWrap label{
+    width:12.5%;
+    text-align: right;
+}
+.dataForm  .baseMesWrap .baseMes1{
+    width: calc(87.5% - 15px);
+    margin-left: 15px;
+}
+.dataForm .baseMes2{
+    flex-wrap:wrap;
+    justify-content: flex-start;
+}
+.dataForm .baseMes2>div{
+    width: calc(20% + 1.156px);
+    margin-right: -1.156px;
+    margin-bottom: -1px;
+    border-bottom:1px solid #cecece;
+}
+.dataForm .baseMes2>div:last-child{
+    border-right: 1px solid #cecece;
+}
+.trueSys li{
+    margin-left:0;
+    margin-right: 0;
+}
+.trueSys li .tjSys{
+    padding: 0;
+}
+.trueSys .tjSys div{
+    padding-right: 0;
+}
+.trueSys .childSystem{
+    padding-left:15px;
+    margin:0;
+    padding-right: 0;
+}
+.trueSys .sysSun{
+    right: 10px;
+    padding:6px 15px;
+}
+.dataForm .mcTextArea{
+    width: calc(87.5% - 15px);
+    margin-left: 15px;
+}
+.dataForm .baseMse,.dataForm .addTable{
+    width: 12.5%;
+    margin-left:0 !important;
+    text-align: right;
+}
+.dataForm .baseMss{
+    width: calc(87.5% - 15px);
+    margin-left:15px !important;
+}
+.dataForm .addForm2Table{
+    width: calc(87.5% - 15px);
+    margin-left:15px !important;
+}
+.dataForm  .formTable{
+    padding-left: 0;
+}
+.dataForm .formControl{
+    width:100%;
+}
+.formControl::-ms-expand { display: none; }
+.dataForm .industry .caretd{
+    right: 8px;
+}
+/*定级信息*/
+.liAddsty div label{
+    width:185px;
+}
+.liAddsty .saveTitle{
+    margin-left:0;
+}
+.liAddsty .saveTable{
+    width: calc(100% - 230px);
+    margin-left:15px;
+}
+.liAddsty  .saveTextTitle{
+    padding-right: 15px;
+}
+.liAddsty .mcTextArea {
+    width: calc(100% - 200px);
+    margin:0;
+}
+.liAddsty .sysTitle{
+    margin-left:0;
+    padding-right:15px;
+}
+.liAddsty  .sysText{
+    margin-left:0;
+}
+.liAddsty .liPadding{
+    overflow:hidden;
+}
+.liAddsty .liPadding input{
+    width: 100%;
+    height:34px;
+    line-height: 34px;
+}
+
+.liAddsty .labelInformation{
+    margin-left:0;
+}
+.useData>input{
+    background: url("../../images/datatime.png") no-repeat right 7px top 7px;
+}
+.liAddsty .formChange{
+    padding-left: 0;
+}
+.liAddsty .formChange .addButton{
+    right:10px;
+}
+.liAddsty .formChange .updata{
+    width:34px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    opacity: 0;
+}
+.liAddsty .formControl{
+    margin-left:0;
+    width: calc(100% - 35px);
+}
+.liAddsty .sysText input{
+    width:70px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.liAddsty .mcAddSysBuildChange{
+    width: 50% !important;
+}
+.liAddsty .liPadding .addReview{
+    float: inherit;
+    width: calc(50% - 55px);
+    margin-left:5px;
+}
+.liAddsty .saveBnt{
+    margin: 15px;
+}
+.el-picker-panel .el-input{
+    width: 100%;
+}

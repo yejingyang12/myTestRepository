@@ -1,343 +1,307 @@
+  var data = {
+      formData:{
+        companyName:"",
+        companyTypeName:"",
+        ldContactName:"",
+        companyCode:"",
+        companyAddress:"",
+        postalCode:"",
+        administrativeNum:"",
+        compPrincipalName:"",
+        compPrincipalPost:"",
+        compPrincipalWorkTel:"",
+        compPrincipalEm:"",
+        compPrincipalPhone:"",
+        ldContactPost:"",
+        ldContactWorkTel:"",
+        ldContactEmail:"",
+        ldContactPhone:"",
+        rDepartment:"",
+        gpReportingComp:"",
+        fkSubordinatePro:"",
+        fkIndustryCategory:"",
+        fkAffiliation:"",
+        fkPlateType:"",
+        fkCompanyType:"",
+        companyId:"",
+      },
+      msgName : [],// 单位名称
+      msgProvince : [],// 所属省份
+      msgaAffi : [],// 隶属关系
+      msgUintType : [],// 单位类型
+      msgPlate : [],// 板块类型
+      selectedOptions:[],
+      transmitParam:[],
+      nameReadonly:false
+  };
 (function() {
-    var data ={
-     msgName:[],//单位名称
-     msgPwd:"",//单位编码
-     msgDress:"",//单位地址
-     msgPostal:"",//邮政编码
-     msgProvince:[],//所属省份
-     msgAdc:"",//行政区划编码
-     msgPersoname:"",//单位负责人姓名
-     msgComPhone:"",//办公电话
-     msgTelphone:"",//移动电话
-     msgOfficial:"",//职务/职称
-     msgEmail:"",//电子邮件
-     msgLdc:"",//责任部门联系人
-     msgLdcPhone:"",//责任部门联系人->办公电话
-     msgLdcTelphone:"",//责任部门联系人->移动电话
-     msgLdcOfficial:"",//责任部门联系人->职务职称
-     msgLdcEmail:"",//责任部门联系人->电子邮件
-     msgRespon:"",//责任部门
-     msgUpName:"",//等保上报单位名称
-     msgInCate:[],//行业类别
-     msgaAffi:[],//隶属关系
-     msgUintType:[],//单位类型
-     msgPlate:[]//板块类型
-     };
-    $("#Addform").validate({
-        rules: {
-            msgName: {
-                required: true,
-                maxlength: 50,
-                msgName:true
+
+  Vue.component('addForm', function(resolve, reject) {
+    $.get(comp_src + '/compnents/private/addForm/addForm.html').then(
+        function(res) {
+          resolve({
+            template:res,
+            data : function() {
+              return data;
             },
-            msgPwd: {
-                required: true,
-                msgPwd:true
-            },
-            msgPostal: {
-                required: true,
-                minlength: 2,
-                msgPostal:true,
-            },
-            msgDress: {
-                required: true,
-                maxlength: 100,
-                msgDress:true
-            },
-            msgProvince: {
-                required: true,
-                msgProvince:true
-            },
-            msgAdc: {
-                required: false,
-                msgAdc:true
-            },
-            msgPersoname: {
-                required: true,
-                rangelength: [1, 100],
-                msgPersoname:true
-            },
-            msgEmail: {
-                required: true,
-                email: true,
-                msgEmail:true
-            },
-            msgComPhone: {
-                required: true,
-                msgComPhone:true
-            },
-            msgTelphone: {
-                required: true,
-                maxlength: 11,
-                isMobile: true,
-                msgTelphone:true
-            },
-            msgOfficial: {
-                required: true,
-                msgOfficial:true
-            },
-            msgLdc: {
-                required: true,
-                msgLdc:true
-            },
-            msgLdcPhone: {
-                required: true,
-                msgLdcPhone:true
-            },
-            msgLdcTelphone: {
-                required: true,
-                maxlength: 11,
-                isMobile: true,
-                msgLdcTelphone:true
-            },
-            msgLdcOfficial: {
-                required: true,
-                msgLdcOfficial:true
-            },
-            msgLdcEmail: {
-                required: true,
-                email: true,
-                msgLdcEmail:true
-            },
-            msgRespon: {
-                required: true,
-                msgRespon:true
-            },
-            msgUpName: {
-                required: true,
-                msgUpName:true
-            },
-            msgInCate: {
-                required: true,
-                msgInCate:true
-            }
-        },
-        onkeyup: false,
-        errorPlacement: function (error, element) {
-            error.appendTo(element.parent());
-            //忽略自定义方法的错误提示
-            if (error.text() == "ignore") {
-                return '';
-            }
-        },
-        errorElement: "span",
-        submitHandler: function (form) {
-            console.log(form);
-            $(form).ajaxSubmit({
-                url: "php/order.php",
-                type: "post",
-                success: function () {
-                    alert("提交成功！");
-                    $(".shadow").show();
-                    $(".confirm_btn").click(function () {
-                        window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                    })
+            methods : {
+              // 点击切换 添加class名
+              getClass : function(e) {
+                $("#baseMes1 div div").click(function(){
+                  $("#baseMes1 div div").removeClass("btnColor");
+                  $(this).addClass("btnColor");
+                })
+                if(e.target.innerHTML.indexOf("其它") != -1){
+                  this.formData.fkAffiliation = $("#affiliation").val();
+                }else{
+                  this.formData.fkAffiliation = e.target.innerHTML;
                 }
-            })
-        },
-    });
-    //以下为自定义验证
-    $.validator.addMethod("msgName", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{50}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的单位名称");
-
-    $.validator.addMethod("msgDress", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{1,100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的单位地址");
-
-    $.validator.addMethod("msgPostal", function (value, element) {
-        var re = /^[0-9]{6}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的邮政编码");
-
-    $.validator.addMethod("msgPersoname", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的单位负责人姓名");
-
-    $.validator.addMethod("msgOfficial", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的职务/职称");
-
-    $.validator.addMethod("msgComPhone", function (value, element) {
-        var re = /^0\d{2,3}-\d{6,7}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的办公电话");
-
-    $.validator.addMethod("msgTelphone", function (value, element) {
-        var re = /^0\d{2,3}-\d{6,7}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的移动电话");
-
-    $.validator.addMethod("msgEmail", function (value, element) {
-        var re = /^\w{3,10}@[0-9a-zA-Z]\.[a-zA-Z]{2,3}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的电子邮件");
-
-    $.validator.addMethod("msgLdc", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的责任部门联系人姓名");
-
-    $.validator.addMethod("msgLdcPhone", function (value, element) {
-        var re =  /^0\d{2,3}-\d{6,7}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的责任部门联系人办公电话");
-
-    $.validator.addMethod("msgLdcOfficial", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的职务/职称");
-
-    $.validator.addMethod("msgLdcTelphone", function (value, element) {
-        var re =/^0\d{2,3}-\d{6,7}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的责任部门联系人移动电话");
-
-    $.validator.addMethod("msgLdcEmail", function (value, element) {
-        var re = /^\w{3,10}@[0-9a-zA-Z]\.[a-zA-Z]{2,3}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的责任部门联系人 电子邮件");
-
-    $.validator.addMethod("msgUpName", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的等保上报单位名称");
-
-    $.validator.addMethod("msgProvince", function (value, element) {
-        var re = /^\w[()-[]:.{},;@，；。《》、（）]{100}$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的所属省份");
-
-    $.validator.addMethod("msgAdc", function (value, element) {
-        var re = /^[0-9a-zA-Z]$/;
-        return this.optional(element) || (re.test(value));
-    }, "请正确填写您的行政区划编码");
-    //ajax请求后台端口
-    /*$.ajax({
-     type:'POST',
-     url:'192.168.0.208:8082/checkNodeController/queryheckNodeList',
-     data:{"companyId":"bd4760fe10154fe696f6106f2d6db13c"},
-     async:true,
-     dataType: "jsonp",
-     cache: false,
-     error:function(data){},
-     success:function (data) {
-     // var obj=eval("(" + data + ")")
-     console.log(data);
-     // console.log(obj.msgName);
-     },
-     complete:{
-     // 无论是否成功都执行该处的函数
-     }
-     })*/
-    /*FnPostData('http://:63342/company/queryDetailsCompany');
-    function FnPostData(url, type) {
-        var param = {};
-        var that = this;
-        // this.FnSetParam(param)
-        $.ajax({
-            url: url,
-            type: "POST",
-            datType: "JSON",
-            contentType: "application/json;charset=utf-8",
-            data: JSON.stringify(param),
-            success: function(data) {
-                console.log(data);
-                /!*that.$nextTick(function() {
-                    if(type) that[type] = data
-                })*!/
-            }
-        })
-
-    }*/
-
-    Vue.component('addForm',function (resolve, reject) {
-        $.get(comp_src+'/compnents/private/addForm/addForm.html').then(function (res) {
-            resolve({
-                template:res,
-                data:function () {
-                    return {
-                        options: [{
-                            value: 'zhinan',
-                            label: '指南',
-                            children: [{
-                                value: 'shejiyuanze',
-                                label: '设计原则'
-                            }, {
-                                value: 'daohang',
-                                label: '导航'
-                            }]
-                        }, {
-                            value: 'zujian',
-                            label: '组件',
-                            children: [{
-                                value: 'basic',
-                                label: 'Basic'
-                            }, {
-                                value: 'form',
-                                label: 'Form'
-                            }, {
-                                value: 'data',
-                                label: 'Data'
-                            }, {
-                                value: 'notice',
-                                label: 'Notice'
-                            }, {
-                                value: 'navigation',
-                                label: 'Navigation'
-                            }, {
-                                value: 'others',
-                                label: 'Others'
-                            }]
-                        }, {
-                            value: 'ziyuan',
-                            label: '资源',
-                            children: [{
-                                value: 'axure',
-                                label: 'Axure Components'
-                            }, {
-                                value: 'sketch',
-                                label: 'Sketch Templates'
-                            }, {
-                                value: 'jiaohu',
-                                label: '组件交互文档'
-                            }]
-                        }]
-                    };
-                },
-                methods:{
-                    Ajax:function(type,url, href, data){
-                        $.ajax({
-                            type:type,
-                            url:url,
-                            async:false,
-                            data:data,
-                            success:function (msg) {
-                                if(msg){
-                                    window.location.href = href;
-                                }
-                            }
-                        });
-                        $(".addBaseBg").css('background-position','0 -140px');
-                        $(".addSysBg").css('background-position','-70px 0');
-                    },
-                    //点击切换 添加class名
-                    getClass:function(e){
-                        $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+              },
+              // 点击切换 添加class名
+              getUintTypeClass : function(e) {
+                $("#baseMes2 div div").click(function(){
+                  $("#baseMes2 div div").removeClass("btnColor");
+                  $(this).addClass("btnColor");
+                })
+                if(e.target.innerHTML.indexOf("其它") != -1){
+                  this.formData.fkCompanyType = $("#companyType").val();
+                }else{
+                  this.formData.fkCompanyType = e.target.innerHTML;
+                }
+              },
+              // 点击切换 添加class名
+              getPlateClass : function(e) {
+                $("#baseMes3 div div").click(function(){
+                  $("#baseMes3 div div").removeClass("btnColor");
+                  $(this).addClass("btnColor");
+                })
+                if(e.target.innerHTML.indexOf("其它") != -1){
+                  this.formData.fkPlateType = $("#plateType").val();
+                }else{
+                  this.formData.fkPlateType = e.target.innerHTML;
+                }
+              },
+              // 获取省份
+              getProvinceMethod : function(_self) {
+                ajaxMethod(_self, 'post',
+                    'systemCode/querySystemCodeForKeySystemCode', true,
+                    '{"codeType":"21"}', 'json',
+                    'application/json;charset=UTF-8',
+                    _self.getProvinceSuccessMethod);
+              },
+              // 获取省份成功
+              getProvinceSuccessMethod : function(_self, responseData) {
+                for (var i = 0; i < responseData.data.length; i++) {
+                  _self.msgProvince=responseData.data;
+                }
+              },
+              // 获取隶属关系
+              getAffiliationMethod : function(_self) {
+                 ajaxMethod(_self, 'post',
+                     'systemCode/querySystemCodeForKeySystemCode', true,
+                     '{"codeType":"3"}', 'json',
+                     'application/json;charset=UTF-8',
+                     _self.getAffiliationSuccessMethod);
+              },
+              // 获取隶属关系成功
+              getAffiliationSuccessMethod : function(_self, responseData) {
+                 _self.msgaAffi = responseData.data;
+              },
+              // 获取单位类别
+              getUnitTypeMethod : function(_self) {
+                ajaxMethod(_self, 'post',
+                    'systemCode/querySystemCodeForKeySystemCode', true,
+                    '{"codeType":"5"}', 'json',
+                    'application/json;charset=UTF-8',
+                    _self.getUnitTypeSuccessMethod);
+              },
+              // 获取单位类别成功
+              getUnitTypeSuccessMethod : function(_self, responseData) {
+                _self.msgUintType = responseData.data;
+                
+              },
+              // 获取板块类型
+              getPlateTypeMethod : function(_self) {
+                 ajaxMethod(_self, 'post',
+                     'systemCode/querySystemCodeForKeySystemCode', true,
+                     '{"codeType":"6"}', 'json',
+                     'application/json;charset=UTF-8',
+                     _self.getPlateTypeSuccessMethod);
+              },
+              // 获取板块类型成功
+              getPlateTypeSuccessMethod : function(_self, responseData) {
+                  _self.msgPlate = responseData.data;
+                  
+                if(_self.msgUintType.length > 5){
+                  $("#baseMes2").addClass("baseMes2");
+                }
+                if(_self.msgaAffi.length > 5){
+                  $("#baseMes1").addClass("baseMes2");
+                }
+                if(_self.msgPlate.length > 5){
+                  $("#baseMes3").addClass("baseMes2");
+                }
+              },
+              //获取单位信息
+              getCompanyInfoMethod:function(_self,meg){
+                ajaxMethod(_self, 'post',
+                    'company/queryCompanyByCode', true,'{"companyCode":"'+meg+'"}', 'json',
+                    'application/json;charset=UTF-8',_self.getCompanyInfoSuccessMethod);
+              },
+              getCompanyInfoByIdMethod:function(_self,meg){
+                ajaxMethod(_self, 'post',
+                    'company/queryEditCompany', true,'{"companyId":"'+meg+'"}', 'json',
+                    'application/json;charset=UTF-8',_self.getCompanyInfoSuccessMethod);
+              },
+              getCompanyInfoSuccessMethod: function(_self,data){
+                if(data.data!=null){
+                  _self.formData = data.data;
+                  if(data.data.fkAffiliation!=''){
+                    var array = $('#baseMes1').find('div').map(function (index, ele) {
+                      if(ele.innerHTML==data.data.fkAffiliation){
+                        return ele;
+                      }else{
+                         return "";
+                      }
+                   }).get();
+                    var other=true;
+                    for(var i=0;i<array.length;i++){
+                      if(array[i]!=''){
+                        array[i].classList.add("btnColor");
+                        other=false;
+                      }
                     }
-                },
-                created: function() {
-
-                },
-                mounted: function() {
-                    // this.selectChange()
-                    new Ctor().$mount('#wrap');
+                    if(other){
+                      $("#other1").addClass('btnColor');
+                      $("#affiliation").val(data.data.fkAffiliation);
+                    }
+                  }
+                  if(data.data.fkPlateType!=''){
+                    var array = $('#baseMes3').find('div').map(function (index, ele) {
+                      if(ele.innerHTML==data.data.fkPlateType){
+                        return ele;
+                      }else{
+                        return "";
+                      }
+                   }).get();
+                    var other=true;
+                    for(var i=0;i<array.length;i++){
+                      if(array[i]!=''){
+                        array[i].classList.add("btnColor");
+                        other=false;
+                      }
+                    }
+                    if(other){
+                      $("#other3").addClass('btnColor');
+                      $("#plateType").val(data.data.fkPlateType);
+                    }
+                  }
+                  if(data.data.fkCompanyType!=''){
+                    var array = $('#baseMes2').find('div').map(function (index, ele) {
+                      if(ele.innerHTML==data.data.fkCompanyType){
+                        return ele;
+                      }else{
+                        return "";
+                      }
+                   }).get();
+                    var other=true;
+                    for(var i=0;i<array.length;i++){
+                      if(array[i]!=''){
+                        array[i].classList.add("btnColor");
+                        other=false;
+                      }
+                    }
+                    if(other){
+                      $("#companyType").val(data.data.fkCompanyType);
+                      $("#other2").addClass('btnColor');
+                    }
+                  }
+                }else{
+                  this.formData={};
+                  this.formData.companyName = _self.transmitParam[1];
+                  this.formData.companyCode = _self.transmitParam[1];
                 }
-            })
+              },
+              //获取单位信息
+              getCompanyMethod:function(_self){
+                ajaxMethod(_self, 'post',
+                    'organizationapi/queryOrganizationForKeyOrganizationCode', true,'{}', 'json',
+                    'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
+              },
+              getCompanySuccessMethod: function(_self,data){
+                if(data.data!=null){
+                  _self.msgName = data.data;
+                }
+              },
+              submitHandler:function(){
+                ajaxMethod(this, 'post',
+                    'company/saveCompany', true,JSON.stringify(this.formData), 'json',
+                    'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
+              },
+              submitHandlerSuccessMethod: function(_self,data){
+                console.log(companyCode!=''&&companyCode!=null)
+                if(type=='create'){
+                  window.location.href = "addCompanySystemPage?companyId=" + data.data;
+                }else if(type=='change'){
+                  window.location.href = "applicatuibChangSystemPage?companyId=" + data.data+"&systemId=" + systemId;
+                }else if(type=='new'){
+                  window.location.href = "mainCompanyInfoPage";
+                }else if(type=='update'){
+                  window.location.href = "mainCompanyInfoPage";
+                }
+              },
+              
+              msgNameMethod:function(){
+                this.formData.companyCode = $("#companyName").val();
+              },
+              industryCategory: function(){
+                bus.$emit("industryCategory","1");
+              }
+            },
+            created : function() {
+              // 获取省份
+              this.getProvinceMethod(this);
+              // 获取隶属关系
+              this.getAffiliationMethod(this);
+              // 获取单位类别
+              this.getUnitTypeMethod(this);
+              // 获取板块类型
+              this.getPlateTypeMethod(this);
+              // 获取单位
+              this.getCompanyMethod(this);
+              
+            },
+            mounted : function() {
+              // this.selectChange()
+              // new Ctor().$mount('#wrap');
+              var _self=this;
+              if(readonly=='update'){
+                _self.getCompanyInfoMethod(_self,companyCode);
+                _self.nameReadonly = true;
+              }
+              if(type=='update'){
+                _self.getCompanyInfoByIdMethod(_self,companyId);
+                _self.nameReadonly = true;
+              }
+              bus.$on("selectedOptions",function(meg){
+                if(meg!=null){
+                  // 获取单位回显
+                  _self.transmitParam = meg;
+                  _self.getCompanyInfoMethod(_self,meg[1]);
+                  //单位名称不可修改
+                  _self.nameReadonly = true;
+                }
+              });
+              bus.$on("resource",function(meg){
+                if(meg!=null){
+                  _self.formData.fkIndustryCategory = meg;
+                }
+              });
+              
+              var coverH = $(".mcAddMessge").height();
+              $(".cover").css("height",coverH + parseInt(10));
+            }
+          })
         })
-    })
+  })
 })();

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=11">
+    <title>申请变更材料信息</title>
+    <!--公用样式-->
+    <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
+    <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <!--组件样式-->
+    <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+    <link rel="stylesheet" href="../../static/css/private/addFormMaterial.css" th:attr="href=@{/css/private/addFormMaterial.css}">
+    <link rel="stylesheet" href="../../static/css/private/addReList.css" th:attr="href=@{/css/private/addReList.css}">
+    <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
+<style>
+        .mcAdd{
+            width: 86px;
+        }
+        .active{
+            display: block;
+            border:0;
+        }
+        .mcAddWrap .line{
+            width: 20%;
+            background:#58B24B;
+        }
+        .mcAdd .addBaseBg,.mcAdd .addSysBg,.mcAdd .addRankBg{
+            background-position: 0px -140px;
+        }
+        .mcAdd .addUpBg{
+            background-position: -210px -70px;
+        }
+        .dataForm li{
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <smcc-header>
+        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
+        <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
+        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss"> -->
+    </smcc-header>
+    <smcc-breadcrumb></smcc-breadcrumb>
+    <add-re-list></add-re-list>
+    <add-form-material>
+      <li slot="materialChangeBtn" class="fr liMargin">
+        <div class="saveBnt">
+          <button type="button" class="btn btn-success " id="submit" @click="submitBtn()">提交</button>
+          <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
+          <button type="button" class="btn btn-default" id="pre" @click="preBtn()">上一步</button>
+        </div>
+      </li>
+    </add-form-material>
+</div>
+</body>
+<script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
+<script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
+<script src="../../static/js/public/messages_zh.js" th:attr="src=@{/js/public/messages_zh.js}"></script>
+<script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
+
+<script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
+<script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
+
+<script async src="../../static/compnents/private/addReList/addReList.js" th:attr="src=@{/compnents/private/addReList/addReList.js}"></script>
+<script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
+<script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
+<script async src="../../static/compnents/private/addFormMaterial/addFormMaterial.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterial.js}"></script>
+<script async src="../../static/js/private/applicationChangeMaterial.js" th:attr="src=@{/js/private/applicationChangeMaterial.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+var systemId = [[${systemId}]]; 
+</script>
+</html>

@@ -12,6 +12,10 @@ package com.sinopec.smcc.cpro.system.mapper;
 import java.util.List;
 
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
+import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 
 /**
  * @Title SystemKeyProductsMapper.java
@@ -30,4 +34,25 @@ public interface SystemKeyProductsMapper {
    * @param list
    */
   void insertSystemKeyProductsBySystemKeyProductsId(List<SystemKeyProducts> list);
+
+
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月14日下午9:31:13
+   * @param systemParam
+   */
+  void deleteKey(SystemParam systemParam);
+
+
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月14日下午9:40:26
+   * @param subSystemList
+   */
+  void deleteSubKey(List<SystemResult> subSystemList);
+
 }

@@ -1,179 +1,185 @@
-<div class="inner">
+<div class="inner inner2">
     <div class="mcAddTian">
         <p class="clearfix cut">
             <span class="fl tianMsg">定级信息</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
         <form action="#" id="addFormGrad">
-            <ul class="clearfix">
+            <ul class="clearfix liAddsty">
                 <li class="row">
                     <div class="col-lg-6 col-md-6">
                         <label for="" class="col-lg-3 col-md-3 text-right">
                             <span class="xing">*</span>
-                            系统名称:
+                            {{sysName}}:
                         </label>
                         <p class="titleText">中国石化上海院对外发布网站</p>
                     </div>
                 </li>
                 <li class="row">
                     <div class="col-lg-12 col-md-6">
-                        <label for="" class="col-lg-2 col-sm-1 text-left saveTitle">
+                        <label for="" class="col-lg-2 col-sm-1 text-right saveTitle">
                             <span class="xing">*</span>
                             确定安全保护等级:
                         </label>
                         <div class="col-md-10 col-xs-offset-2 col-sm-5 saveTable">
-                            <ul class="clearfix ">
+                            <ul class="clearfix">
                                 <li class="row saveTableRowLine saveTableRow">
                                     <div class="col-md-2">安全保护等级类型</div>
                                     <div class="col-md-8">损害客体及损害程度</div>
                                     <div class="col-md-2">级别</div>
                                 </li>
-                                <li class="row saveTableRow saveTableHeg">
-                                    <div class="col-md-2 mcAddSysBuild">业务信息</div>
+                                <li class="row saveTableRow saveTableHeg" style="height:311px;">
+                                    <div class="col-md-2 mcAddSysBuild" style="height:311px;">业务信息</div>
                                     <ul class="col-md-10 saveTableLase" id="sysTable">
-                                        <li class="saveTableBorder" @click="sysCheck('checkAll','checkDis','checkOnly')">
+                                        <li class="saveTableBorder">
                                             <div class="col-md-1">
-                                                <input type="radio" name="inform" class="inpChoose" id="checkAll" @click="checkFnAll($event)">
+                                                <input type="radio" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(101)" id="101" value="101"  name="inform" class="inpChoose">
                                             </div>
                                             <div class="col-md-9 saveMsg">
-                                                <input type="checkbox" class="inpChoose checkFirst checkOnly">仅对公民、法人和其他组织的合法权益造成伤害
+                                                <input @click="fnChecked(101,10101)" id="10101" type="checkbox" class="inpChoose checkFirst checkOnly">仅对公民、法人和其他组织的合法权益造成伤害
                                             </div>
                                             <div class="col-md-2 saveTableBg saveLevel">
-                                                <input type="radio" name="business" class="inpChoose" disabled id="checkDis">第一级
+                                                <input type="radio" name="business" id="01" class="inpChoose" disabled>第一级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder">
                                             <div class="col-md-1 saveTableBorB inplast">
-                                                <input type="radio" name="inform" class="inpChoose inpLase" @click="checkFnAll($event)">
+                                                <input  type="radio" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(102)" id="102" value="102" name="inform" class="inpChoose inpLase">
                                             </div>
                                             <div class="col-md-9 saveMsg">
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose checkName">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input  id="10201" @click="fnChecked(102,10201)" type="checkbox" class="inpChoose checkName">对公民、法人和其他组织的合法权益造成特别严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose checkName">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input id="10202" @click="fnChecked(102,10202)"  type="checkbox" class="inpChoose checkName">对社会秩序和公共利益造成损害
                                                 </div>
                                             </div>
                                             <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
-                                                <input type="radio" name="business" class="inpChoose" disabled id="onlyCheck">第二级
+                                                <input type="radio" name="business" id="02"  class="inpChoose" disabled>第二级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder">
-                                            <div class="col-md-1 saveTableBorB inplast">
-                                                <input type="radio" name="inform" class="inpChoose inpLase" @click="checkFnAll($event)">
+                                            <div class="col-md-1 saveTableBorB inplast" style="height:103px;">
+                                                <input type="radio" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(103)" id="103" value="103" name="inform" class="inpChoose inpLase">
                                             </div>
                                             <div class="col-md-9 saveMsg">
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" id="10301" @click="fnChecked(103,10301)"  class="inpChoose">对社会秩序和公共利益造成严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" id="10302"  @click="fnChecked(103,10302)"  class="inpChoose">对国家安全造成严重损害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" id="10303"  @click="fnChecked(103,10303)" class="inpChoose">对公民、法人和其他组织的合法权益造成特别严重损害
                                                 </div>
                                             </div>
-                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
-                                                <input type="radio" name="business" class="inpChoose" disabled>第三级
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel" style="height:103px;">
+                                                <input type="radio" name="business" id="03" class="inpChoose" disabled>第三级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder" >
                                             <div class="col-md-1 saveTableBorB inplast">
-                                                <input type="radio" name="inform" class="inpChoose inpLase" @click="checkFnAll($event)">
+                                                <input type="radio" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(104)" id="104" value="104" name="inform" class="inpChoose inpLase">
                                             </div>
                                             <div class="col-md-9 saveMsg">
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" id="10401" @click="fnChecked(104,10401)" class="inpChoose">对社会秩序和公共利益造成特别严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" id="10402" @click="fnChecked(104,10402)"  class="inpChoose">对国家安全造成特别严重损
                                                 </div>
                                             </div>
                                             <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
-                                                <input type="radio" name="business" class="inpChoose" disabled>第四级
+                                                <input type="radio" name="business" id="04" class="inpChoose" disabled>第四级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder"  >
                                             <div class="col-md-1">
-                                                <input type="radio" id="" name="inform" class="inpChoose" @click="checkFnAll($event)">
+                                                <input type="radio" id="" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(105)" id="105" value="105" name="inform" class="inpChoose">
                                             </div>
                                             <div class="col-md-9 saveMsg ">
-                                                <input type="checkbox" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
+                                                <input type="checkbox" id="10501"  @click="fnChecked(105,10501)" class="inpChoose checkFirst">对国家安全造成特别严重损
                                             </div>
                                             <div class="col-md-2 saveTableBg saveLevel">
-                                                <input type="radio" name="business" class="inpChoose" disabled>第五级
+                                                <input type="radio" name="business" id="05" class="inpChoose" disabled>第五级
                                             </div>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="row saveTableRow saveTableHeg">
-                                    <div class="col-md-2 mcAddSysBuild">系统信息</div>
+                                <li class="row saveTableRow saveTableHeg" style="height:311px;">
+                                    <div class="col-md-2 mcAddSysBuild" style="height:311px;">系统信息</div>
                                     <ul class="col-md-10 saveTableLase">
                                         <li class="saveTableBorder">
                                             <div class="col-md-1">
-                                                <input type="radio" id="" name="inorm" class="inpChoose" @click="checkFnAll($event)">
+                                                <input type="radio" id="201" v-model="formData.fkBizSystemLevel" @click="fnCheckAll(201)" value="201"  name="inorm" class="inpChoose">
                                             </div>
                                             <div class="col-md-9 saveMsg">
-                                                <input type="checkbox" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
+                                                <input type="checkbox"  @click="checkAll(201,20101)"  id="20101" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
                                             </div>
                                             <div class="col-md-2 saveTableBg saveLevel">
-                                                <input type="radio" name="busine" class="inpChoose" disabled>第一级
+                                                <input type="radio" id="021" name="busine" class="inpChoose" disabled>第一级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder">
                                             <div class="col-md-1 saveTableBorB inplast">
-                                                <input type="radio" name="inorm" class="inpChoose inpLase" @click="checkFnAll($event)">
+                                                <input type="radio" id="202" v-model="formData.fkBizSystemLevel" @click="fnCheckAll(202)" value="202"   name="inorm" class="inpChoose inpLase">
                                             </div>
                                             <div class="col-md-9 saveMsg">
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" @click="checkAll(202,20201)" id="20201"  class="inpChoose">对公民、法人和其他组织的合法权益造成特别严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" @click="checkAll(202,20202)" id="20202" class="inpChoose">对社会秩序和公共利益造成损害
                                                 </div>
                                             </div>
                                             <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
-                                                <input type="radio" name="busine" class="inpChoose" disabled>第二级
+                                                <input type="radio" name="busine" id="022" class="inpChoose" disabled>第二级
+                                            </div>
+                                        </li>
+                                        <li class="saveTableBorder">
+                                            <div class="col-md-1 saveTableBorB inplast" style="height:103px;">
+                                                <input type="radio" name="inorm" id="203" v-model="formData.fkBizSystemLevel" @click="fnCheckAll(203)" value="203"  class="inpChoose inpLase">
+                                            </div>
+                                            <div class="col-md-9 saveMsg">
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" @click="checkAll(203,20301)" id="20301" class="inpChoose">对社会秩序和公共利益造成严重损害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" @click="checkAll(203,20302)" id="20302" class="inpChoose">对国家安全造成严重损害
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <input type="checkbox" @click="checkAll(203,20303)" id="20303" class="inpChoose">对公民、法人和其他组织的合法权益造成特别严重损害
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel" style="height:103px;">
+                                                <input type="radio" name="busine" id="023" class="inpChoose" disabled>第三级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder">
                                             <div class="col-md-1 saveTableBorB inplast">
-                                                <input type="radio" name="inorm" class="inpChoose inpLase" @click="checkFnAll($event)">
+                                                <input type="radio" name="inorm" id="204"  v-model="formData.fkBizSystemLevel" @click="fnCheckAll(204)" value="204"   class="inpChoose inpLase">
                                             </div>
                                             <div class="col-md-9 saveMsg">
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" @click="checkAll(204,20401)" id="20401" class="inpChoose">对社会秩序和公共利益造成特别严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
+                                                    <input type="checkbox" @click="checkAll(204,20402)" id="20402" class="inpChoose">对国家安全造成特别严重损
                                                 </div>
                                             </div>
                                             <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
-                                                <input type="radio" name="busine" class="inpChoose" disabled>第三级
-                                            </div>
-                                        </li>
-                                        <li class="saveTableBorder">
-                                            <div class="col-md-1 saveTableBorB inplast">
-                                                <input type="radio" name="inorm" class="inpChoose inpLase" @click="checkFnAll($event)">
-                                            </div>
-                                            <div class="col-md-9 saveMsg">
-                                                <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
-                                                </div>
-                                                <div class="col-md-9">
-                                                    <input type="checkbox" class="inpChoose">仅对公民、法人和其他组织的合法权益造成伤害
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
-                                                <input type="radio" name="busine" class="inpChoose" disabled>第四级
+                                                <input type="radio" name="busine" id="024" class="inpChoose" disabled>第四级
                                             </div>
                                         </li>
                                         <li class="saveTableBorder">
                                             <div class="col-md-1">
-                                                <input type="radio" id="" name="inorm" class="inpChoose" @click="checkFnAll($event)">
+                                                <input type="radio" id="205" v-model="formData.fkBizSystemLevel" @click="fnCheckAll(205)" value="205"  name="inorm" class="inpChoose">
                                             </div>
                                             <div class="col-md-9 saveMsg ">
-                                                <input type="checkbox" class="inpChoose checkFirst">仅对公民、法人和其他组织的合法权益造成伤害
+                                                <input type="checkbox" @click="checkAll(205,20501)" id="20501" class="inpChoose checkFirst">对国家安全造成特别严重损
                                             </div>
                                             <div class="col-md-2 saveTableBg saveLevel">
-                                                <input type="radio" name="busine" class="inpChoose" disabled>第五级
+                                                <input type="radio" name="busine" id="025" class="inpChoose" disabled>第五级
                                             </div>
                                         </li>
                                     </ul>
@@ -183,27 +189,27 @@
                                     <div class="col-md-10 saveTableBg clearfix saveTableLast">
                                         <div class="fl col-md-2">
                                             <span>
-                                                <input type="radio" id="" name="Choice" class="inpChoose" disabled/>
+                                                <input type="radio" id="" name="Choice" :checked="formData.fkSpRanklevel === '301'||formData.fkSpRanklevel ==301" class="inpChoose" disabled/>
                                             </span>第一级
                                         </div>
                                         <div class="fl col-md-2">
                                             <span>
-                                                <input type="radio" id="" name="Choice" class="inpChoose" disabled/>
+                                                <input type="radio" id="" name="Choice" :checked="formData.fkSpRanklevel === '302'||formData.fkSpRanklevel ==302" class="inpChoose" disabled/>
                                             </span>第二级
                                         </div>
                                         <div class="fl col-md-2">
                                             <span>
-                                                <input type="radio" id="" name="Choice" class="inpChoose" disabled/>
+                                                <input type="radio" id="" name="Choice" :checked="formData.fkSpRanklevel === '303'||formData.fkSpRanklevel ==303" class="inpChoose" disabled/>
                                             </span>第三级
                                         </div>
                                         <div class="fl col-md-2">
                                             <span>
-                                                <input type="radio" id="" name="Choice" class="inpChoose" disabled/>
+                                                <input type="radio" id="" name="Choice" :checked="formData.fkSpRanklevel === '304'||formData.fkSpRanklevel ==304" class="inpChoose" disabled/>
                                             </span>第四级
                                         </div>
                                         <div class="fl col-md-2">
                                             <span>
-                                                <input type="radio" id="" name="Choice" class="inpChoose" disabled/>
+                                                <input type="radio" id="" name="Choice" :checked="formData.fkSpRanklevel === '305'||formData.fkSpRanklevel ==305" class="inpChoose" disabled/>
                                             </span>第五级
                                         </div>
                                         <br>
@@ -213,17 +219,17 @@
                             </ul>
                         </div>
                     </div>
-                </li>
+                </li>             
                 <li class="row liMargin">
                     <div class="col-md-12 text-left">
-                        <label for="" class="col-md-2 col-sm-1 saveTextTitle text-center">
+                        <label for="" class="col-md-2 col-sm-1 saveTextTitle text-right">
                             <span class="xing">*</span>
-                            业务描述：
+                            {{description}}：
                         </label>
                         <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
                 如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
                         <div class="mcTextArea col-md-10 col-md-offset-1 col-sm-3" @click="text">
-                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入"></textarea>
+                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.rankExplainDesc"></textarea>
                             <span class='textAll'><span id="textNum">0</span>/200</span>
                             <!-- 最多200字符，0处显示的是已经写了多少字符-->
                         </div>
@@ -235,29 +241,29 @@
                             <span class="xing">*</span>
                             定级时间:
                         </label>
-                        <div class="col-md-6 col-sm-3 liPadding fillData">
-                            <input type="text" placeholder="请输入" name="fillData" id="gradData">
-                        </div>
+                        <el-date-picker class="col-md-6 col-sm-3 liPadding useData" id="rankTime" v-model="formData.rankTime" type="date" placeholder="选择日期"></el-date-picker>
+
                     </div>
                     <div class="col-lg-6 col-sm-3">
                         <label for="" class="col-lg-3 col-md-3 text-right">
                             <span class="xing">*</span>
                             是否有主管部门:
                         </label>
-                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
-                            <input class="col-md-6 exec" @click="btnBoolen($event)" value="是">
-                            <input class="col-md-6" @click="btnBoolen($event)" value="否">
+                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes1">
+                          <input type="hidden"  v-model="formData.competentIsExisting">
+                          <div class="col-md-6" @click="btnBoolen($event,1)">是</div>
+                          <div class="col-md-6" @click="btnBoolen($event,2)">否</div>
                         </div>
                     </div>
                 </li>
-                <li class="row liMargin" id="direHide">
+                <li class="row liMargin" id="direHide1" style="display: none;">
                     <div class="col-lg-6 col-md-6">
                         <label class="col-lg-3 col-md-3 text-right">
                             <span class="xing">*</span>
-                            主管部门名称:
+                            {{competentName}}:
                         </label>
                         <div class="col-lg-6 col-md-6 liPadding">
-                            <input type="text" placeholder="请输入">
+                            <input type="text"  v-model="formData.competentName">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-3">
@@ -265,48 +271,51 @@
                             <span class="xing">*</span>
                             主管部门审批定级情况:
                         </label>
-                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center">
-                            <div class="col-md-6" @click="getClass($event)">已审批</div>
-                            <div class="col-md-6" @click="getClass($event)">未审批</div>
+                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes2">
+                          <input type="hidden"  v-model="formData.competentView" >
+                          <div class="col-md-6" @click="getClass($event,1)">已审批</div>
+                          <div class="col-md-6" @click="getClass($event,2)">未审批</div>
                         </div>
                     </div>
                 </li>
-                <li class="row liMargin file material">
+                <li class="row liMargin file material"  id="approval">
                     <div class="col-md-12">
-                        <label for="" class="col-md-2 text-left sysTitle">
+                        <label for="" class="col-md-2 text-right sysTitle">
                             <span class="xing">*</span>
-                            上级主管部门审批意见：
+                            上级主管部门审批意见:
                         </label>
                         <div class="clearfix sysText col-md-8">
-                            <input type="text" class="col-md-12" name="systemUse" id="upLise">
-                            <input type="file" id="upLite" class="smt" style="margin-right:255px; display:none"
-                                   @change="getFile('#upLite', '#upLise', '#upList')">
-                            <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
+                            <div class="uploadSty">
+                                <ul class="fileList" id="fileList">
+                                  
+                                </ul>
+                                <el-button type="primary" size="small">上传</el-button>
+                            </div>
+                            <input type="file" id="file" @change='onUpload'>
+                            <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
-                        <span class="btn btn-success sysBtn" onclick="upLite.click()">上传</span>
                     </div>
                 </li>
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6">
                         <label class="col-lg-3 col-md-3 text-right">
                             <span class="xing">*</span>
-                            定级报告:
+                            {{gradPresen}}:
                         </label>
-                        <div class="col-lg-6 col-md-6  padding-clear formChange ">
-                            <input class="col-md-10  padding-clear form-control formControl" id="oInup" type="text"
-                                   placeholder="请输入"/>
-                            <input type="file" id="btnFile" style="display: none;"
-                                   @change="getFile('#btnFile', '#oInup', '#fileName')">
-                            <span class="col-md-4 addButton" id="span" onclick="btnFile.click()"></span>
+                        <div class="col-lg-6 col-md-6 padding-clear formChange">
+                            <input readonly="readonly" class="col-md-10  padding-clear form-control formControl" id="oInup" type="text"  v-model="formData.gradingReportName"
+                                  />
+                            <div class="addButton"></div>
+                            <input class="updata" type="file" value="" id="file" @change='onUpload1' >
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-3">
                         <label for="" class="col-lg-3 col-md-3 text-right ">
                             <span class="xing">*</span>
-                            定级报告名称:
+                            {{gradPresenName}}:
                         </label>
                         <div class="col-md-6 col-sm-3 liPadding">
-                            <input type="text" placeholder="请输入" disabled id="fileName">
+                            <input type="text"  disabled id="fileName" v-model="formData.gradingReportName">
                         </div>
                     </div>
                 </li>
@@ -317,58 +326,58 @@
                             专家评审情况:
                         </label>
                         <div class="col-lg-6 col-md-6 formChange liPadding">
-                            <div class="btn-group review" role="group">
-                                <div class="btnReview revie" @click="getClass($event)">已审批</div>
-                                <div class="btnReview" @click="getClass($event)">未审批</div>
+                            <div role="group"  class="mcAddSysBuildChange text-center col-sm-3 col-md-6" id="baseMes3">
+                              <input type="hidden"  v-model="formData.expertView">
+                              <div class="col-md-6" @click="getExpertClass($event,1)">已审批</div>
+                              <div class="col-md-6"  @click="getExpertClass($event,2)">未审批</div>
                             </div>
-                            <input class="col-md-10 addReview form-control formControl" id="oInRiw" type="text"
-                                   placeholder="请选择"/>
-                            <input type="file" id="btnRev" style="display: none;"
-                                   @change="getFile('#btnRev', '#oInRiw', '#fileRew')">
-                            <span class="col-md-4 addButton" onclick="btnRev.click()"></span>
+                            <input class="col-md-10 addReview form-control formControl"  type="text" readonly="readonly" v-model="formData.expertReviewName" />
+                            <div class="addButton"></div>
+                            <input class="updata" type="file" value="" id="file" @change='onUpload2'>
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-3">
                         <label for="" class="col-lg-3 col-md-3 text-right">
                             <span class="xing">*</span>
-                            评审附件名称:
+                            {{expertReviewName}}:
                         </label>
                         <div class="col-md-6 col-sm-3 liPadding">
-                            <input type="text" placeholder="请输入" disabled id="fileRew">
+                            <input type="text" disabled id="fileRew" v-model="formData.expertReviewName">
                         </div>
                     </div>
                 </li>
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6">
                         <label class="col-lg-3 col-md-3 text-right">
-                            填表人:
+                            {{fillFormPerson}}:
                         </label>
                         <div class="col-lg-6 col-md-6 liPadding">
-                            <input type="text" placeholder="请输入">
+                            <input type="text" v-model="formData.filler">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-3">
                         <label for="" class="col-lg-3 col-md-3 text-right">
                             填表时间:
                         </label>
-                        <div class="col-md-6 col-sm-3 liPadding fillData">
-                            <input type="text" placeholder="请输入" name="fillData" id="fillData">
-                        </div>
+                        <el-date-picker class="col-md-6 col-sm-3 liPadding useData"  id="fillDate" v-model="formData.fillDate" type="date" placeholder="选择日期"></el-date-picker>
                     </div>
                 </li>
-                <li class="fr liMargin">
-                    <div class="saveBnt">
-                        <button type="button" class="btn btn-success " id="submit">提交</button>
-                        <button type="button" class="btn btn-default " id="save">保存</button>
-                        <button type="button" class="btn btn-default" id="pre" onclick="preBtn()">上一步</button>
-                    </div>
-                    <div class="material nextBut">
-                        <!--<button type="button" class="btn btn-success" id="btnNext" onclick="nextBtn()">填写系统材料情况</button>-->
-                        <button type="button" class="btn btn-success " id="prev">上一步</button>
-                        <button type="button" class="btn btn-default " id="safe">保存</button>
-                        <button type="button" class="btn btn-default" id="next" onclick="nextBtn()">下一步</button>
-                    </div>
-                </li>
+                <div v-if="nextBtn">
+                  <slot name="gradNextBtn"></slot>
+                </div>
+                <div v-else>
+                  <slot name="gradBtn"></slot>
+                </div>
+                <div v-if="nextBtn">
+                  <slot name="gradNextChange"></slot>
+                </div>
+                <div v-else>
+                  <slot name="gradChange"></slot>
+                </div>
+                <div v-if="nextBtn">
+                  <slot name="materialBtn"></slot>
+                </div>
+                <li class="row liMargin" style="height: 30px;"></li>
             </ul>
         </form>
     </div>

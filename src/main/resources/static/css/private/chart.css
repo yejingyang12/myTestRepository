@@ -1,0 +1,194 @@
+.paddind-0{
+    padding: 0;
+}
+.sekuai{
+    display: inline-block;
+    background: #bedfb9;
+    height: 5px;
+    width: 55%;
+    max-width: 60%;
+;
+}
+.p1{
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+.p2{
+    font-size: 12px;
+    color: #999999;
+    margin-bottom: 16px;
+}
+.p3{
+    height: 30px;
+    line-height: 30px;
+}
+
+.xiahuaxian{
+    font-size: 14px;
+    padding:0 1%;
+    border:0 solid #fff;
+}
+.xiahuaxian:hover{
+    color: #3d95df;
+    border-bottom:3px solid #3d95df;
+}
+.chart{
+    height: 402px;
+}
+/*饼状图*/
+.chart1{
+    padding: 0;
+    /*background:yellow;*/
+    height: 100%;
+    width: 46%;
+}
+.bingzhuangtu{
+    padding: 0;
+    padding-top: 15px;
+    padding-right: 15px;
+    border-right: 1px solid #cecece;
+}
+.chart1 .bingzhuangtu .p3 div{
+    float: left;
+    display: inline-block;
+}
+
+.h-applyTime{
+    min-width: 12%;
+}
+
+ .timeInput{
+     width:40%;
+}
+ .timeInput .input{
+    /*border:1px solid #cecece;*/
+    margin-right:0;
+    border-radius:4px;
+    width:100%;
+     text-align: left;
+     padding-left: 2%;
+}
+
+.bingzhuangBox{
+    margin-top: 15px;
+    height:302px;
+}
+.instructor{
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.instructor i{
+    display: inline-block;
+    width: 5%;
+    height: 20px;
+}
+
+.level1 i{
+    background: url("../../images/chart/level1.png") 100% 100% no-repeat;
+}
+.level2 i{
+    background: url("../../images/chart/level2.png") 100% 100% no-repeat;
+}
+.level3 i{
+    background: url("../../images/chart/level3.png") 100% 100% no-repeat;
+}
+.level4 i{
+    background: url("../../images/chart/level4.png") 100% 100% no-repeat;
+}
+.level5 i{
+    background: url("../../images/chart/level5.png") 100% 100% no-repeat;
+}
+.bingtubiao{
+    /*background: #f2dfff;*/
+    height: 268px;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    left: 30px;
+    top: 35px;
+    width: 89%;
+    margin-bottom: 10px;
+}
+/*小堆叠图*/
+.xiaoduidie{
+    padding: 0;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+.xiaoduidieBox{
+    margin-top: 15px;
+    height:302px;
+}
+.xiaoduidieBox div p{
+    min-width: 12%;
+}
+.xiaoduidieBox .duidieIns {
+    width: 85%;
+}
+.xiaoduidieBox .duidieIns span{
+        z-index:1;
+        position:absolute;
+        right:2px;
+        top:5%;
+        color: #cecece;
+}
+.xiaoduitubiao{
+    height: 100px;
+    margin-top: 15px;
+}
+/*大堆叠图*/
+.chart2{
+    width: 52%;
+    border-left: 1px solid #cecece;
+    height: 100%;
+    margin-left: 15px;
+    padding-left: 15px;
+}
+.chart2 .p3{
+    height: 30px;
+    line-height: 30px;
+    /*width: 46%;*/
+    width: 100%;
+}
+.chart2 .timeInput{
+    width:17%;
+}
+.chart2 .tubiaocon{
+    width: 55%;
+}
+.chart2 .tubiaocon span{
+    width: 20%;
+}
+/*折线图*/
+.chart3{
+margin-left: 15px;
+    height: 100%;
+    width: 46%;
+    padding-right: 15px;
+}
+.chart3 span{
+    min-width: 18%;
+}
+.chart3 .tubiaocon  {
+    margin-right: -15px;
+    width: 100%;
+}
+.sekuai1{  display:inline-block; background: #50e3c2; width:37%;height:2px;}
+.sekuai2{ display:inline-block; background: #12cbf6; width:37%;height:2px; }
+.sekuai3{ display:inline-block; background: #9fe060; width:37%;height:2px; }
+.sekuai4{ display:inline-block; background: #ff9933;  width:37%;height:2px;}
+.sekuai5{ display:inline-block; background: #028bff;  width:37%;height:2px;}
+/*大堆叠图（最后一个的）*/
+.chart4{
+    width: 50%;
+    /* background: pink; */
+    height: 100%;
+    margin-left: 0;
+    border-left: none;
+    padding-left: 15px;
+}
+
+

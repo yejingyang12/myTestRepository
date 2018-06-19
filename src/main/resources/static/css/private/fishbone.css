@@ -1,12 +1,13 @@
 /*楸奸鍥�*/
 .fishBone {
-    height: 400px;
+    height: 450px;
     width: 100%;
     margin-top: 15px;
     overflow: auto;
 }
 
 .fishBone ul {
+	width:100%;
     white-space: nowrap;
     overflow-x: auto;
 }
@@ -121,5 +122,5 @@
 
 .bottom .content {
     position: relative;
-    top: 185px;
+    top: 208px;
 }

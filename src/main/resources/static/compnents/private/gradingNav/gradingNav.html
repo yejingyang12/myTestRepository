@@ -1,0 +1,22 @@
+
+<div id="main" class="inner" style="background: #ededed">
+    <template>
+        <el-tabs v-model="activeName" @tab-click="handleClick" type="border-card">
+            <el-tab-pane label="单位信息（备案表一）" name="first">
+             <view-details-infor></view-details-infor>
+             </el-tab-pane>
+            <el-tab-pane label="系统信息（备案表二）" name="second">
+                <view-details-system></view-details-system>
+            </el-tab-pane>
+            <el-tab-pane label="定级信息（备案表三）" name="third">
+              <add-form-grad>
+                <li slot="materialBtn" class="fr liMargin">
+                  <div class="saveBnt">
+                    <button type="button" class="btn btn-success " id="safe" @click="next2Btn()">填写系统材料情况</button>
+                  </div>
+                </li>
+              </add-form-grad>
+            </el-tab-pane>
+        </el-tabs>
+    </template>
+</div>

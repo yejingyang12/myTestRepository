@@ -22,6 +22,7 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
@@ -40,6 +41,8 @@ import com.sinopec.smcc.cpro.selfexamination.server.SelfexaminationService;
 public class SelfexaminationController {
   @Autowired
   private SelfexaminationService  selfexaminationServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
   
   /**
    * @Descrption 自查信息列表
@@ -78,8 +81,9 @@ public class SelfexaminationController {
   @ResponseBody
   public ResultApi saveSelfexamination(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String pkId = this.selfexaminationServiceImpl.
-        saveSelfexamination(selfexaminationParam);
+        saveSelfexamination(userName, selfexaminationParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(pkId);
     return result;
@@ -118,7 +122,9 @@ public class SelfexaminationController {
   @ResponseBody
   public ResultApi deleteSelfexaminationBySelfexaminationId(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
-    this.selfexaminationServiceImpl.deleteSelfexaminationBySelfexaminationId(selfexaminationParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    this.selfexaminationServiceImpl.
+      deleteSelfexaminationBySelfexaminationId(userName, selfexaminationParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   }

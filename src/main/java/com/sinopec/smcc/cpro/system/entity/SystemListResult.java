@@ -29,9 +29,9 @@ public class SystemListResult {
   private String systemId;
 	private String systemName;
 	private String sysBusDescription;
+	private String sysBusSituationType;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date whenInvestmentUse;
-	private String BusinessName;
 	
   private int pageSize = 10;// pageSize ，每一页显示多少
   private int currentPage = 1;// 当前页数
@@ -41,16 +41,16 @@ public class SystemListResult {
   
   
   /**
-   * @return the businessName
+   * @return the sysBusSituationType
    */
-  public String getBusinessName() {
-    return BusinessName;
+  public String getSysBusSituationType() {
+    return sysBusSituationType;
   }
   /**
-   * @param businessName the businessName to set
+   * @param sysBusSituationType the sysBusSituationType to set
    */
-  public void setBusinessName(String businessName) {
-    BusinessName = businessName;
+  public void setSysBusSituationType(String sysBusSituationType) {
+    this.sysBusSituationType = sysBusSituationType;
   }
   /**
    * @return the sysBusDescription

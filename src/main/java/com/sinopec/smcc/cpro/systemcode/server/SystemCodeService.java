@@ -14,6 +14,7 @@ import java.util.List;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemGradingInfoOneResult;
 
 /**
  * @Title SystemCodeService.java
@@ -59,5 +60,16 @@ public interface SystemCodeService {
    * @throws BusinessException
    */
   List<SystemCodeListResult> querySystemCodeForKeyCodeName(
+      SystemCodeParam systemCodeParam) throws BusinessException;
+
+  /**
+   * 获取定级页面3级数据
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年6月11日下午5:03:27
+   * @param systemCodeParam
+   * @return
+   */
+  List<SystemGradingInfoOneResult> queryGradingInfoList(
       SystemCodeParam systemCodeParam) throws BusinessException;
 }

@@ -12,10 +12,29 @@ package com.sinopec.smcc.cpro.system.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
+import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
+import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
+import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
+import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
+import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.entity.CheckResult;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
+import com.sinopec.smcc.cpro.system.entity.SystemDetailsResult;
+import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
+import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
+import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemSubResult;
 import com.sinopec.smcc.cpro.system.entity.SystemTemplateListResult;
+import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
+import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 
 /**
  * @Title SystemMapper.java
@@ -120,4 +139,219 @@ public interface SystemMapper {
    */
   void insertSystemTemplate(List<SystemTemplateListResult> systemTemplateListResult);
   
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午3:28:52
+   * @param subSystemList
+   */
+  void insertBatchSystem(List<SystemParam> subSystemList);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午9:42:22
+   * @param systemParam
+   * @return
+   */
+  List<EvaluationResult> selectAllByEvaluation(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午9:42:38
+   * @param systemParam
+   * @return
+   */
+  List<SelfexaminationResult> selectAllBySelf(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午9:42:48
+   * @param systemParam
+   * @return
+   */
+  GradingListResult selectAllByGrading(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午9:42:53
+   * @param systemParam
+   * @return
+   */
+  RecordsResult selectAllByRecord(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午9:42:58
+   * @param systemParam
+   * @return
+   */
+  AttachMaterialsListResult selectAllByMaterial(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午9:43:07
+   * @param systemParam
+   * @return
+   */
+  CheckResult selectAllByCheck(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日上午9:37:02
+   * @param systemParam
+   * @return
+   */
+ // CheckNodeParam selectAllByCheckNode(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:06
+   * @param evaluationList
+   */
+  void insertEvaluationTemp(List<EvaluationParam> evaluationList);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:17
+   * @param selfexaminationList
+   */
+  void insertSelfexaminationTemp(List<SelfexaminationParam> selfexaminationList);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:23
+   * @param gradingTemParam
+   */
+  void insertGradingTemp(GradingParam gradingTemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:31
+   * @param attachMaterialsParam
+   */
+  void insertAttachMaterialsTemp(AttachMaterialsParam attachMaterialsParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:36
+   * @param recordsParam
+   */
+  void insertRecordsTemp(RecordsParam recordsParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:47
+   * @param checkParam
+   */
+  void insertCheckTemp(CheckParam checkParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午12:06:52
+   * @param checkNodeParam
+   */
+//  void insertCheckNodeTemp(CheckNodeParam checkNodeParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午3:48:52
+   * @param systemParam
+   * @return
+   */
+  List<SystemSubResult> selectEditBySub(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月9日下午5:31:42
+   * @param systemParam
+   * @return
+   */
+  List<SystemKeyResult> selectKeyTemp(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月9日下午5:41:12
+   * @param systemParam
+   * @return
+   */
+  List<SystemUseResult> selectUseTemp(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月12日上午9:40:07
+   * @param systemParam
+   * @return 
+   */
+  SystemGradingChangeResult selectgradingEditAudit(SystemParam systemParam);
+
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月12日下午3:34:09
+   * @param systemParam
+   */
+  void updateSystemEdit(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月12日下午5:27:50
+   * @param systemParam
+   * @return
+   */
+  List<SystemResult> selectSubSystem(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月13日上午10:42:33
+   * @param subUpdateSystem
+   */
+  void updateSystemSub(List<SystemResult> subUpdateSystem);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月14日上午9:29:53
+   * @param systemParam
+   * @return
+   */
+  SystemResult selectSystem(SystemParam systemParam);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月15日下午1:56:12
+   * @param systemDelete
+   */
+  void updateSubStat(List<SystemParam> systemDelete);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月16日上午10:54:47
+   * @param subUpdateSystemList
+   */
+  void updateSystem(List<SystemResult> subUpdateSystemList);
+
 }

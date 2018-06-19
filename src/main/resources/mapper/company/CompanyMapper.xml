@@ -617,4 +617,46 @@
       company.deleteStatus = 1
       AND  company.pkId = #{companyId}
   </select>
+  
+  <select id="selectCompanyInfoByCompanyCode" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="CompanyResult">
+    SELECT 
+       company.pkId AS companyId,
+      company.fkSubordinatePro,
+      company.fkIndustryCategory,
+      company.fkAffiliation,
+      company.fkCompanyType,
+      company.fkPlateType,
+      company.ldContactEmail,
+      company.companyName,
+      company.postalCode,
+      company.compPrincipalWorkTel,
+      company.createUserName,
+      company.ldContactName,
+      company.rDepartment,
+      company.compPrincipalEm,
+      company.ldContactPhone,
+      company.administrativeNum,
+      company.compPrincipalPhone,
+      company.companyCode,
+      company.compPrincipalPost,
+      company.ldContactPost,
+      company.gpReportingComp,
+      company.companyAddress,
+      company.ldContactWorkTel,
+      company.compPrincipalName
+    FROM
+      t_cpro_company AS company
+    WHERE 
+      company.deleteStatus = 1
+      AND  company.companyCode = #{companyCode}
+  </select>
+    
+  <select id="selectCompanyName" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
+    SELECT
+      companyName,
+      companyCode
+    FROM 
+      t_cpro_company
+    WHERE deleteStatus=1
+  </select>
 </mapper>

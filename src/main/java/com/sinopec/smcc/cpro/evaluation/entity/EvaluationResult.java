@@ -26,22 +26,111 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class EvaluationResult {
 
   private String evaluationId;
+  private String fkSystemId;
   private String examName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date examTime;
   private String examYear;
   private String examOrg;
-  private String examReport;
-  private String examReportName;
   private Integer fkExamStatus;
   private Integer fkExamResult;
   private Integer fkRectificationReu;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
-  private Integer rectificationReport;
+  private String examReport;
+  private String examReportName;
+  private String rectificationReport;
   private String rectificationReportName;
   
+  private Integer deleteStatus;
+  private String createUserName;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date createTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date updateTime;
+  private String remark;
   
+  
+  /**
+   * @return the remark
+   */
+  public String getRemark() {
+    return remark;
+  }
+
+
+  /**
+   * @param remark the remark to set
+   */
+  public void setRemark(String remark) {
+    this.remark = remark;
+  }
+
+
+  /**
+   * @return the updateTime
+   */
+  public Date getUpdateTime() {
+    return updateTime;
+  }
+
+
+  /**
+   * @param updateTime the updateTime to set
+   */
+  public void setUpdateTime(Date updateTime) {
+    this.updateTime = updateTime;
+  }
+
+
+  /**
+   * @return the deleteStatus
+   */
+  public Integer getDeleteStatus() {
+    return deleteStatus;
+  }
+
+
+  /**
+   * @param deleteStatus the deleteStatus to set
+   */
+  public void setDeleteStatus(Integer deleteStatus) {
+    this.deleteStatus = deleteStatus;
+  }
+
+
+  /**
+   * @return the createUserName
+   */
+  public String getCreateUserName() {
+    return createUserName;
+  }
+
+
+  /**
+   * @param createUserName the createUserName to set
+   */
+  public void setCreateUserName(String createUserName) {
+    this.createUserName = createUserName;
+  }
+
+
+  /**
+   * @return the createTime
+   */
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+
+  /**
+   * @param createTime the createTime to set
+   */
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+
   /**
    * @return the evaluationId
    */
@@ -55,6 +144,14 @@ public class EvaluationResult {
    */
   public void setEvaluationId(String evaluationId) {
     this.evaluationId = evaluationId;
+  }
+
+
+  public String getFkSystemId() {
+    return fkSystemId;
+  }
+  public void setFkSystemId(String fkSystemId) {
+    this.fkSystemId = fkSystemId;
   }
 
 
@@ -77,7 +174,7 @@ public class EvaluationResult {
   /**
    * @return the examTime
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getExamTime() {
     return examTime;
   }
@@ -206,7 +303,7 @@ public class EvaluationResult {
   /**
    * @return the rectificationDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }
@@ -223,7 +320,7 @@ public class EvaluationResult {
   /**
    * @return the rectificationReport
    */
-  public Integer getRectificationReport() {
+  public String getRectificationReport() {
     return rectificationReport;
   }
 
@@ -231,7 +328,7 @@ public class EvaluationResult {
   /**
    * @param rectificationReport the rectificationReport to set
    */
-  public void setRectificationReport(Integer rectificationReport) {
+  public void setRectificationReport(String rectificationReport) {
     this.rectificationReport = rectificationReport;
   }
 

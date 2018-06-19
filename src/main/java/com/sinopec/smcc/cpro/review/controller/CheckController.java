@@ -9,7 +9,7 @@
  */
 package com.sinopec.smcc.cpro.review.controller;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,8 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckNodeParam;
-import com.sinopec.smcc.cpro.review.entity.CheckNodeListResult;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 
@@ -36,21 +34,22 @@ public class CheckController {
 
   @Autowired
   private CheckService checkServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
   
   /**
-   * 方法描述: 审核管理列表
-   * 参数:    @param param
-   * 参数:    @throws BusinessException    
-   * 返回:    void     
-   * 创建人:  周瑜     
-   * 创建时间:2018年5月26日 上午10:43:53
-   * @return 
+   * @Descrption获取备案信息列表数据
+   * @author yejingyang
+   * @date 2018年6月8日下午1:22:47
+   * @param request
+   * @param checkParam
+   * @return
+   * @throws BusinessException
    */
-  @RequestMapping(value = "/querylist", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryCheckList", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi queryCheckList(HttpRequest request,@RequestBody CheckParam checkParam,
-      HttpServletResponse response) throws BusinessException {
-    response.setHeader("Access-Control-Allow-Origin", "*");
+  public ResultApi queryCheckList(HttpRequest request,@RequestBody CheckParam checkParam) 
+      throws BusinessException {
     // 调用service实体获得方法，CheckListResult填写返回的参数
     PageInfo<CheckListResult> pageInfo = this.checkServiceImpl.queryCheckList(checkParam);
     // 通过resultApi实体组成返回参数
@@ -58,122 +57,74 @@ public class CheckController {
     // 当前页码
     resultApi.setCurrentPage(pageInfo.getPageNum());
     // 每页数据数量
-    resultApi.setTotalPages(pageInfo.getPageSize());
+    resultApi.setPagesize(pageInfo.getPageSize());
     // 总页数
     resultApi.setTotalPages(pageInfo.getPages());
     // 总条数
     resultApi.setTotal(pageInfo.getTotal());
     // 响应的数据
     resultApi.setData(pageInfo.getList());
-
+    
     return resultApi;
   }
   
   /**
-   * @Descrption 新增审核信息
-   * @author zhouyu
-   * @date 2018年5月25日下午7:30:43
-   * @param companyParam
+   * @Descrption定级审核
+   * @author yejingyang
+   * @date 2018年6月8日下午12:01:06
+   * @param request
+   * @param checkParam
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/saveCheck", method = RequestMethod.GET)
+  @RequestMapping(value = "/saveGradCheck", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi saveCheck(HttpRequest request,
-      CheckParam checkParam) throws BusinessException {
-    String checkId = this.checkServiceImpl.saveCheck(checkParam);
+  public ResultApi saveGradCheck(HttpServletRequest request,
+      @RequestBody CheckParam checkParam) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.checkServiceImpl.saveGradCheck(userName, checkParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(checkId);
+    result.setData(fkSystemId);
     return result;
   }
   
   /**
-   * 方法描述: 保存审核记录
-   * 参数:    @param param
-   * 参数:    @throws BusinessException    
-   * 返回:    void     
-   * 创建人:  周瑜     
-   * 创建时间:2018年5月26日 上午10:43:53
-   * @return 
+   * @Descrption定级变更审核
+   * @author yejingyang
+   * @date 2018年6月8日下午3:54:30
+   * @param request
+   * @param checkParam
+   * @return
+   * @throws BusinessException
    */
+  @RequestMapping(value = "/saveGradChangeCheck", method = RequestMethod.POST)
   @ResponseBody
-  @RequestMapping(value = "/checkNodeSave", method = RequestMethod.GET)
-  public ResultApi checkNodeSave(CheckNodeListResult checkNodeListResult, String fkExaminStatus,
-      String fkbusinessNode, String checkId, String fkSystemId) throws BusinessException {
-
-    String checkNodeId = this.checkServiceImpl.checkNodeSave(checkNodeListResult, fkExaminStatus,
-        fkbusinessNode, checkId, fkSystemId);
-    // 返回实体参数
-    ResultApi resultApi = new ResultApi(EnumResult.SUCCESS);
-    // 返回Insert后实体ID
-    resultApi.setData(checkNodeId);
-    //
-    return resultApi;
-  }
-
-  
-  /**
-   * 方法描述: 审核节点记录列表
-   * 参数:    @param param
-   * 参数:    @throws BusinessException    
-   * 返回:    void     
-   * 创建人:  周瑜     
-   * 创建时间:2018年5月26日 上午10:43:53
-   * @return 
-   */
-  @ResponseBody
-  @RequestMapping(value = "/querycheckNodeList", method = RequestMethod.GET)
-  public ResultApi querycheckNodeList(HttpRequest request,
-      CheckNodeParam checkNodeParam) throws BusinessException {
-    // 调用service实体获得方法，CheckNodeListResult填写返回的参数
-    PageInfo<CheckNodeListResult> pageInfo = this.checkServiceImpl
-        .queryCheckNodeList(checkNodeParam);
-    // 通过resultApi实体组成返回参数
-    ResultApi resultApi = new ResultApi(EnumResult.SUCCESS);
-    // 当前页码
-    resultApi.setCurrentPage(pageInfo.getPageNum());
-    // 每页数据数量
-    resultApi.setTotalPages(pageInfo.getPageSize());
-    // 总页数
-    resultApi.setTotalPages(pageInfo.getPages());
-    // 总条数
-    resultApi.setTotal(pageInfo.getTotal());
-    // 响应的数据
-    resultApi.setData(pageInfo.getList());
-
-    return resultApi;
+  public ResultApi saveGradChangeCheck(HttpServletRequest request,
+      @RequestBody CheckParam checkParam) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.checkServiceImpl.saveGradChangeCheck(userName, checkParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
   }
   
   /**
-   * 方法描述: 审核节点记录列表
-   * 参数:    @param param
-   * 参数:    @throws BusinessException    
-   * 返回:    void     
-   * 创建人:  周瑜     
-   * 创建时间:2018年5月26日 上午10:43:53
-   * @return 
+   * @Descrption撤销备案审核
+   * @author yejingyang
+   * @date 2018年6月8日下午4:16:57
+   * @param request
+   * @param checkParam
+   * @return
+   * @throws BusinessException
    */
+  @RequestMapping(value = "/saveCancelRecordsCheck", method = RequestMethod.POST)
   @ResponseBody
-  @RequestMapping(value = "/queryNodeAllList", method = RequestMethod.GET)
-  public ResultApi queryNodeAllList(HttpRequest request,
-      CheckNodeParam checkNodeParam) throws BusinessException {
-    // 调用service实体获得方法，CheckNodeAllList填写返回的参数
-    PageInfo<CheckNodeListResult> pageInfo = this.checkServiceImpl
-        .queryNodeAllList(checkNodeParam);
-    // 通过resultApi实体组成返回参数
-    ResultApi resultApi = new ResultApi(EnumResult.SUCCESS);
-    // 当前页码
-    resultApi.setCurrentPage(pageInfo.getPageNum());
-    // 每页数据数量
-    resultApi.setTotalPages(pageInfo.getPageSize());
-    // 总页数
-    resultApi.setTotalPages(pageInfo.getPages());
-    // 总条数
-    resultApi.setTotal(pageInfo.getTotal());
-    // 响应的数据
-    resultApi.setData(pageInfo.getList());
-
-    return resultApi;
+  public ResultApi saveCancelRecordsCheck(HttpServletRequest request,
+      @RequestBody CheckParam checkParam) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.checkServiceImpl.saveCancelRecordsCheck(userName, checkParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
   }
-
 }

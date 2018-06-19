@@ -155,11 +155,11 @@ public class FileServiceImpl implements FileService{
       return;
     }
     
-    if (attachParam.getUploadUrl()!=null&&StringUtils.isBlank(attachParam.getUploadUrl())) {
+    if (attachParam.getUploadUrl()!=null&&StringUtils.isNotBlank(attachParam.getUploadUrl())) {
       try {
         FileOperateUtil.download(request, response, 
             FileConstant.TEMPORARY_FILE_PATH+attachParam.getUploadUrl(), 
-            attachParam.getAttachName(), "UTF-8", "UTF-8", 20480);
+            attachParam.getAttachName(), "UTF-8", "ISO8859-1", 20480);
         return;
       } catch (IOException e) {
         throw new BusinessException(EnumResult.UNKONW_ERROR);
@@ -168,17 +168,20 @@ public class FileServiceImpl implements FileService{
     
     if (attachParam.getFileId()!=null) {
       AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+      //获得文件扩展名
+      String strExtensionName = attachResult.getAttachName().substring(
+          attachResult.getAttachName().lastIndexOf("."));
+      String filePath = FileConstant.TEMPORARY_FILE_PATH+Utils.getUuidFor32()+strExtensionName;
       try {
-        this.mongoServiceImpl.downloadFile(attachResult.getMongoFileId(), 
-            FileConstant.TEMPORARY_FILE_PATH+Utils.getUuidFor32());
+        this.mongoServiceImpl.downloadFile(attachResult.getMongoFileId(), filePath);
       } catch (Exception e1) {
         throw new BusinessException(EnumResult.UNKONW_ERROR);
       }
       try {
-        FileOperateUtil.download(request, response, 
-            FileConstant.TEMPORARY_FILE_PATH+Utils.getUuidFor32(), 
-            attachParam.getAttachName(), "UTF-8", "UTF-8", 20480);
+        FileOperateUtil.download(request, response, filePath, 
+            attachResult.getAttachName(), "UTF-8", "ISO8859-1", 20480);
       } catch (IOException e) {
+        e.printStackTrace();
         throw new BusinessException(EnumResult.UNKONW_ERROR);
       }
     }

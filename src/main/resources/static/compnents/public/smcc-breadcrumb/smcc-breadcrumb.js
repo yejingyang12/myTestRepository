@@ -1,18 +1,23 @@
 (function(){
     var data ={
-        breadcrumb:[{
+        breadcrumb:[
+          {
             name:"首页",
             href:'#'
-        },{
+        },
+          {
             name:"信息安全管理",
             href:'#'
-        },{
+        },
+          {
             name:'安全检测',
             href:'#'
-        },{
+        },
+          {
             name:"系统检测",
             href:'#'
-        }]
+        }
+        ]
     };
 
     Vue.component('smccBreadcrumb',function(resolve,reject){
@@ -21,7 +26,17 @@
                 template: res,
                 data:function(){
                     return data;
+                },
+              methods:{
+                hReturn(){
+                  bus.$emit("gradReturn","b");
+                  console.log(1);
+                },
+                submit(){
+                  bus.$emit("gradSubmit","a")
+                  // console.log(a);
                 }
+              }
             })
         });
     })

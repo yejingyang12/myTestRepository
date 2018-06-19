@@ -1,0 +1,21 @@
+@charset "utf-8";
+.inner{
+    width: 95%;
+    margin:20px auto;
+    position: relative;
+}
+.recordTitle{
+    font:24px/1.5 "微软雅黑";
+}
+.recBtn{
+    position: absolute;
+    top: 1%;
+    right: 0;
+    z-index: 10;
+}
+.comitBtm{
+    display: none;
+}
+.btnBack{
+    margin:0 3px;
+}

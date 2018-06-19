@@ -26,19 +26,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class EvaluationListResult {
 
   private String evaluationId;
+  private String fkSystemId;
+  private String systemName;
   private String examName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date examTime;
   private String examYear;
   private String examOrg;
-  private String examReport;
   private Integer fkExamStatus;
-  private String fkExamResult;
+  private Integer fkExamResult;
   private Integer fkRectificationReu;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date rectificationDate;
-  private String rectificationReport;
+  private String examReport;
   private String examReportName;
+  private String rectificationReport;
   private String rectificationReportName;
 
  
@@ -56,6 +58,22 @@ public class EvaluationListResult {
   public void setEvaluationId(String evaluationId) {
     this.evaluationId = evaluationId;
   }
+
+  public String getFkSystemId() {
+    return fkSystemId;
+  }
+  public void setFkSystemId(String fkSystemId) {
+    this.fkSystemId = fkSystemId;
+  }
+
+
+  public String getSystemName() {
+    return systemName;
+  }
+  public void setSystemName(String systemName) {
+    this.systemName = systemName;
+  }
+
 
   /**
    * @return the examName
@@ -76,7 +94,7 @@ public class EvaluationListResult {
   /**
    * @return the examTime
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getExamTime() {
     return examTime;
   }
@@ -157,7 +175,7 @@ public class EvaluationListResult {
   /**
    * @return the fkExamResult
    */
-  public String getFkExamResult() {
+  public Integer getFkExamResult() {
     return fkExamResult;
   }
 
@@ -165,7 +183,7 @@ public class EvaluationListResult {
   /**
    * @param fkExamResult the fkExamResult to set
    */
-  public void setFkExamResult(String fkExamResult) {
+  public void setFkExamResult(Integer fkExamResult) {
     this.fkExamResult = fkExamResult;
   }
 
@@ -189,7 +207,7 @@ public class EvaluationListResult {
   /**
    * @return the rectificationDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }

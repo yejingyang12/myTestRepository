@@ -19,6 +19,8 @@ package com.sinopec.smcc.cpro.main.constant;
 public class MainConstant {
 
   public final static String TABLE_FIELD_GRADING_CREATE_TIME = "createTime";
-
+  public final static String TEMPORARY_FILE_PATH = "file/uploadTemp/";
+  public final static String EXCEL_FILE_PATH = "/file/template/excel/";//excel生成路径
+  public final static String COPY_EXCEL_FILE_PATH = "file/excel/copy/";//复制路径
   
 }

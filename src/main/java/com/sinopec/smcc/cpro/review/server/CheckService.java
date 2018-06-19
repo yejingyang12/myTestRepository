@@ -12,8 +12,6 @@ package com.sinopec.smcc.cpro.review.server;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckNodeListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckNodeParam;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 
 /**
@@ -36,39 +34,37 @@ public interface CheckService {
   PageInfo<CheckListResult> queryCheckList(CheckParam checkParam) throws BusinessException;
   
   /**
-   * @Descrption 新增审核
-   * @author zhouyu
-   * @date 2018年5月26日下午7:01:40
-   * @param checkNodeListResult
-   * @return
-   */
-  public String checkNodeSave(CheckNodeListResult checkNodeListResult,String fkExaminStatus,String fkbusinessNode,String checkId,String fkSystemId) throws BusinessException;
-
-  /**
-   * @Descrption 审核节点列表
-   * @author zhouyu
-   * @date 2018年5月28日上午9:43:16
+   * @Descrption定级审核
+   * @author yejingyang
+   * @date 2018年6月8日下午12:30:56
+   * @param request
    * @param checkNodeParam
    * @return
    */
-  public PageInfo<CheckNodeListResult> queryCheckNodeList(CheckNodeParam checkNodeParam) throws BusinessException;
+  String saveGradCheck(String userName, CheckParam checkParam) 
+      throws BusinessException;
 
   /**
-   * @Descrption
-   * @author zhouyu
-   * @date 2018年5月29日下午2:51:57
+   * @Descrption定级变更审核
+   * @author yejingyang
+   * @date 2018年6月8日下午3:54:49
+   * @param request
    * @param checkParam
    * @return
    */
-  public String saveCheck(CheckParam checkParam) throws BusinessException;
+  String saveGradChangeCheck(String userName, CheckParam checkParam)
+      throws BusinessException;
 
   /**
-   * @Descrption
-   * @author zhouyu
-   * @date 2018年5月29日下午7:45:11
-   * @param checkNodeParam
+   * @Descrption撤销备案审核
+   * @author yejingyang
+   * @date 2018年6月8日下午4:19:30
+   * @param request
+   * @param checkParam
    * @return
    */
-  PageInfo<CheckNodeListResult> queryNodeAllList(CheckNodeParam checkNodeParam);
+  String saveCancelRecordsCheck(String userName, CheckParam checkParam)
+      throws BusinessException;
+  
 
 }

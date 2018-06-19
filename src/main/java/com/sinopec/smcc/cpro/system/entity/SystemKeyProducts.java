@@ -27,94 +27,24 @@ public class SystemKeyProducts {
 	
   private String systemKeyProductsId;
   private Integer fkExaminStatus;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Integer deleteStatus;
   private String productsNumber;
+  private Integer fkNationalIsProducts;
   private Integer nUseProbability;
   private String otherName;
-  private String fkNationalIsProducts;
-	private String fkSystemId;
-  private SystemKeyProducts cproSystemKeyProducts; 
   
-  private int pageSize = 10;// pageSize ，每一页显示多少
-  private int currentPage = 1;// 当前页数
-  private String field; //接收字段
-  private String sort;//排序
-  
-  
-  /**
+  private String fkSystemId;
+  private Integer deleteStatus;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date createTime;
+
+	/**
    * @return the nUseProbability
    */
-  public int getnUseProbability() {
+  public Integer getnUseProbability() {
     return nUseProbability;
   }
 
-  /**
-   * @param nUseProbability the nUseProbability to set
-   */
-  public void setnUseProbability(int nUseProbability) {
-    this.nUseProbability = nUseProbability;
-  }
-
-  /**
-	 * @return the pageSize
-	 */
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	/**
-	 * @param pageSize the pageSize to set
-	 */
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	/**
-	 * @return the currentPage
-	 */
-	public int getCurrentPage() {
-		return currentPage;
-	}
-
-	/**
-	 * @param currentPage the currentPage to set
-	 */
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	/**
-	 * @return the field
-	 */
-	public String getField() {
-		return field;
-	}
-
-	/**
-	 * @param field the field to set
-	 */
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	/**
-	 * @return the sort
-	 */
-	public String getSort() {
-		return sort;
-	}
-
-	/**
-	 * @param sort the sort to set
-	 */
-	public void setSort(String sort) {
-		this.sort = sort;
-	}
-
-	public SystemKeyProducts clone() throws CloneNotSupportedException{
+  public SystemKeyProducts clone() throws CloneNotSupportedException{
     SystemKeyProducts cproSystemKeyProducts = (SystemKeyProducts) super.clone();
     return cproSystemKeyProducts;
   }
@@ -203,49 +133,43 @@ public class SystemKeyProducts {
 		this.fkSystemId = fkSystemId;
 	}
 
-	/**
-	 * @return the cproSystemKeyProducts
-	 */
-	public SystemKeyProducts getCproSystemKeyProducts() {
-		return cproSystemKeyProducts;
-	}
+  /**
+   * @param nUseProbability the nUseProbability to set
+   */
+  public void setnUseProbability(Integer nUseProbability) {
+    this.nUseProbability = nUseProbability;
+  }
 
+	
 	/**
-	 * @param cproSystemKeyProducts the cproSystemKeyProducts to set
-	 */
-	public void setCproSystemKeyProducts(SystemKeyProducts cproSystemKeyProducts) {
-		this.cproSystemKeyProducts = cproSystemKeyProducts;
-	}
+   * @return the fkExaminStatus
+   */
+  public Integer getFkExaminStatus() {
+    return fkExaminStatus;
+  }
 
   /**
-	 * @return the fkExaminStatus
-	 */
-	public Integer getFkExaminStatus() {
-		return fkExaminStatus;
-	}
+   * @param fkExaminStatus the fkExaminStatus to set
+   */
+  public void setFkExaminStatus(Integer fkExaminStatus) {
+    this.fkExaminStatus = fkExaminStatus;
+  }
 
-	/**
-	 * @param fkExaminStatus the fkExaminStatus to set
-	 */
-	public void setFkExaminStatus(Integer fkExaminStatus) {
-		this.fkExaminStatus = fkExaminStatus;
-	}
+  /**
+   * @return the fkNationalIsProducts
+   */
+  public Integer getFkNationalIsProducts() {
+    return fkNationalIsProducts;
+  }
 
-	/**
-	 * @return the fknationalIsProducts
-	 */
-	public String getFkNationalIsProducts() {
-		return fkNationalIsProducts;
-	}
+  /**
+   * @param fkNationalIsProducts the fkNationalIsProducts to set
+   */
+  public void setFkNationalIsProducts(Integer fkNationalIsProducts) {
+    this.fkNationalIsProducts = fkNationalIsProducts;
+  }
 
-	/**
-	 * @param fknationalIsProducts the fknationalIsProducts to set
-	 */
-	public void setFkNationalIsProducts(String fkNationalIsProducts) {
-		this.fkNationalIsProducts = fkNationalIsProducts;
-	}
-	
-	public String toString(){
+  public String toString(){
     return JSON.toJSONString(this);
   }
 }

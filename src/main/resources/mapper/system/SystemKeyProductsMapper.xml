@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sinopec.smcc.cpro.system.mapper.SystemKeyProductsMapper">
-  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts">
-    <id column="pkId" property="pkId" jdbcType="VARCHAR" />
-    <result column="fkExaminStatus" property="fkExaminStatus" jdbcType="INTEGER" />
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemKeyResult">
+    <id column="pkId" property="systemKeyProductsId" jdbcType="VARCHAR" />
+    <result column="fkExaminStatus" property="fkExaminStatus" jdbcType="VARCHAR" />
     <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
     <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
     <result column="productsNumber" property="productsNumber" jdbcType="VARCHAR" />
@@ -12,19 +12,49 @@
     <result column="fkNationalIsProducts" property="fkNationalIsProducts" jdbcType="VARCHAR" />
     <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <delete id="deleteSystemKeyProductsBySystemKeyProductsId" parameterType="java.util.List">
+    DELETE FROM t_cpro_system_key_products WHERE pkId IN
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+  </delete>
+  
+  <delete id="deleteKey" parameterType="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts">
+    DELETE FROM t_cpro_system_key_products WHERE fkSystemId = #{systemId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteSubKey" parameterType="java.util.List">
+    DELETE FROM t_cpro_system_key_products WHERE fkSystemId IN
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item.systemId}
+      </foreach>
+  </delete>
+  
+  <select id="selectSubSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts" resultMap="BaseResultMap">
+    SELECT 
+      pkId,
+      fkExaminStatus,
+      fkNationalIsProducts,
+      otherName 
+    FROM t_cpro_system_key_products
+    WHERE fkSystemId = #{systemId}
+  </select>
+  
   <insert id="insertSystemKeyProductsBySystemKeyProductsId" parameterType="java.util.List">
   INSERT INTO t_cpro_system_key_products
   (
   	pkId,fkExaminStatus,createTime,deleteStatus,productsNumber,nUseProbability,otherName,
   	fkNationalIsProducts,fkSystemId
-  	) VALUES(
+  	) VALUES
   	<foreach collection="list" item="item" index="index" separator=",">
+    (
 	  	<trim suffixOverrides="," >
 	      <![CDATA[
 	        #{item.systemKeyProductsId,jdbcType=VARCHAR},
 	      ]]>
 	      <![CDATA[
-	        #{item.fkExaminStatus,jdbcType=INTEGER},
+	        #{item.fkExaminStatus,jdbcType=VARCHAR},
 	      ]]>
 	      <![CDATA[
 	        #{item.createTime,jdbcType=TIMESTAMP},
@@ -102,34 +132,7 @@
 			    </otherwise>
 			  </choose>
 		  </trim>
-		  )
-		  ON DUPLICATE KEY UPDATE
-		  	<trim suffixOverrides=",">
-		  		<if test="item.fkExaminStatus != null and item.fkExaminStatus != ''">
-        		fkExaminStatus = #{item.fkExaminStatus},
-        	</if>
-        	<if test="item.createTime != null">
-        		createTime = #{item.createTime},
-        	</if>
-        	<if test="item.deleteStatus != null and item.deleteStatus != ''">
-        		deleteStatus = #{item.deleteStatus},
-        	</if>
-        	<if test="item.productsNumber != null and item.productsNumber != ''">
-        		productsNumber = #{item.productsNumber},
-        	</if>
-        	<if test="item.nUseProbability != null and item.nUseProbability != ''">
-        		nUseProbability = #{item.nUseProbability},
-        	</if>
-        	<if test="item.otherName != null and item.otherName != ''">
-        		otherName = #{item.otherName},
-        	</if>
-        	<if test="item.fkNationalIsProducts != null and item.fkNationalIsProducts != ''">
-        		fkNationalIsProducts = #{item.fkNationalIsProducts},
-        	</if>
-        	<if test="item.fkSystemId != null and item.fkSystemId != ''">
-        		fkSystemId = #{item.fkSystemId},
-        	</if>
-		  	</trim>
+       )
 	  </foreach>
   </insert>
 </mapper>

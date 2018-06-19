@@ -8,11 +8,14 @@
  */
 package com.sinopec.smcc.cpro.evaluation.server;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 
 /**
  * @Title QueryEvaluationService.java
@@ -50,7 +53,8 @@ public interface EvaluationService {
    * @param evaluationParam
    * @return
    */
-  String saveEvaluation(EvaluationParam evaluationParam) throws BusinessException;
+  String saveEvaluation(String userName, EvaluationParam evaluationParam) 
+      throws BusinessException;
 
   /**
    * 删除测评信息
@@ -59,7 +63,8 @@ public interface EvaluationService {
    * @param evaluationParam
    * @return
    */
-  void deleteEvaluation(EvaluationParam evaluationParam) throws BusinessException;
+  void deleteEvaluation(String userName, EvaluationParam evaluationParam) 
+      throws BusinessException;
 
   /**
    * 获得测评详情信息
@@ -69,5 +74,14 @@ public interface EvaluationService {
    * @return
    */
   EvaluationResult queryDetailsEvaluation(EvaluationParam evaluationParam) throws BusinessException ;
+
+  /**
+   * @Descrption 首页高级查询测评单位
+   * @author dongxu
+   * @date 2018年6月11日下午4:19:30
+   * @param recordsParam
+   * @return
+   */
+  List<EvaluationListResult> queryExamOrgCompany(RecordsParam recordsParam) throws BusinessException;
 
 }

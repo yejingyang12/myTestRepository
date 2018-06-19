@@ -9,6 +9,8 @@
  */
 package com.sinopec.smcc.cpro.company.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
+import com.sinopec.smcc.cpro.main.entity.MainListResult;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 
 
@@ -75,7 +79,7 @@ public class CompanyController {
   @ResponseBody
   public ResultApi saveCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
-    String companyId = this.companyServiceImpl.saveCompany(companyParam);
+    String companyId = this.companyServiceImpl.saveCompany(request, companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(companyId);
     return result;
@@ -132,6 +136,44 @@ public class CompanyController {
     CompanyResult companyResult = this.companyServiceImpl.queryEditCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(companyResult);
+    return result;
+  }
+  
+  /**
+   * @Descrption 根据code获取单位信息
+   * @author Aran
+   * @date 2018年6月9日下午12:07:06
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryCompanyByCode", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryCompanyByCode(HttpServletRequest request,
+      @RequestBody CompanyParam companyParam) throws BusinessException {
+    CompanyResult companyResult = this.companyServiceImpl.queryCompanyByCode(companyParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(companyResult);
+    return result;
+  }
+  
+  /**
+   * @Descrption 高级搜索获取所有单位名称
+   * @author dongxu
+   * @date 2018年6月11日下午12:00:23
+   * @param request
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryCompanyName", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryCompanyName(HttpServletRequest request,
+      @RequestBody CompanyParam companyParam) 
+      throws BusinessException {
+    List<CompanyListResult> mainList = this.companyServiceImpl.queryCompanyName(companyParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(mainList);
     return result;
   }
 }

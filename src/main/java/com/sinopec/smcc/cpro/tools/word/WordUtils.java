@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.WritableByteChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,13 @@ import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+
+import com.jacob.activeX.ActiveXComponent;
+import com.jacob.com.Dispatch;
+import com.jacob.com.Variant;
+import com.sinopec.smcc.cpro.file.constant.FileConstant;
+import com.sinopec.smcc.cpro.main.constant.MainConstant;
+import com.sinopec.smcc.cpro.tools.DateUtils;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -55,19 +64,32 @@ public class WordUtils {
    * @Descrption dataMap里存入List
    * @author dongxu
    * @date 2018年6月7日下午9:38:59
-   * @param dataMap
+   * @param dataMap  value
+   * @param tempName 模板名称
+   * @param fileName 文件名称
+   * @param file     路径名
    */
-  public static void createWord(Map<String,Object> dataMap){       
-//    getData(dataMap);  
+  public static String createWord(Map<String,Object> dataMap,String tempName,String fileName){       
     WordUtils wordUtils = new WordUtils();
-    configuration.setClassForTemplateLoading(wordUtils.getClass(), "/word/");  //FTL文件所存在的位置    
+    configuration.setClassForTemplateLoading(wordUtils.getClass(), "/file/template/word/");  //FTL文件所存在的位置    
     Template t=null;    
     try {    
-        t = configuration.getTemplate("company.ftl"); //文件名    
+        t = configuration.getTemplate(tempName); //文件名    
     } catch (IOException e) {    
         e.printStackTrace();    
     }    
-    File outFile = new File("F:\\桌面应用\\wordFtl\\测试文档.doc");  //导出文档的存放位置  
+    String filePath = MainConstant.TEMPORARY_FILE_PATH+fileName+"_"+
+        DateUtils.getMilliseconds()+".doc";
+    File outFile = new File(filePath);  //导出文档的存放位置  
+    if(!outFile.exists()){
+      outFile.getParentFile().mkdirs();          
+    }
+    try {
+      outFile.createNewFile();
+    } catch (IOException e2) {
+      // TODO Auto-generated catch block
+      e2.printStackTrace();
+    }
     Writer out = null;    
     try {    
         out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile)));    
@@ -75,43 +97,13 @@ public class WordUtils {
         e1.printStackTrace();    
     }        
     try {    
-        t.process(dataMap, out);    
+        t.process(dataMap, out);   
+        out.close();
     } catch (TemplateException e) {    
         e.printStackTrace();    
     } catch (IOException e) {    
         e.printStackTrace();    
     }    
+    return filePath;
   }    
-  
-//  //填充模板参数
-//  private void getData(Map<String, Object> dataMap) {    
-//    dataMap.put("factoryNull", "121");    
-//    dataMap.put("iNull", "1");  
-//    dataMap.put("modelPara","222");  
-//    dataMap.put("factorySame","55");  
-//    dataMap.put("companyName","66"); 
-//             
-//    List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();    
-//    for (int i = 0; i < 10; i++) {    
-//        Map<String,Object> map = new HashMap<String,Object>();    
-//        map.put("number", i);    
-//        map.put("content", "内容"+i);    
-//        list.add(map);    
-//    }     
-//    dataMap.put("list", list);    
-//  }    
-  
-  //懒汉式单例类.在第一次调用的时候实例化自己   
-  public static class Singleton {  
-      private Singleton() {}  
-      private static Singleton single=null;  
-      //静态工厂方法   
-      public static Singleton getInstance() {  
-           if (single == null) {    
-               single = new Singleton();  
-           }    
-          return single;  
-      }  
-  }   
-
 }

@@ -29,9 +29,9 @@ public class RecordsListResult {
   private String fkSystemId;
   private String recordCode;
   private String recordCompany;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date recordDate;
-  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date acceptDate;
   private String acceptCompany;
   /**
@@ -85,7 +85,7 @@ public class RecordsListResult {
   /**
    * @return the recordDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRecordDate() {
     return recordDate;
   }
@@ -98,7 +98,7 @@ public class RecordsListResult {
   /**
    * @return the acceptDate
    */
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getAcceptDate() {
     return acceptDate;
   }

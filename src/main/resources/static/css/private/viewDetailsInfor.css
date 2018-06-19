@@ -1,0 +1,374 @@
+@charset "utf-8";
+.innerWrap{
+    width: 100%;
+    margin:0 15px;
+}
+/*标题*/
+.tianMsg{
+    font: 14px/50px "微软雅黑";
+    color: #333333;
+}
+.tianMsg:before{
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: #3d95df;
+    vertical-align: middle;
+    margin-right: 11px;
+}
+.cut:after{
+    content: "";
+    display: block;
+    width: 130%;
+    height: 2px;
+    background: #ededed;
+    margin-left: -30px;
+}
+/*内容*/
+.innerWrap>ul{
+    border-bottom:1px solid #ededed;
+    margin-top: 17px !important;
+}
+.innerSys{
+    margin-top:-15px;
+}
+li{
+    margin-bottom:15px;
+}
+.infName{
+    padding: 0;
+    margin-left: -15px;
+}
+.fomName{
+    margin-left:15px;
+}
+.perName{
+    width: 27%;
+    margin-left: -25px;
+    padding: 0;
+}
+.senName{
+    margin-left:15px;
+}
+/*表二*/
+.sysTitle{
+    font:16px/26px "微软雅黑";
+    margin:0;
+}
+.lastLine{
+    width: 100%;
+    height: 1px;
+    background: #ededed;
+    margin-top:20px;
+}
+.curLine{
+    margin:0 0 15px;
+}
+/*表三*/
+.inpChoose{
+    width: auto;
+    height: auto;
+    -webkit-border-radius:2px;
+    -moz-border-radius:2px;
+    border-radius:2px;
+    border:none;
+    padding-left:0;
+    color: transparent;
+}
+.saveTableBg{
+    background-color: #ededed;
+}
+.saveTableHeg{
+    height: 277px;
+}
+.saveTableBorder .saveTableBorB{
+    border-bottom: none;
+}
+.saveTableHgh{
+    height: 69px;
+    line-height: 70px;
+    border-bottom: 1px solid #cecece;
+}
+.saveTableLase{
+    padding:0;
+}
+.saveLevel{
+    width: 20%;
+}
+.saveTable ul .saveTableRowLine{
+    border-top:1px solid #cecece;
+}
+.saveTableBorder>div {
+    border-right: none !important;
+}
+.saveTableRow,.saveTableBorder>div{
+    font:12px/34px "微软雅黑";
+    border:1px solid #cecece;
+    border-top:none;
+    margin-bottom:0;
+}
+.saveTableLast{
+    border-left: 1px solid #cecece;
+    border-bottom: 1px solid #cecece;
+}
+.saveTableRow>div,.saveTableLast{
+    border-right:1px solid #cecece;
+    font:12px/34px "微软雅黑";
+    padding:0;
+}
+.saveTableMsy{
+    line-height: 78px;
+}
+.saveMsg{
+    padding:0;
+    width: 71.5%;
+}
+.checkFirst{
+    margin: 4px 0 0 15px !important;
+}
+.saveTable{
+    padding:0;
+}
+.inpLase{
+    height: 54px;
+}
+input[type="radio"]{
+    margin:0;
+}
+.inplast{
+    height:69px;
+    border-bottom: 1px solid #cecece !important;
+}
+.mcAddSysBuildChange{
+    width: 54% !important;
+    font:12px/34px "微软雅黑";
+    border:1px solid #cecece;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    padding:0 !important;
+    margin-left:0;
+}
+.mcAddSysBuildChange>div{
+    border-right:1px solid #cecece;
+}
+.mcAddSysBuild{
+    line-height: 277px !important;
+}
+.saveText{
+    margin-left:-39px;
+}
+/*表四*/
+.titleName{
+    padding: 0;
+    margin-left: -24px;
+    width: 60%;
+}
+.titleMain{
+    margin-left:15px;
+}
+/*自查*/
+th{
+    font:normal 14px "微软雅黑";
+}
+td{
+    font:12px "微软雅黑";
+}
+.table-bordered th,.table-bordered td{
+    border-right: 1px solid #cecece;
+    padding:15px;
+}
+/*翻页*/
+.h-page-box1{
+    position:relative;
+    width:100%;
+    height:64px;
+    margin-right: 0;
+}
+.h-page{
+    position: absolute;
+    right: 0;
+    height:100%;
+    padding-top:10px;
+}
+.pagination>li>a{
+    border: 1px solid #ededed;
+    margin-right: 5px;
+    height: 30px;
+}
+.pagination>li>input{
+    border:0 none;
+}
+.pagination>li>#txt{
+    width: 50px;
+    height: 30px;
+    border: 1px solid #ededed;
+    padding:6px;
+    font-size: 14px;
+    margin-right: 5px;
+    color: #333;
+}
+.pagination>li>.box{
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
+}
+
+.h-page .pagination .current a{
+    background: #000;!important;
+    color: #fff;
+}
+/*排序按钮*/
+.butn{
+    width: 8px;
+    margin-right: 25%;
+    height: 12px;
+    margin-top: 4px;
+}
+/* i{
+    display:block;
+    width: 8px;
+    height: 5px;
+    background: url("../../images/addNum.png") no-repeat
+} */
+.up{
+     background-position: 0 0;
+}
+.down{
+    background-position: 0 -7px;
+}
+.botn{
+    width: 8px;
+    height: 12px;
+    margin-top: 4px;
+    margin-right: 57%;
+}
+.xing {
+    color: red;
+}
+/*审核*/
+.fishBone {
+    height: 400px;
+    width: 100%;
+    margin-top: 15px;
+    overflow: auto;
+}
+
+.fishBone ul {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+.fishBone ul li {
+    display: inline-block;
+    list-style: none;
+    width: 250px;
+    height: 300px;
+    position: relative;
+}
+
+.fishBone ul li .item {
+    height: 168px;
+    width: 253px;
+}
+.fishBone ul li .text {
+    height: 168px;
+    width: auto;
+}
+
+.fishBone ul li .content {
+    height: auto;
+    width: 100%;
+    border: 1px solid #ededed;
+}
+
+.fishBone ul li .content .frist_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    background-color: #D8EAF9;
+    padding-left: 15%;
+}
+
+.fishBone ul li .content .second_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+
+    padding-left: 10%;
+}
+
+.fishBone ul li .content .thirs_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    padding-left: 5%;
+}
+
+.fishBone ul li .over_time {
+    color: #3399cc;
+    text-align: left;
+    margin: 5px 0;
+}
+
+.fishBone ul li .centerline {
+    margin-left: 5px;
+    height: 10%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    /*top: 40%;*/
+}
+
+.fishBone ul li .centerline .cricle {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color: #3d95df;
+    background-color: #3d95df;
+    box-shadow: 0 0 20px #1e91e2;
+}
+
+.fishBone ul li .centerline .line {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 4%;
+    left: 13%;
+    display: inline-block;
+    height: 1px;
+    width: auto;
+    background-color: lightgray;
+}
+
+.top .item{
+
+}
+.top .content{
+
+}
+.bottom .item{
+    /*position: relative;*/
+}
+
+.bottom .centerline {
+    /*position: absolute;*/
+    /*top: 128px;*/
+}
+
+.bottom .over_time {
+    position: relative;
+    top:35%;
+}
+
+.bottom .content {
+    position: relative;
+    top: 185px;
+}

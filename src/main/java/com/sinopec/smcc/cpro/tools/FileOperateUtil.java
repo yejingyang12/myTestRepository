@@ -11,13 +11,12 @@ package com.sinopec.smcc.cpro.tools;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -132,27 +131,29 @@ public class FileOperateUtil {
   public static void createRar(HttpServletResponse response,String dir,List<File> srcfile,String expName){
      
      if(!new File(dir).exists()){//检测生成路径
-           new File(dir).mkdirs();
-       }
-       File zipfile = new File(dir+"/"+expName+".rar");
-       FileOperateUtil.zipFiles(srcfile, zipfile);//生成压缩文件
-       try {
-        // 设置response的Header 
-           response.addHeader("Content-Disposition", "attachment;filename="+new String(zipfile.getName().getBytes("gbk"),"iso-8859-1"));  //转码之后下载的文件不会出现中文乱码
-           response.addHeader("Content-Length", "" + zipfile.length());
-           
-         InputStream fis = new BufferedInputStream(new FileInputStream(zipfile)); 
-         byte[] buffer = new byte[fis.available()]; 
-         fis.read(buffer); 
-         fis.close(); 
-          
-         OutputStream toClient = new BufferedOutputStream(response.getOutputStream()); 
-         toClient.write(buffer); 
-         toClient.flush(); 
-         toClient.close(); 
-       } catch (IOException e) {
-      e.printStackTrace(); 
+       new File(dir).mkdirs();
      }
+    try {
+      byte[] buffer;
+      File zipfile = new File(dir+"/"+expName+".rar");
+      FileOperateUtil.zipFiles(srcfile, zipfile);//生成压缩文件
+      FileInputStream fis = new FileInputStream(zipfile);
+      ByteArrayOutputStream bos = new ByteArrayOutputStream();
+      byte[] b = new byte[1024];
+      int n;
+      while ((n = fis.read(b)) != -1)
+      {
+          bos.write(b, 0, n);
+      }
+      fis.close();
+      bos.close();
+      buffer = bos.toByteArray();
+      FileOperateUtil.uploadFile(buffer, dir, expName+".rar");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
   
   /** 
@@ -163,7 +164,7 @@ public class FileOperateUtil {
    * @author 
    */  
  public static void zipFiles(List<File> srcfile, File zipfile) {
-   byte[] buf = new byte[1024];
+   byte[] buf = new byte[30960];
    String ZIP_ENCODEING = "GBK"; 
    try {
      ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipfile));

@@ -9,13 +9,39 @@
     <result column="acceptDate" property="acceptDate" jdbcType="DATE"/>
     <result column="acceptCompany" property="acceptCompany" jdbcType="VARCHAR"/>
   </resultMap>
-   <resultMap id="RecordsResult" type="com.sinopec.smcc.cpro.records.entity.RecordsResult">
+  <resultMap id="RecordsResult" type="com.sinopec.smcc.cpro.records.entity.RecordsResult">
     <id column="pkId" property="recordsId"/>
-    <result column="recordCompany" property="recordCompany" jdbcType="VARCHAR"/>
-    <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR"/>
-    <result column="recordDate" property="recordDate" jdbcType="DATE"/>
-    <result column="acceptDate" property="acceptDate" jdbcType="DATE"/>
-    <result column="acceptCompany" property="acceptCompany" jdbcType="VARCHAR"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    <result column="recordCode" property="recordCode"/>
+    <result column="recordCompany" property="recordCompany"/>
+    <result column="recordDate" property="recordDate"/>
+    <result column="acceptDate" property="acceptDate"/>
+    <result column="acceptCompany" property="acceptCompany"/>
+    <result column="recordReportId" property="recordReportId"/>
+    <result column="recordReportName" property="recordReportName"/>
+  </resultMap>
+  <resultMap type="com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult" id="RevokeRecordsResult">
+  	<id column="pkId" property="recordsId"/>
+  	<result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR"/>
+  	<result column="fkrevokematter" property="fkrevokematter" jdbcType="VARCHAR"/>
+  	<result column="revokereason" property="revokereason" jdbcType="VARCHAR"/>
+  	<result column="revokeRecordsId" property="revokeRecordsId" jdbcType="VARCHAR"/>
+  	<result column="revokeRecordsName" property="revokeRecordsName" jdbcType="VARCHAR"/>
+  </resultMap>
+  <resultMap id="RecordsDetailResult" type="com.sinopec.smcc.cpro.records.entity.RecordsDetailResult">
+    <id column="pkId" property="recordsId"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    <result column="recordCode" property="recordCode"/>
+    <result column="recordCompany" property="recordCompany"/>
+    <result column="recordDate" property="recordDate"/>
+    <result column="acceptDate" property="acceptDate"/>
+    <result column="acceptCompany" property="acceptCompany"/>
+    <result column="recordReportId" property="recordReportId"/>
+    <result column="recordReportName" property="recordReportName"/>
+  	<result column="fkrevokematter" property="fkrevokematter"/>
+  	<result column="revokereason" property="revokereason"/>
+  	<result column="revokeRecordsId" property="revokeRecordsId"/>
+  	<result column="revokeRecordsName" property="revokeRecordsName"/>
   </resultMap>
   <insert id="insertRecords" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" >
   	INSERT INTO t_cpro_records 
@@ -230,23 +256,93 @@
       </if>
     </trim>
   </insert> 
-   <select id="selectRecordsByFkSystemId" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="RecordsResult">
+  <select id="selectRecordsByFkSystemId" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="RecordsResult">
     SELECT
-      pkId AS recordsId,
-      fkSystemId,
-      recordCode,
-      recordCompany,
-      recordDate,
-      acceptDate,
-      acceptCompany
-    FROM t_cpro_records
+			rec.pkId,
+			rec.fkSystemId,
+			rec.recordCode,
+			rec.recordCompany,
+			rec.recordDate,
+			rec.acceptCompany,
+			rec.acceptDate,
+			att.pkId AS recordReportId,
+			att.attachName AS recordReportName
+		FROM
+			t_cpro_records AS rec
+		LEFT JOIN t_cpro_attach AS att ON rec.pkId = att.fkSyssonId
+		AND rec.fkSystemId = att.fkSystemId
+		AND att.fkAttachType = 'recordReport'
     WHERE 
-      deleteStatus = 1
-      AND fkSystemId = #{fkSystemId}
+      rec.deleteStatus = 1
+    AND rec.fkSystemId = #{fkSystemId}
+    LIMIT 0,1
   </select>
   <update id="updateRecordsBySystemId" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam">
     UPDATE t_cpro_records 
     SET acceptReason = #{acceptReason}
     WHERE fkSystemId = #{fkSystemId}
   </update> 
+  <!-- 点击撤销备案，填写信息后保存 -->
+  <update id="updateRecordsBySystemIdForRevokeRecords" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam">
+  	UPDATE t_cpro_records 
+  	SET revokereason = #{revokereason},fkrevokematter = #{fkrevokematter} 
+    WHERE fkSystemId = #{fkSystemId} 
+  </update>
+  <!-- 获取撤销备案信息 -->
+  <select id="selectRecordsByFkSystemIdForRevokeRecords" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="RevokeRecordsResult">
+  	SELECT
+			rec.pkId,
+			rec.fkSystemId,
+			rec.fkrevokematter,
+			rec.revokereason,
+			att.pkId AS revokeRecordsId,
+			att.attachName AS revokeRecordsName
+		FROM
+			t_cpro_records rec
+		LEFT JOIN t_cpro_attach att ON rec.fkSystemId = att.fkSystemId
+		AND rec.pkId = att.fkSyssonId
+		AND att.fkAttachType = 'revokeRecordsReport'
+		WHERE rec.fkSystemId = #{fkSystemId}
+    LIMIT 0,1
+  </select>
+  <!-- 查询备案详情 -->
+  <select id="selectRecordsByFkSystemIdForRecordsDetail" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="RecordsDetailResult">
+  	SELECT
+			rec.pkId,
+			rec.fkSystemId,
+			rec.recordCode,
+			rec.recordCompany,
+			rec.recordDate,
+			rec.acceptCompany,
+			rec.acceptDate,
+			rec.fkrevokematter,
+			rec.revokereason,
+			recordReport.pkId AS recordReportId,
+			recordReport.attachName AS recordReportName,
+			revokeRecordsReport.pkId AS revokeRecordsId,
+			revokeRecordsReport.attachName AS revokeRecordsName
+		FROM
+			t_cpro_records AS rec
+		LEFT JOIN t_cpro_attach AS recordReport 
+			ON rec.pkId = recordReport.fkSyssonId
+			AND rec.fkSystemId = recordReport.fkSystemId
+			AND recordReport.fkAttachType = 'recordReport'
+		LEFT JOIN t_cpro_attach revokeRecordsReport 
+			ON rec.fkSystemId = revokeRecordsReport.fkSystemId
+			AND rec.pkId = revokeRecordsReport.fkSyssonId
+			AND revokeRecordsReport.fkAttachType = 'revokeRecordsReport'
+    WHERE 
+      rec.deleteStatus = 1
+    AND rec.fkSystemId = #{fkSystemId}
+    LIMIT 0,1
+  </select>
+  <select id="selectRecordCompany" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam" resultMap="BaseResultMap">
+    SELECT
+      DISTINCT
+      acceptCompany 
+    FROM
+      t_cpro_records
+    WHERE 
+      deleteStatus = 1
+  </select>
 </mapper>

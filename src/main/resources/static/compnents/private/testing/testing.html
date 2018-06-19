@@ -1,179 +1,286 @@
-<div class="container h-padding" style="margin:0">
-    <!--系统定级备案测评列表-->
-    <div class="container h-table-border" style="background:#fff;padding: 15px">
-        <div style="height: 50px;line-height: 50px">
-            <i class="h-list-line" style="vertical-align:middle;"></i>
-            系统测评信息列表
-
-        </div>
-        <div class="h-bottom-line  h-bottom-position"></div>
-        <p class="h-p" style="margin: 15px 0;">
-            <button type="button" class="h-btn btn btn-default" id="h-btn-add">
-                <!--<img class="h-add   btn-default" src="../../static/images/home/xinzengdengbao.png" alt="">-->
-                <slot name="xinzengdengbao"></slot>
-            </button>
-        </p>
-        <div class="row" style="margin:0">
-            <div class="col-md-12">
-                <div class="row table-responsive">
-                    <table id="h-list-show" class="table table-bordered table-striped">
-                        <tr class="tr-row rowOne">
-                            <th style="min-width:47px">序号</th>
-                            <th>测评项目名称
-                                <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                <slot name="paixujiantou"></slot>
-                            </th>
-                            <th>测评时间
-                                <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                <slot name="paixujiantou"></slot>
-                            </th>
-                            <th>测评年度
-                                <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                <slot name="paixujiantou"></slot>
-                            </th>
-                            <th>测评机构
-                                <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                <slot name="paixujiantou"></slot>
-                            </th>
-                            <th>测评报告
-                                <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                <slot name="paixujiantou"></slot>
-                            </th>
-                            <th style="max-width:75px">测评状态
-                                <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                <slot name="paixujiantou"></slot>
-                            </th>
-                            <th>测评结果</th>
-                            <th>整改结果</th>
-                            <th>整改时间</th>
-                            <th>整改报告</th>
-                            <th>操作</th>
-                        </tr>
-                        <tr class="tr-row">
-                            <td>1</td>
-                            <td>中国石化差旅管理服务平台</td>
-                            <td>中国石化</td>
-                            <td>油田板块</td>
-                            <td>总部</td>
-                            <td>无</td>
-                            <td style=" vertical-align: middle; ">是</td>
-                            <td  >中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--<slot name="s01ztweijinxing"></slot>-->
-                            </td>
-                            <td  >中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--<slot name="s01ztweijinxing"></slot>-->
-                            </td>
-                            <td  >中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--      <slot name="s01ztweijinxing"></slot>-->
-                            </td>
-                            <td>中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--<slot name="s01ztweijinxing"></slot>-->
-                            </td>
-
-                            <!--操作-->
-                            <td style="color:#1e91e2;">
-                                <!--class="hide3"-->
-                                <a class="hide3">
-                                    <i id="h-dingji">编辑</i> <i style="color:#1e91e2 ">|</i>
-                                    <el-popover placement="top" width="160">
-                                        <p>这是一段内容这是一段内容确定删除吗？</p>
-                                        <div style="text-align: right; margin: 0">
-                                            <el-button size="mini" type="text" @click="visible2 = false">取消
-                                            </el-button>
-                                            <el-button type="primary" size="mini" @click="visible2 = false"
-                                                       onclick="homeListDelete(this)">确定
-                                            </el-button>
-                                        </div>
-                                        <el-button slot="reference">删除</el-button>
-                                    </el-popover>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="tr-row">
-                            <td>1</td>
-                            <td>中国石化差旅管理服务平台</td>
-                            <td>中国石化</td>
-                            <td>油田板块</td>
-                            <td>总部</td>
-                            <td>无</td>
-                            <td style=" vertical-align: middle; ">是</td>
-                            <td  >中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--<slot name="s01ztweijinxing"></slot>-->
-                            </td>
-                            <td  >中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--<slot name="s01ztweijinxing"></slot>-->
-                            </td>
-                            <td  >中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--      <slot name="s01ztweijinxing"></slot>-->
-                            </td>
-                            <td>中国石化
-                                <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
-                                <!--<slot name="s01ztweijinxing"></slot>-->
-                            </td>
-
-                            <!--操作-->
-                            <td style="color:#1e91e2;">
-                                <!--class="hide3"-->
-                                <a class="hide3">
-                                    <i id="h-dingji">编辑</i> <i style="color:#1e91e2 ">|</i>
-                                    <el-popover placement="top" width="160">
-                                        <p>这是一段内容这是一段内容确定删除吗？</p>
-                                        <div style="text-align: right; margin: 0">
-                                            <el-button size="mini" type="text" @click="visible2 = false">取消
-                                            </el-button>
-                                            <el-button type="primary" size="mini" @click="visible2 = false"
-                                                       onclick="homeListDelete(this)">确定
-                                            </el-button>
-                                        </div>
-                                        <el-button slot="reference">删除</el-button>
-                                    </el-popover>
-                                </a>
-                            </td>
-                        </tr>
-
-                    </table>
-                </div>
-            </div>
-        </div>
-        <!--分页-->
-        <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
-            <span style="float: left;padding-top: 18px">显示1到10行，共45行记录</span>
-            <div class="h-page">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li>
-                            <a href="#" aria-label="Previous">
-                                <span aria-hidden="true">上一页</span>
-                            </a>
-                        </li>
-                        <li class="current"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                                <span aria-hidden="true">下一页</span>
-                            </a>
-                        </li>
-                        共40页，跳到
-                        <li>
-                            <input type="text" id="txt" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                   onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                                   style="overflow: visible;">
-                            <div class="box" id="box"></div>
-                        </li>
-                        页
-                    </ul>
-                </nav>
-            </div>
+<!--测评-->
+<div>
+    <!--弹窗-->
+    <div id="dialog" class="evaluationAlert" style="display:none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
+        <div class="evaluation" style="height:560px;margin-top:-245px;">
+            <span class="closes" @click="closes"></span>
+            <p class="clearfix cut">
+                <span class="fl revokeTitle">修改系统测评信息</span>
+                <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
+            </p>
+            <form action="">
+                <ul class="clearfix">
+                    <li class="row">
+                        <div style="margin-left: 15px; width: 10%;">测评</div>
+                    </li>
+                    <li class="row">
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3" style="width: 120px">
+                                <span class="xing" style="float: right">*<i style="color:#000;">测评项目名称：</i></span>
+                            </label>
+                            <div class="col-md-8 col-sm-3 evalName">
+                                <input type="text" value="" v-model="editData.examName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3">
+                                <span class="xing" style="float: right">*<i style="color:#000;">测评时间：</i></span>
+                            </label>
+                            <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.examTime" type="date" placeholder="选择日期" style="width: 66.66666667%;padding:0;"></el-date-picker>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3" style="width: 120px">
+                                <span class="xing" style="float: right">*<i style="color:#000;">测评机构：</i></span>
+                            </label>
+                            <div class="col-md-8 col-sm-3 evalName">
+                                <input type="text" value="" v-model="editData.examOrg">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3">
+                                <span class="xing" style="float: right">*<i style="color:#000;">测评年度：</i></span>
+                            </label>
+                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
+                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <select class="form-control pos-relative"   v-model="editData.examYear">
+                                    <option>2016</option>
+                                    <option>2017</option>
+                                    <option>2018</option>
+                                    <option>2019</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row">
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3" style="width: 120px">
+                                <span class="xing" style="margin-left: 30px;float: right">*<i style="color:#000;">测评状态：</i></span>
+                            </label>
+                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
+                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <select class="form-control pos-relative"   v-model="editData.fkExamStatus">
+                                    <option value=0>请选择</option>
+                                    <option value=1>未测评</option>
+                                    <option value=2>已测评</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3">
+                                <span class="xing" style="float: right">*<i style="color:#000;">测评结果：</i></span>
+                            </label>
+                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
+                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <select class="form-control pos-relative"   v-model="editData.fkExamResult">
+                                    <option value=0>请选择</option>
+                                    <option value=1>符合</option>
+                                    <option value=2>基本符合</option>
+                                    <option value=3>不符合</option>
+                                </select>
+                            </div>
+                        </div>
+                    </li>
+                   <li class="row">
+                        <div class="col-md-12 report" style="padding-left: 15px;">
+                            <label for="" class="col-md-2" style="width:120px;padding:0;text-align: right;">
+                                <span class="xing">*</span>
+                                测评报告： 	
+                            </label>
+                            <div class="clearfix sysText col-md-9 uploadBox">
+							                <div class="uploadSty">
+							                  <ul class="fileList" id="fileList">
+							                  	<li v-if="editData.examReportName != null && editData.examReportName != ''">
+								                  	<div class="fl"  @click="fileDownload(editData.examReportPath,editData.examReportName,editData.examReport)" >{{editData.examReportName}}</div>
+								                  	<i @click="fileDel(editData.examReportPath,1)" class="el-icon-close fl"></i>
+							                  	</li>
+							                  </ul>
+							                  <el-button type="primary" size="small">上传</el-button>
+							                </div>
+							                <input type="file" value="" id="file" @change='onUpload'>
+							                <p>
+							                                                附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+							                </p>
+							              </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="clearfix">
+                    <li>整改</li>
+                    <li class="row">
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3" style="width: 120px">
+                                <span class="xing" style="float: right">*<i style="color:#000;">   整改结果：</i></span>
+                            </label>
+                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
+                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <select id="h-selectzhenggai" class=" form-control pos-relative" v-model="editData.fkRectificationReu">
+                                    <option value=0>请选择</option>
+                                    <option value=1>已整改</option>
+                                    <option value=2>未整改</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="" class="col-md-3">
+                                <span class="xing h-xing" style="float: right">*<i style="color:#000;">整改时间：</i></span>
+                            </label>
+                            <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.rectificationDate" type="date" placeholder="选择日期" style="width: 66.66666667%;padding:0;"></el-date-picker>
+                        </div>
+                    </li>
+                   <li class="row">
+                        <div class="col-md-12 report" style="padding-left: 15px;">
+                            <label for="" class="col-md-2" style="width: 120px; padding: 0px; text-align: right;">
+                                <span class="xing">*</span>
+                                整改报告：
+                            </label>
+                            <div class="clearfix sysText col-md-9 uploadBox">
+							                <div class="uploadSty">
+							                  <ul class="fileList" id="fileList2">
+							                  	<li v-if="!(editData.rectificationReportName == null || editData.rectificationReportName == '')">
+								                  	<div class="fl"  @click="fileDownload(editData.rectificationReportPath,editData.rectificationReportName,editData.rectificationReport)" >{{editData.rectificationReportName}}</div>
+								                  	<i @click="fileDel(editData.rectificationReportPath,1)" class="el-icon-close fl"></i>
+							                  	</li>
+							                  </ul>
+							                  <el-button type="primary" size="small">上传</el-button>
+							                </div>
+							                <input type="file" value="" id="file" @change='onUpload2'>
+							                <p>
+							                                                附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+							                </p>
+							              </div>
+                        </div>
+                    </li>
+                </ul>
+            </form>
+            <p class="h-p" style="width:100%;margin: -15px 15px;">
+                <button type="button" class="btn btn-default" style="float:right;margin-right: 35px;padding: 6px 10px" @click="closes">
+                    取消</button>
+                <button type="button" class="btn" @click="saveEvaluation"
+                        style="float:right;margin-right:10px;background-color: #1e91e2;color:#fff;">确认
+                </button>
+            </p>
         </div>
     </div>
+
+    <div class="container h-padding" >
+        <!--系统定级备案测评列表-->
+        <div class="container h-table-border" style="background:#fff;">
+            <div style="height: 50px;line-height: 50px">
+                <i class="h-list-line" style="vertical-align:middle;"></i>
+                系统测评信息列表
+            </div>
+            <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+            <p class="h-p" style="margin: 15px 0;text-align: center">
+                <button type="button"  class="h-btn btn h-btn-add float-le" id="h-btn-add" @click="showDialog('')" style="border: none;"> </button>
+                中国石化九江分公司医疗保险报账系统
+            </p>
+            <div class="row" style="margin:0">
+                <div class="col-md-12">
+                    <div class="row table-responsive">
+                        <table id="h-list-show" class="table table-bordered table-striped">
+                            <tr class="tr-row rowOne">
+                                <th style="min-width:47px">序号</th>
+                                <th>测评项目名称
+
+                                    <slot name="paixujiantou"></slot>
+                                </th>
+                                <th>测评时间
+
+                                    <slot name="paixujiantou2"></slot>
+                                </th>
+                                <th>测评机构
+
+                                    <slot name="paixujiantou3"></slot>
+                                </th>
+                                <th>测评报告
+                                </th>
+                                <th style="max-width:75px">测评状态
+                                    <slot name="paixujiantou4"></slot>
+                                </th>
+                                <th>测评结果
+                                    <slot name="paixujiantou5"></slot>
+                                </th>
+                                <th>整改结果
+                                    <slot name="paixujiantou6"></slot>
+                                </th>
+                                <th>整改时间
+                                    <slot name="paixujiantou7"></slot>
+                                </th>
+                                <th>整改报告</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr class="tr-row" v-for="(testItem,index) in result.data">
+                                <td>{{index+1}}</td>
+                                <td>{{testItem.examName}}</td>
+                                <td>{{testItem.examTime}}</td>
+                                <td>{{testItem.examOrg}}</td>
+                                <td>
+                                    <a href="javascript:;" @click="downloadReport(testItem.examReport)">{{testItem.examReportName}}</a>
+                                </td>
+                                <td>{{testItem.fkExamStatus == 1?'未测评':(testItem.fkExamStatus == 2?'已测评':'')}}</td>
+                                <td>{{testItem.fkExamResult == 1?'符合':(testItem.fkExamResult == 2?'基本符合':(testItem.fkExamResult == 3?'不符合':''))}}</td>
+                                <td style=" vertical-align: middle; ">{{testItem.fkRectificationReu == 1?'已整改':(testItem.fkRectificationReu == 2?'未整改':'')}}</td>
+                                <td>{{testItem.rectificationDate}}</td>
+                                <td>
+                                    <a href="javascript:;" @click="downloadReport(testItem.rectificationReport)">{{testItem.rectificationReportName}}</a>
+                                </td>
+                                <!--操作-->
+                                <td style="color:#1e91e2;">
+                                    <!--class="hide3"-->
+                                    <a class="hide3">
+                                        <i id="h-dingji" @click="showDialog(testItem.evaluationId)">编辑</i> <i style="color:#1e91e2 ">|</i>
+                                        <el-popover placement="top" width="160" v-model="show.visible2 === index">
+                                            <p>这是一段内容这是一段内容确定删除吗？</p>
+                                            <div style="text-align: right; margin: 0">
+                                                <el-button size="mini" type="text" @click="show.visible2 = -1">取消
+                                                </el-button>
+                                                <el-button type="primary" size="mini" @click="deleteEvaluation(testItem.evaluationId)">确定
+                                                </el-button>
+                                            </div>
+                                            <el-button slot="reference" @click="show.visible2 = index">删除</el-button>
+                                        </el-popover>
+                                    </a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--分页-->
+	    <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
+	      <span style="float: left;padding-top: 18px">
+	        <div v-if="result.currentPage==0">
+	                        显示0到0行，共0行记录
+	        </div>
+	        <div v-else>
+	                        显示{{((result.currentPage-1)*result.pagesize)+1}}到{{(result.currentPage)*(result.pagesize)}}行，共{{result.total}}行记录
+	        </div>
+	      </span>
+	      <div class="h-page">
+	        <nav aria-label="Page navigation">
+	          <ul class="pagination">
+	            <li @click="clickPage(result.currentPage-1)">
+	              <a href="javascript:;" aria-label="Previous">
+	                <span aria-hidden="true">上一页</span>
+	              </a>
+	            </li>
+	            <li v-for="n in result.totalPages==0?1:result.totalPages" :class="[n==result.currentPage ? 'current' : '' ]">
+	              <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
+	            </li>
+	            <li @click="clickPage(result.currentPage+1)">
+	              <a href="javascript:;" aria-label="Next">
+	                <span aria-hidden="true">下一页</span>
+	              </a>
+	            </li> 共{{result.totalPages}}页，跳到
+	            <li>
+	            <input type="text" id="txt" @keydown.enter="hpageNum(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="overflow: visible;">
+	              <div class="box" id="box"></div></li> 页
+	          </ul>
+	        </nav>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 </div>

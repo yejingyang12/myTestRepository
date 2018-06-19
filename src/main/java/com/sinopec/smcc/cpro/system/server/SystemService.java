@@ -9,15 +9,16 @@
 */
 package com.sinopec.smcc.cpro.system.server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.system.entity.SystemDetailsResult;
+import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
@@ -45,11 +46,12 @@ public interface SystemService {
    * 	添加或修改系统信息
    * @author hanxin
    * @date 2018年5月25日下午6:36:47
+   * @param request
    * @param systemListResult
    * @return
    * @throws BusinessException 
    */
-  String saveSystem(SystemParam systemParam) throws BusinessException;
+  String saveSystem(String userName, SystemParam systemParam) throws BusinessException;
   
   /**
    *  查询系统代码信息
@@ -79,7 +81,7 @@ public interface SystemService {
    * @return
    * @throws BusinessException 
    */
-  SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException;
+  String editSystem(String userName, SystemParam systemParam) throws BusinessException;
 
   /**
    * @Descrption 修改系统状态
@@ -95,8 +97,10 @@ public interface SystemService {
    * @author hanxin
    * @date 2018年6月5日上午10:03:30
    * @param systemParam
+   * @throws IOException 
+   * @throws FileNotFoundException 
    */
-  void exportExcelForSystemTemplate(SystemParam systemParam);
+  void exportExcelForSystemTemplate(SystemParam systemParam) throws FileNotFoundException, IOException;
 
   /**
    * @Descrption
@@ -118,4 +122,24 @@ public interface SystemService {
    */
   void exportUploadSystemInfo(HttpServletRequest request,
       HttpServletResponse response, String strFilePath);
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月8日下午3:05:00
+   * @param systemParam
+   * @return
+   * @throws BusinessException 
+   */
+  SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月12日上午9:37:48
+   * @param systemParam
+   * @return
+   */
+  SystemGradingChangeResult queryGradingEditAudit(SystemParam systemParam);
+
 }
