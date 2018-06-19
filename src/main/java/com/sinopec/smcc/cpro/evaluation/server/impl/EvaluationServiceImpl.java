@@ -92,11 +92,14 @@ public class EvaluationServiceImpl implements EvaluationService {
 
 	@Override
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@Transactional
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public String saveEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   @Transactional
 	public String saveEvaluation(EvaluationParam evaluationParam) throws BusinessException{
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
@@ -183,10 +186,13 @@ public class EvaluationServiceImpl implements EvaluationService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	@Transactional
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_evaluation")
 	public void deleteEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   @Transactional
 	public void deleteEvaluation(EvaluationParam evaluationParam) throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))

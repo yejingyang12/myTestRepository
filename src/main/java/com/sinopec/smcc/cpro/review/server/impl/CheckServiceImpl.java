@@ -24,12 +24,15 @@ import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.common.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.common.result.ResultApi;
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
@@ -96,11 +99,14 @@ public class CheckServiceImpl implements CheckService {
   @Override
   @Transactional
 <<<<<<< HEAD
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveGradCheck(String userName, CheckParam checkParam) 
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   public String checkNodeSave(CheckNodeListResult checkNodeListResult,String fkExaminStatus,String fkbusinessNode,String checkId,String fkSystemId) throws BusinessException {
     if (StringUtils.isNotBlank(checkNodeListResult.getCheckNodeId())) {
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
@@ -201,12 +207,15 @@ public class CheckServiceImpl implements CheckService {
   @Override
   @Transactional
 <<<<<<< HEAD
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_check")
   public String saveGradChangeCheck(String userName, CheckParam checkParam)
       throws BusinessException {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   public String saveCheck(CheckParam checkParam) throws BusinessException{
     if (StringUtils.isBlank(checkParam.getCheckId())) {
       checkParam.setCheckId(Utils.getUuidFor32());

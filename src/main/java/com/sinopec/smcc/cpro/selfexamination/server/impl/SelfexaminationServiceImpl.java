@@ -23,9 +23,12 @@ import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
@@ -201,10 +204,13 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   @Override
   @Transactional
 <<<<<<< HEAD
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_self_inspection") 
   public void deleteSelfexaminationBySelfexaminationId(String userName, 
       SelfexaminationParam selfexaminationParam) throws BusinessException {
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   public void deleteSelfexaminationBySelfexaminationId(SelfexaminationParam selfexaminationParam)
       throws BusinessException {
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21

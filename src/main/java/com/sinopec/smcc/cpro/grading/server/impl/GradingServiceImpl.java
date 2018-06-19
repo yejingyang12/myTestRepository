@@ -21,10 +21,13 @@ import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 =======
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
@@ -64,8 +67,12 @@ public class GradingServiceImpl implements GradingService{
    */
   @Override
 <<<<<<< HEAD
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public GradingListResult queryDetailsGrading(GradingParam gradingParam) 
+=======
+  public List<GradingListResult> queryDetailsGrading(GradingParam gradingParam)
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 =======
   public List<GradingListResult> queryDetailsGrading(GradingParam gradingParam)
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
@@ -92,6 +99,7 @@ public class GradingServiceImpl implements GradingService{
   @Override
   @Transactional
 <<<<<<< HEAD
+<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_score")
   public String saveGrading(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
@@ -101,6 +109,8 @@ public class GradingServiceImpl implements GradingService{
     //有则修改，无则添加
     if (StringUtils.isBlank(gradingParam.getGradingId())) {
 =======
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   public String saveGrading(GradingParam gradingParam) throws BusinessException {
     if(StringUtils.isBlank(gradingParam.getGradingId())) {
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21

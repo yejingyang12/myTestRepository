@@ -19,6 +19,7 @@ spring:
   application:
     name: Class-Protection
 <<<<<<< HEAD
+<<<<<<< HEAD
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://10.248.74.58:3306/smcc_uatcpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true
@@ -40,6 +41,8 @@ spring:
       max-wait: -1
       max-idle: 8
       min-idle: 0
+=======
+>>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 =======
 >>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   thymeleaf:
