@@ -38,8 +38,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import com.sinopec.smcc.common.log.aop.EnableOperateLog;
 import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
@@ -58,10 +56,6 @@ import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.system.constant.SystemConstant;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
@@ -106,6 +100,7 @@ public class SystemServiceImpl implements SystemService {
    * 响应系统列表数据
    */
   @Override
+	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public PageInfo<SystemListResult> querySystemList(SystemParam systemParam) {
 	//创建排序字段
     StringBuffer orderBy = new StringBuffer();
@@ -136,8 +131,6 @@ public class SystemServiceImpl implements SystemService {
    */
   @Override
   @Transactional
-<<<<<<< HEAD
-<<<<<<< HEAD
   @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public String saveSystem(String userName, SystemParam systemParam) 
       throws BusinessException {
@@ -153,17 +146,6 @@ public class SystemServiceImpl implements SystemService {
     List<SystemKeyProducts> systemKeyProductsList = new ArrayList<SystemKeyProducts>();
     List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
     
-=======
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
-  public String saveSystem(SystemParam systemParam) throws BusinessException {
-    String standardizedCode = systemMapper.
-        selectSystemByStandardizedCode(systemParam.getStandardizedCode());
-    //判断标准化代码是否被创建，如果已创建则抛出异常不进行添加或修改
-    if(StringUtils.isNotBlank(standardizedCode))
-      throw new BusinessException(EnumResult.LINKEDID_ERROR);
-    if(StringUtils.isBlank(systemParam.getSystemId())) {
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
       systemParam.setSystemId(Utils.getUuidFor32());
       systemParam.setExamineStatus(1);
       systemParam.setExaminationStatus(1);
@@ -300,6 +282,7 @@ public class SystemServiceImpl implements SystemService {
 	 * @throws BusinessException 
 	 */
 	@Override
+	@EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_system")
 	public SystemResult queryDetailsSystem(SystemParam systemParam) throws BusinessException {
 	  
 	  List<SystemKeyResult> systemKey = new ArrayList<SystemKeyResult>();
@@ -357,8 +340,6 @@ public class SystemServiceImpl implements SystemService {
 	 * @throws BusinessException 
 	 */
 	@Override
-<<<<<<< HEAD
-<<<<<<< HEAD
 	@Transactional
 	@EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   public String editSystem(String userName, SystemParam systemParam) throws BusinessException {
@@ -703,20 +684,13 @@ public class SystemServiceImpl implements SystemService {
         .insertSystemUseServicesBySystemUseServicesId(subSystemUseServicesList);
     
 	  return systemParam.getSystemId();
-=======
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
-  public SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException {
-	  if(StringUtils.isBlank(systemParam.getSystemId())) 
-	    throw new BusinessException(EnumResult.ERROR);
-	  return this.systemMapper.selectEditSystem(systemParam);
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
 	}
 	
 	/**
    * 修改系统状态
    */
   @Override
+  @EnableOperateLog(tableOperation = TableOperation.update, module = SmccModuleEnum.security, tableName = "t_cpro_system")
   @Transactional
   public void editSystemStatusBySystemId(SystemParam systemParam) throws BusinessException {
     this.systemMapper.updateSystemStatusBySystemId(systemParam);

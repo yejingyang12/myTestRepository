@@ -11,20 +11,15 @@ logging:
   level:
     root: info
 spring:
-  profiles:
-    #dev|uat|prd
-    active: dev
   freemarker:
     cache: false 
   application:
     name: Class-Protection
-<<<<<<< HEAD
-<<<<<<< HEAD
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://10.248.74.58:3306/smcc_uatcpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true
-    username: smccuat
-    password: smcc2018
+    url: jdbc:mysql://103.249.52.8:13306/smcc_cpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
+    username: root
+    password: esa@2011
     driver-class-name: com.mysql.jdbc.Driver
     minIdle: 1
     maxActive: 20
@@ -41,10 +36,6 @@ spring:
       max-wait: -1
       max-idle: 8
       min-idle: 0
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
-=======
->>>>>>> 5e3690b80fe550f38e220fe6e96c88faa5d9da21
   thymeleaf:
     enabled: true
     mode: LEGACYHTML5

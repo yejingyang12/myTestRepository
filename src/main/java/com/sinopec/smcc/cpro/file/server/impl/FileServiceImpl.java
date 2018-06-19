@@ -27,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sinopec.smcc.common.consts.SmccModuleEnum;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.common.log.aop.EnableOperateLog;
+import com.sinopec.smcc.common.log.aop.TableOperation;
 import com.sinopec.smcc.common.mongodb.MongoService;
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
@@ -53,7 +55,8 @@ public class FileServiceImpl implements FileService{
   private MongoService mongoServiceImpl;
 
   @Override
-  public AttachResult uploadFile(HttpServletRequest request,
+  @EnableOperateLog(tableOperation = TableOperation.none, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
+  public AttachResult uploadFile(HttpServletRequest request, 
       MultipartFile file) throws BusinessException {
     AttachResult attachResult = new AttachResult();
     if (file==null|file.getSize()<=1) {
@@ -77,6 +80,7 @@ public class FileServiceImpl implements FileService{
   }
   
   @Override
+  @EnableOperateLog(tableOperation = TableOperation.insert, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
   @Transactional
   public void addFile(AttachParam attachParam) throws BusinessException{
     
@@ -103,6 +107,7 @@ public class FileServiceImpl implements FileService{
   }
   
   @Override
+  @EnableOperateLog(tableOperation = TableOperation.delete, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
   @Transactional
   public void deleteFile(AttachParam attachParam) throws BusinessException {
     if (attachParam==null) {
@@ -143,7 +148,8 @@ public class FileServiceImpl implements FileService{
   }
 
   @Override
-  public void downloadFile(HttpServletRequest request, HttpServletResponse response,
+  @EnableOperateLog(tableOperation = TableOperation.query, module = SmccModuleEnum.security, tableName = "t_cpro_attach")
+  public void downloadFile(HttpServletRequest request, HttpServletResponse response, 
       AttachParam attachParam) throws BusinessException {
     if (attachParam==null) {
       return;
