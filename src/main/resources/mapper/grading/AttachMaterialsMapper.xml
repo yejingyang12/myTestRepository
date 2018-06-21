@@ -17,12 +17,12 @@
       )VALUES(
         <trim suffixOverrides="," >
           <![CDATA[
-            #{attachId,jdbcType=VARCHAR},
+            #{attachId},
           ]]>
           <choose>
             <when test="fkSystemId != null and fkSystemId != ''">
               <![CDATA[
-                #{fkSystemId,jdbcType=VARCHAR},
+                #{fkSystemId},
               ]]>
             </when>
             <otherwise>
@@ -34,7 +34,7 @@
           <choose>
             <when test="fkSyssonId != null and fkSyssonId != ''">
               <![CDATA[
-                #{fkSyssonId,jdbcType=VARCHAR},
+                #{fkSyssonId},
               ]]>
             </when>
             <otherwise>
@@ -46,7 +46,7 @@
           <choose>
             <when test="fkAttachType != null and fkAttachType != ''">
               <![CDATA[
-                #{fkAttachType,jdbcType=VARCHAR},
+                #{fkAttachType},
               ]]>
             </when>
             <otherwise>
@@ -58,7 +58,7 @@
           <choose>
             <when test="attachName != null and attachName != ''">
               <![CDATA[
-                #{attachName,jdbcType=VARCHAR},
+                #{attachName},
               ]]>
             </when>
             <otherwise>
@@ -70,7 +70,7 @@
           <choose>
             <when test="mongoFileId != null and mongoFileId != ''">
               <![CDATA[
-                #{mongoFileId,jdbcType=VARCHAR},
+                #{mongoFileId},
               ]]>
             </when>
             <otherwise>
@@ -82,7 +82,7 @@
           <choose>
             <when test="attachPath != null and attachPath != ''">
               <![CDATA[
-                #{attachPath,jdbcType=VARCHAR},
+                #{attachPath},
               ]]>
             </when>
             <otherwise>
@@ -94,7 +94,7 @@
           <choose>
             <when test="deleteStatus != null and deleteStatus != ''">
               <![CDATA[
-                #{deleteStatus,jdbcType=TINYINT},
+                #{deleteStatus},
               ]]>
             </when>
             <otherwise>
@@ -106,7 +106,7 @@
           <choose>
             <when test="createUserName != null and createUserName != ''">
               <![CDATA[
-                #{createUserName,jdbcType=VARCHAR},
+                #{createUserName},
               ]]>
             </when>
             <otherwise>
@@ -118,7 +118,7 @@
           <choose>
             <when test="createTime != null and createTime != ''">
               <![CDATA[
-                #{createTime,jdbcType=DATE},
+                #{createTime},
               ]]>
             </when>
             <otherwise>
@@ -130,7 +130,7 @@
           <choose>
             <when test="updateTime != null and updateTime != ''">
               <![CDATA[
-                #{updateTime,jdbcType=DATE},
+                #{updateTime},
               ]]>
             </when>
             <otherwise>
@@ -142,7 +142,7 @@
           <choose>
             <when test="remark != null and remark != ''">
               <![CDATA[
-                #{remark,jdbcType=VARCHAR},
+                #{remark},
               ]]>
             </when>
             <otherwise>

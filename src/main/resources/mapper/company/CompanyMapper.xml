@@ -74,13 +74,13 @@
     	<if test="companyName != null and companyName != ''">
     	  <bind name="companyName" value="'%' + companyName + '%'" />
     	  <![CDATA[
-    		  AND t_cpro_company.companyName LIKE #{companyName,jdbcType=VARCHAR}
+    		  AND t_cpro_company.companyName LIKE #{companyName}
     	  ]]>
     	</if>
     	<if test="ldContactName != null and ldContactName != ''">
     	  <bind name="ldContactName" value="'%' + ldContactName + '%'" />
     	  <![CDATA[
-    		  AND t_cpro_company.ldContactName LIKE #{ldContactName,jdbcType=VARCHAR}
+    		  AND t_cpro_company.ldContactName LIKE #{ldContactName}
     	  ]]>
     	</if>
   </select>
@@ -96,12 +96,12 @@
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
-          #{companyId,jdbcType=VARCHAR},
+          #{companyId},
         ]]>
         <choose>
           <when test="fkIndustryCategory != null and fkIndustryCategory != ''">
             <![CDATA[
-              #{fkIndustryCategory,jdbcType=VARCHAR},
+              #{fkIndustryCategory},
             ]]>
           </when>
           <otherwise>
@@ -113,7 +113,7 @@
         <choose>
           <when test="fkAffiliation != null and fkAffiliation != ''">
             <![CDATA[
-            #{fkAffiliation,jdbcType=VARCHAR},
+            #{fkAffiliation},
           ]]>
           </when>
           <otherwise>
@@ -137,7 +137,7 @@
         <choose>
           <when test="fkPlateType != null and fkPlateType != ''">
             <![CDATA[
-              #{fkPlateType,jdbcType=VARCHAR},
+              #{fkPlateType},
             ]]>
           </when>
           <otherwise>
@@ -149,7 +149,7 @@
         <choose>
           <when test="fkSubordinatePro != null and fkSubordinatePro != ''">
             <![CDATA[
-              #{fkSubordinatePro,jdbcType=VARCHAR},
+              #{fkSubordinatePro},
             ]]>
           </when>
           <otherwise>
@@ -161,7 +161,7 @@
         <choose>
           <when test="ldContactEmail != null and ldContactEmail != ''">
             <![CDATA[
-              #{ldContactEmail,jdbcType=VARCHAR},
+              #{ldContactEmail},
             ]]>
           </when>
           <otherwise>
@@ -173,7 +173,7 @@
         <choose>
           <when test="companyName != null and companyName != ''">
             <![CDATA[
-              #{companyName,jdbcType=VARCHAR},
+              #{companyName},
             ]]>
           </when>
           <otherwise>
@@ -185,7 +185,7 @@
         <choose>
           <when test="postalCode != null ">
             <![CDATA[
-              #{postalCode,jdbcType=INTEGER},
+              #{postalCode},
             ]]>
           </when>
           <otherwise>
@@ -197,7 +197,7 @@
         <choose>
           <when test="compPrincipalWorkTel != null and compPrincipalWorkTel != ''">
             <![CDATA[
-              #{compPrincipalWorkTel,jdbcType=VARCHAR},
+              #{compPrincipalWorkTel},
             ]]>
           </when>
           <otherwise>
@@ -209,7 +209,7 @@
         <choose>
           <when test="createUserName != null and createUserName != ''">
             <![CDATA[
-              #{createUserName,jdbcType=VARCHAR},
+              #{createUserName},
             ]]>
           </when>
           <otherwise>
@@ -221,7 +221,7 @@
         <choose>
           <when test="remark != null and remark != ''">
             <![CDATA[
-              #{remark,jdbcType=VARCHAR},
+              #{remark},
             ]]>
           </when>
           <otherwise>
@@ -233,7 +233,7 @@
         <choose>
           <when test="ldContactName != null and ldContactName != ''">
             <![CDATA[
-              #{ldContactName,jdbcType=VARCHAR},
+              #{ldContactName},
             ]]>
           </when>
           <otherwise>
@@ -245,7 +245,7 @@
         <choose>
           <when test="rDepartment != null and rDepartment != ''">
             <![CDATA[
-              #{rDepartment,jdbcType=VARCHAR},
+              #{rDepartment},
             ]]>
           </when>
           <otherwise>
@@ -257,7 +257,7 @@
         <choose>
           <when test="compPrincipalEm != null and compPrincipalEm != ''">
             <![CDATA[
-              #{compPrincipalEm,jdbcType=VARCHAR},
+              #{compPrincipalEm},
             ]]>
           </when>
           <otherwise>
@@ -269,7 +269,7 @@
         <choose>
           <when test="deleteStatus != null">
             <![CDATA[
-              #{deleteStatus,jdbcType=INTEGER},
+              #{deleteStatus},
             ]]>
           </when>
           <otherwise>
@@ -281,7 +281,7 @@
         <choose>
           <when test="ldContactPhone != null and ldContactPhone != ''">
             <![CDATA[
-              #{ldContactPhone,jdbcType=VARCHAR},
+              #{ldContactPhone},
             ]]>
           </when>
           <otherwise>
@@ -293,7 +293,7 @@
         <choose>
           <when test="administrativeNum != null ">
             <![CDATA[
-              #{administrativeNum,jdbcType=INTEGER},
+              #{administrativeNum},
             ]]>
           </when>
           <otherwise>
@@ -305,7 +305,7 @@
         <choose>
           <when test="compPrincipalPhone != null">
             <![CDATA[
-              #{compPrincipalPhone,jdbcType=VARCHAR},
+              #{compPrincipalPhone},
             ]]>
           </when> 
           <otherwise>
@@ -317,7 +317,7 @@
         <choose>
           <when test="companyCode != null  and companyCode != ''">
             <![CDATA[
-              #{companyCode,jdbcType=VARCHAR},
+              #{companyCode},
             ]]>
           </when>
           <otherwise>
@@ -329,7 +329,7 @@
         <choose>
           <when test="compPrincipalPost != null  and compPrincipalPost != ''">
             <![CDATA[
-              #{compPrincipalPost,jdbcType=VARCHAR},
+              #{compPrincipalPost},
             ]]>
           </when>
           <otherwise>
@@ -341,7 +341,7 @@
         <choose>
           <when test="ldContactPost != null and ldContactPost != ''">
             <![CDATA[
-              #{ldContactPost,jdbcType=VARCHAR},
+              #{ldContactPost},
             ]]>
           </when>
           <otherwise>
@@ -353,7 +353,7 @@
         <choose>
           <when test="updateTime != null ">
             <![CDATA[
-              #{updateTime,jdbcType=DATE},
+              #{updateTime},
             ]]>
           </when>
           <otherwise>
@@ -365,7 +365,7 @@
         <choose>
           <when test="gpReportingComp != null and gpReportingComp != '' ">
             <![CDATA[
-              #{gpReportingComp,jdbcType=VARCHAR},
+              #{gpReportingComp},
             ]]>
           </when>
           <otherwise>
@@ -377,7 +377,7 @@
         <choose>
           <when test="createTime != null ">
             <![CDATA[
-              #{createTime,jdbcType=DATE},
+              #{createTime},
             ]]>
           </when>
           <otherwise>
@@ -389,7 +389,7 @@
         <choose>
           <when test="companyAddress != null and companyAddress != ''">
             <![CDATA[
-              #{companyAddress,jdbcType=VARCHAR},
+              #{companyAddress},
             ]]>
           </when>
           <otherwise>
@@ -401,7 +401,7 @@
         <choose>
           <when test="ldContactWorkTel != null and ldContactWorkTel != ''">
             <![CDATA[
-              #{ldContactWorkTel,jdbcType=VARCHAR},
+              #{ldContactWorkTel},
             ]]>
           </when>
           <otherwise>
@@ -413,7 +413,7 @@
         <choose>
           <when test="compPrincipalName != null and compPrincipalName != ''">
             <![CDATA[
-              #{compPrincipalName,jdbcType=VARCHAR},
+              #{compPrincipalName},
             ]]>
           </when>
           <otherwise>
@@ -500,7 +500,7 @@
     WHERE pkId IN
       <foreach collection="companyIds" item="item" index="index" open="(" separator="," close=")">
         <![CDATA[
-          #{item,jdbcType=VARCHAR}
+          #{item}
         ]]>
       </foreach>
   </update>

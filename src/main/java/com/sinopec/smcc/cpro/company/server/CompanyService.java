@@ -11,8 +11,6 @@ package com.sinopec.smcc.cpro.company.server;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
@@ -47,7 +45,7 @@ public interface CompanyService {
    * @return
    * @throws BusinessException 
    */
-  String saveCompany(HttpServletRequest request,CompanyParam companyParam) throws BusinessException;
+  String saveCompany(String userName,CompanyParam companyParam) throws BusinessException;
   
   /**
    * @Descrption 删除单位信息

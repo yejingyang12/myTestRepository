@@ -1,28 +1,30 @@
 /**
  * Created by timha on 2018/5/29.
  */
+var data1 = {
+    activeName: 'third',
+    materialShow:false
+};
 (function () {
   Vue.component('gradingNav',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/gradingNav/gradingNav.html').then(function(res){
       resolve({
         template:res,
         data:function () {
-          return {
-            activeName: 'third',
-          }
+          return data1;
         },
         methods:{
           returnBtn:function(){
             window.location.href = originUrl+"page/indexPage";
           },
           handleClick:function(tab, event) {
-            
-            /*if(this.activeName=='fourth'){
-              window.location.href = originUrl+"page/applicationGradingInfoPage?systemId="+systemId;
-            }*/
+            if(this.activeName=='fourth'){
+              window.location.href = originUrl+"page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId;
+            }
           },
           //下一页
           next2Btn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post','grading/saveGrading', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',

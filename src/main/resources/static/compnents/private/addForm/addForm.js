@@ -23,7 +23,9 @@
         fkAffiliation:"",
         fkPlateType:"",
         fkCompanyType:"",
-        companyId:""
+        companyId:"",
+        changeType:"",
+        systemId:""
       },
       msgName : [],// 单位名称
       msgProvince : [],// 所属省份
@@ -227,9 +229,45 @@
                     }
                   }
                 }else{
-                  this.formData={};
-                  this.formData.companyName = _self.transmitParam[1];
+                  this.formData={
+                      companyName:"",
+                      companyTypeName:"",
+                      ldContactName:"",
+                      companyCode:"",
+                      companyAddress:"",
+                      postalCode:"",
+                      administrativeNum:"",
+                      compPrincipalName:"",
+                      compPrincipalPost:"",
+                      compPrincipalWorkTel:"",
+                      compPrincipalEm:"",
+                      compPrincipalPhone:"",
+                      ldContactPost:"",
+                      ldContactWorkTel:"",
+                      ldContactEmail:"",
+                      ldContactPhone:"",
+                      rDepartment:"",
+                      gpReportingComp:"",
+                      fkSubordinatePro:"",
+                      fkIndustryCategory:"",
+                      fkAffiliation:"",
+                      fkPlateType:"",
+                      fkCompanyType:"",
+                      companyId:"",
+                      changeType:"",
+                      systemId:""
+                   };
+                  //this.formData.companyName = _self.transmitParam[1];
                   this.formData.companyCode = _self.transmitParam[1];
+                  var val = _self.transmitParam[1];
+                  if(val!=null){
+                    for(var i=0;i<this.msgName.length;i++){
+                      if(val==this.msgName[i].orgCode){
+                        this.formData.companyName = this.msgName[i].orgName;
+                        break;
+                      }
+                    }
+                  }
                   $("#baseMes1 div div").removeClass("btnColor");
                   $("#baseMes2 div div").removeClass("btnColor");
                   $("#baseMes3 div div").removeClass("btnColor");
@@ -268,8 +306,14 @@
               },
               
               msgNameMethod:function(){
-                this.formData.companyCode = $("#companyName").val();
-                
+                var val = $("#companyName").val();
+                if(val!=null){
+                  for(var i=0;i<this.msgName.length;i++){
+                    if(val==this.msgName[i].orgName){
+                      this.formData.companyCode = this.msgName[i].orgCode;
+                    }
+                  }
+                }
               },
               industryCategory: function(){
                 bus.$emit("industryCategory","1");
@@ -286,7 +330,7 @@
               this.getPlateTypeMethod(this);
               // 获取单位
               this.getCompanyMethod(this);
-              
+              //获取系统ID
             },
             mounted : function() {
               // this.selectChange()
@@ -301,6 +345,7 @@
                 _self.nameReadonly = true;
               }
               bus.$on("selectedOptions",function(meg){
+                
                 if(meg!=null){
                   // 获取单位回显
                   _self.transmitParam = meg;
@@ -308,6 +353,8 @@
                   //单位名称不可修改
                   _self.nameReadonly = true;
                 }
+                _self.formData.fkIndustryCategory = "6666666666666666666";
+                console.log(_self.formData.fkIndustryCategory)
               });
               bus.$on("resource",function(meg){
                 if(meg!=null){

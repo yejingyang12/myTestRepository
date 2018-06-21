@@ -11,6 +11,7 @@ window.onload = function () {
         methods:{
           //保存
           saveBtn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'grading/saveGrading', true,
                 JSON.stringify(data.formData), 'json',
@@ -28,6 +29,7 @@ window.onload = function () {
           },
           //提交
           submitBtn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'grading/submitGrading', true,
                 JSON.stringify(data.formData), 'json',
@@ -40,6 +42,7 @@ window.onload = function () {
           },
           //上一页
           preBtn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'grading/saveGrading', true,
                 JSON.stringify(data.formData), 'json',
@@ -53,6 +56,7 @@ window.onload = function () {
           },
           //下一页
           next1Btn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'grading/saveGrading', true,
                 JSON.stringify(data.formData), 'json',

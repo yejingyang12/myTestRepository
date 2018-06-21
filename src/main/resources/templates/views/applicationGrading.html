@@ -42,7 +42,7 @@
       </li> -->
       <li slot="gradChange" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" @click="submitBtn()">提交</button>
+          <button type="button" class="btn btn-success " id="submit" v-show="nextBtn" @click="submitBtn()">提交</button>
           <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
           <button type="button" class="btn btn-default" id="return" @click="returnBtn()">返回</button>
         </div>

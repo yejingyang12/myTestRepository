@@ -69,7 +69,7 @@ public class CheckController {
   }
   
   /**
-   * @Descrption定级审核
+   * @Descrption  企业管理员定级审核
    * @author yejingyang
    * @date 2018年6月8日下午12:01:06
    * @param request
@@ -87,9 +87,28 @@ public class CheckController {
     result.setData(fkSystemId);
     return result;
   }
+  /**
+   * @Descrption  总部管理员定级审核
+   * @author yejingyang
+   * @date 2018年6月8日下午12:01:06
+   * @param request
+   * @param checkParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/saveHeadGradCheck", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi saveHeadGradCheck(HttpServletRequest request,
+      @RequestBody CheckParam checkParam) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.checkServiceImpl.saveHeadGradCheck(userName, checkParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
+  }
   
   /**
-   * @Descrption定级变更审核
+   * @Descrption  企业管理员定级变更审核
    * @author yejingyang
    * @date 2018年6月8日下午3:54:30
    * @param request
@@ -107,9 +126,28 @@ public class CheckController {
     result.setData(fkSystemId);
     return result;
   }
+  /**
+   * @Descrption  总部管理员定级变更审核
+   * @author yejingyang
+   * @date 2018年6月8日下午3:54:30
+   * @param request
+   * @param checkParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/saveHeadGradChangeCheck", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi saveHeadGradChangeCheck(HttpServletRequest request,
+      @RequestBody CheckParam checkParam) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.checkServiceImpl.saveHeadGradChangeCheck(userName, checkParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
+  }
   
   /**
-   * @Descrption撤销备案审核
+   * @Descrption  总部管理员撤销备案审核
    * @author yejingyang
    * @date 2018年6月8日下午4:16:57
    * @param request

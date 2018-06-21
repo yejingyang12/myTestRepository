@@ -12,6 +12,8 @@ window.onload = function () {
       },
       methods : {
         submitForm:function(){
+          data.formData.changeType = "1";
+          data.formData.systemId = systemId;
           ajaxMethod(this, 'post',
               'company/saveCompany', true,JSON.stringify(data.formData), 'json',
               'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);

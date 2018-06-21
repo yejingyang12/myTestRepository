@@ -53,12 +53,12 @@
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
-          #{recordsId,jdbcType=VARCHAR},
+          #{recordsId},
         ]]>
         <choose>
           <when test="fkSystemId != null and fkSystemId != ''">
             <![CDATA[
-              #{fkSystemId,jdbcType=VARCHAR},
+              #{fkSystemId},
             ]]>
           </when>
           <otherwise>
@@ -70,7 +70,7 @@
         <choose>
           <when test="fkrevokematter != null">
             <![CDATA[
-            #{fkrevokematter,jdbcType=INTEGER},
+            #{fkrevokematter},
           ]]>
           </when>
           <otherwise>
@@ -82,7 +82,7 @@
         <choose>
           <when test="recordCode != null and recordCode != ''">
             <![CDATA[
-              #{recordCode,jdbcType=VARCHAR},
+              #{recordCode},
             ]]>
           </when>
           <otherwise>
@@ -94,7 +94,7 @@
         <choose>
           <when test="recordCompany != null and recordCompany != ''">
             <![CDATA[
-              #{recordCompany,jdbcType=VARCHAR},
+              #{recordCompany},
             ]]>
           </when>
           <otherwise>
@@ -106,7 +106,7 @@
         <choose>
           <when test="recordDate != null">
             <![CDATA[
-              #{recordDate,jdbcType=DATE},
+              #{recordDate},
             ]]>
           </when>
           <otherwise>
@@ -118,7 +118,7 @@
         <choose>
           <when test="acceptCompany != null and acceptCompany != ''">
             <![CDATA[
-              #{acceptCompany,jdbcType=VARCHAR},
+              #{acceptCompany},
             ]]>
           </when>
           <otherwise>
@@ -130,7 +130,7 @@
         <choose>
           <when test="acceptDate != null">
             <![CDATA[
-              #{acceptDate,jdbcType=DATE},
+              #{acceptDate},
             ]]>
           </when>
           <otherwise>
@@ -142,7 +142,7 @@
         <choose>
           <when test="acceptReason != null and acceptReason !=''">
             <![CDATA[
-              #{acceptReason,jdbcType=INTEGER},
+              #{acceptReason},
             ]]>
           </when>
           <otherwise>
@@ -154,7 +154,7 @@
         <choose>
           <when test="revokereason != null and revokereason != ''">
             <![CDATA[
-              #{revokereason,jdbcType=VARCHAR},
+              #{revokereason},
             ]]>
           </when>
           <otherwise>
@@ -166,7 +166,7 @@
         <choose>
           <when test="revokecontent != null and revokecontent != ''">
             <![CDATA[
-              #{revokecontent,jdbcType=VARCHAR},
+              #{revokecontent},
             ]]>
           </when>
           <otherwise>
@@ -178,7 +178,7 @@
         <choose>
           <when test="deleteStatus != null">
             <![CDATA[
-              #{deleteStatus,jdbcType=INTEGER},
+              #{deleteStatus},
             ]]>
           </when>
           <otherwise>
@@ -190,7 +190,7 @@
         <choose>
           <when test="createUserName != null and createUserName != ''">
             <![CDATA[
-              #{createUserName,jdbcType=VARCHAR},
+              #{createUserName},
             ]]>
           </when>
           <otherwise>
@@ -202,7 +202,7 @@
         <choose>
           <when test="updateTime != null ">
             <![CDATA[
-              #{updateTime,jdbcType=DATE},
+              #{updateTime},
             ]]>
           </when>
           <otherwise>
@@ -214,7 +214,7 @@
         <choose>
           <when test="createTime != null ">
             <![CDATA[
-              #{createTime,jdbcType=DATE},
+              #{createTime},
             ]]>
           </when>
           <otherwise>
@@ -226,7 +226,7 @@
         <choose>
           <when test="remark != null and remark != ''">
             <![CDATA[
-              #{remark,jdbcType=VARCHAR},
+              #{remark},
             ]]>
           </when>
           <otherwise>

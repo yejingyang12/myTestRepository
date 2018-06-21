@@ -434,6 +434,8 @@
             	this.search(this);
             }
           },
+ 
+          
           /*首页帮助中心点击帮助中心让其显示隐藏*/
           helpCenter: function () {
             var help = document.getElementsByClassName("float-ri")[1];
@@ -451,7 +453,6 @@
             var h = document.getElementById('h-bread');
 //            $(h).toogle()
             h.style.display=h.style.display=="none"?"block":"none";
-    h.offsetHeight == 331 ? h.style.height = "44px" : h.style.height = "331px";
             $("#h-help-center").toggle();
             $("#h-help-bottom2").toggle();
 
@@ -654,7 +655,6 @@
           downloadSuccess: function (_self,responseData) {
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
-          	console.log(originUrl+"fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name);
          	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
           },
           changeColor: function () {

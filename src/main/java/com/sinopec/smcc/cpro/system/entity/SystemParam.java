@@ -15,7 +15,6 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SystemParam.java
@@ -67,6 +66,7 @@ public class SystemParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String sysBusSituationType;
   private String companyId;
+  private String companyName;
   
   private List<SystemKeyProducts> systemKeyProducts;
   private List<SystemUseServices> systemUseServices;
@@ -83,8 +83,13 @@ public class SystemParam {
   private String field; //接收字段
   private String sort;//排序
   
-
-
+  private String changeType;//变更状态
+  public String getChangeType() {
+    return changeType;
+  }
+  public void setChangeType(String changeType) {
+    this.changeType = changeType;
+  }
 
   /**
    * @return the fkComCode
@@ -843,5 +848,15 @@ public class SystemParam {
 
   public String toString(){
     return JSON.toJSONString(this);
+  }
+
+
+  public String getCompanyName() {
+    return companyName;
+  }
+
+
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
   }
 }

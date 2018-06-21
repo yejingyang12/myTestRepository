@@ -13,6 +13,7 @@ window.onload = function () {
         methods:{
           //保存
           saveBtn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'grading/saveSystemMaterials', true,
                 JSON.stringify(data.formData), 'json',
@@ -29,8 +30,9 @@ window.onload = function () {
           },
           //提交
           submitBtn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
-                'grading/saveSystemMaterials', true,
+                'grading/submitSystemMaterials', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.submitBtnSuccessMethod);
@@ -41,6 +43,7 @@ window.onload = function () {
           },
           //上一页
           preBtn:function() {
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'grading/saveSystemMaterials', true,
                 JSON.stringify(data.formData), 'json',

@@ -62,11 +62,18 @@ public class CompanyParam {
   private String sort;//排序
 
   private String systemId;
+  private String changeType;
   public String getSystemId() {
     return systemId;
   }
   public void setSystemId(String systemId) {
     this.systemId = systemId;
+  }
+  public String getChangeType() {
+    return changeType;
+  }
+  public void setChangeType(String changeType) {
+    this.changeType = changeType;
   }
   /**
    * @return the updateTime

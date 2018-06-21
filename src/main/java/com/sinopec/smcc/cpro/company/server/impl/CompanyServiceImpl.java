@@ -12,8 +12,6 @@ package com.sinopec.smcc.cpro.company.server.impl;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,12 +27,24 @@ import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.mapper.CompanyMapper;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
   @Autowired
   private CompanyMapper companyMapper;
+  @Autowired
+  private NodeService nodeServiceImpl;
+  @Autowired
+  private CheckService checkServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
 
   /**
    * 响应单位列表数据
@@ -68,7 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @Transactional
-  public String saveCompany(HttpServletRequest request,CompanyParam companyParam) 
+  public String saveCompany(String userName,CompanyParam companyParam) 
       throws BusinessException {
     if (StringUtils.isBlank(companyParam.getCompanyId())) {
       String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
@@ -80,6 +90,31 @@ public class CompanyServiceImpl implements CompanyService {
       companyParam.setCreateTime(new Date());
     }else{
       companyParam.setCreateTime(new Date());
+    }
+    if ("1".equals(companyParam.getChangeType())) {
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(companyParam.getSystemId());
+      nodeParam.setOperation("单位变更");
+      nodeParam.setOperationResult("已修改");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      
+      //修改审核状态
+      CheckParam checkParam = new CheckParam();
+      checkParam.setFkSystemId(companyParam.getSystemId());
+      checkParam.setFkExaminStatus("1");
+      checkParam.setFkBusinessNode("3");
+      checkParam.setPrevExecutor(userName);
+      checkParam.setExecuteTime(new Date());
+      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(companyParam.getSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }
     this.companyMapper.insertCompanyByCompanyId(companyParam);
     return companyParam.getCompanyId();

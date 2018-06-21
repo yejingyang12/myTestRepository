@@ -11,9 +11,12 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.common.ubs.model.OrgResult;
+import com.sinopec.smcc.common.ubs.util.UbsUtil;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApi;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascader;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
@@ -30,25 +33,42 @@ import com.sinopec.smcc.cpro.codeapi.server.OrganizationApiService;
  */
 @Service
 public class OrganizationApiServiceImpl implements OrganizationApiService{
+  
+  @Autowired
+  private UbsUtil ubsUtil;
 
   @Override
   public List<OrganizationApiCascaderResult> queryOrganizationApi(
       OrganizationApiParam organizationParam) throws BusinessException {
     List<OrganizationApiCascaderResult> organizationResultList = new ArrayList<OrganizationApiCascaderResult>();
-    for (int i = 0; i < 10; i++) {
-      List<OrganizationApiCascader> organizationList = new ArrayList<OrganizationApiCascader>();
-      OrganizationApiCascaderResult organizationResult = new OrganizationApiCascaderResult();
-      for (int j = 0; j < 20; j++) {
-        OrganizationApiCascader organization= new OrganizationApiCascader();
-        organization.setLabel("单位名称"+i+""+j);
-        //因页面需要单位名称和code,遂需用&来把单位名称得和code同时返回到页面
-        organization.setValue(i+""+j);
-        organizationList.add(organization);
+    List<OrgResult>  organizationApiList = ubsUtil.getOrgRoot();
+    //判断总部数据开始
+    if (organizationApiList!=null&&organizationApiList.size()>0) {
+      for (OrgResult orgResult : organizationApiList) {
+        //2级循环（板块）
+        List<OrgResult> organizationApiPlateList = ubsUtil.getOrgNode(orgResult.getOrgId());
+        if (organizationApiPlateList!=null&&organizationApiPlateList.size()>0) {
+          for (OrgResult orgResultPlate : organizationApiPlateList) {
+            OrganizationApiCascaderResult organizationResult = new OrganizationApiCascaderResult();
+            List<OrgResult> organizationApiCompanyList = ubsUtil.getOrgNode(orgResultPlate.getOrgId());
+            //3级循环（单位）
+            List<OrganizationApiCascader> organizationList = new ArrayList<OrganizationApiCascader>();
+            if (organizationApiCompanyList!=null&&organizationApiCompanyList.size()>0) {
+              for (OrgResult orgResultCompany : organizationApiCompanyList) {
+                OrganizationApiCascader organization= new OrganizationApiCascader();
+                organization.setLabel(orgResultCompany.getOrgName());
+                //因页面需要单位名称和code,遂需用&来把单位名称得和code同时返回到页面
+                organization.setValue(orgResultCompany.getOrgCode());
+                organizationList.add(organization);
+              }
+            }
+            organizationResult.setValue(orgResultPlate.getOrgCode());
+            organizationResult.setLabel(orgResultPlate.getOrgName());
+            organizationResult.setChildren(organizationList);
+            organizationResultList.add(organizationResult);
+          }
+        }
       }
-      organizationResult.setValue(String.valueOf(i+1));
-      organizationResult.setLabel("板块"+i);
-      organizationResult.setChildren(organizationList);
-      organizationResultList.add(organizationResult);
     }
     return organizationResultList;
   }
@@ -57,11 +77,28 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
   public List<OrganizationApi> queryOrgForKeyOrganizationCode(
       OrganizationApiParam organizationApiParam) throws BusinessException {
     List<OrganizationApi> organizationList = new ArrayList<OrganizationApi>();
-    for (int j = 0; j < 20; j++) {
-      OrganizationApi organization= new OrganizationApi();
-      organization.setOrgCode(""+j);
-      organization.setOrgName("单位名称"+j);
-      organizationList.add(organization);
+    
+    List<OrgResult>  organizationApiList = ubsUtil.getOrgRoot();
+    //判断总部数据开始
+    if (organizationApiList!=null&&organizationApiList.size()>0) {
+      for (OrgResult orgResult : organizationApiList) {
+        //2级循环（板块）
+        List<OrgResult> organizationApiPlateList = ubsUtil.getOrgNode(orgResult.getOrgId());
+        if (organizationApiPlateList!=null&&organizationApiPlateList.size()>0) {
+          for (OrgResult orgResultPlate : organizationApiPlateList) {
+            List<OrgResult> organizationApiCompanyList = ubsUtil.getOrgNode(orgResultPlate.getOrgId());
+            //3级循环（单位）
+            if (organizationApiCompanyList!=null&&organizationApiCompanyList.size()>0) {
+              for (OrgResult orgResultCompany : organizationApiCompanyList) {
+                OrganizationApi organization= new OrganizationApi();
+                organization.setOrgCode(orgResultCompany.getOrgCode());
+                organization.setOrgName(orgResultCompany.getOrgName());
+                organizationList.add(organization);
+              }
+            }
+          }
+        }
+      }
     }
     return organizationList;
   }
@@ -70,13 +107,29 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
   public List<OrganizationApi> queryOrgForKeyOrganizationName(
       OrganizationApiParam organizationApiParam) throws BusinessException {
     List<OrganizationApi> organizationList = new ArrayList<OrganizationApi>();
-    for (int j = 0; j < 20; j++) {
-      OrganizationApi organization= new OrganizationApi();
-      organization.setOrgCode("单位名称"+j);
-      organization.setOrgName("单位名称"+j);
-      organizationList.add(organization);
+    
+    List<OrgResult>  organizationApiList = ubsUtil.getOrgRoot();
+    //判断总部数据开始
+    if (organizationApiList!=null&&organizationApiList.size()>0) {
+      for (OrgResult orgResult : organizationApiList) {
+        //2级循环（板块）
+        List<OrgResult> organizationApiPlateList = ubsUtil.getOrgNode(orgResult.getOrgId());
+        if (organizationApiPlateList!=null&&organizationApiPlateList.size()>0) {
+          for (OrgResult orgResultPlate : organizationApiPlateList) {
+            List<OrgResult> organizationApiCompanyList = ubsUtil.getOrgNode(orgResultPlate.getOrgId());
+            //3级循环（单位）
+            if (organizationApiCompanyList!=null&&organizationApiCompanyList.size()>0) {
+              for (OrgResult orgResultCompany : organizationApiCompanyList) {
+                OrganizationApi organization= new OrganizationApi();
+                organization.setOrgCode(orgResultCompany.getOrgName());
+                organization.setOrgName(orgResultCompany.getOrgName());
+                organizationList.add(organization);
+              }
+            }
+          }
+        }
+      }
     }
     return organizationList;
   }
-  
 }

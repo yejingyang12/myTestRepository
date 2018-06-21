@@ -10,7 +10,6 @@
 package com.sinopec.smcc.cpro.system.server.impl;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,12 +34,14 @@ import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
+import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
@@ -80,6 +81,10 @@ public class SystemServiceImpl implements SystemService {
   private SystemUseServicesMapper systemUseServicesMapper;
 	@Autowired
 	private NodeService nodeServiceImpl;
+	@Autowired
+	private CheckService checkServiceImpl;
+	@Autowired
+	private MainService mainServiceImpl;
 	/**
    * 响应系统列表数据
    */
@@ -127,12 +132,15 @@ public class SystemServiceImpl implements SystemService {
     List<SystemParam> subSystemList = new ArrayList<SystemParam>();
     List<SystemKeyProducts> systemKeyProductsList = new ArrayList<SystemKeyProducts>();
     List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
-    
       systemParam.setSystemId(Utils.getUuidFor32());
       systemParam.setExamineStatus(1);
       systemParam.setExaminationStatus(1);
       systemParam.setSubIsSystem(2);
-      systemParam.setFkSystemType(2);
+      if (systemParam.getFkSystemIsMerge() == 1) {
+        systemParam.setFkSystemType(2);
+      }else if(systemParam.getFkSystemIsMerge() == 2){
+        systemParam.setFkSystemType(1);
+      }
       systemParam.setRecordStatus(1);
       systemParam.setGradingStatus(1);
       systemParam.setFkChangeMatter(5);
@@ -194,7 +202,7 @@ public class SystemServiceImpl implements SystemService {
           systemParamSub.setSysBusSituationType(systemParam.getSysBusSituationType());
           systemParamSub.setSysBusDescription(systemParam.getSysBusDescription());
           systemParamSub.setSysServiceSitScope(systemParam.getSysServiceSitScope());
-          systemParamSub.setSubIsSystem(systemParam.getSubIsSystem());
+          systemParamSub.setSubIsSystem(1);
           systemParamSub.setSysServiceSitObject(systemParam.getSysServiceSitObject());
           systemParamSub.setNpCoverageRange(systemParam.getNpCoverageRange());
           systemParamSub.setNpNetworkProperties(systemParam.getNpNetworkProperties());
@@ -206,6 +214,7 @@ public class SystemServiceImpl implements SystemService {
           systemParamSub.setSystemName(systemCode.get(subSystem).getSystemName());
           systemParamSub.setStandardizedCode(systemCode.get(subSystem).getStandardizedCode());
           systemParamSub.setFkFatherSystemId(systemParam.getSystemId());
+          systemParamSub.setCompanyName(systemParam.getCompanyName());
           subSystemList.add(systemParamSub);
           
           for (int subKey = 0; subKey < subKeyList.size(); subKey++) {
@@ -237,14 +246,15 @@ public class SystemServiceImpl implements SystemService {
         }
        }
       }
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(systemParam.getSystemId());
-      nodeParam.setOperation("创建");
-      nodeParam.setOperationResult("已创建");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
+   
+   //添加节点状态信息
+   NodeParam nodeParam = new NodeParam();
+   nodeParam.setSystemId(systemParam.getSystemId());
+   nodeParam.setOperation("创建");
+   nodeParam.setOperationResult("已创建");
+   nodeParam.setOperationOpinion("");
+   nodeParam.setOperator(userName);
+   this.nodeServiceImpl.addNodeInfo(nodeParam);
 
     this.systemKeyProductsMapper.insertSystemKeyProductsBySystemKeyProductsId(
         systemKeyProductsList);
@@ -364,6 +374,7 @@ public class SystemServiceImpl implements SystemService {
         subSys.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
         subSys.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
         subSys.setSubIsSystem(systemParam.getSubIsSystem());
+        subSys.setCompanyName(systemParam.getCompanyName());
         subUpdateSystemSubList.add(subSys);
         this.systemMapper.updateSystemSub(subUpdateSystemSubList);
         //删除子系统子表
@@ -419,6 +430,7 @@ public class SystemServiceImpl implements SystemService {
       systemFather.setSubIsSystem(systemParam.getSubIsSystem());
       systemFather.setSystemName(systemParam.getSystemName());
       systemFather.setStandardizedCode(systemParam.getStandardizedCode());
+      systemFather.setCompanyName(systemParam.getCompanyName());
       subUpdateSystemList.add(systemFather);
       this.systemMapper.updateSystem(subUpdateSystemList);
     }
@@ -467,7 +479,7 @@ public class SystemServiceImpl implements SystemService {
         systemParamSub.setAppIsInternet(2);
         systemParamSub.setEvaluationStatus(1);
         systemParamSub.setCreateTime(new Date());
-        systemParamSub.setFkSystemIsMerge(2);
+        systemParamSub.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
         systemParamSub.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
         systemParamSub.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
         systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
@@ -486,6 +498,7 @@ public class SystemServiceImpl implements SystemService {
         systemParamSub.setSystemName(addSubSystem.get(subSystem).getSystemName());
         systemParamSub.setStandardizedCode(addSubSystem.get(subSystem).getStandardizedCode());
         systemParamSub.setFkFatherSystemId(systemParam.getSystemId());
+        systemParamSub.setCompanyName(addSubSystem.get(subSystem).getCompanyName());
         systemParamAddList.add(systemParamSub);
       
         for (int subKey = 0; subKey < subKeyList.size(); subKey++) {
@@ -514,15 +527,6 @@ public class SystemServiceImpl implements SystemService {
           SystemUseServicesBean.setFkResponsibleType(subUseList.get(subUse).getFkResponsibleType());
           subSystemUseServicesList.add(SystemUseServicesBean);
         }
-        
-        //添加节点状态信息
-        NodeParam nodeParam = new NodeParam();
-        nodeParam.setSystemId(systemParam.getSystemId());
-        nodeParam.setOperation("变更");
-        nodeParam.setOperationResult("已创建");
-        nodeParam.setOperationOpinion("");
-        nodeParam.setOperator(userName);
-        this.nodeServiceImpl.addNodeInfo(nodeParam);
       }
     }
 	  //获取删除子系统List
@@ -651,7 +655,17 @@ public class SystemServiceImpl implements SystemService {
         checkParam.setUpdateTime(check.getUpdateTime());
         checkParam.setRemark(check.getRemark());
         
-        
+
+        if ("1".equals(systemParam.getChangeType())) {
+          //添加节点状态信息
+          NodeParam nodeParam = new NodeParam();
+          nodeParam.setSystemId(systemParam.getSystemId());
+          nodeParam.setOperation("系统变更");
+          nodeParam.setOperationResult("已修改");
+          nodeParam.setOperationOpinion("");
+          nodeParam.setOperator(userName);
+          this.nodeServiceImpl.addNodeInfo(nodeParam);
+        }
         
         this.systemMapper.insertGradingTemp(gradingTemParam);
         this.systemMapper.insertRecordsTemp(recordsParam);
@@ -717,201 +731,245 @@ public class SystemServiceImpl implements SystemService {
         this.systemMapper.selectUseTemp(systemParam);
     List<SystemKeyResult> keyTempPlate = 
         this.systemMapper.selectKeyTemp(systemParam);
-    
     JacobExcelTool tool = new JacobExcelTool();
+    
     //打开excel文件
     tool.OpenExcel("C://Users//hasee//Desktop//模板文件//信息模板.xlsm",false,false);
-    for (SystemUseResult systemUseResult : useTempPlate) {
+    for (int i = 0; i < systemTemPlate.size(); i++) {
+        //系统名称
+        tool.setValue(tool.getCurrentSheet(), "B"+(5+8*i), "value",systemTemPlate.get(i).getSystemName());
+        //系统编码
+        tool.setValue(tool.getCurrentSheet(), "C"+(5+8*i), "value",systemTemPlate.get(i).getStandardizedCode());
+        //等保备案名称
+        tool.setValue(tool.getCurrentSheet(), "D"+(5+8*i), "value",systemTemPlate.get(i).getGradeRecordSysName());
+        //所属单位名称 
+        tool.setValue(tool.getCurrentSheet(), "E"+(5+8*i), "value",systemTemPlate.get(i).getCompanyName());
+        //何时投入使用
+        tool.setValue(tool.getCurrentSheet(), "F"+(5+8*i), "value",systemTemPlate.get(i).getWhenInvestmentUse());
+        //主管处室名称
+        tool.setValue(tool.getCurrentSheet(), "G"+(5+8*i), "value",systemTemPlate.get(i).getExecutiveOfficeName());
+        //主管联系人
+        tool.setValue(tool.getCurrentSheet(), "H"+(5+8*i), "value",systemTemPlate.get(i).getExecutiveDireCon());
+        //联系人电话
+        tool.setValue(tool.getCurrentSheet(), "I"+(5+8*i), "value",systemTemPlate.get(i).getExecutiveDireConTel());
+        //系统是否为分系统
+        tool.setValue(tool.getCurrentSheet(), "J"+(5+8*i), "value",systemTemPlate.get(i).getSubIsSystem());
+        //上级系统名称
+        tool.setValue(tool.getCurrentSheet(), "K"+(5+8*i), "value",systemTemPlate.get(i).getExecutiveDireConTel());
+        //业务类型
+//        tool.setValue(tool.getCurrentSheet(), "L8", "value",systemTemPlate.getSysBusSituationType());
+        //是否有此业务类型
+        if (systemTemPlate.get(i).getSysBusSituationType().equals("生产作业")) {
+          tool.setValue(tool.getCurrentSheet(), "M"+(5+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "M"+(5+8*i), "value","否");
+        }
+        if(systemTemPlate.get(i).getSysBusSituationType().equals("指挥调度")) {
+          tool.setValue(tool.getCurrentSheet(), "M"+(6+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "M"+(6+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getSysBusSituationType().equals("管理控制")) {
+          tool.setValue(tool.getCurrentSheet(), "M"+(7+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "M"+(7+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getSysBusSituationType().equals("内部办公")) {
+          tool.setValue(tool.getCurrentSheet(), "M"+(8+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "M"+(8+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getSysBusSituationType().equals("公众服务")) {
+          tool.setValue(tool.getCurrentSheet(), "M"+(9+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "M"+(9+8*i), "value","否");
+        }
+        if (!systemTemPlate.get(i).getSysBusSituationType().equals("生产作业")
+            &&!systemTemPlate.get(i).getSysBusSituationType().equals("指挥调度")
+            &&!systemTemPlate.get(i).getSysBusSituationType().equals("管理控制")
+            &&!systemTemPlate.get(i).getSysBusSituationType().equals("内部办公")
+            &&!systemTemPlate.get(i).getSysBusSituationType().equals("公众服务")) {
+          tool.setValue(tool.getCurrentSheet(), "M"+(10+8*i), "value",systemTemPlate.get(i).getSysBusSituationType());
+        }
+        //业务描述
+        tool.setValue(tool.getCurrentSheet(), "N"+(5+8*i), "value",systemTemPlate.get(i).getSysBusDescription());
+        //服务范围
+        tool.setValue(tool.getCurrentSheet(), "O"+(5+8*i), "value",systemTemPlate.get(i).getSysServiceSitScope());
+        //服务范围所跨地区个数
+        tool.setValue(tool.getCurrentSheet(), "P"+(5+8*i), "value",systemTemPlate.get(i).getSysServiceSitScope());
+        //服务对象
+        tool.setValue(tool.getCurrentSheet(), "Q"+(5+8*i), "value",systemTemPlate.get(i).getSysServiceSitObject());
+        //其他
+        tool.setValue(tool.getCurrentSheet(), "R"+(5+8*i), "value",systemTemPlate.get(i).getSysServiceSitObject());
+        //覆盖范围
+//        tool.setValue(tool.getCurrentSheet(), "S8", "value",systemTemPlate.getNpCoverageRange());
+        //是否有此覆盖范围值
+        if (systemTemPlate.get(i).getNpCoverageRange().equals("局域网")) {
+          tool.setValue(tool.getCurrentSheet(), "T"+(5+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "T"+(5+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getNpCoverageRange().equals("城域网")) {
+          tool.setValue(tool.getCurrentSheet(), "T"+(6+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "T"+(6+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getNpCoverageRange().equals("广域网")) {
+          tool.setValue(tool.getCurrentSheet(), "T"+(7+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "T"+(7+8*i), "value","否");
+        }
+        if (!systemTemPlate.get(i).getNpCoverageRange().equals("局域网")
+            &&!systemTemPlate.get(i).getNpCoverageRange().equals("城域网")
+            &&!systemTemPlate.get(i).getNpCoverageRange().equals("广域网")
+            ) {
+          tool.setValue(tool.getCurrentSheet(), "T"+(8+8*i), "value",systemTemPlate.get(i).getNpCoverageRange());
+        }
+        //网络性质
+        tool.setValue(tool.getCurrentSheet(), "U"+(5+8*i), "value",systemTemPlate.get(i).getNpNetworkProperties());
+        //其他
+        tool.setValue(tool.getCurrentSheet(), "V"+(5+8*i), "value",systemTemPlate.get(i).getNpNetworkProperties());
+        //系统互联情况
+//        tool.setValue(tool.getCurrentSheet(), "W8", "value",systemTemPlate.getInterconnectionSit());
+        //是否有此系统互联情况值
+        if (systemTemPlate.get(i).getInterconnectionSit().equals("与其他行业系统连接")) {
+          tool.setValue(tool.getCurrentSheet(), "X"+(5+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "X"+(5+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getInterconnectionSit().equals("与本行业其他单位系统连接")) {
+          tool.setValue(tool.getCurrentSheet(), "X"+(6+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "X"+(6+8*i), "value","否");
+        }
+        if (systemTemPlate.get(i).getInterconnectionSit().equals("与本单位其他系统连接")) {
+          tool.setValue(tool.getCurrentSheet(), "X"+(7+8*i), "value","是");
+        }else{
+          tool.setValue(tool.getCurrentSheet(), "X"+(7+8*i), "value","否");
+        }
+        if (!systemTemPlate.get(i).getInterconnectionSit().equals("与其他行业系统连接") 
+          &&!systemTemPlate.get(i).getInterconnectionSit().equals("与本行业其他单位系统连接")
+          &&!systemTemPlate.get(i).getInterconnectionSit().equals("与本单位其他系统连接")){
+          tool.setValue(tool.getCurrentSheet(), "X"+(8+8*i), "value",systemTemPlate.get(i).getInterconnectionSit());
+        }
+    } 
       
+    for (int useExcel = 0; useExcel < useTempPlate.size(); useExcel++) {
       //服务类型
 //      tool.setValue(tool.getCurrentSheet(), "AC", "value",systemUseResult.getProductsTypeName());
       //是否有此服务类型
-      if (systemUseResult.getProductsTypeName().equals("等级测评")) {
-        tool.setValue(tool.getCurrentSheet(), "AD5", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("等级测评")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(5+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD5", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(5+8*useExcel), "value","否");
       }
-      if (systemUseResult.getProductsTypeName().equals("风险评估")) {
-        tool.setValue(tool.getCurrentSheet(), "AD6", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("风险评估")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(6+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD6", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(6+8*useExcel), "value","否");
       }
-      if (systemUseResult.getProductsTypeName().equals("灾难恢复")) {
-        tool.setValue(tool.getCurrentSheet(), "AD7", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("灾难恢复")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(7+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD7", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(7+8*useExcel), "value","否");
       }
-      if (systemUseResult.getProductsTypeName().equals("应急响应")) {
-        tool.setValue(tool.getCurrentSheet(), "AD8", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("应急响应")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(8+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD8", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(8+8*useExcel), "value","否");
       }
-      if (systemUseResult.getProductsTypeName().equals("系统集成")) {
-        tool.setValue(tool.getCurrentSheet(), "AD9", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("系统集成")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(9+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD9", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(9+8*useExcel), "value","否");
       }
-      if (systemUseResult.getProductsTypeName().equals("安全咨询")) {
-        tool.setValue(tool.getCurrentSheet(), "AD10", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("安全咨询")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(10+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD10", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(10+8*useExcel), "value","否");
       }
-      if (systemUseResult.getProductsTypeName().equals("安全培训")) {
-        tool.setValue(tool.getCurrentSheet(), "AD11", "value","是");
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("安全培训")) {
+        tool.setValue(tool.getCurrentSheet(), "AD"+(11+8*useExcel), "value","是");
       }else{
-        tool.setValue(tool.getCurrentSheet(), "AD11", "value","否");
+        tool.setValue(tool.getCurrentSheet(), "AD"+(11+8*useExcel), "value","否");
       }
       //服务责任方类型
-      tool.setValue(tool.getCurrentSheet(), "AE8", "value",systemUseResult.getFkResponsibleType());
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("等级测评")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(5+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("风险评估")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(6+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("灾难恢复")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(7+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("应急响应")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(8+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("系统集成")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(9+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("安全咨询")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(10+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
+      if (useTempPlate.get(useExcel).getProductsTypeName().equals("安全培训")) {
+        tool.setValue(tool.getCurrentSheet(), "AE"+(11+8*useExcel), "value",useTempPlate.get(useExcel).getResponsibleTypeName());
+      }
     }
-    
-    for (SystemKeyResult systemKeyResult : keyTempPlate) {
+
+      
+      for (int keyExcel = 0; keyExcel < keyTempPlate.size(); keyExcel++) {
       //数量
-      if (systemKeyResult.getExaminStatusName().equals("安全专用产品")) {
-        tool.setValue(tool.getCurrentSheet(), "Z5", "value",systemKeyResult.getProductsNumber());
-      }else if(systemKeyResult.getExaminStatusName().equals("网络产品")){
-        tool.setValue(tool.getCurrentSheet(), "Z6", "value",systemKeyResult.getProductsNumber());
-      }else if(systemKeyResult.getExaminStatusName().equals("操作系统")){
-        tool.setValue(tool.getCurrentSheet(), "Z7", "value",systemKeyResult.getProductsNumber());
-      }else if(systemKeyResult.getExaminStatusName().equals("数据库")){
-        tool.setValue(tool.getCurrentSheet(), "Z8", "value",systemKeyResult.getProductsNumber());
-      }else if(systemKeyResult.getExaminStatusName().equals("服务器")){
-        tool.setValue(tool.getCurrentSheet(), "Z9", "value",systemKeyResult.getProductsNumber());
+        if(keyTempPlate.get(keyExcel).getExaminStatusName().trim().equals("安全专用产品")){
+          tool.setValue(tool.getCurrentSheet(), "Z"+(5+8*keyExcel), "value",keyTempPlate.get(keyExcel).getProductsNumber());
+        }
+        if(keyTempPlate.get(keyExcel).getExaminStatusName().equals("网络产品")){
+          tool.setValue(tool.getCurrentSheet(), "Z"+(6+8*keyExcel), "value",keyTempPlate.get(keyExcel).getProductsNumber());
+        }
+        if(keyTempPlate.get(keyExcel).getExaminStatusName().equals("操作系统")){
+          tool.setValue(tool.getCurrentSheet(), "Z"+(7+8*keyExcel), "value",keyTempPlate.get(keyExcel).getProductsNumber());
+        }
+        if(keyTempPlate.get(keyExcel).getExaminStatusName().equals("数据库")){
+          tool.setValue(tool.getCurrentSheet(), "Z"+(8+8*keyExcel), "value",keyTempPlate.get(keyExcel).getProductsNumber());
+        }
+        if(keyTempPlate.get(keyExcel).getExaminStatusName().equals("服务器")){
+          tool.setValue(tool.getCurrentSheet(), "Z"+(9+8*keyExcel), "value",keyTempPlate.get(keyExcel).getProductsNumber());
+        }
+        //使用情况
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().trim().equals("安全专用产品")) {
+          tool.setValue(tool.getCurrentSheet(), "AA"+(5+8*keyExcel), "value",keyTempPlate.get(keyExcel).getNationalIsProductsName());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("网络产品")) {
+          tool.setValue(tool.getCurrentSheet(), "AA"+(6+8*keyExcel), "value",keyTempPlate.get(keyExcel).getNationalIsProductsName());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("操作系统")) {
+          tool.setValue(tool.getCurrentSheet(), "AA"+(7+8*keyExcel), "value",keyTempPlate.get(keyExcel).getNationalIsProductsName());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("数据库")) {
+          tool.setValue(tool.getCurrentSheet(), "AA"+(8+8*keyExcel), "value",keyTempPlate.get(keyExcel).getNationalIsProductsName());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("服务器")) {
+          tool.setValue(tool.getCurrentSheet(), "AA"+(9+8*keyExcel), "value",keyTempPlate.get(keyExcel).getNationalIsProductsName());
+        }
+        //使用国产率
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().trim().equals("安全专用产品")) {
+          tool.setValue(tool.getCurrentSheet(), "AB"+(5+8*keyExcel), "value",keyTempPlate.get(keyExcel).getnUseProbability());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("网络产品")) {
+          tool.setValue(tool.getCurrentSheet(), "AB"+(6+8*keyExcel), "value",keyTempPlate.get(keyExcel).getnUseProbability());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("操作系统")) {
+          tool.setValue(tool.getCurrentSheet(), "AB"+(7+8*keyExcel), "value",keyTempPlate.get(keyExcel).getnUseProbability());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("数据库")) {
+          tool.setValue(tool.getCurrentSheet(), "AB"+(8+8*keyExcel), "value",keyTempPlate.get(keyExcel).getnUseProbability());
+        }
+        if (keyTempPlate.get(keyExcel).getExaminStatusName().equals("服务器")) {
+          tool.setValue(tool.getCurrentSheet(), "AB"+(9+8*keyExcel), "value",keyTempPlate.get(keyExcel).getnUseProbability());
+        }
       }
-      tool.setValue(tool.getCurrentSheet(), "Z8", "value",systemKeyResult.getProductsNumber());
-      //使用情况
-      tool.setValue(tool.getCurrentSheet(), "AA8", "value",systemKeyResult.getFkNationalIsProducts());
-      //使用国产率
-      tool.setValue(tool.getCurrentSheet(), "AB8", "value",systemKeyResult.getnUseProbability());
-    }
-    
-    
-    for (SystemTemplateListResult systemTempResult : systemTemPlate) {
-      //系统名称
-      tool.setValue(tool.getCurrentSheet(), "B5", "value",systemTempResult.getSystemName());
-      //系统编码
-      tool.setValue(tool.getCurrentSheet(), "C5", "value",systemTempResult.getStandardizedCode());
-      //等保备案名称
-      tool.setValue(tool.getCurrentSheet(), "D5", "value",systemTempResult.getGradeRecordSysName());
-      //所属单位名称
-      tool.setValue(tool.getCurrentSheet(), "E5", "value",systemTempResult.getCompanyName());
-      //何时投入使用
-      tool.setValue(tool.getCurrentSheet(), "F5", "value",systemTempResult.getWhenInvestmentUse());
-      //主管处室名称
-      tool.setValue(tool.getCurrentSheet(), "G5", "value",systemTempResult.getExecutiveOfficeName());
-      //主管联系人
-      tool.setValue(tool.getCurrentSheet(), "H5", "value",systemTempResult.getExecutiveDireCon());
-      //联系人电话
-      tool.setValue(tool.getCurrentSheet(), "I5", "value",systemTempResult.getExecutiveDireConTel());
-      //系统是否为分系统
-      tool.setValue(tool.getCurrentSheet(), "J5", "value",systemTempResult.getSubIsSystem());
-      //上级系统名称
-      //tool.setValue(tool.getCurrentSheet(), "K8", "value",systemTempResult.getExecutiveDireConTel());
-      //业务类型
-//      tool.setValue(tool.getCurrentSheet(), "L8", "value",systemTempResult.getSysBusSituationType());
-      //是否有此业务类型
-      if (systemTempResult.getSysBusSituationType().equals("生产作业")) {
-        tool.setValue(tool.getCurrentSheet(), "M5", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "M5", "value","否");
-      }
-      if(systemTempResult.getSysBusSituationType().equals("指挥调度")) {
-        tool.setValue(tool.getCurrentSheet(), "M6", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "M6", "value","否");
-      }
-      if (systemTempResult.getSysBusSituationType().equals("管理控制")) {
-        tool.setValue(tool.getCurrentSheet(), "M7", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "M7", "value","否");
-      }
-      if (systemTempResult.getSysBusSituationType().equals("内部办公")) {
-        tool.setValue(tool.getCurrentSheet(), "M8", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "M8", "value","否");
-      }
-      if (systemTempResult.getSysBusSituationType().equals("公众服务")) {
-        tool.setValue(tool.getCurrentSheet(), "M9", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "M9", "value","否");
-      }
-      if (!systemTempResult.getSysBusSituationType().equals("生产作业")
-          &&!systemTempResult.getSysBusSituationType().equals("指挥调度")
-          &&!systemTempResult.getSysBusSituationType().equals("管理控制")
-          &&!systemTempResult.getSysBusSituationType().equals("内部办公")
-          &&!systemTempResult.getSysBusSituationType().equals("公众服务")) {
-        tool.setValue(tool.getCurrentSheet(), "M10", "value",systemTempResult.getSysBusSituationType());
-      }
-      //业务描述
-      tool.setValue(tool.getCurrentSheet(), "N5", "value",systemTempResult.getSysBusDescription());
-      //服务范围
-      tool.setValue(tool.getCurrentSheet(), "O5", "value",systemTempResult.getSysServiceSitScope());
-      //服务范围所跨地区个数
-      tool.setValue(tool.getCurrentSheet(), "P5", "value",systemTempResult.getSysServiceSitScope());
-      //服务对象
-      tool.setValue(tool.getCurrentSheet(), "Q5", "value",systemTempResult.getSysServiceSitObject());
-      //其他
-      tool.setValue(tool.getCurrentSheet(), "R5", "value",systemTempResult.getSysServiceSitObject());
-      //覆盖范围
-//      tool.setValue(tool.getCurrentSheet(), "S8", "value",systemTempResult.getNpCoverageRange());
-      //是否有此覆盖范围值
-      if (systemTempResult.getNpCoverageRange().equals("局域网")) {
-        tool.setValue(tool.getCurrentSheet(), "T5", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "T5", "value","否");
-      }
-      if (systemTempResult.getNpCoverageRange().equals("城域网")) {
-        tool.setValue(tool.getCurrentSheet(), "T6", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "T6", "value","否");
-      }
-      if (systemTempResult.getNpCoverageRange().equals("广域网")) {
-        tool.setValue(tool.getCurrentSheet(), "T7", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "T7", "value","否");
-      }
-      if (systemTempResult.getNpCoverageRange().equals("其他")) {
-        tool.setValue(tool.getCurrentSheet(), "T10", "value",systemTempResult.getNpCoverageRange());
-      }
-      if (!systemTempResult.getNpCoverageRange().equals("局域网")
-          &&!systemTempResult.getNpCoverageRange().equals("城域网")
-          &&!systemTempResult.getNpCoverageRange().equals("广域网")
-          ) {
-        tool.setValue(tool.getCurrentSheet(), "T8", "value",systemTempResult.getNpCoverageRange());
-      }
-      //网络性质
-      tool.setValue(tool.getCurrentSheet(), "U8", "value",systemTempResult.getNpNetworkProperties());
-      //其他
-      tool.setValue(tool.getCurrentSheet(), "V8", "value",systemTempResult.getNpNetworkProperties());
-      //系统互联情况
-//      tool.setValue(tool.getCurrentSheet(), "W8", "value",systemTempResult.getInterconnectionSit());
-      //是否有此系统互联情况值
-      if (systemTempResult.getInterconnectionSit().equals("与其他行业系统连接")) {
-        tool.setValue(tool.getCurrentSheet(), "X5", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "X5", "value","否");
-      }
-      if (systemTempResult.getInterconnectionSit().equals("与本行业其他单位系统连接")) {
-        tool.setValue(tool.getCurrentSheet(), "X6", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "X6", "value","否");
-      }
-      if (systemTempResult.getInterconnectionSit().equals("与本单位其他系统连接")) {
-        tool.setValue(tool.getCurrentSheet(), "X7", "value","是");
-      }else{
-        tool.setValue(tool.getCurrentSheet(), "X7", "value","否");
-      }
-      if (systemTempResult.getInterconnectionSit().equals("其他")) {
-        tool.setValue(tool.getCurrentSheet(), "X10", "value","是");
-      }
-      if (!systemTempResult.getInterconnectionSit().equals("与其他行业系统连接") 
-        &&!systemTempResult.getInterconnectionSit().equals("与本行业其他单位系统连接")
-        &&!systemTempResult.getInterconnectionSit().equals("与本单位其他系统连接")){
-        tool.setValue(tool.getCurrentSheet(), "X8", "value",systemTempResult.getInterconnectionSit());
-      }
-    }
-    FileOutputStream out = new FileOutputStream("C://Users//hasee//Desktop//模板文件//备份1.xlsm");
-    out.close();
+        
+
     //关闭并保存，释放对象
     tool.CloseExcel(true, true);
     

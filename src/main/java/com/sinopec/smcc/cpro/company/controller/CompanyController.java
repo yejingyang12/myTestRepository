@@ -28,6 +28,7 @@ import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
+import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 
 
@@ -40,6 +41,8 @@ public class CompanyController {
   
   @Autowired
   private SystemService systemServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
   /**
    * @Descrption 单位系统信息列表
    * @author dongxu
@@ -77,7 +80,8 @@ public class CompanyController {
   @ResponseBody
   public ResultApi saveCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
-    String companyId = this.companyServiceImpl.saveCompany(request, companyParam);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String companyId = this.companyServiceImpl.saveCompany(userName, companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(companyId);
     return result;

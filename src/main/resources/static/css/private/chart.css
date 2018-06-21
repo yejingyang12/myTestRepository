@@ -7,8 +7,23 @@
     height: 5px;
     width: 55%;
     max-width: 60%;
-;
+ }
+ .two .el-input__suffix {
+    top: 7px;
+    height: 20px;
+    width: 1px;
+    background: rgb(206, 206, 206);
+    right: 32px;
+    transition: all .3s;
 }
+ .three .el-input__suffix {
+    top: 7px;
+    height: 20px;
+    width: 1px;
+    background: rgb(206, 206, 206);
+    right: 33px;
+    transition: all .3s;
+} 
 .p1{
     font-size: 14px;
     font-weight: 500;
@@ -46,7 +61,7 @@
 .bingzhuangtu{
     padding: 0;
     padding-top: 15px;
-    padding-right: 15px;
+    padding-right: 0px;
     border-right: 1px solid #cecece;
 }
 .chart1 .bingzhuangtu .p3 div{
@@ -69,6 +84,8 @@
      text-align: left;
      padding-left: 2%;
 }
+
+
 
 .bingzhuangBox{
     margin-top: 15px;
@@ -106,10 +123,10 @@
     height: 268px;
     text-align: center;
     vertical-align: middle;
-    position: absolute;
+   /*  position: absolute;
     left: 30px;
-    top: 35px;
-    width: 89%;
+    top: 35px; */
+    width: 100%;
     margin-bottom: 10px;
 }
 /*小堆叠图*/
@@ -123,9 +140,11 @@
     height:302px;
 }
 .xiaoduidieBox div p{
+    margin-top: 10px;
     min-width: 12%;
 }
 .xiaoduidieBox .duidieIns {
+    margin-top: 10px;
     width: 85%;
 }
 .xiaoduidieBox .duidieIns span{
@@ -136,7 +155,7 @@
         color: #cecece;
 }
 .xiaoduitubiao{
-    height: 100px;
+    height: 234px;
     margin-top: 15px;
 }
 /*大堆叠图*/
@@ -170,7 +189,7 @@ margin-left: 15px;
     padding-right: 15px;
 }
 .chart3 span{
-    min-width: 18%;
+   /*  min-width: 18%; */
 }
 .chart3 .tubiaocon  {
     margin-right: -15px;

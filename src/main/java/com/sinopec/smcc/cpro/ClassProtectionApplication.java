@@ -37,7 +37,7 @@ public class ClassProtectionApplication {
 
 	@RequestMapping("/")
 	public String mainPage() {
-		return "views/index";
+		return "page/indexPage";
 	}
 
 	/**

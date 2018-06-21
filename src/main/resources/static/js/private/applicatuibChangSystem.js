@@ -12,8 +12,9 @@ window.onload = function () {
         },
         methods:{
           saveBtn:function() {
+            data.formData.changeType = "1";
             ajaxMethod(this, 'post',
-                'system/saveSystem', true,
+                'system/editSystem', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.saveBtnSuccessMethod);
@@ -28,8 +29,9 @@ window.onload = function () {
           },
           //上一页
           preBtn:function() {
+            data.formData.changeType = "1";
             ajaxMethod(this, 'post',
-                'system/saveSystem', true,
+                'system/editSystem', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.preBtnSuccessMethod);
@@ -40,8 +42,9 @@ window.onload = function () {
           },
           //下一页
           nextBtn:function() {
+            data.formData.changeType = "1";
             ajaxMethod(this, 'post',
-                'system/saveSystem', true,
+                'system/editSystem', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.nextBtnSuccessMethod);

@@ -10,7 +10,7 @@ window.onload = function () {
         },
         methods:{
           saveBtn:function() {
-            console.log(JSON.stringify(data.formData))
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'system/saveSystem', true,
                 JSON.stringify(data.formData), 'json',
@@ -27,6 +27,7 @@ window.onload = function () {
           },
           //上一页
           preBtn:function() {
+            data.formData.changeType = "2";
             if(systemId!=''&&systemId!=null){
               ajaxMethod(this, 'post',
                   'system/editSystem', true,
@@ -47,8 +48,7 @@ window.onload = function () {
           },
           //下一页
           nextBtn:function() {
-            console.log(JSON.stringify(data.formData.sysBusSituationType)+"-----------------")
-            console.log(JSON.stringify(data.formData))
+            data.formData.changeType = "2";
             if(systemId!=''&&systemId!=null){
               ajaxMethod(this, 'post',
                   'system/editSystem', true,

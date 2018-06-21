@@ -88,7 +88,7 @@ public class RecordsController {
   }
   
   /**
-   * @Descrption 点击撤销备案，填写信息后保存
+   * @Descrption 企业系统点击撤销备案，填写信息后保存
    * @author yejingyang
    * @date 2018年6月9日上午10:17:40
    * @param request
@@ -102,6 +102,24 @@ public class RecordsController {
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     this.recordsServiceImpl.saveRevokeRecordsInfo(userName, recordsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return result;
+  }
+  /**
+   * @Descrption 总部系统点击撤销备案，填写信息后保存
+   * @author yejingyang
+   * @date 2018年6月9日上午10:17:40
+   * @param request
+   * @param recordsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/saveHeadRevokeRecordsInfo", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi saveHeadRevokeRecordsInfo(HttpServletRequest request,
+      @RequestBody RecordsParam recordsParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    this.recordsServiceImpl.saveHeadRevokeRecordsInfo(userName, recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   }

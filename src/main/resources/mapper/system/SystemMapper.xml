@@ -33,6 +33,7 @@
     <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
     <result column="fkInfoSysTypeCon" property="fkInfoSysTypeCon" jdbcType="VARCHAR" />
     <result column="fkSystemIsMerge" property="fkSystemIsMerge" jdbcType="VARCHAR" />
+    <result column="companyName" property="companyName" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="SystemListResult" type="com.sinopec.smcc.cpro.system.entity.SystemListResult">
     <id column="pkId" property="systemId" jdbcType="VARCHAR" />
@@ -1426,7 +1427,7 @@
     LEFT JOIN t_cpro_system_code AS systemCodeCombined
       ON system.fkSystemIsMerge = systemCodeCombined.systemCode 
       AND systemCodeCombined.fkCodeType = 29
-    WHERE system.pkId IN ('2c966f77f9e742c9bc4d5802fa2add5c')
+    WHERE system.pkId IN (#{systemId})
   </select>
   
 	<select id="selectDetailsSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
@@ -1449,7 +1450,8 @@
 			system.executiveOfficeName,
 			system.subIsSystem,
 			system.executiveDireCon,
-			system.executiveDireConTel
+			system.executiveDireConTel,
+      system.companyName
 		FROM
 			t_cpro_system AS system
 		LEFT JOIN t_cpro_system_code AS systemCodeConstructionType 
@@ -1502,7 +1504,7 @@
     LEFT JOIN t_cpro_system_code AS codeNationalIsProducts
     	ON systemKeyProducts.fkNationalIsProducts = codeNationalIsProducts.systemCode
     	AND codeNationalIsProducts.fkCodeType = 9
-    WHERE systemKeyProducts.fkSystemId IN ('2c966f77f9e742c9bc4d5802fa2add5c')
+    WHERE systemKeyProducts.fkSystemId IN (#{systemId})
   </select>
   
   <resultMap id="BaseUseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemUseResult">
@@ -1534,18 +1536,7 @@
     LEFT JOIN t_cpro_system_code AS codeResponsibleType
     	ON systemUseServices.fkResponsibleType = codeResponsibleType.systemCode
     	AND codeResponsibleType.fkCodeType = 15
-    WHERE systemUseServices.fkSystemId IN ('2c966f77f9e742c9bc4d5802fa2add5c')
-    ORDER BY
-    CASE 
-    	WHEN productsTypeName = '等级测评' then 1
-    	WHEN productsTypeName = '风险评估' then 2
-    	WHEN productsTypeName = '灾难恢复' then 3
-    	WHEN productsTypeName = '应急响应' then 4
-    	WHEN productsTypeName = '系统集成' then 5
-    	WHEN productsTypeName = '安全咨询' then 6
-    	WHEN productsTypeName = '安全培训' then 7
-    	WHEN productsTypeName = '其他' then 8
-    END
+    WHERE systemUseServices.fkSystemId IN (#{systemId})
   </select>
   
   
@@ -1657,7 +1648,7 @@
       npCoverageRange,updateTime,sysBusSituationType,
       sysServiceSitObject,sysServiceSitScope,fkCompanyCode,
       recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeCon,
-      npNetworkProperties,evaluationStatus)VALUES
+      npNetworkProperties,evaluationStatus,companyName)VALUES
       <foreach collection="list" item="item" index="index" separator=",">
         (
           <trim suffixOverrides="," >
@@ -2064,6 +2055,18 @@
               <when test="item.evaluationStatus != null ">
                 <![CDATA[
                   #{item.evaluationStatus,jdbcType=INTEGER},
+                ]]>
+              </when>
+              <otherwise>
+                <![CDATA[
+                  DEFAULT,
+                ]]>
+              </otherwise>
+            </choose>
+            <choose>
+              <when test="item.companyName != null ">
+                <![CDATA[
+                  #{item.companyName,jdbcType=VARCHAR},
                 ]]>
               </when>
               <otherwise>
@@ -2689,6 +2692,11 @@
         examineStatus = #{examineStatus,jdbcType=INTEGER}
       ]]>
     </if>
+    <if test="companyName != null">
+      <![CDATA[
+        companyName = #{companyName,jdbcType=VARCHAR}
+      ]]>
+    </if>
     <if test="recordStatus != null">
       <![CDATA[
         recordStatus = #{recordStatus,jdbcType=INTEGER}
@@ -3234,6 +3242,7 @@
         executiveDireConTel = #{item.executiveDireConTel,jdbcType=VARCHAR},
         whenInvestmentUse = #{item.whenInvestmentUse,jdbcType=DATE},
         subIsSystem = #{item.subIsSystem,jdbcType=TINYINT}
+        companyName = #{item.companyName,jdbcType=VARCHAR}
         WHERE pkId IN
     <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
         #{item.systemId}
@@ -3261,7 +3270,8 @@
         executiveDireCon = #{item.executiveDireCon,jdbcType=VARCHAR},
         executiveDireConTel = #{item.executiveDireConTel,jdbcType=VARCHAR},
         whenInvestmentUse = #{item.whenInvestmentUse,jdbcType=DATE},
-        subIsSystem = #{item.subIsSystem,jdbcType=TINYINT}
+        subIsSystem = #{item.subIsSystem,jdbcType=TINYINT},
+        companyName = #{item.companyName,jdbcType=VARCHAR}
         WHERE pkId IN
     <foreach collection="list" item="item" index="index" open="(" separator="," close=")"> 
         #{item.systemId}
@@ -3420,6 +3430,7 @@
       system.executiveDireCon,
       system.executiveDireConTel,
       system.whenInvestmentUse,
+      system.systemName,
       system.subIsSystem
     FROM t_cpro_system system
     WHERE system.pkId = #{systemId,jdbcType=VARCHAR}

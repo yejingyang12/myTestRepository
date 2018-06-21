@@ -43,15 +43,15 @@
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
-        #{gradingId,jdbcType=VARCHAR},
+        #{gradingId},
         ]]>
         <![CDATA[
-        #{fkSystemId,jdbcType=VARCHAR},
+        #{fkSystemId},
         ]]>
         <choose>
           <when test="fkBizSPRankDegree != null and fkBizSPRankDegree != ''">
            <![CDATA[
-             #{fkBizSPRankDegree,jdbcType=VARCHAR},
+             #{fkBizSPRankDegree},
            ]]>
           </when>
           <otherwise>
@@ -63,7 +63,7 @@
         <choose>
          <when test="fkBizSPRankLevel != null and fkBizSPRankLevel != ''">
            <![CDATA[
-             #{fkBizSPRankLevel,jdbcType=VARCHAR},
+             #{fkBizSPRankLevel},
            ]]>
          </when>
          <otherwise>
@@ -75,7 +75,7 @@
         <choose>
          <when test="fkBizSystemDegree != null and fkBizSystemDegree != ''">
            <![CDATA[
-             #{fkBizSystemDegree,jdbcType=VARCHAR},
+             #{fkBizSystemDegree},
            ]]>
          </when>
          <otherwise>
@@ -87,7 +87,7 @@
         <choose>
          <when test="fkBizSystemLevel != null and fkBizSystemLevel != ''">
            <![CDATA[
-             #{fkBizSystemLevel,jdbcType=VARCHAR},
+             #{fkBizSystemLevel},
            ]]>
          </when>
          <otherwise>
@@ -99,7 +99,7 @@
         <choose>
          <when test="fkSpRanklevel != null and fkSpRanklevel != ''">
            <![CDATA[
-             #{fkSpRanklevel,jdbcType=VARCHAR},
+             #{fkSpRanklevel},
            ]]>
          </when>
          <otherwise>
@@ -111,7 +111,7 @@
         <choose>
          <when test="expertView != null and expertView != ''">
            <![CDATA[
-             #{expertView,jdbcType=TINYINT},
+             #{expertView},
            ]]>
          </when>
          <otherwise>
@@ -123,7 +123,7 @@
         <choose>
          <when test="rankExplainDesc != null and rankExplainDesc != ''">
            <![CDATA[
-             #{rankExplainDesc,jdbcType=VARCHAR},
+             #{rankExplainDesc},
            ]]>
          </when>
          <otherwise>
@@ -135,7 +135,7 @@
         <choose>
          <when test="rankTime != null ">
            <![CDATA[
-             #{rankTime,jdbcType=DATE},
+             #{rankTime},
            ]]>
          </when>
          <otherwise>
@@ -147,7 +147,7 @@
         <choose>
          <when test="competentIsExisting != null and competentIsExisting != ''">
            <![CDATA[
-             #{competentIsExisting,jdbcType=TINYINT},
+             #{competentIsExisting},
            ]]>
          </when>
          <otherwise>
@@ -159,7 +159,7 @@
         <choose>
          <when test="competentName != null and competentName != ''">
            <![CDATA[
-             #{competentName,jdbcType=VARCHAR},
+             #{competentName},
            ]]>
          </when>
          <otherwise>
@@ -171,7 +171,7 @@
         <choose>
          <when test="competentView != null and competentView != ''">
            <![CDATA[
-             #{competentView,jdbcType=TINYINT},
+             #{competentView},
            ]]>
          </when>
          <otherwise>
@@ -183,7 +183,7 @@
         <choose>
          <when test="filler != null and filler != ''">
            <![CDATA[
-             #{filler,jdbcType=VARCHAR},
+             #{filler},
            ]]>
          </when>
          <otherwise>
@@ -195,7 +195,7 @@
         <choose>
          <when test="fillDate != null ">
            <![CDATA[
-             #{fillDate,jdbcType=DATE},
+             #{fillDate},
            ]]>
          </when>
          <otherwise>
@@ -207,7 +207,7 @@
         <choose>
          <when test="deleteStatus != null and deleteStatus != ''">
            <![CDATA[
-             #{deleteStatus,jdbcType=TINYINT},
+             #{deleteStatus},
            ]]>
          </when>
          <otherwise>
@@ -219,7 +219,7 @@
         <choose>
          <when test="createUserName != null and createUserName != ''">
            <![CDATA[
-             #{createUserName,jdbcType=VARCHAR},
+             #{createUserName},
            ]]>
          </when>
          <otherwise>
@@ -231,7 +231,7 @@
         <choose>
          <when test="createTime != null ">
            <![CDATA[
-             #{createTime,jdbcType=DATE},
+             #{createTime},
            ]]>
          </when>
          <otherwise>
@@ -243,7 +243,7 @@
         <choose>
          <when test="updateTime != null ">
            <![CDATA[
-             #{updateTime,jdbcType=DATE},
+             #{updateTime},
            ]]>
          </when>
          <otherwise>
@@ -255,7 +255,7 @@
         <choose>
          <when test="remark != null and remark != ''">
            <![CDATA[
-             #{remark,jdbcType=VARCHAR},
+             #{remark},
            ]]>
          </when>
          <otherwise>

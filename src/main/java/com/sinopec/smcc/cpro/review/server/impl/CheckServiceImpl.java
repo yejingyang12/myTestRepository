@@ -23,16 +23,20 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.ubs.client.UbsClient;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.mapper.CheckMapper;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.review.uitl.ConvertFieldUtil;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.server.SystemService;
+import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
  * @Title CheckServiceImpl.java
@@ -51,6 +55,8 @@ public class CheckServiceImpl implements CheckService {
   private NodeService nodeServiceImpl;
   @Autowired
   private SystemService systemServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
   @Autowired
   UbsClient ubsClient;
   @Value("${appId}") 
@@ -84,7 +90,7 @@ public class CheckServiceImpl implements CheckService {
   }
   
   /**
-   * 定级审核
+   * 企业管理员定级审核
    */
   @Override
   @Transactional
@@ -93,10 +99,6 @@ public class CheckServiceImpl implements CheckService {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
-    //获取系统信息，判别信息系统建设类型(code)：1：自建；2：统建；3：总部系统；
-    SystemParam systemParam = new SystemParam();
-    systemParam.setSystemId(checkParam.getFkSystemId());
-    SystemResult systemResult = this.systemServiceImpl.queryDetailsSystem(systemParam);
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     
@@ -104,53 +106,104 @@ public class CheckServiceImpl implements CheckService {
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
     nodeParam.setOperation("定级审核");
-    nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
-    switch (checkParam.getScoreCheckResult()) {
+    if (checkParam.getScoreCheckResult() == 1) {
     //通过定级审核
-    case 1:
-      switch (systemResult.getConstructionTypeName()) {
-      //自建
-      case "1":
-      //统建
-      case "2":
-        checkParam.setFkExaminStatus("待总部安全管理员审核");
-        break;
-      //总部系统
-      case "3":
-        checkParam.setFkExaminStatus("归档");
-        break;
-      default:
-        break;
-      }
       nodeParam.setOperationResult("通过");
-      break;
-    //未通过审核
-    case 2:
-      //未通过定级审核
-      switch (systemResult.getConstructionTypeName()) {
-      case "1":
-      case "2":
-        checkParam.setFkExaminStatus("企业安全员管理审核未通过");
-        break;
-      case "3":
-        checkParam.setFkExaminStatus("总部安全管理员审核未通过");
-        break;
-      default:
-        break;
-      }
+      nodeParam.setOperationOpinion("");
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("2");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckResult(1);
+      editCheckStatusBySystemId(check);
+   
+    }else{
       nodeParam.setOperationResult("未通过");
-      break;
-    default:
-      break;
-    }
+      nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("3");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckResult(2);
+      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态为
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } 
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);
-    this.checkMapper.updateCheckBySystemId(checkParam);
+    return checkParam.getFkSystemId();
+  }
+  
+  /**
+   * 总部管理员定级审核
+   */
+  @Override
+  @Transactional
+  public String saveHeadGradCheck(String userName, CheckParam checkParam) 
+      throws BusinessException {
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("定级审核");
+    if (checkParam.getScoreCheckResult() == 1) {
+      //通过定级审核
+      nodeParam.setOperationResult("通过");
+      nodeParam.setOperationOpinion("");
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("5");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckResult(1);
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("3");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
+      nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("4");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckResult(2);
+      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } 
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
     return checkParam.getFkSystemId();
   }
 
   /**
-   * 定级变更审核
+   * 企业管理员定级变更审核
    */
   @Override
   @Transactional
@@ -160,64 +213,116 @@ public class CheckServiceImpl implements CheckService {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     
-    //获取系统信息，判别信息系统建设类型(code)：1：自建；2：统建；3：总部系统；
-    SystemParam systemParam = new SystemParam();
-    systemParam.setSystemId(checkParam.getFkSystemId());
-    SystemResult systemResult = this.systemServiceImpl.queryDetailsSystem(systemParam);
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("变更审批");
-    nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
-    switch (checkParam.getScoreCheckChangeResult()) {
-    //通过定级审核
-    case 1:
-      switch (systemResult.getConstructionTypeName()) {
-      //自建
-      case "1":
-      //统建
-      case "2":
-        checkParam.setFkExaminStatus("待总部安全管理员审核");
-        break;
-      //总部系统
-      case "3":
-        checkParam.setFkExaminStatus("归档");
-        break;
-      default:
-        break;
-      }
+    nodeParam.setOperation("变更审核");
+    if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
-      break;
-    //未通过审核
-    case 2:
-      //未通过定级审核
-      switch (systemResult.getConstructionTypeName()) {
-      case "1":
-      case "2":
-        checkParam.setFkExaminStatus("企业安全员管理审核未通过");
-        break;
-      case "3":
-        checkParam.setFkExaminStatus("总部安全管理员审核未通过");
-        break;
-      default:
-        break;
-      }
+      nodeParam.setOperationOpinion("");
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("2");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckChangeResult(1);
+      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
       nodeParam.setOperationResult("未通过");
-      break;
-    default:
-      break;
+      nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("3");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckChangeResult(2);
+      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);
-    this.checkMapper.updateCheckBySystemId(checkParam);
     return checkParam.getFkSystemId();
   }
-
+  
   /**
-   * 撤销备案审核
+   * 总部管理员定级变更审核
+   */
+  @Override
+  @Transactional
+  public String saveHeadGradChangeCheck(String userName, CheckParam checkParam)
+      throws BusinessException {
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("变更审核");
+    if (checkParam.getScoreCheckChangeResult() == 1) {
+      nodeParam.setOperationResult("通过");
+      nodeParam.setOperationOpinion("");
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("5");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckChangeResult(1);
+      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("3");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
+      nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("4");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setScoreCheckChangeResult(2);
+      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    return checkParam.getFkSystemId();
+  }
+  /**
+   * 总部管理员撤销备案审核
    */
   @Override
   @Transactional
@@ -227,61 +332,95 @@ public class CheckServiceImpl implements CheckService {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     
-    //获取系统信息，判别信息系统建设类型(code)：1：自建；2：统建；3：总部系统；
-    SystemParam systemParam = new SystemParam();
-    systemParam.setSystemId(checkParam.getFkSystemId());
-    SystemResult systemResult = this.systemServiceImpl.queryDetailsSystem(systemParam);
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
-    if (systemResult != null) {
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(checkParam.getFkSystemId());
-      nodeParam.setOperation("撤销备案审批");
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("撤销备案审核");
+    if (checkParam.getCancelRecordsResult() ==1 ) {
+      nodeParam.setOperationResult("通过");
+      nodeParam.setOperationOpinion("");
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("5");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setCancelRecordsResult(1);
+      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setExamineStatus("3");
+      mainParam.setRecordStatus("4");
+      mainParam.setEvaluationStatus("4");
+      mainParam.setExaminationStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
       nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
-      switch (checkParam.getCancelRecordsResult()) {
-      //通过定级审核
-      case 1:
-        switch (systemResult.getConstructionTypeName()) {
-        //自建
-        case "1":
-          //统建
-        case "2":
-          checkParam.setFkExaminStatus("待总部安全管理员审核");
-          break;
-          //总部系统
-        case "3":
-          checkParam.setFkExaminStatus("归档");
-          break;
-        default:
-          break;
-        }
-        nodeParam.setOperationResult("通过");
-        break;
-        //未通过审核
-      case 2:
-        //未通过定级审核
-        switch (systemResult.getConstructionTypeName()) {
-        case "1":
-        case "2":
-          checkParam.setFkExaminStatus("企业安全员管理审核未通过");
-          break;
-        case "3":
-          checkParam.setFkExaminStatus("总部安全管理员审核未通过");
-          break;
-        default:
-          break;
-        }
-        nodeParam.setOperationResult("未通过");
-        break;
-      default:
-        break;
-      }
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      //修改审核状态
+      CheckParam check = new CheckParam();
+      check.setFkSystemId(checkParam.getFkSystemId());
+      check.setFkExaminStatus("4");
+      check.setPrevExecutor(userName);
+      check.setExecuteTime(new Date());
+      check.setCancelRecordsResult(2);
+      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
+      editCheckStatusBySystemId(check);
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setRecordStatus("2");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }
-    this.checkMapper.updateCheckBySystemId(checkParam);
+   
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
     return checkParam.getFkSystemId();
+  }
+
+  /**
+   * 修改审核状态
+   */
+  @Override
+  public void editCheckStatusBySystemId(CheckParam checkParam) throws BusinessException {
+    this.checkMapper.updateCheckStatusBySystemId(checkParam);
+  }
+
+  /**
+   * @Descrption 添加审核信息
+   * @author dongxu
+   * @date 2018年6月20日下午1:53:09
+   * @param checkParam
+   * @throws BusinessException
+   */
+  @Override
+  public void addCheck(CheckParam checkParam) throws BusinessException {
+    checkParam.setCheckId(Utils.getUuidFor32());
+    checkParam.setCreateTime(new Date());
+    checkParam.setDeleteStatus(1);
+    checkParam.setCreateUserName("");
+    this.checkMapper.insertCheck(checkParam);
+  }
+
+  /**
+   * 查询审核详情
+   */
+  @Override
+  public CheckResult queryCheckInfoBySystemId(CheckParam checkParam) throws BusinessException {
+    return this.checkMapper.selectCheckInfoBySystemId(checkParam);
+  }
+
+  /**
+   * 通过审核ID删除审核记录
+   */
+  @Override
+  public void deleteCheckByCheckId(CheckParam checkParam) throws BusinessException {
+     this.checkMapper.deleteCheckByCheckId(checkParam);
   }
   
 }

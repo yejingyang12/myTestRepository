@@ -18,7 +18,7 @@
                      <div class="row">
                          <div class="col-md-6 chart chart1 padding-0"  >
                              <!--饼状图-->
-                            <div class="col-md-6 bingzhuangtu">
+                            <div class="col-md-6 bingzhuangtu two">
                                 <div style="height: 100px">
                                     <p class="p1">系统等保等级分布</p>
                                     <p class="p2">系统等保等级分布</p>
@@ -51,10 +51,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bingzhuangBox pos-relative">
+                                <div class="bingzhuangBox pos-relative" style="margin-top: 45px;">
                                     <!--饼状图表说明-->
-                                    <div class="instructor">
-                                        <p class="level1">
+<!--                                      <div class="instructor">
+                                       <p class="level1">
                                             <i></i>
                                             一级
                                         </p>
@@ -74,9 +74,9 @@
                                             <i></i>
                                             五级
                                         </p>
-                                    </div>
-                                    <div class="bingtubiao">
-                                        这里是饼状图表
+                                    </div> -->
+                                    <div class="bingtubiao" >
+                                        <chart-pie></chart-pie>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
                                     <p class="p2">点击图表查看不同管理状态下不同等保级别的系统详情</p>
                                     <div class="p3">
                                         <p class="float-le h-applyTime" >时间:</p>
-                                        <div class="float-le timeInput chartstarttime">
+                                        <div class="float-le timeInput chartstarttime two">
                                             <template>
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
@@ -129,7 +129,9 @@
                                                     </el-option>
                                                 </el-select>
                                             </template>
-                                            <div class="xiaoduitubiao">这里是小堆叠图</div>
+                                            <div class="xiaoduitubiao"> 
+                                                <chart-bar></chart-bar>
+                                             </div>
                                         </div>
                                     </div>
 
@@ -157,7 +159,7 @@
                                                  </template>
                                              </div>
                                              <p class="float-le"> 到 </p>
-                                             <div class="float-le timeInput chartstarttime"  >
+                                             <div class="float-le timeInput chartstarttime three"  >
                                                  <template>
                                                      <div class="block">
                                                          <!--<span class="demonstration">默认</span>-->
@@ -181,7 +183,7 @@
                                      </div>
                              </div>
                              <div class="bingzhuangBox">
-                                 这里是大堆叠图1
+                               <chart-stack-one></chart-stack-one>
                              </div>
                          </div>
                      </div>
@@ -221,11 +223,11 @@
                                 </div>
                             </div>
                             <div class="bingzhuangBox">
-                                这里是折线图
+                           <chart-line></chart-line>
                             </div>
                         </div>
 
-                        <div class="col-md-6 chart2 chart4 bingzhuangtu" >
+                        <div class="col-md-6 chart2 chart4 bingzhuangtu two" >
                             <div style="height: 100px">
                                 <p class="p1">受理备案单位数量Top10</p>
                                 <p class="p2">受理备案数量前10的单位排名</p>
@@ -269,7 +271,7 @@
                                 </div>
                             </div>
                             <div class="bingzhuangBox">
-                                这里是大堆叠图2
+                              <chart-stack-two></chart-stack-two>
                             </div>
                         </div>
 

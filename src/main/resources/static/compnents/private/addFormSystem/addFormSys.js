@@ -26,7 +26,9 @@ var  data={
         executiveDireConTel:"",
         whenInvestmentUse:"",
         subIsSystem:"",
-        comCode:"",
+        companyName:"",
+        fkComCode:"",
+        changeType:"",
         addSystemSub:[{
           systemName:"",
           standardizedCode:""
@@ -197,10 +199,10 @@ var  data={
                     });
                     
                     if(e.target.innerHTML.indexOf("其它") != -1){
-                      $("#sysBusSituationType").val($("#busSituationType").val());
+                      //$("#sysBusSituationType").val($("#busSituationType").val());
                       this.formData.sysBusSituationType = $("#busSituationType").val();
                     }else{
-                      $("#sysBusSituationType").val(e.target.innerHTML);
+                      //$("#sysBusSituationType").val(e.target.innerHTML);
                       this.formData.sysBusSituationType = e.target.innerHTML;
                     }
                   },
@@ -241,10 +243,10 @@ var  data={
                       $(this).addClass("btnColor");
                     });
                     if(e.target.innerHTML.indexOf("其它") != -1){
-                      $("#sysServiceSitObject").val($("#serviceSitObject").val());
+                      //$("#sysServiceSitObject").val($("#serviceSitObject").val());
                       this.formData.sysServiceSitObject = $("#serviceSitObject").val();
                     }else{
-                      $("#sysServiceSitObject").val(e.target.innerHTML);
+                      //$("#sysServiceSitObject").val(e.target.innerHTML);
                       this.formData.sysServiceSitObject = e.target.innerHTML;
                     }
                   },
@@ -368,10 +370,7 @@ var  data={
                     // 获取系统信息成功
                     getSystemInfoSuccessMethod : function(_self, responseData) {
                       for (var i = 0; i < responseData.data.length; i++) {
-                        _self.sysName.push({
-                          "systemName" : responseData.data[i].systemName,
-                          "systemCode" : responseData.data[i].systemCode
-                        });
+                        _self.sysName = responseData.data;
                       }
                     },
                     // 获取业务承受信息
@@ -469,12 +468,7 @@ var  data={
                     },
                     //获取单位信息
                     getCompanySuccessMethod:function(_self,responseData){
-                      for (var i = 0; i < responseData.data.length; i++) {
-                        _self.msgName.push({
-                          "orgName" : responseData.data[i].orgName,
-                          "orgCode" : responseData.data[i].orgCode
-                        });
-                      }
+                      _self.msgName = responseData.data;
                     },
                     setStandardizedCode:function(e,val){
                       if(e!=null){
@@ -780,18 +774,12 @@ var  data={
 
                 },
                 mounted: function() {
-                    // this.selectChange()
-                    //获取回显
-//                    if(type=='update'||type=='change'){
-//                      
-//                      
-//                    }
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;
                   if(companyCode!=''&&companyCode!=null){
-                    this.formData.comCode = "1";
+                    this.formData.fkComCode = "1";
                   }else{
-                    this.formData.comCode = "";
+                    this.formData.fkComCode = "";
                   }
                   if(systemId!=''&&systemId!=null){
                     this.change = true;

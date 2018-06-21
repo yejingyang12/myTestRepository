@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -166,7 +167,7 @@ public class EvaluationServiceImpl implements EvaluationService {
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(evaluationParam.getFkSystemId());
       nodeParam.setOperation("修改测评");
-      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationResult("已修改");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -182,12 +183,22 @@ public class EvaluationServiceImpl implements EvaluationService {
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))
 			throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
 		this.evaluationMapper.deleteEvaluationByEvaluationId(evaluationParam);
+		evaluationParam.setDeleteStatus(1);
+		List<EvaluationListResult> evaluationListResultList =
+		    this.evaluationMapper.selectAllByEvaluationParam(evaluationParam);
+		if(ObjectUtils.isEmpty(evaluationListResultList)){
+		  //修改测评状态状态为未进行
+      MainParam mainParam = new MainParam();
+      mainParam.setEvaluationStatus("1");
+      mainParam.setSystemId(evaluationParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+		}
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(evaluationParam.getFkSystemId());
     
     nodeParam.setOperation("删除测评");
-    nodeParam.setOperationResult("已创建");
+    nodeParam.setOperationResult("已删除");
     nodeParam.setOperationOpinion("");
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);

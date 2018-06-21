@@ -96,8 +96,8 @@
                   default:
                     break;
                   }
-          				_self.formData.changeContent = responseData.data.changeContent;
-          				_self.formData.changeReason = responseData.data.changeReason;
+          				_self.formData.revokereason = responseData.data.revokereason;
+          				_self.formData.revokeRecordsName = responseData.data.revokeRecordsName;
           			}
               case '3':
               	if(responseData.data.fkChangeMatter!= null){
@@ -105,7 +105,7 @@
           				_self.changeContentShow = true;
           				_self.changeReasonShow = true;
           				_self.formData.fkChangeMatter = responseData.data.fkChangeMatter;
-          				switch (fkBusinessNode) {
+          				switch (_self.formData.fkChangeMatter) {
                   case '1':
                   	_self.formData.fkChangeMatter = '系统合并';
                     break;
@@ -126,8 +126,8 @@
                   default:
                     break;
                   }
-          				_self.formData.scoreCheckResult = responseData.data.scoreCheckResult;
-          				_self.formData.scoreCheckReason = responseData.data.scoreCheckReason;
+          				_self.formData.changeContent = responseData.data.changeContent;
+          				_self.formData.changeReason = responseData.data.changeReason;
               	}
               default:
                 break;

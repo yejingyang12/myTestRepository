@@ -335,10 +335,10 @@
                                     <option value="">XXXX</option>
                                     <option value="">xxxx</option>
                                 </select> -->
-                                <select name="fkCompanyCode" class="formControl" id="fkCompanyCode" v-model="formData.fkCompanyCode">
-                                  <option v-for="item in msgName"
-                                    :key="item.orgCode" :label="item.orgName" :value="item.orgName"></option>
-                                </select> <span class="caretd"></span>
+                                <el-select filterable name="companyName" placeholder="请选择" class="formControl" id="companyName" v-model="formData.companyName">
+                                  <el-option v-for="item in msgName"
+                                    :key="item.orgCode" :label="item.orgName" :value="item.orgName"></el-option>
+                                </el-select> <span class="caretd"></span>
                                 <span class="caretd"></span>
                             </div>
                         </div>

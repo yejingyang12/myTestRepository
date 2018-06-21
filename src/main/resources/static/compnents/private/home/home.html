@@ -54,7 +54,7 @@
                                     <span class="xing">*</span>
                                     变更内容：
                                 </label>
-                                <div class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9"
+                                <div  class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9"
                                  style="border-radius:4px;border: 1px solid #cecece;margin-left: 110px; margin-top: -30px;height: 100px;width: 90%">
                                     <textarea id="textArea"  v-model="value20" cols="30" rows="10" placeholder="请输入"></textarea>
                                     <span class='textAll'><span id="textNum">0</span>/200</span>
@@ -884,8 +884,12 @@
 
                                 </td>
                                 <!-- &lt;!&ndash;一键下载&ndash;&gt; -->
-                                <td>
+                              
+                                 <td style="position: relative; ">
+                                  <span style="display:none; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;">
+                                    </span>
                                     <a @click="oneKeydownload(pro.systemId,pro.companyId)" style="float: left;cursor: pointer;"  v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
+                                    v-bind:href="{'javascript:return false;':pro.recordStatus == 4}"
                                     >一键下载</a>
                                     <!-- &lt;!&ndash;class=app1 都是app1&ndash;&gt; -->
                                     <i class="app1" style="float: left">
@@ -913,6 +917,7 @@
                                             </el-col>
                                         </el-row>
                                     </i>
+                                 
                                 </td>
                                 <!-- &lt;!&ndash;操作&ndash;&gt; -->
                                 <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
@@ -938,7 +943,7 @@
             </div>
             <!--分页-->
             <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
-                <span style="float: left;padding-top: 18px">
+  <span style="float: left;padding-top: 18px">
                     <div v-if="result.currentPage==0">
                                                                         显示0到0行，共0行记录
                     </div>
@@ -946,7 +951,7 @@
                                                                         显示{{((result.currentPage-1)*result.pagesize)+1}}到{{(result.currentPage)*(result.pagesize)}}行，共{{result.total}}行记录
                     </div>
                 </span>
-                <div class="h-page">
+                    <div class="h-page">
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
                             <li @click="clickPage(result.currentPage-1)">

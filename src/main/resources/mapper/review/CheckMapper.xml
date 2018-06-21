@@ -140,8 +140,6 @@
   <update id="updateCheckBySystemId" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam">
   	<![CDATA[
       UPDATE t_cpro_check AS examine
-      LEFT JOIN t_cpro_system AS system
-        ON system.pkId = examine.fkSystemId
     ]]>
     <set>
     	<if test="scoreCheckResult != null ">
@@ -149,58 +147,18 @@
           examine.scoreCheckResult = #{scoreCheckResult},
           examine.scoreCheckReason = #{scoreCheckReason},
         ]]>
-        <!-- 如果申请定级通过，则审核状态改为已完成-->
-        <if test="scoreCheckResult ==1">
-	        <![CDATA[
-	          system.examineStatus = 3,
-	        ]]>
-        </if>
-        <!-- 如果申请定级未通过，则审核状态改为进行中-->
-        <if test="scoreCheckResult ==2">
-          <![CDATA[
-            system.examineStatus = 2,
-          ]]>
-        </if>
       </if>
     	<if test="scoreCheckChangeResult != null ">
         <![CDATA[
           examine.scoreCheckChangeResult = #{scoreCheckChangeResult},
           examine.scoreCheckChangeReason = #{scoreCheckChangeReason},
         ]]>
-        <!-- 如果申请变更通过，则审核状态改为已完成 -->
-         <if test="scoreCheckChangeResult ==1">
-          <![CDATA[
-            system.examineStatus = 3,
-          ]]>
-        </if>
-        <!-- 如果申请变更未通过，则审核状态改为进行中 -->
-        <if test="scoreCheckChangeResult ==2">
-          <![CDATA[
-            system.examineStatus = 2,
-          ]]>
-        </if>
       </if>
     	<if test="cancelRecordsResult != null ">
         <![CDATA[
           examine.cancelRecordsResult = #{cancelRecordsResult},
           examine.cancelRecordsReason = #{cancelRecordsReason},
         ]]>
-        <!-- 如果撤销备案通过，则初始化定级状态、审核状态、备案状态、测评状态、自查状态。备案状态未已撤销 -->
-        <if test="cancelRecordsResult==1">
-	        <![CDATA[
-	         system.recordStatus = 4,
-	         system.gradingStatus = 1,
-	         system.examineStatus = 1,
-	         system.evaluationStatus = 1,
-	         system.examinationStatus = 1,
-	        ]]>
-        </if>
-        <!-- 如果撤销备案未通过，则审核状态改为未通过 -->
-        <if test="cancelRecordsResult==2">
-          <![CDATA[
-            system.examineStatus = 2,
-          ]]> 
-        </if>
       </if>
       <if test="fkExaminStatus != null">
       	<![CDATA[
@@ -224,4 +182,357 @@
       ]]>
     </where>
   </update>
+  
+  <update id="updateCheckStatusBySystemId" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam">
+    <![CDATA[
+      UPDATE t_cpro_check 
+    ]]>
+    <set>
+      <if test="fkExaminStatus != null ">
+        <![CDATA[
+          fkExaminStatus = #{fkExaminStatus},
+        ]]>
+      </if>
+      <if test="fkBusinessNode != null ">
+        <![CDATA[
+          fkBusinessNode = #{fkBusinessNode},
+        ]]>
+      </if>
+      <if test="scoreCheckResult != null ">
+        <![CDATA[
+          scoreCheckResult = #{scoreCheckResult},
+        ]]>
+      </if>
+      <if test="scoreCheckReason != null ">
+        <![CDATA[
+          scoreCheckReason = #{scoreCheckReason},
+        ]]>
+      </if>
+      <if test="scoreCheckChangeResult != null ">
+        <![CDATA[
+          scoreCheckChangeResult = #{scoreCheckChangeResult},
+        ]]>
+      </if>
+      <if test="scoreCheckChangeReason != null ">
+        <![CDATA[
+          scoreCheckChangeReason = #{scoreCheckChangeReason},
+        ]]>
+      </if>
+      <if test="cancelRecordsResult != null ">
+        <![CDATA[
+          cancelRecordsResult = #{cancelRecordsResult},
+        ]]>
+      </if>
+      <if test="cancelRecordsReason != null ">
+        <![CDATA[
+          cancelRecordsReason = #{cancelRecordsReason},
+        ]]>
+      </if>
+      <if test="prevExecutor != null ">
+        <![CDATA[
+          prevExecutor = #{prevExecutor},
+        ]]>
+      </if>
+      <if test="executeTime != null ">
+        <![CDATA[
+          executeTime = #{executeTime}
+        ]]>
+      </if>
+    </set>
+    <where>
+      <![CDATA[
+        AND fkSystemId = #{fkSystemId}
+      ]]>
+    </where>
+  </update>
+  
+    <insert id="insertCheck" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam" >
+    INSERT INTO t_cpro_check
+      (
+      pkId,fkSystemId,fkExaminStatus,fkBusinessNode,instanceName,
+      initiator,prevExecutor,executeTime,scoreCheckResult,scoreCheckReason,
+      scoreCheckChangeResult,scoreCheckChangeReason,cancelRecordsResult,cancelRecordsReason,
+      deleteStatus,createUserName,createTime,updateTime,remark
+      )VALUES(
+        <trim suffixOverrides="," >
+          <![CDATA[
+            #{checkId},
+          ]]>
+          <choose>
+            <when test="fkSystemId != null and fkSystemId != ''">
+              <![CDATA[
+                #{fkSystemId},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="fkExaminStatus != null and fkExaminStatus != ''">
+              <![CDATA[
+                #{fkExaminStatus},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="fkBusinessNode != null and fkBusinessNode != ''">
+              <![CDATA[
+                #{fkBusinessNode},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="instanceName != null and instanceName != ''">
+              <![CDATA[
+                #{instanceName},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="initiator != null and initiator != ''">
+              <![CDATA[
+                #{initiator},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="prevExecutor != null and prevExecutor != ''">
+              <![CDATA[
+                #{prevExecutor},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="executeTime != null">
+              <![CDATA[
+                #{executeTime},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="scoreCheckResult != null">
+              <![CDATA[
+                #{scoreCheckResult},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="scoreCheckReason != null and scoreCheckReason != ''">
+              <![CDATA[
+                #{scoreCheckReason},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="scoreCheckChangeResult != null and scoreCheckChangeResult != ''">
+              <![CDATA[
+                #{scoreCheckChangeResult},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="scoreCheckChangeReason != null and scoreCheckChangeReason != ''">
+              <![CDATA[
+                #{scoreCheckChangeReason},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="cancelRecordsResult != null and cancelRecordsResult != ''">
+              <![CDATA[
+                #{cancelRecordsResult},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="cancelRecordsReason != null and cancelRecordsReason != ''">
+              <![CDATA[
+                #{cancelRecordsReason},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="deleteStatus != null">
+              <![CDATA[
+                #{deleteStatus},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="createUserName != null">
+              <![CDATA[
+                #{createUserName},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="createTime != null">
+              <![CDATA[
+                #{createTime},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="updateTime != null">
+              <![CDATA[
+                #{updateTime},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="remark != null">
+              <![CDATA[
+                #{remark},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+        </trim>
+      )
+       ON DUPLICATE KEY UPDATE
+      <trim suffixOverrides=",">
+        <if test="fkExaminStatus != null and fkExaminStatus != ''">
+          fkExaminStatus = #{fkExaminStatus},
+        </if>
+        <if test="fkBusinessNode != null and fkBusinessNode !='' ">
+          fkBusinessNode = #{fkBusinessNode},
+        </if>
+        <if test="instanceName != null and instanceName !='' ">
+          instanceName = #{instanceName},
+        </if>
+        <if test="initiator != null and initiator !='' ">
+          initiator = #{initiator},
+        </if>
+        <if test="prevExecutor != null and prevExecutor !='' ">
+          prevExecutor = #{prevExecutor},
+        </if>
+        <if test="executeTime != null">
+          executeTime = #{executeTime},
+        </if>
+        <if test="scoreCheckResult != null and scoreCheckResult !='' ">
+          scoreCheckResult = #{scoreCheckResult},
+        </if>
+        <if test="scoreCheckReason != null and scoreCheckReason !='' ">
+          scoreCheckReason = #{scoreCheckReason},
+        </if>
+        <if test="scoreCheckChangeResult != null and scoreCheckChangeResult !='' ">
+          scoreCheckChangeResult = #{scoreCheckChangeResult},
+        </if>
+        <if test="scoreCheckChangeReason != null and scoreCheckChangeReason !='' ">
+          scoreCheckChangeReason = #{scoreCheckChangeReason},
+        </if>
+        <if test="cancelRecordsResult != null and cancelRecordsResult !='' ">
+          cancelRecordsResult = #{cancelRecordsResult},
+        </if>
+        <if test="cancelRecordsReason != null and cancelRecordsReason !='' ">
+          cancelRecordsReason = #{cancelRecordsReason},
+        </if>
+      </trim>
+  </insert>
+  <select id="selectCheckInfoBySystemId" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam" resultMap="CheckResultMap">
+    SELECT 
+        che.pkId AS checkId,
+        che.fkSystemId,
+        che.instanceName,
+        che.initiator,
+        che.prevExecutor,
+        che.executeTime,
+        che.fkBusinessNode,
+        che.fkExaminStatus 
+    FROM
+      t_cpro_check AS che
+    WHERE 
+      che.deleteStatus = 1
+      AND  che.fkSystemId = #{fkSystemId}
+  </select>
+  <delete id="deleteCheckByCheckId" parameterType="com.sinopec.smcc.cpro.review.entity.CheckParam">
+    DELETE FROM t_cpro_check WHERE pkId = #{checkId}
+  </delete>
 </mapper>

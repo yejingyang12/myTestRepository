@@ -33,11 +33,11 @@ public class CheckParam {
   private String instanceName;
   private String initiator;
   private String prevExecutor;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date executeTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date executeTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date executeTimeEnd;
   private Integer scoreCheckResult;
   private Integer scoreCheckResultBegin;
@@ -55,17 +55,17 @@ public class CheckParam {
   private Integer deleteStatusBegin;
   private Integer deleteStatusEnd;
   private String createUserName;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTimeEnd;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTimeBegin;
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTimeEnd;
   private String remark;
   
@@ -121,21 +121,21 @@ public class CheckParam {
   public void setPrevExecutor(String prevExecutor) {
     this.prevExecutor = prevExecutor;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getExecuteTime() {
     return executeTime;
   }
   public void setExecuteTime(Date executeTime) {
     this.executeTime = executeTime;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getExecuteTimeBegin() {
     return executeTimeBegin;
   }
   public void setExecuteTimeBegin(Date executeTimeBegin) {
     this.executeTimeBegin = executeTimeBegin;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getExecuteTimeEnd() {
     return executeTimeEnd;
   }
@@ -238,42 +238,42 @@ public class CheckParam {
   public void setCreateUserName(String createUserName) {
     this.createUserName = createUserName;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTime() {
     return createTime;
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTimeBegin() {
     return createTimeBegin;
   }
   public void setCreateTimeBegin(Date createTimeBegin) {
     this.createTimeBegin = createTimeBegin;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTimeEnd() {
     return createTimeEnd;
   }
   public void setCreateTimeEnd(Date createTimeEnd) {
     this.createTimeEnd = createTimeEnd;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTime() {
     return updateTime;
   }
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTimeBegin() {
     return updateTimeBegin;
   }
   public void setUpdateTimeBegin(Date updateTimeBegin) {
     this.updateTimeBegin = updateTimeBegin;
   }
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTimeEnd() {
     return updateTimeEnd;
   }

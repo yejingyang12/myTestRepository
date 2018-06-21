@@ -23,10 +23,12 @@ var data={
           expertReviewPath:'',
           directorOpinionId:'',
           directorOpinionName:'',
-          directorOpinionPath:''
+          directorOpinionPath:'',
+          changeType:''
         },
         bizSPRankLevel:false,
         bizSystemLevel:false,
+        expertType:true,
         sysName:'系统名称',//系统名称
         safetyPro:{//确定安全保护等级
             busInform:[//业务信息
@@ -414,6 +416,11 @@ var data={
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
                       }else{
+                        if(this.formData.fkSpRanklevel==301){
+                          this.expertType = false;
+                        }else{
+                          this.expertType = true;
+                        }
                         this.nextBtn = false;
                       }
                     },
@@ -573,6 +580,11 @@ var data={
                         this.nextBtn = true;
                       }else{
                         this.nextBtn = false;
+                        if(this.formData.fkSpRanklevel==301){
+                          this.expertType = false;
+                        }else{
+                          this.expertType = true;
+                        }
                       }
                     },
                     fnCheckAll:function (index) {
@@ -687,6 +699,11 @@ var data={
                         this.nextBtn = true;
                       }else{
                         this.nextBtn = false;
+                        if(this.formData.fkSpRanklevel==301){
+                          this.expertType = false;
+                        }else{
+                          this.expertType = true;
+                        }
                       }
                     },
                     checkAll:function (index) {
@@ -842,6 +859,11 @@ var data={
                         this.nextBtn = true;
                       }else{
                         this.nextBtn = false;
+                        if(this.formData.fkSpRanklevel==301){
+                          this.expertType = false;
+                        }else{
+                          this.expertType = true;
+                        }
                       }
                     },
                     // 获取安全等级信息
@@ -880,7 +902,6 @@ var data={
                     getGradeSuccessMethod : function(_self, responseData) {
                       if(responseData.data!=null){
                         _self.formData = responseData.data;
-                        console.log(JSON.stringify(responseData.data))
                         if(_self.formData.competentIsExisting == '1'){
                           $("#direHide1").show();
                           $("#approval").show();
@@ -1006,8 +1027,19 @@ var data={
                       
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
+//                        if(data1!=null){
+//                          data1.materialShow = true;
+//                        }
                       }else{
                         this.nextBtn = false;
+//                        if(data1!=null){
+//                          data1.materialShow = false;
+//                        }
+                        if(this.formData.fkSpRanklevel==301){
+                          this.expertType = false;
+                        }else{
+                          this.expertType = true;
+                        }
                       }
                     },
                     
@@ -1045,7 +1077,6 @@ var data={
                 },
                 mounted: function() {
                     // this.selectChange()
-                    
                 }
             })
         })

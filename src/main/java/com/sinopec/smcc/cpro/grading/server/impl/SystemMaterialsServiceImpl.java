@@ -25,8 +25,16 @@ import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsResult;
 import com.sinopec.smcc.cpro.grading.mapper.GradingMapper;
 import com.sinopec.smcc.cpro.grading.mapper.SystemMaterialsMapper;
 import com.sinopec.smcc.cpro.grading.server.SystemMaterialsService;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.entity.CheckResult;
+import com.sinopec.smcc.cpro.review.server.CheckService;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -47,6 +55,12 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
   private NodeService nodeServiceImpl;
   @Autowired
   private FileService fileServiceImpl;
+  @Autowired
+  private CheckService checkServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
+  @Autowired
+  private SystemMapper systemMapperImpl;
   
   /**
    * 获取提交材料信息
@@ -183,16 +197,6 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         directorOpinion.setAttachName(systemMaterialsParam.getDirectorOpinionName());
         this.fileServiceImpl.addFile(directorOpinion);
       }
-      
-      
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
-      nodeParam.setOperation("创建");
-      nodeParam.setOperationResult("已创建");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
     } else {
       
       //1.系统拓扑结构及说明
@@ -316,16 +320,29 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         directorOpinion.setAttachName(systemMaterialsParam.getDirectorOpinionName());
         this.fileServiceImpl.addFile(directorOpinion);
       }
-      
-      
+    }
+    if ("1".equals(systemMaterialsParam.getChangeType())) {
       //添加节点状态信息
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
-      nodeParam.setOperation("变更");
-      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperation("材料变更");
+      nodeParam.setOperationResult("已修改");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
+      
+      //修改审核状态
+      CheckParam checkParam = new CheckParam();
+      checkParam.setFkSystemId(systemMaterialsParam.getFkSystemId());
+      checkParam.setFkExaminStatus("1");
+      checkParam.setFkBusinessNode("3");
+      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      //修改审核,定级状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(systemMaterialsParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }
     this.systemMaterialsMapper.insertSystemMaterials(systemMaterialsParam);
     return systemMaterialsParam.getFkSystemId();
@@ -342,6 +359,36 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
     }
     systemMaterialsParam.setCreateTime(new Date());
     if (StringUtils.isBlank(systemMaterialsParam.getSystemMaterialsId())) {
+      //创建审核记录
+      SystemParam systemParam = new SystemParam();
+      systemParam.setSystemId(systemMaterialsParam.getFkSystemId());
+      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+      CheckParam checkParam = new CheckParam();
+      checkParam.setFkSystemId(systemMaterialsParam.getFkSystemId());
+      //查询审核详情通过systemID
+      CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
+      
+      if(checkResult != null){
+        checkServiceImpl.deleteCheckByCheckId(checkParam);
+      }
+      CheckParam checkParamAdd = new CheckParam();
+      checkParamAdd.setFkSystemId(systemMaterialsParam.getFkSystemId());
+      checkParamAdd.setFkExaminStatus("1");
+      checkParamAdd.setFkBusinessNode("1");
+      checkParamAdd.setInstanceName(systemResult.getSystemName());
+      checkParamAdd.setInitiator(userName);
+      checkParamAdd.setPrevExecutor(userName);
+      checkParamAdd.setExecuteTime(new Date());
+      checkServiceImpl.addCheck(checkParamAdd);
+      
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(systemMaterialsParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+      
+      
       systemMaterialsParam.setSystemMaterialsId(Utils.getUuidFor32());
       
       //1.系统拓扑结构及说明
@@ -442,18 +489,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         directorOpinion.setAttachName(systemMaterialsParam.getDirectorOpinionName());
         this.fileServiceImpl.addFile(directorOpinion);
       }
-      
-      
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
-      nodeParam.setOperation("创建");
-      nodeParam.setOperationResult("已创建");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
     } else {
-      
       //1.系统拓扑结构及说明
       if (StringUtils.isNotBlank(systemMaterialsParam.getTopologyDescriptionPath())) {
         AttachParam topologyDescription = new AttachParam();
@@ -575,12 +611,35 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         directorOpinion.setAttachName(systemMaterialsParam.getDirectorOpinionName());
         this.fileServiceImpl.addFile(directorOpinion);
       }
-      
-      
+    }
+    if ("1".equals(systemMaterialsParam.getChangeType())) {
       //添加节点状态信息
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
-      nodeParam.setOperation("变更");
+      nodeParam.setOperation("材料变更");
+      nodeParam.setOperationResult("已修改");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      //修改审核状态
+      CheckParam checkParam = new CheckParam();
+      checkParam.setFkSystemId(systemMaterialsParam.getFkSystemId());
+      checkParam.setFkExaminStatus("1");
+      checkParam.setFkBusinessNode("3");
+      checkParam.setPrevExecutor(userName);
+      checkParam.setExecuteTime(new Date());
+      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(systemMaterialsParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } else if ("2".equals(systemMaterialsParam.getChangeType())) {
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
+      nodeParam.setOperation("材料提交");
       nodeParam.setOperationResult("已创建");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);

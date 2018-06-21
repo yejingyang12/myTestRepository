@@ -61,6 +61,13 @@ public class GradingParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
+  private String changeType;
+  public String getChangeType() {
+    return changeType;
+  }
+  public void setChangeType(String changeType) {
+    this.changeType = changeType;
+  }
   public String getGradingId() {
     return gradingId;
   }

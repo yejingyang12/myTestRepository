@@ -55,7 +55,13 @@ public class SystemMaterialsParam {
   //上级主管部门审批意见
   private String directorOpinionPath;
   private String directorOpinionName;
-  
+  private String changeType;
+  public String getChangeType() {
+    return changeType;
+  }
+  public void setChangeType(String changeType) {
+    this.changeType = changeType;
+  }
   public String getSystemMaterialsId() {
     return systemMaterialsId;
   }

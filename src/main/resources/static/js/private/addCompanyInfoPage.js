@@ -12,6 +12,7 @@ window.onload = function () {
         },
         methods : {
           submitHandler:function(){
+            data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'company/saveCompany', true,JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);

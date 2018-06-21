@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
     <link rel="stylesheet" href="../../static/css/private/revokeRecord.css" th:attr="href=@{/css/private/revokeRecord.css}">
+        <link rel="stylesheet" href="../../static/css/private/evaluationAlert.css" th:attr="href=@{/css/private/evaluationAlert.css}">
+    
 
 </head>
 <style>
@@ -88,13 +90,74 @@
 	  	height: 0px;  
 	   	margin-top: 0px;  
 		}
+		  .evaluation .cut:after{
+  		margin-left: 0px;
+  }
+  .tianMsg:before{
+  		display:none;
+  }
+  .cut {
+    margin-bottom:40px;!important
+    font: 14px/34px "微软雅黑";
+    /* margin: 0 16px 40px; */
+}
+ .uploadSty button {
+    background: #337ab7;
+    display: block;
+    position: absolute;
+    width: 70px;
+    right: 0;
+    top: 0;
+    padding: 0;
+    height: 34px;
+    border-radius: 2px;
+}
+    .el-button {
+    color: #337ab7;
+    border: none;
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    /* border: 1px solid #dcdfe6; */
+    /* color: #606266; */
+    -webkit-appearance: none;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    -webkit-transition: .1s;
+    transition: .1s;
+    padding: 12px 0px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+  .el-button span {
+  	 color: #337ab7;
+  	 font-size: 12px;
+  }
+   .el-button span:hover {
+      color: #333;
+  }
+   .el-button:hover {
+  	 background:#fff;
+  }
+  .hide3 {
+     font-size: 12px;
+  	cursor: pointer;
+  }
+   .hide3:hover {
+      color: #333;
+  }
     </style>
 <body class="h-body">
 <div id="app">
     <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
-        <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">-->
-        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">
+        <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
+        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss"> -->
     </smcc-header>
     <smcc-breadcrumb>
         <button slot="breadcrumb-return"

@@ -110,6 +110,7 @@ public class ControllerPage {
   public String auditGradPage(HttpServletRequest request, Model model, 
       SystemParam systemParam, CheckParam checkParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("fkBusinessNode", checkParam.getFkBusinessNode());
     return "views/auditGrad";
   }

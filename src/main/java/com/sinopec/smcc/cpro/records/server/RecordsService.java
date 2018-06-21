@@ -48,14 +48,24 @@ public interface RecordsService {
   RecordsResult queryRecordsByFkSystemId(RecordsParam recordsParam) throws BusinessException;
 
   /**
-   * @Descrption 点击撤销备案，填写信息后保存
+   * @Descrption 企业点击撤销备案，填写信息后保存
    * @author yejingyang
    * @date 2018年6月9日上午10:19:08
    * @param recordsParam
    */
   void saveRevokeRecordsInfo(String userName,RecordsParam recordsParam) 
       throws BusinessException;
-
+  
+  /**
+   * @Descrption 总部点击撤销备案，填写信息后保存
+   * @author dongxu
+   * @date 2018年6月20日下午8:01:02
+   * @param userName
+   * @param recordsParam
+   * @throws BusinessException
+   */
+  void saveHeadRevokeRecordsInfo(String userName,RecordsParam recordsParam) 
+      throws BusinessException;
   /**
    * @Descrption 获取撤销备案信息
    * @author yejingyang

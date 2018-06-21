@@ -329,7 +329,8 @@
                             <div role="group"  class="mcAddSysBuildChange text-center col-sm-3 col-md-6" id="baseMes3">
                               <input type="hidden"  v-model="formData.expertView">
                               <div class="col-md-6" @click="getExpertClass($event,1)">已审批</div>
-                              <div class="col-md-6"  @click="getExpertClass($event,2)">未审批</div>
+                              <div class="col-md-6" @click="getExpertClass($event,2)" v-show="expertType">未审批</div>
+                              <div class="col-md-6" v-show="!expertType">未审批</div>
                             </div>
                             <input class="col-md-10 addReview form-control formControl"  type="text" readonly="readonly" v-model="formData.expertReviewName" />
                             <div class="addButton"></div>

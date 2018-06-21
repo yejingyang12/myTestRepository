@@ -21,6 +21,8 @@ import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
@@ -30,6 +32,8 @@ import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
 import com.sinopec.smcc.cpro.records.mapper.RecordsMapper;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
@@ -54,7 +58,12 @@ public class RecordsServiceImpl implements RecordsService{
   private NodeService nodeServiceImpl;
   @Autowired
   private FileService fileServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
+  @Autowired
+  private CheckService checkServiceImpl;
   
+
   /**
    * 修改或添加备案信息
    */
@@ -74,6 +83,11 @@ public class RecordsServiceImpl implements RecordsService{
       //将系统状态改为已完成
       recordsParam.setRecordStatus(3);
       this.editRecordsForStatus(recordsParam);
+      //修改备案状态为已完成
+      MainParam mainParam = new MainParam();
+      mainParam.setRecordStatus("3");
+      mainParam.setSystemId(recordsParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
       try {
         //保存附件
         if (StringUtils.isNotBlank(recordsParam.getRecordReportPath())) {
@@ -90,15 +104,6 @@ public class RecordsServiceImpl implements RecordsService{
       } catch (Exception e) {
         //TODO: "保存附件出错";
       }
-      
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(recordsParam.getFkSystemId());
-      nodeParam.setOperation("备案");
-      nodeParam.setOperationResult("已创建");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
     }else{
       try {
         //保存信息系统安全等级保护备案证明附件
@@ -118,15 +123,16 @@ public class RecordsServiceImpl implements RecordsService{
       } catch (Exception e) {
         //TODO: "保存附件出错";
       }
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(recordsParam.getFkSystemId());
-      nodeParam.setOperation("变更");
-      nodeParam.setOperationResult("已创建");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
     }
+    
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(recordsParam.getFkSystemId());
+    nodeParam.setOperation("备案");
+    nodeParam.setOperationResult("已创建");
+    nodeParam.setOperationOpinion("");
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
     this.recordsMapper.insertRecords(recordsParam);
     return recordsParam.getFkSystemId();
   }
@@ -144,7 +150,7 @@ public class RecordsServiceImpl implements RecordsService{
   }
 
   /**
-   * 点击撤销备案，填写信息后保存
+   * 企业点击撤销备案，填写信息后保存
    * @throws BusinessException 
    */
   @Override
@@ -157,6 +163,21 @@ public class RecordsServiceImpl implements RecordsService{
     this.recordsMapper.updateRecordsBySystemIdForRevokeRecords(recordsParam);
     RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
         selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
+    //修改审核状态
+    CheckParam checkParam = new CheckParam();
+    checkParam.setFkSystemId(recordsParam.getFkSystemId());
+    checkParam.setFkExaminStatus("2");
+    checkParam.setFkBusinessNode("2");
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkServiceImpl.editCheckStatusBySystemId(checkParam);
+    
+    //修改系统状态
+    MainParam mainParam = new MainParam();
+    mainParam.setRecordStatus("2");
+    mainParam.setExamineStatus("2");
+    mainParam.setSystemId(recordsParam.getFkSystemId());
+    mainServiceImpl.editSystemStatusBySystemId(mainParam);
     recordsParam.setRecordsId(selectRecordsByFkSystemIdForRecordsDetail.getRecordsId());
     if (StringUtils.isNotBlank(recordsParam.getRevokeAttachPath())) {
       try {
@@ -178,12 +199,70 @@ public class RecordsServiceImpl implements RecordsService{
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(recordsParam.getFkSystemId());
     nodeParam.setOperation("撤销备案");
-    nodeParam.setOperationResult("已创建");
+    nodeParam.setOperationResult("已提交");
     nodeParam.setOperationOpinion("");
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);
   }
 
+  /**
+   * 总部点击撤销备案，填写信息后保存
+   * @throws BusinessException 
+   */
+  @Override
+  @Transactional
+  public void saveHeadRevokeRecordsInfo(String userName,RecordsParam recordsParam) 
+      throws BusinessException {
+    if(StringUtils.isBlank(recordsParam.getFkSystemId())){
+      throw new BusinessException(EnumResult.LINKEDID_ERROR);
+    }
+    this.recordsMapper.updateRecordsBySystemIdForRevokeRecords(recordsParam);
+    RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
+        selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
+    //修改审核状态
+    CheckParam checkParam = new CheckParam();
+    checkParam.setFkSystemId(recordsParam.getFkSystemId());
+    checkParam.setFkExaminStatus("5");
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkParam.setCancelRecordsResult(1);
+    checkServiceImpl.editCheckStatusBySystemId(checkParam);
+    
+    //修改系统状态
+    MainParam mainParam = new MainParam();
+    mainParam.setRecordStatus("4");
+    mainParam.setExamineStatus("3");
+    mainParam.setEvaluationStatus("4");
+    mainParam.setExaminationStatus("4");
+    mainParam.setSystemId(recordsParam.getFkSystemId());
+    mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    recordsParam.setRecordsId(selectRecordsByFkSystemIdForRecordsDetail.getRecordsId());
+    if (StringUtils.isNotBlank(recordsParam.getRevokeAttachPath())) {
+      try {
+        //保存撤销备案附件
+        AttachParam attachParam = new AttachParam();
+        attachParam.setFileId(Utils.getUuidFor32());
+        attachParam.setSystemId(recordsParam.getFkSystemId());
+        attachParam.setSyssonId(recordsParam.getRecordsId());
+        attachParam.setAttachType("revokeRecordsReport");
+        attachParam.setAttachName(recordsParam.getRevokeAttachName());
+        attachParam.setUploadUrl(recordsParam.getRevokeAttachPath());
+        this.fileServiceImpl.addFile(attachParam);
+      } catch (Exception e) {
+        //TODO: 保存文件出错
+      }
+    }
+    
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(recordsParam.getFkSystemId());
+    nodeParam.setOperation("撤销备案");
+    nodeParam.setOperationResult("");
+    nodeParam.setOperationOpinion("");
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+  }
+  
   /**
    * 获取撤销备案信息
    */

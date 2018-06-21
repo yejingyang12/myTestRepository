@@ -25,7 +25,8 @@ var data={
           expertReviewName:'',
           directorOpinionId:'',
           directorOpinionPath:'',
-          directorOpinionName:''
+          directorOpinionName:'',
+          changeType:''
         }
     };
 (function () {

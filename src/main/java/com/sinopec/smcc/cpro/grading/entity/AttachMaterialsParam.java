@@ -11,6 +11,8 @@ package com.sinopec.smcc.cpro.grading.entity;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.alibaba.fastjson.JSON;
 
 /**
@@ -32,7 +34,9 @@ public class AttachMaterialsParam {
   private String attachPath;
   private Integer deleteStatus;
   private String createUserName;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
   

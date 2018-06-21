@@ -9,17 +9,16 @@
     <div class="mcAddMessge clearfix">
       <form action="" name="addform" id="addform" method="post">
         <input name="companyId" id="companyId" type="hidden" v-model="formData.companyId"/>
-        <ul class="clearfix">
+        <ul class="clearfix addForm">
           <li class="row" >
               <div class="col-lg-6 col-sm-3 choosePro">
                 <label for="" class="col-lg-3 col-md-3 text-right">
                   <span class="xing">*</span> 单位名称:
                 </label>
                 <div class="col-md-8 col-sm-6">
-                  <select placeholder="请选择" name="companyName" class="formControl" id="companyName" @change="msgNameMethod()" v-model="formData.companyName" :disabled="nameReadonly">
-                    <option v-for="item in msgName"
-                      :key="item.orgCode" :label="item.orgName" :value="item.orgName"></option>
-                  </select> <span class="caretd"></span>
+                  <el-select filterable placeholder="请选择" name="companyName" class="formControl" id="companyName" @change="msgNameMethod()" v-model="formData.companyName" :disabled="nameReadonly">
+                    <el-option v-for="item in msgName" :key="item.orgCode" :label="item.orgName" :value="item.orgName"></el-option>
+                  </el-select> <span class="caretd"></span>
                 </div>
               </div>
               <div class="col-lg-6 col-sm-3">
@@ -53,11 +52,11 @@
                 <span class="xing">*</span> 所属省份:
               </label>
               <div class="col-md-8 col-sm-6">
-                <select placeholder="请选择" name="fkSubordinatePro" id="fkSubordinatePro" class="formControl" v-model="formData.fkSubordinatePro">
-                  <option v-for="item in msgProvince"
+                <el-select filterable placeholder="请选择" name="fkSubordinatePro" id="fkSubordinatePro" class="formControl" v-model="formData.fkSubordinatePro">
+                  <el-option v-for="item in msgProvince"
                     :key="item.systemCode" :label="item.codeName"
-                    :value="item.systemCode"></option>
-                </select> <span class="caretd"></span>
+                    :value="item.systemCode"></el-option>
+                </el-select> <span class="caretd"></span>
               </div>
             </div>
             <div class="col-lg-6 col-sm-3">

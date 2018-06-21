@@ -138,7 +138,7 @@
     height: 20px;
     width: 1px;
     background: rgb(206, 206, 206);
-    right: 32px;
+    right: 33px;
     transition: all .3s;
 }
  .chartstarttime .el-icon-date{
@@ -171,8 +171,7 @@
 <div id="app">
     <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
-         <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">
-    </smcc-header>
+     </smcc-header>
     <home>
         <!--帮助中心 箭头 插槽-->
         <img src="../../static/images/home/s01xialayijianxiazai.png" id="arrowHelp" th:attr="src=@{/images/home/s01xialayijianxiazai.png}" slot="arrowHelp">
@@ -183,9 +182,8 @@
         th:attr="src=@{/images/home/s01ztyiwancheng.png}" slot="s01ztyiwancheng">
         <img src="../../static/images/home/s01ztjinxingzhong.png" alt="" th:attr="src=@{/images/home/s01ztjinxingzhong.png}" slot="s01ztjinxingzhong">
         <img src="../../static/images/home/s01ztweijinxing.png" alt="" th:attr="src=@{/images/home/s01ztweijinxing.png}" slot="s01ztweijinxing">
-        <!--新建按钮图标-->
-        <img class="h-add btn-default" src="../../static/images/home/xinzengdengbao.png" alt="" th:attr="src=@{/images/home/xinzengdengbao.png}" slot="xinzengdengbao">
-        <!--排序图标-->
+        
+         <!--排序图标-->
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
@@ -203,9 +201,18 @@
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
-<!--<script src="../../static/js/public/layDate-v5.0.9/laydate/laydate.js" th:attr="src=@{/js/public/layDate-v5.0.9/laydate/laydate.js}"></script>-->
-<script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
-
+ <script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
+<!--图表插件-->
+<script src="../../static/js/public/echarts/echarts.min.js" th:attr="src=@{/js/public/echarts/echarts.min.js}"></script>
+<!-- <script src="../../static/js/public/echarts/echarts-gl.min.js" th:attr="src=@{/js/public/echarts/echarts-gl.min.js}"></script>
+<script src="../../static/js/public/echarts/ecStat.min.js" th:attr="src=@{/js/public/echarts/ecStat.min.js}"></script>
+<script src="../../static/js/public/echarts/dataTool.min.js" th:attr="src=@{/js/public/echarts/dataTool.min.js}"></script>
+<script src="../../static/js/public/echarts/world.js" th:attr="src=@{/js/public/echarts/world.js}"></script>
+<script src="../../static/js/public/echarts/ZUONbpqGBs.js" th:attr="src=@{/js/public/echarts/ZUONbpqGBs.js}"></script>
+<script src="../../static/js/public/echarts/china.js" th:attr="src=@{/js/public/echarts/china.js}"></script>
+<script src="../../static/js/public/echarts/bmap.min.js" th:attr="src=@{/js/public/echarts/bmap.min.js}"></script>
+<script src="../../static/js/public/echarts/simplex.js" th:attr="src=@{/js/public/echarts/simplex.js}"></script>
+ -->
 <!--ajax路径-->
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
@@ -221,8 +228,22 @@
 <!--分页-->
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 <script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>
-<script>
 
+<!--chart-->
+<script async src="../../static/compnents/private/chart/chart.js" th:attr="src=@{/compnents/private/chart/chart.js}"></script>
+<!--chartPie 饼状图组件-->
+<script async src="../../static/compnents/private/chartPie/chartPie.js" th:attr="src=@{/compnents/private/chartPie/chartPie.js}"></script>
+<!--chartBar 柱状图组件-->
+<script async src="../../static/compnents/private/chartBar/chartBar.js" th:attr="src=@{/compnents/private/chartBar/chartBar.js}"></script>
+<!--chartLine 折线图组件-->
+<script async src="../../static/compnents/private/chartLine/chartLine.js" th:attr="src=@{/compnents/private/chartLine/chartLine.js}"></script>
+<!--chartStackOne 堆叠图组件-->
+<script async src="../../static/compnents/private/chartStackOne/chartStackOne.js" th:attr="src=@{/compnents/private/chartStackOne/chartStackOne.js}"></script>
+<!--chartStackTwo 堆叠图组件-->
+<script async src="../../static/compnents/private/chartStackTwo/chartStackTwo.js" th:attr="src=@{/compnents/private/chartStackTwo/chartStackTwo.js}"></script>
+
+
+<script>
   //执行一个laydate实例
   laydate.render({
     elem: '#test1' ,//指定元素

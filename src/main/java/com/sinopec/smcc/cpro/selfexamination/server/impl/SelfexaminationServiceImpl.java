@@ -16,6 +16,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -166,7 +167,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(selfexaminationParam.getFkSystemId());
       nodeParam.setOperation("修改自查");
-      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationResult("已修改");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -203,12 +204,21 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
     this.selfexaminationMapper.
       updateSelfexaminationDeleteStatusBySelfexaminationId(selfexaminationParam);
     
+    List<SelfexaminationListResult> selfexaminationListResultList = 
+        this.selfexaminationMapper.selectAllBySelfexaminationParam(selfexaminationParam);
+    if(ObjectUtils.isEmpty(selfexaminationListResultList)){
+      //修改自查状态状态为未进行
+      MainParam mainParam = new MainParam();
+      mainParam.setExaminationStatus("1");
+      mainParam.setSystemId(selfexaminationParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }
     
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(selfexaminationResult.getFkSystemId());
     nodeParam.setOperation("删除自查");
-    nodeParam.setOperationResult("已创建");
+    nodeParam.setOperationResult("已删除");
     nodeParam.setOperationOpinion("");
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);
