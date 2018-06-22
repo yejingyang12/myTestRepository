@@ -886,11 +886,13 @@
                                 <!-- &lt;!&ndash;一键下载&ndash;&gt; -->
                               
                                  <td style="position: relative; ">
-                                  <span style="display:none; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;">
-                                    </span>
-                                    <a @click="oneKeydownload(pro.systemId,pro.companyId)" style="float: left;cursor: pointer;"  v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
-                                    v-bind:href="{'javascript:return false;':pro.recordStatus == 4}"
-                                    >一键下载</a>
+                                 <div v-if="pro.recordStatus == 4">
+                                    <span style="display:block; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
+                                 </div> 
+                                 <div v-else>
+                                    <span style="display:none; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
+                                 </div>
+                                    <a @click="oneKeydownload(pro.systemId,pro.companyId)" style="float: left;cursor: pointer;"  v-bind:class="{'tr-row-gray':pro.recordStatus == 4}">一键下载</a>
                                     <!-- &lt;!&ndash;class=app1 都是app1&ndash;&gt; -->
                                     <i class="app1" style="float: left">
                                         <el-row class="block-col-2">
