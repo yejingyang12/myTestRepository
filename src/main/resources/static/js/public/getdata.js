@@ -6,7 +6,7 @@ if(src_ele.dataset) {
 	comp_src = $('#src-qianhou').data('src')
 }
 // console.log(comp_src);
-var origin = 'http://cpro.smcc.sinopec.com:8082/';
+var originUrl = 'http://cpro.smcc.sinopec.com:8082/';
 //var origin = window.location.origin+"/";
 
 //var origin = ''+"/";
