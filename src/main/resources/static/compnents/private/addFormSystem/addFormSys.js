@@ -469,7 +469,6 @@ var  data={
                     },
                     //获取单位信息
                     getCompanySuccessMethod:function(_self,responseData){
-                      //console.log(JSON.stringify(responseData.data))
                       _self.msgName = responseData.data;
                     },
                     setStandardizedCode:function(e,val){
@@ -511,15 +510,6 @@ var  data={
                               "standardizedCode":""
                             });
                           }
-                        }else{
-                          _self.formData.addSystemSub = [{
-                            systemName:"",
-                            standardizedCode:""
-                          },
-                          {
-                            systemName:"",
-                            standardizedCode:""
-                          }];
                         }
                         if(response.systemKeyProducts==null){
                           response.systemKeyProducts = []
@@ -579,13 +569,25 @@ var  data={
                           }
                         }
                       }
-                      
-                      if(response.fkSystemIsMerge = '1'){
+                      if(response.addSystemSub==null){
+                        _self.formData.addSystemSub = [{
+                          systemName:"",
+                          standardizedCode:""
+                        },
+                        {
+                          systemName:"",
+                          standardizedCode:""
+                        }];
+                      }
+                      if(response.fkSystemIsMerge == '1'){
                         this.systemSonInfo = true;
                         this.systemInfo = false;
                         $("#systemInfo1").attr("disabled","disabled");
                         this.systemInfo2 = true;
                         this.systemInfo3 = true;
+                      }else{
+                        this.systemSonInfo = false;
+                        this.systemInfo = true;
                       }
                       
                       if(_self.formData.fkInfoSysTypeCon!=''){

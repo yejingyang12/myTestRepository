@@ -30,7 +30,7 @@ window.onload = function () {
           submitBtn:function() {
             data.formData.changeType = "2";
             ajaxMethod(this, 'post',
-                'grading/saveGrading', true,
+                'grading/submitGrading', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.submitBtnSuccessMethod);
