@@ -15,27 +15,6 @@ spring:
     cache: false 
   application:
     name: Class-Protection
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://103.249.52.8:13306/smcc_cpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
-    username: root
-    password: esa@2011
-    driver-class-name: com.mysql.jdbc.Driver
-    minIdle: 1
-    maxActive: 20
-    initialSize: 1
-    timeBetweenEvictionRunsMillis: 3000
-    minEvictableIdleTimeMillis: 300000
-  redis:
-    host: 10.248.66.199
-    port: 6379
-    database: 0
-    timeout: 5000
-    pool:
-      max-active: 8
-      max-wait: -1
-      max-idle: 8
-      min-idle: 0
   thymeleaf:
     enabled: true
     mode: LEGACYHTML5
