@@ -1,7 +1,7 @@
 var data={
 	formData:{
 		recordsId: null,
-		fkSystemId: null,
+		fkSystemId: systemId,
 		fkrevokematter: null,
 		recordCode: null,
 		recordCompany: null,
@@ -41,7 +41,19 @@ var data={
 						if(responseData.data!=null){
 							_self.formData = responseData.data;
 						}else{
-							_self.formData = {fkSystemId: systemId};
+							_self.formData = {
+									recordsId: null,
+									fkSystemId: systemId,
+									fkrevokematter: null,
+									recordCode: null,
+									recordCompany: null,
+									recordDate: null,
+									acceptCompany: null,
+									acceptDate: null,
+									acceptReason : null,
+									recordReportPath : null,
+									recordReportName : null
+								};
 						}
 					},
 					changeLi:function(e) {

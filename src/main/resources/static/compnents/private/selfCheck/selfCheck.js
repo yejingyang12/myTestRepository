@@ -3,11 +3,13 @@
  */
 (function () {
   var data={
+  		systemName: null,
   		show:{
   			visible2: -1,
   			deleteFileType: null,
   		},
     itemdata:null,
+		imgList: null,
     queryParam: {
     	"fkSystemId": null,
     	"pageSize": 10,
@@ -46,9 +48,22 @@
         created: function() {
         	this.queryParam.fkSystemId = systemId;
         	this.editParam.fkSystemId = systemId;
+        	this.querySystemName(this);
         	this.querySelfCheckList(this);
         },
         methods:{
+        	//获取系统名称
+        	querySystemName: function(_self) {
+        		var querySystemNameParam = {systemId:systemId,};
+        		ajaxMethod(_self, 'post',
+                '/system/querySystemInformationBySystemId', true,
+                JSON.stringify(querySystemNameParam), 'json',
+                'application/json;charset=UTF-8',
+                _self.querySystemNameSuccessMethod);
+        	},
+        	querySystemNameSuccessMethod: function(_self,data){
+        		_self.systemName = data.data.systemName;
+        	},
         	//查询列表
         	querySelfCheckList: function(_self) {
             ajaxMethod(_self, 'post',
@@ -109,6 +124,12 @@
           },
           dialogdata: function (_self, responseData) {
           	_self.editParam=responseData.data;
+          	if(_self.editParam.inspectionDate == '1970-01-01'){
+          		_self.editParam.inspectionDate = null;
+          	}
+          	if(_self.editParam.rectificationDate == '1970-01-01'){
+          		_self.editParam.rectificationDate = null;
+          	}
           },
           
           //保存自查信息
@@ -213,10 +234,61 @@
           	//下载路径
           	window.location.href = originUrl + "fileHandle/downloadFile?uploadUrl="+uploadUrl+"&attachName="+attachName+"&fileId="+fileId;
 					},
+					
+		       //排序
+          listsort: function () {
+            var imgArrow = this.imgList;
+            var flagOne = 1;
+            for (var i = 0; i < imgArrow.length; i++) {
+              imgArrow[i].myindex = i;
+              imgArrow[i].onclick = function () {
+                flagOne *= -1;
+                //对每个数组也就是对应表格的每一列进行排序
+                switch (this.myindex){
+                  case 0://系统名称
+                    data.result.data.sort(function (a, b) {
+                      return (a.systemName.localeCompare(b.systemName)) * flagOne
+                    });
+                    break;
+                  case 1://自查时间
+                    data.result.data.sort(function (a, b) {
+                      return (new Date(a.inspectionDate.split('-').join('/')).getTime()-new Date(b.inspectionDate.split('-').join('/')).getTime()) * flagOne
+                    });
+                    break;
+                  case 2://自查状态
+                    data.result.data.sort(function (a, b) {
+                      return (a.fkInspectionStatus - b.fkInspectionStatus) * flagOne
+                    });
+                    break;
+                  case 3://自查结果
+                    data.result.data.sort(function (a, b) {
+                      return (a.fkInspectionReu - b.fkInspectionReu) * flagOne
+                    });
+                    break;
+                  case 4://整改结果
+                    data.result.data.sort(function (a, b) {
+                      return (a.fkRectificationReu - b.fkRectificationReu) * flagOne
+                    });
+                    break;
+                  case 5://整改时间
+                    data.result.data.sort(function (a, b) {
+                      return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
+                    });
+                    break;
+                }
+              };
+            }
+          },//listsort end
+          
+          
         },//methods
 
 
         mounted: function() {
+        	var rowOne=document.getElementsByClassName('rowOne')[0];
+          var imgList=rowOne.getElementsByTagName('img');
+          this.imgList = imgList;
+          this.listsort();
           //点击返回按钮 返回到首页
           bus.$on("gradReturn",function(meg){
             if(meg!=null){

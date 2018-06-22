@@ -61,7 +61,7 @@ var data={
         sAllMaxNum:[],
         sindpar:0,
         all:'',
-        nextBtn:false
+        nextBtn:true
     };
 
 (function () {

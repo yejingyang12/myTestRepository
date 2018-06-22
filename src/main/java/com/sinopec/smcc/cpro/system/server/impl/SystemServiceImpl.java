@@ -28,22 +28,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
-import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
-import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
-import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
-import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
-import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
-import com.sinopec.smcc.cpro.records.entity.RecordsParam;
-import com.sinopec.smcc.cpro.records.entity.RecordsResult;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
-import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.server.CheckService;
-import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
-import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
@@ -284,52 +272,21 @@ public class SystemServiceImpl implements SystemService {
 	@Override
 	public SystemResult queryDetailsSystem(SystemParam systemParam) throws BusinessException {
 	  
-	  List<SystemKeyResult> systemKey = new ArrayList<SystemKeyResult>();
-	  List<SystemUseResult> systemUse = new ArrayList<SystemUseResult>();
-	  List<SystemSubResult> systemSub = new ArrayList<SystemSubResult>();
-	  
-    List<SystemSubResult> systemParamList = this.systemMapper.selectEditBySub(systemParam);
     SystemResult systemResult= this.systemMapper.selectDetailsSystem(systemParam);
+    if(systemResult.getFkSystemIsMerge()==1){
+      List<SystemSubResult> systemParamList = this.systemMapper.selectEditBySub(systemParam);
+      if (systemParamList != null ){
+        systemResult.setAddSystemSub(systemParamList);
+      }
+    }
     List<SystemKeyResult> keyParamList = this.systemMapper.selectKeyTemp(systemParam);
     List<SystemUseResult> useParamList = this.systemMapper.selectUseTemp(systemParam);
-    if (systemParamList != null ){
-      for (SystemSubResult systemParamSub : systemParamList) {
-        SystemSubResult subSystem = new SystemSubResult();
-        subSystem.setSystemName(systemParamSub.getSystemName());  
-        subSystem.setStandardizedCode(systemParamSub.getStandardizedCode());
-        systemSub.add(subSystem);
-        systemResult.setAddSystemSub(systemSub);
-      }
-    }
     
     if (keyParamList != null) {
-      for (SystemKeyResult systemResultKey : keyParamList) {
-        SystemKeyResult keySystem = new SystemKeyResult();
-        keySystem.setExaminStatusName(systemResultKey.getExaminStatusName());
-        keySystem.setNationalIsProductsName(systemResultKey.getNationalIsProductsName());
-        keySystem.setProductsNumber(systemResultKey.getProductsNumber());
-        keySystem.setnUseProbability(systemResultKey.getnUseProbability());
-        keySystem.setFkExaminStatus(systemResultKey.getFkExaminStatus());
-        keySystem.setFkNationalIsProducts(systemResultKey.getFkNationalIsProducts());
-        keySystem.setOtherName(systemResultKey.getOtherName());
-        systemKey.add(keySystem);
-        systemResult.setSystemKeyProducts(systemKey);
-      }
+      systemResult.setSystemKeyProducts(keyParamList);
     }
-    
     if(useParamList != null){
-      for (SystemUseResult systemResultUse : useParamList) {
-        SystemUseResult useSystem = new SystemUseResult();
-        useSystem.setProductsTypeName(systemResultUse.getProductsTypeName());
-        useSystem.setUseName(systemResultUse.getUseName());
-        useSystem.setResponsibleTypeName(systemResultUse.getResponsibleTypeName());
-        useSystem.setFkProductsType(systemResultUse.getFkProductsType());
-        useSystem.setFkResponsibleType(systemResultUse.getFkResponsibleType());
-        useSystem.setServiceIsUse(systemResultUse.getServiceIsUse());
-        useSystem.setOtherName(systemResultUse.getOtherName());
-        systemUse.add(useSystem);
-        systemResult.setSystemUseServices(systemUse);
-      }
+      systemResult.setSystemUseServices(useParamList);
     }
     return systemResult;
 	}
@@ -342,347 +299,437 @@ public class SystemServiceImpl implements SystemService {
 	@Transactional
   public String editSystem(String userName, SystemParam systemParam) throws BusinessException {
 	  
-	  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
-	  List<SystemResult> subUpdateSystemList = new ArrayList<SystemResult>();
-	  List<SystemParam> addSubSystem = systemParam.getAddSystemSub();
+//	  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
+//	  List<SystemResult> subUpdateSystemList = new ArrayList<SystemResult>();
+//	  List<SystemParam> addSubSystem = systemParam.getAddSystemSub();
+	  
+	  
 	  List<SystemParam> systemParamAddList = new ArrayList<SystemParam>();
 	  List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
 	  List<SystemKeyProducts> subSystemKeyProductsList = new ArrayList<SystemKeyProducts>();
 	  List<SystemUseServices> subUseList = systemParam.getSystemUseServices();
 	  List<SystemUseServices> subSystemUseServicesList = new ArrayList<SystemUseServices>();
-	  List<SystemResult> subSystemList = this.systemMapper.selectSubSystem(systemParam);
-	  SystemResult systemFather = this.systemMapper.selectSystem(systemParam);
 	  
-	  //系统是否有子系统
-	  if (subSystemList != null) {
-	    //修改子系统数据
-      for (SystemResult subSys : subSystemList) {
-        subSys.getSystemId();
-        subSys.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
-        subSys.setAppIsInternet(systemParam.getAppIsInternet());
-        subSys.setGradeRecordSysName(systemParam.getGradeRecordSysName());
-        subSys.setSysBusSituationType(systemParam.getSysBusSituationType());
-        subSys.setSysBusDescription(systemParam.getSysBusDescription());
-        subSys.setSysServiceSitScope(systemParam.getSysServiceSitScope());
-        subSys.setSysServiceSitObject(systemParam.getSysServiceSitObject());
-        subSys.setNpCoverageRange(systemParam.getNpCoverageRange());
-        subSys.setNpNetworkProperties(systemParam.getNpNetworkProperties());
-        subSys.setInterconnectionSit(systemParam.getInterconnectionSit());
-        subSys.setFkCompanyCode(systemParam.getFkCompanyCode());
-        subSys.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
-        subSys.setExecutiveDireCon(systemParam.getExecutiveDireCon());
-        subSys.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
-        subSys.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
-        subSys.setSubIsSystem(systemParam.getSubIsSystem());
-        subSys.setCompanyName(systemParam.getCompanyName());
-        subUpdateSystemSubList.add(subSys);
-        this.systemMapper.updateSystemSub(subUpdateSystemSubList);
-        //删除子系统子表
-        systemKeyProductsMapper.deleteSubKey(subSystemList);
-        systemUseServicesMapper.deleteSubUse(subSystemList);
-        //添加子系统子表
-        for (int key = 0; key < subKeyList.size(); key++) {
-          SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
-          systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
-          systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
-          systemKeyProducts.setFkSystemId(subSys.getSystemId());
-          systemKeyProducts.setDeleteStatus(subKeyList.get(key).getDeleteStatus());
-          systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
-          systemKeyProducts.setCreateTime(new Date());
-          systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
-          systemKeyProducts.setProductsNumber(subKeyList.get(key).getProductsNumber());
-          systemKeyProducts.setFkNationalIsProducts(subKeyList.get(key).getFkNationalIsProducts());
-          systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
-          subSystemKeyProductsList.add(systemKeyProducts);
-        }
-        for (int use = 0; use < subUseList.size(); use++) {
-          SystemUseServices SystemUseServices = new SystemUseServices();
-          SystemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
-          SystemUseServices.setFkSystemId(subSys.getSystemId());
-          SystemUseServices.setCreateTime(new Date());
-          SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
-          SystemUseServices.setFkProductsType(subUseList.get(use).getFkProductsType());
-          SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
-          SystemUseServices.setFkResponsibleType(subUseList.get(use).getFkResponsibleType());
-          subSystemUseServicesList.add(SystemUseServices);
-        }
+//	  SystemResult systemFather = this.systemMapper.selectSystem(systemParam);
+	  
+	  //判断是否为合并系统
+	  if(systemParam.getFkSystemIsMerge()==1){
+	    //查询子表信息
+	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
+	    for (SystemSubResult systemSubParam : subSystemList) {
+	      SystemParam systemTempParam = new SystemParam();
+	      systemTempParam.addSystemParam(systemParam);
+	      systemTempParam.setSystemId(systemSubParam.getSystemId());
+	      systemParamAddList.add(systemTempParam);
+	      this.systemMapper.updateSystemEdit(systemTempParam);
       }
-    }
-	  //修改主系统信息
-    if (systemFather != null) {
-      systemFather.setSystemId(systemParam.getSystemId());
-      systemFather.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
-      systemFather.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
-      systemFather.setAppIsInternet(systemParam.getAppIsInternet());
-      systemFather.setGradeRecordSysName(systemParam.getGradeRecordSysName());
-      systemFather.setSysBusSituationType(systemParam.getSysBusSituationType());
-      systemFather.setSysBusDescription(systemParam.getSysBusDescription());
-      systemFather.setSysServiceSitScope(systemParam.getSysServiceSitScope());
-      systemFather.setSysServiceSitObject(systemParam.getSysServiceSitObject());
-      systemFather.setNpCoverageRange(systemParam.getNpCoverageRange());
-      systemFather.setNpNetworkProperties(systemParam.getNpNetworkProperties());
-      systemFather.setInterconnectionSit(systemParam.getInterconnectionSit());
-      systemFather.setFkCompanyCode(systemParam.getFkCompanyCode());
-      systemFather.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
-      systemFather.setExecutiveDireCon(systemParam.getExecutiveDireCon());
-      systemFather.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
-      systemFather.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
-      systemFather.setSubIsSystem(systemParam.getSubIsSystem());
-      systemFather.setSystemName(systemParam.getSystemName());
-      systemFather.setStandardizedCode(systemParam.getStandardizedCode());
-      systemFather.setCompanyName(systemParam.getCompanyName());
-      subUpdateSystemList.add(systemFather);
-      this.systemMapper.updateSystem(subUpdateSystemList);
-    }
-    
-    this.systemKeyProductsMapper.deleteKey(systemParam);
-    this.systemUseServicesMapper.deleteUse(systemParam);
-	  //添加系统子表
-	  for (int key = 0; key < subKeyList.size(); key++) {
-	    SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
-	    systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
-	    systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
-      systemKeyProducts.setFkSystemId(systemParam.getSystemId());
-      systemKeyProducts.setDeleteStatus(subKeyList.get(key).getDeleteStatus());
-      systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
-      systemKeyProducts.setCreateTime(new Date());
-      systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
-      systemKeyProducts.setProductsNumber(subKeyList.get(key).getProductsNumber());
-      systemKeyProducts.setFkNationalIsProducts(subKeyList.get(key).getFkNationalIsProducts());
-      systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
-      subSystemKeyProductsList.add(systemKeyProducts);
-    }
-	  for (int use = 0; use < subUseList.size(); use++) {
-      SystemUseServices SystemUseServices = new SystemUseServices();
-      SystemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
-      SystemUseServices.setFkSystemId(systemParam.getSystemId());
-      SystemUseServices.setCreateTime(new Date());
-      SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
-      SystemUseServices.setFkProductsType(subUseList.get(use).getFkProductsType());
-      SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
-      SystemUseServices.setFkResponsibleType(subUseList.get(use).getFkResponsibleType());
-      subSystemUseServicesList.add(SystemUseServices);
-    }
-	  
-	  //验证系统是否为合并系统
-	 if (systemParam.getFkSystemIsMerge() == 1) {
-	  if (addSubSystem != null) {
-	    for (int subSystem = 0; subSystem < addSubSystem.size(); subSystem++) {
-	      SystemParam systemParamSub = new SystemParam();
-        systemParamSub.setSystemId(Utils.getUuidFor32());
-        systemParamSub.setExamineStatus(1);
-        systemParamSub.setExaminationStatus(1);
-        systemParamSub.setFkSystemType(3);
-        systemParamSub.setRecordStatus(1);
-        systemParamSub.setGradingStatus(1);
-        systemParamSub.setFkChangeMatter(5);
-        systemParamSub.setAppIsInternet(2);
-        systemParamSub.setEvaluationStatus(1);
-        systemParamSub.setCreateTime(new Date());
-        systemParamSub.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
-        systemParamSub.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
-        systemParamSub.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
-        systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
-        systemParamSub.setGradeRecordSysName(systemParam.getGradeRecordSysName());
-        systemParamSub.setSysBusSituationType(systemParam.getSysBusSituationType());
-        systemParamSub.setSysBusDescription(systemParam.getSysBusDescription());
-        systemParamSub.setSysServiceSitScope(systemParam.getSysServiceSitScope());
-        systemParamSub.setSubIsSystem(systemParam.getSubIsSystem());
-        systemParamSub.setSysServiceSitObject(systemParam.getSysServiceSitObject());
-        systemParamSub.setNpCoverageRange(systemParam.getNpCoverageRange());
-        systemParamSub.setNpNetworkProperties(systemParam.getNpNetworkProperties());
-        systemParamSub.setFkCompanyCode(systemParam.getFkCompanyCode());
-        systemParamSub.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
-        systemParamSub.setExecutiveDireCon(systemParam.getExecutiveDireCon());
-        systemParamSub.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
-        systemParamSub.setSystemName(addSubSystem.get(subSystem).getSystemName());
-        systemParamSub.setStandardizedCode(addSubSystem.get(subSystem).getStandardizedCode());
-        systemParamSub.setFkFatherSystemId(systemParam.getSystemId());
-        systemParamSub.setCompanyName(addSubSystem.get(subSystem).getCompanyName());
-        systemParamAddList.add(systemParamSub);
-      
-        for (int subKey = 0; subKey < subKeyList.size(); subKey++) {
-          SystemKeyProducts systemKeyProductsBean = new SystemKeyProducts();
-          systemKeyProductsBean.setSystemKeyProductsId(Utils.getUuidFor32());
-          systemKeyProductsBean.setFkSystemId(systemParamSub.getSystemId());
-          systemKeyProductsBean.setDeleteStatus(subKeyList.get(subKey).getDeleteStatus());
-          systemKeyProductsBean.setnUseProbability(subKeyList.get(subKey).getnUseProbability());
-          systemKeyProductsBean.setCreateTime(new Date());
-          systemKeyProductsBean.setFkExaminStatus(subKeyList.get(subKey).getFkExaminStatus());
-          systemKeyProductsBean.setProductsNumber(subKeyList.get(subKey).getProductsNumber());
-          systemKeyProductsBean.setFkNationalIsProducts(subKeyList.get(subKey).getFkNationalIsProducts());
-          systemKeyProductsBean.setnUseProbability(subKeyList.get(subKey).getnUseProbability());
-          subSystemKeyProductsList.add(systemKeyProductsBean);
-        }
-        
-
-        for (int subUse = 0; subUse < subUseList.size(); subUse++) {
-          SystemUseServices SystemUseServicesBean = new SystemUseServices();
-          SystemUseServicesBean.setSystemUseServicesId(Utils.getUuidFor32());
-          SystemUseServicesBean.setFkSystemId(systemParamSub.getSystemId());
-          SystemUseServicesBean.setCreateTime(new Date());
-          SystemUseServicesBean.setServiceIsUse(subUseList.get(subUse).getServiceIsUse());
-          SystemUseServicesBean.setFkProductsType(subUseList.get(subUse).getFkProductsType());
-          SystemUseServicesBean.setServiceIsUse(subUseList.get(subUse).getServiceIsUse());
-          SystemUseServicesBean.setFkResponsibleType(subUseList.get(subUse).getFkResponsibleType());
-          subSystemUseServicesList.add(SystemUseServicesBean);
-        }
+	    systemParamAddList.add(systemParam);
+	    this.systemMapper.updateSystemEdit(systemParam);
+	    
+	    for (SystemParam systemSonParam : systemParamAddList) {
+	      //添加系统子表
+	      for (int key = 0; key < subKeyList.size(); key++) {
+	        SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
+	        systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
+	        systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+	        systemKeyProducts.setFkSystemId(systemSonParam.getSystemId());
+	        systemKeyProducts.setDeleteStatus(subKeyList.get(key).getDeleteStatus());
+	        systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+	        systemKeyProducts.setCreateTime(new Date());
+	        systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+	        systemKeyProducts.setProductsNumber(subKeyList.get(key).getProductsNumber());
+	        systemKeyProducts.setFkNationalIsProducts(subKeyList.get(key).getFkNationalIsProducts());
+	        systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+	        subSystemKeyProductsList.add(systemKeyProducts);
+	      }
+	      for (int use = 0; use < subUseList.size(); use++) {
+	        SystemUseServices SystemUseServices = new SystemUseServices();
+	        SystemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
+	        SystemUseServices.setFkSystemId(systemSonParam.getSystemId());
+	        SystemUseServices.setCreateTime(new Date());
+	        SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+	        SystemUseServices.setFkProductsType(subUseList.get(use).getFkProductsType());
+	        SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+	        SystemUseServices.setFkResponsibleType(subUseList.get(use).getFkResponsibleType());
+	        subSystemUseServicesList.add(SystemUseServices);
+	      }
       }
-    }
-	  //获取删除子系统List
-	  List<SystemParam> systemDelete = systemParam.getDeleteSystemSub();
-	  if(systemDelete != null){
-	   //查询父系统的数据
-	  List<EvaluationResult> evaluation = this.systemMapper.selectAllByEvaluation(systemParam);
-	  List<SelfexaminationResult> self = this.systemMapper.selectAllBySelf(systemParam);
-	  GradingListResult grading = this.systemMapper.selectAllByGrading(systemParam);
-	  RecordsResult record = this.systemMapper.selectAllByRecord(systemParam);
-	  AttachMaterialsListResult material = this.systemMapper.selectAllByMaterial(systemParam);
-	  CheckResult check = this.systemMapper.selectAllByCheck(systemParam);
-	  List<SystemParam> update = new ArrayList<SystemParam>();
-	  
-	  List<EvaluationParam> evaluationList = new ArrayList<EvaluationParam>();
-	  List<SelfexaminationParam> selfexaminationList = new ArrayList<SelfexaminationParam>();
-	  for (SystemParam systemParamDe : systemDelete) {
 	    
-	    systemParamDe.setFkFatherSystemId("");
-	    systemParamDe.setFkSystemType(1);
-      update.add(systemParamDe);
-      this.systemMapper.updateSubStat(update);
-	    
-    	  for (EvaluationResult evaluationParam : evaluation) {
-    	    EvaluationParam evaluationTempParam = new EvaluationParam();
-    	    evaluationTempParam.setEvaluationId(Utils.getUuidFor32());
-    	    evaluationTempParam.setFkSystemId(systemParamDe.getSystemId());
-    	    evaluationTempParam.setExamName(evaluationParam.getExamName());
-    	    evaluationTempParam.setExamTime(evaluationParam.getExamTime());
-    	    evaluationTempParam.setExamYear(evaluationParam.getExamYear());
-    	    evaluationTempParam.setExamOrg(evaluationParam.getExamOrg());
-    	    evaluationTempParam.setExamReport(evaluationParam.getExamReport());
-    	    evaluationTempParam.setExamReportName(evaluationParam.getExamReportName());
-    	    evaluationTempParam.setFkExamStatus(evaluationParam.getFkExamStatus());
-    	    evaluationTempParam.setFkExamResult(evaluationParam.getFkExamResult());
-    	    evaluationTempParam.setFkRectificationReu(evaluationParam.getFkRectificationReu());
-    	    evaluationTempParam.setRectificationDate(evaluationParam.getRectificationDate());
-    	    evaluationTempParam.setDeleteStatus(evaluationParam.getDeleteStatus());
-    	    evaluationTempParam.setCreateUserName(evaluationParam.getCreateUserName());
-    	    evaluationTempParam.setCreateTime(evaluationParam.getCreateTime());
-    	    evaluationTempParam.setUpdateTime(evaluationParam.getUpdateTime());
-    	    evaluationList.add(evaluationTempParam);
-        }
-    	  for (SelfexaminationResult selfexaminationParam : self) {
-    	    SelfexaminationParam selfexaminationTemParam = new SelfexaminationParam();
-    	    selfexaminationTemParam.setSelfexaminationId(Utils.getUuidFor32());
-    	    selfexaminationTemParam.setFkSystemId(systemParamDe.getSystemId());
-    	    selfexaminationTemParam.setFkInspectionStatus(selfexaminationParam.getFkInspectionStatus());
-    	    selfexaminationTemParam.setFkInspectionReu(selfexaminationParam.getFkInspectionReu());
-    	    selfexaminationTemParam.setFkRectificationReu(selfexaminationParam.getFkRectificationReu());
-    	    selfexaminationTemParam.setInspectionDate(selfexaminationParam.getInspectionDate());
-    	    selfexaminationTemParam.setRectificationDate(selfexaminationParam.getRectificationDate());
-    	    selfexaminationTemParam.setDeleteStatus(selfexaminationParam.getDeleteStatus());
-    	    selfexaminationTemParam.setCreateUserName(selfexaminationParam.getCreateUserName());
-    	    selfexaminationTemParam.setCreateTime(selfexaminationParam.getCreateTime());
-    	    selfexaminationTemParam.setUpdateTime(selfexaminationParam.getUpdateTime());
-    	    selfexaminationTemParam.setRemark(selfexaminationParam.getRemark());
-    	    selfexaminationList.add(selfexaminationTemParam);
-        }
-        GradingParam gradingTemParam = new GradingParam();
-        gradingTemParam.setGradingId(Utils.getUuidFor32());
-        gradingTemParam.setFkSystemId(systemParamDe.getSystemId());
-        gradingTemParam.setFkBizSPRankDegree(grading.getFkBizSPRankDegree());
-        gradingTemParam.setFkBizSPRankLevel(grading.getFkBizSPRankLevel());
-        gradingTemParam.setFkBizSystemDegree(grading.getFkBizSystemDegree());
-        gradingTemParam.setFkBizSystemLevel(grading.getFkBizSystemLevel());
-        gradingTemParam.setFkSpRanklevel(grading.getFkSpRanklevel());
-        gradingTemParam.setExpertView(grading.getExpertView());
-        gradingTemParam.setRankExplainDesc(grading.getRankExplainDesc());
-        gradingTemParam.setRankTime(grading.getRankTime());
-        gradingTemParam.setCompetentIsExisting(grading.getCompetentIsExisting());
-        gradingTemParam.setCompetentName(grading.getCompetentName());
-        gradingTemParam.setCompetentView(grading.getCompetentView());
-        gradingTemParam.setFiller(grading.getFiller());
-        gradingTemParam.setFillDate(grading.getFillDate());
-        gradingTemParam.setDeleteStatus(grading.getDeleteStatus());
-        gradingTemParam.setCreateUserName(grading.getCreateUserName());
-        gradingTemParam.setCreateTime(grading.getCreateTime());
-        gradingTemParam.setUpdateTime(grading.getUpdateTime());
-        gradingTemParam.setRemark(grading.getRemark());
-        
-        RecordsParam recordsParam = new RecordsParam();
-        recordsParam.setRecordsId(Utils.getUuidFor32());
-        recordsParam.setFkSystemId(systemParamDe.getSystemId());
-        recordsParam.setFkrevokematter(record.getFkrevokematter());
-        recordsParam.setRecordCode(record.getRecordCode());
-        recordsParam.setRecordCompany(record.getRecordCompany());
-        recordsParam.setRecordDate(record.getRecordDate());
-        recordsParam.setAcceptCompany(record.getAcceptCompany());
-        recordsParam.setAcceptDate(record.getAcceptDate());
-        recordsParam.setAcceptReason(record.getAcceptReason());
-        recordsParam.setRevokereason(record.getRevokereason());
-        recordsParam.setRevokecontent(record.getRevokecontent());
-        recordsParam.setDeleteStatus(record.getDeleteStatus());
-        recordsParam.setCreateUserName(record.getCreateUserName());
-        recordsParam.setCreateTime(record.getCreateTime());
-        recordsParam.setUpdateTime(record.getUpdateTime());
-        recordsParam.setRemark(record.getRemark());
-        
-        AttachMaterialsParam attachMaterialsParam = new AttachMaterialsParam();
-        attachMaterialsParam.setAttachId(Utils.getUuidFor32());
-        attachMaterialsParam.setFkSystemId(systemParamDe.getSystemId());
-        attachMaterialsParam.setFkSyssonId(material.getFkSyssonId());
-        attachMaterialsParam.setFkAttachType(material.getFkAttachType());
-        attachMaterialsParam.setAttachName(material.getAttachName());
-        attachMaterialsParam.setMongoFileId(material.getMongoFileId());
-        attachMaterialsParam.setAttachPath(material.getAttachPath());
-        attachMaterialsParam.setDeleteStatus(material.getDeleteStatus());
-        attachMaterialsParam.setCreateUserName(material.getCreateUserName());
-        attachMaterialsParam.setCreateTime(material.getCreateTime());
-        attachMaterialsParam.setUpdateTime(material.getUpdateTime());
-        attachMaterialsParam.setRemark(material.getRemark());
-        
-        CheckParam checkParam = new CheckParam();
-        checkParam.setCheckId(Utils.getUuidFor32());
-        checkParam.setFkSystemId(systemParamDe.getSystemId());
-        checkParam.setFkExaminStatus(check.getFkExaminStatus());
-        checkParam.setFkBusinessNode(check.getFkBusinessNode());
-        checkParam.setInstanceName(check.getInstanceName());
-        checkParam.setInitiator(check.getInitiator());
-        checkParam.setPrevExecutor(check.getPrevExecutor());
-        checkParam.setExecuteTime(check.getExecuteTime());
-        checkParam.setDeleteStatus(check.getDeleteStatus());
-        checkParam.setCreateUserName(check.getCreateUserName());
-        checkParam.setCreateTime(check.getCreateTime());
-        checkParam.setUpdateTime(check.getUpdateTime());
-        checkParam.setRemark(check.getRemark());
-        
-
-        if ("1".equals(systemParam.getChangeType())) {
-          //添加节点状态信息
-          NodeParam nodeParam = new NodeParam();
-          nodeParam.setSystemId(systemParam.getSystemId());
-          nodeParam.setOperation("系统变更");
-          nodeParam.setOperationResult("已修改");
-          nodeParam.setOperationOpinion("");
-          nodeParam.setOperator(userName);
-          this.nodeServiceImpl.addNodeInfo(nodeParam);
-        }
-        
-        this.systemMapper.insertGradingTemp(gradingTemParam);
-        this.systemMapper.insertRecordsTemp(recordsParam);
-        this.systemMapper.insertAttachMaterialsTemp(attachMaterialsParam);
-        this.systemMapper.insertCheckTemp(checkParam);
-    }
-	  
-	  this.systemMapper.insertEvaluationTemp(evaluationList);
-	  this.systemMapper.insertSelfexaminationTemp(selfexaminationList);
-	  
+	  }else{
+	    //添加系统子表
+      for (int key = 0; key < subKeyList.size(); key++) {
+        SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
+        systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
+        systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+        systemKeyProducts.setFkSystemId(systemParam.getSystemId());
+        systemKeyProducts.setDeleteStatus(subKeyList.get(key).getDeleteStatus());
+        systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+        systemKeyProducts.setCreateTime(new Date());
+        systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+        systemKeyProducts.setProductsNumber(subKeyList.get(key).getProductsNumber());
+        systemKeyProducts.setFkNationalIsProducts(subKeyList.get(key).getFkNationalIsProducts());
+        systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+        systemKeyProducts.setOtherName(subKeyList.get(key).getOtherName());
+        subSystemKeyProductsList.add(systemKeyProducts);
+      }
+	    for (int use = 0; use < subUseList.size(); use++) {
+        SystemUseServices SystemUseServices = new SystemUseServices();
+        SystemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
+        SystemUseServices.setFkSystemId(systemParam.getSystemId());
+        SystemUseServices.setCreateTime(new Date());
+        SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+        SystemUseServices.setFkProductsType(subUseList.get(use).getFkProductsType());
+        SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+        SystemUseServices.setFkResponsibleType(subUseList.get(use).getFkResponsibleType());
+        SystemUseServices.setOtherName(subUseList.get(use).getOtherName());
+        subSystemUseServicesList.add(SystemUseServices);
+      }
+	    systemParamAddList.add(systemParam);
+	    this.systemMapper.updateSystemEdit(systemParam);
 	  }
-   }
-	  this.systemMapper.insertBatchSystem(systemParamAddList);
+	  
+	  //删除系统子表
+	  this.systemKeyProductsMapper.deleteSubKeyInfo(systemParamAddList);
+	  this.systemUseServicesMapper.deleteSubUseInfo(systemParamAddList);
+	  //修改
+//    this.systemMapper.updateSystemInfo(systemParamAddList);
     this.systemKeyProductsMapper
         .insertSystemKeyProductsBySystemKeyProductsId(subSystemKeyProductsList);
     this.systemUseServicesMapper
         .insertSystemUseServicesBySystemUseServicesId(subSystemUseServicesList);
+	  
+
+    
+    
+    
+    
+    
+    
+    
+    
+//	  //系统是否有子系统
+//	  if (subSystemList != null) {
+//	    //修改子系统数据
+//      for (SystemResult subSys : subSystemList) {
+//        subSys.getSystemId();
+//        subSys.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
+//        subSys.setAppIsInternet(systemParam.getAppIsInternet());
+//        subSys.setGradeRecordSysName(systemParam.getGradeRecordSysName());
+//        subSys.setSysBusSituationType(systemParam.getSysBusSituationType());
+//        subSys.setSysBusDescription(systemParam.getSysBusDescription());
+//        subSys.setSysServiceSitScope(systemParam.getSysServiceSitScope());
+//        subSys.setSysServiceSitObject(systemParam.getSysServiceSitObject());
+//        subSys.setNpCoverageRange(systemParam.getNpCoverageRange());
+//        subSys.setNpNetworkProperties(systemParam.getNpNetworkProperties());
+//        subSys.setInterconnectionSit(systemParam.getInterconnectionSit());
+//        subSys.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
+//        subSys.setExecutiveDireCon(systemParam.getExecutiveDireCon());
+//        subSys.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
+//        subSys.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
+//        subSys.setSubIsSystem(systemParam.getSubIsSystem());
+//        subUpdateSystemSubList.add(subSys);
+//        this.systemMapper.updateSystemSub(subUpdateSystemSubList);
+//        
+//        //添加子系统子表
+//        for (int key = 0; key < subKeyList.size(); key++) {
+//          SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
+//          systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
+//          systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+//          systemKeyProducts.setFkSystemId(subSys.getSystemId());
+//          systemKeyProducts.setDeleteStatus(subKeyList.get(key).getDeleteStatus());
+//          systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+//          systemKeyProducts.setCreateTime(new Date());
+//          systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+//          systemKeyProducts.setProductsNumber(subKeyList.get(key).getProductsNumber());
+//          systemKeyProducts.setFkNationalIsProducts(subKeyList.get(key).getFkNationalIsProducts());
+//          systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+//          subSystemKeyProductsList.add(systemKeyProducts);
+//        }
+//        for (int use = 0; use < subUseList.size(); use++) {
+//          SystemUseServices SystemUseServices = new SystemUseServices();
+//          SystemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
+//          SystemUseServices.setFkSystemId(subSys.getSystemId());
+//          SystemUseServices.setCreateTime(new Date());
+//          SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+//          SystemUseServices.setFkProductsType(subUseList.get(use).getFkProductsType());
+//          SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+//          SystemUseServices.setFkResponsibleType(subUseList.get(use).getFkResponsibleType());
+//          subSystemUseServicesList.add(SystemUseServices);
+//        }
+//      }
+//    }
+//	  //修改主系统信息
+//    if (systemFather != null) {
+//      systemFather.setSystemId(systemParam.getSystemId());
+//      systemFather.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
+//      systemFather.setAppIsInternet(systemParam.getAppIsInternet());
+//      systemFather.setGradeRecordSysName(systemParam.getGradeRecordSysName());
+//      systemFather.setSysBusSituationType(systemParam.getSysBusSituationType());
+//      systemFather.setSysBusDescription(systemParam.getSysBusDescription());
+//      systemFather.setSysServiceSitScope(systemParam.getSysServiceSitScope());
+//      systemFather.setSysServiceSitObject(systemParam.getSysServiceSitObject());
+//      systemFather.setNpCoverageRange(systemParam.getNpCoverageRange());
+//      systemFather.setNpNetworkProperties(systemParam.getNpNetworkProperties());
+//      systemFather.setInterconnectionSit(systemParam.getInterconnectionSit());
+//      systemFather.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
+//      systemFather.setExecutiveDireCon(systemParam.getExecutiveDireCon());
+//      systemFather.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
+//      systemFather.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
+//      systemFather.setSubIsSystem(systemParam.getSubIsSystem());
+//      systemFather.setSystemName(systemParam.getSystemName());
+//      systemFather.setCompanyName(systemParam.getCompanyName());
+//      subUpdateSystemList.add(systemFather);
+//      this.systemMapper.updateSystem(subUpdateSystemList);
+//    }
+//    
+//    this.systemKeyProductsMapper.deleteKey(systemParam);
+//    this.systemUseServicesMapper.deleteUse(systemParam);
+//	  //添加系统子表
+//	  for (int key = 0; key < subKeyList.size(); key++) {
+//	    SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
+//	    systemKeyProducts.setSystemKeyProductsId(Utils.getUuidFor32());
+//	    systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+//      systemKeyProducts.setFkSystemId(systemParam.getSystemId());
+//      systemKeyProducts.setDeleteStatus(subKeyList.get(key).getDeleteStatus());
+//      systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+//      systemKeyProducts.setCreateTime(new Date());
+//      systemKeyProducts.setFkExaminStatus(subKeyList.get(key).getFkExaminStatus());
+//      systemKeyProducts.setProductsNumber(subKeyList.get(key).getProductsNumber());
+//      systemKeyProducts.setFkNationalIsProducts(subKeyList.get(key).getFkNationalIsProducts());
+//      systemKeyProducts.setnUseProbability(subKeyList.get(key).getnUseProbability());
+//      subSystemKeyProductsList.add(systemKeyProducts);
+//    }
+//	  for (int use = 0; use < subUseList.size(); use++) {
+//      SystemUseServices SystemUseServices = new SystemUseServices();
+//      SystemUseServices.setSystemUseServicesId(Utils.getUuidFor32());
+//      SystemUseServices.setFkSystemId(systemParam.getSystemId());
+//      SystemUseServices.setCreateTime(new Date());
+//      SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+//      SystemUseServices.setFkProductsType(subUseList.get(use).getFkProductsType());
+//      SystemUseServices.setServiceIsUse(subUseList.get(use).getServiceIsUse());
+//      SystemUseServices.setFkResponsibleType(subUseList.get(use).getFkResponsibleType());
+//      subSystemUseServicesList.add(SystemUseServices);
+//    }
+//	  
+//	  //验证系统是否为合并系统
+//	 if (systemParam.getFkSystemIsMerge() == 1) {
+//	  if (addSubSystem != null) {
+//	    for (int subSystem = 0; subSystem < addSubSystem.size(); subSystem++) {
+//	      SystemParam systemParamSub = new SystemParam();
+//        systemParamSub.setSystemId(Utils.getUuidFor32());
+//        systemParamSub.setExamineStatus(1);
+//        systemParamSub.setExaminationStatus(1);
+//        systemParamSub.setFkSystemType(3);
+//        systemParamSub.setRecordStatus(1);
+//        systemParamSub.setGradingStatus(1);
+//        systemParamSub.setFkChangeMatter(5);
+//        systemParamSub.setAppIsInternet(2);
+//        systemParamSub.setEvaluationStatus(1);
+//        systemParamSub.setCreateTime(new Date());
+//        systemParamSub.setFkSystemIsMerge(systemParam.getFkSystemIsMerge());
+//        systemParamSub.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
+//        systemParamSub.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
+//        systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
+//        systemParamSub.setGradeRecordSysName(systemParam.getGradeRecordSysName());
+//        systemParamSub.setSysBusSituationType(systemParam.getSysBusSituationType());
+//        systemParamSub.setSysBusDescription(systemParam.getSysBusDescription());
+//        systemParamSub.setSysServiceSitScope(systemParam.getSysServiceSitScope());
+//        systemParamSub.setSubIsSystem(systemParam.getSubIsSystem());
+//        systemParamSub.setSysServiceSitObject(systemParam.getSysServiceSitObject());
+//        systemParamSub.setNpCoverageRange(systemParam.getNpCoverageRange());
+//        systemParamSub.setNpNetworkProperties(systemParam.getNpNetworkProperties());
+//        systemParamSub.setFkCompanyCode(systemParam.getFkCompanyCode());
+//        systemParamSub.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
+//        systemParamSub.setExecutiveDireCon(systemParam.getExecutiveDireCon());
+//        systemParamSub.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
+//        systemParamSub.setSystemName(addSubSystem.get(subSystem).getSystemName());
+//        systemParamSub.setStandardizedCode(addSubSystem.get(subSystem).getStandardizedCode());
+//        systemParamSub.setFkFatherSystemId(systemParam.getSystemId());
+//        systemParamSub.setCompanyName(systemParam.getCompanyName());
+//        systemParamAddList.add(systemParamSub);
+//      
+//        for (int subKey = 0; subKey < subKeyList.size(); subKey++) {
+//          SystemKeyProducts systemKeyProductsBean = new SystemKeyProducts();
+//          systemKeyProductsBean.setSystemKeyProductsId(Utils.getUuidFor32());
+//          systemKeyProductsBean.setFkSystemId(systemParamSub.getSystemId());
+//          systemKeyProductsBean.setDeleteStatus(subKeyList.get(subKey).getDeleteStatus());
+//          systemKeyProductsBean.setnUseProbability(subKeyList.get(subKey).getnUseProbability());
+//          systemKeyProductsBean.setCreateTime(new Date());
+//          systemKeyProductsBean.setFkExaminStatus(subKeyList.get(subKey).getFkExaminStatus());
+//          systemKeyProductsBean.setProductsNumber(subKeyList.get(subKey).getProductsNumber());
+//          systemKeyProductsBean.setFkNationalIsProducts(subKeyList.get(subKey).getFkNationalIsProducts());
+//          systemKeyProductsBean.setnUseProbability(subKeyList.get(subKey).getnUseProbability());
+//          subSystemKeyProductsList.add(systemKeyProductsBean);
+//        }
+//        
+//
+//        for (int subUse = 0; subUse < subUseList.size(); subUse++) {
+//          SystemUseServices SystemUseServicesBean = new SystemUseServices();
+//          SystemUseServicesBean.setSystemUseServicesId(Utils.getUuidFor32());
+//          SystemUseServicesBean.setFkSystemId(systemParamSub.getSystemId());
+//          SystemUseServicesBean.setCreateTime(new Date());
+//          SystemUseServicesBean.setServiceIsUse(subUseList.get(subUse).getServiceIsUse());
+//          SystemUseServicesBean.setFkProductsType(subUseList.get(subUse).getFkProductsType());
+//          SystemUseServicesBean.setServiceIsUse(subUseList.get(subUse).getServiceIsUse());
+//          SystemUseServicesBean.setFkResponsibleType(subUseList.get(subUse).getFkResponsibleType());
+//          subSystemUseServicesList.add(SystemUseServicesBean);
+//        }
+//      }
+//    }
+//	  //获取删除子系统List
+//	  List<SystemParam> systemDelete = systemParam.getDeleteSystemSub();
+//	  if(systemDelete != null){
+//	   //查询父系统的数据
+//	  List<EvaluationResult> evaluation = this.systemMapper.selectAllByEvaluation(systemParam);
+//	  List<SelfexaminationResult> self = this.systemMapper.selectAllBySelf(systemParam);
+//	  GradingListResult grading = this.systemMapper.selectAllByGrading(systemParam);
+//	  RecordsResult record = this.systemMapper.selectAllByRecord(systemParam);
+//	  AttachMaterialsListResult material = this.systemMapper.selectAllByMaterial(systemParam);
+//	  CheckResult check = this.systemMapper.selectAllByCheck(systemParam);
+//	  List<SystemParam> update = new ArrayList<SystemParam>();
+//	  
+//	  List<EvaluationParam> evaluationList = new ArrayList<EvaluationParam>();
+//	  List<SelfexaminationParam> selfexaminationList = new ArrayList<SelfexaminationParam>();
+//	  for (SystemParam systemParamDe : systemDelete) {
+//	    
+//	    systemParamDe.setFkFatherSystemId("");
+//	    systemParamDe.setFkSystemType(1);
+//      update.add(systemParamDe);
+//      this.systemMapper.updateSubStat(update);
+//	    
+//    	  for (EvaluationResult evaluationParam : evaluation) {
+//    	    EvaluationParam evaluationTempParam = new EvaluationParam();
+//    	    evaluationTempParam.setEvaluationId(Utils.getUuidFor32());
+//    	    evaluationTempParam.setFkSystemId(systemParamDe.getSystemId());
+//    	    evaluationTempParam.setExamName(evaluationParam.getExamName());
+//    	    evaluationTempParam.setExamTime(evaluationParam.getExamTime());
+//    	    evaluationTempParam.setExamYear(evaluationParam.getExamYear());
+//    	    evaluationTempParam.setExamOrg(evaluationParam.getExamOrg());
+//    	    evaluationTempParam.setExamReport(evaluationParam.getExamReport());
+//    	    evaluationTempParam.setExamReportName(evaluationParam.getExamReportName());
+//    	    evaluationTempParam.setFkExamStatus(evaluationParam.getFkExamStatus());
+//    	    evaluationTempParam.setFkExamResult(evaluationParam.getFkExamResult());
+//    	    evaluationTempParam.setFkRectificationReu(evaluationParam.getFkRectificationReu());
+//    	    evaluationTempParam.setRectificationDate(evaluationParam.getRectificationDate());
+//    	    evaluationTempParam.setDeleteStatus(evaluationParam.getDeleteStatus());
+//    	    evaluationTempParam.setCreateUserName(evaluationParam.getCreateUserName());
+//    	    evaluationTempParam.setCreateTime(evaluationParam.getCreateTime());
+//    	    evaluationTempParam.setUpdateTime(evaluationParam.getUpdateTime());
+//    	    evaluationList.add(evaluationTempParam);
+//        }
+//    	  for (SelfexaminationResult selfexaminationParam : self) {
+//    	    SelfexaminationParam selfexaminationTemParam = new SelfexaminationParam();
+//    	    selfexaminationTemParam.setSelfexaminationId(Utils.getUuidFor32());
+//    	    selfexaminationTemParam.setFkSystemId(systemParamDe.getSystemId());
+//    	    selfexaminationTemParam.setFkInspectionStatus(selfexaminationParam.getFkInspectionStatus());
+//    	    selfexaminationTemParam.setFkInspectionReu(selfexaminationParam.getFkInspectionReu());
+//    	    selfexaminationTemParam.setFkRectificationReu(selfexaminationParam.getFkRectificationReu());
+//    	    selfexaminationTemParam.setInspectionDate(selfexaminationParam.getInspectionDate());
+//    	    selfexaminationTemParam.setRectificationDate(selfexaminationParam.getRectificationDate());
+//    	    selfexaminationTemParam.setDeleteStatus(selfexaminationParam.getDeleteStatus());
+//    	    selfexaminationTemParam.setCreateUserName(selfexaminationParam.getCreateUserName());
+//    	    selfexaminationTemParam.setCreateTime(selfexaminationParam.getCreateTime());
+//    	    selfexaminationTemParam.setUpdateTime(selfexaminationParam.getUpdateTime());
+//    	    selfexaminationTemParam.setRemark(selfexaminationParam.getRemark());
+//    	    selfexaminationList.add(selfexaminationTemParam);
+//        }
+//        GradingParam gradingTemParam = new GradingParam();
+//        gradingTemParam.setGradingId(Utils.getUuidFor32());
+//        gradingTemParam.setFkSystemId(systemParamDe.getSystemId());
+//        gradingTemParam.setFkBizSPRankDegree(grading.getFkBizSPRankDegree());
+//        gradingTemParam.setFkBizSPRankLevel(grading.getFkBizSPRankLevel());
+//        gradingTemParam.setFkBizSystemDegree(grading.getFkBizSystemDegree());
+//        gradingTemParam.setFkBizSystemLevel(grading.getFkBizSystemLevel());
+//        gradingTemParam.setFkSpRanklevel(grading.getFkSpRanklevel());
+//        gradingTemParam.setExpertView(grading.getExpertView());
+//        gradingTemParam.setRankExplainDesc(grading.getRankExplainDesc());
+//        gradingTemParam.setRankTime(grading.getRankTime());
+//        gradingTemParam.setCompetentIsExisting(grading.getCompetentIsExisting());
+//        gradingTemParam.setCompetentName(grading.getCompetentName());
+//        gradingTemParam.setCompetentView(grading.getCompetentView());
+//        gradingTemParam.setFiller(grading.getFiller());
+//        gradingTemParam.setFillDate(grading.getFillDate());
+//        gradingTemParam.setDeleteStatus(grading.getDeleteStatus());
+//        gradingTemParam.setCreateUserName(grading.getCreateUserName());
+//        gradingTemParam.setCreateTime(grading.getCreateTime());
+//        gradingTemParam.setUpdateTime(grading.getUpdateTime());
+//        gradingTemParam.setRemark(grading.getRemark());
+//        
+//        RecordsParam recordsParam = new RecordsParam();
+//        recordsParam.setRecordsId(Utils.getUuidFor32());
+//        recordsParam.setFkSystemId(systemParamDe.getSystemId());
+//        recordsParam.setFkrevokematter(record.getFkrevokematter());
+//        recordsParam.setRecordCode(record.getRecordCode());
+//        recordsParam.setRecordCompany(record.getRecordCompany());
+//        recordsParam.setRecordDate(record.getRecordDate());
+//        recordsParam.setAcceptCompany(record.getAcceptCompany());
+//        recordsParam.setAcceptDate(record.getAcceptDate());
+//        recordsParam.setAcceptReason(record.getAcceptReason());
+//        recordsParam.setRevokereason(record.getRevokereason());
+//        recordsParam.setRevokecontent(record.getRevokecontent());
+//        recordsParam.setDeleteStatus(record.getDeleteStatus());
+//        recordsParam.setCreateUserName(record.getCreateUserName());
+//        recordsParam.setCreateTime(record.getCreateTime());
+//        recordsParam.setUpdateTime(record.getUpdateTime());
+//        recordsParam.setRemark(record.getRemark());
+//        
+//        AttachMaterialsParam attachMaterialsParam = new AttachMaterialsParam();
+//        attachMaterialsParam.setAttachId(Utils.getUuidFor32());
+//        attachMaterialsParam.setFkSystemId(systemParamDe.getSystemId());
+//        attachMaterialsParam.setFkSyssonId(material.getFkSyssonId());
+//        attachMaterialsParam.setFkAttachType(material.getFkAttachType());
+//        attachMaterialsParam.setAttachName(material.getAttachName());
+//        attachMaterialsParam.setMongoFileId(material.getMongoFileId());
+//        attachMaterialsParam.setAttachPath(material.getAttachPath());
+//        attachMaterialsParam.setDeleteStatus(material.getDeleteStatus());
+//        attachMaterialsParam.setCreateUserName(material.getCreateUserName());
+//        attachMaterialsParam.setCreateTime(material.getCreateTime());
+//        attachMaterialsParam.setUpdateTime(material.getUpdateTime());
+//        attachMaterialsParam.setRemark(material.getRemark());
+//        
+//        CheckParam checkParam = new CheckParam();
+//        checkParam.setCheckId(Utils.getUuidFor32());
+//        checkParam.setFkSystemId(systemParamDe.getSystemId());
+//        checkParam.setFkExaminStatus(check.getFkExaminStatus());
+//        checkParam.setFkBusinessNode(check.getFkBusinessNode());
+//        checkParam.setInstanceName(check.getInstanceName());
+//        checkParam.setInitiator(check.getInitiator());
+//        checkParam.setPrevExecutor(check.getPrevExecutor());
+//        checkParam.setExecuteTime(check.getExecuteTime());
+//        checkParam.setDeleteStatus(check.getDeleteStatus());
+//        checkParam.setCreateUserName(check.getCreateUserName());
+//        checkParam.setCreateTime(check.getCreateTime());
+//        checkParam.setUpdateTime(check.getUpdateTime());
+//        checkParam.setRemark(check.getRemark());
+//        
+//
+//        if ("1".equals(systemParam.getChangeType())) {
+//          //添加节点状态信息
+//          NodeParam nodeParam = new NodeParam();
+//          nodeParam.setSystemId(systemParam.getSystemId());
+//          nodeParam.setOperation("系统变更");
+//          nodeParam.setOperationResult("已修改");
+//          nodeParam.setOperationOpinion("");
+//          nodeParam.setOperator(userName);
+//          this.nodeServiceImpl.addNodeInfo(nodeParam);
+//        }
+//        
+//        this.systemMapper.insertGradingTemp(gradingTemParam);
+//        this.systemMapper.insertRecordsTemp(recordsParam);
+//        this.systemMapper.insertAttachMaterialsTemp(attachMaterialsParam);
+//        this.systemMapper.insertCheckTemp(checkParam);
+//    }
+//	  
+//	  this.systemMapper.insertEvaluationTemp(evaluationList);
+//	  this.systemMapper.insertSelfexaminationTemp(selfexaminationList);
+//	  
+//	  }
+//   }
+//	  this.systemMapper.insertBatchSystem(systemParamAddList);
+//    this.systemKeyProductsMapper
+//        .insertSystemKeyProductsBySystemKeyProductsId(subSystemKeyProductsList);
+//    this.systemUseServicesMapper
+//        .insertSystemUseServicesBySystemUseServicesId(subSystemUseServicesList);
     
 	  return systemParam.getSystemId();
 	}
@@ -1270,45 +1317,24 @@ public class SystemServiceImpl implements SystemService {
    */
   @Override
   public SystemResult queryEditSystem(SystemParam systemParam) throws BusinessException {
-    List<SystemKeyResult> systemKey = new ArrayList<SystemKeyResult>();
-    List<SystemUseResult> systemUse = new ArrayList<SystemUseResult>();
-    List<SystemSubResult> systemSub = new ArrayList<SystemSubResult>();
     
-    List<SystemSubResult> systemParamList = this.systemMapper.selectEditBySub(systemParam);
     SystemResult systemResult= this.systemMapper.selectEditSystem(systemParam);
-    List<SystemKeyResult> keyParamList = this.systemMapper.selectKeyTemp(systemParam);
-    List<SystemUseResult> useParamList = this.systemMapper.selectUseTemp(systemParam);
-    if (systemParamList != null ){
-      for (SystemSubResult systemParamSub : systemParamList) {
-        SystemSubResult subSystem = new SystemSubResult();
-        subSystem.setSystemName(systemParamSub.getSystemName());  
-        subSystem.setStandardizedCode(systemParamSub.getStandardizedCode());
-        systemSub.add(subSystem);
-        systemResult.setAddSystemSub(systemSub);
+    if(systemResult.getFkSystemIsMerge()==1){
+      List<SystemSubResult> systemParamList = this.systemMapper.selectEditBySub(systemParam);
+      if (systemParamList != null ){
+        systemResult.setAddSystemSub(systemParamList);
       }
     }
     
+    List<SystemKeyResult> keyParamList = this.systemMapper.selectKeyTemp(systemParam);
+    List<SystemUseResult> useParamList = this.systemMapper.selectUseTemp(systemParam);
+    
     if (keyParamList != null) {
-      for (SystemKeyResult systemResultKey : keyParamList) {
-        SystemKeyResult keySystem = new SystemKeyResult();
-        keySystem.setExaminStatusName(systemResultKey.getExaminStatusName());
-        keySystem.setNationalIsProductsName(systemResultKey.getNationalIsProductsName());
-        keySystem.setProductsNumber(systemResultKey.getProductsNumber());
-        keySystem.setnUseProbability(systemResultKey.getnUseProbability());
-        systemKey.add(keySystem);
-        systemResult.setSystemKeyProducts(systemKey);
-      }
+      systemResult.setSystemKeyProducts(keyParamList);
     }
     
     if(useParamList != null){
-      for (SystemUseResult systemResultUse : useParamList) {
-        SystemUseResult useSystem = new SystemUseResult();
-        useSystem.setProductsTypeName(systemResultUse.getProductsTypeName());
-        useSystem.setUseName(systemResultUse.getUseName());
-        useSystem.setResponsibleTypeName(systemResultUse.getResponsibleTypeName());
-        systemUse.add(useSystem);
-        systemResult.setSystemUseServices(systemUse);
-      }
+      systemResult.setSystemUseServices(useParamList);
     }
     return systemResult;
   }
@@ -1316,5 +1342,13 @@ public class SystemServiceImpl implements SystemService {
   @Override
   public SystemGradingChangeResult queryGradingEditAudit(SystemParam systemParam) {
     return this.systemMapper.selectgradingEditAudit(systemParam);
+  }
+
+  /**
+   * 通过系统Id获取系统信息
+   */
+  @Override
+  public SystemResult querySystemInformationBySystemId(SystemParam systemParam) {
+    return this.systemMapper.selectSystem(systemParam);
   }
 }

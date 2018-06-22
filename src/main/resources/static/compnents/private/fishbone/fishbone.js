@@ -49,7 +49,16 @@
             data.result=dataList;
             console.log(data.result);
           },
-
+          //鱼骨图弹窗：隐藏弹窗
+          closes:function () {
+            var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+            evaluationAlert.style.display="none";
+          },
+          //弹窗：显示弹窗
+          showDialog:function(itemdata){
+            $("#dialog").css("display","block");
+          },
+          //时间格式化
          formatDate:function (millinSeconds){
             var date = new Date(millinSeconds);
             var monthArr = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Spt","Oct","Nov","Dec");

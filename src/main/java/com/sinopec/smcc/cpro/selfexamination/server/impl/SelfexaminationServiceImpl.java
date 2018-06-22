@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.selfexamination.server.impl;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper;
 import com.sinopec.smcc.cpro.selfexamination.server.SelfexaminationService;
 import com.sinopec.smcc.cpro.selfexamination.utils.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -171,6 +173,23 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
+    }
+    //自查状态
+    if (selfexaminationParam.getFkInspectionStatus() == 1) {
+      selfexaminationParam.setFkInspectionReu(0);
+      try {
+        selfexaminationParam.setInspectionDate(DateUtils.getDate("yyyy-MM-dd", "1970-01-01"));
+      } catch (ParseException e) {
+        
+      }
+    }
+    //未整改
+    if (selfexaminationParam.getFkRectificationReu() == 2) {
+      try {
+        selfexaminationParam.setRectificationDate(DateUtils.getDate("yyyy-MM-dd", "1970-01-01"));
+      } catch (ParseException e) {
+        
+      }
     }
     this.selfexaminationMapper.insertOrUpdateSelfexamination(selfexaminationParam);
     

@@ -26,6 +26,13 @@
       </foreach>
   </delete>
   
+  <delete id="deleteSubUseInfo" parameterType="java.util.List">
+    DELETE FROM t_cpro_system_use_services WHERE fkSystemId IN
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item.systemId}
+      </foreach>
+  </delete>
+  
   <delete id="deleteSystemUseServicesBySystemUseServicesId" parameterType="java.util.List">
     DELETE FROM t_cpro_system_use_services WHERE pkId in
       <foreach item="item" collection="list" open="(" separator="," close=")">

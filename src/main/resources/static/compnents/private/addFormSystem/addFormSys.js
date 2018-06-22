@@ -124,6 +124,8 @@ var  data={
           otherName:""
         }]
       },
+      systemInfo2:false,
+      systemInfo3:false,
       sysName:[],//系统名称
       sysType:[],//业务类型
       sysServiceScope:[],//服务范围
@@ -259,9 +261,9 @@ var  data={
                       $(this).addClass("btnColor");
                     });
                     if(e.target.innerHTML.indexOf("其它") != -1){
-                      $("#npCoverageRange").val($("#coverageRange").val());
+                      this.formData.npCoverageRange = $("#coverageRange").val();
                     }else{
-                      $("#npCoverageRange").val(e.target.innerHTML);
+                      this.formData.npCoverageRange = e.target.innerHTML;
                     }
                   },
                   getCoverage:function(){
@@ -273,9 +275,9 @@ var  data={
                       $(this).addClass("btnColor");
                     });
                     if(e.target.innerHTML.indexOf("其它") != -1){
-                      $("#npNetworkProperties").val($("#networkProperties").val());
+                      this.formData.npNetworkProperties = $("#networkProperties").val();
                     }else{
-                      $("#npNetworkProperties").val(e.target.innerHTML);
+                      this.formData.npNetworkProperties = e.target.innerHTML;
                     }
                   },
                   getNetwork:function(){
@@ -287,9 +289,10 @@ var  data={
                       $(this).addClass("btnColor");
                     });
                     if(e.target.innerHTML.indexOf("其它") != -1){
-                      $("#interconnectionSit").val($("#interconnection").val());
+                      this.formData.interconnectionSit = $("#interconnection").val();
                     }else{
                       $("#interconnectionSit").val(e.target.innerHTML);
+                      this.formData.interconnectionSit =e.target.innerHTML;
                     }
                   },
                   getSit:function(){
@@ -299,19 +302,17 @@ var  data={
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.subIsSystem = param;
                   },
-
-
-                    btnBoolen:function(e){
-                        $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
-                        if($(e.target).val() == '是'){
-                            $("#trueSys").show();
-                            $("#falseSys").hide();
-                        }else{
-                            $("#falseSys").show();
-                            $("#trueSys").hide();
-                        }
-                    },
-                    addSys:function (e) {
+                  btnBoolen:function(e){
+                      $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                      if($(e.target).val() == '是'){
+                          $("#trueSys").show();
+                          $("#falseSys").hide();
+                      }else{
+                          $("#falseSys").show();
+                          $("#trueSys").hide();
+                      }
+                  },
+                  addSys:function (e) {
                         this.num ++;
                         var str = '<li class="row">'+
                                 '<div class="col-lg-6 col-md-6">'+
@@ -468,6 +469,7 @@ var  data={
                     },
                     //获取单位信息
                     getCompanySuccessMethod:function(_self,responseData){
+                      //console.log(JSON.stringify(responseData.data))
                       _self.msgName = responseData.data;
                     },
                     setStandardizedCode:function(e,val){
@@ -491,11 +493,12 @@ var  data={
                           'application/json;charset=UTF-8',_self.getGetSystemSuccessMethod);
                     },
                     getGetSystemSuccessMethod: function(_self, responseData) {
-                      this.formData = responseData.data;
                       //var response='{"fkInfoSysTypeCon":"1","appIsInternet":"1","fkSystemIsMerge":"1","systemName":"胜利时刻","standardizedCode":"271","gradeRecordSysName":"等保时刻","sysBusSituationType":"公众服务","sysBusDescription":"公众描述","sysServiceSitScope":"全国","sysServiceSitObject":"单位内部人员","npCoverageRange":"局域网","npNetworkProperties":"互联网","interconnectionSit":"与其他行业系统连接","fkExaminStatus":"数据库","productsNumber":"无","fkNationalIsProducts":"全部使用","fkProductsType":"等级测评","fkResponsibleType":"国外服务商","fkCompanyCode":"100","executiveOfficeName":"主管室时刻","executiveDireCon":"主管联系人","executiveDireConTel":"2710000","whenInvestmentUseL":"2018-05-24 11:13:17","subIsSystem":"1","addSystemSub":[{"systemName":"子1时刻","standardizedCode":"27101"},{"systemName":"子2时刻","standardizedCode":"27102"}],"systemKeyProducts":[{"fkNationalIsProducts":"1","fkExaminStatus":"2","productsNumber":"无","nUseProbability":1,"otherName":""}],"systemUseServices":[{"fkResponsibleType":"1","fkProductsType":"2","serviceIsUse":"1","otherName":"暂无"}]}';
                       //response = JSON.parse(response);
                       var response = responseData.data;
-                      for(var i=0;i<100;i++){
+                      _self.formData = response;
+                      
+                      for(var i=0;i<10;i++){
                         if(response.addSystemSub!=null){
                           if(response.addSystemSub.length<_self.formData.addSystemSub.length){
                             response.addSystemSub.push({
@@ -508,6 +511,15 @@ var  data={
                               "standardizedCode":""
                             });
                           }
+                        }else{
+                          _self.formData.addSystemSub = [{
+                            systemName:"",
+                            standardizedCode:""
+                          },
+                          {
+                            systemName:"",
+                            standardizedCode:""
+                          }];
                         }
                         if(response.systemKeyProducts==null){
                           response.systemKeyProducts = []
@@ -567,7 +579,15 @@ var  data={
                           }
                         }
                       }
-                      _self.formData = response;
+                      
+                      if(response.fkSystemIsMerge = '1'){
+                        this.systemSonInfo = true;
+                        this.systemInfo = false;
+                        $("#systemInfo1").attr("disabled","disabled");
+                        this.systemInfo2 = true;
+                        this.systemInfo3 = true;
+                      }
+                      
                       if(_self.formData.fkInfoSysTypeCon!=''){
                         var array = $('#baseMes1').find('div').map(function (index, ele) {
                           if(_self.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
@@ -644,15 +664,15 @@ var  data={
                         }
                         if(other){
                           if(_self.formData.sysServiceSitScope.indexOf("跨省（区、市）跨个") != -1){
-                            $("#sysServiceType2").addClass('btnColor');
+                            $("#sysSerScope2").addClass('btnColor');
                             var num = _self.formData.sysServiceSitScope.split("^");
                             $("#serviceSitScope2").val(num[1]);
                           }else if(_self.formData.sysServiceSitScope.indexOf("跨地（区、市） 跨个") != -1){
-                            $("#sysServiceType3").addClass('btnColor');
+                            $("#sysSerScope3").addClass('btnColor');
                             var num = _self.formData.sysServiceSitScope.split("^");
                             $("#serviceSitScope3").val(num[1]);
                           }else{
-                            $("#sysServiceType1").addClass('btnColor');
+                            $("#sysSerScope1").addClass('btnColor');
                             $("#serviceSitScope").val(_self.formData.sysServiceSitScope);
                           }
                         }

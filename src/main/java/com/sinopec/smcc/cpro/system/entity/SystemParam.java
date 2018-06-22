@@ -84,6 +84,39 @@ public class SystemParam {
   private String sort;//排序
   
   private String changeType;//变更状态
+  
+  public void addSystemParam(SystemParam systemParam) {
+    
+   interconnectionSit = systemParam.getInterconnectionSit();
+   whenInvestmentUse = systemParam.getWhenInvestmentUse();
+   examineStatus = systemParam.getExamineStatus();
+   executiveOfficeName = systemParam.getExecutiveOfficeName();
+   examinationStatus = systemParam.getExaminationStatus();
+   sysBusDescription = systemParam.getSysBusDescription();
+   subIsSystem = systemParam.getSubIsSystem();
+   executiveDireCon = systemParam.getExecutiveDireCon();
+   fkChangeMatter = systemParam.getFkChangeMatter();
+   deleteStatus = systemParam.getDeleteStatus();
+   fkSystemType = systemParam.getFkSystemType();
+   appIsInternet = systemParam.getAppIsInternet();
+   gradeRecordSysName = systemParam.getGradeRecordSysName();
+   fkSystemIsMerge = systemParam.getFkSystemIsMerge();
+   changeReason = systemParam.getChangeReason();
+   sysServiceSitObject = systemParam.getSysServiceSitObject();
+   sysServiceSitScope = systemParam.getSysServiceSitScope();
+   recordStatus = systemParam.getRecordStatus();
+   gradingStatus = systemParam.getGradingStatus();
+   changeContent = systemParam.getChangeContent();
+   fkInfoSysTypeCon = systemParam.getFkInfoSysTypeCon();
+   npNetworkProperties = systemParam.getNpNetworkProperties();
+   evaluationStatus = systemParam.getEvaluationStatus();
+   executiveDireConTel = systemParam.getExecutiveDireConTel();
+   npCoverageRange = systemParam.getNpCoverageRange();
+   sysBusSituationType = systemParam.getSysBusSituationType();
+   companyName = systemParam.getCompanyName();
+    
+  }
+  
   public String getChangeType() {
     return changeType;
   }

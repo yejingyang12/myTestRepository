@@ -8,18 +8,26 @@
              </div>
              <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
              <!--变更事项-->
-             <div class="row auditChangeshixiang" style="    margin-top: 15px;" v-show="fkChangeMatterShow">
+             <div class="row auditChangeshixiang" 
+                  style="margin-top: 15px;" 
+                  v-show="fkChangeMatterShow">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px;">  变更事项： </span>
+                     <span class="col-md-1  clearPadding" 
+                            style=" width: 95px;  min-width: 95px;  margin-left: 20px;"> 
+                             变更事项：
+                     </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px; padding: 0;">
                         <p class="textArea">{{formData.fkChangeMatter}}</p> 
                      </div>
                  </div>
              </div>
              <!--变更原因-->
-             <div class="row auditChangeshixiang" v-show="changeContentShow">
+             <div class="row auditChangeshixiang" 
+             v-show="changeContentShow">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px;">  变更原因： </span>
+                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px;"> 
+                      变更原因：
+                     </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
                          <p class="textArea">{{formData.changeContent}}</p>
                      </div>
@@ -28,7 +36,9 @@
              <!--变更内容-->
              <div class="row auditChangeshixiang" v-show="changeReasonShow">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px; margin-top: 10px;">  变更内容： </span>
+                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px; margin-top: 10px;">
+                      变更内容：
+                       </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;" >
                          <p class="textArea">{{formData.changeReason}}</p>
                      </div>
@@ -37,7 +47,9 @@
              <!--变更事项-->
              <div class="row auditChangeshixiang" style="margin-top: 10px;" v-show="fkrevokematterShow">
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding"  style=" width: 100px;margin-left: 20px;">  变更事项： </span>
+                    <span class="col-md-1  clearPadding"  style=" width: 100px;margin-left: 20px;"> 
+                     变更事项：
+                      </span>
                     <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
                        <p   class="textArea">{{formData.fkrevokematter}}
                         </p> 
@@ -47,7 +59,8 @@
              <!--撤销原因-->
              <div class="row auditChangeshixiang" v-show="revokereasonShow">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style="  width: 100px;  margin-left: 20px; margin-bottom: 10px;" >  撤销原因： </span>
+                     <span class="col-md-1  clearPadding" style="  width: 100px;  margin-left: 20px; margin-bottom: 10px;" >
+                       撤销原因： </span>
                      <div class="auditChangeyuanyin col-md-10" >
                          <p class="textArea">{{formData.revokereason}}</p>
                      </div>
@@ -56,7 +69,9 @@
              <!--撤销证明-->
             <div class="row auditChangeshixiang" style="margin-left:0.5%;margin-right: -3.7%" v-show="revokeRecordsNameShow">
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding" style="width: auto">  撤销证明： </span>
+                    <span class="col-md-1  clearPadding" style="width: auto"> 
+                     撤销证明：
+                      </span>
                     <div class="auditChangeyuanyin col-md-10" style="padding-left: 0">
                         <p class="textArea">
                             <a onclick="downloadFile()" href="#"> {{formData.revokeRecordsName}}</a>
@@ -72,7 +87,7 @@
                          <div class="col-md-4 clearPadding">
                              <div class="col-md-2 h-system clearPadding">
                                  <span class="xing">*</span>
-                                 审核结果:
+                               审核结果:
                              </div>
                              <div class="col-md-8 h-col-md-9" style="margin-left:10px;">
                               <template>

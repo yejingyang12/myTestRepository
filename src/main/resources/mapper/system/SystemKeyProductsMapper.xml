@@ -31,6 +31,13 @@
       </foreach>
   </delete>
   
+  <delete id="deleteSubKeyInfo" parameterType="java.util.List">
+    DELETE FROM t_cpro_system_key_products WHERE fkSystemId IN
+      <foreach item="item" collection="list" open="(" separator="," close=")">
+        #{item.systemId}
+      </foreach>
+  </delete>
+  
   <select id="selectSubSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts" resultMap="BaseResultMap">
     SELECT 
       pkId,

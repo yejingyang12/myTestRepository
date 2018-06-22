@@ -306,7 +306,7 @@
               },
               
               msgNameMethod:function(){
-                var val = $("#companyName").val();
+                var val =this.formData.companyName;
                 if(val!=null){
                   for(var i=0;i<this.msgName.length;i++){
                     if(val==this.msgName[i].orgName){
@@ -353,8 +353,6 @@
                   //单位名称不可修改
                   _self.nameReadonly = true;
                 }
-                _self.formData.fkIndustryCategory = "6666666666666666666";
-                console.log(_self.formData.fkIndustryCategory)
               });
               bus.$on("resource",function(meg){
                 if(meg!=null){

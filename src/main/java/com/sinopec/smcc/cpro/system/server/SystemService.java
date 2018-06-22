@@ -141,5 +141,13 @@ public interface SystemService {
    * @return
    */
   SystemGradingChangeResult queryGradingEditAudit(SystemParam systemParam);
-
+  
+  /**
+   * @Descrption 通过SystemId获取系统信息
+   * @author dongxu
+   * @date 2018年6月21日上午11:18:09
+   * @param systemParam
+   * @return
+   */
+  SystemResult querySystemInformationBySystemId(SystemParam systemParam);
 }

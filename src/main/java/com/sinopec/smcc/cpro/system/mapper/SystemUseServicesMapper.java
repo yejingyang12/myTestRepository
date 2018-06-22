@@ -13,7 +13,6 @@ import java.util.List;
 
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
-import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 
 /**
@@ -59,4 +58,12 @@ public interface SystemUseServicesMapper {
    * @param subSystemList
    */
   void deleteSubUse(List<SystemResult> subSystemList);
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年6月21日下午6:14:20
+   * @param systemParamAddList
+   */
+  void deleteSubUseInfo(List<SystemParam> systemParamAddList);
 }

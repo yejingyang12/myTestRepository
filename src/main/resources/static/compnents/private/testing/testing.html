@@ -5,7 +5,8 @@
         <div class="evaluation" style="height:560px;margin-top:-245px;">
             <span class="closes" @click="closes"></span>
             <p class="clearfix cut">
-                <span class="fl revokeTitle">修改系统测评信息</span>
+                <span class="fl revokeTitle" v-if="!editData.evaluationId">添加系统测评信息</span>
+                <span class="fl revokeTitle" v-else>修改系统测评信息</span>
                 <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
             </p>
             <form action="">
@@ -174,7 +175,7 @@
             <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
             <p class="h-p" style="margin: 15px 0;text-align: center">
                 <button type="button"  class="h-btn btn h-btn-add float-le" id="h-btn-add" @click="showDialog('')" style="border: none;"> </button>
-                中国石化九江分公司医疗保险报账系统
+                {{systemName}}
             </p>
             <div class="row" style="margin:0">
                 <div class="col-md-12">
@@ -214,7 +215,7 @@
                             <tr class="tr-row" v-for="(testItem,index) in result.data">
                                 <td>{{index+1}}</td>
                                 <td>{{testItem.examName}}</td>
-                                <td>{{testItem.examTime}}</td>
+                                <td>{{testItem.examTime == '1970-01-01'?'':testItem.examTime}}</td>
                                 <td>{{testItem.examOrg}}</td>
                                 <td>
                                     <a href="javascript:;" @click="downloadReport(testItem.examReport)">{{testItem.examReportName}}</a>
@@ -222,7 +223,7 @@
                                 <td>{{testItem.fkExamStatus == 1?'未测评':(testItem.fkExamStatus == 2?'已测评':'')}}</td>
                                 <td>{{testItem.fkExamResult == 1?'符合':(testItem.fkExamResult == 2?'基本符合':(testItem.fkExamResult == 3?'不符合':''))}}</td>
                                 <td style=" vertical-align: middle; ">{{testItem.fkRectificationReu == 1?'已整改':(testItem.fkRectificationReu == 2?'未整改':'')}}</td>
-                                <td>{{testItem.rectificationDate}}</td>
+                                <td>{{testItem.rectificationDate == '1970-01-01'?'':testItem.rectificationDate}}</td>
                                 <td>
                                     <a href="javascript:;" @click="downloadReport(testItem.rectificationReport)">{{testItem.rectificationReportName}}</a>
                                 </td>

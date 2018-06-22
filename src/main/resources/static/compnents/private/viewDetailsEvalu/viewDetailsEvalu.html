@@ -3,16 +3,16 @@
         <span class="fl tianMsg">系统测评信息列表</span>
     </p>
     <table class="table table-bordered table-responsive table-striped">
-        <tr class="table-bordered">
+        <tr class="table-bordered rowOne" >
             <th>序号</th>
-            <th>项目测评名称<p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
-            <th>测评时间 <p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
-            <th>测评机构 <p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
+            <th>项目测评名称 <slot name="paixujiantou"></slot></th>
+            <th>测评时间 <slot name="paixujiantou1"></slot></th>
+            <th>测评机构<slot name="paixujiantou2"></slot></th>
             <th>测评报告</th>
-            <th>测评状态 <p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
-            <th>测评结果 <p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
-            <th>整改结果 <p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
-            <th>整改时间 <p class="butn fr"><i class="up"></i> <i class="down"></i></p></th>
+            <th>测评状态<slot name="paixujiantou3"></slot></th>
+            <th>测评结果<slot name="paixujiantou4"></slot></th>
+            <th>整改结果<slot name="paixujiantou5"></slot></th>
+            <th>整改时间<slot name="paixujiantou6"></slot></th>
             <th>整改报告</th>
         </tr>
         <tr class="table-bordered" v-for="(item,index) in evaluList">

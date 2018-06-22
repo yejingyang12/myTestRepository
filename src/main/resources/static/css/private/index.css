@@ -35,6 +35,9 @@
 .h-chexiao{
     background: url("../../images/home/s01ztyichexiao.png") no-repeat 8px center  ;
 }
+.h-examine{
+    background: url("../../images/home/examine.png") no-repeat 8px center  ;
+}
 /*  表格变灰*/
 .tr-row-gray{
 		color:#bfbfbf;!important

@@ -10,7 +10,6 @@
 package com.sinopec.smcc.cpro.system.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
@@ -24,9 +23,7 @@ import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
-import com.sinopec.smcc.cpro.system.entity.SystemDetailsResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
-import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -34,7 +31,6 @@ import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.entity.SystemSubResult;
 import com.sinopec.smcc.cpro.system.entity.SystemTemplateListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
-import com.sinopec.smcc.cpro.system.entity.SystemUseServices;
 
 /**
  * @Title SystemMapper.java
@@ -353,5 +349,22 @@ public interface SystemMapper {
    * @param subUpdateSystemList
    */
   void updateSystem(List<SystemResult> subUpdateSystemList);
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年6月21日下午6:11:25
+   * @param systemParamAddList
+   */
+  void updateSystemInfo(List<SystemParam> systemParamAddList);
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年6月21日下午6:22:55
+   * @param systemParam
+   * @return
+   */
+  List<SystemParam> selectSubSystemInfo(SystemParam systemParam);
 
 }

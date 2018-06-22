@@ -9,19 +9,18 @@
             <div style="width: calc(100% + 30px);height: 1px;background-color: #ededed;margin: 0 -15px"></div>
 
             <!--变更事项-->
-            <div class="row auditChangeshixiang" style="margin-left:0.5%;margin-top: 10px;" >
+            <div class="row auditChangeshixiang" style="margin-top: 10px;" >
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding" style="width: auto">  变更事项： </span>
+                    <span class="col-md-1  clearPadding" style=" width: 95px; min-width: 95px; margin-left: 20px;">  变更事项： </span>
                     <div class="auditChangeyuanyin col-md-10" style="padding-left: 0">
-                       <p   class="textArea">{{result.data.fkrevokematter}}
-                        </p> 
+                       <p   class="textArea">{{result.data.fkrevokematter}}</p> 
                     </div>
                 </div>
             </div>
             <!--撤销原因-->
-            <div class="row auditChangeshixiang" style="margin-left:0.5%;margin-right: -3.7%" >
+            <div class="row auditChangeshixiang" style=" margin-right: -3.7%" >
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding" style="width: auto">  撤销原因： </span>
+                    <span class="col-md-1  clearPadding" style=" width: 95px; min-width: 95px; margin-left: 20px;">  撤销原因： </span>
                     <div class="auditChangeyuanyin col-md-10" style="padding-left: 0">
                         <p  class="textArea">{{result.data.revokereason}}
                         </p>
@@ -31,7 +30,7 @@
             <!--撤销证明-->
             <div class="row auditChangeshixiang" style="margin-left:0.5%;margin-right: -3.7%" >
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding" style="width: auto">  撤销证明： </span>
+                    <span class="col-md-1  clearPadding" style=" width: 95px; min-width: 95px; margin-left: 20px;">  撤销证明： </span>
                     <div class="auditChangeyuanyin col-md-10" style="padding-left: 0">
                         <p class="textArea">
                             <a onclick="downloadFile()" href="#"> {{result.data.revokeRecordsName}}</a>

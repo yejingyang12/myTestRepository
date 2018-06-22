@@ -8,6 +8,7 @@
 */
 package com.sinopec.smcc.cpro.evaluation.server.impl;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -161,7 +163,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 		      this.fileServiceImpl.addFile(rectificationReport);
 		    }
       } catch (Exception e) {
-      //TODO: return "保存附件出错";
+      
       }
       //添加节点状态信息
       NodeParam nodeParam = new NodeParam();
@@ -171,6 +173,23 @@ public class EvaluationServiceImpl implements EvaluationService {
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
+		}
+		//未测评
+		if (evaluationParam.getFkExamStatus() == 1) {
+		  evaluationParam.setFkExamResult(0);
+		  try {
+		    evaluationParam.setExamTime(DateUtils.getDate("yyyy-MM-dd", "1970-01-01"));
+		  } catch (ParseException e) {
+		    
+		  }
+		}
+		//未整改
+		if (evaluationParam.getFkRectificationReu() == 2) {
+		  try {
+		    evaluationParam.setRectificationDate(DateUtils.getDate("yyyy-MM-dd", "1970-01-01"));
+		  } catch (ParseException e) {
+		    
+		  }
 		}
 		this.evaluationMapper.saveEvaluationByEvaluationId(evaluationParam);
 		return evaluationParam.getEvaluationId();

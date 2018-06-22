@@ -732,8 +732,14 @@
                 </span>
                 <span style="float: right;margin-right: 20px;">
                     <!--<img src="../../static/images/home/s01ztjinxingzhong.png" alt="">-->
+                    <slot name="s01ztexamine"></slot>
+                    未通过            
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                    <!--<img src="../../static/images/home/s01ztjinxingzhong.png" alt="">-->
                     <slot name="s01ztjinxingzhong"></slot>
-                    进行中</span>
+                    进行中            
+                </span>
                 <span style="float: right;margin-right: 20px;">
                     <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
                      <slot name="s01ztweijinxing"></slot>
@@ -770,9 +776,7 @@
                                 <th class="firstChecked"
                                     style="min-width:34px;display:none;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
                                     <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;"></th>
-                                <th style="min-width:47px">序号
-
-                                </th>
+                                <th style="min-width:47px">序号</th>
                                 <th>系统名称
                                     <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou"></slot>
@@ -853,7 +857,7 @@
                                 <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing"></td>
                                 <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong"></td>
                                 <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"></td>
-                                <td v-if="pro.examineStatus==4" class="h-moren h-chexiao"></td>
+                                <td v-if="pro.examineStatus==4" class="h-moren h-examine"></td>
                                 <!-- &lt;!&ndash;备案状态&ndash;&gt; -->
                                 <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"></td>
                                 <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong"></td>
@@ -926,7 +930,7 @@
                                     <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                     <a class="hide3" style="cursor:pointer;">  
                                         <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
-                                         <el-button @click="deleteClick(pro.systemId,pro.companyId)" type="text" size="small">删除</el-button>
+                                          <el-button @click="deleteClick(pro.systemId,pro.companyId)" type="text" size="small">删除</el-button>
                                     </a>
                                 </td>
                                 <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">

@@ -30,6 +30,7 @@
         AND fkSystemId = #{systemId,jdbcType=CHAR}
       ]]>
     </where>
+    ORDER BY createTime DESC
   </select>
   
   <insert id="insertBynodeParam" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam">

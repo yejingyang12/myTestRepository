@@ -1435,6 +1435,7 @@
       system.pkId AS systemId,
 			systemCodeConstructionType.codeName AS constructionTypeName,
 			systemCodeCombined.codeName AS combinedName,
+      system.fkSystemIsMerge,
 			system.whenInvestmentUse,
 			system.systemName,
 			system.standardizedCode,
@@ -1472,6 +1473,7 @@
   </resultMap>
   <select id="selectEditBySub" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseSubResultMap">
     SELECT
+			system.pkId AS systemId,
       system.standardizedCode,
       system.systemName
     FROM t_cpro_system AS system
@@ -1493,7 +1495,7 @@
     	codeNationalIsProducts.codeName AS nationalIsProductsName,
     	systemKeyProducts.nUseProbability,
       systemKeyProducts.fkExaminStatus,
-      systemKeyProducts.FkNationalIsProducts,
+      systemKeyProducts.fkNationalIsProducts,
       systemKeyProducts.otherName
     FROM  t_cpro_system_key_products  AS systemKeyProducts
     LEFT JOIN t_cpro_system AS system
@@ -1504,7 +1506,14 @@
     LEFT JOIN t_cpro_system_code AS codeNationalIsProducts
     	ON systemKeyProducts.fkNationalIsProducts = codeNationalIsProducts.systemCode
     	AND codeNationalIsProducts.fkCodeType = 9
-    WHERE systemKeyProducts.fkSystemId IN (#{systemId})
+    <where>
+      <![CDATA[
+        AND systemKeyProducts.fkSystemId = #{systemId,jdbcType=VARCHAR}
+      ]]>
+    </where>
+    <![CDATA[
+        ORDER BY systemKeyProducts.fkExaminStatus
+      ]]>
   </select>
   
   <resultMap id="BaseUseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemUseResult">
@@ -1536,7 +1545,14 @@
     LEFT JOIN t_cpro_system_code AS codeResponsibleType
     	ON systemUseServices.fkResponsibleType = codeResponsibleType.systemCode
     	AND codeResponsibleType.fkCodeType = 15
-    WHERE systemUseServices.fkSystemId IN (#{systemId})
+    <where>
+      <![CDATA[
+        AND systemUseServices.fkSystemId = #{systemId,jdbcType=VARCHAR}
+      ]]>
+    </where>
+    <![CDATA[
+       ORDER BY systemUseServices.fkProductsType
+      ]]>
   </select>
   
   
@@ -3279,9 +3295,34 @@
   </update>
   
   
+  <update id="updateSystemInfo" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" open="(" separator="," close=")"> 
+      UPDATE t_cpro_system 
+      SET
+        fkInfoSysTypeCon = #{item.fkInfoSysTypeCon,jdbcType=INTEGER},
+        appIsInternet = #{item.appIsInternet,jdbcType=TINYINT},
+        standardizedCode = #{item.standardizedCode,jdbcType=VARCHAR},
+        gradeRecordSysName = #{item.gradeRecordSysName,jdbcType=VARCHAR},
+        sysBusSituationType = #{item.sysBusSituationType,jdbcType=VARCHAR},
+        sysBusDescription = #{item.sysBusDescription,jdbcType=VARCHAR},
+        sysServiceSitScope = #{item.sysServiceSitScope,jdbcType=VARCHAR},
+        sysServiceSitObject = #{item.sysServiceSitObject,jdbcType=VARCHAR},
+        npCoverageRange = #{item.npCoverageRange,jdbcType=VARCHAR},
+        npNetworkProperties = #{item.npNetworkProperties,jdbcType=VARCHAR},
+        interconnectionSit = #{item.interconnectionSit,jdbcType=VARCHAR},
+        executiveOfficeName = #{item.executiveOfficeName,jdbcType=VARCHAR},
+        executiveDireCon = #{item.executiveDireCon,jdbcType=VARCHAR},
+        executiveDireConTel = #{item.executiveDireConTel,jdbcType=VARCHAR},
+        whenInvestmentUse = #{item.whenInvestmentUse,jdbcType=DATE},
+        subIsSystem = #{item.subIsSystem,jdbcType=TINYINT},
+        companyName = #{item.companyName,jdbcType=VARCHAR}
+        WHERE pkId = #{item.systemId}
+    </foreach>
+  </update>
+  
   <update id="updateSystemEdit" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam">
     UPDATE  t_cpro_system
-      SET
+      <set>
         <if test="fkInfoSysTypeCon != null ">
           <![CDATA[
             fkInfoSysTypeCon = #{fkInfoSysTypeCon,jdbcType=INTEGER},
@@ -3377,8 +3418,10 @@
             subIsSystem = #{subIsSystem,jdbcType=TINYINT},
           ]]>
         </if>
-      WHERE
-        pkId = #{systemId,jdbcType=VARCHAR}
+      </set>
+      <where>
+          pkId = #{systemId,jdbcType=VARCHAR}
+      </where>
   </update>
   
   <select id="selectSubSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
@@ -3412,6 +3455,14 @@
       ON system.fkCompanyCode = company.companyCode
     WHERE
       system.fkFatherSystemId = #{systemId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectSubSystemInfo" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+    SELECT
+      pkId AS systemId
+    FROM
+      t_cpro_system WHERE
+      fkFatherSystemId = #{systemId,jdbcType=VARCHAR}
   </select>
   
   <select id="selectSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">

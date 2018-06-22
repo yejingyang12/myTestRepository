@@ -3,6 +3,7 @@
  */
 (function () {
   var data={
+  	systemName: null,
 		visible2: -1,
 		show:{
 			visible2: -1,
@@ -52,6 +53,19 @@
           return data;
         },
         methods:{
+        	//获取系统名称
+        	querySystemName: function(_self) {
+        		var querySystemNameParam = {systemId:systemId,};
+        		ajaxMethod(_self, 'post',
+                '/system/querySystemInformationBySystemId', true,
+                JSON.stringify(querySystemNameParam), 'json',
+                'application/json;charset=UTF-8',
+                _self.querySystemNameSuccessMethod);
+        	},
+        	querySystemNameSuccessMethod: function(_self,data){
+        		_self.systemName = data.data.systemName;
+        	},
+        	
         	//点击 "X" 关闭弹框
           closes:function () {
             var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
@@ -79,6 +93,12 @@
           //获取回显数据成功
           dialogdata: function(_self,data){
           	_self.editData = data.data;
+          	if(_self.editData.examTime == '1970-01-01'){
+          		_self.editData.examTime = null;
+          	}
+          	if(_self.editData.rectificationDate == '1970-01-01'){
+          		_self.editData.rectificationDate = null;
+          	}
           },
           cleanEditData: function(_self) {
           	_self.editData={
@@ -255,7 +275,7 @@
                     break;
                   case 1://测评时间
                     data.result.data.sort(function (a, b) {
-                      return (a.examTime - b.examTime) * flagOne
+                      return (new Date(a.examTime.split('-').join('/')).getTime()-new Date(b.examTime.split('-').join('/')).getTime()) * flagOne
                     });
                     break;
                   case 2://测评机构
@@ -280,7 +300,7 @@
                     break;
                   case 6://整改时间
                     data.result.data.sort(function (a, b) {
-                      return (a.rectificationDate - b.rectificationDate) * flagOne
+                      return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
                     });
                     break;
                 }
@@ -292,6 +312,7 @@
         },
         created: function() {
         	this.queryParam.fkSystemId = systemId;
+        	this.querySystemName(this);
         	this.queryEvaluationList(this);
         },
         mounted: function() {

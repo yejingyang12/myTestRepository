@@ -22,7 +22,10 @@ var data1={
         currentPage:''
       },
       txt:'',
-      systemIds:[]
+      systemIds:[],
+    	rowOne:null,//列表表头第一行的tr
+	    imgList:null,//列表表头第一行的排序箭头
+	    result:{},
     }
   };
 (function () {
@@ -126,7 +129,44 @@ var data1={
             _self.systemForm.pagesize = responseData.pagesize;
             _self.systemForm.currentPage = responseData.currentPage;
             _self.systemForm.total = responseData.total;
-         }
+            _self.systemForm.result = responseData;
+         },
+         //系统信息列表排序
+         listsort: function () {
+           var imgArrow = data.imgList;
+           var flagOne = 1;
+           // console.log(data.result.data);
+           for (var i = 0; i < imgArrow.length; i++) {
+             imgArrow[i].myindex = i;
+             imgArrow[i].onclick = function () {
+               flagOne *= -1;
+               // //对每个数组也就是对应表格的每一列进行排序
+               // console.log( data.result.data[0].systemName);
+               switch (this.myindex){
+                 case 0://系统名称
+                   data1.systemForm.result.data.sort(function (a, b) {
+                     return (a.systemName.localeCompare(b.systemName)) * flagOne
+                   });
+                   break;
+                 case 1://业务类型
+                   data1.systemForm.result.data.sort(function (a, b) {
+                     return (a.sysBusDescription.localeCompare(b.sysBusDescription)) * flagOne
+                   });
+                   break;
+                 case 2://业务描述
+                   data1.systemForm.result.data.sort(function (a, b) {
+                     return (a.sysBusSituationType.localeCompare(b.sysBusSituationType)) * flagOne
+                   });
+                   break;
+                 case 3://投入使用时间
+                   data1.systemForm.result.data.sort(function (a, b) {
+                  	 return (new Date(a.whenInvestmentUse.split('-').join('/')).getTime()-new Date(b.whenInvestmentUse.split('-').join('/')).getTime()) * flagOne
+                   });
+                   break;
+               }
+             };
+           }
+         },
         },
         created: function() {
           this.getSystemListInfoMethod(this,{});
@@ -137,6 +177,11 @@ var data1={
           data.tr=tr;
           data.inputs=inputs;
            this.jinyong()
+           //表格排序需要获取的元素
+          var rowOne=document.getElementsByClassName('rowOne')[0];
+          var imgList=rowOne.getElementsByTagName('img');
+          data.imgList=imgList;
+        	this.listsort();
         }
       })
     })

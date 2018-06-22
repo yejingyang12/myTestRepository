@@ -238,5 +238,22 @@ public class SystemController {
     return result;
   }
   
-  
+  /**
+   * @Descrption 通过系统ID 获取系统信息
+   * @author dongxu
+   * @date 2018年6月21日上午11:22:41
+   * @param request
+   * @param systemParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/querySystemInformationBySystemId", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi querySystemInformationBySystemId(HttpServletRequest request,
+      @RequestBody SystemParam systemParam) throws BusinessException{
+    SystemResult systemResult = this.systemServiceImpl.querySystemInformationBySystemId(systemParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(systemResult);
+    return result;
+  }
 }

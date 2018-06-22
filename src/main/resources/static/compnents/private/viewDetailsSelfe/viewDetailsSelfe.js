@@ -18,7 +18,9 @@
     			"data": [],
     		},
         selfList:[],//自查List
-        result:{}
+        resultBy:{},
+        rowOne:null,//列表表头第一行的tr
+   	    imgList:null//列表表头第一行的排序箭头
     };
     Vue.component('viewDetailsSelfe',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/viewDetailsSelfe/viewDetailsSelfe.html').then(function (res) {
@@ -32,6 +34,11 @@
                 	this.querySelfexaminationList(this);
                 },
                 mounted: function() {
+                  //表格排序需要获取的元素
+                  var rowOne=document.getElementsByClassName('rowOne')[0];
+                  var imgList=rowOne.getElementsByTagName('img');
+                  data.imgList=imgList;
+                	this.listsort();
                 },
                 methods:{
                   download:function(fileId){
@@ -42,9 +49,7 @@
                   //上一页下一页点击事件
                   clickPage: function (page) {
                     if (page <= 0) {
-                      alert("当前页面已经是第一页")
                     } else if (page > data.result.totalPages) {
-                      alert("当前页面已经是最后一页")
                     } else {
                       this.created(page);
                     }
@@ -59,6 +64,7 @@
                   querySelfexaminationListSuccess :function (_self,responseData) {
                   	_self.selfList = responseData.data;
                   	_self.result = responseData;
+                  	_self.resultBy = responseData;
                   },    
                   //分页跳转
                   hpageNum:function(_this){
@@ -73,6 +79,51 @@
                     }else{
                     	this.selfParam.currentPage = a;
                     	this.querySelfexaminationList(this);
+                    }
+                  },
+                  //自查信息列表排序
+                  listsort: function () {
+                    var imgArrow = data.imgList;
+                    var flagOne = 1;
+                    // console.log(data.result.data);
+                    for (var i = 0; i < imgArrow.length; i++) {
+                      imgArrow[i].myindex = i;
+                      imgArrow[i].onclick = function () {
+                        flagOne *= -1;
+                        //对每个数组也就是对应表格的每一列进行排序
+                        switch (this.myindex){
+                          case 0://系统名称
+                            data.resultBy.data.sort(function (a, b) {
+                              return (a.systemName.localeCompare(b.systemName)) * flagOne
+                            });
+                            break;
+                          case 1://自查时间
+                            data.resultBy.data.sort(function (a, b) {
+                            	return (new Date(a.inspectionDate.split('-').join('/')).getTime()-new Date(b.inspectionDate.split('-').join('/')).getTime()) * flagOne
+                            });
+                            break;
+                          case 2://自查状态
+                            data.resultBy.data.sort(function (a, b) {
+                              return (a.fkInspectionStatus - b.fkInspectionStatus) * flagOne
+                            });
+                            break;
+                          case 3://自查结果
+                            data.resultBy.data.sort(function (a, b) {
+                              return (a.fkInspectionReu - b.fkInspectionReu) * flagOne
+                            });
+                            break;
+                          case 4://整改结果
+                            data.resultBy.data.sort(function (a, b) {
+                              return (a.fkRectificationReu - b.fkRectificationReu) * flagOne
+                            });
+                            break;
+                          case 5://整改时间
+                            data.resultBy.data.sort(function (a, b) {
+                              return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
+                            });
+                            break;
+                        }
+                      };
                     }
                   },
                 },

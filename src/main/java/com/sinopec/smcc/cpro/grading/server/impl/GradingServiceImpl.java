@@ -35,8 +35,6 @@ import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
-import com.sinopec.smcc.cpro.system.server.SystemService;
-import com.sinopec.smcc.cpro.system.server.impl.SystemServiceImpl;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -308,7 +306,7 @@ public class GradingServiceImpl implements GradingService{
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(gradingParam.getFkSystemId());
       nodeParam.setOperation("定级变更");
-      nodeParam.setOperationResult("已修改");
+      nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -332,7 +330,7 @@ public class GradingServiceImpl implements GradingService{
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(gradingParam.getFkSystemId());
       nodeParam.setOperation("定级提交");
-      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);

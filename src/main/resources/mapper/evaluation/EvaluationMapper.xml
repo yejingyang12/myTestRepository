@@ -183,16 +183,15 @@
         </otherwise>
       </choose>
     </trim>
-    <![CDATA[
-      ) ON DUPLICATE KEY UPDATE 
-      examName=#{examName},
-      examTime=#{examTime},
-      examYear=#{examYear},
-      examOrg=#{examOrg},
-      fkExamStatus=#{fkExamStatus},
-      fkRectificationReu=#{fkRectificationReu},
-      rectificationDate=#{rectificationDate}
-    ]]>
+    ) ON DUPLICATE KEY UPDATE 
+    examName=#{examName},
+    examTime=#{examTime},
+    examYear=#{examYear},
+    examOrg=#{examOrg},
+    fkExamStatus=#{fkExamStatus},
+  	fkExamResult=#{fkExamResult},
+    fkRectificationReu=#{fkRectificationReu},
+    rectificationDate=#{rectificationDate}
   </insert>
   
   <update id="deleteEvaluationByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam">

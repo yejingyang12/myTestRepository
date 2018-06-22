@@ -14,7 +14,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title SelfexaminationParam.java
@@ -161,7 +160,6 @@ public class SelfexaminationParam {
     this.fkRectificationReuEnd = fkRectificationReuEnd;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDate() {
     return inspectionDate;
   }
@@ -169,7 +167,6 @@ public class SelfexaminationParam {
     this.inspectionDate = inspectionDate;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDateBegin() {
     return inspectionDateBegin;
   }
@@ -177,7 +174,6 @@ public class SelfexaminationParam {
     this.inspectionDateBegin = inspectionDateBegin;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDateEnd() {
     return inspectionDateEnd;
   }
@@ -185,7 +181,6 @@ public class SelfexaminationParam {
     this.inspectionDateEnd = inspectionDateEnd;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDate() {
     return rectificationDate;
   }
@@ -193,7 +188,6 @@ public class SelfexaminationParam {
     this.rectificationDate = rectificationDate;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDateBegin() {
     return rectificationDateBegin;
   }
@@ -201,7 +195,6 @@ public class SelfexaminationParam {
     this.rectificationDateBegin = rectificationDateBegin;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRectificationDateEnd() {
     return rectificationDateEnd;
   }
@@ -237,7 +230,6 @@ public class SelfexaminationParam {
     this.createUserName = createUserName;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTime() {
     return createTime;
   }
@@ -245,7 +237,6 @@ public class SelfexaminationParam {
     this.createTime = createTime;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTimeBegin() {
     return createTimeBegin;
   }
@@ -253,7 +244,6 @@ public class SelfexaminationParam {
     this.createTimeBegin = createTimeBegin;
   }
   
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getCreateTimeEnd() {
     return createTimeEnd;
   }
@@ -261,7 +251,6 @@ public class SelfexaminationParam {
     this.createTimeEnd = createTimeEnd;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTime() {
     return updateTime;
   }
@@ -269,7 +258,6 @@ public class SelfexaminationParam {
     this.updateTime = updateTime;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTimeBegin() {
     return updateTimeBegin;
   }
@@ -277,7 +265,6 @@ public class SelfexaminationParam {
     this.updateTimeBegin = updateTimeBegin;
   }
 
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
   public Date getUpdateTimeEnd() {
     return updateTimeEnd;
   }

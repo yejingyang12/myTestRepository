@@ -82,7 +82,7 @@
                                         <span class="xing">*</span> 系统名称：
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
-                                        <input type="text" placeholder="请输入" v-model="formData.systemName">
+                                        <input type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1">
                                     </div>
                                 </div>
                             </li>
@@ -92,7 +92,7 @@
                                         <span class="xing">*</span>子系统1系统名称：
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
-                                        <el-select v-model="formData.addSystemSub[0].systemName" filterable placeholder="请选择" @change="setStandardizedCode(formData.addSystemSub[0].systemName,2)">
+                                        <el-select v-model="formData.addSystemSub[0].systemName" filterable placeholder="请选择"  :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[0].systemName,2)">
                                           <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
                                         </el-select>
                                     </div>
@@ -111,8 +111,8 @@
                                         <span class="xing">*</span> 子系统2系统名称：
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
-                                        <el-select v-model="formData.addSystemSub[1].systemName" filterable placeholder="请选择" @change="setStandardizedCode(formData.addSystemSub[1].systemName,3)">
-                                          <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
+                                        <el-select v-model="formData.addSystemSub[1].systemName" filterable placeholder="请选择" :disabled = "systemInfo3"  @change="setStandardizedCode(formData.addSystemSub[1].systemName,3)">
+                                          <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
                                         </el-select>
                                     </div>
                                 </div>

@@ -19,6 +19,7 @@ package com.sinopec.smcc.cpro.system.entity;
  */
 public class SystemSubResult {
   
+  private String systemId;
   private String systemName;
   private String standardizedCode;
   /**
@@ -44,6 +45,12 @@ public class SystemSubResult {
    */
   public void setStandardizedCode(String standardizedCode) {
     this.standardizedCode = standardizedCode;
+  }
+  public String getSystemId() {
+    return systemId;
+  }
+  public void setSystemId(String systemId) {
+    this.systemId = systemId;
   }
   
   

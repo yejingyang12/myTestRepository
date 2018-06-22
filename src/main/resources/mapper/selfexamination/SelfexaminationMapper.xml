@@ -105,7 +105,7 @@
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="fkInspectionStatus != null and fkInspectionStatus != ''">
+					<when test="fkInspectionStatus != null">
 						#{fkInspectionStatus},
 					</when>
 					<otherwise>
@@ -113,7 +113,7 @@
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="fkInspectionReu != null and fkInspectionReu != ''">
+					<when test="fkInspectionReu != null">
 						#{fkInspectionReu},
 					</when>
 					<otherwise>
@@ -121,7 +121,7 @@
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="fkRectificationReu != null and fkRectificationReu != ''">
+					<when test="fkRectificationReu != null">
 						#{fkRectificationReu},
 					</when>
 					<otherwise>
@@ -145,7 +145,7 @@
 					</otherwise>
 				</choose>
 				<choose>
-					<when test="deleteStatus != null and deleteStatus != ''">
+					<when test="deleteStatus != null">
 						#{deleteStatus},
 					</when>
 					<otherwise>

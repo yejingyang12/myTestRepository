@@ -617,7 +617,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
       nodeParam.setOperation("材料变更");
-      nodeParam.setOperationResult("已修改");
+      nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -640,7 +640,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(systemMaterialsParam.getFkSystemId());
       nodeParam.setOperation("材料提交");
-      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);

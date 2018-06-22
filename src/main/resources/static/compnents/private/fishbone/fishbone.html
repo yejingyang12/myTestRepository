@@ -1,6 +1,76 @@
 <div class="fishBone">
+
+<!--鱼骨图弹窗 -->
+  <div id="dialog" 
+       class="evaluationAlert"
+       style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
+    <div class="evaluation" 
+         style="padding:15px;border: 1px solid #cecece;background:#fff; width: 80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 12;">
+         <p class="clearfix cut">
+          <span class="fl revokeTitle" v-show="false">变更信息</span>
+          <span class="fl revokeTitle" v-show="true">撤销备案详情</span>
+          <span @click="closes" 
+                class="fr revokeTitle" 
+                style="margin-right: 15px;margin-bottom: 15px;">X</span>
+        </p>
+         <div>
+            <div class="col-md-12 clearPadding">
+                        <!--变更事项--> 
+                            <div class="col-md-12 clearPadding h-system-fishbone">
+                                <span class="col-md-1 clearPadding "> 
+                                                                                       变更事项：
+                                </span>
+                               <p class="col-md-10 clearPadding"> 
+                                                                                                合并系统
+                               </p> 
+                               <p class="col-md-10 clearPadding" v-show="false"> 
+                                                                                               撤销备案
+                               </p>
+                             </div>
+                      
+                        <!--变更原因-->
+                        <div class="col-md-12 clearPadding h-system-fishbone">
+                                <span class="col-md-1 clearPadding "> 
+                                                                                       变更原因：
+                                </span>
+                               <p class="col-md-10 clearPadding">
+                                                                                      变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因变更原因
+                               </p> 
+                             </div>
+                        <!--变更内容-->
+                        <div class="col-md-12 clearPadding h-system-fishbone">
+                                <span class="col-md-1 clearPadding "> 
+                                                                                       变更内容：
+                                </span>
+                               <p class="col-md-10 clearPadding">
+                                                                                                     变更内容 变更内容变更内容变更内容变更内容变更内容变更内容变更内容变更内容变更内容变更内容变更内容变更内容变更内容
+                               </p> 
+                             </div>
+                         <!--撤销原因-->
+                        <div class="col-md-12 clearPadding h-system-fishbone">
+                                <span class="col-md-1 clearPadding "> 
+                                                                                       撤销原因：
+                                </span>
+                               <p class="col-md-10 clearPadding">
+                             	  撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因撤销原因
+                               </p> 
+                             </div>
+                           <!--撤销证明-->
+                        <div class="col-md-12 clearPadding h-system-fishbone">
+                                <span class="col-md-1 clearPadding "> 
+                                                                                       撤销证明：
+                                </span>
+                               <p class="col-md-10 clearPadding">
+                               <a>证明1.doc</a>
+                               </p> 
+                             </div>
+               </div>
+           </div>
+      </div>
+ </div>
+
     <ul>
-        <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data">
+    <!--  <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data">
             <div class="item">
                     <div class="content">
                         <div class="frist_div">操作：{{pro.operation}}</div>
@@ -14,6 +84,23 @@
                     <div class="line"></div>
                 </div>
             </div>
-        </li>
+        </li>  -->
+        
+     <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data">
+            <div class="item">
+                    <div class="content">
+                        <div class="frist_div">操作：{{pro.operation}}</div>
+                        <div class="second_div">变更事项：合并系统 <i @click="showDialog">按钮</i> </div>
+                        <div class="second_div">操作人：{{pro.operator}}</div>
+                        <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
+                        <div class="thirs_div">操作意见：{{pro.operationOpinion}}</div>
+                    </div>
+                    <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div>
+                <div class="centerline">
+                    <div class="cricle"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+        </li> 
     </ul>
 </div>

@@ -18,7 +18,9 @@
   			"data": [],
   		},
       evaluList:[],//测评List
-      result:{}
+      result:{},
+      rowOne:null,//列表表头第一行的tr
+	    imgList:null,//列表表头第一行的排序箭头
   };
     Vue.component('viewDetailsEvalu',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/viewDetailsEvalu/viewDetailsEvalu.html').then(function (res) {
@@ -32,7 +34,11 @@
                 	this.queryEvaluationList(this);
                 },
                 mounted: function() {
-                    
+                //表格排序需要获取的元素
+                  var rowOne=document.getElementsByClassName('rowOne')[0];
+                  var imgList=rowOne.getElementsByTagName('img');
+                  data.imgList=imgList;
+                	this.listsort();
                 },
                 methods:{
                   download:function(fileId){
@@ -74,6 +80,57 @@
                     }else{
                     	this.evaluParam.currentPage = a;
                     	this.queryEvaluationList(this);
+                    }
+                  },
+                  //测评信息列表排序
+                  listsort: function () {
+                    var imgArrow = data.imgList;
+                    var flagOne = 1;
+                    // console.log(data.result.data);
+                    for (var i = 0; i < imgArrow.length; i++) {
+                      imgArrow[i].myindex = i;
+                      imgArrow[i].onclick = function () {
+                        flagOne *= -1;
+                        // //对每个数组也就是对应表格的每一列进行排序
+                        // console.log( data.result.data[0].systemName);
+                        switch (this.myindex){
+                          case 0://项目测评名称
+                            data.result.data.sort(function (a, b) {
+                              return (a.examName.localeCompare(b.examName)) * flagOne
+                            });
+                            break;
+                          case 1://测评时间
+                            data.result.data.sort(function (a, b) {
+                            	return (new Date(a.examTime.split('-').join('/')).getTime()-new Date(b.examTime.split('-').join('/')).getTime()) * flagOne
+                            });
+                            break;
+                          case 2://测评机构
+                            data.result.data.sort(function (a, b) {
+                              return (a.examOrg.localeCompare(b.examOrg)) * flagOne
+                            });
+                            break;
+                          case 3://测评状态
+                            data.result.data.sort(function (a, b) {
+                              return (a.fkExamStatus - b.fkExamStatus) * flagOne
+                            });
+                            break;
+                          case 4://测评结果
+                            data.result.data.sort(function (a, b) {
+                              return (a.fkExamResult - b.fkExamResult) * flagOne
+                            });
+                            break;
+                          case 5://整改结果
+                            data.result.data.sort(function (a, b) {
+                              return (a.fkRectificationReu - b.fkRectificationReu) * flagOne
+                            });
+                            break;
+                          case 6://整改时间
+                            data.result.data.sort(function (a, b) {
+                            	return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
+                            });
+                            break;
+                        }
+                      };
                     }
                   },
               }
