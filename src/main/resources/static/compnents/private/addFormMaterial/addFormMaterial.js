@@ -81,7 +81,7 @@ var data={
                 },
                 methods:{
 
-                  onUpload(e){
+                  onUpload: function(e){
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
@@ -103,7 +103,7 @@ var data={
                       _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                     });
                   },
-                  onUpload2(e){
+                  onUpload2: function(e){
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
@@ -125,7 +125,7 @@ var data={
                       _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                     });
                   },
-                  onUpload3(e){
+                  onUpload3: function(e){
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
@@ -147,7 +147,7 @@ var data={
                       _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                     });
                   },
-                  onUpload4(e){
+                  onUpload4: function(e){
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
