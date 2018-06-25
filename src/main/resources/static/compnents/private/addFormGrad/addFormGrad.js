@@ -210,7 +210,7 @@ var data={
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });
                     },
-                    onUpload1(e){
+                    onUpload1: function(e){
                       var uploadData = new FormData(); 
                       uploadData.append('file', e.target.files[0]);
                       uploadData.append('type', 'test');
@@ -220,7 +220,7 @@ var data={
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
                     },
-                    onUpload2(e){
+                    onUpload2: function(e){
                       var uploadData = new FormData(); 
                       uploadData.append('file', e.target.files[0]);
                       uploadData.append('type', 'test');
