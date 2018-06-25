@@ -189,7 +189,7 @@ var data={
                         fileName.val(str[str.length-1]);
                     },
                     
-                    onUpload(e){
+                    onUpload: function(e){
                       var uploadData = new FormData(); 
                       uploadData.append('file', e.target.files[0]);
                       uploadData.append('type', 'test');
