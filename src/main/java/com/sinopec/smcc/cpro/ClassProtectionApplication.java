@@ -1,6 +1,7 @@
 
 package com.sinopec.smcc.cpro;
 
+import com.sinopec.smcc.common.consts.SmccConsts;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,11 +10,8 @@ import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.sinopec.smcc.common.consts.SmccConsts;
 
 /**
  * 项目名称:smcc-cpro
@@ -27,7 +25,7 @@ import com.sinopec.smcc.common.consts.SmccConsts;
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
 @EnableFeignClients("com.sinopec.smcc")
 @MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
-@ComponentScan(value = "com.sinopec.smcc", excludeFilters = {@ComponentScan.Filter(type = FilterType.REGEX, pattern = "com.sinopec.smcc.common.config.AuthFilterConfig")})
+@ComponentScan(value = "com.sinopec.smcc")
 @Controller
 public class ClassProtectionApplication {
 	
