@@ -3,16 +3,15 @@
  */
 (function () {
     var data={
-    		systemName:''
+    		systemName:'',
+    		activeName: 'information'
     };
     Vue.component('viewDetailsNav',function (resolve,reject) {
         $.get(comp_src+'/compnents/private/viewDetailsNav/viewDetailsNav.html').then(function(res){
             resolve({
                 template:res,
-                data:function () { 
-                    return {
-                        activeName: 'information'
-                    }
+                data:function () {
+                    return data;
                 },
                 methods:{
                     handleClick: function(tab, event) {
