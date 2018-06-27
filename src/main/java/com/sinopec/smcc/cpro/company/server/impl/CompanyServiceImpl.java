@@ -73,42 +73,42 @@ public class CompanyServiceImpl implements CompanyService {
         orderBy.toString());
     
     //权限
-    JurisdictionDataResult organizationApiResult = 
-        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    
-    if(organizationApiResult==null){
-      return new PageInfo<>();
-    }else{
-      
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    
+//    if(organizationApiResult==null){
+//      return new PageInfo<>();
+//    }else{
+//      
       List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
-      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      
-      case "0":
-        break;
-      case "1":
-        // 获得响应列表数据
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      
+//      case "0":
+//        break;
+//      case "1":
+//        // 获得响应列表数据
         companyListResultList = 
             this.companyMapper.selectAllByCompanyParam(companyParam);
-        break;
-      case "2":
-        companyParam.setPlateList(organizationApiResult.getNameList());
-        companyListResultList =  
-        this.companyMapper.selectAllByCompanyParam(companyParam);
-        break;
-      case "3":
-        companyParam.setCompanyList(organizationApiResult.getCodeList());
-        companyListResultList =  
-        this.companyMapper.selectAllByCompanyParam(companyParam);
-        break;
-
-      default:
-        break;
-      }
+//        break;
+//      case "2":
+//        companyParam.setPlateList(organizationApiResult.getNameList());
+//        companyListResultList =  
+//        this.companyMapper.selectAllByCompanyParam(companyParam);
+//        break;
+//      case "3":
+//        companyParam.setCompanyList(organizationApiResult.getCodeList());
+//        companyListResultList =  
+//        this.companyMapper.selectAllByCompanyParam(companyParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
       // 装载列表数据
       PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
-      return pageInfo;
-    }
+      return pageInfo; 
+//    }
   }
 
   /**
