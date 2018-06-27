@@ -36,7 +36,7 @@ pagehelper:
     offset-as-page-num: true
     row-bounds-with-count: true
 smcc.depends.ubs.api: http://10.248.65.107
-cpro.api.url: http://10.246.173.229:8092/
+cpro.api.url: http://usmg.smcc.sinopec.com:8092/
 appId: 907
 redisId: 100
 wildcard: 
