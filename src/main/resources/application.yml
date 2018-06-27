@@ -38,3 +38,8 @@ pagehelper:
 ubs.api.url: http://10.248.65.107
 cpro.api.url: http://10.246.173.229:8092/
 appId: 907
+redisId: 100
+wildcard: 
+    org: $org1$
+    all: $all$
+    none: $none$
