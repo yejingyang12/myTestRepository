@@ -23,8 +23,15 @@ import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.mapper.AttachMaterialsMapper;
 import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
+import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.server.CheckService;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -42,6 +49,12 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
   private AttachMaterialsMapper attachMaterialsMapper;
   @Autowired
   private NodeService nodeServiceImpl;
+  @Autowired
+  private CheckService checkServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
+  @Autowired
+  private SystemMapper systemMapperImpl;
   
   /**
    * 初始化提交材料信息
@@ -123,7 +136,8 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
    */
   @Override
   @Transactional
-  public String submitAttach(String userName, AttachMaterialsParam attachMaterialsParam) {
+  public String submitAttach(String userName, AttachMaterialsParam attachMaterialsParam)
+      throws BusinessException {
     if (StringUtils.isBlank(attachMaterialsParam.getAttachId())) {
       attachMaterialsParam.setAttachId(Utils.getUuidFor32());
       attachMaterialsParam.setCreateTime(new Date());
@@ -138,6 +152,27 @@ public class AttachMaterialsServiceImpl implements AttachMaterialsService {
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
       this.attachMaterialsMapper.insertAttach(attachMaterialsParam);
+      
+      //创建审核记录
+      SystemParam systemParam = new SystemParam();
+      systemParam.setSystemId(attachMaterialsParam.getFkSystemId());
+      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+      CheckParam checkParamAdd = new CheckParam();
+      checkParamAdd.setFkSystemId(attachMaterialsParam.getFkSystemId());
+      checkParamAdd.setFkExaminStatus("1");
+      checkParamAdd.setFkBusinessNode("1");
+      checkParamAdd.setInstanceName(systemResult.getSystemName());
+      checkParamAdd.setInitiator(userName);
+      checkParamAdd.setPrevExecutor(userName);
+      checkParamAdd.setExecuteTime(new Date());
+      checkServiceImpl.addCheck(checkParamAdd);
+      
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(attachMaterialsParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       this.attachMaterialsMapper.updateAttachStatus(attachMaterialsParam);
       

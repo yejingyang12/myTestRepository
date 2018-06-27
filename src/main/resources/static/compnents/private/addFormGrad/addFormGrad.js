@@ -28,7 +28,7 @@ var data={
         },
         bizSPRankLevel:false,
         bizSystemLevel:false,
-        expertType:true,
+        expertType:false,
         sysName:'系统名称',//系统名称
         safetyPro:{//确定安全保护等级
             busInform:[//业务信息
@@ -416,12 +416,12 @@ var data={
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
                       }else{
-                        if(this.formData.fkSpRanklevel==301){
-                          this.expertType = false;
-                        }else{
-                          this.expertType = true;
-                        }
                         this.nextBtn = false;
+                      }
+                      if(this.formData.fkSpRanklevel==301){
+                        this.expertType = true;
+                      }else{
+                        this.expertType = false;
                       }
                     },
                     
@@ -580,11 +580,11 @@ var data={
                         this.nextBtn = true;
                       }else{
                         this.nextBtn = false;
-                        if(this.formData.fkSpRanklevel==301){
-                          this.expertType = false;
-                        }else{
-                          this.expertType = true;
-                        }
+                      }
+                      if(this.formData.fkSpRanklevel==301){
+                        this.expertType = true;
+                      }else{
+                        this.expertType = false;
                       }
                     },
                     fnCheckAll:function (index) {
@@ -699,11 +699,11 @@ var data={
                         this.nextBtn = true;
                       }else{
                         this.nextBtn = false;
-                        if(this.formData.fkSpRanklevel==301){
-                          this.expertType = false;
-                        }else{
-                          this.expertType = true;
-                        }
+                      }
+                      if(this.formData.fkSpRanklevel==301){
+                        this.expertType = true;
+                      }else{
+                        this.expertType = false;
                       }
                     },
                     checkAll:function (index) {
@@ -859,11 +859,11 @@ var data={
                         this.nextBtn = true;
                       }else{
                         this.nextBtn = false;
-                        if(this.formData.fkSpRanklevel==301){
-                          this.expertType = false;
-                        }else{
-                          this.expertType = true;
-                        }
+                      }
+                      if(this.formData.fkSpRanklevel==301){
+                        this.expertType = true;
+                      }else{
+                        this.expertType = false;
                       }
                     },
                     // 获取安全等级信息
@@ -1035,11 +1035,11 @@ var data={
 //                        if(data1!=null){
 //                          data1.materialShow = false;
 //                        }
-                        if(this.formData.fkSpRanklevel==301){
-                          this.expertType = false;
-                        }else{
-                          this.expertType = true;
-                        }
+                      }
+                      if(this.formData.fkSpRanklevel==301){
+                        this.expertType = true;
+                      }else{
+                        this.expertType = false;
                       }
                     },
                     
@@ -1059,8 +1059,18 @@ var data={
                       }else{
                         window.location.href = "addCompanyMaterialPage?systemId="+systemId;
                       }
+                    },
+                    // 获取系统信息
+                    getSystem : function(_self) {
+                    	ajaxMethod(this, 'post',
+                        'system/querySystemInformationBySystemId', true,
+                        '{"systemId":"'+systemId+'"}', 'json',
+                        'application/json;charset=UTF-8',
+                        this.getSystemSuccess);
+                    } ,
+                    getSystemSuccess : function(_self,result){
+                    	this.formData.systemName = result.data.systemName;
                     }
-                    
                 },
                 created: function() {
                     // 设置默认长度
@@ -1068,6 +1078,8 @@ var data={
                     this.smccChecdArr[1].length = 2;
                     //安全等级信息
                     this.getProtectionGradeInfoMethod(this);
+                    //获取系统信息
+                    this.getSystem(this);
                     if(systemId!=null&&systemId!=''){
                       this.getGradeMethod(this,systemId);
                       this.formData.fkSystemId = systemId;

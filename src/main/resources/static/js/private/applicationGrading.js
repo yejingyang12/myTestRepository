@@ -6,7 +6,7 @@ window.onload = function () {
     var app = new Vue({
         el:"#app",
         data:function () {
-            return data
+            return data;
         },
         methods:{
           //保存

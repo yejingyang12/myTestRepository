@@ -70,30 +70,16 @@
  </div>
 
     <ul>
-    <!--  <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data">
-            <div class="item">
-                    <div class="content">
-                        <div class="frist_div">操作：{{pro.operation}}</div>
-                        <div class="second_div">操作人：{{pro.operator}}</div>
-                        <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
-                        <div class="thirs_div">操作意见：{{pro.operationOpinion}}</div>
-                    </div>
-                    <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div>
-                <div class="centerline">
-                    <div class="cricle"></div>
-                    <div class="line"></div>
-                </div>
-            </div>
-        </li>  -->
+   
         
      <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data">
             <div class="item">
                     <div class="content">
                         <div class="frist_div">操作：{{pro.operation}}</div>
-                        <div class="second_div">变更事项：合并系统 <i @click="showDialog">按钮</i> </div>
+               <!--          <div class="second_div">变更事项：合并系统 <i @click="showDialog">按钮</i> </div> -->
                         <div class="second_div">操作人：{{pro.operator}}</div>
                         <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
-                        <div class="thirs_div">操作意见：{{pro.operationOpinion}}</div>
+                        <div class="thirs_div" v-if="pro.operationOpinion!==''">操作意见：{{pro.operationOpinion}}</div>
                     </div>
                     <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div>
                 <div class="centerline">

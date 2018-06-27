@@ -19,7 +19,7 @@
                                 <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null" size="small">继续上传</el-button>
                                 <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload'>
+                            <input type="file" value="" id="file" @change='onUpload' v-prompt="{type:'file'}">
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 <el-button type="primary" v-if="formData.organizationManagementName!==''&&formData.organizationManagementName!==null" size="small">继续上传</el-button>
                                 <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload2'>
+                            <input type="file" value="" id="file" @change='onUpload2' v-prompt="{type:'file'}">
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
                     </div>
@@ -71,7 +71,7 @@
                                 <el-button type="primary" v-if="formData.implementationPlanName!==''&&formData.implementationPlanName!==null" size="small">继续上传</el-button>
                                 <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload3'>
+                            <input type="file" value="" id="file" @change='onUpload3' v-prompt="{type:'file'}">
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
                                 <el-button type="primary" v-if="formData.licenseCertificateName!==''&&formData.licenseCertificateName!==null" size="small">继续上传</el-button>
                                 <el-button type="primary" v-else size="small">上传</el-button>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload4'>
+                            <input type="file" value="" id="file" @change='onUpload4' v-prompt="{type:'file'}">
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="" class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-4 text-left dixName">{{formData.evaluationPresentationName}}</p>
+                            <p class="col-md-9 text-left dixName">{{formData.evaluationPresentationName}}</p>
                         </div>
                     </div>
                 </li>
@@ -130,7 +130,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="" class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-4 text-left dixName">{{formData.expertReviewName}}</p>
+                            <p class="col-md-9 text-left dixName">{{formData.expertReviewName}}</p>
                         </div>
                     </div>
                 </li>
@@ -142,7 +142,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="" class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-4 text-left dixName">{{formData.directorOpinionName}}</p>
+                            <p class="col-md-9 text-left dixName">{{formData.directorOpinionName}}</p>
                         </div>
                     </div>
                 </li>

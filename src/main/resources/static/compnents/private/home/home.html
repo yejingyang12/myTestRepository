@@ -25,7 +25,7 @@
                                     <el-select v-model="value14"  filterable placeholder="请选择" >
                                       <el-option
                                               v-for="item in changeMatters"
-                                              :key="item.systemCode"
+                                             :key="item.systemCode" 
                                               :label="item.codeName"
                                               :value="item.systemCode">
                                       </el-option>
@@ -41,7 +41,7 @@
                                     变更原因：
                                 </label>
                                 <div class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9" 
-                                style="border-radius:4px;border: 1px solid #cecece;height: 100px;width: 90%;margin-left: 110px;margin-top: -30px;">
+                                style="border-radius:4px;border: 1px solid #cecece;height: 100px;width: 90%;margin-left: 110px;margin-top: -30px;" @click="text">
                                     <textarea id="textArea" v-model="value19" cols="30" rows="10" placeholder="请输入"></textarea>
                                     <span class='textAll'><span id="textNum">0</span>/200</span>
                                 </div>
@@ -55,9 +55,9 @@
                                     变更内容：
                                 </label>
                                 <div  class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9"
-                                 style="border-radius:4px;border: 1px solid #cecece;margin-left: 110px; margin-top: -30px;height: 100px;width: 90%">
-                                    <textarea id="textArea"  v-model="value20" cols="30" rows="10" placeholder="请输入"></textarea>
-                                    <span class='textAll'><span id="textNum">0</span>/200</span>
+                                 style="border-radius:4px;border: 1px solid #cecece;margin-left: 110px; margin-top: -30px;height: 100px;width: 90%"  @click="text">
+                                    <textarea id="textArea" class="textArea1"  v-model="value20" cols="30" rows="10" placeholder="请输入"></textarea>
+                                    <span class='textAll'><span id="textNum1">0</span>/200</span>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                                 <!--系统名称-->
                                 <div class="col-md-6">
                                     <div class="row" >
-                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:12px" >
+                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:12px;width: 82px; min-width: 75px;" >
                                             系统名称:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:10;position:relative;">
@@ -225,7 +225,7 @@
                                 <!--所属单位-->
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-md-3 h-line" style="min-width:95px;width:100px;padding-right:0; ">
+                                        <div class="col-md-3 h-line" style="min-width:76px;width:77px;padding-right:0; ">
                                             所属单位:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative">
@@ -245,52 +245,55 @@
                             </div>
                         </div>
                         <!--申请时间-->
-                        <div class="col-md-5 h-col-md-9" style="float: right;">
+                        <div class="col-md-5 h-col-md-9 deleteFalse" style="float: right;">
                             <div class="row" style="margin-right:0">
                                 <div class="col-md-7 h-padding" style="padding-right:6px;">
                                     <div class="row" style="margin: 0">
-                                        <div class="col-md-3 applyTime" style="width:20%;line-height: 34px;min-width: 16%; max-width: 20%;line-height: 34px">
-                                        申请时间:</div>
-                                        <div class="col-md-9 seachstarttime" style="padding: 0;margin-right:0;">
-                                           <template>
+                                        <div class="col-md-3 applyTime" style="width:66px;line-height: 34px;min-width: 61px; max-width:69px;line-height: 34px">
+                                      	  申请时间:
+                                      	</div>
+                          		<div class="float-le timeInput chartstarttime" style="padding: 0;width: 69%; margin-right: 2%;">
+                                              <template>
                                             <div class="block">
-                                              <el-date-picker
+ 											<el-date-picker 
+                                               id="inputTxt"  
                                                 v-model="value2"
                                                 type="date"
                                                 placeholder="选择日期" id="applyTime">
                                               </el-date-picker>
                                             </div>
                                           </template>
-                                        </div>
-                                        <div style="width:0;display: inline-block;margin: 1px;line-height: 34px;max-width:5%">
-                                            到
-                                        </div>
+                                  </div>
+                                      <div style="width: 0px;display: inline-block;margin: 1px;line-height: 34px;max-width: 10px;">
+                                      	    到
+                                     </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-5 input-box" style="float: right;">
                                     <div class="row">
-                                        <div class="col-md-12 seachstarttime" style="float: right;">
-                                             <template>
-                                            <div class="block">
-                                             <el-date-picker
-                                                v-model="value1"
-                                                type="date"
-                                                placeholder="选择日期" id="applytimeend">
-                                              </el-date-picker>
-                                            </div>
-                                          </template>
-                                        </div>
-                                    </div>
+                                        <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                           <template>
+                                              <div class="block">
+                                                <el-date-picker
+	                                                v-model="value1"
+	                                                type="date"
+	                                                placeholder="选择日期" id="applytimeend">
+                                                </el-date-picker>
+                                             </div>
+                                           </template>
+                                 		</div>
+                                   </div>
                                 </div>
                             </div>
                         </div>
+                   <!--申请时间end-->
                     </div>
                 </div>
             </div>
             <div class="row" style="margin-top: 15px">
                 <div class="col-md-12">
-                    <div class="col-md-3 h-system h-padding" style="width:5。5%">
+                    <div class="col-md-3 h-system h-padding"  style="width: 78px; min-width: 75px;">
                         自定义筛选:
                     </div>
                     <div class="col-md-3 h-col-md-9 h-padding pos-relative">
@@ -310,10 +313,10 @@
                     
                         <button @click="search(1)" type="button" class="btn btn-default" style="width:70px">查询</button>                       
                         <div class="btn-group" style="margin-left: 10">
-                            <button type="button" class="btn btn-default h-btn-info dropdown-toggle"
+                            <button type="button" class="btn h-btn-info dropdown-toggle"
                                     data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false" @click="searchclick">
-                                高级查询 <span class="caret"></span>
+                                高级查询  <span class="caret"></span>
                             </button>
                         </div>
                         <button type="button" class="btn btn-default" style="width:70px" @click="empty()">清空 </button>
@@ -321,8 +324,7 @@
                     </div>
                 </div>
             </div>
-
-            <!--高级查询-->
+<!--高级查询-->
             <div id="h-height-search"  style="display: none">
                 <div class="row" style="margin-top:0">
                     <div class="col-md-12">
@@ -330,12 +332,12 @@
                             <div class="col-md-7">
                                 <div class="row">
                                     <!--受理备案单位-->
-                                    <div class="col-md-6">
+                                    <div class="col-md-6" style="padding: 0;">
                                         <div class="row">
-                                            <div class="col-md-3 h-system" style="min-width:130px;margin-right:0;margin-left:0;width:130px;">
+                                            <div class="col-md-3 h-system" style="min-width:104px;margin-right:0;margin-left:0; width: 107px;">
                                                 受理备案单位:
                                             </div>
-                                            <div class="col-md-8 h-col-md-9 pos-relative" style="width:68%;">
+                                            <div class="col-md-8 h-col-md-9 pos-relative"  >
                                                 <template>
                                                     <el-select id="acceptancecompanyName" v-model="value12" filterable placeholder="请选择" style="width:95%;">
                                                         <el-option 
@@ -352,7 +354,7 @@
                                     <!--测评单位-->
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <div class="col-md-3 h-line" style="width:100px;min-width:95pxs;padding-right:0;width:17%">
+                                            <div class="col-md-3 h-line" style="width: 77px; min-width: 76px;padding-right:0;">
                                                 测评单位:
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative">
@@ -374,43 +376,44 @@
                                 </div>
                             </div>
                             <!--备案时间-->
-                            <div class="col-md-5 h-col-md-9" style="float: right;">
+                            <div class="col-md-5 h-col-md-9 deleteFalse" style="float: right;">
                                 <div class="row" style="margin-right:0">
-                                    <div class="col-md-7 h-padding" style="padding-right:6px;">
+                                    <div class="col-md-7 h-padding" >
                                         <div class="row" style="margin: 0">
-                                            <div class="col-md-3 applyTime" style="line-height: 34px">备案时间:</div>
-                                            <div class="col-md-9 seachstarttime" style="position: relative; padding: 0;margin-right:0;">
-                                                            <template>
+                                       	<div class="col-md-3 applyTime" style=" width: 66px;  line-height: 34px; min-width: 61px; max-width: 69px;">
+    									备案时间:
+    									</div>
+                                      <div class="float-le timeInput chartstarttime" style="padding: 0;width: 69%; margin-right: 2%;">
+                                          <template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                              <el-date-picker
                                                 v-model="value3"
                                                 type="date"
                                                 placeholder="选择日期" id="recordDateBegin">
                                               </el-date-picker>
                                             </div>
                                           </template>
-                                            </div>
-                                            <div style="float: right;display: inline-block;margin: 1px;line-height: 34px;max-width:7%">
-                                                到
+                                      </div>
+                                        
+                                            <div style="width: 0px;display: inline-block;margin: 1px;line-height: 34px;max-width: 10px;">
+                                             	   到
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="col-md-5 input-box" style="float: right;">
                                         <div class="row">
-                                            <div class="col-md-12 seachstarttime" style="position: relative;float: right;">
-                                                             <template>
+                                        <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                          <template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                              <el-date-picker
                                                 v-model="value4"
                                                 type="date"
                                                 placeholder="选择日期" id="recordDateEnd">
                                               </el-date-picker>
                                             </div>
                                           </template>
-                                            </div>
+                                       </div>
 
                                         </div>
                                     </div>
@@ -422,37 +425,42 @@
                 <div class="row form-group" style="margin-top: 15px">
                     <div class="col-md-12">
                         <div class="row">
-                            <!--测评时间：-->
-                            <div class="col-md-5 h-col-md-4" style="margin-left: 2%">
+                   <!--测评时间：-->
+                            <div class="col-md-6 h-col-md-4 deleteFalse" >
                                 <div class="row" style="margin-right:0">
-                                    <div class="col-md-7 h-padding"  style="padding-right:6px;" >
+                                    <div class="col-md-7 h-padding"    >
                                         <div class="row" style="margin: 0">
-                                            <div class="col-md-3 applyTime" style="line-height: 34px">测评时间:</div>
-                                            <div class="col-md-9 seachstarttime" style="position: relative; padding: 0;margin-right:0;">
-                                                            <template>
+                                       <div class="col-md-3 applyTime" 
+                                            style="margin-left: 15px; width: 76px;  min-width: 58px; max-width: 80px; line-height: 34px;">
+    											测评时间:
+    									</div>
+                                       <div class="float-le timeInput chartstarttime" 
+                                           		style="width: 66%;position: relative; padding: 0;margin-right:0;">
+                                          <template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                              <el-date-picker
                                                 v-model="value17"
                                                 type="date"
                                                 placeholder="选择日期" id="examTimeBegin">
                                               </el-date-picker>
                                             </div>
                                           </template>
-                                            </div>
-                                            <div style="float: right;display: inline-block;margin: 1px;line-height: 34px;max-width:6%">
-                                                到
+                                      </div>
+                                         
+                                         
+                                            <div style="display: inline-block;margin: 1px;line-height: 34px;">
+                                        	        到
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-5 input-box" style="float: right;">
+                                    <div class="col-md-5 input-box" style="width: 34%;margin-left: 7px;">
                                         <div class="row">
-                                            <div class="col-md-12 seachstarttime" style="position: relative;float: right;">
-                                                             <template>
+                                            <div class="col-md-12 float-le timeInput chartstarttime" 
+                                                 style="width:100%;position: relative;float: left;padding: 0;">
+                                          <template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                               <el-date-picker
                                                 v-model="value18"
                                                 type="date"
                                                 placeholder="选择日期" id="examTimeEnd">
@@ -465,17 +473,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--定级时间-->
-                            <div class="col-md-5 h-col-md-9 float-ri" style="">
+                             <!--定级时间-->
+                            <div class="col-md-5 h-col-md-9 float-ri deleteFalse" style="">
                                 <div class="row" style="margin-right:0">
-                                    <div class="col-md-7 h-padding" style="padding-right:6px;">
+                                    <div class="col-md-7 h-padding" >
                                         <div class="row" style="margin: 0">
-                                            <div class="col-md-3 applyTime" style="line-height: 34px">定级时间:</div>
-                                            <div class="col-md-9 seachstarttime" style="position: relative; padding: 0;margin-right:0;">
-                                                            <template>
+                                            <div class="col-md-3 applyTime" style="width: 66px;line-height: 34px;  min-width: 61px; max-width: 69px;">
+											    定级时间:
+											</div>
+                       <div class="float-le timeInput chartstarttime" style="padding: 0;width: 69%; margin-right: 2%;">
+										<template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                               <el-date-picker
                                                 v-model="value7"
                                                 type="date"
                                                 placeholder="选择日期" id="rankTimeBegin">
@@ -483,46 +492,44 @@
                                             </div>
                                           </template>
                                             </div>
-                                            <div style="float: right;display: inline-block;margin: 1px;line-height: 34px;max-width:7%">
-                                                到
+                                            <div style="width: 0px;  display: inline-block;  margin: 1px; line-height: 34px;  max-width: 10px;">
+                                               	 到
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-5 input-box" style="float: right;">
+							<div class="col-md-5 input-box" style="float: right;">
                                         <div class="row">
-                                            <div class="col-md-12 seachstarttime" style="position: relative;float: right;">
-                                                             <template>
+                                        <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                          <template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                               <el-date-picker
                                                 v-model="value13"
                                                 type="date"
                                                 placeholder="选择日期" id="rankTimeEnd">
                                               </el-date-picker>
                                             </div>
                                           </template>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                       </div>
+									</div>
+                                  </div>
                                 </div>
                             </div>
-
-                        </div>
-                        <div class="row" style="margin-top: 15px">
+						    </div>
+                        <div class="row" >
                             <!--自查时间-->
-
-                            <div class="col-md-5 h-col-md-4 " style="margin-left: 2%">
+ 							<div class="col-md-6 h-col-md-4 deleteFalse" style="margin-top: 15px" >
                                 <div class="row" style="margin-right:0">
-                                    <div class="col-md-7 h-padding"  style="padding-right:6px;">
+                                    <div class="col-md-7 h-padding"   >
                                         <div class="row" style="margin: 0">
-                                            <div class="col-md-3 applyTime" style="line-height: 34px">自查时间:</div>
-                                            <div class="col-md-9 seachstarttime" style="position: relative; padding: 0;margin-right:0;">
+                                            <div class="col-md-3 applyTime" 
+                                            style="margin-left:15px; width: 76px;  min-width: 58px; max-width: 80px; line-height: 34px;">
+                                            	自查时间:
+                                            </div>
+                                             <div class="float-le timeInput chartstarttime" 
+                                           		style="width: 66%;position: relative; padding: 0;margin-right:0;">
                                           <template>
                                             <div class="block">
-<!--                                               <span class="demonstration">默认</span>
- -->                                              <el-date-picker
+                                              <el-date-picker
                                                 v-model="value15"
                                                 type="date"
                                                 placeholder="选择日期" id="inspectionDateBegin">
@@ -530,15 +537,16 @@
                                             </div>
                                           </template>
                                             </div>
-                                            <div style="float: right;display: inline-block;margin: 1px;line-height: 34px;max-width:7%">
-                                                到
+                                            <div style="display: inline-block;margin: 1px;line-height: 34px;">
+                                            	    到
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-5 input-box" style="float: right;">
+                                    <div class="col-md-5 input-box" style="margin-left: 7px;width:34%;">
                                         <div class="row">
-                                            <div class="col-md-12 seachstarttime" style="position: relative;float: right;">
+                                            <div class="col-md-12 float-le timeInput chartstarttime" 
+                                                 style="width:100%;position: relative;float: left;padding: 0;">
                                           <template>
                                             <div class="block">
 <!--                                               <span class="demonstration">默认</span>
@@ -732,14 +740,14 @@
                 </span>
                 <span style="float: right;margin-right: 20px;">
                     <!--<img src="../../static/images/home/s01ztjinxingzhong.png" alt="">-->
-                    <slot name="s01ztexamine"></slot>
+                                        <slot name="s01ztexamine"></slot>
                     未通过            
                 </span>
                 <span style="float: right;margin-right: 20px;">
                     <!--<img src="../../static/images/home/s01ztjinxingzhong.png" alt="">-->
+                    
                     <slot name="s01ztjinxingzhong"></slot>
-                    进行中            
-                </span>
+                    进行中</span>
                 <span style="float: right;margin-right: 20px;">
                     <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
                      <slot name="s01ztweijinxing"></slot>
@@ -819,7 +827,12 @@
                                     style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
                                     <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
                                 <td>{{index+1}}</td>
-                                <td><a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a></td>
+ 								<td>
+                                  <div v-if="pro.recordStatus != 4">
+                                    <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
+                                  </div>
+                                  <div v-else  style="color:#bfbfbf">{{pro.systemName}}</div>
+                                </td>                              
                                 <td>{{pro.companyName}}</td>
                                 <td>{{pro.plateType}}</td>
                                 <td>{{pro.infoSysTypeConstruction}}</td>
@@ -874,16 +887,16 @@
                                 <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng"></td>
                                 <td v-if="pro.examinationStatus==4" class="h-moren h-chexiao"></td>
 
-                                <td class="h-morenxiazai h-xiazai" v-if="pro.checkPkId != null && pro.checkPkId != ''" @click="downloadFile(pro.checkPkId)"></td>
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.checkPkId != null && pro.checkPkId !=  '' && pro.recordStatus != 4" @click="downloadFile(pro.checkPkId)"></td>
                                 <td class="h-morenxiazai h-weixiazai" v-else></td>
                                 
-                                <td class="h-morenxiazai h-xiazai" v-if="pro.gradingPkId != null && pro.gradingPkId != ''" @click="downloadFile(pro.gradingPkId)"></td>
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.gradingPkId != null && pro.gradingPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.gradingPkId)"></td>
                                 <td class="h-morenxiazai h-weixiazai" v-else></td>
 
-                                <td class="h-morenxiazai h-xiazai" v-if="pro.evaluationPkId != null && pro.evaluationPkId != ''" @click="downloadFile(pro.evaluationPkId)"></td>
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.evaluationPkId != null && pro.evaluationPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.evaluationPkId)"></td>
                                 <td class="h-morenxiazai h-weixiazai" v-else></td>
 
-                                <td class="h-morenxiazai h-xiazai" v-if="pro.selfPkId != null && pro.selfPkId != ''" @click="downloadFile(pro.selfPkId)"></td>
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.selfPkId != null && pro.selfPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.selfPkId)"></td>
                                 <td class="h-morenxiazai h-weixiazai" v-else></td>
 
                                 </td>
@@ -897,7 +910,7 @@
                                     <span style="display:none; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
                                  </div>
                                     <a @click="oneKeydownload(pro.systemId,pro.companyId)" style="float: left;cursor: pointer;"  v-bind:class="{'tr-row-gray':pro.recordStatus == 4}">一键下载</a>
-                                    <!-- &lt;!&ndash;class=app1 都是app1&ndash;&gt; -->
+                                   <!-- &lt;!&ndash;class=app1 都是app1&ndash;&gt; -->
                                     <i class="app1" style="float: left">
                                         <el-row class="block-col-2">
                                             <el-col :span="12">

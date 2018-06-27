@@ -10,10 +10,9 @@
 package com.sinopec.smcc.cpro.company.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.alibaba.fastjson.JSON;
 /**
    * @Title CompanyParam.java
    * @Package com.sinopec.smcc.cpro.company.entity
@@ -63,6 +62,22 @@ public class CompanyParam {
 
   private String systemId;
   private String changeType;
+  
+  private List<String> companyList;
+  private List<String> plateList;
+  
+  public List<String> getCompanyList() {
+    return companyList;
+  }
+  public void setCompanyList(List<String> companyList) {
+    this.companyList = companyList;
+  }
+  public List<String> getPlateList() {
+    return plateList;
+  }
+  public void setPlateList(List<String> plateList) {
+    this.plateList = plateList;
+  }
   public String getSystemId() {
     return systemId;
   }
@@ -601,10 +616,4 @@ public class CompanyParam {
   public void setSort(String sort) {
     this.sort = sort;
   }
-
-
-  public String toString() {
-    return JSON.toJSONString(this);
-  }
-  
 }

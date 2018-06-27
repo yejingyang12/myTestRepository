@@ -8,21 +8,21 @@
 /*}*/
 
 /**/
-/*表格bootstrap*/
+/*琛ㄦ牸bootstrap*/
 .h-table-border table{
     border-collapse:collapse;
 }
 .h-table-border table th{
    font-size: 14px;
-    font-family: Arial,"微软雅黑", Helvetica, sans-serif;
+    font-family: Arial,"寰蒋闆呴粦", Helvetica, sans-serif;
     font-weight: normal;
 }
 .h-table-border table td{
     font-size: 12px;
-    font-family: Arial,"微软雅黑", Helvetica, sans-serif;
+    font-family: Arial,"寰蒋闆呴粦", Helvetica, sans-serif;
     font-weight: normal;
 }
-/*状态*/
+/*鐘舵��*/
 .h-weijinxing{
     background: url("../../images/home/s01ztweijinxing.png") no-repeat 8px center  ;
 }
@@ -38,11 +38,11 @@
 .h-examine{
     background: url("../../images/home/examine.png") no-repeat 8px center  ;
 }
-/*  表格变灰*/
+/*  琛ㄦ牸鍙樼伆*/
 .tr-row-gray{
 		color:#bfbfbf;!important
 }
-/*下载*/
+/*涓嬭浇*/
 .h-xiazai{
     background: url("../../images/home/xiazaikexiazai.png") no-repeat 8px center  ;
 }
@@ -70,11 +70,11 @@
     border-left-width: 1px;
     padding: 8px;
 }
-/*面包屑导航*/
+/*闈㈠寘灞戝鑸�*/
 .margin-clear {
     margin: 0;
 }
-/*清除浮动的影响*/
+/*娓呴櫎娴姩鐨勫奖鍝�*/
 .clear:after {
     display: block;
     height: 0;
@@ -132,8 +132,8 @@
 .table-striped > tbody > tr:nth-of-type(even) {
     background-color: #f9f9f9;
 }
-/*帮助中心*/
-/*箭头*/
+/*甯姪涓績*/
+/*绠ご*/
 #arrowHelp{
     color:#333
 }
@@ -199,8 +199,8 @@
     float: left;
     display: inline-block;
     width: 77%;
-    height: 113%;
-    margin-top: 11.67%;
+    height: 85%;
+    margin-top:24px;
     background-color: #ededed;
     border: 1px solid lightgray;
     background:url("../../../images/home/dianjidanweixitong.png") no-repeat ;
@@ -238,7 +238,7 @@
     float: left;
     width: 23%;
     background: url("../../images/home/help/jiantou.png") no-repeat center;
-    height: 130%;
+    height: 100%;
 }
 /*box 2*/
 
@@ -246,9 +246,9 @@
     float: left;
     display: inline-block;
     width: 77%;
-    height: 113%;
+    height: 85%;
     background-color: #ededed;
-    margin-top: 11.67%;
+    margin-top:24px;
     border: 1px solid lightgray;
     background:url("../../../images/home/dianjidanweixitong.png");
     background-position:center;
@@ -285,19 +285,19 @@
     float: left;
     width: 23%;
     background: url("../../images/home/help/jiantou.png") no-repeat center;
-    height: 130%;
+    height: 100%;
 }
 /*box 4*/
 .box4 .bg-item4 {
     float: left;
     display: inline-block;
     width: 77%;
-    height: 113%;
-    /*background-image: url("img/普通状态底图.jpg");*/
+    height: 85%;
+    /*background-image: url("img/鏅�氱姸鎬佸簳鍥�.jpg");*/
     /*background-size: 100% 100%;*/
     /*background-color: orangered;*/
     background-color: #ededed;
-    margin-top: 11.67%;
+    margin-top:24px;
     border: 1px solid lightgray;
      background:url("../../../images/home/dianjishenqing.png");
       background-position:center;
@@ -334,26 +334,25 @@
     float: left;
     width: 23%;
     background: url("../../images/home/help/jiantou.png") no-repeat center;
-    height: 130%;
+    height: 100%;
+    background-image: none;
 }
 /*box3*/
 .bg-item3{
-height: 113%;
-	 background:url("../../../images/home/dianjishenhecepzicha.png");
+    margin-top: 24px;
+    height: 85%;
+	background:url("../../../images/home/dianjishenhecepzicha.png");
     background-position:center;
 	background-size: 0% 0%;
-	
 }
 .box3-item{
     height: 87%;
     width: 25%;
     float: left;
     display: inline-block;
-    /*background-image: url("img/普通状态底图.jpg");*/
+    /*background-image: url("img/鏅�氱姸鎬佸簳鍥�.jpg");*/
     /*background-size: 100% 100%;*/
     /*background-color: orangered;*/
-
-
 }
 .box3-item-content{
     float: left;
@@ -440,7 +439,7 @@ height: 113%;
     margin-top: 6%;
 }
 
-/*搜索筛选*/
+/*鎼滅储绛涢��*/
 .h-search {
     width: 1890px;
     height: 118px;
@@ -460,7 +459,7 @@ height: 113%;
     width: 320px;
     height: 34px;
     border-radius: 0;
-    /*很关键：将默认的select选择框样式清除  蔡修改*/
+    /*寰堝叧閿細灏嗛粯璁ょ殑select閫夋嫨妗嗘牱寮忔竻闄�  钄′慨鏀�*/
     appearance:none;
     -moz-appearance:none;
     -webkit-appearance:none;
@@ -487,7 +486,7 @@ height: 113%;
 }
 
 
-/*搜索  时间*/
+/*鎼滅储  鏃堕棿*/
 .applyTime{
     margin-right: 0;
     padding: 0;!important;
@@ -495,7 +494,7 @@ height: 113%;
     text-align: center;
 }
 
-/*搜索下拉箭头 搜索竖线*/
+/*鎼滅储涓嬫媺绠ご 鎼滅储绔栫嚎*/
 .h-styNameshuxian{
     z-index: 10000;
     position: absolute;
@@ -525,7 +524,7 @@ height: 113%;
     top: 5px;
     color: #cecece;
 }
-/*高级查询*/
+/*楂樼骇鏌ヨ*/
 .h-btn-info {
     color: #fff;
     background-color: #3d95df;
@@ -558,7 +557,7 @@ height: 113%;
     margin: 0 15px 0 0;
 }
 
-/*日历搜索*/
+/*鏃ュ巻鎼滅储*/
 .float-le {
     float: left;
 }
@@ -573,8 +572,8 @@ height: 113%;
 
 .form-control, .single-line {
     background-color: #FFFFFF;
-    /*background-image: none;*/
-    border: 1px solid #cecece;
+    background-image: none;
+    border: 1px solid #a9a9a9;
     color: inherit;
     display: block;
     padding: 6px 12px;
@@ -583,7 +582,7 @@ height: 113%;
     width: 100%;
     font-size: 14px;
 }
-
+.form-control, .single-line:focus{outline:none!important;box-shadow:none}
 .form-horizontal .has-feedback .form-control-feedback {
     right: 0;
 }
@@ -610,10 +609,10 @@ height: 113%;
     background-color: #eeeeee;
 }
 
-/*高级查询input的radio框样式*/ 
- /*所属板块*/ 
+/*楂樼骇鏌ヨinput鐨剅adio妗嗘牱寮�*/ 
+ /*鎵�灞炴澘鍧�*/ 
  .checkName1 {
-            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            -webkit-appearance: none; /* 鍘绘帀radio鐨勯粯璁ゆ牱寮� */
             display: inline-block;
            margin-right: -15px;
 		    outline: none;
@@ -637,9 +636,9 @@ height: 113%;
             background-position:center;
         } 
 
- /* 状态*/
+ /* 鐘舵��*/
  .checkName2 {
-            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            -webkit-appearance: none; /* 鍘绘帀radio鐨勯粯璁ゆ牱寮� */
             display: inline-block;
            margin-right: -15px;
 		    outline: none;
@@ -662,9 +661,9 @@ height: 113%;
   .checkName2:checked{
             background-position:center;
         } 
-         /*等保级别*/
+         /*绛変繚绾у埆*/
  .checkName3 {
-            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            -webkit-appearance: none; /* 鍘绘帀radio鐨勯粯璁ゆ牱寮� */
             display: inline-block;
            margin-right: -15px;
 		    outline: none;
@@ -687,9 +686,9 @@ height: 113%;
   .checkName3:checked{
             background-position:center;
         } 
-         /*地区*/
+         /*鍦板尯*/
  .checkName4 {
-            -webkit-appearance: none; /* 去掉radio的默认样式 */
+            -webkit-appearance: none; /* 鍘绘帀radio鐨勯粯璁ゆ牱寮� */
             display: inline-block;
            margin-right: -15px;
 		    outline: none;

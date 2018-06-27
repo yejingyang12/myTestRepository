@@ -85,6 +85,22 @@ public class SystemParam {
   
   private String changeType;//变更状态
   
+  private List<String> companyList;
+  private List<String> plateList;
+  
+  public List<String> getCompanyList() {
+    return companyList;
+  }
+  public void setCompanyList(List<String> companyList) {
+    this.companyList = companyList;
+  }
+  public List<String> getPlateList() {
+    return plateList;
+  }
+  public void setPlateList(List<String> plateList) {
+    this.plateList = plateList;
+  }
+  
   public void addSystemParam(SystemParam systemParam) {
     
    interconnectionSit = systemParam.getInterconnectionSit();

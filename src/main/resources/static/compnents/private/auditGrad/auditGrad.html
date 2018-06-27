@@ -9,11 +9,11 @@
              <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
              <!--变更事项-->
              <div class="row auditChangeshixiang" 
-                  style="margin-top: 15px;" 
+                  style="margin-top: 10px;margin-left:10px;" 
                   v-show="fkChangeMatterShow">
                  <div class="col-md-12 text-left clearPadding" >
                      <span class="col-md-1  clearPadding" 
-                            style=" width: 95px;  min-width: 95px;  margin-left: 20px;"> 
+                            style=" width: 71px;  min-width: 71px;"> 
                              变更事项：
                      </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px; padding: 0;">
@@ -23,9 +23,10 @@
              </div>
              <!--变更原因-->
              <div class="row auditChangeshixiang" 
+              style="margin-top: 10px;margin-left: 10px;"
              v-show="changeContentShow">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px;"> 
+                     <span class="col-md-1  clearPadding" style="  width: 71px;  min-width: 71px;  "> 
                       变更原因：
                      </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
@@ -34,9 +35,9 @@
                  </div>
              </div>
              <!--变更内容-->
-             <div class="row auditChangeshixiang" v-show="changeReasonShow">
+             <div class="row auditChangeshixiang" v-show="changeReasonShow"  style="margin-top: 10px;margin-left:10px;">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style=" width: 95px;  min-width: 95px;  margin-left: 20px; margin-top: 10px;">
+                     <span class="col-md-1  clearPadding" style=" width: 71px;  min-width: 71px;">
                       变更内容：
                        </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;" >
@@ -45,9 +46,9 @@
                  </div>
              </div>
              <!--变更事项-->
-             <div class="row auditChangeshixiang" style="margin-top: 10px;" v-show="fkrevokematterShow">
+             <div class="row auditChangeshixiang" style="margin-top: 10px;margin-left:10px;" v-show="fkrevokematterShow">
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding"  style=" width: 100px;margin-left: 20px;"> 
+                    <span class="col-md-1  clearPadding"  style=" width: 71px;  min-width: 71px;"> 
                      变更事项：
                       </span>
                     <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
@@ -57,22 +58,22 @@
                 </div>
              </div>
              <!--撤销原因-->
-             <div class="row auditChangeshixiang" v-show="revokereasonShow">
+             <div class="row auditChangeshixiang" v-show="revokereasonShow" style="margin-left: 10px;">
                  <div class="col-md-12 text-left clearPadding" >
-                     <span class="col-md-1  clearPadding" style="  width: 100px;  margin-left: 20px; margin-bottom: 10px;" >
+                     <span class="col-md-1  clearPadding" style=" width: 71px;  min-width: 71px; margin-bottom: 10px;" >
                        撤销原因： </span>
-                     <div class="auditChangeyuanyin col-md-10" >
+                     <div class="auditChangeyuanyin col-md-10" style=" padding-left: 0px;  margin-left: 10px;">
                          <p class="textArea">{{formData.revokereason}}</p>
                      </div>
                  </div>
              </div>
              <!--撤销证明-->
-            <div class="row auditChangeshixiang" style="margin-left:0.5%;margin-right: -3.7%" v-show="revokeRecordsNameShow">
+            <div class="row auditChangeshixiang" style="margin-left:10px;" v-show="revokeRecordsNameShow">
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding" style="width: auto"> 
+                    <span class="col-md-1  clearPadding" style=" width: 71px;  min-width: 71px"> 
                      撤销证明：
                       </span>
-                    <div class="auditChangeyuanyin col-md-10" style="padding-left: 0">
+                    <div class="auditChangeyuanyin col-md-10" style="padding-left: 0px;  margin-left: 10px;">
                         <p class="textArea">
                             <a onclick="downloadFile()" href="#"> {{formData.revokeRecordsName}}</a>
                         </p>
@@ -81,13 +82,13 @@
              </div>
              <!--审核意见-->
              <div class="row h-table-border" style="margin:0 ;    margin-bottom: 15px;">
-                 <div class="col-md-12">
+                 <div class="col-md-12" style="padding: 0;">
                      <!--审核结果-->
-                     <div class="row" style="margin: 15px -15px">
+                     <div class="row" style=" margin-left: 0;margin-top:5px;">
                          <div class="col-md-4 clearPadding">
-                             <div class="col-md-2 h-system clearPadding">
+                             <div class="col-md-2 h-system clearPadding" style=" width:80px;  min-width: 80px">
                                  <span class="xing">*</span>
-                               审核结果:
+                               审核结果： 
                              </div>
                              <div class="col-md-8 h-col-md-9" style="margin-left:10px;">
                               <template>
@@ -99,13 +100,13 @@
                          </div>
                      </div>
                      <!--业务描述-->
-                     <div class="row" >
+                     <div class="row" style=" margin: 0px 0px;margin-top:5px">
                          <div class="col-md-8 text-left clearPadding" >
-                             <span for="" class="col-md-2 col-sm-1 saveTextTitle" style="width: 100px;ssss min-width: 104px;">
+                             <span for="" class="col-md-2 col-sm-1 saveTextTitle" style=" width:80px;  min-width:80px; margin-top: 15px">
                                  <span class="xing">*</span>
-                                 审核原因:
+                                 审核原因： 
                              </span>
-                             <div @click="text" class="auditGradYewuDescribe col-md-8 col-md-offset-1 col-sm-3" style="border-radius:4px;margin-left:10px;">
+                             <div @click="text" class="auditGradYewuDescribe col-md-8 col-md-offset-1 col-sm-3" style="border-radius:4px;margin-left:10px;margin-top: 15px">
                                <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.scoreCheckReason"></textarea>
                                <span class='textAll'><span id="textNum">0</span>/200</span>
                              </div>

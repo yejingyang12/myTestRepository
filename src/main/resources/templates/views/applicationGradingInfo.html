@@ -20,6 +20,9 @@
       .inner2{
          width:auto;
       }
+      .fileList li{
+          padding-right:0
+        }
     </style>
 </head>
 <body>
@@ -57,6 +60,8 @@
 <script async src="../../static/compnents/private/materialNav/materialNav.js" th:attr="src=@{/compnents/private/materialNav/materialNav.js}"></script>
 <script async src="../../static/compnents/private/viewDetailsInfor/viewDetailsInfor.js" th:attr="src=@{/compnents/private/viewDetailsInfor/viewDetailsInfor.js}"></script>
 <script async src="../../static/compnents/private/viewDetailsSystem/viewDetailsSystem.js" th:attr="src=@{/compnents/private/viewDetailsSystem/viewDetailsSystem.js}"></script>
+<script async src="../../static/compnents/private/addFormMaterial/addFormMaterialPrompt.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterialPrompt.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 var companyId = [[${companyId}]];

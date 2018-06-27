@@ -35,6 +35,9 @@
         .dataForm li{
             padding-right: 15px;
         }
+        .fileList li{
+          padding-right:0
+        }
     </style>
 </head>
 <body>
@@ -73,6 +76,8 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormMaterial/addFormMaterial.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterial.js}"></script>
 <script async src="../../static/js/private/applicationChangeMaterial.js" th:attr="src=@{/js/private/applicationChangeMaterial.js}"></script>
+<script async src="../../static/compnents/private/addFormMaterial/addFormMaterialPrompt.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterialPrompt.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 </script>

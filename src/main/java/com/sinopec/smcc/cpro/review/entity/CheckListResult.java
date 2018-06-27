@@ -39,6 +39,7 @@ public class CheckListResult {
   private String recordReportId;
   private String recordReportName;
   private String fkInfoSysTypeCon;
+  private String companyId;
   
   public String getCheckId() {
     return checkId;
@@ -122,5 +123,11 @@ public class CheckListResult {
   
   public String toString(){
     return JSON.toJSONString(this);
+  }
+  public String getCompanyId() {
+    return companyId;
+  }
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
   }
 }

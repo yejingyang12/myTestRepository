@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.review.server.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,8 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.ubs.client.UbsClient;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
@@ -33,8 +36,6 @@ import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.mapper.CheckMapper;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.review.uitl.ConvertFieldUtil;
-import com.sinopec.smcc.cpro.system.entity.SystemParam;
-import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.tools.Utils;
 
@@ -61,6 +62,8 @@ public class CheckServiceImpl implements CheckService {
   UbsClient ubsClient;
   @Value("${appId}") 
   private String appId;
+  @Autowired
+  private JurisdictionApiService jurisdictionApiServiceImpl;
   
   /**
    * 获取备案信息列表数据
@@ -83,7 +86,41 @@ public class CheckServiceImpl implements CheckService {
     //初始化分页拦截器
     PageHelper.startPage(checkParam.getCurrentPage(), checkParam.getPageSize(),orderBy.toString());
     //获得相应列表数据
-    List<CheckListResult> list = this.checkMapper.selectAllByCheckParam(checkParam);
+    List<CheckListResult> list = new ArrayList<CheckListResult>();
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        list = 
+            this.checkMapper.selectAllByCheckParam(checkParam);
+        break;
+      case "2":
+        checkParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.checkMapper.selectAllByCheckParam(checkParam);
+        break;
+      case "3":
+        checkParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.checkMapper.selectAllByCheckParam(checkParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     //装载列表数据
     PageInfo<CheckListResult> pageInfo = new PageInfo<>(list);
     return pageInfo;
@@ -106,10 +143,10 @@ public class CheckServiceImpl implements CheckService {
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
     nodeParam.setOperation("定级审核");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
     if (checkParam.getScoreCheckResult() == 1) {
     //通过定级审核
       nodeParam.setOperationResult("通过");
-      nodeParam.setOperationOpinion("");
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -121,7 +158,6 @@ public class CheckServiceImpl implements CheckService {
    
     }else{
       nodeParam.setOperationResult("未通过");
-      nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -160,10 +196,10 @@ public class CheckServiceImpl implements CheckService {
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
     nodeParam.setOperation("定级审核");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
     if (checkParam.getScoreCheckResult() == 1) {
       //通过定级审核
       nodeParam.setOperationResult("通过");
-      nodeParam.setOperationOpinion("");
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -180,7 +216,6 @@ public class CheckServiceImpl implements CheckService {
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       nodeParam.setOperationResult("未通过");
-      nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -220,9 +255,9 @@ public class CheckServiceImpl implements CheckService {
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
     nodeParam.setOperation("变更审核");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
-      nodeParam.setOperationOpinion("");
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -240,7 +275,6 @@ public class CheckServiceImpl implements CheckService {
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       nodeParam.setOperationResult("未通过");
-      nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -280,9 +314,9 @@ public class CheckServiceImpl implements CheckService {
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
     nodeParam.setOperation("变更审核");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
-      nodeParam.setOperationOpinion("");
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -300,7 +334,6 @@ public class CheckServiceImpl implements CheckService {
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       nodeParam.setOperationResult("未通过");
-      nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -338,9 +371,9 @@ public class CheckServiceImpl implements CheckService {
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
     nodeParam.setOperation("撤销备案审核");
+    nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
     if (checkParam.getCancelRecordsResult() ==1 ) {
       nodeParam.setOperationResult("通过");
-      nodeParam.setOperationOpinion("");
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());
@@ -360,7 +393,6 @@ public class CheckServiceImpl implements CheckService {
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       nodeParam.setOperationResult("未通过");
-      nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
       //修改审核状态
       CheckParam check = new CheckParam();
       check.setFkSystemId(checkParam.getFkSystemId());

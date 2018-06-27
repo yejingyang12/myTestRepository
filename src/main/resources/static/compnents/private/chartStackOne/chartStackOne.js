@@ -17,7 +17,7 @@
       },
       xAxis: {
           type: 'category',
-          data: ['备案单位11111111', '备案单位2','备案单位3','备案单位4','备案单位5','备案单位6', '备案单位7','备案单位8','备案单位9','备案单位10'],
+          data: [],
           axisLine: {
               lineStyle: {
                   type: 'solid',
@@ -47,7 +47,6 @@
                           }
                           newParamsName += tempStr;
                       }
-
                   } else {
                       newParamsName = params;
                   }
@@ -73,7 +72,7 @@
       },
       series: [
           {
-              name: '直接访问',
+              name: '一级',
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -84,7 +83,7 @@
               }
           },
           {
-              name: '邮件营销',
+              name: '二级',
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -95,7 +94,7 @@
               }
           },
           {
-              name: '联盟广告',
+              name: '三级',
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -106,7 +105,7 @@
               }
           },
           {
-              name: '视频广告',
+              name: '四级',
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -117,7 +116,7 @@
               }
           },
           {
-              name: '搜索引擎',
+              name: '五级',
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -139,18 +138,89 @@
           return data
         },
         methods:{
-
+        	// 获取系统等保等级分布统计图数据
+        	getRecordsCompanyNum : function(_self) {
+          	ajaxMethod(_self, 'post',
+              'diagram/queryRecordCompanyTop10', false,
+              '{"systemType":"1"}', 'json',
+              'application/json;charset=UTF-8',
+              this.getRecordsCompanyNumSuccess);
+          } ,
+          getRecordsCompanyNumSuccess : function(_self,result){
+	        	for(var i = 0; i < result.data.length; i++){
+	        		this.option.xAxis.data[i] = result.data[i].companyName;
+	        		this.option.series[0].data[i] = result.data[i].level1;
+	        		this.option.series[1].data[i] = result.data[i].level2;	
+	        		this.option.series[2].data[i] = result.data[i].level3;	
+	        		this.option.series[3].data[i] = result.data[i].level4;	
+	        		this.option.series[4].data[i] = result.data[i].level5;	
+	        	}
+	        }
         },
         created: function() {
-         
+          //获取备案单位数量统计图数据
+          this.getRecordsCompanyNum(this);
         },
         mounted: function() {
             data.dom = document.getElementById("container-stack-one");
             data.myChart = echarts.init(data.dom);
-              console.log(data.dom)
+            /*console.log(data.dom)*/
+            var _self = this;
              if (data.option && typeof data.option === "object") {
-            data.myChart.setOption(data.option, true);
-             }
+            	 data.myChart.setOption(data.option, true);
+            	 bus.$on("recordEnd",function(meg){
+            	 ajaxMethod(_self, 'post',
+                 'diagram/queryRecordCompanyTop10', false,
+                  meg, 'json',
+                 'application/json;charset=UTF-8',
+                 function(_self,result){
+	            		 if(result.data != null && result.data !=''){
+	              		 _self.option.series[0].data=[];
+	  	    	         for(var i = 0; i < result.data.length; i++){
+		    	        		 //赋值
+	  	    	        	 _self.option.xAxis.data[i] = result.data[i].companyName;
+  	    	        		 _self.option.series[0].data[i] = result.data[i].level1;
+  	    	        		 _self.option.series[1].data[i] = result.data[i].level2;	
+  	    	        		 _self.option.series[2].data[i] = result.data[i].level3;	
+  	    	        		 _self.option.series[3].data[i] = result.data[i].level4;	
+  	    	        		 _self.option.series[4].data[i] = result.data[i].level5;
+	  	    	         }
+	  	    	        	 //重绘
+	  	    	        	 data.myChart.setOption(data.option, true);
+	            		 	}else{
+	            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	                     dangerouslyUseHTMLString: true
+	            		 	 });
+	            		 	} 
+            	 	 });
+            	 }); 
+            	 bus.$on("recordBegin",function(meg){
+              	 ajaxMethod(_self, 'post',
+                   'diagram/queryRecordCompanyTop10', false,
+                    meg, 'json',
+                   'application/json;charset=UTF-8',
+                   function(_self,result){
+              		 if(result.data != null && result.data !=''){
+              			 _self.option.series[0].data=[];
+  	    	        	 for(var i = 0; i < result.data.length; i++){
+  	    	        		 //赋值    		 
+  	    	        		 _self.option.xAxis.data[i] = result.data[i].companyName;
+  	    	        		 _self.option.series[0].data[i] = result.data[i].level1;
+  	    	        		 _self.option.series[1].data[i] = result.data[i].level2;	
+  	    	        		 _self.option.series[2].data[i] = result.data[i].level3;	
+  	    	        		 _self.option.series[3].data[i] = result.data[i].level4;	
+  	    	        		 _self.option.series[4].data[i] = result.data[i].level5;
+  	    	        	 }
+  	    	        	 //重绘
+  	    	        	 data.myChart.setOption(data.option, true);
+              		 }else{
+              			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	                     dangerouslyUseHTMLString: true
+              			 });
+              		 }
+              	 	 });
+               });  
+          }
             
         }
       })

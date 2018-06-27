@@ -103,7 +103,7 @@ public class MainController {
   @RequestMapping(value = "/exportExcelForMain", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi exportExcelForMain(HttpServletRequest request) throws BusinessException{
-    String filePath = this.mainServiceImpl.exportExcelForMain();
+    String filePath = this.mainServiceImpl.exportExcelForMain(request);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(filePath);
     return result;
@@ -158,7 +158,7 @@ public class MainController {
   @ResponseBody
   public ResultApi tableCompany(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
-    Map<String,Object> resultMap= this.mainServiceImpl.tableCompany(mainParam);
+    Map<String,Object> resultMap= this.mainServiceImpl.tableCompany(request,mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(resultMap.get("url"));
     return result;
@@ -178,7 +178,7 @@ public class MainController {
   @ResponseBody
   public ResultApi tableSystem(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
-    Map<String,Object> resultMap = this.mainServiceImpl.tableSystem(mainParam);
+    Map<String,Object> resultMap = this.mainServiceImpl.tableSystem(request,mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(resultMap.get("url"));
     return result;
@@ -197,7 +197,7 @@ public class MainController {
   @ResponseBody
   public ResultApi tableGrading(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
-    Map<String,Object> resultMap = this.mainServiceImpl.tableGrading(mainParam);
+    Map<String,Object> resultMap = this.mainServiceImpl.tableGrading(request,mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(resultMap.get("url"));
     return result;
@@ -216,7 +216,7 @@ public class MainController {
   @ResponseBody
   public ResultApi tableAttach(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
-    Map<String,Object> resultMap = this.mainServiceImpl.tableAttach(mainParam);
+    Map<String,Object> resultMap = this.mainServiceImpl.tableAttach(request,mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(resultMap.get("url"));
     return result;
@@ -235,7 +235,7 @@ public class MainController {
   @ResponseBody
   public ResultApi oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
       @RequestBody MainParam mainParam) throws BusinessException {
-    String filePath = this.mainServiceImpl.oneButtonDownloading(response,mainParam);
+    String filePath = this.mainServiceImpl.oneButtonDownloading(request,response,mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(filePath);
     return result;
@@ -298,6 +298,26 @@ public class MainController {
     String systemId = this.mainServiceImpl.queryApplicationChange(mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemId);
+    return result;
+  }
+  
+  /**
+   * @Descrption 系统等保等级分布统计图
+   * @author dongxu
+   * @date 2018年6月25日上午10:03:22
+   * @param request
+   * @param mainParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryGradingStatistics", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi gradingStatistics(HttpServletRequest request,@RequestBody MainParam mainParam) 
+      throws BusinessException {
+    List<MainListResult> gradingStatisticsResult = 
+        this.mainServiceImpl.queryGradingStatistics(mainParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(gradingStatisticsResult);
     return result;
   }
 }

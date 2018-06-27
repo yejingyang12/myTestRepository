@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>审核定级</title>
+    <!--public-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+
+
+    <!--private-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css" th:attr="href=@{/css/private/auditzero.css}">
+    <!--<link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css" th:attr="href=@{/css/private/pagebox.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/fishbone.css" th:attr="href=@{/css/private/fishbone.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/fishbone.css" th:attr="href=@{/css/private/fishbone.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
+    <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" href="../../static/css/private/detailsNav.css" th:attr="href=@{/css/private/detailsNav.css}">
+	  <link rel="stylesheet" href="../../static/css/private/viewDetailsNav.css" th:attr="href=@{/css/private/viewDetailsNav.css}">
+    <link rel="stylesheet" href="../../static/css/private/viewDetailsInfor.css" th:attr="href=@{/css/private/viewDetailsInfor.css}">
+	 <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
+</head>
+<style>
+.bottom .item .content {
+   position: absolute;
+  top: 90px;!important
+}
+#textArea {
+    width: 99%;
+    height: 100%;
+    border: none;
+}
+    li{
+        margin-bottom: 15px;
+    }
+    .auditGradYewuDescribe{
+        height:132px;
+        position:relative;
+        padding:9px 0 0 9px  !important;
+        border:1px solid #cecece;
+        margin-left:-7.5%;
+    }
+    
+    .btnBack{
+        display: none;
+    }
+    .inner{
+        /*width:100px;*/
+        margin:0 auto;
+    }
+    .inner {
+        width: 95%;
+        margin: -31px auto;
+        margin-left: 15px;
+        position: relative;
+    }
+ 
+    .breadcrumb a{
+        color: black;
+    }
+    .el-tabs--border-card>.el-tabs__content{
+        /* padding:0; */
+    }
+    .h-padding{
+      margin-top:-15px;
+    }
+    .h-padding>div{
+      padding:0;    
+    }
+
+.fishBone ul {
+    height: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+.cut:after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #ededed;
+    margin-left:-15px; 
+}
+</style>
+<body>
+<div id="app">
+    <smcc-header>
+        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
+        <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
+        <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss"> -->
+    </smcc-header>
+    <smcc-breadcrumb>
+      <button slot="return"
+              type="button"
+              class="float-ri  btn btn-default float-ri"
+              style="margin-right: 10px;width: auto">返回
+      </button>
+    </smcc-breadcrumb>
+    <tab-nav>
+      <div slot="fishbone">
+        <fishbone></fishbone>
+      </div>
+    </tab-nav>
+</div>
+<!--插件-->
+<script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script>
+    var bus=new Vue();
+</script>
+<script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
+<script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+
+<!--ajax路径-->
+<script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
+<script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
+
+<!--头部组件-->
+<script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
+<!--面包屑-->
+<script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
+<!--tab切换-->
+<script async src="../../static/compnents/private/tabNav/tabNav.js" th:attr="src=@{/compnents/private/tabNav/tabNav.js}"></script>
+<!--auditGrad组件-->
+<script async src="../../static/compnents/private/auditGrad/auditGrad.js" th:attr="src=@{/compnents/private/auditGrad/auditGrad.js}"></script>
+<!--面包屑导航-->
+<script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
+<!--鱼骨图-->
+<script async src="../../static/compnents/private/fishbone/fishbone.js" th:attr="src=@{/compnents/private/fishbone/fishbone.js}"></script>
+
+<script src="../../static/js/private/auditGrad.js" th:attr="src=@{/js/private/auditGrad.js}"></script>
+
+
+<script async src="../../static/compnents/private/viewDetailsNav/viewDetailsNav.js" th:attr="src=@{/compnents/private/viewDetailsNav/viewDetailsNav.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsInfor/viewDetailsInfor.js" th:attr="src=@{/compnents/private/viewDetailsInfor/viewDetailsInfor.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsSystem/viewDetailsSystem.js" th:attr="src=@{/compnents/private/viewDetailsSystem/viewDetailsSystem.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsGrad/viewDetailsGrad.js" th:attr="src=@{/compnents/private/viewDetailsGrad/viewDetailsGrad.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsMaterial/viewDetailsMaterial.js" th:attr="src=@{/compnents/private/viewDetailsMaterial/viewDetailsMaterial.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsRecord/viewDetailsRecord.js" th:attr="src=@{/compnents/private/viewDetailsRecord/viewDetailsRecord.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsSelfe/viewDetailsSelfe.js" th:attr="src=@{/compnents/private/viewDetailsSelfe/viewDetailsSelfe.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsEvalu/viewDetailsEvalu.js" th:attr="src=@{/compnents/private/viewDetailsEvalu/viewDetailsEvalu.js}"></script>
+<script async src="../../static/compnents/private/viewDetailsExamine/viewDetailsExamine.js" th:attr="src=@{/compnents/private/viewDetailsExamine/viewDetailsExamine.js}"></script>
+<script async src="../../static/js/private/viewDetails.js" th:attr="src=@{/js/private/viewDetails.js}"></script>
+
+<script type="text/javascript" th:inline="javascript">
+  var systemId = [[${systemId}]];
+  var companyId = [[${companyId}]];
+</script>
+</body>
+</html>

@@ -118,6 +118,22 @@
            ajaxMethod(_self, "post", url, false ,"{}", "json", 'application/json;charset=UTF-8', _self.listSuccess);
         },
         methods: {
+        	text:function(){
+             $('#textArea').on("keyup",function(){
+                 $('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
+                 if($('#textArea').val().length > 200){
+                     $('#textNum').text(200);//长度大于200时0处显示的也只是200
+                     $('#textArea').val($('#textArea').val().substring(0,200));//长度大于100时截取钱100个字符
+                 }
+             })
+             $('.textArea1').on("keyup",function(){
+                 $('#textNum1').text($('.textArea1').val().length);//这句是在键盘按下时，实时的显示字数
+                 if($('.textArea1').val().length > 200){
+                     $('#textNum1').text(200);//长度大于200时0处显示的也只是200
+                     $('.textArea1').val($('.textArea1').val().substring(0,200));//长度大于100时截取钱100个字符
+                 }
+             })
+          },
         	transfer:function(value){
         		$("#plateType").val(value);
         	},
@@ -194,7 +210,6 @@
             var systemCodeLevel = $("#systemCodeLevel").val();
             var systemCodeProvince = $("#systemCodeProvince").val();
             var customFiltering = $("#customFiltering").val();
-            
             var url = "main/queryMainList";
             var _self=this;
             var dataparmars = {
@@ -797,45 +812,7 @@
 
           //定级模版导出按钮
           checkallexport: function () {
-            var _this = data.h_score_list2;
-            if (!_this.getAttribute("hascheck")) {//还没有被点击开，准备点击,让checkbox显示
-              _this.style.background = '#1489e6';//定级模版导出按钮变蓝色
-              _this.style.color = '#fff';//定级模版导出按钮字体变白色
-              _this.style.border = 'none';//定级模版导出按钮字体变白色
-              _this.setAttribute("hascheck", "has");//设置自定义的标识
-              //让checkbox显示
-              for (let i = 0; i < data.firstChecked.length; i++) {
-                let cur = data.firstChecked[i];
-                // console.log(cur);
-                cur.style.display = 'block';
-              }
-            } else {//已经点击，准备恢复原样，让checkbox隐藏
-              //让checkbox隐藏
-              for (var i = 0; i < data.firstChecked.length; i++) {
-                var cur = data.firstChecked[i];
-                var checkbox = cur.getElementsByClassName("checkName")[0];
-                checkbox.checked = false;
-                cur.style.display = 'none';
-                //恢复都是false
-                if (i < data.firstChecked.length - 1) {
-                  data.check_status.splice(i, 1, false);
-                }
-              }
-              console.log(data.checked_system);
-              if (data.checked_system.length > 0) {//有选中的数据
-                for (var i = 0; i < data.checked_system.length; i++) {
-                  console.log(data.checked_system[i]);
-                  this.downloadFile(data.checked_system[i]);//下载数据
-                }
-              } else {
-
-              }
-              _this.style.background = '#ededed';
-              _this.style.color = 'black';
-              _this.setAttribute("hascheck", "");
-              data.checked_system = [];
-
-            }
+         	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl=/excel/定级模板.xlsm&attachName=定级模板.xlsm";
           },
           //首页列表排序
           listsort: function () {

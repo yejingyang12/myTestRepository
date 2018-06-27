@@ -35,7 +35,7 @@
       <div slot="addSysBtn">
           <!-- <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button> -->
           <button type="button" class="btn btn-default " id="pre" @click="preBtn()">上一步</button>
-          <button type="button" class="btn btn-default" id="next" @click="nextBtn()">下一步</button>
+          <button type="button" class="btn btn-default" id="next" @click="nextBtn()" v-updatas>下一步</button>
       </div>
     </add-form-system>
 </div>
@@ -59,6 +59,8 @@
 <script async src="../../static/compnents/private/addFormSysTable/addFormSysTable.js" th:attr="src=@{/compnents/private/addFormSysTable/addFormSysTable.js}"></script>
 <script async src="../../static/compnents/private/addFormSystem/addFormSys.js" th:attr="src=@{/compnents/private/addFormSystem/addFormSys.js}"></script>
 <script async src="../../static/js/private/addCompanySystem.js" th:attr="src=@{/js/private/addCompanySystem.js}"></script>
+<script async src="../../static/compnents/private/addFormSystem/addFormSysPrompt.js" th:attr="src=@{/compnents/private/addFormSystem/addFormSysPrompt.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 var companyId = [[${companyId}]]; 

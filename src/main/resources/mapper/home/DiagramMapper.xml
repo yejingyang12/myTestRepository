@@ -160,7 +160,7 @@
 				SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
 				SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5,
 				SUM(IF (sce.fkSpRanklevel = 305, 1, 1)) AS Level,
-				rec.recordCompany
+				rec.recordCompany  AS companyName
 			FROM
 				t_cpro_system sys
 			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
@@ -197,7 +197,7 @@
 		</where>
 		<![CDATA[
 			GROUP BY rec.recordCompany
-	    ORDER BY Level
+	    ORDER BY Level DESC
 	    LIMIT 0,10
 	  ]]>
 	</select>
@@ -212,7 +212,7 @@
 				SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
 				SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5,
 				SUM(IF (sce.fkSpRanklevel = 305, 1, 1)) AS Level,
-				rec.acceptCompany
+				rec.acceptCompany AS companyName
 			FROM
 				t_cpro_system sys
 			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
@@ -249,7 +249,7 @@
 		</where>
 		<![CDATA[
 			GROUP BY rec.acceptCompany
-	    ORDER BY Level
+	    ORDER BY Level DESC
 	    LIMIT 0,10
 	  ]]>
 	</select>

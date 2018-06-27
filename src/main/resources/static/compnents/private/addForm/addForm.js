@@ -38,6 +38,10 @@
   };
 (function() {
 
+
+
+
+
   Vue.component('addForm', function(resolve, reject) {
     $.get(comp_src + '/compnents/private/addForm/addForm.html').then(
         function(res) {
@@ -331,6 +335,8 @@
               // 获取单位
               this.getCompanyMethod(this);
               //获取系统ID
+              
+              //getJurisdictionMethod(a,"0101010101");
             },
             mounted : function() {
               // this.selectChange()

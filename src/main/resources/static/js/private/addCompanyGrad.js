@@ -61,10 +61,10 @@ window.onload = function () {
                 'grading/saveGrading', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
-                this.nextBtnSuccessMethod);
+                this.nextBtn2SuccessMethod);
           },
           // 获取成功
-          nextBtnSuccessMethod : function(_self, responseData) {
+          nextBtn2SuccessMethod : function(_self, responseData) {
             data.formData.gradingId = responseData.data;
             window.location.href = originUrl+"page/addCompanyMaterialPage?systemId="+systemId;
           }

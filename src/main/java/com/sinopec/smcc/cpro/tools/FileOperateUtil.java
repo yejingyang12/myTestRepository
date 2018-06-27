@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,17 +80,26 @@ public class FileOperateUtil {
       HttpServletResponse response, String filePath, 
       String realName, String realNameCharacterSet, String realNameExportCharacterSet, 
       int fileSize) throws IOException {
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      //realName = URLEncoder.encode(realName, "UTF-8");  
+      realName = URLDecoder.decode(realName, "utf-8");
+    }
     BufferedInputStream bis = null;
     BufferedOutputStream bos = null;
     try {
       response.setContentType("text/html;charset=UTF-8");
       request.setCharacterEncoding("UTF-8");
+
       bis = null;
       bos = null;
       String downLoadPath = filePath;
       long fileLength = new File(downLoadPath).length();
-      response.setHeader("Content-disposition", "attachment; filename="
-          + new String(realName.getBytes(realNameCharacterSet), realNameExportCharacterSet));
+//      response.setHeader("Content-disposition", "attachment; filename="
+//          + new String(realName.getBytes("ISO-8859-1"), "utf-8"));
+      response.setHeader("Content-disposition", "attachment; filename="+URLEncoder.encode(realName, "UTF-8"));
+
       response.setHeader("Content_Length", String.valueOf(fileLength));
       bis = new BufferedInputStream(new FileInputStream(downLoadPath));
       bos = new BufferedOutputStream(response.getOutputStream());
@@ -292,4 +303,18 @@ public class FileOperateUtil {
       e.printStackTrace();  
     }  
   }  
+  
+  /**
+   * 判断是否是IE浏览器  
+   */
+  public boolean isMSBrowser(HttpServletRequest request) {  
+      String[] IEBrowserSignals = {"MSIE", "Trident", "Edge"};  
+      String userAgent = request.getHeader("User-Agent");  
+      for (String signal : IEBrowserSignals) {  
+          if (userAgent.contains(signal)){  
+              return true;  
+          }  
+      }  
+      return false;  
+  } 
 }

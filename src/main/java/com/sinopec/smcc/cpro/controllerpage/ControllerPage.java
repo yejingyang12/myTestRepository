@@ -126,7 +126,13 @@ public class ControllerPage {
     model.addAttribute("systemId", systemParam.getSystemId());
     return "views/auditCancel";
   }
-  
+  //审核详情
+  @RequestMapping("/auditDetailsPage")
+  public String auditDetailsPage(HttpServletRequest request, Model model, SystemParam systemParam){
+    model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("companyId", systemParam.getCompanyId());
+    return "views/auditDetails";
+  }
   //备案
   @RequestMapping("/companyRecordPage")
   public String companyRecordPage(HttpServletRequest request, Model model, 

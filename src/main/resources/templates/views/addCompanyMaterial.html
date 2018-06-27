@@ -35,6 +35,9 @@
         .dataForm li{
             padding-right: 15px;
         }
+        .fileList li{
+          padding-right:0
+        }
     </style>
 </head>
 <body>
@@ -49,7 +52,7 @@
     <add-form-material>
       <li slot="materialBtn" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" @click="submitBtn()">提交</button>
+          <button type="button" class="btn btn-success " id="submit" @click="submitBtn()" v-updatas>提交</button>
           <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
           <button type="button" class="btn btn-default" id="pre" @click="preBtn()">上一步</button>
         </div>
@@ -73,6 +76,8 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormMaterial/addFormMaterial.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterial.js}"></script>
 <script async src="../../static/js/private/addCompanyMaterial.js" th:attr="src=@{/js/private/addCompanyMaterial.js}"></script>
+<script async src="../../static/compnents/private/addFormMaterial/addFormMaterialPrompt.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterialPrompt.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 </script>

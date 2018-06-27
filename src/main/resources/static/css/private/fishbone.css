@@ -1,4 +1,4 @@
-/*楸奸鍥�*/
+/*妤稿ジ顎囬崶锟�*/
 .fishBone {
     height: 450px;
     width: 100%;
@@ -121,10 +121,10 @@
 }
 
 .bottom .content {
-    position: relative;
-    top: 268px;
+  	position: absolute;
+    top: 90px;
 }
-/* 弹窗 */
+/* 寮圭獥 */
 .h-system-fishbone span{
       width: 92px;
     min-width: 90px;

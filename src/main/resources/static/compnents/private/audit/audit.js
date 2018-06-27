@@ -77,11 +77,11 @@
           },
           
           //审核
-          checkThisRow: function(fkBusinessNode,systemId){
+          checkThisRow: function(fkBusinessNode,systemId,companyId){
 						//定级：1
           	//撤销备案：2
           	//定级信息变更：3
-						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode;
+						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId;
           },
           
           //专家评审意见和备案证明下载
@@ -113,6 +113,17 @@
             $(document.body).append($eleForm);
             //提交表单，实现下载
             $eleForm.submit();
+          },
+          clearInfo:function () {
+            this.formData.instanceName = null;
+            this.formData.initiator = null;
+            this.formData.attachName = null;
+            this.formData.fkBusinessNode = null;
+            this.formData.fkExaminStatus = null;
+            this.formData.handlingState = null;
+          },
+          auditDetails:function (systemId,companyId) {
+            window.location.href=originUrl+"/page/auditDetailsPage?systemId="+systemId+"&companyId="+companyId;
           }
         },
         mounted: function() {
@@ -123,7 +134,7 @@
           //点击返回按钮 发送请求
           bus.$on("gradReturn",function(meg){
             if(meg!=null){
-            	window.location.href="/page/indexPage";
+            	window.location.href=originUrl+"/page/indexPage";
             }
           });
         }

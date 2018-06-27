@@ -90,6 +90,12 @@
         margin-left: 15px;
         position: relative;
     }
+.xzBox {
+	padding:0;
+}
+.xzBox>span{
+	padding-right:10px;
+}
 </style>
 <body>
 <div id="app">
@@ -119,6 +125,8 @@ var bus=new Vue()
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script type="text/javascript" th:inline="javascript">
   var smccId = [[${systemId}]];
+  var systemId = [[${systemId}]];
+  var companyId = [[${companyId}]];
 </script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>

@@ -9,37 +9,37 @@
                         <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-4 liuCheng float-le"
-                                     style="margin-right:0;width:142px;  min-width: 142px;">
+                                     style="margin-right:0; width: 118px;min-width: 114px;">
                                     流程实例名称：
                                 </div>
                                 <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
                                     <input type="text" class="h-form-control"
                                            style="height:34px; background-image: none;    width: 100%;"
-                                           v-model="formData.instanceName" id="instanceName" name="instanceName">
+                                           v-model="formData.instanceName" id="instanceName" name="instanceName" placeholder="请输入" >
                                 </div>
                             </div>
                         </div>
                         <!--发起人-->
                         <div class="col-md-3">
                             <div class="row">
-                                <div class="col-md-2 h-line clearPadding" style="margin-left:16%; width: 75px; min-width: 74px;">
+                                <div class="col-md-2 h-line clearPadding" style="margin-left:16%; width: 58px;min-width: 56px;">
                                     发起人：
                                 </div>
                                 <div style="width: 64%;" class="col-md-8 clearPadding">
                                     <input type="text" class="h-form-control" style="background-image: none;width: 100%;"
-                                           v-model="formData.initiator" id="initiator" name="initiator">
+                                           v-model="formData.initiator" id="initiator" name="initiator" placeholder="请输入" >
                                 </div>
                             </div>
                         </div>
                         <!--附件名称-->
                         <div class="col-md-3" style="margin-left: 4%">
                             <div class="row">
-                                <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width:20%;width: 91px;min-width: 91px;">
+                                <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width: 73px; min-width: 71px;">
                                     附件名称：
                                 </div>
                                 <div class="col-md-9 h-col-md-9" style="width:64%;">
                                     <input type="text" class="form-control" style="background-image: none"
-                                           v-model="formData.attachName" id="attachName" name="attachName">
+                                           v-model="formData.attachName" id="attachName" name="attachName" placeholder="请输入" >
                                 </div>
                             </div>
                         </div>
@@ -49,13 +49,11 @@
                         <div class="col-md-3 pos-absolute-ri">
                             <div class="row">
                                 <div class="col-md-9 h-col-md-9 float-ri h-status" style="width: 64%">
-                                    <template>
-                                        <el-select v-model="formData.fkBusinessNode" id="fkBusinessNode" filterable
-                                                   placeholder="请选择">
-                                            <el-option v-for="item in businessNodeList" :key="item.codeId"
-                                                       :label="item.codeName" :value="item.codeId"></el-option>
-                                        </el-select>
-                                    </template>
+                                    <el-select v-model="formData.fkBusinessNode" id="fkBusinessNode" filterable
+                                               placeholder="请选择">
+                                        <el-option v-for="item in businessNodeList" :key="item.codeId"
+                                                   :label="item.codeName" :value="item.codeId"></el-option>
+                                    </el-select>
                                 </div>
                                 <i class="col-md-3 float-ri textCenter clearPadding" style="line-height: 34px;width: 90px;
     min-width: 80px;">
@@ -71,23 +69,20 @@
                         <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-4 liuCheng float-le"
-                                     style="margin-right:0;text-align: right;padding-right: 1%;width: 142px; min-width: 142px;">
+                                     style="margin-right:0;text-align: right;padding-right: 1%;width: 118px;min-width: 114px;">
                                     状态：
                                 </div>
                                 <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding h-status">
-                                    <template>
-                                        <el-select v-model="formData.fkExaminStatus" id="fkExaminStatus" filterable
-                                                   placeholder="请选择" style="width:100%;">
-                                            <el-option v-for="item in examinStatusList" :key="item.codeId"
-                                                       :label="item.codeName" :value="item.codeId"></el-option>
-                                        </el-select>
-                                    </template>
+                                    <el-select v-model="formData.fkExaminStatus" id="fkExaminStatus" filterable
+                                               placeholder="请选择" style="width:100%;">
+                                        <el-option v-for="item in examinStatusList" :key="item.codeId"
+                                                   :label="item.codeName" :value="item.codeId"></el-option>
+                                    </el-select>
                                 </div>
                             </div>
                         </div>
-                        <button @click="queryCheckListMethods" type="button" class="btn btn-default float-ri"
-                                style="width:70px;margin-right:15px;">查询
-                        </button>
+                        <button @click="clearInfo()" type="button" class="btn btn-default float-ri"style="width:70px;margin-right:15px;">清空</button>
+                        <button @click="queryCheckListMethods()" type="button" class="btn btn-default float-ri"style="width:70px;margin-right:15px;">查询</button>
                     </div>
                 </div>
                 <br>
@@ -105,9 +100,9 @@
                         </button>
                         <button type="button" class="audit-btn btn btn-default"
                                 style="color:#333;background-color: white" @click="changeHandlingState(1)">待办
-                            <div style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">
+                           <!--  <div style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">
                                 1
-                            </div>
+                            </div> -->
                         </button>
                         <button type="button" class="audit-btn btn btn-default "
                                 style="color:#333;background-color: white" @click="changeHandlingState(2)">已办
@@ -151,7 +146,7 @@
                                         <td>{{index+1}}</td>
                                         <!--实例名称-->
                                         <td>
-                                        <a style="cursor: pointer;"> {{pro.instanceName}}</a>
+                                        <a style="cursor: pointer;" @click="auditDetails(pro.fkSystemId,pro.companyId)"> {{pro.instanceName}}</a>
                                         </td>
                                         <!--建设类型-->
                                         <td v-if="pro.fkInfoSysTypeCon == '1'">自建</td>
@@ -175,16 +170,14 @@
                                         <td>
                                             <div class="h-load-audit">
                                                 <span v-if="!pro.expertReviewName"></span>
-                                                <a href="javascript:;" @click="auditDownLoad(pro.expertReviewId)"
-                                                   v-else></a>
+                                                <a href="javascript:;" @click="auditDownLoad(pro.expertReviewId)" v-else></a>
                                             </div>
                                         </td>
                                         <!--备案证明下载-->
                                         <td class="h-load-audit">
                                             <div class="h-load-audit">
                                                 <span v-if="!pro.recordReportName" class="h-audit-weixiazai"></span>
-                                                <a v-else href="javascript:;" class="h-audit-xiazai"
-                                                   @click="auditDownLoad(pro.recordReportId)"></a>
+                                                <a v-else href="javascript:;" class="h-audit-xiazai" @click="auditDownLoad(pro.recordReportId)"></a>
                                             </div>
                                         </td>
                                         <!--状态-->
@@ -200,504 +193,10 @@
                                         </td>
                                         <!--操作-->
                                         <td style="color:#1e91e2;">
-                                        <a  style="cursor: pointer;"
-                                                @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId)">审核</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!--分页-->
-                    <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
-      <span style="float: left;padding-top: 18px">
-        <div v-if="tableData.currentPage==0">
-                        显示0到0行，共0行记录
-        </div>
-        <div v-else>
-                        显示{{((tableData.currentPage-1)*tableData.pagesize)+1}}到{{(tableData.currentPage)*(tableData.pagesize)}}行，共{{tableData.total}}行记录
-        </div>
-      </span>
-                        <div class="h-page">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    <li @click="clickPage(tableData.currentPage-1)">
-                                        <a href="javascript:;" aria-label="Previous">
-                                            <span aria-hidden="true">上一页</span>
-                                        </a>
-                                    </li>
-                                    <li v-for="n in tableData.totalPages==0?1:tableData.totalPages"
-                                        :class="[n==tableData.currentPage ? 'current' : '' ]">
-                                        <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
-                                    </li>
-                                    <li @click="clickPage(tableData.currentPage+1)">
-                                        <a href="javascript:;" aria-label="Next">
-                                            <span aria-hidden="true">下一页</span>
-                                        </a>
-                                    </li>
-                                    共{{tableData.totalPages}}页，跳到
-                                    <li>
-                                        <input type="text" id="txt" @keydown.enter="hpageNum(this)"
-                                               onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                               onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                                               style="overflow: visible;">
-                                        <div class="box" id="box"></div>
-                                    </li>
-                                    页
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-    </div>
-</div>
-<div class="container h-padding" style="margin:0 15px;">
-    <div class="container h-padding" style="margin:0">
-        <!--查询-->
-        <div class="container" style="margin:0;background:#fff;padding-bottom:20px;">
-            <div class="row" style="margin-top: 15px">
-                <div class="col-md-12">
-                    <div class="row  pos-relative">
-                        <!--流程实例名称-->
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-4 liuCheng float-le"
-                                     style="margin-right:0;width: 160px;  min-width: 142px;">
-                                    流程实例名称：
-                                </div>
-                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
-                                    <input type="text" class="h-form-control"
-                                           style="height:34px; background-image: none"
-                                           v-model="formData.instanceName" id="instanceName" name="instanceName">
-                                </div>
-                            </div>
-                        </div>
-                        <!--发起人-->
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-2 h-line clearPadding" style="margin-left:16%;">
-                                    发起人：
-                                </div>
-                                <div style="width: 64%;" class="col-md-8 clearPadding">
-                                    <input type="text" class="h-form-control" style="background-image: none"
-                                           v-model="formData.initiator" id="initiator" name="initiator">
-                                </div>
-                            </div>
-                        </div>
-                        <!--附件名称-->
-                        <div class="col-md-3" style="margin-left: 4%">
-                            <div class="row">
-                                <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width:20%">
-                                    附件名称：
-                                </div>
-                                <div class="col-md-9 h-col-md-9" style="width:64%;">
-                                    <input type="text" class="form-control" style="background-image: none"
-                                           v-model="formData.attachName" id="attachName" name="attachName">
-                                </div>
-                            </div>
-                        </div>
-                        <!--业务节点-->
-
-
-                        <div class="col-md-3 pos-absolute-ri">
-                            <div class="row">
-                                <div class="col-md-9 h-col-md-9 float-ri" style="width: 64%">
-                                    <template>
-                                        <el-select v-model="formData.fkBusinessNode" id="fkBusinessNode" filterable
-                                                   placeholder="请选择">
-                                            <el-option v-for="item in businessNodeList" :key="item.codeId"
-                                                       :label="item.codeName" :value="item.codeId"></el-option>
-                                        </el-select>
-                                    </template>
-                                </div>
-                                <i class="col-md-3 float-ri textCenter clearPadding" style="line-height: 34px">
-                                    业务节点:
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row  pos-relative" style="margin-top: 15px ">
-
-
-                        <!--状态-->
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-4 liuCheng float-le"
-                                     style="margin-right:0;text-align: right;padding-right: 1%">
-                                    状态：
-                                </div>
-                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
-                                    <template>
-                                        <el-select v-model="formData.fkExaminStatus" id="fkExaminStatus" filterable
-                                                   placeholder="请选择">
-                                            <el-option v-for="item in examinStatusList" :key="item.codeId"
-                                                       :label="item.codeName" :value="item.codeId"></el-option>
-                                        </el-select>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                        <button @click="queryCheckListMethods" type="button" class="btn btn-default float-ri"
-                                style="width:70px;margin-right:15px;">查询
-                        </button>
-                    </div>
-                </div>
-                <br>
-            </div>
-        </div>
-                <!--系统检测列表-->
-         <div class="container" style="background:#fff;padding:0 15px">
-                    <div style="height: 50px;line-height: 50px">
-                        <i class="h-list-line" style="vertical-align: middle"></i>系统检测列表
-                    </div>
-                    <div style="width: calc(100% + 30px);height:1px;background-color: #ededed;margin: 0 -15px;"></div>
-                    <p class="h-p auditCepingList">
-                        <button type="submit" class="audit-btn btn btn-default"
-                                style="color: white;background-color: #3d95df" @click="changeHandlingState(0)">全部
-                        </button>
-                        <button type="button" class="audit-btn btn btn-default"
-                                style="color:#333;background-color: white" @click="changeHandlingState(1)">待办
-                            <div style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">
-                                1
-                            </div>
-                        </button>
-                        <button type="button" class="audit-btn btn btn-default "
-                                style="color:#333;background-color: white" @click="changeHandlingState(2)">已办
-                        </button>
-                    </p>
-                    <!--全部列表-->
-                    <div class="row h-table-border" style="margin:0">
-                        <div class="col-md-12">
-                            <div class="row table-responsive">
-                                <!--默认显示列表-->
-                                <table id="h-list-show" class="table table-bordered table-striped">
-                                    <tr class="h-tr1">
-                                        <th style="min-width:47px">序号</th>
-                                        <th>流程实例名称
-                                            <slot name="paixujiantou"></slot>
-                                        </th>
-                                        <th>建设类型
-                                            <slot name="paixujiantou2"></slot>
-                                        </th>
-                                        <th>发起人
-                                            <slot name="paixujiantou3"></slot>
-                                        </th>
-                                        <th>上一步执行人
-                                            <slot name="paixujiantou4"></slot>
-                                        </th>
-                                        <th>执行时间
-                                            <slot name="paixujiantou5"></slot>
-                                        </th>
-                                        <th>业务节点
-                                            <slot name="paixujiantou6"></slot>
-                                        </th>
-                                        <th>是否有专家评审意见
-                                            <slot name="paixujiantou7"></slot>
-                                        </th>
-                                        <th>专家评审意见</th>
-                                        <th>备案证明</th>
-                                        <th>状态</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    <tr v-for="(pro,index) in tableData.data">
-                                        <td>{{index+1}}</td>
-                                        <!--实例名称-->
-                                        <td>{{pro.instanceName}}</td>
-                                        <!--建设类型-->
-                                        <td v-if="pro.fkInfoSysTypeCon == '1'">自建</td>
-                                        <td v-else-if="pro.fkInfoSysTypeCon == '2'">统建</td>
-                                        <td v-else-if="pro.fkInfoSysTypeCon == '3'">总部系统</td>
-                                        <td v-else></td>
-                                        <!--发起人-->
-                                        <td>{{pro.initiator}}</td>
-                                        <!--上一步执行人-->
-                                        <td>{{pro.prevExecutor}}</td>
-                                        <!--执行时间-->
-                                        <td>{{pro.executeTime}}</td>
-                                        <!--业务节点-->
-                                        <td v-if="pro.fkBusinessNode == '1'">定级</td>
-                                        <td v-else-if="pro.fkBusinessNode == '2'">撤销备案</td>
-                                        <td v-else-if="pro.fkBusinessNode == '3'">定级信息变更</td>
-                                        <td v-else></td>
-                                        <!--是否有专家意见-->
-                                        <td>{{pro.expertReviewName?'有':'无'}}</td>
-                                        <!--专家意见下载-->
-                                        <td>
-                                            <div class="h-load-audit">
-                                                <span v-if="!pro.expertReviewName"></span>
-                                                <a href="javascript:;" @click="auditDownLoad(pro.expertReviewId)"
-                                                   v-else></a>
-                                            </div>
-                                        </td>
-                                        <!--备案证明下载-->
-                                        <td class="h-load-audit">
-                                            <div class="h-load-audit">
-                                                <span v-if="!pro.recordReportName"></span>
-                                                <a v-else href="javascript:;"
-                                                   @click="auditDownLoad(pro.recordReportId)"></a>
-                                            </div>
-                                        </td>
-                                        <!--状态-->
-                                        <!--1：待企业安全员管理审核；2：待总部安全管理员审核；3：企业安全员管理审核未通过；4：总部安全管理员审核未通过；5：归档。-->
-                                        <td>
-                                            <div class="audit" v-if="pro.fkExaminStatus=='1'">待企业安全员管理审核</div>
-                                            <div class="handing" v-else-if="pro.fkExaminStatus=='2'">待总部安全员审核</div>
-                                            <div class="archivage" v-else-if="pro.fkExaminStatus=='3'">企业安全员管理审核未通过
-                                            </div>
-                                            <div class="passe-pas" v-else-if="pro.fkExaminStatus=='4'">总部安全管理员审核未通过
-                                            </div>
-                                            <div class="passe-pas" v-else-if="pro.fkExaminStatus=='5'">归档</div>
-                                        </td>
-                                        <!--操作-->
-                                        <td style="color:#1e91e2;"><a
-                                                @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId)">审核</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!--分页-->
-                    <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
-      <span style="float: left;padding-top: 18px">
-        <div v-if="tableData.currentPage==0">
-                        显示0到0行，共0行记录
-        </div>
-        <div v-else>
-                        显示{{((tableData.currentPage-1)*tableData.pagesize)+1}}到{{(tableData.currentPage)*(tableData.pagesize)}}行，共{{tableData.total}}行记录
-        </div>
-      </span>
-                        <div class="h-page">
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    <li @click="clickPage(tableData.currentPage-1)">
-                                        <a href="javascript:;" aria-label="Previous">
-                                            <span aria-hidden="true">上一页</span>
-                                        </a>
-                                    </li>
-                                    <li v-for="n in tableData.totalPages==0?1:tableData.totalPages"
-                                        :class="[n==tableData.currentPage ? 'current' : '' ]">
-                                        <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
-                                    </li>
-                                    <li @click="clickPage(tableData.currentPage+1)">
-                                        <a href="javascript:;" aria-label="Next">
-                                            <span aria-hidden="true">下一页</span>
-                                        </a>
-                                    </li>
-                                    共{{tableData.totalPages}}页，跳到
-                                    <li>
-                                        <input type="text" id="txt" @keydown.enter="hpageNum(this)"
-                                               onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                               onafterpaste="this.value=this.value.replace(/\D/g,'')"
-                                               style="overflow: visible;">
-                                        <div class="box" id="box"></div>
-                                    </li>
-                                    页
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-    </div>
-</div>
-<div class="container h-padding" style="margin:0 15px;">
-    <div class="container h-padding" style="margin:0">
-        <!--查询-->
-        <div class="container" style="margin:0;background:#fff;padding-bottom:20px;">
-            <div class="row" style="margin-top: 15px">
-                <div class="col-md-12">
-                    <div class="row  pos-relative">
-                        <!--流程实例名称-->
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-4 liuCheng float-le"
-                                     style="margin-right:0;width: 160px;  min-width: 142px;">
-                                    流程实例名称：
-                                </div>
-                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
-                                    <input type="text" class="h-form-control"
-                                           style="height:34px; background-image: none"
-                                           v-model="formData.instanceName" id="instanceName" name="instanceName">
-                                </div>
-                            </div>
-                        </div>
-                        <!--发起人-->
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-2 h-line clearPadding" style="margin-left:16%;">
-                                    发起人：
-                                </div>
-                                <div style="width: 64%;" class="col-md-8 clearPadding">
-                                    <input type="text" class="h-form-control" style="background-image: none"
-                                           v-model="formData.initiator" id="initiator" name="initiator">
-                                </div>
-                            </div>
-                        </div>
-                        <!--附件名称-->
-                        <div class="col-md-3" style="margin-left: 4%">
-                            <div class="row">
-                                <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width:20%">
-                                    附件名称：
-                                </div>
-                                <div class="col-md-9 h-col-md-9" style="width:64%;">
-                                    <input type="text" class="form-control" style="background-image: none"
-                                           v-model="formData.attachName" id="attachName" name="attachName">
-                                </div>
-                            </div>
-                        </div>
-                        <!--业务节点-->
-
-
-                        <div class="col-md-3 pos-absolute-ri">
-                            <div class="row">
-                                <div class="col-md-9 h-col-md-9 float-ri" style="width: 64%">
-                                    <template>
-                                        <el-select v-model="formData.fkBusinessNode" id="fkBusinessNode" filterable
-                                                   placeholder="请选择">
-                                            <el-option v-for="item in businessNodeList" :key="item.codeId"
-                                                       :label="item.codeName" :value="item.codeId"></el-option>
-                                        </el-select>
-                                    </template>
-                                </div>
-                                <i class="col-md-3 float-ri textCenter clearPadding" style="line-height: 34px">
-                                    业务节点:
-                                </i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row  pos-relative" style="margin-top: 15px ">
-
-
-                        <!--状态-->
-                        <div class="col-md-3">
-                            <div class="row">
-                                <div class="col-md-4 liuCheng float-le"
-                                     style="margin-right:0;text-align: right;padding-right: 1%">
-                                    状态：
-                                </div>
-                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
-                                    <template>
-                                        <el-select v-model="formData.fkExaminStatus" id="fkExaminStatus" filterable
-                                                   placeholder="请选择">
-                                            <el-option v-for="item in examinStatusList" :key="item.codeId"
-                                                       :label="item.codeName" :value="item.codeId"></el-option>
-                                        </el-select>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                        <button @click="queryCheckListMethods" type="button" class="btn btn-default float-ri"
-                                style="width:70px;margin-right:15px;">查询
-                        </button>
-                    </div>
-                </div>
-                <br>
-            </div>
-        </div>
-                <!--系统检测列表-->
-         <div class="container" style="background:#fff;padding:0 15px">
-                    <div style="height: 50px;line-height: 50px">
-                        <i class="h-list-line" style="vertical-align: middle"></i>系统检测列表
-                    </div>
-                    <div style="width: calc(100% + 30px);height:1px;background-color: #ededed;margin: 0 -15px;"></div>
-                    <p class="h-p auditCepingList">
-                        <button type="submit" class="audit-btn btn btn-default"
-                                style="color: white;background-color: #3d95df" @click="changeHandlingState(0)">全部
-                        </button>
-                        <button type="button" class="audit-btn btn btn-default"
-                                style="color:#333;background-color: white" @click="changeHandlingState(1)">待办
-                            <div style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">
-                                1
-                            </div>
-                        </button>
-                        <button type="button" class="audit-btn btn btn-default "
-                                style="color:#333;background-color: white" @click="changeHandlingState(2)">已办
-                        </button>
-                    </p>
-                    <!--全部列表-->
-                    <div class="row h-table-border" style="margin:0">
-                        <div class="col-md-12">
-                            <div class="row table-responsive">
-                                <!--默认显示列表-->
-                                <table id="h-list-show" class="table table-bordered table-striped">
-                                    <tr class="h-tr1">
-                                        <th style="min-width:47px">序号</th>
-                                        <th>流程实例名称
-                                            <slot name="paixujiantou"></slot>
-                                        </th>
-                                        <th>建设类型
-                                            <slot name="paixujiantou2"></slot>
-                                        </th>
-                                        <th>发起人
-                                            <slot name="paixujiantou3"></slot>
-                                        </th>
-                                        <th>上一步执行人
-                                            <slot name="paixujiantou4"></slot>
-                                        </th>
-                                        <th>执行时间
-                                            <slot name="paixujiantou5"></slot>
-                                        </th>
-                                        <th>业务节点
-                                            <slot name="paixujiantou6"></slot>
-                                        </th>
-                                        <th>是否有专家评审意见
-                                            <slot name="paixujiantou7"></slot>
-                                        </th>
-                                        <th>专家评审意见</th>
-                                        <th>备案证明</th>
-                                        <th>状态</th>
-                                        <th>操作</th>
-                                    </tr>
-                                    <tr v-for="(pro,index) in tableData.data">
-                                        <td>{{index+1}}</td>
-                                        <!--实例名称-->
-                                        <td>{{pro.instanceName}}</td>
-                                        <!--建设类型-->
-                                        <td v-if="pro.fkInfoSysTypeCon == '1'">自建</td>
-                                        <td v-else-if="pro.fkInfoSysTypeCon == '2'">统建</td>
-                                        <td v-else-if="pro.fkInfoSysTypeCon == '3'">总部系统</td>
-                                        <td v-else></td>
-                                        <!--发起人-->
-                                        <td>{{pro.initiator}}</td>
-                                        <!--上一步执行人-->
-                                        <td>{{pro.prevExecutor}}</td>
-                                        <!--执行时间-->
-                                        <td>{{pro.executeTime}}</td>
-                                        <!--业务节点-->
-                                        <td v-if="pro.fkBusinessNode == '1'">定级</td>
-                                        <td v-else-if="pro.fkBusinessNode == '2'">撤销备案</td>
-                                        <td v-else-if="pro.fkBusinessNode == '3'">定级信息变更</td>
-                                        <td v-else></td>
-                                        <!--是否有专家意见-->
-                                        <td>{{pro.expertReviewName?'有':'无'}}</td>
-                                        <!--专家意见下载-->
-                                        <td>
-                                            <div class="h-load-audit">
-                                                <span v-if="!pro.expertReviewName"></span>
-                                                <a href="javascript:;" @click="auditDownLoad(pro.expertReviewId)"
-                                                   v-else></a>
-                                            </div>
-                                        </td>
-                                        <!--备案证明下载-->
-                                        <td class="h-load-audit">
-                                            <div class="h-load-audit">
-                                                <span v-if="!pro.recordReportName"></span>
-                                                <a v-else href="javascript:;"
-                                                   @click="auditDownLoad(pro.recordReportId)"></a>
-                                            </div>
-                                        </td>
-                                        <!--状态-->
-                                        <!--1：待企业安全员管理审核；2：待总部安全管理员审核；3：企业安全员管理审核未通过；4：总部安全管理员审核未通过；5：归档。-->
-                                        <td>
-                                            <div class="audit" v-if="pro.fkExaminStatus=='1'">待企业安全员管理审核</div>
-                                            <div class="handing" v-else-if="pro.fkExaminStatus=='2'">待总部安全员审核</div>
-                                            <div class="archivage" v-else-if="pro.fkExaminStatus=='3'">企业安全员管理审核未通过
-                                            </div>
-                                            <div class="passe-pas" v-else-if="pro.fkExaminStatus=='4'">总部安全管理员审核未通过
-                                            </div>
-                                            <div class="passe-pas" v-else-if="pro.fkExaminStatus=='5'">归档</div>
-                                        </td>
-                                        <!--操作-->
-                                        <td style="color:#1e91e2;"><a
-                                                @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId)">审核</a></td>
+                                          <div v-if="pro.fkExaminStatus!=='5'">
+                                            <a  style="cursor: pointer;"  @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId,pro.companyId)">审核</a>
+                                          </div>                                  
+                                       </td>
                                     </tr>
                                 </table>
                             </div>

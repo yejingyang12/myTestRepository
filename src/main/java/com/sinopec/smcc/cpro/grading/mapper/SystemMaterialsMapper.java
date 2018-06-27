@@ -9,6 +9,8 @@
 */
 package com.sinopec.smcc.cpro.grading.mapper;
 
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsResult;
 
@@ -38,5 +40,23 @@ public interface SystemMaterialsMapper {
    * @param systemMaterialsParam
    */
   void insertSystemMaterials(SystemMaterialsParam systemMaterialsParam);
+
+  /**
+   * @Descrption  获取回显提交材料信息
+   * @author yejingyang
+   * @date 2018年6月22日下午3:50:11
+   * @param systemMaterialsParam
+   * @return
+   */
+  SystemMaterialsBeanResult selectSystemMaterialsBeanResultBySystemId(
+      SystemMaterialsParam systemMaterialsParam);
+
+  /**
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年6月25日下午1:31:27
+   * @param systemMaterialsBeanParam
+   */
+  void insertSystemMaterialsBean(SystemMaterialsBeanParam systemMaterialsBeanParam);
 
 }

@@ -10,6 +10,8 @@
 package com.sinopec.smcc.cpro.grading.server;
 
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsResult;
 
@@ -63,6 +65,27 @@ public interface SystemMaterialsService {
    * @return
    */
   String submitSystemMaterials(String userName, SystemMaterialsParam systemMaterialsParam)
+      throws BusinessException;
+
+  /**
+   * @Descrption  获取材料回显信息(同一种附件有多个附件情况下的获取)
+   * @author yejingyang
+   * @date 2018年6月22日下午5:49:15
+   * @param systemMaterialsParam
+   * @return
+   */
+  SystemMaterialsBeanResult queryEditSystemMaterialsInfo(SystemMaterialsParam systemMaterialsParam)
+      throws BusinessException;
+
+  /**
+   * @Descrption 保存或提交材料信息(同一种附件有多个附件情况下)
+   * @author yejingyang
+   * @date 2018年6月25日下午1:12:03
+   * @param userName
+   * @param systemMaterialsBeanParam
+   * @return
+   */
+  String saveSystemMaterialsInfo(String userName, SystemMaterialsBeanParam systemMaterialsBeanParam)
       throws BusinessException;
 
 }

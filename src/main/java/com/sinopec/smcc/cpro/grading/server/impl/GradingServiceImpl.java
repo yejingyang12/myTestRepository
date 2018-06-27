@@ -28,6 +28,7 @@ import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
@@ -176,11 +177,17 @@ public class GradingServiceImpl implements GradingService{
       //添加节点状态信息
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(gradingParam.getFkSystemId());
-      nodeParam.setOperation("定级变更");
+      nodeParam.setOperation("申请变更");
       nodeParam.setOperationResult("已修改");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
     } 
     this.gradingMapper.insertGrading(gradingParam);
     return gradingParam.getFkSystemId();
@@ -305,11 +312,17 @@ public class GradingServiceImpl implements GradingService{
       //添加节点状态信息
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(gradingParam.getFkSystemId());
-      nodeParam.setOperation("定级变更");
+      nodeParam.setOperation("申请变更");
       nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
       
       //修改审核状态
       CheckParam checkParam = new CheckParam();
@@ -325,15 +338,6 @@ public class GradingServiceImpl implements GradingService{
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(gradingParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
-    }else if ("2".equals(gradingParam.getChangeType())) {
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(gradingParam.getFkSystemId());
-      nodeParam.setOperation("定级提交");
-      nodeParam.setOperationResult("已提交");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
     }
     //修改系统定级状态
     this.gradingMapper.updateGradingStatus(gradingParam);

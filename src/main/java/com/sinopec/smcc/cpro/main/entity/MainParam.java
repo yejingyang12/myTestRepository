@@ -9,7 +9,7 @@
 package com.sinopec.smcc.cpro.main.entity;
 
 import java.util.Date;
-
+import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
@@ -68,6 +68,15 @@ public class MainParam {
   private Integer fkChangeMatter;
   private String changeReason;
   private String changeContent;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date gradingBeginTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date gradingEndTime;
+  private Integer gradingShapeType;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date recordsEndTime;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date recordsBeginTime;
   
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -76,8 +85,91 @@ public class MainParam {
   private String field; // 排序字段
   private String sort;// 排序方式
 
+  private List<String> companyList;
+  private List<String> plateList;
   
-  
+  public List<String> getCompanyList() {
+    return companyList;
+  }
+  public void setCompanyList(List<String> companyList) {
+    this.companyList = companyList;
+  }
+  public List<String> getPlateList() {
+    return plateList;
+  }
+  public void setPlateList(List<String> plateList) {
+    this.plateList = plateList;
+  }
+  /**
+   * @return the recordsEndTime
+   */
+  public Date getRecordsEndTime() {
+    return recordsEndTime;
+  }
+
+  /**
+   * @param recordsEndTime the recordsEndTime to set
+   */
+  public void setRecordsEndTime(Date recordsEndTime) {
+    this.recordsEndTime = recordsEndTime;
+  }
+
+  /**
+   * @return the recordsBeginTime
+   */
+  public Date getRecordsBeginTime() {
+    return recordsBeginTime;
+  }
+
+  /**
+   * @param recordsBeginTime the recordsBeginTime to set
+   */
+  public void setRecordsBeginTime(Date recordsBeginTime) {
+    this.recordsBeginTime = recordsBeginTime;
+  }
+
+  /**
+   * @return the gradingShapeType
+   */
+  public Integer getGradingShapeType() {
+    return gradingShapeType;
+  }
+
+  /**
+   * @param gradingShapeType the gradingShapeType to set
+   */
+  public void setGradingShapeType(Integer gradingShapeType) {
+    this.gradingShapeType = gradingShapeType;
+  }
+
+  /**
+   * @return the gradingBeginTime
+   */
+  public Date getGradingBeginTime() {
+    return gradingBeginTime;
+  }
+
+  /**
+   * @param gradingBeginTime the gradingBeginTime to set
+   */
+  public void setGradingBeginTime(Date gradingBeginTime) {
+    this.gradingBeginTime = gradingBeginTime;
+  }
+
+  /**
+   * @return the gradingEndTime
+   */
+  public Date getGradingEndTime() {
+    return gradingEndTime;
+  }
+
+  /**
+   * @param gradingEndTime the gradingEndTime to set
+   */
+  public void setGradingEndTime(Date gradingEndTime) {
+    this.gradingEndTime = gradingEndTime;
+  }
+
   /**
    * @return the changeReason
    */

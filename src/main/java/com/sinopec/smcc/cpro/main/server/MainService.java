@@ -51,7 +51,7 @@ public interface MainService {
    * @author dongxu
    * @date 2018年6月4日上午9:25:56
    */
-  String exportExcelForMain()throws BusinessException;
+  String exportExcelForMain(HttpServletRequest request)throws BusinessException;
   
   /**
    * @Descrption 下载
@@ -81,7 +81,8 @@ public interface MainService {
    * @date 2018年6月7日下午12:01:45
    * @param mainParam
    */
-  Map<String,Object> tableCompany(MainParam mainParam) throws BusinessException;
+  Map<String,Object> tableCompany(HttpServletRequest request,MainParam mainParam) 
+      throws BusinessException;
 
   /**
    * @Descrption 一键下载（表2 系统信息）
@@ -90,7 +91,7 @@ public interface MainService {
    * @param mainParam
    * @return
    */
-  Map<String,Object> tableSystem(MainParam mainParam) throws BusinessException;
+  Map<String,Object> tableSystem(HttpServletRequest request,MainParam mainParam) throws BusinessException;
 
   /**
    * @Descrption 一键下载（表3 定级信息）
@@ -99,7 +100,7 @@ public interface MainService {
    * @param mainParam
    * @return
    */
-  Map<String,Object> tableGrading(MainParam mainParam) throws BusinessException;
+  Map<String,Object> tableGrading(HttpServletRequest request,MainParam mainParam) throws BusinessException;
 
   /**
    * @Descrption  一键下载（表4 附件信息）
@@ -108,7 +109,7 @@ public interface MainService {
    * @param mainParam
    * @return
    */
-  Map<String,Object> tableAttach(MainParam mainParam) throws BusinessException;
+  Map<String,Object> tableAttach(HttpServletRequest request,MainParam mainParam) throws BusinessException;
 
   /**
    * @Descrption 一键下载
@@ -117,8 +118,8 @@ public interface MainService {
    * @param mainParam
    * @return
    */
-  String oneButtonDownloading(HttpServletResponse response,MainParam mainParam) 
-      throws BusinessException;
+  String oneButtonDownloading(HttpServletRequest request,
+      HttpServletResponse response,MainParam mainParam) throws BusinessException;
 
   /**
    * @Descrption 高级搜索获取系统名称
@@ -174,4 +175,21 @@ public interface MainService {
    * @throws BusinessException
    */
   public void editSystemStatusBySystemId(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption 系统等保等级分布统计图
+   * @author dongxu
+   * @date 2018年6月25日上午10:08:31
+   * @return
+   */
+  public List<MainListResult> queryGradingStatistics(MainParam mainParam) throws BusinessException;
+
+  /**
+   * @Descrption 备案单位数量 统计图
+   * @author dongxu
+   * @date 2018年6月26日下午2:42:20
+   * @param mainParam
+   * @return
+   */
+  List<MainListResult> queryRecordsCompanyNum(MainParam mainParam) throws BusinessException;
 }

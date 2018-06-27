@@ -23,6 +23,8 @@ import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsResult;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
@@ -130,6 +132,7 @@ public class GradingController {
   }
   
   /**
+   * (废弃)
    * 获取提交材料信息
    * @author hanxin
    * @date 2018年5月29日下午3:29:13
@@ -150,7 +153,7 @@ public class GradingController {
   }
   
   /**
-   * 
+   * (废弃)
    * 获取材料回显信息
    * @author hanxin
    * @date 2018年5月30日上午9:04:52
@@ -169,9 +172,29 @@ public class GradingController {
     result.setData(systemMaterialsResult);
     return result;
   }
+  
+  /**
+   * 获取材料回显信息(同一种附件有多个附件情况下的获取)
+   * @author hanxin
+   * @date 2018年5月30日上午9:04:52
+   * @param request
+   * @param attachMaterialsParam
+   * @return
+   * @throws BusinessException 
+   */
+  @RequestMapping(value = "/queryEditSystemMaterialsInfo", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryEditSystemMaterialsInfo(HttpServletRequest request,
+      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+    SystemMaterialsBeanResult systemMaterialsBeanResult = 
+        this.systemMaterialsServiceImpl.queryEditSystemMaterialsInfo(systemMaterialsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(systemMaterialsBeanResult);
+    return result;
+  }
 
   /**
-   * 
+   * (废弃)
    * 保存材料信息
    * @author hanxin
    * @date 2018年6月8日下午5:29:31
@@ -186,6 +209,27 @@ public class GradingController {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
         saveSystemMaterials(userName,systemMaterialsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
+  }
+  /**
+   * 保存材料信息
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年6月25日上午11:59:13
+   * @param request
+   * @param systemMaterialsParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/saveSystemMaterialsInfo", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi saveSystemMaterialsInfo(HttpServletRequest request, 
+      @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.systemMaterialsServiceImpl.
+        saveSystemMaterialsInfo(userName,systemMaterialsBeanParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(fkSystemId);
     return result;

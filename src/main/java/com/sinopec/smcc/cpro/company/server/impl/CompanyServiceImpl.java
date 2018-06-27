@@ -9,6 +9,7 @@
  */
 package com.sinopec.smcc.cpro.company.server.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
@@ -30,6 +33,7 @@ import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.server.CheckService;
@@ -45,6 +49,8 @@ public class CompanyServiceImpl implements CompanyService {
   private CheckService checkServiceImpl;
   @Autowired
   private MainService mainServiceImpl;
+  @Autowired
+  private JurisdictionApiService jurisdictionApiServiceImpl;
 
   /**
    * 响应单位列表数据
@@ -65,12 +71,44 @@ public class CompanyServiceImpl implements CompanyService {
     // 初始化分页拦截器
     PageHelper.startPage(companyParam.getCurrentPage(), companyParam.getPageSize(),
         orderBy.toString());
-    // 获得响应列表数据
-    List<CompanyListResult> companyListResultList = 
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      
+      List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        companyListResultList = 
+            this.companyMapper.selectAllByCompanyParam(companyParam);
+        break;
+      case "2":
+        companyParam.setPlateList(organizationApiResult.getNameList());
+        companyListResultList =  
         this.companyMapper.selectAllByCompanyParam(companyParam);
-    // 装载列表数据
-    PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
-    return pageInfo;
+        break;
+      case "3":
+        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyListResultList =  
+        this.companyMapper.selectAllByCompanyParam(companyParam);
+        break;
+
+      default:
+        break;
+      }
+      // 装载列表数据
+      PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
+      return pageInfo;
+    }
   }
 
   /**
@@ -95,11 +133,17 @@ public class CompanyServiceImpl implements CompanyService {
       //添加节点状态信息
       NodeParam nodeParam = new NodeParam();
       nodeParam.setSystemId(companyParam.getSystemId());
-      nodeParam.setOperation("单位变更");
+      nodeParam.setOperation("申请变更");
       nodeParam.setOperationResult("已修改");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
-      this.nodeServiceImpl.addNodeInfo(nodeParam);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
       
       //修改审核状态
       CheckParam checkParam = new CheckParam();
@@ -163,6 +207,40 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public List<CompanyListResult> queryCompanyName(CompanyParam companyParam)
       throws BusinessException {
-    return this.companyMapper.selectCompanyName(companyParam);
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new ArrayList<CompanyListResult>();
+    }else{
+      List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        companyListResultList = 
+            this.companyMapper.selectCompanyName(companyParam);
+        break;
+      case "2":
+        companyParam.setPlateList(organizationApiResult.getNameList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+      case "3":
+        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+
+      default:
+        break;
+      }
+      return companyListResultList;
+    }
   }
 }

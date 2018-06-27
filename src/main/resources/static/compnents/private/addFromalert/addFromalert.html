@@ -5,7 +5,7 @@
         <el-form-item label="行业类别：">
             <el-radio-group v-model="form.resource" class="addFromRadio">
                 <el-radio v-for="item in radios" :label="item.lable" :key="item.lable">{{item.lable}}</el-radio>
-                <el-radio :label="message">其他<input type="text" v-model="messageParam" class="addInput"/></el-radio>
+                <el-radio :label="message">其它<input type="text" v-model="messageParam" class="addInput"/></el-radio>
             </el-radio-group>
         </el-form-item>
         <div class="btnBox">

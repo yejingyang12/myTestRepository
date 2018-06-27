@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.records.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -53,6 +54,23 @@ public class RecordsParam {
   //撤销备案证明
   private String revokeAttachPath;
   private String revokeAttachName;
+  
+  private List<String> companyList;
+  private List<String> plateList;
+  
+  public List<String> getCompanyList() {
+    return companyList;
+  }
+  public void setCompanyList(List<String> companyList) {
+    this.companyList = companyList;
+  }
+  public List<String> getPlateList() {
+    return plateList;
+  }
+  public void setPlateList(List<String> plateList) {
+    this.plateList = plateList;
+  }
+  
   public String getRecordReportPath() {
     return recordReportPath;
   }

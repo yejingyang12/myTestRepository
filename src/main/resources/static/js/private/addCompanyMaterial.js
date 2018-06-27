@@ -6,16 +6,15 @@ window.onload = function () {
     var app = new Vue({
         el:"#app",
         data:function () {
-            return{
-
-            }
+            return data;
         },
         methods:{
           //保存
           saveBtn:function() {
             data.formData.changeType = "2";
+            data.formData.saveType = "1";
             ajaxMethod(this, 'post',
-                'grading/saveSystemMaterials', true,
+                'grading/saveSystemMaterialsInfo', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.saveBtnSuccessMethod);
@@ -31,8 +30,9 @@ window.onload = function () {
           //提交
           submitBtn:function() {
             data.formData.changeType = "2";
+            data.formData.saveType = "2";
             ajaxMethod(this, 'post',
-                'grading/submitSystemMaterials', true,
+                'grading/saveSystemMaterialsInfo', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.submitBtnSuccessMethod);
@@ -44,8 +44,9 @@ window.onload = function () {
           //上一页
           preBtn:function() {
             data.formData.changeType = "2";
+            data.formData.saveType = "1";
             ajaxMethod(this, 'post',
-                'grading/saveSystemMaterials', true,
+                'grading/saveSystemMaterialsInfo', true,
                 JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',
                 this.preBtnSuccessMethod);

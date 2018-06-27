@@ -12,6 +12,7 @@
 package com.sinopec.smcc.cpro.review.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -79,6 +80,23 @@ public class CheckParam {
   private int currentPage;
   private String field;
   private String sort;
+  
+  private List<String> companyList;
+  private List<String> plateList;
+  
+  public List<String> getCompanyList() {
+    return companyList;
+  }
+  public void setCompanyList(List<String> companyList) {
+    this.companyList = companyList;
+  }
+  public List<String> getPlateList() {
+    return plateList;
+  }
+  public void setPlateList(List<String> plateList) {
+    this.plateList = plateList;
+  }
+  
   public String getCheckId() {
     return checkId;
   }
@@ -341,5 +359,11 @@ public class CheckParam {
   }
   public String toString(){
     return JSON.toJSONString(this);
+  }
+  public String getRole() {
+    return role;
+  }
+  public void setRole(String role) {
+    this.role = role;
   }
 }

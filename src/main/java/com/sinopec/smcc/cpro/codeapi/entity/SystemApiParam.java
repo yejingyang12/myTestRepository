@@ -18,4 +18,14 @@ package com.sinopec.smcc.cpro.codeapi.entity;
  */
 public class SystemApiParam {
 
+  private String companyCode;
+
+  public String getCompanyCode() {
+    return companyCode;
+  }
+
+  public void setCompanyCode(String companyCode) {
+    this.companyCode = companyCode;
+  }
+
 }

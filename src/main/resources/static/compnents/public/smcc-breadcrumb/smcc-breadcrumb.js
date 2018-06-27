@@ -28,13 +28,15 @@
                     return data;
                 },
               methods:{
-                hReturn(){
+                hReturn:function(){
                   bus.$emit("gradReturn","b");
-                  console.log(1);
                 },
-                submit(){
+                submit:function(){
                   bus.$emit("gradSubmit","a")
                   // console.log(a);
+                },
+                returnHome:function(){
+                  window.location.href = originUrl+"page/auditPage";
                 }
               }
             })

@@ -1,5 +1,6 @@
 
 <div class="container h-padding" style="margin:15px;font-size: 14px;font-style: normal">
+12yu43567
         <div class="container h-table-border" style="background:#fff;padding: 15px">
             <div style="height: 50px;line-height: 50px;margin-top: -15px">
                 <i class="h-list-line" style="vertical-align:middle;"></i>
@@ -29,9 +30,11 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
+                                                                    id="gradingBeginTime"
                                                                     v-model="value1"
                                                                     type="date"
-                                                                    placeholder="选择日期">
+                                                                    placeholder="选择日期"
+                                                                    @blur="getGradingStatisticsBegin()">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -42,9 +45,11 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
-                                                                    v-model="value1"
+                                                                    id="gradingEndTime" 
+                                                                    v-model="value3"
                                                                     type="date"
-                                                                    placeholder="选择日期">
+                                                                    placeholder="选择日期"
+                                                                    @blur="getGradingStatisticsEnd()">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -92,8 +97,9 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
-                                                                    v-model="value1"
+                                                                    v-model="gradingShapeBegin"
                                                                     type="date"
+                                                                    @blur="getGradingShapeBegin()"
                                                                     placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
@@ -105,8 +111,9 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
-                                                            v-model="value1"
+                                                            v-model="gradingShapeEnd"
                                                             type="date"
+                                                            @blur="getGradingShapeEnd()"
                                                             placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
@@ -120,12 +127,12 @@
                                         <div class=" duidieIns float-le pos-relative">
                                             <!--<span>|</span>-->
                                             <template>
-                                                <el-select v-model="value8" filterable placeholder="请选择">
-                                                    <el-option
-                                                            v-for="item in options"
-                                                            :key="item.value"
-                                                            :label="item.label"
-                                                            :value="item.value">
+                                                <el-select v-model="gradingShapeType" @change="getGradingShapeType()" filterable placeholder="请选择">
+                                                      <el-option
+																										      v-for="item in shapeType"
+																										      :key="item.value"
+																										      :label="item.label"
+																										      :value="item.value">
                                                     </el-option>
                                                 </el-select>
                                             </template>
@@ -151,8 +158,9 @@
                                                      <div class="block">
                                                          <!--<span class="demonstration">默认</span>-->
                                                          <el-date-picker class="h-applyTime input"
-                                                                         v-model="value1"
+                                                                         v-model="recordDateBegin"
                                                                          type="date"
+                                                                         @blur="getRecordDateBegin(1)"
                                                                          placeholder="选择日期">
                                                          </el-date-picker>
                                                      </div>
@@ -164,8 +172,9 @@
                                                      <div class="block">
                                                          <!--<span class="demonstration">默认</span>-->
                                                          <el-date-picker class="h-applyTime input"
-                                                                         v-model="value1"
+                                                                         v-model="recordDateEnd"
                                                                          type="date"
+                                                                         @blur="getRecordDateEnd(1)"
                                                                          placeholder="选择日期">
                                                          </el-date-picker>
                                                      </div>
@@ -222,8 +231,8 @@
 
                                 </div>
                             </div>
-                            <div class="bingzhuangBox">
-                           <chart-line></chart-line>
+                            <div class="bingzhuangBox" style="height:300px;width:650px;background:red;">
+                              <chart-line></chart-line>
                             </div>
                         </div>
 
@@ -239,9 +248,10 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
-                                                                    v-model="value1"
-                                                                    type="date"
-                                                                    placeholder="选择日期">
+	                                                                   v-model="acceptRecordDateBegin"
+	                                                                   type="date"
+	                                                                   @blur="getAcceptRecordDateBegin(1)"
+	                                                                   placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -252,9 +262,10 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
-                                                                    v-model="value1"
-                                                                    type="date"
-                                                                    placeholder="选择日期">
+                                                                     v-model="acceptRecordDateEnd"
+                                                                     type="date"
+                                                                     @blur="getAcceptRecordDateEnd(1)"
+                                                                     placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -263,7 +274,7 @@
                                     <p class="float-ri tubiaocon">
                                         <span class="float-ri"><i class="sekuai"></i> 五级</span>
                                         <span class="float-ri"><i class="sekuai"></i> 四级</span>
-                                        <span class="float-ri"><i class="sekuai"> </i> 三级</span>
+                                        <span class="float-ri"><i class="sekuai"></i> 三级</span>
                                         <span class="float-ri"><i class="sekuai"></i> 二级</span>
                                         <span class="float-ri"><i class="sekuai"></i> 一级</span>
                                     </p>

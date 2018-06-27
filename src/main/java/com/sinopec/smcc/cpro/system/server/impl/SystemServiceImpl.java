@@ -28,8 +28,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
@@ -73,6 +76,8 @@ public class SystemServiceImpl implements SystemService {
 	private CheckService checkServiceImpl;
 	@Autowired
 	private MainService mainServiceImpl;
+	@Autowired
+  private JurisdictionApiService jurisdictionApiServiceImpl;
 	/**
    * 响应系统列表数据
    */
@@ -95,8 +100,41 @@ public class SystemServiceImpl implements SystemService {
 		PageHelper.startPage(systemParam.getCurrentPage(), systemParam.getPageSize(),
 		    orderBy.toString());
 		//获得相应列表数据
-		List<SystemListResult> systemListResultlist = 
-		    this.systemMapper.selectAllBySystemParam(systemParam);
+		List<SystemListResult> systemListResultlist = new ArrayList<SystemListResult>();
+		
+		//权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        systemListResultlist = 
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+      case "2":
+        systemParam.setPlateList(organizationApiResult.getNameList());
+        systemListResultlist =  
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+      case "3":
+        systemParam.setCompanyList(organizationApiResult.getCodeList());
+        systemListResultlist =  
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+
+      default:
+        break;
+      }
+    }
 		//装载列表数据
 		PageInfo<SystemListResult> pageInfo = new PageInfo<>(systemListResultlist);
 		return pageInfo;
@@ -703,16 +741,6 @@ public class SystemServiceImpl implements SystemService {
 //        checkParam.setRemark(check.getRemark());
 //        
 //
-//        if ("1".equals(systemParam.getChangeType())) {
-//          //添加节点状态信息
-//          NodeParam nodeParam = new NodeParam();
-//          nodeParam.setSystemId(systemParam.getSystemId());
-//          nodeParam.setOperation("系统变更");
-//          nodeParam.setOperationResult("已修改");
-//          nodeParam.setOperationOpinion("");
-//          nodeParam.setOperator(userName);
-//          this.nodeServiceImpl.addNodeInfo(nodeParam);
-//        }
 //        
 //        this.systemMapper.insertGradingTemp(gradingTemParam);
 //        this.systemMapper.insertRecordsTemp(recordsParam);
@@ -731,6 +759,22 @@ public class SystemServiceImpl implements SystemService {
 //    this.systemUseServicesMapper
 //        .insertSystemUseServicesBySystemUseServicesId(subSystemUseServicesList);
     
+    if ("1".equals(systemParam.getChangeType())) {
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(systemParam.getSystemId());
+      nodeParam.setOperation("申请变更");
+      nodeParam.setOperationResult("已修改");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
+    }
 	  return systemParam.getSystemId();
 	}
 	

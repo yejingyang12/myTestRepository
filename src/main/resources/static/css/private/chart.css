@@ -90,6 +90,7 @@
 .bingzhuangBox{
     margin-top: 15px;
     height:302px;
+    overflow:hidden;
 }
 .instructor{
     width: 100%;

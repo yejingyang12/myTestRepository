@@ -1594,7 +1594,29 @@
       system.sysBusDescription,
       system.whenInvestmentUse
       FROM t_cpro_system AS system
+      LEFT JOIN t_cpro_company AS company 
+        ON system.fkCompanyCode = company.companyCode
     <where>
+      <if test="companyList != null">
+        <![CDATA[
+          AND company.companyCode IN  
+        ]]>
+        <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="plateList != null">
+        <![CDATA[
+          AND company.fkPlateType IN  
+        ]]>
+        <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
   		<if test="systemName != null and systemName != ''">
         <bind name="systemName" value="'%' + systemName + '%'" />
     	  <![CDATA[

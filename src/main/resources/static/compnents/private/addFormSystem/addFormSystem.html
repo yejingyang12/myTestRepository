@@ -26,7 +26,7 @@
                             <label for="" class="col-lg-3 col-md-3 text-right">
                                 <span class="xing">*</span> 信息系统建设类型：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1"  v-prompt="{type:'choice'}">
                               <input type="hidden" name="formData.fkInfoSysTypeCon" v-model="formData.fkInfoSysTypeCon">
                               <div class="baseMes" @click="getTypeClass($event,1)">自建</div>
                               <div class="baseMes" @click="getTypeClass($event,2)">统建</div>
@@ -48,7 +48,7 @@
                             <label class="col-lg-3 col-md-3 text-right">
                                 <span class="xing">*</span>是否为合并系统：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2" v-prompt="{type:'choice'}">
                               <input type="hidden" name="formData.fkSystemIsMerge" v-model="formData.fkSystemIsMerge">
                               <div class="baseMes" @click="getMergeClass($event,1)">是</div>
                               <div class="baseMes" @click="getMergeClass($event,2)">否</div>
@@ -56,7 +56,7 @@
                         </div>
                     </li>
                     <li class="row" v-show="systemInfo">
-                      <div class="col-lg-6 col-md-6">
+                      <div class="col-lg-6 col-md-6" v-prompt="{type:'select'}">
                           <label class="col-lg-3 col-md-3 text-right">
                               <span class="xing">*</span>系统名称：
                           </label>
@@ -82,11 +82,11 @@
                                         <span class="xing">*</span> 系统名称：
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
-                                        <input type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1">
+                                        <input type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1" v-prompt="{type:'nulls'}">
                                     </div>
                                 </div>
                             </li>
-                            <li class="row">
+                            <!-- <li class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <label class="col-lg-3 col-md-3 text-right">
                                         <span class="xing">*</span>子系统1系统名称：
@@ -111,7 +111,7 @@
                                         <span class="xing">*</span> 子系统2系统名称：
                                     </label>
                                     <div class="col-lg-6 col-md-6 childSystem">
-                                        <el-select v-model="formData.addSystemSub[1].systemName" filterable placeholder="请选择" :disabled = "systemInfo3"  @change="setStandardizedCode(formData.addSystemSub[1].systemName,3)">
+                                        <el-select v-model="formData.addSystemSub[1].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[1].systemName,3)">
                                           <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
                                         </el-select>
                                     </div>
@@ -124,10 +124,32 @@
                                         <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[1].standardizedCode" id="standardizedCode">
                                     </div>
                                 </div>
+                            </li> -->
+                            <li class="row" v-for="(addSys,i) in formData.addSystemSub">
+                                <div class="col-lg-6 col-md-6">
+                                    <label class="col-lg-3 col-md-3 text-right">
+                                        <span class="xing">*</span> 子系统{{i+1}}系统名称：
+                                    </label>
+                                    <div class="col-lg-6 col-md-6 childSystem" v-prompt="{type:'select'}">
+                                        <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
+                                          <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
+                                        </el-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-3">
+                                    <label for="" class="col-lg-3 col-md-3 text-right">
+                                        子系统{{i+1}}标准化代码：
+                                    </label>
+                                    <div  class="col-md-6 col-md-6 childSystem">
+                                        <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
+                                    </div>
+                                </div>
                             </li>
-                            <li class="btn btn-success fr sysSun" @click="addSys($event)" id="add">添加更多子系统</li>
+                            <li class="btn btn-success fr sysSun" @click="addSys($event)" id="add" v-show="addSub">添加更多子系统</li>
+                            <li class="btn btn-default fr sysSun" id="add2" v-show="!addSub">添加更多子系统</li>
                         </ul>
                     </li>
+                    
                     <li class="row">
                         <div class="col-lg-6 col-md-6">
                             <label class="col-lg-3 col-md-3 text-right">
@@ -142,7 +164,7 @@
                                 <span class="xing">*</span>
                                 是否为互联网应用：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes3">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes3"  v-prompt="{type:'choice'}">
                               <input type="hidden" id="appIsInternet" v-model="formData.appIsInternet"/>
                               <div class="baseMes" @click="getRecordClass($event,1)">是</div>
                               <div class="baseMes" @click="getRecordClass($event,2)">否</div>
@@ -162,15 +184,15 @@
                                 业务类型：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysType" id="sysType">
-                              <input type="hidden" id="sysBusSituationType" name="sysBusSituationType" v-model="formData.sysBusSituationType">
+                              <input type="hidden" id="sysBusSituationType" name="sysBusSituationType" v-model="formData.sysBusSituationType" v-prompt="{type:'null'}">
                               <div v-for="item in sysType">
                                 <div v-if="item.codeName==='其它'">
-                                  <div @click="getClass($event)" id="sysType1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="busSituationType" name="busSituationType" @change="getBus()">
+                                  <div class="inputLineHeight" @click="getClass($event)" id="sysType1">
+                                        其它： <input type="text" class="col-lg-8 baseMesIn" id="busSituationType" name="busSituationType" @change="getBus()">
                                   </div>
                                 </div>
                                 <div v-else>
-                                  <div @click="getClass($event)">{{item.codeName}}</div>
+                                        <div @click="getClass($event)">{{item.codeName}}</div>
                                 </div>
                               </div>
                             </div>
@@ -184,7 +206,7 @@
                             <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
 如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
                             <div class="mcTextArea col-lg-11 col-sm-3" @click="text">
-                                <textarea cols="30" rows="10" placeholder="请输入" name="sysBusDescription" id="sysBusDescription" class="sysArea" v-model="formData.sysBusDescription"></textarea>
+                                <textarea cols="30" rows="10" placeholder="请输入" name="sysBusDescription" id="sysBusDescription" class="sysArea" v-model="formData.sysBusDescription" v-prompt="{type:'textnull'}"></textarea>
                                 <span class='textAll'><span id="textNum">0</span>/200</span>
                                 <!-- 最多100字符，0处显示的是已经写了多少字符 -->
                             </div>
@@ -202,27 +224,27 @@
                                 <span class="xing">*</span> 服务范围：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysServiceType" id="sysSerScope">
-                              <input type="hidden"  name="sysServiceSitScope" id="sysServiceSitScope" v-model="formData.sysServiceSitScope">
+                              <input type="hidden"  name="sysServiceSitScope" id="sysServiceSitScope" v-model="formData.sysServiceSitScope"  v-prompt="{type:'null'}">
                               <div v-for="item in sysServiceScope">
                                 <div v-if="item.codeName==='其它'">
-                                  <div @click="getScopeClass($event)" id="sysSerScope1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope" name="serviceSitScope" @change="getScope1()">
+                                  <div class="inputLineHeight" @click="getScopeClass($event)" id="sysSerScope1">
+                                      其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope" name="serviceSitScope" @change="getScope1()">
                                   </div>
                                 </div>
                                 <div v-else-if="item.codeName==='跨省（区、市）跨个'">
                                   <div @click="getScopeClass($event)" id="sysSerScope2">
-                                                                                                           跨省（区、市）跨： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope2" style="width: 30px;padding:0;" name="serviceSitScope2" @change="getScope2()">个
+                                       跨省（区、市）跨： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope2" style="width: 30px;padding:0;" name="serviceSitScope2" @change="getScope2()">个
                                   </div>
                                 </div>
-                                <div v-else-if="item.codeName==='跨地（区、市） 跨个'">
-                                  <div @click="getScopeClass($event)" id="sysSerScope3">
-                                                                                                          跨地（区、市） 跨： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope3" style="width: 30px;padding:0;" name="serviceSitScope3" @change="getScope3()">个
-                                  </div>
+                                   <div v-else-if="item.codeName==='跨地（区、市） 跨个'">
+                                        <div @click="getScopeClass($event)" id="sysSerScope3">
+                                            跨地（区、市） 跨： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitScope3" style="width: 30px;padding:0;" name="serviceSitScope3" @change="getScope3()">个
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <div @click="getScopeClass($event)">{{item.codeName}}</div>
+                                    </div>
                                 </div>
-                                <div v-else>
-                                  <div @click="getScopeClass($event)">{{item.codeName}}</div>
-                                </div>
-                              </div>
                             </div>
                         </div>
                     </li>
@@ -232,11 +254,11 @@
                                 <span class="xing">*</span>  服务对象：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" id="sysSerObject">
-                              <input type="hidden" name="sysServiceSitObject" id="sysServiceSitObject" v-model="formData.sysServiceSitObject">
+                              <input type="hidden" name="sysServiceSitObject" id="sysServiceSitObject" v-model="formData.sysServiceSitObject"  v-prompt="{type:'null'}">
                               <div v-for="item in sysServiceObject">
                                 <div v-if="item.codeName==='其它'">
-                                  <div @click="getObjectClass($event)" id="sysSerObject1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitObject" name="serviceSitObject"  @change="getObject()">
+                                  <div class="inputLineHeight" @click="getObjectClass($event)" id="sysSerObject1">
+                                      其它： <input type="text" class="col-lg-8 baseMesIn" id="serviceSitObject" name="serviceSitObject"  @change="getObject()">
                                   </div>
                                 </div>
                                 <div v-else>
@@ -259,11 +281,11 @@
                                 覆盖范围：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysCoverage" id="sysCoverage">
-                              <input type="hidden" name="npCoverageRange" id="npCoverageRange" v-model="formData.npCoverageRange">
+                              <input type="hidden" name="npCoverageRange" id="npCoverageRange" v-model="formData.npCoverageRange"  v-prompt="{type:'null'}">
                               <div v-for="item in sysCoverage">
                                 <div v-if="item.codeName==='其它'">
-                                  <div @click="getCoverageClass($event)" id="sysCoverage1">
-                                                                                                           其它： <input type="text" class="col-lg-8 baseMesIn" id="coverageRange" name="coverageRange" @change="getCoverage()">
+                                  <div class="inputLineHeight" @click="getCoverageClass($event)" id="sysCoverage1">
+                                      其它： <input type="text" class="col-lg-8 baseMesIn" id="coverageRange" name="coverageRange" @change="getCoverage()">
                                   </div>
                                 </div>
                                 <div v-else>
@@ -280,15 +302,15 @@
                                 网络性质：
                             </label>
                             <div class="col-lg-11 col-sm-3 baseMes1" name="sysNetwork" id="sysNetwork">
-                              <input type="hidden" name="npNetworkProperties" id="npNetworkProperties" v-model="formData.npNetworkProperties">
+                              <input type="hidden" name="npNetworkProperties" id="npNetworkProperties" v-model="formData.npNetworkProperties"  v-prompt="{type:'null'}">
                               <div v-for="item in sysServiceObject">
                                 <div v-if="item.codeName==='其它'">
-                                  <div @click="getNetworkClass($event)" id="sysNetwork1">
+                                  <div class="inputLineHeight" @click="getNetworkClass($event)" id="sysNetwork1">
                                                                                                            其它： <input type="text" class="col-lg-8 baseMesIn" id="networkProperties" name="networkProperties" @change="getNetwork()">
                                   </div>
                                 </div>
                                 <div v-else>
-                                  <div @click="getNetworkClass($event)">{{item.codeName}}</div>
+                                        <div @click="getNetworkClass($event)">{{item.codeName}}</div>
                                 </div>
                               </div>
                             </div>
@@ -304,15 +326,15 @@
                                 系统互联情况：
                             </label>
                             <div class="col-lg-10 col-sm-3 baseMes1 baseMss" name="sysIntercon" id="sysIntercon">
-                              <input type="hidden" name="interconnectionSit" id="interconnectionSit" v-model="formData.interconnectionSit">
+                              <input type="hidden" name="interconnectionSit" id="interconnectionSit" v-model="formData.interconnectionSit"   v-prompt="{type:'null'}">
                               <div v-for="item in sysIntercon">
                                 <div v-if="item.codeName==='其它'">
-                                  <div @click="getSitClass($event)" id="sysIntercon1">
+                                  <div class="inputLineHeight" @click="getSitClass($event)" id="sysIntercon1">
                                                                                                            其它： <input type="text" class="col-lg-8 baseMesIn" id="interconnection" name="interconnection" @change="getSit()">
                                   </div>
                                 </div>
                                 <div v-else>
-                                  <div @click="getSitClass($event)">{{item.codeName}}</div>
+                                        <div @click="getSitClass($event)">{{item.codeName}}</div>
                                 </div>
                               </div>
                             </div>
@@ -335,7 +357,7 @@
                                     <option value="">XXXX</option>
                                     <option value="">xxxx</option>
                                 </select> -->
-                                <el-select filterable name="companyName" placeholder="请选择" class="formControl" id="companyName" v-model="formData.companyName">
+                                <el-select filterable name="companyName" placeholder="请选择" class="formControl" id="companyName" v-model="formData.companyName" v-prompt="{type:'select'}">
                                   <el-option v-for="item in msgName"
                                     :key="item.orgCode" :label="item.orgName" :value="item.orgName"></el-option>
                                 </el-select> <span class="caretd"></span>
@@ -347,7 +369,7 @@
                                 <span class="xing">*</span>
                                 何时投入使用：
                             </label>
-                            <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.whenInvestmentUse" type="date" placeholder="选择日期"></el-date-picker>
+                            <el-date-picker id="whenInvestmentUseinput" class="col-md-6 col-sm-3 useData" v-model="formData.whenInvestmentUse" type="date"></el-date-picker>
                         </div>
                     </li>
                     <li class="row">
@@ -364,7 +386,7 @@
                                 <span class="xing">*</span>
                                 系统是否为分系统：
                             </label>
-                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" name="sysSubsystem" id="sysSubsystem">
+                            <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" name="sysSubsystem" id="sysSubsystem" v-prompt="{type:'choice'}">
                                 <input type="hidden" name="subIsSystem" v-model="formData.subIsSystem">
                                 <div class="baseMes" @click="getSubClass($event,1)">是</div>
                                 <div class="baseMes" @click="getSubClass($event,2)">否</div>

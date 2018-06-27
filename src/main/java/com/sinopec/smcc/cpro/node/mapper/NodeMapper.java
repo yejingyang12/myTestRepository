@@ -42,4 +42,21 @@ public interface NodeMapper {
    * @return
    */
   int insertBynodeParam(NodeParam nodeParam);
+
+  /**
+   * @Descrption判断是否有此节点
+   * @author yejingyang
+   * @date 2018年6月25日上午9:02:55
+   * @param nodeParam
+   * @return
+   */
+  NodeResult selectSingleNode(NodeParam nodeParam);
+
+  /**
+   * @Descrption根据id修改节点
+   * @author yejingyang
+   * @date 2018年6月25日上午9:23:44
+   * @param nodeParam
+   */
+  void updateNodeByNodeId(NodeParam nodeParam);
 }

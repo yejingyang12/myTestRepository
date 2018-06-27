@@ -1,8 +1,8 @@
 <!--测评-->
 <div>
     <!--弹窗-->
-    <div id="dialog" class="evaluationAlert" style="display:none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
-        <div class="evaluation" style="height:560px;margin-top:-245px;">
+    <div id="dialog" class="evaluationAlert hDiaTesting" style="display:none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
+        <div class="evaluation" style="height:560px;margin-top:-245px;padding: 0 15px;">
             <span class="closes" @click="closes"></span>
             <p class="clearfix cut">
                 <span class="fl revokeTitle" v-if="!editData.evaluationId">添加系统测评信息</span>
@@ -16,7 +16,7 @@
                     </li>
                     <li class="row">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 120px">
+                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
                                 <span class="xing" style="float: right">*<i style="color:#000;">测评项目名称：</i></span>
                             </label>
                             <div class="col-md-8 col-sm-3 evalName">
@@ -32,7 +32,7 @@
                     </li>
                     <li class="row">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 120px">
+                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
                                 <span class="xing" style="float: right">*<i style="color:#000;">测评机构：</i></span>
                             </label>
                             <div class="col-md-8 col-sm-3 evalName">
@@ -44,7 +44,7 @@
                                 <span class="xing" style="float: right">*<i style="color:#000;">测评年度：</i></span>
                             </label>
                             <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <span style="z-index:1;position: absolute;right:30px;top:5px;color: #cecece">|</span>
                                 <select class="form-control pos-relative"   v-model="editData.examYear">
                                     <option>2016</option>
                                     <option>2017</option>
@@ -56,11 +56,11 @@
                     </li>
                     <li class="row">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 120px">
+                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
                                 <span class="xing" style="margin-left: 30px;float: right">*<i style="color:#000;">测评状态：</i></span>
                             </label>
                             <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <span style="z-index:1;position: absolute;right:30px;top:5px;color: #cecece">|</span>
                                 <select class="form-control pos-relative"   v-model="editData.fkExamStatus">
                                     <option value=0>请选择</option>
                                     <option value=1>未测评</option>
@@ -73,7 +73,7 @@
                                 <span class="xing" style="float: right">*<i style="color:#000;">测评结果：</i></span>
                             </label>
                             <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
+                                <span style="z-index:1;position: absolute;right:30px;top:5px;;color: #cecece">|</span>
                                 <select class="form-control pos-relative"   v-model="editData.fkExamResult">
                                     <option value=0>请选择</option>
                                     <option value=1>符合</option>
@@ -85,7 +85,7 @@
                     </li>
                    <li class="row">
                         <div class="col-md-12 report" style="padding-left: 15px;">
-                            <label for="" class="col-md-2" style="width:120px;padding:0;text-align: right;">
+                            <label for="" class="col-md-2" style="width: 136px;  min-width: 136px;padding:0;text-align: right;">
                                 <span class="xing">*</span>
                                 测评报告： 	
                             </label>
@@ -111,12 +111,14 @@
                     <li>整改</li>
                     <li class="row">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 120px">
+                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
                                 <span class="xing" style="float: right">*<i style="color:#000;">   整改结果：</i></span>
                             </label>
                             <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:8.7%;top: 1%;color: #cecece">|</span>
-                                <select id="h-selectzhenggai" class=" form-control pos-relative" v-model="editData.fkRectificationReu">
+                                <span style="z-index:1;position: absolute;right:30px;top:5px;color: #cecece">|</span>
+                                <select id="h-selectzhenggai"
+                                         class=" form-control pos-relative" 
+                                         v-model="editData.fkRectificationReu">
                                     <option value=0>请选择</option>
                                     <option value=1>已整改</option>
                                     <option value=2>未整改</option>
@@ -125,15 +127,18 @@
                         </div>
                         <div class="col-md-6">
                             <label for="" class="col-md-3">
-                                <span class="xing h-xing" style="float: right">*<i style="color:#000;">整改时间：</i></span>
+                             <i style="color:#000;float:right;">整改时间：</i>
+                                <span v-show="editData.fkRectificationReu==1" class="xing h-xing" 
+                                style="float: right;margin-top: 2px;">*</span>
+                               
                             </label>
                             <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.rectificationDate" type="date" placeholder="选择日期" style="width: 66.66666667%;padding:0;"></el-date-picker>
                         </div>
                     </li>
                    <li class="row">
                         <div class="col-md-12 report" style="padding-left: 15px;">
-                            <label for="" class="col-md-2" style="width: 120px; padding: 0px; text-align: right;">
-                                <span class="xing">*</span>
+                            <label for="" class="col-md-2" style="width: 136px;  min-width: 136px; padding: 0px; text-align: right;">
+                                <span class="xing" v-show="editData.fkRectificationReu==1">*</span>
                                 整改报告：
                             </label>
                             <div class="clearfix sysText col-md-9 uploadBox">
@@ -156,10 +161,10 @@
                 </ul>
             </form>
             <p class="h-p" style="width:100%;margin: -15px 15px;">
-                <button type="button" class="btn btn-default" style="float:right;margin-right: 35px;padding: 6px 10px" @click="closes">
+                <button type="button" class="btn btn-default" style="float:right;margin-right: 35px;padding: 6px 10px; height: 34px; width: 70px;" @click="closes">
                     取消</button>
-                <button type="button" class="btn" @click="saveEvaluation"
-                        style="float:right;margin-right:10px;background-color: #1e91e2;color:#fff;">确认
+                <button type="button" class="btn " @click="saveEvaluation"
+                        style="float: right;height: 34px; width: 70px;sfloat:right;margin-right:10px;background-color: #1e91e2;color:#fff;">确认
                 </button>
             </p>
         </div>

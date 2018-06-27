@@ -82,4 +82,15 @@ public class NodeServiceImpl implements NodeService {
     String userName = "admin";
     return userName;
   }
+  @Override
+  public NodeResult selectSingleNode(NodeParam nodeParam) {
+    NodeResult nodeResult= this.nodeMapper.selectSingleNode(nodeParam);
+    return nodeResult;
+  }
+  @Override
+  @Transactional
+  public void editNodeInfo(NodeParam nodeParam) {
+    nodeParam.setCreateTime(DateUtils.getDate());
+    this.nodeMapper.updateNodeByNodeId(nodeParam);
+  }
 }

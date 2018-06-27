@@ -21,6 +21,8 @@
 
 </head>
 <style>
+input:focus{outline:none!important;box-shadow:none}
+::-ms-clear,::-ms-reveal{display:none;}
 .table-striped .liststatus span{
    color: #fff;
     background: #acacac;
@@ -60,14 +62,13 @@
     </smcc-breadcrumb>
     <audit>
     	<!--排序图标-->
-        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
-        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
-        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
-        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou4">
-        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou5">
-        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou6">
-  	 <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou7">
-  		
+      <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
+      <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
+      <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
+      <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou4">
+      <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou5">
+      <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou6">
+	    <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou7">
     </audit>
 </div>
 
@@ -96,7 +97,7 @@
 
 
 <!--分页-->
-<script src="../../static/js/private/pagebox.js"></script>
+<script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 
 <script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>
 <script src="../../static/js/private/audit.js" th:attr="src=@{/js/private/audit.js}"></script>

@@ -12,7 +12,7 @@
                             <span class="xing">*</span>
                             {{sysName}}:
                         </label>
-                        <p class="titleText">中国石化上海院对外发布网站</p>
+                        <p class="titleText">{{formData.systemName}}</p>
                     </div>
                 </li>
                 <li class="row">
@@ -21,7 +21,7 @@
                             <span class="xing">*</span>
                             确定安全保护等级:
                         </label>
-                        <div class="col-md-10 col-xs-offset-2 col-sm-5 saveTable">
+                        <div class="col-md-10 col-xs-offset-2 col-sm-5 saveTable" v-prompt="{type:'radio',name0:'inform',name1:'inorm',num:'2'}">
                             <ul class="clearfix">
                                 <li class="row saveTableRowLine saveTableRow">
                                     <div class="col-md-2">安全保护等级类型</div>
@@ -229,7 +229,7 @@
                         <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
                 如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
                         <div class="mcTextArea col-md-10 col-md-offset-1 col-sm-3" @click="text">
-                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.rankExplainDesc"></textarea>
+                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.rankExplainDesc" maxlength="200" v-prompt="{type:'textnull'}"></textarea>
                             <span class='textAll'><span id="textNum">0</span>/200</span>
                             <!-- 最多200字符，0处显示的是已经写了多少字符-->
                         </div>
@@ -249,7 +249,7 @@
                             <span class="xing">*</span>
                             是否有主管部门:
                         </label>
-                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes1">
+                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes1" v-prompt="{type:'choice'}">
                           <input type="hidden"  v-model="formData.competentIsExisting">
                           <div class="col-md-6" @click="btnBoolen($event,1)">是</div>
                           <div class="col-md-6" @click="btnBoolen($event,2)">否</div>
@@ -263,7 +263,7 @@
                             {{competentName}}:
                         </label>
                         <div class="col-lg-6 col-md-6 liPadding">
-                            <input type="text"  v-model="formData.competentName">
+                            <input id="competentNameinput" type="text"  v-model="formData.competentName" v-prompt="{type:'null',left:'202px'}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-3">
@@ -271,7 +271,7 @@
                             <span class="xing">*</span>
                             主管部门审批定级情况:
                         </label>
-                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes2">
+                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes2" v-prompt="{type:'choice',left:'202px'}">
                           <input type="hidden"  v-model="formData.competentView" >
                           <div class="col-md-6" @click="getClass($event,1)">已审批</div>
                           <div class="col-md-6" @click="getClass($event,2)">未审批</div>
@@ -291,7 +291,7 @@
                                 </ul>
                                 <el-button type="primary" size="small">上传</el-button>
                             </div>
-                            <input type="file" id="file" @change='onUpload'>
+                            <input type="file" id="file" @change='onUpload' v-prompt="{type:'file',left:'383px'}">
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
                     </div>
@@ -303,8 +303,7 @@
                             {{gradPresen}}:
                         </label>
                         <div class="col-lg-6 col-md-6 padding-clear formChange">
-                            <input readonly="readonly" class="col-md-10  padding-clear form-control formControl" id="oInup" type="text"  v-model="formData.gradingReportName"
-                                  />
+                            <input readonly="readonly" class="col-md-10  padding-clear form-control formControl" id="oInup" type="text"  v-model="formData.gradingReportName" v-prompt="{type:'files',left:'0'}"/>
                             <div class="addButton"></div>
                             <input class="updata" type="file" value="" id="file" @change='onUpload1' >
                         </div>
@@ -315,7 +314,7 @@
                             {{gradPresenName}}:
                         </label>
                         <div class="col-md-6 col-sm-3 liPadding">
-                            <input type="text"  disabled id="fileName" v-model="formData.gradingReportName">
+                            <input class="promptinput" type="text"  disabled id="fileName" v-model="formData.gradingReportName" v-prompt="{type:'nulls'}">
                         </div>
                     </div>
                 </li>
@@ -334,7 +333,7 @@
                             </div>
                             <input class="col-md-10 addReview form-control formControl"  type="text" readonly="readonly" v-model="formData.expertReviewName" />
                             <div class="addButton"></div>
-                            <input class="updata" type="file" value="" id="file" @change='onUpload2'>
+                            <input class="updata inputfiles" type="file" value="" id="file" @change='onUpload2' v-prompt="{type:'files',left:'0px',add:'1'}">
                         </div>
                     </div>
                     <div class="col-lg-6 col-sm-3">
@@ -343,7 +342,7 @@
                             {{expertReviewName}}:
                         </label>
                         <div class="col-md-6 col-sm-3 liPadding">
-                            <input type="text" disabled id="fileRew" v-model="formData.expertReviewName">
+                            <input class="promptinput" type="text" disabled id="fileRew" v-model="formData.expertReviewName" v-prompt="{type:'nulls'}">
                         </div>
                     </div>
                 </li>
@@ -360,24 +359,14 @@
                         <label for="" class="col-lg-3 col-md-3 text-right">
                             填表时间:
                         </label>
-                        <el-date-picker class="col-md-6 col-sm-3 liPadding useData"  id="fillDate" v-model="formData.fillDate" type="date" placeholder="选择日期"></el-date-picker>
+                        <el-date-picker class="col-md-6 col-sm-3 liPadding useData"  id="fillDate" v-model="formData.fillDate" type="date" ></el-date-picker>
                     </div>
                 </li>
-                <div v-if="nextBtn">
-                  <slot name="gradNextBtn"></slot>
-                </div>
-                <div v-else>
-                  <slot name="gradBtn"></slot>
-                </div>
-                <div v-if="nextBtn">
-                  <slot name="gradNextChange"></slot>
-                </div>
-                <div v-else>
-                  <slot name="gradChange"></slot>
-                </div>
-                <div v-if="nextBtn">
-                  <slot name="materialBtn"></slot>
-                </div>
+                <slot name="gradNextBtn"></slot>
+                <slot name="gradNextChange"></slot>
+                <slot name="materialBtn"></slot>
+                <slot name="gradBtn"></slot>
+                <slot name="gradChange"></slot>
                 <li class="row liMargin" style="height: 30px;"></li>
             </ul>
         </form>

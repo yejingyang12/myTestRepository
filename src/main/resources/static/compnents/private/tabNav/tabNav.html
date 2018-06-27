@@ -1,5 +1,5 @@
 <div id="main" class="inner" style="background: #ededed">
-  <p class="recordTitle">中石化差旅管理服务平台</p>
+  <p class="recordTitle">{{systemName}}</p>
   <div class="clearfix recBtn">
     <button class="btn btn-success btnBack comitBtm fl" type="submit">提交</button>
     <button class="btn btn-danger btnBack comitBtm fl" type="submit">撤销备案</button>
@@ -29,7 +29,8 @@
         <view-details-record></view-details-record>
       </el-tab-pane>
       <el-tab-pane label="审核" name="record">
-        <audit-grad></audit-grad>
+        <slot name="auditGrad"> </slot>
+        <slot name="fishbone"></slot>
       </el-tab-pane>
     </el-tabs>
   </template>

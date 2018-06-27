@@ -26,7 +26,7 @@
                       <span class="xing">*</span>单位编码:
                   </label>
                   <div  class="col-md-6 col-sm-3 text-right">
-                      <input id="companyCode" name="companyCode" type="text" disabled placeholder="请输入" v-model="formData.companyCode">
+                      <input id="companyCode" name="companyCode" type="text" disabled placeholder="请输入" v-model="formData.companyCode" v-prompt="{type:'null',left:'340px'}">
                   </div>
               </div>
           </li>
@@ -34,7 +34,7 @@
             <div class="col-lg-6 col-sm-3 ">
               <label for="companyAddress" class="col-lg-3 col-md-3 text-right">单位地址: </label>
               <div class="col-md-6 col-sm-3">
-                <input type="text" placeholder="请输入" id="companyAddress" name="companyAddress" v-model="formData.companyAddress">
+                <input type="text" placeholder="请输入" id="companyAddress" name="companyAddress" v-model="formData.companyAddress" maxlength="400">
               </div>
             </div>
             <div class="col-lg-6 col-sm-3">
@@ -42,7 +42,7 @@
                 <span class="xing">*</span> 邮政编码:
               </label>
               <div class="col-md-6 col-sm-3">
-                <input type="text" name="postalCode" id="postalCode" placeholder="请输入" v-model="formData.postalCode">
+                <input type="text" name="postalCode" id="postalCode" placeholder="请输入" v-model="formData.postalCode" v-prompt="{type:'postalCode',left:'340px'}">
               </div>
             </div>
           </li>
@@ -62,7 +62,7 @@
             <div class="col-lg-6 col-sm-3">
               <label for="administrativeNum" class="col-lg-3 col-md-3 text-right"> 行政区划编码: </label>
               <div class="col-md-6 col-sm-3">
-                <input type="text" name="administrativeNum" id="administrativeNum" placeholder="请输入" v-model="formData.administrativeNum">
+                <input type="text" name="administrativeNum" id="administrativeNum" placeholder="请输入" v-model="formData.administrativeNum" maxlength="10">
               </div>
             </div>
           </li>
@@ -75,7 +75,7 @@
                 <span class="xing">*</span> 单位负责人姓名:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" id="compPrincipalName" name="compPrincipalName" placeholder="请输入" v-model="formData.compPrincipalName">
+                <input type="text" id="compPrincipalName" name="compPrincipalName" placeholder="请输入" v-model="formData.compPrincipalName" v-prompt="{type:'null',left:'340px'}" maxlength="40">
               </div>
             </div>
             <div class="col-lg-11 col-sm-3 baseMsgBto">
@@ -83,7 +83,7 @@
                 <span class="xing">*</span> 办公电话:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="compPrincipalWorkTel" id="compPrincipalWorkTel" placeholder="请输入" v-model="formData.compPrincipalWorkTel">
+                <input type="text" name="compPrincipalWorkTel" id="compPrincipalWorkTel" placeholder="请输入" v-model="formData.compPrincipalWorkTel" v-prompt="{type:'tel',left:'340px'}">
               </div>
             </div>
             <div class="col-lg-11 col-sm-3 baseMsgBto">
@@ -91,7 +91,7 @@
                 <span class="xing">*</span> 移动电话:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="compPrincipalPhone" id="compPrincipalPhone" placeholder="请输入" v-model="formData.compPrincipalPhone">
+                <input type="text" name="compPrincipalPhone" id="compPrincipalPhone" placeholder="请输入" v-model="formData.compPrincipalPhone" v-prompt="{type:'phone',left:'340px'}">
               </div>
             </div>
           </li>
@@ -101,7 +101,7 @@
                 <span class="xing">*</span> 职务/职称:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" id="compPrincipalPost" name="compPrincipalPost" placeholder="请输入" v-model="formData.compPrincipalPost">
+                <input type="text" id="compPrincipalPost" name="compPrincipalPost" placeholder="请输入" v-model="formData.compPrincipalPost" v-prompt="{type:'null',left:'340px'}" maxlength="40">
               </div>
             </div>
             <div class="col-lg-12 col-sm-3 baseMsgBto">
@@ -109,7 +109,7 @@
                 <span class="xing">*</span> 电子邮件:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" id="compPrincipalEm" name="compPrincipalEm" placeholder="请输入" v-model="formData.compPrincipalEm">
+                <input type="text" id="compPrincipalEm" name="compPrincipalEm" placeholder="请输入" v-model="formData.compPrincipalEm" v-prompt="{type:'compPrincipalEm',left:'340px'}">
               </div>
             </div>
           </li>
@@ -122,7 +122,7 @@
                 <span class="xing">*</span> 责任部门联系人姓名:
               </label>
               <div class="col-md-8 col-sm-3 text-right">
-                <input type="text" name="ldContactName" id="ldContactName" placeholder="请输入" v-model="formData.ldContactName">
+                <input type="text" name="ldContactName" id="ldContactName" placeholder="请输入" v-model="formData.ldContactName" v-prompt="{type:'null',left:'340px'}" maxlength="40">
               </div>
             </div>
             <div class="col-lg-11 col-sm-3 baseMsgBto">
@@ -130,7 +130,7 @@
                 <span class="xing">*</span> 办公电话:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" id="ldContactWorkTel" name="ldContactWorkTel" placeholder="请输入" v-model="formData.ldContactWorkTel">
+                <input type="text" id="ldContactWorkTel" name="ldContactWorkTel" placeholder="请输入" v-model="formData.ldContactWorkTel" v-prompt="{type:'tel',left:'340px'}">
               </div>
             </div>
             <div class="col-lg-11 col-sm-3 baseMsgBto">
@@ -138,7 +138,7 @@
                 <span class="xing">*</span> 移动电话:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="ldContactPhone" id="ldContactPhone" placeholder="请输入" v-model="formData.ldContactPhone">
+                <input type="text" name="ldContactPhone" id="ldContactPhone" placeholder="请输入" v-model="formData.ldContactPhone" v-prompt="{type:'phone',left:'340px'}">
               </div>
             </div>
           </li>
@@ -148,7 +148,7 @@
                 <span class="xing">*</span> 职务/职称:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="ldContactPost" id="ldContactPost" placeholder="请输入" v-model="formData.ldContactPost">
+                <input type="text" name="ldContactPost" id="ldContactPost" placeholder="请输入" v-model="formData.ldContactPost" v-prompt="{type:'null',left:'340px'}" maxlength="40">
               </div>
             </div>
             <div class="col-lg-12 col-sm-3 baseMsgBto">
@@ -156,7 +156,7 @@
                 <span class="xing">*</span> 电子邮件:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="ldContactEmail" id="ldContactEmail" placeholder="请输入" v-model="formData.ldContactEmail">
+                <input type="text" name="ldContactEmail" id="ldContactEmail" placeholder="请输入" v-model="formData.ldContactEmail" v-prompt="{type:'compPrincipalEm',left:'340px'}">
               </div>
             </div>
           </li>
@@ -169,7 +169,7 @@
                 <span class="xing">*</span> 责任部门:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="rDepartment" id="rDepartment" placeholder="请输入"  v-model="formData.rDepartment">
+                <input type="text" name="rDepartment" id="rDepartment" placeholder="请输入"  v-model="formData.rDepartment" v-prompt="{type:'null',left:'340px'}" maxlength="60">
               </div>
             </div>
             <div class="col-lg-6 col-sm-3">
@@ -177,7 +177,7 @@
                 <span class="xing">*</span> 等保上报单位名称:
               </label>
               <div class="col-md-6 col-sm-3 text-right">
-                <input type="text" name="gpReportingComp" id="gpReportingComp" placeholder="请输入"  v-model="formData.gpReportingComp">
+                <input type="text" name="gpReportingComp" id="gpReportingComp" placeholder="请输入"  v-model="formData.gpReportingComp" v-prompt="{type:'null',left:'340px'}" maxlength="60">
               </div>
             </div>
           </li>
@@ -187,7 +187,7 @@
                 <span class="xing">*</span> 行业类别:
               </label>
               <div class="col-md-8 col-sm-6 industry">
-                <input type="text" name="fkIndustryCategory" id="fkIndustryCategory" placeholder="请输入"  @click="industryCategory()"  v-model="formData.fkIndustryCategory">
+                <input type="text" name="fkIndustryCategory" id="fkIndustryCategory" placeholder="请输入"  @click="industryCategory()"  v-model="formData.fkIndustryCategory" v-prompt="{type:'nulls',left:'340px'}">
               </div>
             </div>
           </li>
@@ -197,7 +197,7 @@
                 class="xing">*</span> 隶属关系:
               </label>
               <div class="col-lg-11 col-sm-3 baseMes1" id="baseMes1" name="baseMes1">
-                <input type="hidden" id="fkAffiliation" name="fkAffiliation" v-model="formData.fkAffiliation">
+                <input type="hidden" id="fkAffiliation" name="fkAffiliation" v-model="formData.fkAffiliation" v-prompt="{type:'null',left:'880px'}">
                 <div v-for="item in msgaAffi">
                   <div v-if="item.codeName==='其它'">
                     <div @click="getClass($event)" id="other1">
@@ -217,7 +217,7 @@
                 class="xing">*</span> 单位类型:
               </label>
               <div class="col-lg-11 col-sm-3 baseMes1" id="baseMes2">
-                <input type="hidden" id="fkCompanyType" name="fkCompanyType" v-model="formData.fkCompanyType">
+                <input type="hidden" id="fkCompanyType" name="fkCompanyType" v-model="formData.fkCompanyType" v-prompt="{type:'null',left:'880px'}">
                 <div v-for="item in msgUintType">
                   <div v-if="item.codeName==='其它'">
                     <div @click="getUintTypeClass($event)" id="other2">
@@ -237,7 +237,7 @@
                 class="xing">*</span> 板块类型:
               </label>
               <div class="col-lg-11 col-sm-3 baseMes1" id="baseMes3">
-                 <input type="hidden" id="fkPlateType" name="fkPlateType" v-model="formData.fkPlateType">
+                 <input type="hidden" id="fkPlateType" name="fkPlateType" v-model="formData.fkPlateType" v-prompt="{type:'null',left:'880px'}">
                 <div v-for="item in msgPlate">
                   <div v-if="item.codeName==='其它'">
                     <div @click="getPlateClass($event)" id="other3">

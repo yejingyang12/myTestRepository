@@ -12,8 +12,15 @@
     <link rel="stylesheet" href="../../static/css/private/addFormCha.css" th:attr="href=@{/css/private/addFormCha.css}">
     <link rel="stylesheet" href="../../static/css/private/addCompanyInfoPage.css" th:attr="href=@{/css/private/addCompanyInfoPage.css}">
     <style>
+    #companyName{
+      height:32px!important; 
+    }
+    #baseMes3 .prompttext{
+        bottom: -16px;
+    }
     span.el-cascader__label{
       line-height: 38px;
+      width: 1073px;
     }
     .addFromRadio{
         width:calc(100% - 100px);
@@ -69,7 +76,7 @@
     <add-list></add-list>
     <add-form-cha></add-form-cha>
     <add-form>
-        <div slot="addInf"  class="btn btn-success btnNext fr" @click="submitHandler()" >下一步</div>
+        <div slot="addInf"  class="btn btn-success btnNext fr" @click="submitHandler()" v-updatas>下一步</div>
     </add-form>
     <add-fromalert></add-fromalert>
   </div>
@@ -95,6 +102,8 @@
 <script async src="../../static/compnents/private/addList/addList.js" th:attr="src=@{/compnents/private/addList/addList.js}"></script>
 <script async src="../../static/js/private/addCompanyInfoPage.js" th:attr="src=@{/js/private/addCompanyInfoPage.js}"></script>
 <script async src="../../static/compnents/private/addFromalert/addFromalert.js" th:attr="src=@{/compnents/private/addFromalert/addFromalert.js}"></script>
+<script async src="../../static/compnents/private/addForm/andFormPrompt.js" th:attr="src=@{/compnents/private/addForm/andFormPrompt.js}"></script>
+
 <script type="text/javascript" th:inline="javascript">
 var readonly="";
 var companyId = [[${companyId}]]; 

@@ -42,7 +42,7 @@
       </li> -->
       <li slot="gradChange" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" v-show="nextBtn" @click="submitBtn()">提交</button>
+          <button type="button" class="btn btn-success " id="submit" v-show="!nextBtn" @click="submitBtn()">提交</button>
           <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
           <button type="button" class="btn btn-default" id="return" @click="returnBtn()">返回</button>
         </div>
@@ -68,6 +68,7 @@
 <script async src="../../static/compnents/private/gradingNav/gradingNav.js" th:attr="src=@{/compnents/private/gradingNav/gradingNav.js}"></script>
 <script async src="../../static/compnents/private/viewDetailsInfor/viewDetailsInfor.js" th:attr="src=@{/compnents/private/viewDetailsInfor/viewDetailsInfor.js}"></script>
 <script async src="../../static/compnents/private/viewDetailsSystem/viewDetailsSystem.js" th:attr="src=@{/compnents/private/viewDetailsSystem/viewDetailsSystem.js}"></script>
+<script async src="../../static/compnents/private/addFormGrad/addFromGradPrompt.js" th:attr="src=@{/compnents/private/addFormGrad/addFromGradPrompt.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 var companyId = [[${companyId}]];

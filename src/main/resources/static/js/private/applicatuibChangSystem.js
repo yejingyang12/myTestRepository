@@ -6,9 +6,7 @@ window.onload = function () {
     var app = new Vue({
         el:"#app",
         data:function () {
-            return{
-
-            }
+            return data;
         },
         methods:{
           saveBtn:function() {

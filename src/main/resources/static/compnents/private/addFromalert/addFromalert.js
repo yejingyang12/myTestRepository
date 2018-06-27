@@ -30,9 +30,11 @@
                   getIndustryCategorySuccessMethod : function(_self, responseData) {
                     
                     for (var i = 0; i < responseData.data.length; i++) {
-                      _self.radios.push({
-                        "lable" : responseData.data[i].codeName,
-                      });
+                      if(responseData.data[i].codeName!='其它'){
+                        _self.radios.push({
+                          "lable" : responseData.data[i].codeName,
+                        });
+                      }
                     }
                   },
                   getIndustryCategory:function(_self,meg){

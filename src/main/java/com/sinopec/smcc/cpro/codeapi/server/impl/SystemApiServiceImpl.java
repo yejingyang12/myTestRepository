@@ -48,7 +48,8 @@ public class SystemApiServiceImpl implements SystemApiService{
     List<SystemApiResult> systemApiResultList = new ArrayList<SystemApiResult>();
     SystemInfoList systemInfoList = null;
     try {
-      systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+//      systemInfoList = JSON.parseObject(systemApiClient.querySystemList(systemApiParam.getCompanyCode()), SystemInfoList.class);
+      systemInfoList = JSON.parseObject(systemApiClient.querySystemList("34400000"), SystemInfoList.class);
     } catch (Exception e) {
       e.printStackTrace();
       return systemApiResultList;

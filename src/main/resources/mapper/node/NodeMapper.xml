@@ -30,7 +30,7 @@
         AND fkSystemId = #{systemId,jdbcType=CHAR}
       ]]>
     </where>
-    ORDER BY createTime DESC
+    ORDER BY createTime
   </select>
   
   <insert id="insertBynodeParam" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam">
@@ -72,4 +72,28 @@
         )
       ]]>
   </insert>
+  <select id="selectSingleNode" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam" resultMap="NodeResult">
+	  SELECT
+      pkId,
+      fkSystemId,
+      operation,
+      operator,
+      operationResult,
+      operationOpinion,
+      createTime
+    FROM
+      t_cpro_node 
+    WHERE operation = #{operation} AND fkSystemId = #{systemId}
+    LIMIT 0,1
+  </select>
+  <update id="updateNodeByNodeId">
+  	UPDATE t_cpro_node
+			SET operation = #{operation},
+			 operator = #{operator},
+			 operationResult = #{operationResult},
+			 createTime = #{createTime},
+			 operationOpinion = #{operationOpinion}
+			WHERE
+				pkId = #{nodeId}
+  </update>
 </mapper>

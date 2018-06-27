@@ -54,4 +54,21 @@ public interface NodeService {
    * @return
    */
   String getUserNameFromRequest(HttpServletRequest request);
+
+  /**
+   * @Descrption根据id查询节点
+   * @author yejingyang
+   * @date 2018年6月25日上午8:59:38
+   * @param nodeParam
+   * @return
+   */
+  NodeResult selectSingleNode(NodeParam nodeParam);
+
+  /**
+   * @Descrption修改覆盖节点
+   * @author yejingyang
+   * @date 2018年6月25日上午9:18:06
+   * @param nodeParam
+   */
+  void editNodeInfo(NodeParam nodeParam);
 }

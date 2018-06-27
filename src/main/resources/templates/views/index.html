@@ -20,8 +20,11 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/private/chart.css" th:attr="href=@{/css/private/chart.css}">
    <link rel="stylesheet" type="text/css" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
    <link rel="stylesheet" type="text/css" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
-</head>
 <style>
+.h-bread {
+    height: 270px;
+    /* background: pink; */
+}
 /* 弹窗 */
 .h-col-md-9-dialog input{
       margin-left: 12px;
@@ -31,6 +34,13 @@
     width: 100%;
     height: 95%;
     border: none;
+}
+.checkbox label, .radio label {
+    min-height: 20px;
+    padding-left: 0px;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
 }
  .cut:after {
     content: "";
@@ -147,7 +157,7 @@
  .chartstarttime .el-input__prefix{
  	color:black;
 	background:url("../../../images/datatime.png") no-repeat center;
-	background-size:60% 60%;
+	background-position-x: calc(100% - 6px);
 	margin-left:80%;
  }
  
@@ -165,8 +175,10 @@
         background-image: url("../../images/xinzenggreen.png");
          background-size: 100% 100%;
     }
-    
+/*去掉ie下input的小眼睛和“x”*/ 
+::-ms-clear,::-ms-reveal{display:none;}   
 </style>
+</head>
 <body class="h-body">
 <div id="app">
     <smcc-header>
@@ -182,7 +194,7 @@
         th:attr="src=@{/images/home/s01ztyiwancheng.png}" slot="s01ztyiwancheng">
         <img src="../../static/images/home/s01ztjinxingzhong.png" alt="" th:attr="src=@{/images/home/s01ztjinxingzhong.png}" slot="s01ztjinxingzhong">
         <img src="../../static/images/home/s01ztweijinxing.png" alt="" th:attr="src=@{/images/home/s01ztweijinxing.png}" slot="s01ztweijinxing">
-        <img src="../../static/images/home/examine.png" alt="" th:attr="src=@{/images/home/examine.png}" slot="s01ztexamine">
+       	<img src="../../static/images/home/examine.png" alt="" th:attr="src=@{/images/home/examine.png}" slot="s01ztexamine">
         
          <!--排序图标-->
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
@@ -200,12 +212,15 @@
 <!--插件-->
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script>
+ var bus=new Vue();
+ </script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
  <script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
 <!--图表插件-->
 <script src="../../static/js/public/echarts/echarts.min.js" th:attr="src=@{/js/public/echarts/echarts.min.js}"></script>
-<!-- <script src="../../static/js/public/echarts/echarts-gl.min.js" th:attr="src=@{/js/public/echarts/echarts-gl.min.js}"></script>
+ <script src="../../static/js/public/echarts/echarts-gl.min.js" th:attr="src=@{/js/public/echarts/echarts-gl.min.js}"></script>
 <script src="../../static/js/public/echarts/ecStat.min.js" th:attr="src=@{/js/public/echarts/ecStat.min.js}"></script>
 <script src="../../static/js/public/echarts/dataTool.min.js" th:attr="src=@{/js/public/echarts/dataTool.min.js}"></script>
 <script src="../../static/js/public/echarts/world.js" th:attr="src=@{/js/public/echarts/world.js}"></script>
@@ -213,7 +228,10 @@
 <script src="../../static/js/public/echarts/china.js" th:attr="src=@{/js/public/echarts/china.js}"></script>
 <script src="../../static/js/public/echarts/bmap.min.js" th:attr="src=@{/js/public/echarts/bmap.min.js}"></script>
 <script src="../../static/js/public/echarts/simplex.js" th:attr="src=@{/js/public/echarts/simplex.js}"></script>
- -->
+<script type="text/javascript">
+  var bus = new Vue();
+</script>
+
 <!--ajax路径-->
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
@@ -243,51 +261,4 @@
 <!--chartStackTwo 堆叠图组件-->
 <script async src="../../static/compnents/private/chartStackTwo/chartStackTwo.js" th:attr="src=@{/compnents/private/chartStackTwo/chartStackTwo.js}"></script>
 
-
-<script>
-  //执行一个laydate实例
-  laydate.render({
-    elem: '#test1' ,//指定元素
-  });
-  laydate.render({
-    elem: '#test2' ,//指定元素
-  });
-  laydate.render({
-    elem: '#test3' ,
-  });
-  laydate.render({
-    elem: '#test4' ,
-  });
-  laydate.render({
-    elem: '#test5' ,
-  });
-  laydate.render({
-    elem: '#test6' ,
-  });
-  laydate.render({
-    elem: '#test7' ,
-  });
-  laydate.render({
-    elem: '#test8' ,
-  });
-  laydate.render({
-    elem: '#test9' ,
-  });
-  laydate.render({
-    elem: '#test10' ,
-  });
-
-    //首页表格的删除弹框
-    var Main = {
-        data() {
-            return {
-                visible2: false,
-            };
-        }
-    };
-  /*   var Ctor = Vue.extend(Main);
-    new Ctor().$mount('#app2'); */
-
-
-</script>
 </html>

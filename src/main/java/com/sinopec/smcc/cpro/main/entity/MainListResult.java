@@ -37,8 +37,47 @@ public class MainListResult {
   private String evaluationPkId;
   private String selfPkId;
   private String companyCode;
+  private Integer spRanklevelCount;
+  private String spRanklevelName;
+  private String recordCompany;
   
   
+  /**
+   * @return the recordCompany
+   */
+  public String getRecordCompany() {
+    return recordCompany;
+  }
+  /**
+   * @param recordCompany the recordCompany to set
+   */
+  public void setRecordCompany(String recordCompany) {
+    this.recordCompany = recordCompany;
+  }
+  /**
+   * @return the spRanklevelCount
+   */
+  public Integer getSpRanklevelCount() {
+    return spRanklevelCount;
+  }
+  /**
+   * @param spRanklevelCount the spRanklevelCount to set
+   */
+  public void setSpRanklevelCount(Integer spRanklevelCount) {
+    this.spRanklevelCount = spRanklevelCount;
+  }
+  /**
+   * @return the spRanklevelName
+   */
+  public String getSpRanklevelName() {
+    return spRanklevelName;
+  }
+  /**
+   * @param spRanklevelName the spRanklevelName to set
+   */
+  public void setSpRanklevelName(String spRanklevelName) {
+    this.spRanklevelName = spRanklevelName;
+  }
   /**
    * @return the companyCode
    */

@@ -94,7 +94,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       
       //修改自查状态为已完成
       MainParam mainParam = new MainParam();
-      mainParam.setEvaluationStatus("3");
+      mainParam.setExaminationStatus("3");
       mainParam.setSystemId(selfexaminationParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
       if (StringUtils.isNotBlank(selfexaminationParam.getExaminationReportPath())) {

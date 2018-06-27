@@ -94,6 +94,26 @@
 	      AND examinationSystemCode.fkCodeType = 25
     ]]>
     <where>
+      <if test="companyList != null">
+        <![CDATA[
+          AND company.companyCode IN  
+        ]]>
+        <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="plateList != null">
+        <![CDATA[
+          AND company.fkPlateType IN  
+        ]]>
+        <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
       <if test="customFiltering != null and customFiltering != ''">
         <bind name="customFiltering" value="'%' + _parameter.customFiltering + '%'" />
           <![CDATA[
@@ -380,13 +400,36 @@
     </where>
   </update>
   
-  <select id="selectSystemName" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
+    <select id="selectSystemName" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
     SELECT
-      systemName,
-      pkId AS systemId
+      system.systemName,
+      system.pkId AS systemId
     FROM 
-      t_cpro_system
-    WHERE deleteStatus=1 and fkSystemType != 3
+      t_cpro_system AS system
+    LEFT JOIN t_cpro_company AS company 
+        ON system.fkCompanyCode = company.companyCode
+    WHERE system.deleteStatus=1 and system.fkSystemType != 3
+    
+    <if test="companyList != null">
+      <![CDATA[
+        AND company.companyCode IN  
+      ]]>
+      <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+        <![CDATA[
+          #{item}
+        ]]>
+      </foreach>
+    </if>
+    <if test="plateList != null">
+      <![CDATA[
+        AND company.fkPlateType IN  
+      ]]>
+      <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+        <![CDATA[
+          #{item}
+        ]]>
+      </foreach>
+    </if>
   </select>
   <update id="updateApplicationChangeBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
     UPDATE 
@@ -440,4 +483,103 @@
       ]]>
     </where>
   </update>
+  <select id="selectGradingStatistics" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
+    SELECT
+      count(score.fkSpRanklevel) AS spRanklevelCount,
+      code.codeName AS spRanklevelName
+    FROM
+      t_cpro_score AS score
+    LEFT JOIN t_cpro_system_code AS code 
+      ON score.fkSpRanklevel = code.systemCode
+      AND code.fkCodeType = 11
+      AND code.systemFatherCode = 3
+    LEFT JOIN t_cpro_system system
+      ON score.fkSystemId = system.pkId
+    <where>
+      score.deleteStatus =1
+      <if test="gradingBeginTime != null ">
+        <![CDATA[
+         AND  score.rankTime >= #{gradingBeginTime,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="gradingEndTime != null ">
+        <![CDATA[
+          AND score.rankTime <= #{gradingEndTime,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="gradingShapeType != null ">
+	      <if test="gradingShapeType == 1 ">
+	        <![CDATA[
+	          AND system.recordStatus = 3
+	        ]]>
+	      </if>
+        <if test="gradingShapeType == 2 ">
+          <![CDATA[
+            AND system.evaluationStatus = 1
+          ]]>
+        </if>
+        <if test="gradingShapeType == 3 ">
+          <![CDATA[
+            AND system.evaluationStatus = 2
+          ]]>
+        </if>
+        <if test="gradingShapeType == 4 ">
+          <![CDATA[
+            AND system.examinationStatus = 1
+          ]]>
+        </if>
+        <if test="gradingShapeType == 5 ">
+          <![CDATA[
+            AND system.examinationStatus = 2
+          ]]>
+        </if>
+        <if test="gradingShapeType == 6 ">
+          <![CDATA[
+            AND system.fkInfoSysTypeCon = 1
+          ]]>
+        </if>
+        <if test="gradingShapeType == 7 ">
+          <![CDATA[
+            AND system.fkInfoSysTypeCon = 2
+          ]]>
+        </if>
+      </if>
+    </where>
+      GROUP BY
+       score.fkSpRanklevel
+  </select>
+  <select id="selectRecordsCompanyNum" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam" resultMap="MainListResult">
+      SELECT
+        SUM(IF (sce.fkSpRanklevel = 301, 1, 0)) AS Level1,
+        SUM(IF (sce.fkSpRanklevel = 302, 1, 0)) AS Level2,
+        SUM(IF (sce.fkSpRanklevel = 303, 1, 0)) AS Level3,
+        SUM(IF (sce.fkSpRanklevel = 304, 1, 0)) AS Level4,
+        SUM(IF (sce.fkSpRanklevel = 305, 1, 0)) AS Level5,
+        SUM(IF (sce.fkSpRanklevel = 305, 1, 1)) AS Level,
+        rec.recordCompany
+      FROM
+        t_cpro_system sys
+      LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
+      LEFT JOIN t_cpro_records rec ON rec.fkSystemId = sys.pkId
+      
+    <where>
+      records.deleteStatus = 1
+      <if test="recordsBeginTime != null ">
+        <![CDATA[
+         AND rec.recordDate >= #{recordsBeginTime,jdbcType=DATE}
+        ]]>
+      </if>
+      <if test="recordsEndTime != null ">
+        <![CDATA[
+          AND rec.recordDate <= #{recordsEndTime,jdbcType=DATE}
+        ]]>
+      </if>
+    </where>
+    GROUP BY
+      rec.recordCompany
+	  ORDER BY
+	    ORDER BY Level desc
+	  LIMIT 0,10
+  </select>
+  
 </mapper>

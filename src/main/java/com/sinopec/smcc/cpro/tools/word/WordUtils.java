@@ -79,7 +79,7 @@ public class WordUtils {
         e.printStackTrace();    
     }    
     String filePath = MainConstant.TEMPORARY_FILE_PATH+fileName+"_"+
-        DateUtils.getMilliseconds()+".doc";
+        DateUtils.getStringDateShort()+".doc";
     File outFile = new File(filePath);  //导出文档的存放位置  
     if(!outFile.exists()){
       outFile.getParentFile().mkdirs();          

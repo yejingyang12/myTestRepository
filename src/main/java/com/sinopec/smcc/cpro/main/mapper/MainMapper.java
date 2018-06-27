@@ -80,4 +80,21 @@ public interface MainMapper {
    */
   void updateSystemStatusBySystemId(MainParam mainParam);
 
+  /**
+   * @Descrption 系统等保等级分布统计图
+   * @author dongxu
+   * @date 2018年6月25日上午10:11:55
+   * @return
+   */
+  List<MainListResult> selectGradingStatistics(MainParam mainParam);
+
+  /**
+   * @Descrption 备案单位数量 统计图
+   * @author dongxu
+   * @date 2018年6月26日下午2:43:02
+   * @param mainParam
+   * @return
+   */
+  List<MainListResult> selectRecordsCompanyNum(MainParam mainParam);
+
 }

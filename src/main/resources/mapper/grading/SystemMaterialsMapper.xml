@@ -156,6 +156,158 @@
      pkId = #{systemMaterialsId},
      fkSystemId = #{fkSystemId}
   </insert>
+  <insert id="insertSystemMaterialsBean" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam">
+  	INSERT INTO t_cpro_provide_system_material
+      (
+        pkId,fkSystemId,deleteStatus,createUserName,createTime,updateTime,remark
+      ) VALUES (
+      <trim suffixOverrides="," >
+        <![CDATA[
+        #{systemMaterialsId},
+        ]]>
+        <![CDATA[
+        #{fkSystemId},
+        ]]>
+        <choose>
+         <when test="deleteStatus != null and deleteStatus != ''">
+           <![CDATA[
+             #{deleteStatus},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="createUserName != null and createUserName != ''">
+           <![CDATA[
+             #{createUserName},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="createTime != null ">
+           <![CDATA[
+             #{createTime},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="updateTime != null ">
+           <![CDATA[
+             #{updateTime},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+        <choose>
+         <when test="remark != null and remark != ''">
+           <![CDATA[
+             #{remark},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
+     </trim>
+     ) ON DUPLICATE KEY UPDATE
+     pkId = #{systemMaterialsId},
+     fkSystemId = #{fkSystemId}
+  </insert>
   
   
+  <!-- 材料信息最终对象 -->
+  <resultMap id="SystemMaterialsBeanResult" type="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult">
+    <id column="pkId" property="systemMaterialsId"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+    
+    <result column="evaluationPresentationId" property="evaluationPresentationId"/>
+    <result column="evaluationPresentationName" property="evaluationPresentationName"/>
+    
+    <result column="expertReviewId" property="expertReviewId"/>
+    <result column="expertReviewName" property="expertReviewName"/>
+    
+    <result column="directorOpinionId" property="directorOpinionId"/>
+    <result column="directorOpinionName" property="directorOpinionName"/>
+    
+    <collection property="topologyDescriptionList" column="{systemMaterialsId=pkId,fkSystemId=fkSystemId,attachType=topologyDescription}" 
+    						javaType="ArrayList" ofType="com.sinopec.smcc.cpro.file.entity.AttachParam" select="getAttachList"/>
+  	
+  	<collection property="organizationManagementList" column="{systemMaterialsId=pkId,fkSystemId=fkSystemId,attachType=organizationManagement}" 
+                javaType="ArrayList" ofType="com.sinopec.smcc.cpro.file.entity.AttachParam" select="getAttachList"/>
+    
+    <collection property="implementationPlanList" column="{systemMaterialsId=pkId,fkSystemId=fkSystemId,attachType=implementationPlan}" 
+                javaType="ArrayList" ofType="com.sinopec.smcc.cpro.file.entity.AttachParam" select="getAttachList"/>
+    
+    <collection property="licenseCertificateList" column="{systemMaterialsId=pkId,fkSystemId=fkSystemId,attachType=licenseCertificate}" 
+                javaType="ArrayList" ofType="com.sinopec.smcc.cpro.file.entity.AttachParam" select="getAttachList"/>
+  </resultMap>
+  <!-- 当一种附件有多个时的列表对象 -->
+  <resultMap id="AttachResult" type="com.sinopec.smcc.cpro.file.entity.AttachResult">
+  	<id column="pkId" property="fileId"/>
+    <result column="attachName" property="attachName"/>
+  </resultMap>
+  <!-- 获取材料信息对象 -->
+  <select id="selectSystemMaterialsBeanResultBySystemId" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam" resultMap="SystemMaterialsBeanResult">
+  	SELECT
+  		'topologyDescription' AS topologyDescription,
+  		'organizationManagement' AS organizationManagement,
+  		'implementationPlan' AS implementationPlan,
+  		'licenseCertificate' AS licenseCertificate,
+  		mat.pkId,
+			sys.pkId AS fkSystemId,
+			evaluationPresentation.pkId AS evaluationPresentationId,
+			evaluationPresentation.attachName AS evaluationPresentationName,
+			expertReview.pkId AS expertReviewId,
+			expertReview.attachName AS expertReviewName,
+			directorOpinion.pkId AS directorOpinionId,
+			directorOpinion.attachName AS directorOpinionName
+		FROM
+			t_cpro_system sys
+		LEFT JOIN t_cpro_evaluation eva ON eva.fkSystemId = sys.pkId
+		LEFT JOIN t_cpro_attach evaluationPresentation ON evaluationPresentation.fkSystemId = eva.fkSystemId
+		AND evaluationPresentation.fkSyssonId = eva.pkId
+		AND evaluationPresentation.fkAttachType = 'evaluationPresentation'
+		LEFT JOIN t_cpro_score sco ON sco.fkSystemId = sys.pkId
+		LEFT JOIN t_cpro_attach expertReview ON expertReview.fkSystemId = sco.fkSystemId
+		AND expertReview.fkSyssonId = sco.pkId
+		AND expertReview.fkAttachType = 'expertReview'
+		LEFT JOIN t_cpro_attach directorOpinion ON directorOpinion.fkSystemId = sco.fkSystemId
+		AND directorOpinion.fkSyssonId = sco.pkId
+		AND directorOpinion.fkAttachType = 'directorOpinion'
+		LEFT JOIN t_cpro_provide_system_material mat ON sys.pkId = mat.fkSystemId
+		WHERE sys.pkId = #{fkSystemId}
+		LIMIT 0,1
+  </select>
+  <!-- 获取当一种附件有多个时的对象列表数据 -->
+  <select id="getAttachList" resultMap="AttachResult" parameterType="java.util.HashMap">
+  	SELECT
+			pkId,
+			attachName
+		FROM
+			t_cpro_attach
+		WHERE
+			fkSystemId = #{fkSystemId}
+		AND fkSyssonId = #{systemMaterialsId}
+		AND fkAttachType = #{attachType}
+  </select>
 </mapper>

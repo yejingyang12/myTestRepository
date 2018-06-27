@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.tools;
 
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -2942,6 +2943,19 @@ public class DateUtils {
     beforeCalendar.setTime(getDate(format, beforeDate));
     afterCalendar.setTime(getDate(format, afterDate));
     return beforeCalendar.equals(afterCalendar);
+  }
+  
+  /**
+   * @Descrption 获取 当前时间 年月日时分毫秒 例如：201806242036283
+   * @author dongxu
+   * @date 2018年6月24日下午8:15:01
+   * @return
+   */
+  public static String getStringDateShort() {
+    Date currentTime = new Date();
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmsss");
+    String dateString = formatter.format(currentTime);
+    return dateString;
   }
   
 //  calendar.getCalendarType();

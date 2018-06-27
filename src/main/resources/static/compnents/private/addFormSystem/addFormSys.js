@@ -125,7 +125,7 @@ var  data={
         }]
       },
       systemInfo2:false,
-      systemInfo3:false,
+      addSub:true,
       sysName:[],//系统名称
       sysType:[],//业务类型
       sysServiceScope:[],//服务范围
@@ -267,7 +267,7 @@ var  data={
                     }
                   },
                   getCoverage:function(){
-                    this.formData.npCoverageRange = $("#coverageRange").val();
+                    this.formData6.npCoverageRange = $("#coverageRange").val();
                   },
                   getNetworkClass:function(e){
                     $("#sysNetwork div div").click(function(){
@@ -313,27 +313,38 @@ var  data={
                       }
                   },
                   addSys:function (e) {
-                        this.num ++;
-                        var str = '<li class="row">'+
-                                '<div class="col-lg-6 col-md-6">'+
-                                    '<label class="col-lg-3 col-md-3 text-right">'+
-                                        '<span class="xing">*</span>'+
-                                        '子系统  '+this.num+'系统名称：'+
-                                   ' </label>'+
-                                    '<div class="col-lg-6 col-md-6 childSystem">'+
-                                      '  <input type="text" placeholder="请输入">'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="col-lg-6 col-sm-3">'+
-                                   ' <label for="" class="col-lg-3 col-md-3 text-right">'+
-                                       ' 子系统'+this.num+'标准化代码：'+
-                                   ' </label>'+
-                                   ' <div  class="col-md-6 col-md-6 childSystem">'+
-                                        '<input type="text" disabled>'+
-                                    '</div>'+
-                               ' </div>'+
-                           ' </li>';
-                        $('#add').before(str);
+                    
+                    this.formData.addSystemSub.push({
+                      "systemName":"",
+                      "standardizedCode":""
+                    });
+                    if(this.formData.addSystemSub.length>=this.sysName.length){
+                      this.addSub = false;
+                    }
+                    
+//                        this.num ++;
+//                        var str = '<li class="row">'+
+//                                '<div class="col-lg-6 col-md-6">'+
+//                                    '<label class="col-lg-3 col-md-3 text-right">'+
+//                                        '<span class="xing">*</span>'+
+//                                        '子系统  '+this.num+'系统名称：'+
+//                                   ' </label>'+
+//                                    '<div class="col-lg-6 col-md-6 childSystem">'+
+//                                      '<select class="form-control" v-model="formData.addSystemSub['+this.num+'].systemName" filterable placeholder="请选择" :disabled = "systemInfo3"  @change="setStandardizedCode(formData.addSystemSub['+this.num+'].systemName,3)">'+
+//                                        '<option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></option>'+
+//                                      '</select>'+
+//                                    '</div>'+
+//                                '</div>'+
+//                                '<div class="col-lg-6 col-sm-3">'+
+//                                   ' <label for="" class="col-lg-3 col-md-3 text-right">'+
+//                                       ' 子系统'+this.num+'标准化代码：'+
+//                                   ' </label>'+
+//                                   ' <div  class="col-md-6 col-md-6 childSystem">'+
+//                                        '<input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub['+this.num+'].standardizedCode" id="standardizedCode">'+
+//                                    '</div>'+
+//                               ' </div>'+
+//                           ' </li>';
+//                        $('#add').before(str);
                     },
                     text:function(){
                         $('#sysBusDescription').on("keyup",function(){
@@ -364,15 +375,13 @@ var  data={
                     getSystemInfoMethod : function(_self) {
                       ajaxMethod(_self, 'post',
                           'systemapi/querySystemApi', true,
-                          '{}', 'json',
+                          '{"companyCode":"'+companyCode+'"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getSystemInfoSuccessMethod);
                     },
                     // 获取系统信息成功
                     getSystemInfoSuccessMethod : function(_self, responseData) {
-                      for (var i = 0; i < responseData.data.length; i++) {
-                        _self.sysName = responseData.data;
-                      }
+                      _self.sysName = responseData.data;
                     },
                     // 获取业务承受信息
                     getBearInfoMethod : function(_self) {
@@ -477,10 +486,8 @@ var  data={
                           if(e==this.sysName[i].systemName){
                             if(val==1){
                               this.formData.standardizedCode = this.sysName[i].systemCode;
-                            }else if(val==2){
-                              this.formData.addSystemSub[0].standardizedCode = this.sysName[i].systemCode;
-                            }else if(val==3){
-                              this.formData.addSystemSub[1].standardizedCode = this.sysName[i].systemCode;
+                            }else{
+                              this.formData.addSystemSub[val-2].standardizedCode = this.sysName[i].systemCode;
                             }
                           }
                         }
@@ -584,7 +591,6 @@ var  data={
                         this.systemInfo = false;
                         $("#systemInfo1").attr("disabled","disabled");
                         this.systemInfo2 = true;
-                        this.systemInfo3 = true;
                       }else{
                         this.systemSonInfo = false;
                         this.systemInfo = true;

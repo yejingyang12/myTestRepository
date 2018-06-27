@@ -6,7 +6,7 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-3 text-right">系统名称：</span>
-                <span class="col-md-3 text-left">{{formData.systemName}}</span>
+                <span class="col-md-6 text-left">{{formData.systemName}}</span>
             </p>
         </li>
         <li class="row">
@@ -241,7 +241,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">主管部门审批定级情况：</span>
-                <span class="col-md-3 text-left">
+                <span class="col-md-6 text-left">
                    <div  v-if="formData.competentView == '1'">
                                                                  已审批
                    </div>
@@ -254,17 +254,17 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-3 text-right">定级报告：</span>
-                <span class="col-md-3 text-left"><a @click="download(formData.gradingReportId)" style="cursor:pointer">{{formData.gradingReportName}}</a></span>
+                <span class="col-md-6 text-left"><a @click="download(formData.gradingReportId)" style="cursor:pointer">{{formData.gradingReportName}}</a></span>
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">定级报告名称：</span>
-                <span class="col-md-3 text-left">{{formData.gradingReportName}}</span>
+                <span class="col-md-6 text-left">{{formData.gradingReportName}}</span>
             </p>
         </li>
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-3 text-right">专家评审情况：</span>
-                <span class="col-md-5 text-left">
+                <span class="col-md-6 text-left">
                 <span>
                   <div  v-if="formData.expertView == '1'">
                   <span> 已审核
@@ -279,7 +279,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">评审附件名称：</span>
-                <span class="col-md-3 text-left">
+                <span class="col-md-6 text-left">
 	                 <div  v-if="formData.expertView == '1'">
 	                      {{formData.expertReviewName}}
 	                 </div>

@@ -48,6 +48,7 @@
   		SELECT
 				che.pkId AS checkId,
 				che.fkSystemId,
+        com.pkId AS companyId,
 				che.instanceName,
 				che.initiator,
 				che.prevExecutor,
@@ -62,10 +63,31 @@
 			FROM
 				t_cpro_check che
 			LEFT JOIN t_cpro_system sys ON che.fkSystemId = sys.pkId
+      LEFT JOIN t_cpro_company com ON com.companyCode = sys.fkCompanyCode
 			LEFT JOIN t_cpro_attach expertReview ON che.fkSystemId = expertReview.fkSystemId AND expertReview.fkAttachType = 'expertReview'
 			LEFT JOIN t_cpro_attach recordReport ON che.fkSystemId = recordReport.fkSystemId AND recordReport.fkAttachType = 'recordReport'
   	]]>
   	<where>
+      <if test="companyList != null">
+        <![CDATA[
+          AND com.companyCode IN  
+        ]]>
+        <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="plateList != null">
+        <![CDATA[
+          AND com.fkPlateType IN  
+        ]]>
+        <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
   		<if test="instanceName != null and instanceName != ''">
         <bind name="instanceName" value="'%' + _parameter.instanceName + '%'" />
         <![CDATA[

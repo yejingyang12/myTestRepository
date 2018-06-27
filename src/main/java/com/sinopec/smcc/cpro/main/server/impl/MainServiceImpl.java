@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +33,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
@@ -103,6 +107,8 @@ public class MainServiceImpl implements MainService{
   @Autowired
   private  RecordsService recordsServiceImpl;
   
+  @Autowired
+  private JurisdictionApiService jurisdictionApiServiceImpl;
   /**
    * 响应等保列表数据
    */
@@ -131,7 +137,39 @@ public class MainServiceImpl implements MainService{
     }
     //获得相应列表数据
     List<MainListResult> list = this.mainMapper.selectAllByMainParam(mainParam);
-
+//    //权限
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    
+//    if(organizationApiResult==null){
+//      return new PageInfo<>();
+//    }else{
+//      
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      
+//      case "0":
+//        break;
+//      case "1":
+//        // 获得响应列表数据
+//        list = 
+//            this.mainMapper.selectAllByMainParam(mainParam);
+//        break;
+//      case "2":
+//        mainParam.setPlateList(organizationApiResult.getNameList());
+//        list =  
+//            this.mainMapper.selectAllByMainParam(mainParam);
+//        break;
+//      case "3":
+//        mainParam.setCompanyList(organizationApiResult.getCodeList());
+//        list =  
+//            this.mainMapper.selectAllByMainParam(mainParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
+//    }
     //装载列表数据
     PageInfo<MainListResult> pageInfo = new PageInfo<>(list);
     return pageInfo;
@@ -153,10 +191,9 @@ public class MainServiceImpl implements MainService{
    * 导出excel
    */
   @Override
-  public String exportExcelForMain() throws BusinessException {    
+  public String exportExcelForMain(HttpServletRequest request) throws BusinessException {    
     String strFilePath = MainConstant.TEMPORARY_FILE_PATH;
-    String strFileName = "系统信息导出"+"_"+DateUtils.getMilliseconds()+".xlsx";
-    
+    String strFileName = "系统信息导出"+"_"+DateUtils.getStringDateShort()+".xlsx";
     File file = new File(strFilePath);
     if (!file.exists()) {
       file.mkdirs();
@@ -273,6 +310,20 @@ public class MainServiceImpl implements MainService{
       ExcelUtils.write(excelBean);
     } catch (IOException e) {
       e.printStackTrace();
+    } 
+//    try {
+//      strFileName = java.net.URLDecoder.decode(strFileName,"UTF-8");
+//    } catch (UnsupportedEncodingException e) {
+//      e.printStackTrace();
+//    } 
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      try {
+        strFileName = URLEncoder.encode(strFileName, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }  
     } 
     return strFilePath + strFileName;
   }
@@ -422,7 +473,7 @@ public class MainServiceImpl implements MainService{
    * 一键下载（表1 单位信息）
    */
   @Override
-  public Map<String,Object> tableCompany(MainParam mainParam) throws BusinessException{
+  public Map<String,Object> tableCompany(HttpServletRequest request,MainParam mainParam) throws BusinessException{
     Map<String,Object> dataMap=new HashMap<String,Object>();
     CompanyParam companyParam = new CompanyParam();
     companyParam.setCompanyId(mainParam.getCompanyId());
@@ -821,9 +872,23 @@ public class MainServiceImpl implements MainService{
       dataMap.put("code4", "");dataMap.put("code5", ""); 
       dataMap.put("code6", ""); dataMap.put("type", ""); 
     }
-    Map<String,Object> result = new HashMap<>();
-    result.put("url", WordUtils.createWord(dataMap,"company.ftl","单位信息"));
+    Map<String,Object> result = new HashMap<>(); 
+    String url = WordUtils.createWord(dataMap,"company.ftl","单位信息");
+    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      try {
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }  
+    }
+    result.put("url", fileUrl+fileName);
     result.put("tableCompanyResult", dataMap);
+  
+    
     return result;
   }
 
@@ -831,7 +896,7 @@ public class MainServiceImpl implements MainService{
    * 一键下载（表2 系统信息）
    */
   @Override
-  public Map<String,Object> tableSystem(MainParam mainParam) throws BusinessException{
+  public Map<String,Object> tableSystem(HttpServletRequest request,MainParam mainParam) throws BusinessException{
     Map<String,Object> dataMap=new HashMap<String,Object>();
     //查询系统信息
     SystemParam systemParam = new SystemParam();
@@ -936,7 +1001,7 @@ public class MainServiceImpl implements MainService{
           coverType = "cover2";
         }else if(systemResult.getNpCoverageRange().equals("广域网")){
           dataMap.put("cover3", "✓");
-          coverType = "cover4";
+          coverType = "cover3";
         }else{
           dataMap.put("cover9", "✓");
           coverType = "cover9";
@@ -1197,14 +1262,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b1","✓");
                     dataMap.put("b2"," ");
                     dataMap.put("b3"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b2","✓");
                     dataMap.put("b1"," ");
                     dataMap.put("b3"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b3","✓");
+                    dataMap.put("b2"," ");
+                    dataMap.put("b1"," ");
+                  }else{
+                    dataMap.put("b3"," ");
                     dataMap.put("b2"," ");
                     dataMap.put("b1"," ");
                   }
@@ -1227,14 +1294,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b4","✓");
                     dataMap.put("b5"," ");
                     dataMap.put("b6"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b5","✓");
                     dataMap.put("b4"," ");
                     dataMap.put("b6"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b6","✓");
+                    dataMap.put("b5"," ");
+                    dataMap.put("b4"," ");
+                  }else{
+                    dataMap.put("b6"," ");
                     dataMap.put("b5"," ");
                     dataMap.put("b4"," ");
                   }
@@ -1257,14 +1326,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b7","✓");
                     dataMap.put("b8"," ");
                     dataMap.put("b9"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b8","✓");
                     dataMap.put("b7"," ");
                     dataMap.put("b9"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b9","✓");
+                    dataMap.put("b8"," ");
+                    dataMap.put("b7"," ");
+                  }else{
+                    dataMap.put("b9"," ");
                     dataMap.put("b8"," ");
                     dataMap.put("b7"," ");
                   }
@@ -1287,14 +1358,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b10","✓");
                     dataMap.put("b11"," ");
                     dataMap.put("b12"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b11","✓");
                     dataMap.put("b10"," ");
                     dataMap.put("b12"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b12","✓");
+                    dataMap.put("b11"," ");
+                    dataMap.put("b10"," ");
+                  }else{
+                    dataMap.put("b12"," ");
                     dataMap.put("b11"," ");
                     dataMap.put("b10"," ");
                   }
@@ -1317,14 +1390,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b13","✓");
                     dataMap.put("b15"," ");
                     dataMap.put("b14"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b14","✓");
                     dataMap.put("b13"," ");
                     dataMap.put("b15"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b15","✓");
+                    dataMap.put("b14"," ");
+                    dataMap.put("b13"," ");
+                  }else{
+                    dataMap.put("b15"," ");
                     dataMap.put("b14"," ");
                     dataMap.put("b13"," ");
                   }
@@ -1347,14 +1422,18 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b16","✓");
                     dataMap.put("b17"," ");
                     dataMap.put("b18"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b17","✓");
                     dataMap.put("b18"," ");
                     dataMap.put("b16"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b18","✓");
+                    dataMap.put("b17"," ");
+                    dataMap.put("b16"," ");
+                  }else{
+                    dataMap.put("b17"," ");
+                    dataMap.put("b18"," ");
+                    dataMap.put("b16"," ");
                   }
                 }
               }else if(systemRes.getFkProductsType() == 7){//安全培训
@@ -1375,14 +1454,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b19","✓");
                     dataMap.put("b20"," ");
                     dataMap.put("b21"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b20","✓");
                     dataMap.put("b19"," ");
                     dataMap.put("b21"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b21","✓");
+                    dataMap.put("b20"," ");
+                    dataMap.put("b19"," ");
+                  }else{
+                    dataMap.put("b21"," ");
                     dataMap.put("b20"," ");
                     dataMap.put("b19"," ");
                   }
@@ -1406,14 +1487,16 @@ public class MainServiceImpl implements MainService{
                     dataMap.put("b22","✓");
                     dataMap.put("b23"," ");
                     dataMap.put("b24"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 2){
+                  }else if(systemRes.getFkResponsibleType() == 2){
                     dataMap.put("b23","✓");
                     dataMap.put("b22"," ");
                     dataMap.put("b24"," ");
-                  }
-                  if(systemRes.getFkResponsibleType() == 3){
+                  }else if(systemRes.getFkResponsibleType() == 3){
                     dataMap.put("b24","✓");
+                    dataMap.put("b23"," ");
+                    dataMap.put("b22"," ");
+                  }else{
+                    dataMap.put("b24"," ");
                     dataMap.put("b23"," ");
                     dataMap.put("b22"," ");
                   }
@@ -1688,7 +1771,19 @@ public class MainServiceImpl implements MainService{
       dataMap.put("companySystemName", "");
     }
     Map<String,Object> result = new HashMap<>();
-    result.put("url",WordUtils.createWord(dataMap,"system.ftl","系统信息"));
+    String url = WordUtils.createWord(dataMap,"system.ftl","系统信息");
+    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      try {
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }  
+    }
+    result.put("url", fileUrl+fileName);
     result.put("tableSystemResult", dataMap);
     return result;
   }
@@ -1697,7 +1792,7 @@ public class MainServiceImpl implements MainService{
    * 一键下载（表3 定级信息）
    */
   @Override
-  public Map<String,Object> tableGrading(MainParam mainParam) throws BusinessException {
+  public Map<String,Object> tableGrading(HttpServletRequest request,MainParam mainParam) throws BusinessException {
     Map<String,Object> dataMap=new HashMap<String,Object>();
     //查询定级信息
     GradingParam gradingParam = new GradingParam();
@@ -1942,7 +2037,19 @@ public class MainServiceImpl implements MainService{
       dataMap.put("tableDate", "");
     }
     Map<String,Object> result = new HashMap<>();
-    result.put("url",WordUtils.createWord(dataMap,"grading.ftl","定级信息"));
+    String url = WordUtils.createWord(dataMap,"grading.ftl","定级信息");
+    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      try {
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }  
+    }
+    result.put("url", fileUrl+fileName);
     result.put("tableGradingResult", dataMap);
     return result;
   }
@@ -1951,7 +2058,7 @@ public class MainServiceImpl implements MainService{
    *  一键下载（表4 附件信息）
    */
   @Override
-  public Map<String,Object> tableAttach(MainParam mainParam) throws BusinessException {
+  public Map<String,Object> tableAttach(HttpServletRequest request,MainParam mainParam) throws BusinessException {
     Map<String,Object> dataMap=new HashMap<String,Object>();
     //查询系统信息
     AttachMaterialsParam attachMaterialsParam = new AttachMaterialsParam();
@@ -2070,7 +2177,19 @@ public class MainServiceImpl implements MainService{
       dataMap.put("name5", " ");dataMap.put("name6", " ");dataMap.put("name7", " ");
     }
     Map<String,Object> result = new HashMap<>();
-    result.put("url",WordUtils.createWord(dataMap,"attach.ftl","附件信息"));
+    String url = WordUtils.createWord(dataMap,"attach.ftl","附件信息");
+    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      try {
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }  
+    }
+    result.put("url", fileUrl+fileName);
     result.put("tableAttachResult", dataMap);
     return result;
   }
@@ -2149,19 +2268,19 @@ public class MainServiceImpl implements MainService{
    * 一键下载
    */
   @Override
-  public String oneButtonDownloading(HttpServletResponse response,
+  public String oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
       MainParam mainParam) throws BusinessException{
     Map<String,Object> result = new HashMap<>();
     //表头信息
     Map<String,Object> tableRecordResult = tableRecord(mainParam);
     //表1 单位信息
-    Map<String,Object> tableCompanyResult = tableCompany(mainParam);
+    Map<String,Object> tableCompanyResult = tableCompany(request,mainParam);
     //表2 系统信息
-    Map<String,Object> tableSystemResult = tableSystem(mainParam);
+    Map<String,Object> tableSystemResult = tableSystem(request,mainParam);
     //表3 定级信息
-    Map<String,Object> tableGradingResult = tableGrading(mainParam);
+    Map<String,Object> tableGradingResult = tableGrading(request,mainParam);
     //表4 附件信息
-    Map<String,Object> tableAttachResult = tableAttach(mainParam);
+    Map<String,Object> tableAttachResult = tableAttach(request,mainParam);
  
     //将所有返回结果存进Map
     if(tableRecordResult != null){
@@ -2190,8 +2309,20 @@ public class MainServiceImpl implements MainService{
       //删除文件
       File file = new File(tableAttachResult.get("url").toString());
       file.delete();
-    } 
-    return  WordUtils.createWord(result,"recordSheet.ftl","备案表");
+    }
+    String url = WordUtils.createWord(result,"recordSheet.ftl","备案表");
+    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    //如果是IE浏览器，则用URLEncode解析  
+    FileOperateUtil fileOperateUtil = new FileOperateUtil();
+    if(fileOperateUtil.isMSBrowser(request)){  
+      try {
+        fileName = URLEncoder.encode(fileName, "UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        e.printStackTrace();
+      }  
+    }
+    return  fileUrl+fileName;
   }
 
   /**
@@ -2199,7 +2330,43 @@ public class MainServiceImpl implements MainService{
    */
   @Override
   public List<MainListResult> querySystemName(MainParam mainParam) throws BusinessException {
-    return this.mainMapper.selectSystemName(mainParam);
+    
+  //获得相应列表数据
+    List<MainListResult> list = new ArrayList<MainListResult>();
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return list;
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        list = 
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+      case "2":
+        mainParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+      case "3":
+        mainParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+
+      default:
+        break;
+      }
+    }
+    return list;
   }
   
   /**
@@ -2330,5 +2497,21 @@ public class MainServiceImpl implements MainService{
     if(StringUtils.isBlank(mainParam.getSystemId()))
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     mainMapper.updateSystemStatusBySystemId(mainParam);
+  }
+
+  /**
+   * 系统等保等级分布统计图
+   */
+  @Override
+  public List<MainListResult> queryGradingStatistics(MainParam mainParam) throws BusinessException {
+    return mainMapper.selectGradingStatistics(mainParam);
+  }
+
+  /**
+   * 备案单位数量 统计图
+   */
+  @Override
+  public List<MainListResult> queryRecordsCompanyNum(MainParam mainParam) throws BusinessException {
+    return mainMapper.selectRecordsCompanyNum(mainParam);
   }
 }

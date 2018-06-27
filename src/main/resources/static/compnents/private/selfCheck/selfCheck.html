@@ -1,7 +1,7 @@
 <!--自查-->
 <div>
 <!--弹出框-->
-    <div id="dialog" class="evaluationAlert" style=" display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
+    <div id="dialog" class="evaluationAlert hDiaSelfCheck" style=" display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
         <div class="evaluation" style="height: 560px;margin-top:-245px;">
             <span class="closes" @click="closes()"></span>
             <p class="clearfix cut">
@@ -97,7 +97,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="" class="col-md-3" style="width: 120px;text-align:right;">
-                                <span class="xing">*</span>
+                                <span class="xing" v-show="editParam.fkRectificationReu==1">*</span>
                                 整改时间：
                             </label>
 							<el-date-picker class="col-md-6 col-sm-3 useData" v-model="editParam.rectificationDate" type="date" placeholder="选择日期" style="width: 66.66666667%;padding:0;"></el-date-picker>
@@ -106,7 +106,7 @@
                     <li class="row">
                         <div class="col-md-12 report" style="padding-left: 15px;">
                             <label for="" class="col-md-2" style="width: 120px;text-align:right;padding:0">
-                                <span class="xing">*</span>
+                                <span class="xing" v-show="editParam.fkRectificationReu==1">*</span>
                                 整改报告：
                             </label>
                             <div class="clearfix sysText col-md-9 uploadBox">
