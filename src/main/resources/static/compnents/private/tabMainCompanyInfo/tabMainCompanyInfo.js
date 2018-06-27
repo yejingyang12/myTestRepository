@@ -13,7 +13,7 @@
           }
         },
         methods:{
-          handleClick(tab, event) {
+          handleClick:function(tab, event) {
             console.log(tab, event);
           }
         },

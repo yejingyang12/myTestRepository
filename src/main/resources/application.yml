@@ -38,8 +38,8 @@ pagehelper:
     params: count=countSql
     offset-as-page-num: true
     row-bounds-with-count: true
-ubs.api.url: http://10.248.65.107
-cpro.api.url: http://10.246.173.229:8092/
+smcc.depends.ubs.api: http://10.248.65.107
+cpro.api.url: http://10.246.146.156:8092/
 appId: 907
 redisId: 100
 wildcard: 
