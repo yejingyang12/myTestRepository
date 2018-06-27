@@ -9,7 +9,7 @@
         $.get(comp_src+'/compnents/private/viewDetailsNav/viewDetailsNav.html').then(function(res){
             resolve({
                 template:res,
-                data:function () {
+                data:function () { 
                     return {
                         activeName: 'information'
                     }
