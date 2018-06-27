@@ -11,6 +11,9 @@ logging:
   level:
     root: info
 spring:
+  profiles:
+    #dev|uat|prd
+    active: dev,common
   freemarker:
     cache: false 
   application:
