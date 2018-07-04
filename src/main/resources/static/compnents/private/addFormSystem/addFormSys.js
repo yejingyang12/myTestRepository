@@ -29,14 +29,20 @@ var  data={
         companyName:"",
         fkComCode:"",
         changeType:"",
-        addSystemSub:[{
-          systemName:"",
-          standardizedCode:""
-        },
-        {
-          systemName:"",
-          standardizedCode:""
-        }],
+        addSystemSub:[
+//        {
+//          label:"子系统1系统名称：",
+//          labelCode:"子系统1标准化代码：",
+//          systemName:"",
+//          standardizedCode:""
+//        },
+//        {
+//          label:"子系统2系统名称：",
+//          labelCode:"子系统2标准化代码：",
+//          systemName:"",
+//          standardizedCode:""
+//        }
+        ],
         systemKeyProducts:[{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -233,6 +239,12 @@ var  data={
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.fkSystemIsMerge = param;
                     if(param==1){
+                      this.formData.addSystemSub.push({
+                        "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
+                        "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
+                        "systemName":"",
+                        "standardizedCode":""
+                      });
                       this.systemInfo = false;
                       this.systemSonInfo = true;
                       this.formData.systemName = "";
@@ -240,14 +252,20 @@ var  data={
                     }else{
                       this.systemInfo = true;
                       this.systemSonInfo = false;
-                      this.formData.addSystemSub=[{
-                        systemName:"",
-                        standardizedCode:""
-                      },
-                      {
-                        systemName:"",
-                        standardizedCode:""
-                      }];
+                      this.formData.addSystemSub=[
+//                      {
+//                        label:"子系统1系统名称：",
+//                        labelCode:"子系统1标准化代码：",
+//                        systemName:"",
+//                        standardizedCode:""
+//                      },
+//                      {
+//                        label:"子系统2系统名称：",
+//                        labelCode:"子系统2标准化代码：",
+//                        systemName:"",
+//                        standardizedCode:""
+//                      }
+                      ];
                       this.formData.systemName = "";
                     }
                   },
@@ -374,38 +392,16 @@ var  data={
                       }
                   },
                   addSys:function (e) {
-                    
-                    this.formData.addSystemSub.push({
-                      "systemName":"",
-                      "standardizedCode":""
-                    });
-                    if(this.formData.addSystemSub.length>=this.sysName.length){
-                      this.addSub = false;
-                    }
-                    
-//                        this.num ++;
-//                        var str = '<li class="row">'+
-//                                '<div class="col-lg-6 col-md-6">'+
-//                                    '<label class="col-lg-3 col-md-3 text-right">'+
-//                                        '<span class="xing">*</span>'+
-//                                        '子系统  '+this.num+'系统名称：'+
-//                                   ' </label>'+
-//                                    '<div class="col-lg-6 col-md-6 childSystem">'+
-//                                      '<select class="form-control" v-model="formData.addSystemSub['+this.num+'].systemName" filterable placeholder="请选择" :disabled = "systemInfo3"  @change="setStandardizedCode(formData.addSystemSub['+this.num+'].systemName,3)">'+
-//                                        '<option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></option>'+
-//                                      '</select>'+
-//                                    '</div>'+
-//                                '</div>'+
-//                                '<div class="col-lg-6 col-sm-3">'+
-//                                   ' <label for="" class="col-lg-3 col-md-3 text-right">'+
-//                                       ' 子系统'+this.num+'标准化代码：'+
-//                                   ' </label>'+
-//                                   ' <div  class="col-md-6 col-md-6 childSystem">'+
-//                                        '<input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub['+this.num+'].standardizedCode" id="standardizedCode">'+
-//                                    '</div>'+
-//                               ' </div>'+
-//                           ' </li>';
-//                        $('#add').before(str);
+                      if(this.formData.addSystemSub.length>=this.sysName.length){
+                        this.addSub = false;
+                      }else{
+                        this.formData.addSystemSub.push({
+                          "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
+                          "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
+                          "systemName":"",
+                          "standardizedCode":""
+                        });
+                      }
                     },
                     text:function(){
                         $('#sysBusDescription').on("keyup",function(){
@@ -575,11 +571,15 @@ var  data={
                         if(response.addSystemSub!=null){
                           if(response.addSystemSub.length<_self.formData.addSystemSub.length){
                             response.addSystemSub.push({
+                              "label":"子系统"+(response.addSystemSub.length+1)+"系统名称：",
+                              "labelCode":"子系统"+(response.addSystemSub.length+1)+"标准化代码：",
                               "systemName":"",
                               "standardizedCode":""
                             });
                           }else if(response.addSystemSub.length>_self.formData.addSystemSub.length){
                             _self.formData.addSystemSub.push({
+                              "label":"子系统"+(response.addSystemSub.length+1)+"系统名称：",
+                              "labelCode":"子系统"+(response.addSystemSub.length+1)+"标准化代码：",
                               "systemName":"",
                               "standardizedCode":""
                             });
@@ -644,14 +644,20 @@ var  data={
                         }
                       }
                       if(response.addSystemSub==null){
-                        _self.formData.addSystemSub = [{
-                          systemName:"",
-                          standardizedCode:""
-                        },
-                        {
-                          systemName:"",
-                          standardizedCode:""
-                        }];
+                        _self.formData.addSystemSub = [
+//                        {
+//                          label:"子系统1系统名称：",
+//                          labelCode:"子系统1标准化代码：",
+//                          systemName:"",
+//                          standardizedCode:""
+//                        },
+//                        {
+//                          label:"子系统2系统名称：",
+//                          labelCode:"子系统2标准化代码：",
+//                          systemName:"",
+//                          standardizedCode:""
+//                        }
+                        ];
                       }
                       if(response.fkSystemIsMerge == '1'){
                         this.systemSonInfo = true;

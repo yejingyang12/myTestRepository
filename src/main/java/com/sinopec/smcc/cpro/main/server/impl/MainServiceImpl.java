@@ -1800,38 +1800,38 @@ public class MainServiceImpl implements MainService{
     if(gradingListResult != null){
       //确定业务信息安全保护等级
       if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
-        if(gradingListResult.getFkBizSPRankLevel().equals("1")){
+        if(gradingListResult.getFkBizSPRankLevel().equals("101")){
           selected = "v1";
         }
-        if(gradingListResult.getFkBizSPRankLevel().equals("2")){
+        if(gradingListResult.getFkBizSPRankLevel().equals("102")){
           selected = "v2";
         }
-        if(gradingListResult.getFkBizSPRankLevel().equals("3")){
+        if(gradingListResult.getFkBizSPRankLevel().equals("103")){
           selected = "v3";
         }
-        if(gradingListResult.getFkBizSPRankLevel().equals("4")){
+        if(gradingListResult.getFkBizSPRankLevel().equals("104")){
           selected = "v4";
         }
-        if(gradingListResult.getFkBizSPRankLevel().equals("5")){
+        if(gradingListResult.getFkBizSPRankLevel().equals("105")){
           selected = "v5";
         }
       }
       //确定系统服务安全保护等级
       String select = "";
       if(StringUtils.isNotBlank(gradingListResult.getFkBizSystemLevel())){
-        if(gradingListResult.getFkBizSystemLevel().equals("1")){
+        if(gradingListResult.getFkBizSystemLevel().equals("201")){
           select = "s1";
         }
-        if(gradingListResult.getFkBizSystemLevel().equals("2")){
+        if(gradingListResult.getFkBizSystemLevel().equals("202")){
           select = "s2";
         }
-        if(gradingListResult.getFkBizSystemLevel().equals("3")){
+        if(gradingListResult.getFkBizSystemLevel().equals("203")){
           select = "s3";
         }
-        if(gradingListResult.getFkBizSystemLevel().equals("4")){
+        if(gradingListResult.getFkBizSystemLevel().equals("204")){
           select = "s4";
         }
-        if(gradingListResult.getFkBizSystemLevel().equals("5")){
+        if(gradingListResult.getFkBizSystemLevel().equals("205")){
           select = "s5";
         }
       }

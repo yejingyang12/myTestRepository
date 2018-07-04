@@ -79,30 +79,16 @@
                             </li>
                             <li class="row" v-for="(addSys,i) in formData.addSystemSub">
                                 <div class="col-lg-6 col-md-6">
-                                    <el-form-item label="子系统1系统名称：" prop="systemName" class="P-addsystem" style="padding-left: 15px;">
+                                    <el-form-item :label="formData.addSystemSub[[i]].label" prop="systemName" class="P-addsystem" style="padding-left: 15px;">
                                         <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
                                             <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
                                         </el-select>
                                     </el-form-item>
-                                    <!--<label class="col-lg-3 col-md-3 text-right">-->
-                                        <!--<span class="xing">*</span> 子系统{{i+1}}系统名称：-->
-                                    <!--</label>-->
-                                    <!--<div class="col-lg-6 col-md-6 childSystem" >-->
-                                        <!--<el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">-->
-                                          <!--<el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>-->
-                                        <!--</el-select>-->
-                                    <!--</div>-->
                                 </div>
                                 <div class="col-lg-6 col-sm-3">
-                                    <el-form-item label="子系统1标准化代码：" prop="standardizedCode" class="P-addsystem" style="padding-left: 15px;">
+                                    <el-form-item :label="formData.addSystemSub[[i]].labelCode" prop="standardizedCode" class="P-addsystem" style="padding-left: 15px;">
                                         <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
                                     </el-form-item>
-                                    <!--<label for="" class="col-lg-3 col-md-3 text-right">-->
-                                        <!--子系统{{i+1}}标准化代码：-->
-                                    <!--</label>-->
-                                    <!--<div  class="col-md-6 col-md-6 childSystem">-->
-                                        <!--<input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">-->
-                                    <!--</div>-->
                                 </div>
                             </li>
                             <li class="btn btn-success fr sysSun" @click="addSys($event)" id="add" v-show="addSub">添加更多子系统</li>

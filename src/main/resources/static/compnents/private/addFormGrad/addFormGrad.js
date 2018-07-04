@@ -182,15 +182,15 @@ var data={
                       
                       this.formData.directorOpinionName=responseData.data.attachName;
                       this.formData.directorOpinionPath=responseData.data.uploadUrl;
-                      var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      var fileHtml='<li><div class="fl updwon1">'+responseData.data.attachName+'</div><i class="el-icon-close fl del1"></i></li>'
                       $("#fileList").html(fileHtml);
-                      $(".del").click(function(){
+                      $(".del1").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
                         _self.formData.directorOpinionName='';
                         _self.formData.directorOpinionPath='';
                       });
-                      $(".updwon").click(function(){
+                      $(".updwon1").click(function(){
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });
@@ -205,15 +205,15 @@ var data={
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
                       
-                      var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      var fileHtml='<li><div class="fl updwon2">'+responseData.data.attachName+'</div><i class="el-icon-close fl del2"></i></li>'
                       $("#fileList1").html(fileHtml);
-                      $(".del").click(function(){
+                      $(".del2").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
                         _self.formData.expertReviewName='';
                         _self.formData.expertReviewPath='';
                       });
-                      $(".updwon").click(function(){
+                      $(".updwon2").click(function(){
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });
@@ -227,15 +227,15 @@ var data={
                     onUploadSuccessMethod2: function(_self,responseData){
                       this.formData.expertReviewName=responseData.data.attachName;
                       this.formData.expertReviewPath=responseData.data.uploadUrl;
-                      var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      var fileHtml='<li><div class="fl updwon3">'+responseData.data.attachName+'</div><i class="el-icon-close fl del3"></i></li>'
                       $("#fileList2").html(fileHtml);
-                      $(".del").click(function(){
+                      $(".del3").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
                         _self.formData.expertReviewName='';
                         _self.formData.expertReviewPath='';
                       });
-                      $(".updwon").click(function(){
+                      $(".updwon3").click(function(){
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });
@@ -920,15 +920,15 @@ var data={
                           $("#direHide1").show();
                           $("#approval").show();
                           if(responseData.data.directorOpinionName!=''&&responseData.data.directorOpinionName!=null){
-                            var fileHtml='<li><div class="fl updwon">'+responseData.data.directorOpinionName+'</div><i class="el-icon-close fl del"></i></li>'
+                            var fileHtml='<li><div class="fl updwon1">'+responseData.data.directorOpinionName+'</div><i class="el-icon-close fl del1"></i></li>'
                             $("#fileList").html(fileHtml);
-                            $(".del").click(function(){
+                            $(".del1").click(function(){
                               $(this).parent("li").remove();
                               _self.fileDel(responseData.data.directorOpinionId,2);
                               _self.formData.directorOpinionName = '';
                               _self.formData.directorOpinionId = '';
                             });
-                            $(".updwon").click(function(){
+                            $(".updwon1").click(function(){
                               //$(this).parent("li").remove();
                               _self.fileDownload(responseData.data.directorOpinionId,2);
                             });
@@ -951,29 +951,29 @@ var data={
                         }
                         
                         if(responseData.data.gradingReportName!=''&&responseData.data.gradingReportName!=null){
-                          var fileHtml='<li><div class="fl updwon">'+responseData.data.gradingReportName+'</div><i class="el-icon-close fl del"></i></li>'
+                          var fileHtml='<li><div class="fl updwon2">'+responseData.data.gradingReportName+'</div><i class="el-icon-close fl del2"></i></li>'
                           $("#fileList1").html(fileHtml);
-                          $(".del").click(function(){
+                          $(".del2").click(function(){
                             $(this).parent("li").remove();
-                            _self.fileDel(responseData.data.gradingReportId,2);
                             _self.formData.gradingReportName = '';
                             _self.formData.gradingReportId = '';
+                            _self.fileDel(responseData.data.gradingReportId,2);
                           });
-                          $(".updwon").click(function(){
+                          $(".updwon2").click(function(){
                             //$(this).parent("li").remove();
                             _self.fileDownload(responseData.data.gradingReportId,2);
                           });
                         }
                         if(responseData.data.expertReviewName!=''&&responseData.data.expertReviewName!=null){
-                          var fileHtml='<li><div class="fl updwon">'+responseData.data.expertReviewName+'</div><i class="el-icon-close fl del"></i></li>'
+                          var fileHtml='<li><div class="fl updwon3">'+responseData.data.expertReviewName+'</div><i class="el-icon-close fl del3"></i></li>'
                           $("#fileList2").html(fileHtml);
-                          $(".del").click(function(){
+                          $(".del3").click(function(){
                             $(this).parent("li").remove();
                             _self.fileDel(responseData.data.expertReviewId,2);
                             _self.formData.expertReviewName = '';
                             _self.formData.expertReviewId = '';
                           });
-                          $(".updwon").click(function(){
+                          $(".updwon3").click(function(){
                             //$(this).parent("li").remove();
                             _self.fileDownload(responseData.data.expertReviewId,2);
                           });
