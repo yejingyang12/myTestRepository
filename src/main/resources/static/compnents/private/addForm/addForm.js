@@ -1,4 +1,6 @@
   var data = {
+      directive:false,
+      check : false,
       formData:{
         companyName:"",
         companyTypeName:"",
@@ -34,14 +36,98 @@
       msgPlate : [],// 板块类型
       selectedOptions:[],
       transmitParam:[],
-      nameReadonly:false
+      nameReadonly:false,
+      rules:{
+          companyName: [
+              { required: true, message: '请选择单位名称', trigger: 'change' },
+          ],
+          companyCode: [
+              { required: true, message: '请输入单位编码', trigger: 'change' }
+          ],
+          companyAddress: [
+              { required: false, message: '请输入单位地址', trigger: 'blur' },
+              { min: 0, max: 400, message: '长度在 0 到 400 个字符', trigger: 'blur' }
+          ],
+          postalCode: [
+              { required: true, message: '请输入邮政编码', trigger: 'blur' },
+              { pattern: /^\d{1,6}$/, message: '邮政编码输入有误', trigger: 'blur'}
+          ],
+          fkSubordinatePro: [
+              { required: true, message: '请选择所属省份', trigger: 'blur' }
+          ],
+          administrativeNum: [
+              { required: false, message: '请输入行政区划编码', trigger: 'blur' },
+              { pattern: /^\d{0,10}$/, message: '行政区划编码输入有误', trigger: 'blur'}
+          ],
+          compPrincipalName: [
+              { required: true, message: '请输入单位负责人姓名', trigger: 'blur' },
+              { min: 1, max: 40, message: '长度在 1 到 40 个字符', trigger: 'blur' }
+          ],
+          compPrincipalWorkTel: [
+              { required: true, message: '请输入办公电话', trigger: 'blur' },
+              { min: 8, max: 12, message: '长度在 8 到10个字符', trigger: 'blur' },
+              { pattern: /^[0-9]*$/, message: '办公电话输入有误', trigger: 'blur'}
+          ],
+          compPrincipalPhone: [
+              { required: true, message: '请输入移动电话', trigger: 'blur' },
+              { min: 11, max: 11, message: '长度在 11个字符', trigger: 'blur' },
+              { pattern: /^[0-9]*$/, message: '移动电话输入有误', trigger: 'blur'}
+          ],
+          compPrincipalPost: [
+              { required: true, message: '请输入职务/职称', trigger: 'blur' },
+              { min: 1, max: 40, message: '长度在 1 到40个字符', trigger: 'blur' }
+          ],
+          compPrincipalEm: [
+              { required: true, message: '请输入电子邮件', trigger: 'blur' },
+              { min: 1, max: 50, message: '长度在  1 到50个字符', trigger: 'blur' },
+              { pattern: /^([a-zA-Z0-9._-])+\@+[0-9a-zA-Z]*\.(com|com.cn|edu|hk|cn|net)$/, message: '电子邮件输入有误', trigger: 'blur'}
+          ],
+          ldContactName: [
+              { required: true, message: '请输入责任部门联系人姓名', trigger: 'blur' },
+              { min: 1, max: 40, message: '长度在  1 到40个字符', trigger: 'blur' }
+          ],
+          ldContactWorkTel: [
+              { required: true, message: '请输入办公电话', trigger: 'blur' },
+              { min: 8, max: 12, message: '长度在 8 到10个字符', trigger: 'blur' },
+              { pattern: /^[0-9]*$/, message: '办公电话输入有误', trigger: 'blur'}
+          ],
+          ldContactPhone: [
+              { required: true, message: '请输入移动电话', trigger: 'blur' },
+              { min: 11, max: 11, message: '长度在 11个字符', trigger: 'blur' },
+              { pattern: /^[0-9]*$/, message: '移动电话输入有误', trigger: 'blur'}
+          ],
+          ldContactPost: [
+              { required: true, message: '请输入职务/职称', trigger: 'blur' },
+              { min: 1, max: 40, message: '长度在 1 到40个字符', trigger: 'blur' }
+          ],
+          ldContactEmail: [
+              { required: true, message: '请输入电子邮件', trigger: 'blur' },
+              { min: 1, max: 50, message: '长度在  1 到50个字符', trigger: 'blur' },
+              { pattern: /^([a-zA-Z0-9._-])+\@+[0-9a-zA-Z]*\.(com|com.cn|edu|hk|cn|net)$/, message: '电子邮件输入有误', trigger: 'blur'}
+          ],
+          rDepartment: [
+              { required: true, message: '请输入责任部门', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在  1 到60个字符', trigger: 'blur' }
+          ],
+          gpReportingComp: [
+              { required: true, message: '请输入等保上报单位名称', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在  1 到60个字符', trigger: 'blur' }
+          ],
+          fkIndustryCategory: [
+               { required: true, message: '请输入行业类别', trigger: 'change' }
+          ],
+          fkAffiliation: [
+               { required: true, message: '请选择隶属关系', trigger: 'change' }
+          ],
+          fkCompanyType: [
+               { required: true, message: '请选择单位类型', trigger: 'change' }
+          ],
+          fkPlateType: [
+               { required: true, message: '请选择板块类型', trigger: 'change' }
+          ]
+      },
   };
 (function() {
-
-
-
-
-
   Vue.component('addForm', function(resolve, reject) {
     $.get(comp_src + '/compnents/private/addForm/addForm.html').then(
         function(res) {
@@ -59,12 +145,15 @@
                 })
                 if(e.target.innerHTML.indexOf("其它") != -1){
                   this.formData.fkAffiliation = $("#affiliation").val();
+                  this.$refs.formData.validateField('fkAffiliation');
                 }else{
                   this.formData.fkAffiliation = e.target.innerHTML;
+                  this.$refs.formData.validateField('fkAffiliation');
                 }
               },
               getAffiliation : function() {
                 this.formData.fkAffiliation = $("#affiliation").val();
+                this.$refs.formData.validateField('fkAffiliation');
               },
               
               // 点击切换 添加class名
@@ -75,12 +164,15 @@
                 })
                 if(e.target.innerHTML.indexOf("其它") != -1){
                   this.formData.fkCompanyType = $("#companyType").val();
+                  this.$refs.formData.validateField('fkCompanyType');
                 }else{
                   this.formData.fkCompanyType = e.target.innerHTML;
+                  this.$refs.formData.validateField('fkCompanyType');
                 }
               },
               getCompanyType : function() {
                 this.formData.fkCompanyType = $("#companyType").val();
+                this.$refs.formData.validateField('fkCompanyType');
               },
               // 点击切换 添加class名
               getPlateClass : function(e) {
@@ -90,12 +182,15 @@
                 })
                 if(e.target.innerHTML.indexOf("其它") != -1){
                   this.formData.fkPlateType = $("#plateType").val();
+                  this.$refs.formData.validateField('fkPlateType');
                 }else{
                   this.formData.fkPlateType = e.target.innerHTML;
+                  this.$refs.formData.validateField('fkPlateType');
                 }
               },
               getPlateType : function() {
                 this.formData.fkPlateType = $("#plateType").val();
+                this.$refs.formData.validateField('fkPlateType');
               },
               // 获取省份
               getProvinceMethod : function(_self) {
@@ -113,28 +208,41 @@
               },
               // 获取隶属关系
               getAffiliationMethod : function(_self) {
-                 ajaxMethod(_self, 'post',
-                     'systemCode/querySystemCodeForKeySystemCode', true,
-                     '{"codeType":"3"}', 'json',
-                     'application/json;charset=UTF-8',
-                     _self.getAffiliationSuccessMethod);
+//                 ajaxMethod(_self, 'post',
+//                     'systemCode/querySystemCodeForKeySystemCode', true,
+//                     '{"codeType":"3"}', 'json',
+//                     'application/json;charset=UTF-8',
+//                     _self.getAffiliationSuccessMethod);
+                var responseData='{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"中央","systemCode":"1","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"省（自治区、直辖市）","systemCode":"2","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"地（区、市、州、盟）","systemCode":"3","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"县（区、市、旗）","systemCode":"4","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"5","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';
+                responseData = JSON.parse(responseData);
+                _self.getAffiliationSuccessMethod(_self,responseData);
+                 
               },
               // 获取隶属关系成功
               getAffiliationSuccessMethod : function(_self, responseData) {
                  _self.msgaAffi = responseData.data;
+                 if(_self.msgaAffi.length > 5){
+                   $("#baseMes1").addClass("baseMes2");
+                 }
               },
               // 获取单位类别
               getUnitTypeMethod : function(_self) {
-                ajaxMethod(_self, 'post',
-                    'systemCode/querySystemCodeForKeySystemCode', true,
-                    '{"codeType":"5"}', 'json',
-                    'application/json;charset=UTF-8',
-                    _self.getUnitTypeSuccessMethod);
+//                ajaxMethod(_self, 'post',
+//                    'systemCode/querySystemCodeForKeySystemCode', true,
+//                    '{"codeType":"5"}', 'json',
+//                    'application/json;charset=UTF-8',
+//                    _self.getUnitTypeSuccessMethod);
+                var responseData='{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"党委机关","systemCode":"1","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"政府机关","systemCode":"2","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"事业单位","systemCode":"3","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"企业","systemCode":"4","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"5","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';
+                responseData = JSON.parse(responseData);
+                _self.getUnitTypeSuccessMethod(_self,responseData);
               },
               // 获取单位类别成功
               getUnitTypeSuccessMethod : function(_self, responseData) {
                 _self.msgUintType = responseData.data;
-                
+
+                if(_self.msgUintType.length > 5){
+                  $("#baseMes2").addClass("baseMes2");
+                }
               },
               // 获取板块类型
               getPlateTypeMethod : function(_self) {
@@ -143,17 +251,13 @@
                      '{"codeType":"6"}', 'json',
                      'application/json;charset=UTF-8',
                      _self.getPlateTypeSuccessMethod);
+//                 var responseData='{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"总部部门","systemCode":"1","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"油田板块","systemCode":"2","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"炼化板块","systemCode":"3","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"销售板块","systemCode":"4","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"石油工程","systemCode":"5","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"驻外机构","systemCode":"6","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"炼化工程","systemCode":"7","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"科研单位","systemCode":"8","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"专业公司及其他","systemCode":"9","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"10","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';
+//                 responseData = JSON.parse(responseData);
+//                 _self.getPlateTypeSuccessMethod(_self,responseData);
               },
               // 获取板块类型成功
               getPlateTypeSuccessMethod : function(_self, responseData) {
-                  _self.msgPlate = responseData.data;
-                  
-                if(_self.msgUintType.length > 5){
-                  $("#baseMes2").addClass("baseMes2");
-                }
-                if(_self.msgaAffi.length > 5){
-                  $("#baseMes1").addClass("baseMes2");
-                }
+                _self.msgPlate = responseData.data;
                 if(_self.msgPlate.length > 5){
                   $("#baseMes3").addClass("baseMes2");
                 }
@@ -321,7 +425,45 @@
               },
               industryCategory: function(){
                 bus.$emit("industryCategory","1");
-              }
+              },
+              
+              saveCompanyInfo: function(_self){
+              	_self.submitHandler();
+              },
+              cleanCompanyInfo: function(_self){
+              	_self.formData={
+                    companyName:"",
+                    companyTypeName:"",
+                    ldContactName:"",
+                    companyCode:"",
+                    companyAddress:"",
+                    postalCode:"",
+                    administrativeNum:"",
+                    compPrincipalName:"",
+                    compPrincipalPost:"",
+                    compPrincipalWorkTel:"",
+                    compPrincipalEm:"",
+                    compPrincipalPhone:"",
+                    ldContactPost:"",
+                    ldContactWorkTel:"",
+                    ldContactEmail:"",
+                    ldContactPhone:"",
+                    rDepartment:"",
+                    gpReportingComp:"",
+                    fkSubordinatePro:"",
+                    fkIndustryCategory:"",
+                    fkAffiliation:"",
+                    fkPlateType:"",
+                    fkCompanyType:"",
+                    companyId:"",
+                    changeType:"",
+                    systemId:""
+                 };
+              	$(".baseMes1").find(".btnColor").removeClass("btnColor");
+              },
+              returnCompanyList: function(_self){
+              	window.location.href = originUrl + "page/mainCompanyInfoPage";
+              },
             },
             created : function() {
               // 获取省份
@@ -363,6 +505,57 @@
               bus.$on("resource",function(meg){
                 if(meg!=null){
                   _self.formData.fkIndustryCategory = meg;
+                  _self.$refs.formData.validateField('fkIndustryCategory');
+                }
+              });
+              
+              bus.$on("saveCompanyInfo",function(meg){
+                if(meg!=null){
+                  _self.saveCompanyInfo(_self);
+                }
+              });
+              bus.$on("cleanCompanyInfo",function(meg){
+                if(meg!=null){
+                  _self.cleanCompanyInfo(_self);
+                }
+              });
+              bus.$on("returnCompanyList",function(meg){
+                if(meg!=null){
+                  _self.returnCompanyList(_self);
+                }
+              });
+              bus.$on('formName',function(meg){
+                if(meg!=null){
+                  _self.$refs[meg].validate(function (valid) {
+                    if (valid) {
+                      bus.$emit('addCompany',"add");
+                    } else {
+                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                          
+                        }
+                      });
+                      return false;
+                    }
+                  });
+                }
+              });
+              
+              bus.$on('changeFormName',function(meg){
+                if(meg!=null){
+                  _self.$refs[meg].validate(function (valid) {
+                    if (valid) {
+                      bus.$emit('changeFormAjax',"add");
+                    } else {
+                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                      return false;
+                    }
+                  });
                 }
               });
               

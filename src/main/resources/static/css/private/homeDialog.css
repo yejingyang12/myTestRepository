@@ -1,0 +1,33 @@
+.evaluationAlert .el-textarea__inner {
+    width: 800px!important;
+    height: 150px!important;
+    border: 1px solid #cecece !important;
+}
+.evaluationAlert .el-select .el-input .el-select__caret {
+    position: absolute;
+} 
+.evaluationAlert .el-select {
+        display: inline-block;
+        position: relative;
+        width:30%!important;
+    } 
+.h-p .el-form-item .el-button--primary{
+	float:right;
+	width: 123px;
+    height: 32px;
+    vertical-align: middle;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #409EFF;
+    border-color: #409EFF;
+    margin-right:10px;
+}     
+.h-p .el-form-item .el-button--default{
+	 float:right;
+	 border-radius: 4px;
+     border-color: #cecece!important;
+}
+
+
+

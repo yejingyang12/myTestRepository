@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
 
 
     <!--private-->
@@ -25,17 +26,18 @@
 	  <link rel="stylesheet" href="../../static/css/private/viewDetailsNav.css" th:attr="href=@{/css/private/viewDetailsNav.css}">
     <link rel="stylesheet" href="../../static/css/private/viewDetailsInfor.css" th:attr="href=@{/css/private/viewDetailsInfor.css}">
 	 <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
-</head>
+   <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
 <style>
-.bottom .item .content {
-   position: absolute;
-  top: 90px;!important
+.el-textarea__inner{
+	 width: 500px!important;
+	 height: 150px!important;
+	 border: 1px solid #cecece !important;
 }
-#textArea {
+/* #textArea {
     width: 99%;
     height: 100%;
     border: none;
-}
+} */
     li{
         margin-bottom: 15px;
     }
@@ -94,6 +96,8 @@
 	padding-right:10px;
 }
 </style>
+
+</head>
 <body>
 <div id="app">
     <smcc-header>
@@ -111,7 +115,7 @@
                     class=" btn  float-ri"
                     style="width:auto;margin-right: 10px;background-color: #1e91e2;color:#fff;"
                     slot="breadcrumb-sumbit">提交
-            </button>
+            </button> 
     </smcc-breadcrumb>
     <tab-nav>
       <div slot="auditGrad">
@@ -127,6 +131,7 @@
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
 
 <!--ajax路径-->
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>

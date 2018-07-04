@@ -17,8 +17,8 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css" th:attr="href=@{/css/private/pagebox.css}">
-    <!--<link rel="stylesheet" type="text/css" href="../../static/css/private/record.css" >-->
-</head>
+   <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
+
 <style>
     li{
         margin-bottom: 15px;
@@ -101,6 +101,7 @@
     }
 
 </style>
+</head>
 <body class="h-body">
 <div id="app">
     <smcc-header>
@@ -138,16 +139,5 @@
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 <!--表格的一键导出、下载、删除、全选 反选点选框的实现-->
 <!-- <script src="../../static/js/private/homelist.js" th:attr="src=@{/js/private/homelist.js}"></script> -->
-<script>
 
-  //首页表格的删除弹框
-  var Main = {
-    data() {
-      return {
-        visible2: false,
-      };
-    }
-  };
-  var Ctor = Vue.extend(Main);
-</script>
 </html>

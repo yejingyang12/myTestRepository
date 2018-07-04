@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
 
-</head>
+
     <style>
         .mcAdd .addBaseBg,.mcAdd  .addSysBg{
             background-position: 0px -140px;
@@ -28,11 +28,22 @@
             background:#58B24B;
         }
       .saveTitle {
-    margin-left: 8px;
+        margin-left: 8px;
+        }
+  .bottom .centerline {
+ 	position: absolute;
+    left: 0;
+    top:112px;  
+    margin-top:50px;
 }
-.bottom .content {
-     position: relative;  
-    top: 208px;
+   .bottom .over_time {
+ 	position: absolute;
+    left: 0;
+    top:178px;  
+  }  
+   .bottom  {
+     padding-top:204px;
+     position:relative;
 }
 .fishBone ul {
     height: 100%;
@@ -46,6 +57,8 @@
 	padding-right:10px;
 }
     </style>
+    
+</head>
 <body>
 <div id="app">
     <smcc-header>

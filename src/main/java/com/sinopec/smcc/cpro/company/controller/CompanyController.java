@@ -24,6 +24,7 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
@@ -176,6 +177,27 @@ public class CompanyController {
     List<CompanyListResult> mainList = this.companyServiceImpl.queryCompanyName(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(mainList);
+    return result;
+  }
+  /**
+   * @Descrption 单位信息名称列表（带板块级联）
+   * @author dongxu
+   * @date 2018年5月25日下午1:39:10
+   * @param request
+   * @param companyParam
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/queryCompanyListByName", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi queryCompanyListByName(HttpServletRequest request, 
+      @RequestBody CompanyParam companyParam) throws BusinessException {
+    // 调用service实体，获得
+    List<OrganizationApiCascaderResult> list = this.companyServiceImpl.
+        queryCompanyListByName(companyParam);
+    // 通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(list);
     return result;
   }
 }

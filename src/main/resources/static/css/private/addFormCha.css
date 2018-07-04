@@ -17,11 +17,10 @@
 }
 .btn {
     width: 68px;
-    height: 39px;
+    height: 35px;
     background-color: #3d95df;
-    margin-top: 57px;
+    margin-top: 59px;
     color: #ffffff;
-    margin-left: 10px;
 }
 .form-control{
     border-radius: 1px !important;

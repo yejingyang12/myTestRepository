@@ -940,10 +940,41 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         mainParam.setExamineStatus("2");
         mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
         mainServiceImpl.editSystemStatusBySystemId(mainParam);
+      }else if("2".equals(systemMaterialsBeanParam.getChangeType())){
+        //添加节点状态信息
+        NodeParam nodeParam = new NodeParam();
+        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+        nodeParam.setOperation("创建");
+        nodeParam.setOperationResult("已创建");
+        nodeParam.setOperationOpinion("");
+        nodeParam.setOperator(userName);
+        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+        if (nodeResult == null) {
+          this.nodeServiceImpl.addNodeInfo(nodeParam);
+        }else{
+          nodeParam.setNodeId(nodeResult.getNodeId());
+          this.nodeServiceImpl.editNodeInfo(nodeParam);
+        }
       }
     }else if("2".equals(systemMaterialsBeanParam.getSaveType())){
       //创建
       if("2".equals(systemMaterialsBeanParam.getChangeType())){
+
+        //添加节点状态信息
+        NodeParam nodeParam = new NodeParam();
+        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+        nodeParam.setOperation("创建");
+        nodeParam.setOperationResult("已提交");
+        nodeParam.setOperationOpinion("");
+        nodeParam.setOperator(userName);
+        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+        if (nodeResult == null) {
+          this.nodeServiceImpl.addNodeInfo(nodeParam);
+        }else{
+          nodeParam.setNodeId(nodeResult.getNodeId());
+          this.nodeServiceImpl.editNodeInfo(nodeParam);
+        }
+        
         //创建审核记录
         SystemParam systemParam = new SystemParam();
         systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());

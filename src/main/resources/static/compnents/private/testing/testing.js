@@ -70,8 +70,10 @@
           closes:function () {
             var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
             evaluationAlert.style.display="none";
+            $(".inquiry").css("display","none");
+            $(".dialogShaw").css("display","none");
           },
-        	
+        
           //点击加号和编辑 让弹框 显示并做相应处理
           showDialog: function(evaluationId){
           	var _self=this;
@@ -133,6 +135,12 @@
           queryEvaluationListSuccessMethod: function(_self,data){
           	_self.result = data;
           },
+        //点击“删除”显示弹窗
+          deleteClick:function(){
+         	 $(".inquiry").css("display","block");
+         	$(".dialogShaw").css("display","block");
+          },
+          
           //删除数据
           deleteEvaluation: function(evaluationId) {
           	var _self = this;
@@ -143,6 +151,8 @@
               JSON.stringify(deleteParam), 'json',
               'application/json;charset=UTF-8',
               _self.deleteEvaluationSuccessMethod);
+          	_self.closes();
+          	
           },
           deleteEvaluationSuccessMethod: function(_self,data){
           	_self.queryEvaluationList(_self);
@@ -150,7 +160,7 @@
           //添加或编辑确定保存数据
           saveEvaluation: function(){
           	var _self = this;
-          	_self.sureDelFile(_self);
+          	 
           	ajaxMethod(_self, 'post',
               '/evaluation/saveEvaluation', true,
               JSON.stringify(_self.editData), 'json',
@@ -223,21 +233,7 @@
 							this.deleteFile.rectificationReport.fileId = path;
 						}
           },
-          sureDelFile:function(_self){
-          	var deleteFileParam = {fileId:null};
-          	if(_self.deleteFile.rectificationReport.fileId != null){
-          		deleteFileParam.fileId = _self.deleteFile.rectificationReport.fileId;
-          		ajaxMethod(_self, 'post',
-          				'fileHandle/deleteFile', true,JSON.stringify(deleteFileParam), 'json',
-          				'application/json;charset=UTF-8',_self.fileDelSuccessMethod);
-          	}
-          	if(_self.deleteFile.rectificationReport.fileId != null){
-          		deleteFileParam.fileId = _self.deleteFile.rectificationReport.fileId;
-          		ajaxMethod(_self, 'post',
-          				'fileHandle/deleteFile', true,JSON.stringify(deleteFileParam), 'json',
-          				'application/json;charset=UTF-8',_self.fileDelSuccessMethod);
-          	}
-          },
+           
           fileDelSuccessMethod:function(_self,responseData){
           },
           downloadReport: function(fileId){

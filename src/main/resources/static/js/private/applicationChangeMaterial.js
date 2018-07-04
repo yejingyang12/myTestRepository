@@ -10,14 +10,8 @@ window.onload = function () {
         },
         methods:{
           //保存
-          saveBtn:function() {
-            data.formData.changeType = "1";
-            data.formData.saveType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.saveBtnSuccessMethod);
+          saveBtn:function(formName) {
+            bus.$emit('changeMaterialFormName',formName);
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -29,14 +23,8 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //提交
-          submitBtn:function() {
-            data.formData.changeType = "1";
-            data.formData.saveType = "2";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.submitBtnSuccessMethod);
+          submitBtn:function(formName) {
+            bus.$emit('changeSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
@@ -44,19 +32,50 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterials', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.preBtnSuccessMethod);
+          preBtn:function(formName) {
+            bus.$emit('changePreMaterialFormName',formName);
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData) {
             data.formData.systemMaterialsId = responseData.data;
             window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
           }
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('changeMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              data.formData.saveType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.saveBtnSuccessMethod);
+            }
+          });
+          bus.$on('changeSubmitMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              data.formData.saveType = "2";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.submitBtnSuccessMethod);
+            }
+          });
+          
+          bus.$on('changePreMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterials', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.preBtnSuccessMethod);
+            }
+          });
         }
     })
 }

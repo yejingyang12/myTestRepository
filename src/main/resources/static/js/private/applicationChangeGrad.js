@@ -10,13 +10,8 @@ window.onload = function () {
         },
         methods:{
           //保存
-          saveBtn:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.saveBtnSuccessMethod);
+          saveBtn:function(formName) {
+            bus.$emit('changeGradName',formName);
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -27,43 +22,71 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //提交
-          submitBtn:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.submitBtnSuccessMethod);
+          submitBtn:function(formName) {
+            bus.$emit('changeSubmitGradName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.preBtnSuccessMethod);
+          preBtn:function(formName) {
+            bus.$emit('changePreGradName',formName);
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId;
           },
           //下一页
-          nextBtn1:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post','grading/saveGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.nextBtnSuccessMethod);
+          nextBtn1:function(formName) {
+            bus.$emit('changeNextGradName',formName);
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicationChangeMaterialPage?systemId="+systemId;
           },
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('changeGradAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.saveBtnSuccessMethod);
+            }
+          });
+          bus.$on('changeSubmitGradAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.submitBtnSuccessMethod);
+            }
+          });
+          bus.$on('changePreGradAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.preBtnSuccessMethod);
+            }
+          });
+          bus.$on('changeNextGradAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post','grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.nextBtnSuccessMethod);
+            }
+          });
         }
     })
 }

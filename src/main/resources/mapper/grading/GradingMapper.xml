@@ -267,7 +267,6 @@
      </trim>
      ) ON DUPLICATE KEY UPDATE
      pkId = #{gradingId},
-     fkSystemId = #{fkSystemId},
      fkBizSPRankDegree = #{fkBizSPRankDegree},
      fkBizSPRankLevel = #{fkBizSPRankLevel},
      fkBizSystemDegree = #{fkBizSystemDegree},
@@ -281,8 +280,18 @@
 	     competentName = #{competentName},
 	     competentView = #{competentView},
      </if>
-     filler = #{filler},
-     fillDate = #{fillDate}
+     <if test="filler != null">
+	     filler = #{filler},
+     </if>
+     <choose>
+     	<when test="fillDate != null">
+     		fillDate = #{fillDate},
+     	</when>
+     	<otherwise>
+     		fillDate = DEFAULT,
+     	</otherwise>
+     </choose>
+     fkSystemId = #{fkSystemId}
   </insert>
   
   <select id="selectEditGrading" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="GradingListResult">

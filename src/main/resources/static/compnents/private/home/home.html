@@ -1,90 +1,58 @@
 <div class="container h-padding" style="margin:0 15px;font-size: 14px;font-style: normal">
-<!-- 首页弹窗 -->
+<!-- 首页申请变更弹窗 -->
   <div id="dialog" class="evaluationAlert"
    style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
     <div class="evaluation" 
     style="padding:15px;border: 1px solid #cecece;background:#fff; width: 80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 1s2;">
-   
- 
-        <p class="clearfix cut">
+   		<p class="clearfix cut">
           <span class="fl revokeTitle">申请变更</span>
           <span @click="closes" class="fr revokeTitle" style="margin-right: 15px;margin-bottom: 15px;">X</span>
         </p>
             <div>
                 <div class="row" style="margin:0">
                     <div class="col-md-12">
-                  <!--      系统名称: -->
-                        <div class="row" style="  margin-top: 20px;">
-                            <div class="col-md-12 clearPadding">
-
-                                <div class="col-md-3 h-system clearPadding">
-                                    <span class="xing">*</span>
-                                    变更事项：
-                                </div>
-                                <div class="col-md-9 h-col-md-9 h-col-md-9-dialog"  >
-                                    <el-select v-model="value14"  filterable placeholder="请选择" >
-                                      <el-option
+                    
+                    	  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+								<el-form-item label="变更事项：" prop="region">
+								    <el-select v-model="ruleForm.region" id="scoreCheckResult" filterable placeholder="请选择">
+								     <el-option
                                               v-for="item in changeMatters"
                                              :key="item.systemCode" 
                                               :label="item.codeName"
                                               :value="item.systemCode">
                                       </el-option>
-                                    </el-select>
-                                </div>
-                            </div>
-                        </div>
-                        <!--审核结果-->
-                        <div class="row" style=" margin-top: 20px;">
-                            <div class="col-md-12 text-left clearPadding" >
-                                <label for="" class="col-md-3 col-sm-1 saveTextTitle" style="margin-right:-25px; ">
-                                    <span class="xing">*</span>
-                                    变更原因：
-                                </label>
-                                <div class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9" 
-                                style="border-radius:4px;border: 1px solid #cecece;height: 100px;width: 90%;margin-left: 110px;margin-top: -30px;" @click="text">
-                                    <textarea id="textArea" v-model="value19" cols="30" rows="10" placeholder="请输入"></textarea>
-                                    <span class='textAll'><span id="textNum">0</span>/200</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row" style="padding-top: 10px;margin-top: 20px;">
-                            <div class="col-md-12 text-left clearPadding" >
-                                <label for="" class="col-md-3 col-sm-1 saveTextTitle" style="margin-right:-25px;">
-                                    <span class="xing">*</span>
-                                    变更内容：
-                                </label>
-                                <div  class="auditChangeshenhe col-md-9 col-md-offset-1 col-sm-9"
-                                 style="border-radius:4px;border: 1px solid #cecece;margin-left: 110px; margin-top: -30px;height: 100px;width: 90%"  @click="text">
-                                    <textarea id="textArea" class="textArea1"  v-model="value20" cols="30" rows="10" placeholder="请输入"></textarea>
-                                    <span class='textAll'><span id="textNum1">0</span>/200</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+								   </el-select>
+								</el-form-item> 
+								<div class="one"  > 
+								      <el-form-item label="变更原因：" prop="desc" >
+									    <el-input type="textarea" id="textArea"
+									  			  v-model="ruleForm.desc">
+									    </el-input>
+									  </el-form-item>
+								 </div> 
+								  <div class="one"  > 
+								      <el-form-item label="变更内容：" prop="desc1" >
+									    <el-input type="textarea" id="textArea" class="textArea1"  v-model="ruleForm.desc1">
+									    </el-input>
+									  </el-form-item>
+								 </div>
+		   <p class="h-p">
+                         <el-form-item>
+                            <el-button class="btn btn-default" @click="closes">取消</el-button>
+							<el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
+						</el-form-item>  
+			</p>     
+                    
+  </el-form> 
+			</div>
+         </div>
+      </div>
             <input type="hidden" id="changeMattersSystemId">
             <input type="hidden" id="changeMattersCompanyCode">
-                       <input type="hidden" id="changeMattersCompanyId">
-           
-            <p class="h-p" style="width:100%;margin:15px;">
-
-                <button @click="closes"
-                        type="button"
-                        class="btn btn-default"
-                        style="float:right; margin-bottom: 15px;padding: 6px 10px;margin-right:4%">
-                                                  取消
-                </button>
-                <button type="button" class="btn"
-                        style="float:right;margin-right:10px;margin-bottom:15px;background-color: #1e91e2;color:#fff;" @click="saveChangeMattersMethod()">
-                                                  确认
-                </button>
-            </p>
-        </div>
-    </div>
-
-  <div class="h-bread-le">
+            <input type="hidden" id="changeMattersCompanyId">
+      </div>
+</div>
+<div class="h-bread-le">
             <span class="float-le" style="height: 44px;">
                 <smcc-breadcrumb></smcc-breadcrumb>
             </span>
@@ -102,7 +70,7 @@
             <div class="all">
                 <!--单位系统填写-->
                 <div class="box1">
-                    <div class="bg-item1" id="bg-item1" @click="help(this,0)">
+                    <div class="bg-item1" id="bg-item1" @click="help(this,0)"  @mouseenter="mouseenter(true,0)" @mouseleave="mouseenter(false,0)">
                  
                         <div class="content">
                             <div class="img-1"></div>
@@ -117,7 +85,7 @@
                 </div>
                 <!--申请定级-->
                 <div class="box2">
-                    <div class="bg-item2" id="bg-item2" @click="help(this,1)">
+                    <div class="bg-item2" id="bg-item2" @click="help(this,1)"  @mouseenter="mouseenter(true,1)" @mouseleave="mouseenter(false,1)">
                         <div class="content">
                             <div class="img-1"></div>
                             <h4>申请定级</h4>
@@ -131,7 +99,7 @@
                     </div>
                 </div>
                 <!--审查、自查保护-->
-                <div class="box3 bg-item3" @click="help(this,4)" id="bg-item3">
+                <div class="box3 bg-item3" @click="help(this,4)" id="bg-item3"  @mouseenter="mouseenter(true,4)" @mouseleave="mouseenter(false,4)">
                     <div class="box3-item">
                         <div class="box3-item-content" id="box3-shenhe">
                             <div class="box3-item-img-1"></div>
@@ -175,7 +143,7 @@
                     </div>
                 </div>
                 <!--撤销备案-->
-                <div class="box4" @click="help(this,2)">
+                <div class="box4" @click="help(this,2)"  @mouseenter="mouseenter(true,2)" @mouseleave="mouseenter(false,2)">
                     <div class="arrow4"></div>
                     <div class="bg-item4" id="bg-item4">
                         <div class="content">
@@ -190,8 +158,8 @@
             </div>
         </div>
         <!--边框-->
-<!--         <div class="h-bottom-line  h-bottom-position" id="h-help-bottom2"></div>
- -->    </div>
+<!-- <div class="h-bottom-line  h-bottom-position" id="h-help-bottom2"></div>-->  
+  </div>
     <!--查询、定级备案测评列表-->
     <div class="container h-padding" style="margin:0">
         <!--查询-->
@@ -256,7 +224,6 @@
                                               <template>
                                             <div class="block">
  											<el-date-picker 
-                                               id="inputTxt"  
                                                 v-model="value2"
                                                 type="date"
                                                 placeholder="选择日期" id="applyTime">
@@ -568,7 +535,10 @@
                 </div>
               <!-- 所属板块 -->
                 <div class="form-group has-feedback h-type-search" >
-                    <label class="col-md-1 control-label" style=" width: 92px; padding: 0; margin-left: 33px; min-width: 91px;">所属板块：</label>
+                    <label class="col-md-1 control-label" 
+                    style=" width: 92px; padding: 0; margin-left: 33px; min-width: 91px;">
+                    	所属板块:
+                    </label>
                    <!--  <input type="hidden" id="plateType"> -->
               
                     <input type="hidden" name="name" checked 
@@ -693,31 +663,37 @@
            <!--   等保级别 -->
                 <div class="form-group has-feedback">
                     <label class="col-md-1 control-label">等保级别：</label>
-                   <input type="hidden" name="name3"  
+                    <el-checkbox-group v-model="systemLevel">
+                      <el-checkbox v-for="item in msgLevel" :label="item.systemCode" :key="item.systemCode">{{item.codeName}}</el-checkbox>
+                    </el-checkbox-group>
+                    
+                   <!-- <input type="hidden" name="name3"  
 	                       id="systemCodeLevel"  class="checkName2"/>
-                    <!--  <input type="hidden" id="systemCodeLevel"> -->
+                     <input type="hidden" id="systemCodeLevel">
                      <div class="checkbox checkbox-inline" v-for="(item,index) in msgLevel">
-                     <input type="radio" name="name3"  
+                     <input type="checkbox" name="systemLevel" id=""
 	                       @click="transferLevel(item.systemCode)"  class="checkName3"/>
-                      <!--   <input type="checkbox" @click="transferLevel(item.systemCode)" class="checkName3"> -->
+                        <input type="checkbox" @click="transferLevel(item.systemCode)" class="checkName3">
                         <label for="state3">{{item.codeName}}</label>
-                    </div>  
+                    </div>   -->
                 </div>
              <!--  地区 -->
                 <div class="form-group has-feedback">
                     <label class="col-md-1 control-label">地区：</label>
-                 
-                  <div style="margin-left:123px;">
+                    <el-checkbox-group v-model="systemProvince">
+                      <el-checkbox v-for="item in msgProvince" :label="item.systemCode" :key="item.systemCode">{{item.codeName}}</el-checkbox>
+                    </el-checkbox-group>
+                <!--   <div style="margin-left:123px;">
                     <input type="hidden" name="name4"  
 	                      id="systemCodeProvince" />
                    <input type="hidden" id="systemCodeProvince">
                     <div class="checkbox checkbox-inline" v-for="(item,index) in msgProvince" v-if="item.codeName!='其它'">
-                        <input type="radio" name="name4"  
+                        <input type="checkbox" name="name4"  
 	                       @click="transferProvince(item.systemCode)"  class="checkName4"/>
-                        <!-- <input type="checkbox" @click="transferProvince(item.systemCode)" class="checkName4"> -->
+                        <input type="checkbox" @click="transferProvince(item.systemCode)" class="checkName4">
                         <label for="state3">{{item.codeName}}</label>
                     </div>  
-                 </div>
+                 </div> -->
                 </div>
             </div>
         </div>
@@ -943,7 +919,21 @@
                                     <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                     <a class="hide3" style="cursor:pointer;">  
                                         <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
-                                          <el-button @click="deleteClick(pro.systemId,pro.companyId)" type="text" size="small">删除</el-button>
+                                          <i @click="deleteClick" type="text" size="small">删除</i>
+                                           <!-- 首页表格的删除弹窗 -->
+                                            <div class="dialogShaw">
+	                                              <div class="startBox" v-show="deleteDialog">
+	                                              		<div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
+												        <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
+												  </div>
+												   <div class="inquiry">
+												        <p>是否删除</p>
+												        <div class="inquiryBtn">
+												            <button type="button" class="btn btn-success fl" @click="deleteClickSure(pro.systemId,pro.companyId)">确定</button>
+												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+												        </div>
+												    </div>
+											 </div> 
                                     </a>
                                 </td>
                                 <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">

@@ -21,11 +21,9 @@
     <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
     <link rel="stylesheet" href="../../static/css/private/revokeRecord.css" th:attr="href=@{/css/private/revokeRecord.css}">
-        <link rel="stylesheet" href="../../static/css/private/evaluationAlert.css" th:attr="href=@{/css/private/evaluationAlert.css}">
-    
-
-</head>
-<style>
+    <link rel="stylesheet" href="../../static/css/private/evaluationAlert.css" th:attr="href=@{/css/private/evaluationAlert.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
+ <style>
         .mcAdd .addBaseBg,.mcAdd  .addSysBg{
             background-position: 0px -140px;
         }
@@ -158,7 +156,57 @@
 .xzBox>span{
 	padding-right:10px;
 }
+
+.fishBone ul li .centerline {
+    margin-left: 5px;
+    height:10px;
+    width:260px;
+}
+   .bottom .over_time {
+ 	position: absolute;
+    left: 0;
+    top:140px;  
+}
+.bottom  {
+     padding-top:1px;
+     position:relative;
+}  
+ .bottom .centerline {
+ 	position: absolute;
+    left: 0;
+    top:75px;  
+    margin-top:50px;
+}
+
+.line{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #cecece;
+    position: absolute;
+    bottom: 20px;
+    left:15px;
+}
+.fishBone ul li .centerline {
+    margin-left: 5px;
+    height:30px;
+    width:260px;
+}
+.bottom .content {
+			     position: relative;  
+			    top: 208px;
+			    margin-top:-35px;
+			}
+.top .centerline {
+ 	position: absolute;
+    left:none;
+    top:115px;  
+    margin-top:50px;
+}
     </style>
+    </head>
+    
 <body class="h-body">
 <div id="app">
     <smcc-header>
@@ -223,25 +271,5 @@
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 
  <script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>
-<script>
 
-  //执行一个laydate实例
-  laydate.render({
-    elem: '#test1' ,//指定元素
-  });
-  laydate.render({
-    elem: '#test2' ,//指定元素
-  });
-
-  //首页表格的删除弹框
-  var Main = {
-    data() {
-      return {
-        visible2: false,
-      };
-    }
-  };
-  var Ctor = Vue.extend(Main);
-  //new Ctor().$mount('#app2');
-</script>
 </html>

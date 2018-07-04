@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
     <!--私有css-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addCompanyInfoPage.css" th:attr="href=@{/css/private/addCompanyInfoPage.css}">
@@ -17,6 +18,54 @@
     }
     .formControl>.el-input{
         width:100%;
+    }
+    .P-form-input2 .el-form-item__content{
+      width:975px;
+    }
+    #companyName{
+      height:32px!important; 
+    }
+    #baseMes3 .prompttext{
+        bottom: -16px;
+    }
+    span.el-cascader__label{
+      line-height: 38px;
+      width: 1073px;
+    }
+    .addFromRadio{
+        width:calc(100% - 100px);
+        margin-top:14px;
+    }
+    .addFromRadio .el-radio{
+        width:33.33%;
+        margin-bottom:10px;
+        margin-left:20px;
+    }
+    .addFormBox{
+        width:70%;
+        margin:0 auto;
+        background: #fff;
+        padding: 30px 4%;
+        position: absolute;
+        top:50%;
+        left:50%;
+        margin-left:-35%;
+        margin-top:-204px;
+    }
+    .btnBox{width:100%;text-align:right;}
+    .btnBox .el-button{margin-left:20px;}
+    .btnBox .el-button:first-child span{color:#fff;}
+    .addInput{
+        border:0;
+        padding:0 5px;
+        border-bottom:1px dashed #C6C6C6;
+    }
+    .baseMesWrap{
+        margin-left: 63px;
+    }
+    .baseMesWrap>div{
+        width:calc(91.66666667% - 5px);
+        margin-left: 5px ;
     }
     </style>
 </head>
@@ -30,9 +79,9 @@
     <smcc-breadcrumb></smcc-breadcrumb>
     <add-form>
         <p slot="addInf" class="unitBtn">
-            <button type="button" class="btn btn-success">保存</button>
-            <button type="button" class="btn btn-default">清空</button>
-            <button type="button" class="btn btn-default">返回</button>
+            <button type="button" class="btn btn-success" @click="saveCompanyInfo">保存</button><!--  -->
+            <button type="button" class="btn btn-default" @click="cleanCompanyInfo">清空</button><!--  -->
+            <button type="button" class="btn btn-default" @click="returnCompanyList">返回</button><!--  -->
         </p>
     </add-form>
 </div>
@@ -55,8 +104,10 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addForm/addForm.js" th:attr="src=@{/compnents/private/addForm/addForm.js}"></script>
 <script async src="../../static/js/private/addCompanyInfoPage.js" th:attr="src=@{/js/private/addCompanyInfoPage.js}"></script>
+<script async src="../../static/compnents/private/addFromalert/addFromalert.js" th:attr="src=@{/compnents/private/addFromalert/addFromalert.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 var companyId = [[${companyId}]]; 
+var companyCode = "";
 var readonly="update";
 var type="update";
 </script>

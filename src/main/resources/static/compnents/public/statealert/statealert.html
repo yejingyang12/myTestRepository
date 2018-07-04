@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>弹窗</title>
+    <link rel="stylesheet" type="text/css" href="../../../css/public/reset.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/private/statealert.css">
+    <link rel="stylesheet" type="text/css" href="../../../css/public/element.css" >
+    <link rel="stylesheet" href="../../../css/public/bootstrap.css">
+</head>
+<body>
+    <div class="startBox">
+        <div v-if=""><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P></div>
+        <div v-else><i class="el-icon-circle-close" style="color:red;"></i><P>保存失败!</P></div>
+    </div>
+    <div class="inquiry">
+        <p>是否保存</p>
+        <div class="inquiryBtn">
+            <button type="button" class="btn btn-success fl">确定</button>
+            <button type="button" class="btn btn-default fr">取消</button>
+        </div>
+    </div>
+</body>
+</html>

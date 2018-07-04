@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
@@ -90,6 +91,15 @@ public interface CompanyService {
    * @param response
    * @param mainParam
    */
-  List<CompanyListResult> queryCompanyName(CompanyParam companyParam) throws BusinessException; 
+  List<CompanyListResult> queryCompanyName(CompanyParam companyParam) throws BusinessException;
+
+  /**
+   * @Descrption 返回单位列表信息（带板块）
+   * @author Aran
+   * @date 2018年6月29日上午9:25:17
+   * @param companyParam
+   * @return
+   */
+  List<OrganizationApiCascaderResult> queryCompanyListByName(CompanyParam companyParam); 
 
 }

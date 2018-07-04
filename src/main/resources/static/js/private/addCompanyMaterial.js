@@ -10,14 +10,8 @@ window.onload = function () {
         },
         methods:{
           //保存
-          saveBtn:function() {
-            data.formData.changeType = "2";
-            data.formData.saveType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.saveBtnSuccessMethod);
+          saveBtn:function(formName) {
+            bus.$emit('addMaterialFormName',formName);
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -28,33 +22,63 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //提交
-          submitBtn:function() {
-            data.formData.changeType = "2";
-            data.formData.saveType = "2";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.submitBtnSuccessMethod);
+          submitBtn:function(formName) {
+            bus.$emit('addSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function() {
-            data.formData.changeType = "2";
-            data.formData.saveType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.preBtnSuccessMethod);
+          preBtn:function(formName) {
+            
+            bus.$emit('addPreMaterialFormName',formName);
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId;
+          },
+          //返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
           }
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('addMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.saveBtnSuccessMethod);
+            }
+          });
+          bus.$on('addSubmitMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "2";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.submitBtnSuccessMethod);
+            }
+          });
+          
+          bus.$on('addPreMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.preBtnSuccessMethod);
+            }
+          });
         }
     })
 }

@@ -1,6 +1,30 @@
 (function () {
   var data = {
-  		//查询参数
+		  ruleForm: {
+	          name: '',
+	          region:'',
+	          date1: '',
+	          date2: '',
+	          delivery: false,
+	          type: [],
+	          resource: '',
+	          desc: '',
+	          desc1: '',
+	        },
+	        rules: {
+		        
+		          region: [
+		            { required: true, message: '请选择变更事项', trigger: 'change' }
+		          ],
+		        
+		          desc: [
+		            { required: true, message: '请填写变更原因', trigger: 'blur' }
+		          ],
+		          desc1: [
+				     { required: true, message: '请填写变更内容', trigger: 'blur' }
+				  ]
+		        },
+		//查询参数
 		queryParam: {
 			fkSystemId: null,
 			pageSize: 10,
@@ -30,6 +54,10 @@
     one3:null,
     one4:null,
     list:null,
+    //删除弹窗的
+    deleteDialog:false,
+	deleteSuccessDialog:false,
+	deleteFailDialog:false, 
     //定级导出的
     firstcheck :null,
     tr_row:null,
@@ -66,6 +94,8 @@
     value18: '',
     value19: '',
     value20: '',
+    systemLevel:[],
+    systemProvince:[],
     changeMattersSystemId :'',
     
     pickerOptions1: {
@@ -118,6 +148,18 @@
            ajaxMethod(_self, "post", url, false ,"{}", "json", 'application/json;charset=UTF-8', _self.listSuccess);
         },
         methods: {
+        	 submitForm:function(formName) {
+			      this.$refs[formName].validate(function(valid){
+			          if (valid) {
+			            /*alert('submit!');*/
+			          } else {
+			          /* console.log('error submit!!');*/
+			            return false;
+			          }
+			        });
+			      this.saveChangeMattersMethod(); 
+			      },
+			     
         	text:function(){
              $('#textArea').on("keyup",function(){
                  $('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
@@ -138,7 +180,10 @@
         		$("#plateType").val(value);
         	},
         	transferLevel:function(value){
-        		$("#systemCodeLevel").val(value);
+        		var systemLevel = $("input[type='checkbox'][name='systemLevel']").is(':checked');
+        		if(systemLevel == true){
+        			this.systemLevel = value +",";
+        		}
         	},
         	transferProvince:function(value){
         		$("#systemCodeProvince").val(value);
@@ -165,6 +210,8 @@
         		this.value9 = '';
         		this.value12 = '';
         		this.value10 = '';
+        		this.systemLevel = [];
+        		this.systemProvince = [];
         		$(".checkName1").attr("checked",false);
         		$("#plateType").val("");
         		$(".checkName2").attr("checked",false);
@@ -207,8 +254,8 @@
             $('input:radio[class="checkName2"]:checked').each(function () {
             	status = $(this).val();
             });	
-            var systemCodeLevel = $("#systemCodeLevel").val();
-            var systemCodeProvince = $("#systemCodeProvince").val();
+            var systemCodeLevel = this.systemLevel;
+            var systemCodeProvince = this.systemProvince;
             var customFiltering = $("#customFiltering").val();
             var url = "main/queryMainList";
             var _self=this;
@@ -229,40 +276,45 @@
               "inspectionDateEnd": inspectionDateEnd,//自查结束时间
               "plateType": plateType,//所属板块
               "status": status,//状态
-              "sprankLevel": systemCodeLevel,//等保级别
-              "subordinateProvinces": systemCodeProvince,//地区
+              "sprankLevelArray": systemCodeLevel,//等保级别
+              "subordinateProvincesArray": systemCodeProvince,//地区
               "customFiltering": customFiltering,//自定义
               "currentPage": page,
             };
             ajaxMethod(_self, "post", url, false, JSON.stringify(dataparmars), "json", 'application/json;charset=UTF-8', _self.listSuccess);
           },
-          //删除
-          deleteClick:function(systemId,companyId){
-            var _self=this;
-            var dataparmars = {
-                "systemId":systemId,
-                "companyId":companyId
-              };
-            _self.$alert('确定删除此系统信息？', '删除', {
-              confirmButtonText: '确定',
-              callback: function callback(action) {
-                ajaxMethod(_self, 'post',
-                    'main/deleteMainBySystemId', false,
-                    JSON.stringify(dataparmars), 'json',
-                    'application/json;charset=UTF-8',
-                    _self.deleteClickSuccessMethod);
-              }
-            });
+          
+          //点击“删除”显示弹窗
+          deleteClick:function(){
+         	 $(".inquiry").css("display","block");
+         	$(".dialogShaw").css("display","block");
           },
-          deleteClickSuccessMethod:function(_self, responseData) {
-            this.$message({
-              message: '删除成功！',
-              type: 'success'
-            });
-          	_self.createdIndex(_self);
-          },
-          createdIndex: function(_self) {
-             var url="main/queryMainList";
+          //点击删除显示弹窗的“确定”；删除数据并隐藏弹窗；
+          deleteClickSure:function(systemId,companyId){
+        	  var _self=this;
+              var dataparmars = {
+                  "systemId":systemId,
+                  "companyId":companyId
+                };
+              ajaxMethod(_self, 'post',
+                      'main/deleteMainBySystemId', false,
+                      JSON.stringify(dataparmars), 'json',
+                      'application/json;charset=UTF-8',
+                      _self.deleteClickSureMethod); 
+        	 },
+            deleteClickSureMethod:function(_self, responseData) {
+            	 $(".inquiry").css("display","none");
+            	if(!data.deleteSuccessDialog){
+            		 console.log(11234578)
+            		data.deleteDialog=true;
+             		data.deleteSuccessDialog=true; 
+            	 }
+             	_self.createdIndex(_self);
+             	data.deleteDialog=false;
+        		data.deleteSuccessDialog=false;
+         }, 
+         createdIndex: function(_self) {
+        	 var url="main/queryMainList";
              //	 列表请求数据
              ajaxMethod(_self, "post", url, false ,JSON.stringify(_self.queryParam), "json", 'application/json;charset=UTF-8', _self.listSuccess);
           },
@@ -377,10 +429,10 @@
 					},
 					// 申请变更提交
 					saveChangeMattersMethod : function() {
-						var _self = this;
-						var changeReason = this.value19;
-						var changeContent = this.value20;
-						var fkChangeMatter = this.value14;
+						var _self = this; 
+						var changeReason = this.ruleForm.desc;
+						var changeContent = this.ruleForm.desc1;
+						var fkChangeMatter = this.ruleForm.region;
 						var systemId = $("#changeMattersSystemId").val();
 						var companyCode = $("#changeMattersCompanyCode").val();
 					  ajaxMethod(_self, 'post',
@@ -425,10 +477,12 @@
           toAddCompanyInfoPagePage : function() {
           	window.location.href="/page/addCompanyInfoPage";
           },
-          //申请变更弹窗：隐藏弹窗
+          //申请变更弹窗和删除按钮弹出窗：隐藏弹窗；
           closes:function () {
             var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
             evaluationAlert.style.display="none";
+            $(".inquiry").css("display","none");
+            $(".dialogShaw").css("display","none");
           },
           //申请变更弹窗：显示弹窗
           showDialog:function(itemdata){
@@ -472,9 +526,73 @@
             $("#h-help-bottom2").toggle();
 
           },
+          /*首页鼠标滑入"帮助中心"*/
+          mouseenter:function(isHuaru,num){
+        	  var content = document.getElementsByClassName('content');
+              var text = document.getElementsByClassName('text');
+              var box3ItemContent = document.getElementsByClassName('box3-item-content');
+              var box3Text = document.getElementsByClassName('box3-text');
+              if (isHuaru) {//鼠标点向别处,恢复原来样式
+            	 /* console.log("滑入")*/
+            	  if (num == 0) {//box1
+  	                 $('#bg-item1').css('background-size', '200% 200%');
+  	                content[num].style.display = "none";
+  	                text[num].style.display = "block";
+  	              } else if (num == 1) {//box2
+  	                $('#bg-item2').css('background-size', '200% 200%');
+  	                content[num].style.display = "none";
+  	                text[num].style.display = "block";
+  	              } else if (num == 2) {//box4
+  	                $('#bg-item4').css('background-size', '200% 200%');
+  	                content[num].style.display = "none";
+  	                text[num].style.display = "block";
+  	              } else if (num = 4) {//box3
+  	                box3ItemContent[0].style.display = 'none';
+  	                box3ItemContent[1].style.display = 'none';
+  	                box3ItemContent[2].style.display = 'none';
+  	                box3ItemContent[3].style.display = 'none';
+  	                $('#bg-item3').css('background-size', '200% 200%');
+  	                box3Text[0].style.display = 'block';
+  	                box3Text[1].style.display = 'block';
+  	                box3Text[2].style.display = 'block';
+  	                box3Text[3].style.display = 'block';
+  	              }               
+              }else{//鼠标点向别处,恢复原来样式
+            	 /* console.log("滑出")*/
+            	  if (num == 0) {//box1
+                      //        bgItem=document.getElementById('bg-item1');
+                      $('#bg-item1').css('background-color', '#ededed');
+                      $('#bg-item1').css('background-size', '0% 0%');
+                      content[num].style.display = "block";
+                      text[num].style.display = "none";
+                    } else if (num == 1) {//box2
+                      $('#bg-item2').css('background-color', '#ededed');
+                      $('#bg-item2').css('background-size', '0% 0%');
+                      content[num].style.display = "block";
+                      text[num].style.display = "none";
+                    } else if (num == 2) {//box4
+                      $('#bg-item4').css('background-color', '#ededed');
+                      $('#bg-item4').css('background-size', '0% 0%');
+                      content[num].style.display = "block";
+                      text[num].style.display = "none";
+                    } else if (num = 4) {//box3
+                      box3ItemContent[0].style.display = 'block';
+                      box3ItemContent[1].style.display = 'block';
+                      box3ItemContent[2].style.display = 'block';
+                      box3ItemContent[3].style.display = 'block';
+                      $('#bg-item3').css('background-color', '#ededed');
+                      $('#bg-item3').css('background-size', '0% 0%');
+                      box3Text[0].style.display = 'none';
+                      box3Text[1].style.display = 'none';
+                      box3Text[2].style.display = 'none';
+                      box3Text[3].style.display = 'none';
+                    }
+              }
+          },
           /*首页点击"帮助中心"显示背景图片*/
           // var change=9,//默认变量，大于4 即可
           help: function (_this, num) {
+        	  /*console.log("点击")*/
             var content = document.getElementsByClassName('content');
             var text = document.getElementsByClassName('text');
             var box3ItemContent = document.getElementsByClassName('box3-item-content');
@@ -510,64 +628,63 @@
               }
               this.change = 9;
             } else {//点击的不是同一个
-              console.log("CHANGEx小于" + this.change);
               if (this.change <= 4) {//说明已经点过了
-                if (this.change == 0) {//box1
-                  console.log("CHANGE" + this.change);
-                  //        bgItem=document.getElementById('bg-item1');
-                  $('#bg-item1').css('background-color', '#ededed');
-                  $('#bg-item1').css('background-size', '0% 0%');
-                  content[this.change].style.display = "block";
-                  text[this.change].style.display = "none";
-                } else if (this.change == 1) {//box2
-                  $('#bg-item2').css('background-color', '#ededed');
-                  $('#bg-item2').css('background-size', '0% 0%');
-                  content[this.change].style.display = "block";
-                  text[this.change].style.display = "none";
-                } else if (this.change == 2) {//box4
-                  $('#bg-item4').css('background-color', '#ededed');
-                  $('#bg-item4').css('background-size', '0% 0%');
-                  content[this.change].style.display = "block";
-                  text[this.change].style.display = "none";
-                } else if (this.change == 4) {//box3
-                  box3ItemContent[0].style.display = 'block';
-                  box3ItemContent[1].style.display = 'block';
-                  box3ItemContent[2].style.display = 'block';
-                  box3ItemContent[3].style.display = 'block';
-                  $('#bg-item3').css('background-color', '#ededed');
-                  $('#bg-item3').css('background-size', '0% 0%');
-                  box3Text[0].style.display = 'none';
-                  box3Text[1].style.display = 'none';
-                  box3Text[2].style.display = 'none';
-                  box3Text[3].style.display = 'none';
-                }
-              } else {
-
-              }
-              if (num == 0) {//box1
-                 $('#bg-item1').css('background-size', '200% 200%');
-                content[num].style.display = "none";
-                text[num].style.display = "block";
-              } else if (num == 1) {//box2
-                $('#bg-item2').css('background-size', '200% 200%');
-                content[num].style.display = "none";
-                text[num].style.display = "block";
-              } else if (num == 2) {//box4
-                $('#bg-item4').css('background-size', '200% 200%');
-                content[num].style.display = "none";
-                text[num].style.display = "block";
-              } else if (num = 4) {//box3
-                box3ItemContent[0].style.display = 'none';
-                box3ItemContent[1].style.display = 'none';
-                box3ItemContent[2].style.display = 'none';
-                box3ItemContent[3].style.display = 'none';
-                $('#bg-item3').css('background-size', '200% 200%');
-                box3Text[0].style.display = 'block';
-                box3Text[1].style.display = 'block';
-                box3Text[2].style.display = 'block';
-                box3Text[3].style.display = 'block';
-              }
-              this.change = num;
+	                if (this.change == 0) {//box1
+	                  console.log("CHANGE" + this.change);
+	                  //        bgItem=document.getElementById('bg-item1');
+	                  $('#bg-item1').css('background-color', '#ededed');
+	                  $('#bg-item1').css('background-size', '0% 0%');
+	                  content[this.change].style.display = "block";
+	                  text[this.change].style.display = "none";
+	                } else if (this.change == 1) {//box2
+	                  $('#bg-item2').css('background-color', '#ededed');
+	                  $('#bg-item2').css('background-size', '0% 0%');
+	                  content[this.change].style.display = "block";
+	                  text[this.change].style.display = "none";
+	                } else if (this.change == 2) {//box4
+	                  $('#bg-item4').css('background-color', '#ededed');
+	                  $('#bg-item4').css('background-size', '0% 0%');
+	                  content[this.change].style.display = "block";
+	                  text[this.change].style.display = "none";
+	                } else if (this.change == 4) {//box3
+	                  box3ItemContent[0].style.display = 'block';
+	                  box3ItemContent[1].style.display = 'block';
+	                  box3ItemContent[2].style.display = 'block';
+	                  box3ItemContent[3].style.display = 'block';
+	                  $('#bg-item3').css('background-color', '#ededed');
+	                  $('#bg-item3').css('background-size', '0% 0%');
+	                  box3Text[0].style.display = 'none';
+	                  box3Text[1].style.display = 'none';
+	                  box3Text[2].style.display = 'none';
+	                  box3Text[3].style.display = 'none';
+	                }
+	              } else {
+	
+	              }
+	              if (num == 0) {//box1
+	                 $('#bg-item1').css('background-size', '200% 200%');
+	                content[num].style.display = "none";
+	                text[num].style.display = "block";
+	              } else if (num == 1) {//box2
+	                $('#bg-item2').css('background-size', '200% 200%');
+	                content[num].style.display = "none";
+	                text[num].style.display = "block";
+	              } else if (num == 2) {//box4
+	                $('#bg-item4').css('background-size', '200% 200%');
+	                content[num].style.display = "none";
+	                text[num].style.display = "block";
+	              } else if (num = 4) {//box3
+	                box3ItemContent[0].style.display = 'none';
+	                box3ItemContent[1].style.display = 'none';
+	                box3ItemContent[2].style.display = 'none';
+	                box3ItemContent[3].style.display = 'none';
+	                $('#bg-item3').css('background-size', '200% 200%');
+	                box3Text[0].style.display = 'block';
+	                box3Text[1].style.display = 'block';
+	                box3Text[2].style.display = 'block';
+	                box3Text[3].style.display = 'block';
+	              }
+	              this.change = num;
             }
           },
           /*点击首页"高级查询"让其显示和隐藏*/
@@ -918,6 +1035,9 @@
           this.listsort();
           this.imgArrowDownload();
         },
+       /* destroyed () {
+        	  data.timer=null;
+        	}*/
       })
     })
   })

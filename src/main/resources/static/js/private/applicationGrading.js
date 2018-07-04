@@ -10,13 +10,8 @@ window.onload = function () {
         },
         methods:{
           //保存
-          saveBtn:function() {
-            data.formData.changeType = "2";
-            ajaxMethod(this, 'post',
-                'grading/saveGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.saveBtnSuccessMethod);
+          saveBtn:function(formData) {
+            bus.$emit('gradGradingName',formName);
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -27,13 +22,8 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //提交
-          submitBtn:function() {
-            data.formData.changeType = "2";
-            ajaxMethod(this, 'post',
-                'grading/submitGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.submitBtnSuccessMethod);
+          submitBtn:function(formData) {
+            bus.$emit('gradSubmitGradingName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
@@ -43,6 +33,29 @@ window.onload = function () {
           returnBtn:function() {
             window.location.href = originUrl+"page/indexPage";
           }
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('gradGradingAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              ajaxMethod(this, 'post',
+                  'grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.saveBtnSuccessMethod);
+            }
+          });
+          bus.$on('gradSubmitGradingAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              ajaxMethod(this, 'post',
+                  'grading/submitGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.submitBtnSuccessMethod);
+            }
+          });
         }
     })
 }

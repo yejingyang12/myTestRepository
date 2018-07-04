@@ -65,5 +65,14 @@ public interface DiagramMapper {
    */
   List<DiagramListResult> selectAcceptCompanyTop10(DiagramParam diagramParam) 
       throws BusinessException;
+
+  /**
+   * @Descrption 系统等保管理趋势
+   * @author dongxu
+   * @date 2018年6月28日下午5:05:54
+   * @param diagramParam
+   * @return
+   */
+  List<DiagramListResult> selectSystemTrendByYear(DiagramParam diagramParam);
   
 }

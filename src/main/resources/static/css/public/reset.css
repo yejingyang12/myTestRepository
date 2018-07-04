@@ -248,3 +248,154 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
     /* Internet Explorer 10+ */
     color: #666;
 }
+
+/*表一表单样式*/
+.el-input__inner{
+    height: 34px !important;
+    line-height: 34px !important;
+    border-radius:0 !important;
+    border:1px solid #cecece !important;
+}
+.P-form-input{
+    margin-bottom: 0px !important;
+}
+.P-form-input .el-form-item__label{
+    padding-right: 15px !important;
+    height: 34px !important;
+    line-height: 34px !important;
+}
+.P-form-input .el-form-item__content{
+    width: 318px;
+    height: 34px !important;
+    line-height: 34px !important;
+}
+.clearfix .lastLine{
+    margin-top: initial !important;
+}
+.P-form-input .el-select{
+    width: 100% !important;
+}
+.el-cascader{
+    width:100% !important;
+}
+/*表四样式*/
+.P-info-page li label.el-form-item__label{
+    font-size:12px;
+    font-weight: normal;
+    padding-right: 18px;
+}
+.P-info-page .el-form-item{
+    margin-bottom:0;
+}
+.P-info-page .uploadBox{
+    width: 100%;
+}
+.P-sysTitle{
+    width: 282px !important;
+}
+.P-info-page .sysTitle{
+    font-size:12px;
+}
+/*表三样式*/
+.P-addFormGrad .P-useData {
+    margin-left: -15px;
+}
+.P-addFormGrad .el-form-item{
+    margin-bottom: 0;
+}
+.P-useData .useData.el-input{
+    width: 80%;
+    margin-bottom: -50px;
+}
+.mcAddTian .P-useData .mcAddSysBuildChange{
+    width: 80% !important;
+}
+.mcAddTian .P-useData input{
+    width: 80%;
+}
+.P-useData .formChange{
+    width: 80%;
+}
+.P-useData .sysText{
+    width:80%;
+    position:relative;
+    overflow: hidden;
+}
+.mcAddTian .P-useData .formControl{
+    width:calc(100% - 35px)
+}
+.P-useData .useData span.el-input__suffix{
+    top:-40px;
+}
+
+.el-cascader-menu{
+  min-width:312px !important;
+  height:auto !important;
+  max-width:204px
+}
+.el-cascader-menu li{
+  margin-bottom:0 !important;
+}
+.el-popper[x-placement^=bottom]{
+  margin-top:0 !important;
+}
+.el-select-dropdown__list li{
+  margin-bottom:0 !important;
+}
+/* 表二信息系统建设类型提示 */
+.hintBox{
+  position:relative;
+  left:160px;
+  margin-bottom:-15px;
+  font-size:12px;
+}
+.hintBox i{
+  font-size:8px;
+  height:14px;
+  width:14px;
+  line-height:15px;
+  text-align:center;
+  border:1px solid #ccc;
+  color:#ccc;
+  border-radius:50%;
+  margin-right:5px;
+  margin-top:2px;
+}
+.hintBox span{
+  font-size:12px;
+  color:#ccc;
+}
+
+/*表二样式*/
+.P-addformsystem .el-form-item{
+    margin-bottom:0;
+}
+.P-addformsystem .dataForm .mcAddSysBuildChange{
+    width: 100% !important;
+    margin-left:0;
+}
+.P-addformsystem .dataForm .baseMesWrap .baseMes1{
+    width:100%;
+    margin-left:0 !important;
+}
+.P-addformsystem .dataForm .mcTextArea{
+    width: 100%;
+    margin-left:0;
+    padding:0 5px;
+}
+.P-addformsystem .dataForm .addForm2Table{
+    width:100%;
+    margin-left:0 !important;
+}
+.P-addformsystem .useData span.el-input__suffix{
+    top:-40px;
+}
+.P-addformsystem .useData.el-input{
+    width: 100%;
+    margin-bottom:-50px;
+}
+.P-addsystem{
+    width:80% ;
+}
+
+

@@ -30,6 +30,19 @@
             /*width: calc(88% - 26px);*/
             /*margin-left: 2px;*/
         /*}*/
+       .dowmBg{
+		    width: 16px;
+		    height: 9px;
+		    background: url("../../images/down.png") no-repeat;
+		    position: absolute;
+		    top:12px;
+		    right: 11px;
+		}
+		select{
+	     appearance:none;  
+	    -moz-appearance:none;  
+	    -webkit-appearance:none;
+	   }
     </style>
 </head>
 <body>
@@ -44,28 +57,29 @@
     <add-form-grad>
         <li slot="gradChange" class="fr liMargin">
           <div class="saveBnt">
-            <button type="button" class="btn btn-success " id="submit" @click="submitBtn()" v-show="!nextBtn">提交</button>
-            <button type="button" class="btn btn-success " id="save" @click="saveBtn()" v-show="!nextBtn">保存</button>
-            <button type="button" class="btn btn-default" id="pre" @click="preBtn()" v-show="!nextBtn">上一步</button>
+            <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')" v-show="!nextBtn">提交</button>
+            <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
+            <button type="button" class="btn btn-default" id="pre" @click="preBtn('formData')" v-show="!nextBtn">上一步</button>
           </div>
         </li>
         <li slot="gradNextChange" class="fr liMargin">
           <div class="saveBnt">
-            <button type="button" class="btn btn-default " id="pre" @click="preBtn()" v-show="nextBtn">上一步</button>
-            <button type="button" class="btn btn-default " id="safe" @click="saveBtn()" v-show="nextBtn">保存</button>
-            <button type="button" class="btn btn-success"  id="next" @click="nextBtn1()" v-show="nextBtn">下一步</button>
+            <button type="button" class="btn btn-default " id="pre" @click="preBtn('formData')" v-show="nextBtn">上一步</button>
+            <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')" v-show="nextBtn">保存</button>
+            <button type="button" class="btn btn-success"  id="next" @click="nextBtn1('formData')" v-show="nextBtn">下一步</button>
           </div>
         </li>
     </add-form-grad>
 </div>
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
+<script type="text/javascript">
+  var bus = new Vue();
+</script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
-<script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
-<script src="../../static/js/public/messages_zh.js" th:attr="src=@{/js/public/messages_zh.js}"></script>
-<script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
 
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
@@ -75,8 +89,6 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormGrad/addFormGrad.js" th:attr="src=@{/compnents/private/addFormGrad/addFormGrad.js}"></script>
 <script async src="../../static/js/private/applicationChangeGrad.js" th:attr="src=@{/js/private/applicationChangeGrad.js}"></script>
-<script async src="../../static/compnents/private/addFormGrad/addFromGradPrompt.js" th:attr="src=@{/compnents/private/addFormGrad/addFromGradPrompt.js}"></script>
-
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 var type="change";

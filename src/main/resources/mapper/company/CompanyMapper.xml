@@ -674,7 +674,8 @@
   <select id="selectCompanyName" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam" resultMap="BaseResultMap">
     SELECT
       companyName,
-      companyCode
+      companyCode,
+      fkPlateType
     FROM 
       t_cpro_company
     WHERE deleteStatus=1

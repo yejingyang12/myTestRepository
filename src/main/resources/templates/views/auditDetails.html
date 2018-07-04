@@ -25,12 +25,23 @@
 	  <link rel="stylesheet" href="../../static/css/private/viewDetailsNav.css" th:attr="href=@{/css/private/viewDetailsNav.css}">
     <link rel="stylesheet" href="../../static/css/private/viewDetailsInfor.css" th:attr="href=@{/css/private/viewDetailsInfor.css}">
 	 <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
-</head>
+
 <style>
-.bottom .item .content {
-   position: absolute;
-  top: 90px;!important
+.bottom .centerline {
+ 	position: absolute;
+    left: 0;
+    top:113px;  
+    margin-top:50px;
 }
+.bottom  {
+     padding-top:206px;
+     position:relative;
+}
+.bottom .over_time {
+ 	position: absolute;
+    left: 0;
+    top:178px;  
+} 
 #textArea {
     width: 99%;
     height: 100%;
@@ -88,6 +99,7 @@
     margin-left:-15px; 
 }
 </style>
+</head>
 <body>
 <div id="app">
     <smcc-header>

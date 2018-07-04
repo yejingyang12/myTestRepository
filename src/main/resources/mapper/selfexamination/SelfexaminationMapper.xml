@@ -187,10 +187,16 @@
 			</trim>
 		) ON DUPLICATE KEY UPDATE
 			fkInspectionStatus = #{fkInspectionStatus},
-			fkInspectionReu = #{fkInspectionReu},
-			fkRectificationReu = #{fkRectificationReu},
-			inspectionDate = #{inspectionDate},
-			rectificationDate = #{rectificationDate}
+			<if test="inspectionDate != null">
+				inspectionDate = #{inspectionDate},
+			</if>
+			<if test="rectificationDate != null">
+				rectificationDate = #{rectificationDate},
+			</if>
+			<if test="fkInspectionReu != null">
+				fkInspectionReu = #{fkInspectionReu},
+			</if>
+			fkRectificationReu = #{fkRectificationReu}
 	</insert>
   <!-- 根据SelfexaminationId查询自查信息详情 -->
   <select id="selectSingleBySelfexaminationId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationResult">

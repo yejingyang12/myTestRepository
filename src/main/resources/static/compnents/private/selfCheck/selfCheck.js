@@ -6,7 +6,6 @@
   		systemName: null,
   		show:{
   			visible2: -1,
-  			deleteFileType: null,
   		},
     itemdata:null,
 		imgList: null,
@@ -166,16 +165,26 @@
             	"examinationRectificationReportName": null,
             };
           },
-          
+        //点击“删除”显示弹窗
+          deleteClick:function(){
+         	 $(".inquiry").css("display","block");
+         	$(".dialogShaw").css("display","block");
+          },
+        //点击 "取消" 关闭弹框
+          closes:function () {
+            $(".inquiry").css("display","none");
+            $(".dialogShaw").css("display","none");
+          },
           //删除自查信息
           deleteSelfexamination: function(selfexaminationId){
           	var _self = this;
-          	_self.show.visible2 = -1
+          	 
           	var deleteParam = {"selfexaminationId": selfexaminationId,"fkSystemId": systemId};
           	ajaxMethod(_self, "post", 
           			"/selfexamination/deleteSelfexaminationBySelfexaminationId", false ,
           			JSON.stringify(deleteParam), "json", 
           			'application/json;charset=UTF-8', _self.deleteSelfexaminationSuccess);
+          	_self.closes();
           },
           deleteSelfexaminationSuccess: function(_self, responseData){
           	_self.querySelfCheckList(_self);
@@ -202,20 +211,14 @@
 						_self.editParam.examinationRectificationReportPath=responseData.data.uploadUrl;
 					},
 					fileDel:function(path,deleteFileType){
-						this.show.deleteFileType = deleteFileType;
-						ajaxMethod(this, 'post',
-								'fileHandle/deleteFile', true,'{"downloadFile":"'+path+'"}', 'json',
-								'application/json;charset=UTF-8',this.fileDelSuccessMethod);
-          },
-          fileDelSuccessMethod:function(_self,responseData){
-          	if(_self.show.deleteFileType == 1){
+						var _self = this;
+						if(deleteFileType == 1){
   						_self.editParam.examinationReportName='';
   						_self.editParam.examinationReportPath='';
-          	}else if(_self.show.deleteFileType == 2){
+          	}else if(deleteFileType == 2){
           		_self.editParam.examinationRectificationReportName='';
           		_self.editParam.examinationRectificationReportPath='';
           	}
-						_self.show.deleteFileType = null;
           },
           downloadReport: function(fileId){
           	this.fileDownload('','',fileId);

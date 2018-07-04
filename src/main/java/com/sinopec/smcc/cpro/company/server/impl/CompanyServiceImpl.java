@@ -11,6 +11,7 @@ package com.sinopec.smcc.cpro.company.server.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,6 +24,8 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.common.exception.classify.BusinessException;
 import com.sinopec.smcc.common.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascader;
+import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
@@ -75,7 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
     //权限
 //    JurisdictionDataResult organizationApiResult = 
 //        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
+    
 //    if(organizationApiResult==null){
 //      return new PageInfo<>();
 //    }else{
@@ -107,7 +110,7 @@ public class CompanyServiceImpl implements CompanyService {
 //      }
       // 装载列表数据
       PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
-      return pageInfo; 
+        return pageInfo;
 //    }
   }
 
@@ -242,5 +245,74 @@ public class CompanyServiceImpl implements CompanyService {
       }
       return companyListResultList;
     }
+  }
+
+  /**
+   * 返回单位列表信息（带板块）
+   */
+  @Override
+  public List<OrganizationApiCascaderResult> queryCompanyListByName(
+      CompanyParam companyParam) {
+    List<OrganizationApiCascaderResult> organizationResultList = new 
+        ArrayList<OrganizationApiCascaderResult>();
+    
+    List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new ArrayList<OrganizationApiCascaderResult>();
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        companyListResultList = 
+            this.companyMapper.selectCompanyName(companyParam);
+        break;
+      case "2":
+        companyParam.setPlateList(organizationApiResult.getNameList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+      case "3":
+        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+
+      default:
+        break;
+      }
+    }
+    HashMap<String, String> map = new HashMap<String, String>();
+    for (CompanyListResult companyListResult : companyListResultList) {
+      map.put(companyListResult.getFkPlateType(), companyListResult.getFkPlateType());
+    }
+    
+    //返回list
+    for (String strKay : map.keySet()) {
+      OrganizationApiCascaderResult organizationResult = new OrganizationApiCascaderResult();
+      
+      List<OrganizationApiCascader> organizationList = new ArrayList<OrganizationApiCascader>();
+      for (CompanyListResult companyListResult : companyListResultList) {
+        if(strKay.equals(companyListResult.getFkPlateType())){
+          OrganizationApiCascader organization= new OrganizationApiCascader();
+          organization.setLabel(companyListResult.getCompanyName());
+          //因页面需要单位名称和code,遂需用&来把单位名称得和code同时返回到页面
+          organization.setValue(companyListResult.getCompanyCode());
+          organizationList.add(organization);
+        }
+      }
+      organizationResult.setValue(strKay);
+      organizationResult.setLabel(map.get(strKay));
+      organizationResult.setChildren(organizationList);
+      organizationResultList.add(organizationResult);
+    }
+    return organizationResultList;
   }
 }

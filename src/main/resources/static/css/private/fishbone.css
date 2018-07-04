@@ -1,4 +1,119 @@
-/*妤稿ジ顎囬崶锟�*/
+ 
+.fishBone ul li {
+    display: inline-block;
+    list-style: none;
+    width: 250px;
+    height: 500px;
+    overflow:hidden;
+}
+ 
+ .fishBone ul li .item {
+    height: 168px;
+    width: 253px;
+}
+.fishBone ul li .text {
+    height: 168px;
+    width: auto;
+}
+
+.fishBone ul li .content {
+   /*  height:90px; */
+    width: 100%;
+    border: 1px solid #ededed;
+} 
+
+.fishBone ul li .content .frist_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    background-color: #D8EAF9;
+    padding-left: 15%;
+} 
+.fishBone ul li .content .second_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+
+    padding-left: 10%;
+} 
+.fishBone ul li .content .thirs_div {
+    height: 100%;
+    width: auto;
+    padding: 5px;
+    padding-left: 5%;
+}
+
+.fishBone ul li .over_time {
+    color: #3399cc;
+    text-align: left;
+    margin: 5px 0;
+    /*  height:10px; */
+} 
+
+ .fishBone ul li .centerline {
+    margin-left: 5px;
+    height:10px;
+    width:250px;
+  /*   position: absolute;
+    left: 0;
+    top: 40%; */
+    
+}
+
+.fishBone ul li .centerline .cricle {
+    margin: auto;
+  /*   position: absolute;
+    top: 0;
+    bottom: 0; */
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    color: #3d95df;
+    background-color: #3d95df;
+    box-shadow: 0 0 20px #1e91e2;
+}
+.fishBone ul li .centerline .line {
+    margin: auto;
+   /*  position: absolute;
+    top: 0;
+    bottom: 0; */
+   /*  right: 4%;
+    left: 13%; */
+    display: inline-block;
+    height: 2px;
+    width: 240px;
+     background-color: lightgray;
+     /* background-color: red; */
+}
+ .bottom  {
+     padding-top:188px;
+     position:relative;
+}
+ .bottom .centerline {
+ 	position: absolute;
+    left: 0;
+    top:98px;  
+    margin-top:50px;
+}
+   .bottom .over_time {
+ 	position: absolute;
+    left: 0;
+    top:163px;  
+   /*  margin-top:50px; */
+}  
+ .top  {
+     padding-top:10px;
+}  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ /* 妤稿ジ顎囬崶锟�
 .fishBone {
     height: 450px;
     width: 100%;
@@ -70,7 +185,7 @@
     width: 100%;
     position: absolute;
     left: 0;
-    /*top: 40%;*/
+    top: 40%;
 }
 
 .fishBone ul li .centerline .cricle {
@@ -107,12 +222,12 @@
 
 }
 .bottom .item{
-    /*position: relative;*/
+    position: relative;
 }
 
 .bottom .centerline {
-    /*position: absolute;*/
-    /*top: 128px;*/
+    position: absolute;
+    top: 128px;
 }
 
 .bottom .over_time {
@@ -124,7 +239,7 @@
   	position: absolute;
     top: 90px;
 }
-/* 寮圭獥 */
+寮圭獥
 .h-system-fishbone span{
       width: 92px;
     min-width: 90px;
@@ -133,9 +248,4 @@
 .h-system-fishbone p{ 
    line-height: 34px; 
 } 
-
-
-
-
-
-
+ */

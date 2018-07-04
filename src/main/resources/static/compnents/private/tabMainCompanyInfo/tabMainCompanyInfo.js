@@ -2,19 +2,19 @@
  * Created by timha on 2018/5/29.
  */
 (function () {
-  var data={};
+  var data={
+		  activeName: 'first',
+  };
   Vue.component('tabMainCompanyInfo',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/tabMainCompanyInfo/tabMainCompanyInfo.html').then(function(res){
       resolve({
         template:res,
         data:function () {
-          return {
-            activeName: 'first',
-          }
+          return data;
         },
         methods:{
           handleClick:function(tab, event) {
-            console.log(tab, event);
+//            console.log(tab, event);
           }
         },
         created: function() {

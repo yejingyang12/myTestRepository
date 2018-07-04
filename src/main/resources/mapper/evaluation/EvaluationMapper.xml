@@ -107,91 +107,127 @@
   </select>
 
   <insert id="saveEvaluationByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam">
-    <![CDATA[
-      INSERT INTO t_cpro_evaluation (
-        pkId,
-        fkSystemId,
-        examName,
-        examTime,
-        examYear,
-        examOrg,
-        fkExamStatus,
-        fkExamResult,
-        fkRectificationReu,
-        rectificationDate,
-        createTime,
-        createUserName,
-        deleteStatus
-      )VALUES(
-    ]]>
+    INSERT INTO t_cpro_evaluation (
+      pkId,
+      fkSystemId,
+      examName,
+      examTime,
+      examYear,
+      examOrg,
+      fkExamStatus,
+      fkExamResult,
+      fkRectificationReu,
+      rectificationDate,
+      createTime,
+      createUserName,
+      deleteStatus
+    )VALUES(
     <trim suffixOverrides=",">
-      <![CDATA[
-        #{evaluationId},
-      ]]>
-      <![CDATA[
-        #{fkSystemId},
-      ]]>
-      <![CDATA[
-        #{examName},
-      ]]>
-      <![CDATA[
-        #{examTime},
-      ]]>
-      <![CDATA[
-        #{examYear},
-      ]]>
-      <![CDATA[
-        #{examOrg},
-      ]]>
-      <![CDATA[
-        #{fkExamStatus},
-      ]]>
-      <![CDATA[
-        #{fkExamResult},
-      ]]>
-      <![CDATA[
-        #{fkRectificationReu},
-      ]]>
-      <![CDATA[
-	       #{rectificationDate},
-      ]]>
-      <![CDATA[
-        #{createTime},
-      ]]>
+      #{evaluationId},
+      #{fkSystemId},
+      <choose>
+    		<when test="examName != null">
+		      #{examName},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="examTime != null">
+		      #{examTime},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="examYear != null">
+		      #{examYear},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="examOrg != null">
+		      #{examOrg},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="fkExamStatus != null">
+		      #{fkExamStatus},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+      <choose>
+    		<when test="fkExamResult != null">
+		      #{fkExamResult},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+      <choose>
+    		<when test="fkRectificationReu != null">
+		      #{fkRectificationReu},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+      <choose>
+    		<when test="rectificationDate != null">
+		      #{rectificationDate},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+      #{createTime},
       <choose>
         <when test="createUserName != null and createUserName != ''">
-          <![CDATA[
-            #{createUserName},
-          ]]>
+          #{createUserName},
         </when>
         <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
+          DEFAULT,
         </otherwise>
       </choose>
       <choose>
         <when test="deleteStatus != null">
-          <![CDATA[
-            #{deleteStatus},
-          ]]>
+          #{deleteStatus},
         </when>
         <otherwise>
-          <![CDATA[
-            DEFAULT,
-          ]]>
+          DEFAULT,
         </otherwise>
       </choose>
     </trim>
     ) ON DUPLICATE KEY UPDATE 
-    examName=#{examName},
-    examTime=#{examTime},
-    examYear=#{examYear},
-    examOrg=#{examOrg},
+    <if test="examName != null">
+	    examName=#{examName},
+    </if>
+    <if test="examTime != null">
+	    examTime=#{examTime},
+    </if>
+    <if test="examYear != null">
+	    examYear=#{examYear},
+    </if>
+    <if test="examOrg != null">
+	    examOrg=#{examOrg},
+    </if>
+    <if test="fkExamResult != null">
+	  	fkExamResult=#{fkExamResult},
+    </if>
+    <if test="rectificationDate != null">
+	    rectificationDate=#{rectificationDate},
+    </if>
     fkExamStatus=#{fkExamStatus},
-  	fkExamResult=#{fkExamResult},
-    fkRectificationReu=#{fkRectificationReu},
-    rectificationDate=#{rectificationDate}
+    fkRectificationReu=#{fkRectificationReu}
   </insert>
   
   <update id="deleteEvaluationByEvaluationId" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam">

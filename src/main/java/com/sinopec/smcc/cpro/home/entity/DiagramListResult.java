@@ -25,10 +25,77 @@ public class DiagramListResult {
   private Integer level3;
   private Integer level4;
   private Integer level5;
+
+  private Integer readyGradCount;
+  private Integer checkGradCount;
+  private Integer recordsCount;
+  private Integer evaluationCount;
+  private Integer selfInspectionCount;
   
   private Integer level;
   private String companyName;
   
+  
+  /**
+   * @return the readyGradCount
+   */
+  public Integer getReadyGradCount() {
+    return readyGradCount;
+  }
+  /**
+   * @param readyGradCount the readyGradCount to set
+   */
+  public void setReadyGradCount(Integer readyGradCount) {
+    this.readyGradCount = readyGradCount;
+  }
+  /**
+   * @return the checkGradCount
+   */
+  public Integer getCheckGradCount() {
+    return checkGradCount;
+  }
+  /**
+   * @param checkGradCount the checkGradCount to set
+   */
+  public void setCheckGradCount(Integer checkGradCount) {
+    this.checkGradCount = checkGradCount;
+  }
+  /**
+   * @return the recordsCount
+   */
+  public Integer getRecordsCount() {
+    return recordsCount;
+  }
+  /**
+   * @param recordsCount the recordsCount to set
+   */
+  public void setRecordsCount(Integer recordsCount) {
+    this.recordsCount = recordsCount;
+  }
+  /**
+   * @return the evaluationCount
+   */
+  public Integer getEvaluationCount() {
+    return evaluationCount;
+  }
+  /**
+   * @param evaluationCount the evaluationCount to set
+   */
+  public void setEvaluationCount(Integer evaluationCount) {
+    this.evaluationCount = evaluationCount;
+  }
+  /**
+   * @return the selfInspectionCount
+   */
+  public Integer getSelfInspectionCount() {
+    return selfInspectionCount;
+  }
+  /**
+   * @param selfInspectionCount the selfInspectionCount to set
+   */
+  public void setSelfInspectionCount(Integer selfInspectionCount) {
+    this.selfInspectionCount = selfInspectionCount;
+  }
   public Integer getLevel1() {
     return level1;
   }

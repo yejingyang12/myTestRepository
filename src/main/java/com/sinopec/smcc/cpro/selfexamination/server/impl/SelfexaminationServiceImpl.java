@@ -9,7 +9,6 @@
 */
 package com.sinopec.smcc.cpro.selfexamination.server.impl;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +34,6 @@ import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper;
 import com.sinopec.smcc.cpro.selfexamination.server.SelfexaminationService;
 import com.sinopec.smcc.cpro.selfexamination.utils.ConvertFieldUtil;
-import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -100,10 +98,10 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       if (StringUtils.isNotBlank(selfexaminationParam.getExaminationReportPath())) {
         //自查报告
         AttachParam examinationReport = new AttachParam();
-        examinationReport.setFileId(Utils.getUuidFor32());
         examinationReport.setSystemId(selfexaminationParam.getFkSystemId());
         examinationReport.setSyssonId(selfexaminationParam.getSelfexaminationId());
         examinationReport.setAttachType("examinationReport");
+        examinationReport.setFileId(Utils.getUuidFor32());
         examinationReport.setUploadUrl(selfexaminationParam.getExaminationReportPath());
         examinationReport.setAttachName(selfexaminationParam.getExaminationReportName());
         this.fileServiceImpl.addFile(examinationReport);
@@ -111,10 +109,10 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       if (StringUtils.isNotBlank(selfexaminationParam.getExaminationRectificationReportPath())) {
         //自查整改报告
         AttachParam examinationRectificationReport = new AttachParam();
-        examinationRectificationReport.setFileId(Utils.getUuidFor32());
         examinationRectificationReport.setSystemId(selfexaminationParam.getFkSystemId());
         examinationRectificationReport.setSyssonId(selfexaminationParam.getSelfexaminationId());
         examinationRectificationReport.setAttachType("examinationRectificationReport");
+        examinationRectificationReport.setFileId(Utils.getUuidFor32());
         examinationRectificationReport.setUploadUrl(
             selfexaminationParam.getExaminationRectificationReportPath());
         examinationRectificationReport.setAttachName(
@@ -147,7 +145,15 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
         examinationReport.setAttachName(selfexaminationParam.getExaminationReportName());
         //保存附件
         this.fileServiceImpl.addFile(examinationReport);
+      }else if(StringUtils.isBlank(selfexaminationParam.getExaminationReportName())){
+        //文件名字都没有，肯定没附件
+        AttachParam examinationReport = new AttachParam();
+        examinationReport.setSystemId(selfexaminationParam.getFkSystemId());
+        examinationReport.setSyssonId(selfexaminationParam.getSelfexaminationId());
+        examinationReport.setAttachType("examinationReport");
+        this.fileServiceImpl.deleteFile(examinationReport);
       }
+      
       if (StringUtils.isNotBlank(selfexaminationParam.getExaminationRectificationReportPath())) {
         //保存附件  整改报告
         AttachParam examinationRectificationReport = new AttachParam();
@@ -163,6 +169,13 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
             selfexaminationParam.getExaminationRectificationReportName());
         //保存附件
         this.fileServiceImpl.addFile(examinationRectificationReport);
+      }else if(StringUtils.isBlank(selfexaminationParam.getExaminationRectificationReportName())){
+        //文件名字都没有，肯定没附件
+        AttachParam examinationRectificationReport = new AttachParam();
+        examinationRectificationReport.setSystemId(selfexaminationParam.getFkSystemId());
+        examinationRectificationReport.setSyssonId(selfexaminationParam.getSelfexaminationId());
+        examinationRectificationReport.setAttachType("examinationRectificationReport");
+        this.fileServiceImpl.deleteFile(examinationRectificationReport);
       }
       
       //添加节点状态信息
@@ -174,7 +187,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
     }
-    //自查状态
+    /*//自查状态
     if (selfexaminationParam.getFkInspectionStatus() == 1) {
       selfexaminationParam.setFkInspectionReu(0);
       try {
@@ -190,7 +203,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
       } catch (ParseException e) {
         
       }
-    }
+    }*/
     this.selfexaminationMapper.insertOrUpdateSelfexamination(selfexaminationParam);
     
     return selfexaminationParam.getSelfexaminationId();

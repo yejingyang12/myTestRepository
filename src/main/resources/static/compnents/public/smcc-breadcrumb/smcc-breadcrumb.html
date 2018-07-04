@@ -12,7 +12,7 @@
             <i  @click="returnHome()">
                 <slot name="return"></slot>
             </i>
-            <i @click="submit()">
+                <i @click="submit('ruleForm')" > 
                 <slot name="breadcrumb-sumbit"></slot>
             </i>
             <!-- <div v-if="grad"> -->
@@ -23,5 +23,6 @@
             <!-- </div> -->
         </li>
     </ol>
+    <slot name="returnBtn"></slot>
     <div class="clear"></div>
 </div>

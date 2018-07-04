@@ -40,6 +40,25 @@ var data={
 					getRecordSuccessMethod:function(_self,responseData){
 						if(responseData.data!=null){
 							_self.formData = responseData.data;
+							
+							
+							var index = -(2*100+8)+"px"+" -190px";
+							$(".process>li").eq(2).children('i').css('background-position',index);
+							$(".process>li").eq(2).prevAll().children('i').next('span').css('background-color','#3d95df');
+							$(".process>li").eq(2).prevAll().children('i').css('background-position','-8px -260px');
+							$(".process>li").eq(2).children('i').next('span').css('background-color','#cecece');
+							$(".process>li").eq(2).nextAll().children('i').next('span').css('background-color','#cecece');
+							$(".process>li").eq(2).nextAll().children('i').css('background-position','');
+							
+							$('.comitBtm').show();
+							if (this.formData.recordsId!=null && this.formData.recordsId!="" && typeof(this.formData.recordsId)!= undefined) {
+								bus.$emit("changeLi",true);
+							}else{
+								bus.$emit("changeLi",false);
+							}
+							//改div 显示和隐藏
+							$(".recordPro>div").eq(2).css("display","block").siblings("div").css("display","none");
+							
 						}else{
 							_self.formData = {
 									recordsId: null,

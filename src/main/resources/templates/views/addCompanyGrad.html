@@ -39,34 +39,39 @@
         <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousuo.jpg}" slot="smmc-header-sou">
         <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">-->
     </smcc-header>
-    <smcc-breadcrumb></smcc-breadcrumb>
+    <smcc-breadcrumb>
+      <li slot="materialChangeBtn" class="fr liMargin">
+        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+      </li>
+    </smcc-breadcrumb>
     <add-list></add-list>
     <add-form-grad>
         <li slot="gradBtn" class="fr liMargin">
           <div class="saveBnt">
-            <button type="button" class="btn btn-success " id="submit" @click="submitBtn()" v-show="!nextBtn">提交</button>
-            <button type="button" class="btn btn-success " id="save" @click="saveBtn()" v-show="!nextBtn">保存</button>
-            <button type="button" class="btn btn-default" id="pre" @click="preBtn()" v-show="!nextBtn">上一步</button>
+            <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')" v-show="!nextBtn">提交</button>
+            <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
+            <button type="button" class="btn btn-default" id="pre" @click="preBtn('formData')" v-show="!nextBtn">上一步</button>
           </div>
         </li>
         <li slot="gradNextBtn" class="fr liMargin">
           <div class="saveBnt">
-            <button type="button" class="btn btn-default " id="pre" @click="preBtn()"  v-show="nextBtn">上一步</button>
-            <button type="button" class="btn btn-default " id="safe" @click="saveBtn()"  v-show="nextBtn">保存</button>
-            <button type="button" class="btn btn-success " id="next" @click="next1Btn()"  v-show="nextBtn" v-updatas>下一步</button>
+            <button type="button" class="btn btn-default " id="pre" @click="preBtn('formData')"  v-show="nextBtn">上一步</button>
+            <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')"  v-show="nextBtn">保存</button>
+            <button type="button" class="btn btn-success " id="next" @click="next1Btn('formData')"  v-show="nextBtn">下一步</button>
           </div>
         </li>
     </add-form-grad>
-
+    
 </div>
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
-
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script type="text/javascript">
+  var bus = new Vue();
+</script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
-<script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
-<script src="../../static/js/public/messages_zh.js" th:attr="src=@{/js/public/messages_zh.js}"></script>
 
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
@@ -76,7 +81,6 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormGrad/addFormGrad.js" th:attr="src=@{/compnents/private/addFormGrad/addFormGrad.js}"></script>
 <script async src="../../static/js/private/addCompanyGrad.js" th:attr="src=@{/js/private/addCompanyGrad.js}"></script>
-<script async src="../../static/compnents/private/addFormGrad/addFromGradPrompt.js" th:attr="src=@{/compnents/private/addFormGrad/addFromGradPrompt.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 var type='';

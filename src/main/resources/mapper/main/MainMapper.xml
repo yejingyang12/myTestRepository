@@ -358,15 +358,25 @@
             AND company.fkPlateType = #{plateType,jdbcType=VARCHAR}
           ]]>
       </if>
-      <if test="sprankLevel != null and sprankLevel != ''">
+      <if test="sprankLevelArray != null and sprankLevelArray.length > 0">
+        <![CDATA[
+          AND score.fkSprankLevel IN  
+        ]]>
+        <foreach collection="sprankLevelArray" item="item" index="index" open="(" separator="," close=")">
           <![CDATA[
-            AND score.fkSprankLevel = #{sprankLevel,jdbcType=VARCHAR}
+            #{item}
           ]]>
+        </foreach>
       </if>
-      <if test="subordinateProvinces != null and subordinateProvinces != ''">
+      <if test="subordinateProvincesArray != null and subordinateProvincesArray.length > 0">
           <![CDATA[
-            AND company.fkSubordinatePro = #{subordinateProvinces,jdbcType=VARCHAR}
+          AND company.fkSubordinatePro IN  
+        ]]>
+        <foreach collection="subordinateProvincesArray" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
           ]]>
+        </foreach>
       </if>
     </where>
   </select>
@@ -497,6 +507,16 @@
       ON score.fkSystemId = system.pkId
     <where>
       score.deleteStatus =1
+      <if test="systemType != null and systemType == 1">
+        <![CDATA[
+           AND system.fkSystemType < 3
+        ]]>
+      </if>
+      <if test="systemType != null and systemType == 2">
+        <![CDATA[
+           AND system.fkSystemType = 3
+        ]]>
+      </if>
       <if test="gradingBeginTime != null ">
         <![CDATA[
          AND  score.rankTime >= #{gradingBeginTime,jdbcType=DATE}

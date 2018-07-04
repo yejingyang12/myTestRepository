@@ -53,7 +53,7 @@
               type:'line',
               symbolSize: 9,
               symbol:'circle',//拐点样式
-              data:[150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150],
+              data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               itemStyle: {
                   normal: {
                       color: "#50e3c2", //圈颜色
@@ -69,7 +69,7 @@
               type:'line',
               symbolSize:9,
               symbol:'circle',//拐点样式
-              data:[250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250, 250],
+              data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               itemStyle: {
                   normal: {
                       color: "#12cbf6", //圈颜色
@@ -85,7 +85,7 @@
               type:'line',
               symbolSize: 9,
               symbol:'circle',//拐点样式
-              data:[350, 350, 350, 350, 350, 350, 350, 350, 350, 350, 350, 350],
+              data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               itemStyle: {
                   normal: {
                       color: "#9fe060", //圈颜色
@@ -101,7 +101,7 @@
               type:'line',
               symbolSize: 9,
               symbol:'circle',//拐点样式
-              data:[450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450, 450],
+              data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               itemStyle: {
                   normal: {
                       color: "#ff9933", //圈颜色
@@ -117,7 +117,7 @@
               type:'line',
               symbolSize: 9,
               symbol:'circle',//拐点样式
-              data:[550, 550, 550, 550, 550, 550, 550, 550, 550, 550, 550, 550],
+              data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
               itemStyle: {
                   normal: {
                       color: "#028bff", //圈颜色
@@ -129,8 +129,7 @@
               },
           }
       ]
-  },
-
+  }
   };
   Vue.component('chartLine',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/chartLine/chartLine.html').then(function(res){
@@ -140,17 +139,72 @@
           return data
         },
         methods:{
-
+        	// 获取系统等保等级分布统计图数据
+        	getSystemTrendByYear : function(_self) {
+          	ajaxMethod(_self, 'post',
+              'diagram/querySystemTrendByYear', false,
+              '{"systemType":"1"}', 'json',
+              'application/json;charset=UTF-8',
+              this.getSystemTrendByYearSuccess);
+          } ,
+          getSystemTrendByYearSuccess : function(_self,result){
+	        	for(var i = 0; i < result.data.length; i++){
+	        		this.option.series[0].data[i] = result.data[i].readyGradCount;
+	        		this.option.series[1].data[i] = result.data[i].checkGradCount;	
+	        		this.option.series[2].data[i] = result.data[i].recordsCount;	
+	        		this.option.series[3].data[i] = result.data[i].evaluationCount;	
+	        		this.option.series[4].data[i] = result.data[i].selfInspectionCount;	
+	        	}
+	        }
         },
         created: function() {
-         
+        //获取系统等保管理阶段趋势
+          this.getSystemTrendByYear(this);
         },
         mounted: function() {
             data.dom = document.getElementById("container-stack");
             data.myChart = echarts.init(data.dom);
-            console.log(data.dom)
+            /*console.log(data.dom)*/
+            var _self = this;
              if (data.option && typeof data.option === "object") {
-            data.myChart.setOption(data.option, true);
+            	 data.myChart.setOption(data.option, true);
+            	 bus.$on("yearType",function(meg){
+              	 ajaxMethod(_self, 'post',
+                   'diagram/querySystemTrendByYear', false,
+                    meg, 'json',
+                   'application/json;charset=UTF-8',
+                   function(_self,result){
+              		 	 _self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+              		   _self.option.series[1].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+              		   _self.option.series[2].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+              		   _self.option.series[3].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+              		   _self.option.series[4].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	              		 if(result.data != null && result.data !=''){
+	  	    	        	 for(var i = 0; i < result.data.length; i++){
+	  	    	        		 //赋值
+	  	    	        		 _self.option.series[0].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 _self.option.series[1].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 _self.option.series[2].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 _self.option.series[3].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 _self.option.series[4].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 _self.option.series[0].data[i] = result.data[i].readyGradCount;	
+	  	    	        		 _self.option.series[1].data[i] = result.data[i].checkGradCount;	
+	  	    	        		 _self.option.series[2].data[i] = result.data[i].recordsCount;	
+	  	    	        		 _self.option.series[3].data[i] = result.data[i].evaluationCount;	
+	  	    	        		 _self.option.series[4].data[i] = result.data[i].selfInspectionCount;	
+	  	    	        	 }
+	  	    	        	 //重绘
+	  	    	        	 data.myChart.setOption(data.option, true);
+	              		 }else{
+	              			 var json = JSON.parse(meg);
+	              			 if(json.type == null || json.type == ''){
+	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	  	                     dangerouslyUseHTMLString: true
+	  	            		 	 });
+	              			 }
+	              		 }
+              	 });
+               }); 
              }
         }
       })

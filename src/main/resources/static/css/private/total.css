@@ -222,8 +222,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     padding-right: 0;
 }
 .trueSys .sysSun{
-    right: 10px;
-    padding:6px 15px;
+    right: 0px;
+    padding:6px 10px;
 }
 .dataForm .mcTextArea{
     width: calc(87.5% - 15px);
@@ -253,22 +253,35 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     right: 8px;
 }
 /*定级信息*/
-.liAddsty div label{
-    width:185px !important;
-}
+/*.liAddsty div label{*/
+    /*width:185px !important;*/
+/*}*/
 .liAddsty .saveTitle{
     margin-left:0;
 }
 .liAddsty .saveTable{
-    width: calc(100% - 230px);
-    margin-left:15px;
+    /*width: calc(100% - 230px);*/
+    margin-left:0px;
+}
+.liAddsty .clearfix{
+    overflow: hidden;
+    margin-right: 30px !important;
+}
+.liAddsty .clearfix>li.row{
+    margin:0;
 }
 .liAddsty  .saveTextTitle{
     padding-right: 15px;
 }
 .liAddsty .mcTextArea {
-    width: calc(100% - 200px);
-    margin:0;
+    width: calc(100% - 30px);
+    padding:0 !important;
+    margin-left: 0;
+    margin-right: 30px;
+    overflow: hidden;
+}
+.liAddsty #textArea{
+    padding:0 5px;
 }
 .liAddsty .sysTitle{
     margin-left:0;

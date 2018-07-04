@@ -188,7 +188,22 @@ public class GradingServiceImpl implements GradingService{
         nodeParam.setNodeId(nodeResult.getNodeId());
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
-    } 
+    } else if("2".equals(gradingParam.getChangeType())){
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(gradingParam.getFkSystemId());
+      nodeParam.setOperation("创建");
+      nodeParam.setOperationResult("已创建");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
+    }
     this.gradingMapper.insertGrading(gradingParam);
     return gradingParam.getFkSystemId();
   }
@@ -338,7 +353,23 @@ public class GradingServiceImpl implements GradingService{
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(gradingParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } else if("2".equals(gradingParam.getChangeType())){
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(gradingParam.getFkSystemId());
+      nodeParam.setOperation("创建");
+      nodeParam.setOperationResult("已提交");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
     }
+    
     //修改系统定级状态
     this.gradingMapper.updateGradingStatus(gradingParam);
     //修改或添加信息

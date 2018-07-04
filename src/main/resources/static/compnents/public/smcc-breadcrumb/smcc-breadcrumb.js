@@ -28,11 +28,22 @@
                     return data;
                 },
               methods:{
+            	  submitForm:function(formName) {
+    			      this.$refs[formName].validate(function(valid){
+    			          if (valid) {
+    			            alert('submit!');
+    			          } else {
+    			            console.log('error submit!!');
+    			            return false;
+    			          }
+    			        });
+    			    
+    			     },
                 hReturn:function(){
                   bus.$emit("gradReturn","b");
                 },
-                submit:function(){
-                  bus.$emit("gradSubmit","a")
+                submit:function(ruleForm){
+                  bus.$emit("gradSubmit",ruleForm);
                   // console.log(a);
                 },
                 returnHome:function(){

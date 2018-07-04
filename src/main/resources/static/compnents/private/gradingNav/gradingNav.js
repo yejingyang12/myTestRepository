@@ -23,24 +23,28 @@ var data1 = {
             }
           },
           //下一页
-          next2Btn:function() {
-            data.formData.changeType = "2";
-            ajaxMethod(this, 'post','grading/saveGrading', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.nextBtnSuccessMethod);
+          next2Btn:function(formName) {
+            bus.$emit('materialFormName',formName);
           },
           // 获取成功
           nextBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId;
           }
-          
         },
         created: function() {
 
         },
         mounted: function() {
-          // this.selectChange()
+          var _self = this;
+          bus.$on('materialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              ajaxMethod(_self, 'post','grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.nextBtnSuccessMethod);
+            }
+          });
         }
       })
     })

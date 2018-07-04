@@ -34,7 +34,7 @@ td{
     background: url("../../images/down.png") no-repeat;
     position: absolute;
     top:12px;
-    right: 6px;
+    right:11px;
 }
 .dowmBg:before{
     content:"|";

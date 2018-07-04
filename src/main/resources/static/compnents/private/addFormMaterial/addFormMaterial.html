@@ -5,119 +5,107 @@
             <span class="fl tianMsg">备案</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
-        <form action="#">
+        <el-form action="#" ref="formData" :rules="rules" :model="formData" label-width="300px" class="P-info-page">
             <ul class="clearfix dataForm">
                 <li class="row">
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            <span class="xing">*</span>
-                            1.系统拓扑结构及说明：
-                        </label>
-                        <div class="clearfix sysText col-md-8 uploadBox">
-                            <div class="uploadSty">
-                                <ul class="fileList" id="fileList"></ul>
-                                <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null" size="small">继续上传</el-button>
-                                <el-button type="primary" v-else size="small">上传</el-button>
+                        <el-form-item label="1.系统拓扑结构及说明：" prop="topologyDescriptionName">
+                            <div class="clearfix sysText col-md-12 uploadBox">
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList"></ul>
+                                    <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null" size="small">继续上传</el-button>
+                                    <el-button type="primary" v-else size="small">上传</el-button>
+                                </div>
+                                <input type="file" value="" id="file" @change='onUpload'>
+                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload' v-prompt="{type:'file'}">
-                            <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
-                        </div>
+                        </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            附件名称：
-                        </label>
-                        <div class="clearfix sysEnclosure col-md-9">
-                            <input type="text" class="col-md-11 inpEnclosure" v-model="formData.topologyDescriptionName" name="fileText" id="fileText" disabled>
-                        </div>
+                        <el-form-item label="附件名称：" prop="topologyDescriptionName">
+                            <div class="clearfix sysEnclosure">
+                                <input type="text" class="col-md-11 inpEnclosure" v-model="formData.topologyDescriptionName" name="fileText" id="fileText" disabled>
+                            </div>
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            <span class="xing">*</span>
-                            2.系统安全组织机构及管理制度：
-                        </label>
-                        <div class="clearfix sysText col-md-8 uploadBox">
-                            <div class="uploadSty">
-                                <ul class="fileList" id="fileList2">
-                                </ul>
-                                <el-button type="primary" v-if="formData.organizationManagementName!==''&&formData.organizationManagementName!==null" size="small">继续上传</el-button>
-                                <el-button type="primary" v-else size="small">上传</el-button>
+                        <el-form-item label="2.系统安全组织机构及管理制度：" prop="organizationManagementName">
+                            <div class="clearfix sysText col-md-12 uploadBox">
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList2">
+                                    </ul>
+                                    <el-button type="primary" v-if="formData.organizationManagementName!==''&&formData.organizationManagementName!==null" size="small">继续上传</el-button>
+                                    <el-button type="primary" v-else size="small">上传</el-button>
+                                </div>
+                                <input type="file" value="" id="file" @change='onUpload2'>
+                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload2' v-prompt="{type:'file'}">
-                            <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
-                        </div>
+                        </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            附件名称：
-                        </label>
-                        <div class="clearfix sysEnclosure col-md-9">
-                            <input type="text" class="col-md-11 inpEnclosure" v-model="formData.organizationManagementName" name="upSyst" id="upSyst" disabled>
-                        </div>
+                        <el-form-item label="附件名称：" prop="organizationManagementName">
+                            <div class="clearfix sysEnclosure">
+                                <input type="text" class="col-md-11 inpEnclosure" v-model="formData.organizationManagementName" name="upSyst" id="upSyst" disabled>
+                            </div>
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            <span class="xing">*</span>
-                            3.系统安全保护设施设计实施方案或改建实施方案：
-                        </label>
-                        <div class="clearfix sysText col-md-8 uploadBox">
-                            <div class="uploadSty">
-                                <ul class="fileList" id="fileList3">
-                                </ul>
-                                <el-button type="primary" v-if="formData.implementationPlanName!==''&&formData.implementationPlanName!==null" size="small">继续上传</el-button>
-                                <el-button type="primary" v-else size="small">上传</el-button>
+                        <el-form-item label="3.系统安全保护设施设计实施方案或改建实施方案：" prop="implementationPlanName">
+                            <div class="clearfix sysText col-md-12 uploadBox">
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList3">
+                                    </ul>
+                                    <el-button type="primary" v-if="formData.implementationPlanName!==''&&formData.implementationPlanName!==null" size="small">继续上传</el-button>
+                                    <el-button type="primary" v-else size="small">上传</el-button>
+                                </div>
+                                <input type="file" value="" id="file" @change='onUpload3'>
+                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload3' v-prompt="{type:'file'}">
-                            <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
-                        </div>
+                        </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            附件名称：
-                        </label>
-                        <div class="clearfix sysEnclosure col-md-9">
-                            <input type="text" class="col-md-11 inpEnclosure" v-model="formData.implementationPlanName" name="upBuid" id="upBuid" disabled>
-                        </div>
+                        <el-form-item label="附件名称：" prop="implementationPlanName">
+                            <div class="clearfix sysEnclosure">
+                                <input type="text" class="col-md-11 inpEnclosure" v-model="formData.implementationPlanName" name="upBuid" id="upBuid" disabled>
+                            </div>
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            <span class="xing">*</span>
-                            4.系统使用的安全产品清单及认证、销售许可证明：
-                        </label>
-                        <div class="clearfix sysText col-md-8 uploadBox">
-                            <div class="uploadSty">
-                                <ul class="fileList" id="fileList4">
-                                </ul>
-                                <el-button type="primary" v-if="formData.licenseCertificateName!==''&&formData.licenseCertificateName!==null" size="small">继续上传</el-button>
-                                <el-button type="primary" v-else size="small">上传</el-button>
+                        <el-form-item label="4.系统使用的安全产品清单及认证、销售许可证明：" prop="licenseCertificateName">
+                            <div class="clearfix sysText col-md-12 uploadBox">
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList4">
+                                    </ul>
+                                    <el-button type="primary" v-if="formData.licenseCertificateName!==''&&formData.licenseCertificateName!==null" size="small">继续上传</el-button>
+                                    <el-button type="primary" v-else size="small">上传</el-button>
+                                </div>
+                                <input type="file" value="" id="file" @change='onUpload4'>
+                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                             </div>
-                            <input type="file" value="" id="file" @change='onUpload4' v-prompt="{type:'file'}">
-                            <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
-                        </div>
+                        </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <label for="" class="col-md-3 text-right sysTitle">
-                            附件名称：
-                        </label>
-                        <div class="clearfix sysEnclosure col-md-9">
-                            <input type="text" class="col-md-11 inpEnclosure" v-model="formData.licenseCertificateName" name="upList" id="upList" disabled>
-                        </div>
+                        <el-form-item label="附件名称：" prop="licenseCertificateName">
+                            <div class="clearfix sysEnclosure">
+                                <input type="text" class="col-md-11 inpEnclosure" v-model="formData.licenseCertificateName" name="upList" id="upList" disabled>
+                            </div>
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row">
                     <div class="col-md-12">
                         <div class="col-md-6">
-                            <label for="" class="col-md-6 text-right sysTitle">5.系统等级测评报告：</label>
+                            <label class="col-md-6 P-sysTitle text-right sysTitle">5.系统等级测评报告：</label>
                             <p class="downDoc col-md-6" @click="downloadFile(formData.evaluationPresentationId)">{{formData.evaluationPresentationName}}</p>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3 text-right sysTitle">附件名称：</label>
+                            <label class="col-md-3 text-right sysTitle">附件名称：</label>
                             <p class="col-md-9 text-left dixName">{{formData.evaluationPresentationName}}</p>
                         </div>
                     </div>
@@ -125,11 +113,11 @@
                 <li class="row">
                     <div class="col-md-12">
                         <div class="col-md-6">
-                            <label for="" class="col-md-6 text-right sysTitle">6.专家评审情况：</label>
+                            <label class="col-md-6 P-sysTitle text-right sysTitle">6.专家评审情况：</label>
                             <p class="downDoc col-md-6" @click="downloadFile(formData.expertReviewId)">{{formData.expertReviewName}}</p>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3 text-right sysTitle">附件名称：</label>
+                            <label class="col-md-3 text-right sysTitle">附件名称：</label>
                             <p class="col-md-9 text-left dixName">{{formData.expertReviewName}}</p>
                         </div>
                     </div>
@@ -137,11 +125,11 @@
                 <li class="row">
                     <div class="col-md-12">
                         <div class="col-md-6">
-                            <label for="" class="col-md-6 text-right sysTitle">7.上级主管部门审批意见：</label>
+                            <label class="col-md-6 text-right sysTitle P-sysTitle">7.上级主管部门审批意见：</label>
                             <p class="downDoc col-md-6" @click="downloadFile(formData.directorOpinionId)">{{formData.directorOpinionName}}</p>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3 text-right sysTitle">附件名称：</label>
+                            <label class="col-md-3 text-right sysTitle">附件名称：</label>
                             <p class="col-md-9 text-left dixName">{{formData.directorOpinionName}}</p>
                         </div>
                     </div>
@@ -149,7 +137,7 @@
                 <slot name="materialBtn"></slot>
                 <slot name="materialChangeBtn"></slot>
             </ul>
-        </form>
+        </el-form>
     </div>
 </div>
 

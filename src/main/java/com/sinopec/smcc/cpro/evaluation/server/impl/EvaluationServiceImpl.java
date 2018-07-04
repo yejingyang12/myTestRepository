@@ -8,7 +8,6 @@
 */
 package com.sinopec.smcc.cpro.evaluation.server.impl;
 
-import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -35,7 +34,6 @@ import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
-import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 
 /**
@@ -105,7 +103,7 @@ public class EvaluationServiceImpl implements EvaluationService {
       mainParam.setSystemId(evaluationParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
 			try {
-			  if (StringUtils.isNotBlank(evaluationParam.getExamReportPath())) {
+			  /*if (StringUtils.isNotBlank(evaluationParam.getExamReportPath())) {
 			    AttachParam evaluationPresentation = new AttachParam();
 			    evaluationPresentation.setFileId(Utils.getUuidFor32());
 			    evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
@@ -114,7 +112,19 @@ public class EvaluationServiceImpl implements EvaluationService {
 			    evaluationPresentation.setUploadUrl(evaluationParam.getExamReportPath());
 			    evaluationPresentation.setAttachName(evaluationParam.getExamReportName());
 			    this.fileServiceImpl.addFile(evaluationPresentation);
-			  }
+			  }*/
+        //参数名没统一的问题
+        if (StringUtils.isNotBlank(evaluationParam.getExamReportPath())) {
+          AttachParam evaluationPresentation = new AttachParam();
+          evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
+          evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
+          evaluationPresentation.setAttachType("evaluationPresentation");
+          this.fileServiceImpl.deleteFile(evaluationPresentation);
+          evaluationPresentation.setFileId(Utils.getUuidFor32());
+          evaluationPresentation.setUploadUrl(evaluationParam.getExamReportPath());
+          evaluationPresentation.setAttachName(evaluationParam.getExamReportName());
+          this.fileServiceImpl.addFile(evaluationPresentation);
+        }
 			  if (StringUtils.isNotBlank(evaluationParam.getRectificationReportPath())) {
 			    AttachParam rectificationReport = new AttachParam();
 			    rectificationReport.setFileId(Utils.getUuidFor32());
@@ -140,7 +150,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 		}else{
 		  evaluationParam.setCreateTime(new Date());
 		  try {
-		    if (StringUtils.isNotBlank(evaluationParam.getEvaluationPresentationPath())) {
+		    /*if (StringUtils.isNotBlank(evaluationParam.getEvaluationPresentationPath())) {
 		      AttachParam evaluationPresentation = new AttachParam();
 		      evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
 		      evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
@@ -150,7 +160,26 @@ public class EvaluationServiceImpl implements EvaluationService {
 		      evaluationPresentation.setUploadUrl(evaluationParam.getEvaluationPresentationPath());
 		      evaluationPresentation.setAttachName(evaluationParam.getEvaluationPresentationName());
 		      this.fileServiceImpl.addFile(evaluationPresentation);
-		    }
+		    }*/
+		    //参数名没统一的问题
+		    if (StringUtils.isNotBlank(evaluationParam.getExamReportPath())) {
+          AttachParam evaluationPresentation = new AttachParam();
+          evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
+          evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
+          evaluationPresentation.setAttachType("evaluationPresentation");
+          this.fileServiceImpl.deleteFile(evaluationPresentation);
+          evaluationPresentation.setFileId(Utils.getUuidFor32());
+          evaluationPresentation.setUploadUrl(evaluationParam.getExamReportPath());
+          evaluationPresentation.setAttachName(evaluationParam.getExamReportName());
+          this.fileServiceImpl.addFile(evaluationPresentation);
+        }else if(StringUtils.isBlank(evaluationParam.getExamReportName())){
+          //文件名都没有，没有上传的附件，将原有附件删除掉
+          AttachParam evaluationPresentation = new AttachParam();
+          evaluationPresentation.setSystemId(evaluationParam.getFkSystemId());
+          evaluationPresentation.setSyssonId(evaluationParam.getEvaluationId());
+          evaluationPresentation.setAttachType("evaluationPresentation");
+          this.fileServiceImpl.deleteFile(evaluationPresentation);
+        }
 		    if (StringUtils.isNotBlank(evaluationParam.getRectificationReportPath())) {
 		      AttachParam rectificationReport = new AttachParam();
 		      rectificationReport.setSystemId(evaluationParam.getFkSystemId());
@@ -161,6 +190,12 @@ public class EvaluationServiceImpl implements EvaluationService {
 		      rectificationReport.setUploadUrl(evaluationParam.getRectificationReportPath());
 		      rectificationReport.setAttachName(evaluationParam.getRectificationReportName());
 		      this.fileServiceImpl.addFile(rectificationReport);
+		    }else if(StringUtils.isBlank(evaluationParam.getRectificationReportName())){
+          //文件名都没有，没有上传的附件，将原有附件删除掉
+		      AttachParam rectificationReport = new AttachParam();
+          rectificationReport.setSystemId(evaluationParam.getFkSystemId());
+          rectificationReport.setSyssonId(evaluationParam.getEvaluationId());
+          rectificationReport.setAttachType("rectificationReport");
 		    }
       } catch (Exception e) {
       
@@ -174,7 +209,7 @@ public class EvaluationServiceImpl implements EvaluationService {
       nodeParam.setOperator(userName);
       this.nodeServiceImpl.addNodeInfo(nodeParam);
 		}
-		//未测评
+		/*//未测评
 		if (evaluationParam.getFkExamStatus() == 1) {
 		  evaluationParam.setFkExamResult(0);
 		  try {
@@ -190,7 +225,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 		  } catch (ParseException e) {
 		    
 		  }
-		}
+		}*/
 		this.evaluationMapper.saveEvaluationByEvaluationId(evaluationParam);
 		return evaluationParam.getEvaluationId();
 	}

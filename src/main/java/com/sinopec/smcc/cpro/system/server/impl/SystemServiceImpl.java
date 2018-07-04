@@ -102,7 +102,7 @@ public class SystemServiceImpl implements SystemService {
 		//获得相应列表数据
 		List<SystemListResult> systemListResultlist = new ArrayList<SystemListResult>();
 		
-		//权限
+//		//权限
 //    JurisdictionDataResult organizationApiResult = 
 //        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
 //    
@@ -272,7 +272,7 @@ public class SystemServiceImpl implements SystemService {
         }
        }
       }
-   
+   /*
    //添加节点状态信息
    NodeParam nodeParam = new NodeParam();
    nodeParam.setSystemId(systemParam.getSystemId());
@@ -280,7 +280,7 @@ public class SystemServiceImpl implements SystemService {
    nodeParam.setOperationResult("已创建");
    nodeParam.setOperationOpinion("");
    nodeParam.setOperator(userName);
-   this.nodeServiceImpl.addNodeInfo(nodeParam);
+   this.nodeServiceImpl.addNodeInfo(nodeParam);*/
 
     this.systemKeyProductsMapper.insertSystemKeyProductsBySystemKeyProductsId(
         systemKeyProductsList);

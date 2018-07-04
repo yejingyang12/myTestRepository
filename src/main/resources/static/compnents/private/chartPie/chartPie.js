@@ -9,19 +9,19 @@
         formatter: "{a} <br/>{b} : {c} ({d}%)"
       },
       legend: {
-        left:'-2',
+        left:'-6',
         top:'10',
         orient: 'vertical',
 //        x: 'left',
-        data:[]
+        data: ['一级', '二级', '三级', '四级', '五级']
       },
       series : [
         {
           name: '等级分布',
           type: 'pie',
           radius : '55%',
-          center: ['55%', '50%'],
-          radius: ['35%', '50%'],
+          center: ['60%', '50%'],
+          radius: ['20%', '35%'],
           label: {
             /*position:'center',*/
             normal: {
@@ -29,17 +29,17 @@
               rich: {
                 col: {
                   color: '#000',
-                  fontSize : 14,
+                  fontSize : 10,
                 }
               }
             }
           },
           data:[
-            {value:'', name:''},
-            {value:'', name:''},
-            {value:'', name:''},
-            {value:'', name:''},
-            {value:'', name:''}
+            {value:'0', name:'一级'},
+            {value:'0', name:'二级'},
+            {value:'0', name:'三级'},
+            {value:'0', name:'四级'},
+            {value:'0', name:'五级'}
           ]
         }
       ],
@@ -59,20 +59,39 @@
         	getGradingStatistics : function(_self) {
           	ajaxMethod(_self, 'post',
               'main/queryGradingStatistics', false,
-              "{}", 'json',
+              '{"systemType":"1"}', 'json',
               'application/json;charset=UTF-8',
               this.getGradingStatisticsSuccess);
           } ,
 	        getGradingStatisticsSuccess : function(_self,result){
-	        	for(var i = 0; i < result.data.length; i++){
-	        		this.option.series[0].data[i].value = result.data[i].spRanklevelCount;
-	          	this.option.series[0].data[i].name = result.data[i].spRanklevelName;	
-	          	this.option.legend.data[i] = result.data[i].spRanklevelName;
+		         this.option.series[0].data[0].value = 0;
+		         this.option.series[0].data[1].value = 0;
+		         this.option.series[0].data[2].value = 0;
+		         this.option.series[0].data[3].value = 0;
+		         this.option.series[0].data[4].value = 0;
+	        	 for(var i = 0; i < result.data.length; i++){
+	        		 if(result.data[i].spRanklevelName == '一级'){
+	        			 this.option.series[0].data[0].value = result.data[i].spRanklevelCount;
+	 	        	 }
+	 	        	 if(result.data[i].spRanklevelName == '二级'){
+	 	        		this.option.series[0].data[1].value = result.data[i].spRanklevelCount;
+	 	        	 }
+	 	        	 if(result.data[i].spRanklevelName == '三级'){
+	 	        		this.option.series[0].data[2].value = result.data[i].spRanklevelCount;
+	 	        	 }
+	 	        	 if(result.data[i].spRanklevelName == '四级'){
+	 	        		this.option.series[0].data[3].value = result.data[i].spRanklevelCount;
+	 	        	 }
+	 	        	 if(result.data[i].spRanklevelName == '五级'){
+	 	        		this.option.series[0].data[4].value = result.data[i].spRanklevelCount;
+	 	        	 }
+//	        		this.option.series[0].data[i].value = result.data[i].spRanklevelCount;
+//	          	this.option.series[0].data[i].name = result.data[i].spRanklevelName;	
+//	          	this.option.legend.data[i] = result.data[i].spRanklevelName;
 	        	}
 	        }
         },
         created: function() { 
-        
           //获取系统等保等级分布统计图数据
           this.getGradingStatistics(this);
         },
@@ -90,20 +109,43 @@
                  'application/json;charset=UTF-8',
                  function(_self,result){
 	            		 if(result.data != null && result.data !=''){
-	              		 _self.option.series[0].data=[];
+	            			 _self.option.series[0].data[0].value = 0;
+	            			 _self.option.series[0].data[1].value = 0;
+	            			 _self.option.series[0].data[2].value = 0;
+	            			 _self.option.series[0].data[3].value = 0;
+	            			 _self.option.series[0].data[4].value = 0;
+
 	  	    	         for(var i = 0; i < result.data.length; i++){
 		    	        		 //赋值
-		    	        		 _self.option.series[0].data.push({value:'', name:''})
-		    	        		 _self.option.series[0].data[i].value = result.data[i].spRanklevelCount;
-		    	        		 _self.option.series[0].data[i].name = result.data[i].spRanklevelName;
-		    	        		 _self.option.legend.data[i] = result.data[i].spRanklevelName;
+	  	    	        	 if(result.data[i].spRanklevelName == '一级'){
+	  	    	        		 _self.option.series[0].data[0].value = result.data[i].spRanklevelCount;
 	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '二级'){
+	  	    	        		 _self.option.series[0].data[1].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '三级'){
+	  	    	        		 _self.option.series[0].data[2].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '四级'){
+	  	    	        		 _self.option.series[0].data[3].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '五级'){
+	  	    	        		 _self.option.series[0].data[4].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+//		    	        		 _self.option.series[0].data.push({value:'', name:''})
+//		    	        		 
+//		    	        		 _self.option.series[0].data[i].name = result.data[i].spRanklevelName;
+//		    	        		 _self.option.legend.data[i] = result.data[i].spRanklevelName;
+	  	    	         }
 	  	    	        	 //重绘
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
-	            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	                     dangerouslyUseHTMLString: true
-	            		 	 });
+	              			 var json = JSON.parse(meg);
+	              			 if(json.type == null || json.type == ''){
+	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	  	                     dangerouslyUseHTMLString: true
+	  	            		 	 });
+	              			 }
 	            		 	} 
             	 	 });
             	 }); 

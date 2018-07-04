@@ -29,28 +29,19 @@ var data={
         bizSPRankLevel:false,
         bizSystemLevel:false,
         expertType:false,
-        sysName:'系统名称',//系统名称
         safetyPro:{//确定安全保护等级
-            busInform:[//业务信息
-                {"radioId":"selectAll","disRadioId":"onlyCheck"},
-                {"radioId":"selAll","disRadioId":"onCheck"},
-            ],
-            sysInform:{//系统信息
+          busInform:[//业务信息
+            {"radioId":"selectAll","disRadioId":"onlyCheck"},
+            {"radioId":"selAll","disRadioId":"onCheck"},
+          ],
+          sysInform:{//系统信息
 
-            }
+          }
         },
         protectionGrade:[],//安全保护等级
-        
-        
         competent:[],//主管部门
-        description:'定级说明描述',//定级说明描述
-        competentName:'主管部门名称',//主管部门名称
         competentGrad:[],//主管部门审批定级情况
-        gradPresen:'定级报告',//定级报告
-        gradPresenName:'定级报告名称',//定级报告名称
         expertReview:[],//专家评审
-        expertReviewName:'评审附件名称',//专家评审名称
-        fillFormPerson:'填表人',//填表人
         fillData:{},//填表时间
         smccAll:'',
         smccChecdArr:[[],[],[],[],[]],
@@ -61,80 +52,64 @@ var data={
         sAllMaxNum:[],
         sindpar:0,
         all:'',
-        nextBtn:true
+        nextBtn:true,
+        rules:{
+          fkBizSPRankDegree:[  //安全保护等级
+              {required: true, message: '请选择业务信息损害客体及损害程度', trigger: 'change' },
+          ],
+          fkBizSPRankLevel:[  //安全保护等级
+              {required: true, message: '请选择业务信息等级', trigger: 'change' },
+          ],
+          fkBizSystemDegree:[  //安全保护等级
+              {required: true, message: '请选择系统信息损害客体及损害程度', trigger: 'change' },
+          ],
+          fkBizSystemLevel:[  //安全保护等级
+              {required: true, message: '请选择系统信息等级', trigger: 'change' },
+          ],
+          fkSpRanklevel:[  //安全保护等级
+              {required: true, message: '请选择安全保护等级', trigger: 'change' },
+              { pattern: /^[1-9]\d*$/, message: '请选择安全保护等级', trigger: 'change'}
+          ],
+          rankExplainDesc:[  //定级说明描述
+              {required: true, message: '请输入定级说明', trigger: 'blur' },
+              { min: 0, max: 200, message: '长度在 0 到 200个字符', trigger: 'blur' },
+          ],
+          rankTime:[  //定级时间
+              {required: true, message: '请选择定级时间', trigger: 'blur' },
+          ],
+          competentIsExisting:[  //是否有主管部门
+              {required: true, message: '请选择是否有主管部门', trigger: 'blur' },
+          ],
+          competentName:[  //主管部门名称
+              {required: false, message: '请输入主管部门名称', trigger: 'blur' },
+              { min: 0, max: 60, message: '长度在 0 到 60个字符', trigger: 'blur' },
+          ],
+          expertView:[  //专家评审情况
+              {required: true, message: '请选择专家评审情况', trigger: 'blur' },
+          ],
+          competentView:[  //主管部门审批定级情况
+              {required: false, message: '请选择主管部门审批定级情况', trigger: 'blur' },
+          ],
+          directorOpinionName:[  //上级主管部门审批意见
+              {required: false, message: '请上传上级主管部门审批意见', trigger: 'blur' },
+          ],
+          gradingReportName:[  //定级报告
+              {required: true, message: '请上传定级报告', trigger: 'blur' },
+          ],
+          expertReviewName:[  //专家评审情况
+              {required: true, message: '请上传专家评审附件', trigger: 'blur' },
+          ],
+          filler:[  //填表人
+              {required: false, message: '请输入填表人', trigger: 'blur' },
+              { min: 0, max: 40, message: '长度在 0 到 40个字符', trigger: 'blur' },
+          ],
+          fillDate:[  //填表时间
+              /*{required: false, message: '请输入填表时间', trigger: 'blur' },*/
+          ],
+        }
     };
 
 (function () {
-    
-    $("#addFormGrad").validate({
-        sysName:{
-            required:true,
-            sysName:true
-        },
-        safetyPro:{
-            required:true,
-            safetyPro:true
-        },
-        competent:{
-            required:true,
-            competent:true
-        },
-        competentName:{
-            required:true,
-            competentName:true
-        },
-        competentGrad:{
-            required:true,
-            competentGrad:true
-        },
-        gradPresen:{
-            required:true,
-            gradPresen:true
-        },
-        gradPresenName:{
-            required:true,
-            gradPresenName:true
-        },
-        expertReview:{
-            required:true,
-            expertReview:true
-        },
-        expertReviewName:{
-            required:true,
-            expertReviewName:true
-        },
-        fillFormPerson:{
-            required:false,
-            fillFormPerson:true
-        },
-        fillData:{
-            required:false,
-            fillData:true
-        },
-        onkeyup: false,
-        errorPlacement: function (error, element) {
-            error.appendTo(element.parent());
-            //忽略自定义方法的错误提示
-            if (error.text() == "ignore") {
-                return '';
-            }
-        },
-        errorElement: "span",
-        submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                url: "php/order.php",
-                type: "post",
-                success: function () {
-                    alert("提交成功！");
-                    $(".shadow").show();
-                    $("#submit").click(function () {
-                       // window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                    })
-                }
-            })
-        }
-    });
-
     Vue.component('addFormGrad',function (resolve,reject) {
         $.get(comp_src+'/compnents/private/addFormGrad/addFormGrad.html').then(function(res){
             resolve({
@@ -165,8 +140,12 @@ var data={
                     btnBoolen:function(e,param){
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                       if(e.target.innerHTML == '是'){
-                          $("#direHide1").show();
-                          $("#approval").show();
+                        $("#direHide1").show();
+                        $("#approval").show();
+                        this.rules.competentName[0].required = true;
+                        this.rules.competentName[1].min = 1;
+                        this.rules.competentView[0].required = true;
+                        this.rules.directorOpinionName[0].required = true;
                       }else{
                           $("#direHide1").hide();
                           $("#approval").hide();
@@ -174,6 +153,10 @@ var data={
                           this.formData.competentView = "";
                           this.formData.directorOpinionName = "";
                           this.formData.directorOpinionId = "";
+                          this.rules.competentName[0].required = false;
+                          this.rules.competentName[1].min = 0;
+                          this.rules.competentView[0].required = false;
+                          this.rules.directorOpinionName[0].required = false;
                       }
                       this.formData.competentIsExisting = param;
                     },
@@ -204,6 +187,8 @@ var data={
                       $(".del").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                        _self.formData.directorOpinionName='';
+                        _self.formData.directorOpinionPath='';
                       });
                       $(".updwon").click(function(){
                         //$(this).parent("li").remove();
@@ -219,6 +204,19 @@ var data={
                     onUploadSuccessMethod1: function(_self,responseData){
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
+                      
+                      var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      $("#fileList1").html(fileHtml);
+                      $(".del").click(function(){
+                        $(this).parent("li").remove();
+                        _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                        _self.formData.expertReviewName='';
+                        _self.formData.expertReviewPath='';
+                      });
+                      $(".updwon").click(function(){
+                        //$(this).parent("li").remove();
+                        _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      });
                     },
                     onUpload2: function(e){
                       var uploadData = new FormData(); 
@@ -229,6 +227,18 @@ var data={
                     onUploadSuccessMethod2: function(_self,responseData){
                       this.formData.expertReviewName=responseData.data.attachName;
                       this.formData.expertReviewPath=responseData.data.uploadUrl;
+                      var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      $("#fileList2").html(fileHtml);
+                      $(".del").click(function(){
+                        $(this).parent("li").remove();
+                        _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                        _self.formData.expertReviewName='';
+                        _self.formData.expertReviewPath='';
+                      });
+                      $(".updwon").click(function(){
+                        //$(this).parent("li").remove();
+                        _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      });
                     },
                     fileDel:function(path,type){
                       var url='';
@@ -422,6 +432,7 @@ var data={
                         this.expertType = true;
                       }else{
                         this.expertType = false;
+                        this.formData.expertView = 1;
                       }
                     },
                     
@@ -585,6 +596,7 @@ var data={
                         this.expertType = true;
                       }else{
                         this.expertType = false;
+                        this.formData.expertView = 1;
                       }
                     },
                     fnCheckAll:function (index) {
@@ -704,6 +716,7 @@ var data={
                         this.expertType = true;
                       }else{
                         this.expertType = false;
+                        this.formData.expertView = 1;
                       }
                     },
                     checkAll:function (index) {
@@ -864,6 +877,7 @@ var data={
                         this.expertType = true;
                       }else{
                         this.expertType = false;
+                        this.formData.expertView = 1;
                       }
                     },
                     // 获取安全等级信息
@@ -911,12 +925,18 @@ var data={
                             $(".del").click(function(){
                               $(this).parent("li").remove();
                               _self.fileDel(responseData.data.directorOpinionId,2);
+                              _self.formData.directorOpinionName = '';
+                              _self.formData.directorOpinionId = '';
                             });
                             $(".updwon").click(function(){
                               //$(this).parent("li").remove();
                               _self.fileDownload(responseData.data.directorOpinionId,2);
                             });
                           }
+                          _self.rules.competentName[0].required = true;
+                          _self.rules.competentName[1].min = 1;
+                          _self.rules.competentView[0].required = true;
+                          _self.rules.directorOpinionName[0].required = true;
                         }else{
                           $("#direHide1").hide();
                           $("#approval").hide();
@@ -924,7 +944,41 @@ var data={
                           _self.formData.competentView = "";
                           _self.formData.directorOpinionName = "";
                           _self.formData.directorOpinionId = "";
+                          _self.rules.competentName[0].required = false;
+                          _self.rules.competentName[1].min = 0;
+                          _self.rules.competentView[0].required = false;
+                          _self.rules.directorOpinionName[0].required = false;
                         }
+                        
+                        if(responseData.data.gradingReportName!=''&&responseData.data.gradingReportName!=null){
+                          var fileHtml='<li><div class="fl updwon">'+responseData.data.gradingReportName+'</div><i class="el-icon-close fl del"></i></li>'
+                          $("#fileList1").html(fileHtml);
+                          $(".del").click(function(){
+                            $(this).parent("li").remove();
+                            _self.fileDel(responseData.data.gradingReportId,2);
+                            _self.formData.gradingReportName = '';
+                            _self.formData.gradingReportId = '';
+                          });
+                          $(".updwon").click(function(){
+                            //$(this).parent("li").remove();
+                            _self.fileDownload(responseData.data.gradingReportId,2);
+                          });
+                        }
+                        if(responseData.data.expertReviewName!=''&&responseData.data.expertReviewName!=null){
+                          var fileHtml='<li><div class="fl updwon">'+responseData.data.expertReviewName+'</div><i class="el-icon-close fl del"></i></li>'
+                          $("#fileList2").html(fileHtml);
+                          $(".del").click(function(){
+                            $(this).parent("li").remove();
+                            _self.fileDel(responseData.data.expertReviewId,2);
+                            _self.formData.expertReviewName = '';
+                            _self.formData.expertReviewId = '';
+                          });
+                          $(".updwon").click(function(){
+                            //$(this).parent("li").remove();
+                            _self.fileDownload(responseData.data.expertReviewId,2);
+                          });
+                        }
+                        
                         if(_self.formData.competentIsExisting!=''){
                           var array = $('#baseMes1').find('div').map(function (index, ele) {
                             if(_self.formData.competentIsExisting==1&&ele.innerHTML=='是'){
@@ -1039,7 +1093,10 @@ var data={
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
                       }else{
-                        this.expertType = false;
+                        if(parseInt(this.formData.fkSpRanklevel)>0){
+                          this.expertType = false;
+                          this.formData.expertView = 1;
+                        }
                       }
                     },
                     
@@ -1088,7 +1145,169 @@ var data={
                     $("#approval").hide();
                 },
                 mounted: function() {
-                    // this.selectChange()
+                   var _self=this;
+                   bus.$on('addGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('addGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('addSubmitGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('addSubmitGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('addPreGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('addPreGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('addNextGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('addNextGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   
+                   bus.$on('changeGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('changeGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('changeSubmitGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('changeSubmitGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('changePreGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('changePreGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('changeNextGradName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('changeNextGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   
+                   bus.$on('gradGradingName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('gradGradingAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   bus.$on('gradSubmitGradingName',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('gradSubmitGradingAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
                 }
             })
         })

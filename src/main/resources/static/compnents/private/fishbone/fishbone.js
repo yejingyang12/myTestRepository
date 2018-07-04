@@ -60,6 +60,7 @@
           },
           //时间格式化
          formatDate:function (millinSeconds){
+        	var millinSeconds=millinSeconds.replace(/-/g,"/").split('.');
             var date = new Date(millinSeconds);
             var monthArr = new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Spt","Oct","Nov","Dec");
             var suffix = new Array("st","nd","rd","th");

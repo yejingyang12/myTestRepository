@@ -129,4 +129,26 @@ public class DiagramController {
     result.setData(diagramListResult);
     return result;
   }
+  
+  /**
+   * @Descrption 系统等保管理趋势
+   * @author dongxu
+   * @date 2018年6月28日下午5:02:07
+   * @param request
+   * @param diagramParam
+   * @return
+   * @throws BusinessException
+   */
+  @ResponseBody
+  @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
+  public ResultApi querySystemTrendByYear(HttpServletRequest request, 
+      @RequestBody DiagramParam diagramParam) throws BusinessException{
+    // 调用service实体，获得
+    List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
+        querySystemTrendByYear(diagramParam);
+    // 通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(diagramListResult);
+    return result;
+  }
 }

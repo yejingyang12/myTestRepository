@@ -12,7 +12,7 @@
                                      style="margin-right:0; width: 118px;min-width: 114px;">
                                     流程实例名称：
                                 </div>
-                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding">
+                                <div style="width:58%;" class="col-md-8 h-col-md-9 float-le clearPadding">
                                     <input type="text" class="h-form-control"
                                            style="height:34px; background-image: none;    width: 100%;"
                                            v-model="formData.instanceName" id="instanceName" name="instanceName" placeholder="请输入" >
@@ -25,7 +25,7 @@
                                 <div class="col-md-2 h-line clearPadding" style="margin-left:16%; width: 58px;min-width: 56px;">
                                     发起人：
                                 </div>
-                                <div style="width: 64%;" class="col-md-8 clearPadding">
+                                <div style="width: 58%;" class="col-md-8 clearPadding">
                                     <input type="text" class="h-form-control" style="background-image: none;width: 100%;"
                                            v-model="formData.initiator" id="initiator" name="initiator" placeholder="请输入" >
                                 </div>
@@ -37,7 +37,7 @@
                                 <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width: 73px; min-width: 71px;">
                                     附件名称：
                                 </div>
-                                <div class="col-md-9 h-col-md-9" style="width:64%;">
+                                <div class="col-md-9 h-col-md-9" style="width:58%;">
                                     <input type="text" class="form-control" style="background-image: none"
                                            v-model="formData.attachName" id="attachName" name="attachName" placeholder="请输入" >
                                 </div>
@@ -48,7 +48,7 @@
 
                         <div class="col-md-3 pos-absolute-ri">
                             <div class="row">
-                                <div class="col-md-9 h-col-md-9 float-ri h-status" style="width: 64%">
+                                <div class="col-md-9 h-col-md-9 float-ri h-status" style="width: 58%">
                                     <el-select v-model="formData.fkBusinessNode" id="fkBusinessNode" filterable
                                                placeholder="请选择">
                                         <el-option v-for="item in businessNodeList" :key="item.codeId"
@@ -72,7 +72,7 @@
                                      style="margin-right:0;text-align: right;padding-right: 1%;width: 118px;min-width: 114px;">
                                     状态：
                                 </div>
-                                <div style="width:64%;" class="col-md-8 h-col-md-9 float-le clearPadding h-status">
+                                <div style="width:58%;" class="col-md-8 h-col-md-9 float-le clearPadding h-status">
                                     <el-select v-model="formData.fkExaminStatus" id="fkExaminStatus" filterable
                                                placeholder="请选择" style="width:100%;">
                                         <el-option v-for="item in examinStatusList" :key="item.codeId"

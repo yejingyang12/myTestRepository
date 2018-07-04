@@ -54,7 +54,8 @@ public interface DiagramService {
    * @return
    * @throws BusinessException
    */
-  List<DiagramListResult> queryRecordCompanyTop10(DiagramParam diagramParam) throws BusinessException;
+  List<DiagramListResult> queryRecordCompanyTop10(DiagramParam diagramParam) 
+      throws BusinessException;
 
   /**
    * @Descrption受理备案单位数量Top10
@@ -63,6 +64,17 @@ public interface DiagramService {
    * @param diagramParam
    * @return
    */
-  List<DiagramListResult> queryAcceptCompanyTop10(DiagramParam diagramParam) throws BusinessException;
+  List<DiagramListResult> queryAcceptCompanyTop10(DiagramParam diagramParam) 
+      throws BusinessException;
+
+  /**
+   * @Descrption 系统等保管理趋势
+   * @author dongxu
+   * @date 2018年6月28日下午5:02:02
+   * @param diagramParam
+   * @return
+   */
+  List<DiagramListResult> querySystemTrendByYear(DiagramParam diagramParam) 
+      throws BusinessException; 
 
 }

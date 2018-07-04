@@ -58,7 +58,6 @@ var data={};
                       }
                       _self.sysProductType = responseData.data;
                     },
-                    
                     //获取数量信息
                     getNumberMethod: function(_self) {
                       _self.sysNumber.push({

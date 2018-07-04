@@ -147,7 +147,68 @@ var  data={
       //获取服务类型
       sysServiceType:[],
       //获取服务责任方类型
-      sysResponsible:[]
+      sysResponsible:[],
+      rules:{
+          fkInfoSysTypeCon:[  // 信息系统建设类型
+              { required: true, message: '请选择系统建设类型', trigger: 'blur' },
+          ],
+          fkSystemIsMerge:[  // 是否为合并系统
+              { required: true, message: '请选择是否为合并系统', trigger: 'blur' },
+          ],
+          systemName:[  // 系统名称
+              { required: true, message: '请输入系统名称', trigger: 'blur' },
+              { min: 1, max: 6, message: '长度在 1 到6个字符', trigger: 'blur' },
+          ],
+          gradeRecordSysName:[  // 等保备案系统名称
+              { required: true, message: '请输入等保备案系统名称', trigger: 'blur' },
+              { min: 1, max: 6, message: '长度在 1 到6个字符', trigger: 'blur' },
+          ],
+          appIsInternet:[  // 是否为互联网应用
+              { required: true, message: '请选择是否为互联网应用', trigger: 'blur' },
+          ],
+          sysBusSituationType:[  // 业务类型
+              { required: true, message: '请选择业务类型', trigger: 'blur' },
+          ],
+          sysBusSituationType:[  // 业务描述
+              { required: true, message: '请填写业务描述', trigger: 'blur' },
+          ],
+          sysServiceSitScope:[  // 服务范围
+              { required: true, message: '请选择服务范围', trigger: 'blur' },
+          ],
+          sysServiceSitObject:[  // 服务对象
+              { required: true, message: '请选择服务对象', trigger: 'blur' },
+          ],
+          npCoverageRange:[  // 覆盖范围
+              { required: true, message: '请选择覆盖范围', trigger: 'blur' },
+          ],
+          npNetworkProperties:[  // 网络性质
+              { required: true, message: '请选择网络性质', trigger: 'blur' },
+          ],
+          interconnectionSit:[  // 系统互联情况
+              { required: true, message: '请选择系统互联情况', trigger: 'blur' },
+          ],
+          companyName:[  // 所属单位名称
+              { required: true, message: '请选择所属单位名称', trigger: 'blur' },
+          ],
+          whenInvestmentUse:[  // 何时投入使用
+              { required: true, message: '请输入投入使用时间', trigger: 'blur' },
+          ],
+          executiveOfficeName:[  // 主管处室名称
+              { required: true, message: '请输入主管处室名称', trigger: 'blur' },
+              { min: 1, max: 6, message: '长度在 1 到6个字符', trigger: 'blur' },
+          ],
+          subIsSystem:[  // 系统是否为分系统
+              { required: true, message: '请选择系统是否为分系统', trigger: 'blur' },
+          ],
+          executiveDireCon:[  // 主管联系人
+              { required: true, message: '请输入主管联系人', trigger: 'blur' },
+          ],
+          executiveDireConTel:[  // 主管联系人电话
+              { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
+              { min: 7, max: 12, message: '长度在 7 到 12个字符', trigger: 'blur' },
+              { pattern: /^[0-9]*$/, message: '负责人联系电话输入有误', trigger: 'blur'}
+          ],
+      }
     };
 
 (function () {
@@ -385,11 +446,15 @@ var  data={
                     },
                     // 获取业务承受信息
                     getBearInfoMethod : function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"22"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getBearInfoSuccessMethod);
+//                      ajaxMethod(_self, 'post',
+//                          'systemCode/querySystemCodeForKeySystemCode', true,
+//                          '{"codeType":"22"}', 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getBearInfoSuccessMethod);
+                      
+                      var data = '{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"生产作业","systemCode":"1","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"指挥调度","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"管理控制","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"内部办公","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"公众服务","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';
+                      data = JSON.parse(data);
+                      _self.getBearInfoSuccessMethod(_self, data);
                     },
                     // 获取业务承受信息成功
                     getBearInfoSuccessMethod : function(_self, responseData) {
@@ -401,11 +466,14 @@ var  data={
                     },
                     // 获取服务对象信息
                     getServiceObjectMethod : function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"16"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getServiceObjectSuccessMethod);
+//                      ajaxMethod(_self, 'post',
+//                          'systemCode/querySystemCodeForKeySystemCode', true,
+//                          '{"codeType":"16"}', 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getServiceObjectSuccessMethod);
+                      var data = '{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"单位内部人员","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"社会公众人员","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"两者均包括","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';
+                      data = JSON.parse(data);
+                      _self.getServiceObjectSuccessMethod(_self, data);
                     },
                     // 获取服务对象成功
                     getServiceObjectSuccessMethod : function(_self, responseData) {
@@ -425,11 +493,14 @@ var  data={
                     },
                     // 获取网络性质信息
                     getNetworkMethod : function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"18"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getNetworkSuccessMethod);
+//                      ajaxMethod(_self, 'post',
+//                          'systemCode/querySystemCodeForKeySystemCode', true,
+//                          '{"codeType":"18"}', 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getNetworkSuccessMethod);
+                      var data = '{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"业务专网","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"互联网","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"0","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';                      
+                      data = JSON.parse(data);
+                      _self.getNetworkSuccessMethod(_self, data);
                     },
                     // 获取网络性质成功
                     getNetworkSuccessMethod : function(_self, responseData) {
@@ -437,23 +508,19 @@ var  data={
                     },
                     //获取系统互连信息
                     getInterconnectionMethod: function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"13"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getInterconnectionSuccessMethod);
+//                      ajaxMethod(_self, 'post',
+//                          'systemCode/querySystemCodeForKeySystemCode', true,
+//                          '{"codeType":"13"}', 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getInterconnectionSuccessMethod);
+                      
+                      var data = '{"code":"0","msg":"成功","pagesize":0,"currentPage":0,"total":0,"totalPages":0,"data":[{"codeId":null,"codeType":null,"codeName":"与其他行业系统连接","systemCode":"1","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"与本行业其他单位系统连接","systemCode":"2","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"与本单位其他系统连接","systemCode":"3","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null},{"codeId":null,"codeType":null,"codeName":"其它","systemCode":"4","codeOrder":null,"systemFatherCode":null,"handleDate":null,"handleResult":null,"deleteStatus":null,"createUserName":null,"createTime":null,"updateTime":null,"remark":null}]}';
+                      data = JSON.parse(data);
+                      _self.getInterconnectionSuccessMethod(_self, data);
                     },
                     // 获取系统互连成功
                     getInterconnectionSuccessMethod : function(_self, responseData) {
                       _self.sysIntercon = responseData.data;
-                    },
-                    //获取产品类型信息
-                    getProductTypeMethod: function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"12"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getProductTypeSuccessMethod);
                     },
                     //获取服务范围信息
                     getServiceRangeMethod: function(_self) {
@@ -473,7 +540,7 @@ var  data={
                     //获取单位信息
                     getCompanyMethod:function(_self){
                       ajaxMethod(_self, 'post',
-                          'organizationapi/queryOrganizationForKeyOrganizationCode', true,'{}', 'json',
+                          'company/queryCompanyName', true,'{}', 'json',
                           'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
                     },
                     //获取单位信息

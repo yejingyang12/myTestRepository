@@ -1,4 +1,8 @@
  <div>
+<!--验证失败弹窗-->
+<template>
+  <el-button type="text" @click="open5"></el-button>
+</template>
      <div class="container h-padding" style="margin-bottom:15px">
          <!--系统定级备案测评列表-->
          <div class="container" style="background:#fff;padding: 15px；margin-top: -15px;">
@@ -86,33 +90,30 @@
                      <!--审核结果-->
                      <div class="row" style=" margin-left: 0;margin-top:5px;">
                          <div class="col-md-4 clearPadding">
-                             <div class="col-md-2 h-system clearPadding" style=" width:80px;  min-width: 80px">
-                                 <span class="xing">*</span>
-                               审核结果： 
-                             </div>
-                             <div class="col-md-8 h-col-md-9" style="margin-left:10px;">
-                              <template>
+                             <div class="col-md-8 h-col-md-9" style="margin-left:-8px;">
+                             <!--  <template>
                                 <el-select v-model="formData.scoreCheckResult" id="scoreCheckResult" filterable placeholder="请选择" >
                                   <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
                                 </el-select>
-                              </template>
-                             </div>
+                              </template> -->
+                              
+                              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+								  <el-form-item label="审核结果：" prop="scoreCheckResult">
+								    <el-select v-model="ruleForm.scoreCheckResult" id="scoreCheckResult" filterable placeholder="请选择">
+								     <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
+								  </el-select>
+								  </el-form-item> 
+								 <div class="one" @click="submitForm('ruleForm')"> 
+								      <el-form-item label="审核原因：" prop="scoreCheckReason" >
+									    <el-input type="textarea" id="textArea" v-model="ruleForm.scoreCheckReason"></el-input>
+									  </el-form-item>
+								 </div> 
+							 </el-form>
+					 
+							 </div>
                          </div>
                      </div>
-                     <!--业务描述-->
-                     <div class="row" style=" margin: 0px 0px;margin-top:5px">
-                         <div class="col-md-8 text-left clearPadding" >
-                             <span for="" class="col-md-2 col-sm-1 saveTextTitle" style=" width:80px;  min-width:80px; margin-top: 15px">
-                                 <span class="xing">*</span>
-                                 审核原因： 
-                             </span>
-                             <div @click="text" class="auditGradYewuDescribe col-md-8 col-md-offset-1 col-sm-3" style="border-radius:4px;margin-left:10px;margin-top: 15px">
-                               <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.scoreCheckReason"></textarea>
-                               <span class='textAll'><span id="textNum">0</span>/200</span>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+ 				</div>
              </div>
          </div>
      </div>

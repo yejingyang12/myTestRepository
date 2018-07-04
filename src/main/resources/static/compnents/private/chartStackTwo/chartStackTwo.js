@@ -13,11 +13,11 @@
             }
         },
         legend: {
-            data: ['备案单位1', '备案单位2','备案单位3','备案单位4','备案单位5','备案单位6', '备案单位7','备案单位8','备案单位9','备案单位10']
+            data: []
         },
         xAxis: {
             type: 'category',
-            data: ['备案单位11111111', '备案单位2','备案单位3','备案单位4','备案单位5','备案单位6', '备案单位7','备案单位8','备案单位9','备案单位10'],
+            data: [],
             axisLine: {
                 lineStyle: {
                     type: 'solid',
@@ -149,6 +149,11 @@
               this.getRecordsCompanyNumSuccess);
           } ,
           getRecordsCompanyNumSuccess : function(_self,result){
+          	this.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+          	this.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+          	this.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+          	this.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+          	this.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
 	        	for(var i = 0; i < result.data.length; i++){
 	        		this.option.xAxis.data[i] = result.data[i].companyName;
 	        		this.option.series[0].data[i] = result.data[i].level1;
@@ -172,12 +177,17 @@
             	 data.myChart.setOption(data.option, true);
             	 bus.$on("acceptRecordEnd",function(meg){
             	 ajaxMethod(_self, 'post',
-                 'diagram/queryRecordCompanyTop10', false,
+                 'diagram/queryAcceptCompanyTop10', false,
                   meg, 'json',
                  'application/json;charset=UTF-8',
                  function(_self,result){
 	            		 if(result.data != null && result.data !=''){
-	              		 _self.option.series[0].data=[];
+	            			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.xAxis.data = [];
 	  	    	         for(var i = 0; i < result.data.length; i++){
 		    	        		 //赋值
 	  	    	        	 _self.option.xAxis.data[i] = result.data[i].companyName;
@@ -190,20 +200,28 @@
 	  	    	        	 //重绘
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
-	            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	                     dangerouslyUseHTMLString: true
-	            		 	 });
+	            		 		var json = JSON.parse(meg);
+	              			 if(json.type == null || json.type == ''){
+	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	  	                     dangerouslyUseHTMLString: true
+	  	            		 	 });
+	              			 }
 	            		 	} 
             	 	 });
             	 }); 
             	 bus.$on("acceptRecordBegin",function(meg){
               	 ajaxMethod(_self, 'post',
-                   'diagram/queryRecordCompanyTop10', false,
+                   'diagram/queryAcceptCompanyTop10', false,
                     meg, 'json',
                    'application/json;charset=UTF-8',
                    function(_self,result){
               		 if(result.data != null && result.data !=''){
-              			 _self.option.series[0].data=[];
+              			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.xAxis.data = [];
   	    	        	 for(var i = 0; i < result.data.length; i++){
   	    	        		 //赋值    		 
   	    	        		 _self.option.xAxis.data[i] = result.data[i].companyName;

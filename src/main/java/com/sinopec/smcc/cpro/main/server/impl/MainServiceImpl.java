@@ -137,21 +137,19 @@ public class MainServiceImpl implements MainService{
     }
     //获得相应列表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
-//    权限
+//    //权限
 //    JurisdictionDataResult organizationApiResult = 
 //        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    
 //    if(organizationApiResult==null){
 //      return new PageInfo<>();
 //    }else{
-//      
 //      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
 //      switch (organizationApiResult.getResultType()) {
 //      
 //      case "0":
 //        break;
 //      case "1":
-        // 获得响应列表数据
+//        // 获得响应列表数据
         list = 
             this.mainMapper.selectAllByMainParam(mainParam);
 //        break;
@@ -2270,49 +2268,52 @@ public class MainServiceImpl implements MainService{
   @Override
   public String oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
       MainParam mainParam) throws BusinessException{
-    Map<String,Object> result = new HashMap<>();
-    //表头信息
-    Map<String,Object> tableRecordResult = tableRecord(mainParam);
     //表1 单位信息
-    Map<String,Object> tableCompanyResult = tableCompany(request,mainParam);
+    Map<String, Object> tableCompanyFilePath = tableCompany(request,mainParam);
     //表2 系统信息
-    Map<String,Object> tableSystemResult = tableSystem(request,mainParam);
+    Map<String, Object> tableSystemFilePath = tableSystem(request,mainParam);
     //表3 定级信息
-    Map<String,Object> tableGradingResult = tableGrading(request,mainParam);
+    Map<String, Object> tableGradingFilePath = tableGrading(request,mainParam);
     //表4 附件信息
-    Map<String,Object> tableAttachResult = tableAttach(request,mainParam);
- 
-    //将所有返回结果存进Map
-    if(tableRecordResult != null){
-      result.putAll(tableRecordResult);
+    Map<String, Object> tableAttachFilePath = tableAttach(request,mainParam);
+    List<File> srcfile = new ArrayList<File>();// 文件list
+    File companyFile = null;
+    File systemFile = null;
+    File gradingFile = null;
+    File attachFile = null;
+    if(tableCompanyFilePath !=null){
+      companyFile = new File(tableCompanyFilePath.get("url").toString());
+      srcfile.add(companyFile);
     }
-    if(tableCompanyResult != null){
-      result.putAll((Map<String,Object>)tableCompanyResult.get("tableCompanyResult"));
-      //删除文件
-      File companyFile = new File(tableCompanyResult.get("url").toString());
+    if(tableSystemFilePath != null){
+      systemFile = new File(tableSystemFilePath.get("url").toString());
+      srcfile.add(systemFile);
+    }
+    if(tableGradingFilePath != null){
+      gradingFile = new File(tableGradingFilePath.get("url").toString());
+      srcfile.add(gradingFile);
+    }
+    if(tableAttachFilePath != null){
+      attachFile = new File(tableAttachFilePath.get("url").toString());
+      srcfile.add(attachFile);
+    }
+    // 压缩文件
+    String fileName = "备案表"+"_"+DateUtils.getStringDateShort();
+    String filePath = MainConstant.TEMPORARY_FILE_PATH;
+    FileOperateUtil.createRar(response, filePath, srcfile,fileName);
+    //删除
+    if(companyFile != null){
       companyFile.delete();
     }
-    if(tableSystemResult != null){
-      result.putAll((Map<String,Object>)tableSystemResult.get("tableSystemResult"));
-      //删除文件
-      File file = new File(tableSystemResult.get("url").toString());
-      file.delete();
+    if(systemFile != null){
+      systemFile.delete();
     }
-    if(tableGradingResult != null){
-      result.putAll((Map<String,Object>)tableGradingResult.get("tableGradingResult"));
-      //删除文件
-      File file = new File(tableGradingResult.get("url").toString());
-      file.delete();
+    if(gradingFile != null){
+      gradingFile.delete();
     }
-    if(tableAttachResult != null){
-      result.putAll((Map<String,Object>)tableAttachResult.get("tableAttachResult"));
-      //删除文件
-      File file = new File(tableAttachResult.get("url").toString());
-      file.delete();
+    if(attachFile != null){
+      attachFile.delete();
     }
-    String url = WordUtils.createWord(result,"recordSheet.ftl","备案表");
-    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
-    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
     //如果是IE浏览器，则用URLEncode解析  
     FileOperateUtil fileOperateUtil = new FileOperateUtil();
     if(fileOperateUtil.isMSBrowser(request)){  
@@ -2322,7 +2323,7 @@ public class MainServiceImpl implements MainService{
         e.printStackTrace();
       }  
     }
-    return  fileUrl+fileName;
+    return  filePath+fileName+ ".rar";
   }
 
   /**
@@ -2334,38 +2335,38 @@ public class MainServiceImpl implements MainService{
   //获得相应列表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
     //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return list;
-//    }else{
-//      
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return list;
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.mainMapper.selectSystemName(mainParam);
-//        break;
-//      case "2":
-//        mainParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.mainMapper.selectSystemName(mainParam);
-//        break;
-//      case "3":
-//        mainParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.mainMapper.selectSystemName(mainParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        mainParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+      case "3":
+        mainParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     return list;
   }
   

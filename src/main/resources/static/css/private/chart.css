@@ -1,11 +1,26 @@
 .paddind-0{
     padding: 0;
 }
+.inputPadding .timeInput input{
+  padding:0!important;
+  /* padding-left:2px; */
+  font-size:13px; 
+} 
+.timeInput .el-input__suffix-inner i{
+  display:none;
+}
 .sekuai{
     display: inline-block;
     background: #bedfb9;
     height: 5px;
-    width: 55%;
+    width: 37%;
+    max-width: 60%;
+ }
+ .sekuaiTwo{
+    display: inline-block;
+    background: #bedfb9;
+    height: 5px;
+    width:37%;
     max-width: 60%;
  }
  .two .el-input__suffix {
@@ -81,11 +96,9 @@
     margin-right:0;
     border-radius:4px;
     width:100%;
-     text-align: left;
-     padding-left: 2%;
+    text-align: left;
+    padding-left: 2%;
 }
-
-
 
 .bingzhuangBox{
     margin-top: 15px;
@@ -104,6 +117,9 @@
     height: 20px;
 }
 
+.duidieInsSelect .el-input__suffix{
+      background: #fff;
+} 
 .level1 i{
     background: url("../../images/chart/level1.png") 100% 100% no-repeat;
 }
@@ -151,8 +167,8 @@
 .xiaoduidieBox .duidieIns span{
         z-index:1;
         position:absolute;
-        right:2px;
-        top:5%;
+        right:3px;
+        top:15%;
         color: #cecece;
 }
 .xiaoduitubiao{
@@ -166,6 +182,7 @@
     height: 100%;
     margin-left: 15px;
     padding-left: 15px;
+    overflow:hidden;
 }
 .chart2 .p3{
     height: 30px;
@@ -184,10 +201,11 @@
 }
 /*折线图*/
 .chart3{
-margin-left: 15px;
+  margin-left: 17px;
     height: 100%;
     width: 46%;
     padding-right: 15px;
+    overflow:hidden;
 }
 .chart3 span{
    /*  min-width: 18%; */
@@ -196,6 +214,10 @@ margin-left: 15px;
     margin-right: -15px;
     width: 100%;
 }
+.chart2 .bingzhuangBox {
+    margin-top: -15px;
+    margin-left: -15px;
+}
 .sekuai1{  display:inline-block; background: #50e3c2; width:37%;height:2px;}
 .sekuai2{ display:inline-block; background: #12cbf6; width:37%;height:2px; }
 .sekuai3{ display:inline-block; background: #9fe060; width:37%;height:2px; }
@@ -203,12 +225,16 @@ margin-left: 15px;
 .sekuai5{ display:inline-block; background: #028bff;  width:37%;height:2px;}
 /*大堆叠图（最后一个的）*/
 .chart4{
-    width: 50%;
+    width: 51%;
     /* background: pink; */
     height: 100%;
     margin-left: 0;
     border-left: none;
     padding-left: 15px;
+    overflow:hidden;
 }
 
-
+.chart4 .bingzhuangBox {
+    margin-top: -15px;
+    margin-left: -15px;
+}

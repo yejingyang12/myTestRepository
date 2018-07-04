@@ -10,7 +10,18 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">是否为合并系统的定级：</span>
-                <span class="col-md-7 text-left">{{combinedName}}</span>
+                <span class="col-md-6 text-left" v-if="fkSystemIsMerge==1">是</span>
+                <span class="col-md-6 text-left" v-else>否</span>
+            </p>
+        </li>
+        <li class="col-md-12" v-for="(item,index) in addSystemSub"  v-if="fkSystemIsMerge==1">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">子系统{{index+1}}系统名称：</span>
+                <span class="col-md-8 text-left">{{item.systemName}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">子系统{{index+1}}标准化代码：</span>
+                <span class="col-md-5 text-left">{{item.standardizedCode}}</span>
             </p>
         </li>
         <li class="col-md-12">
@@ -20,7 +31,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">标准化代码：</span>
-                <span class="col-md-7 text-left">{{standardizedCode}}</span>
+                <span class="col-md-5 text-left">{{standardizedCode}}</span>
             </p>
         </li>
         <li class="col-md-12">

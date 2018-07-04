@@ -19,6 +19,10 @@
      <style type="text/css">
       .inner2{
          width:auto;
+         margin-top: -30px;
+      }
+      .mcAddTian .tianMsg{
+          margin-left: 0;
       }
       .fileList li{
           padding-right:0
@@ -33,8 +37,8 @@
     <smcc-breadcrumb>
       <li slot="materialChangeBtn" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" @click="submitBtn()">提交</button>
-          <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
+          <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')">提交</button>
+          <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')">保存</button>
           <!-- <button type="button" class="btn btn-default" id="pre" @click="preBtn()">上一步</button> -->
         </div>
       </li>
@@ -44,6 +48,10 @@
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
+<script type="text/javascript">
+  var bus = new Vue();
+</script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
@@ -60,7 +68,6 @@
 <script async src="../../static/compnents/private/materialNav/materialNav.js" th:attr="src=@{/compnents/private/materialNav/materialNav.js}"></script>
 <script async src="../../static/compnents/private/viewDetailsInfor/viewDetailsInfor.js" th:attr="src=@{/compnents/private/viewDetailsInfor/viewDetailsInfor.js}"></script>
 <script async src="../../static/compnents/private/viewDetailsSystem/viewDetailsSystem.js" th:attr="src=@{/compnents/private/viewDetailsSystem/viewDetailsSystem.js}"></script>
-<script async src="../../static/compnents/private/addFormMaterial/addFormMaterialPrompt.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterialPrompt.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 

@@ -178,13 +178,17 @@ public class ControllerPage {
   //维护单位--新建系统信息
   @RequestMapping("/newSystemInformationPage")
   public String newSystemInformationPage(HttpServletRequest request, Model model){
-    return "views/newUnitInformation";
+    //TODO:从session中获取当前用户的companyCode
+    model.addAttribute("companyCode", "10010008");
+    return "views/newSystemInformation";
   }
   //维护单位--修改系统信息
   @RequestMapping("/changeSystemInformationPage")
   public String changeSystemInformationPage(HttpServletRequest request, Model model,
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    //TODO:从session中获取当前用户的companyCode
+    model.addAttribute("companyCode", "10010008");
     return "views/changeSystemInformation";
   }
   

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
     <!--组件样式-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addFormMaterial.css" th:attr="href=@{/css/private/addFormMaterial.css}">
@@ -52,21 +53,22 @@
     <add-form-material>
       <li slot="materialChangeBtn" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" @click="submitBtn()">提交</button>
-          <button type="button" class="btn btn-success " id="save" @click="saveBtn()">保存</button>
-          <button type="button" class="btn btn-default" id="pre" @click="preBtn()">上一步</button>
+          <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')">提交</button>
+          <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')">保存</button>
+          <button type="button" class="btn btn-default" id="pre" @click="preBtn('formData')">上一步</button>
         </div>
       </li>
     </add-form-material>
 </div>
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
+<script type="text/javascript">
+  var bus = new Vue();
+</script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
-<script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
-<script src="../../static/js/public/messages_zh.js" th:attr="src=@{/js/public/messages_zh.js}"></script>
-<script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
 
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
@@ -76,8 +78,6 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormMaterial/addFormMaterial.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterial.js}"></script>
 <script async src="../../static/js/private/applicationChangeMaterial.js" th:attr="src=@{/js/private/applicationChangeMaterial.js}"></script>
-<script async src="../../static/compnents/private/addFormMaterial/addFormMaterialPrompt.js" th:attr="src=@{/compnents/private/addFormMaterial/addFormMaterialPrompt.js}"></script>
-
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 </script>

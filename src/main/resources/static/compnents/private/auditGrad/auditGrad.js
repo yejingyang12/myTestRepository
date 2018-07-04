@@ -1,10 +1,30 @@
 (function () {
   var data = {
+		  ruleForm: {
+	          name: '',
+	          scoreCheckResult: '',
+	          date1: '',
+	          date2: '',
+	          delivery: false,
+	          type: [],
+	          resource: '',
+	          scoreCheckReason: ''
+	        },
+	        rules: {
+		        
+	        	scoreCheckResult: [
+		            { required: true, message: '请选择审核结果', trigger: 'change' }
+		          ],
+		        
+		          scoreCheckReason: [
+		            { required: true, message: '请填写审核原因', trigger: 'blur' }
+		          ]
+		        },	        
     formData:{
     	fkSystemId: null,
     	//传入定级数据&&//获得申请变更的数据
-  		scoreCheckResult: null,
-  		scoreCheckReason: null,
+  		/*scoreCheckResult: null,
+  		scoreCheckReason: null,*/
   		fkrevokematter: null,
   		//传入撤销备案数据
   		cancelRecordsResult: null,
@@ -43,6 +63,24 @@
         	this.queryGradingEditAudit(this);
         },
         methods:{
+        	resetForm:function(formName) {
+		        this.$refs[formName].resetFields();
+		      },
+        	submitForm:function(_self,formName) {
+			      this.$refs[formName].validate(function(valid){
+			          if (valid) {
+			        	_self.saveGradCheck(_self);
+			          } else {
+			        	_self.open5();
+			            return false;
+			         }
+			     });
+			 },
+			 open5:function() {
+			        this.$alert('<strong>请填写信息</strong>', '提示', {
+			          dangerouslyUseHTMLString: true
+			        });
+			  }, 
         	//获取变更信息
         	queryGradingEditAudit: function(_self){
         		switch (fkBusinessNode) {
@@ -136,7 +174,7 @@
         		}
         	},
         	saveGradCheck: function(_self){
-        		_self.formData.scoreCheckResult
+        		_self.ruleForm.scoreCheckResult
         		switch (fkBusinessNode) {
             case '1':
             	ajaxMethod(_self,"post",
@@ -145,16 +183,16 @@
    							 'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
               break;
             case '2':
-            	_self.formData.cancelRecordsResult = _self.formData.scoreCheckResult;
-            	_self.formData.cancelRecordsReason = _self.formData.scoreCheckReason;
+            	_self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
+            	_self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
             	ajaxMethod(_self,"post",
    							 "checkController/saveCancelRecordsCheck",false,
    							 JSON.stringify(this.formData),"json",
    							 'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
               break;
             case '3':
-            	_self.formData.scoreCheckChangeResult = _self.formData.scoreCheckResult;
-            	_self.formData.scoreCheckChangeReason = _self.formData.scoreCheckReason;
+            	_self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
+            	_self.formData.scoreCheckChangeReason = _self.ruleForm.scoreCheckReason;
             	ajaxMethod(_self,"post",
    							 "checkController/saveGradChangeCheck",false,
    							 JSON.stringify(this.formData),"json",
@@ -188,7 +226,7 @@
           //点击提交按钮 发送请求 
           bus.$on("gradSubmit",function(meg){
             if(meg!=null){
-              _self.saveGradCheck(_self);
+              _self.submitForm(_self,meg);
             }
           })
           //点击返回按钮 返回到审核管理页面
@@ -199,6 +237,6 @@
           })
         }
       })
-    })
-  })
+   })
+ })
 }())

@@ -4,24 +4,16 @@
             <span class="fl tianMsg">定级信息</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
-        <form action="#" id="addFormGrad">
+        <el-form action="#" id="addFormGrad" :model="formData" :rules="rules" ref="formData" label-width="200px" class="P-addFormGrad">
             <ul class="clearfix liAddsty">
                 <li class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="" class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            {{sysName}}:
-                        </label>
-                        <p class="titleText">{{formData.systemName}}</p>
-                    </div>
+                    <el-form-item label="系统名称：">
+                        {{formData.systemName}}
+                    </el-form-item>
                 </li>
                 <li class="row">
-                    <div class="col-lg-12 col-md-6">
-                        <label for="" class="col-lg-2 col-sm-1 text-right saveTitle">
-                            <span class="xing">*</span>
-                            确定安全保护等级:
-                        </label>
-                        <div class="col-md-10 col-xs-offset-2 col-sm-5 saveTable" v-prompt="{type:'radio',name0:'inform',name1:'inorm',num:'2'}">
+                    <el-form-item label="确定安全保护等级：" prop="fkSpRanklevel">
+                        <div class="saveTable">
                             <ul class="clearfix">
                                 <li class="row saveTableRowLine saveTableRow">
                                     <div class="col-md-2">安全保护等级类型</div>
@@ -186,7 +178,7 @@
                                 </li>
                                 <li class="row saveTableLast">
                                     <div class="col-md-2 saveTableBg saveTableMsy">信息系统安全保护等级</div>
-                                    <div class="col-md-10 saveTableBg clearfix saveTableLast">
+                                    <div class="col-md-10 saveTableBg saveTableLast">
                                         <div class="fl col-md-2">
                                             <span>
                                                 <input type="radio" id="" name="Choice" :checked="formData.fkSpRanklevel === '301'||formData.fkSpRanklevel ==301" class="inpChoose" disabled/>
@@ -218,148 +210,146 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                </li>             
+                    </el-form-item>
+                    <el-form-item label="" prop="fkBizSPRankDegree" v-if="(formData.fkSpRanklevel !==0&&formData.fkSpRanklevel !=='0')&&formData.fkBizSPRankDegree ===''">
+                    </el-form-item>
+                    <el-form-item label="" prop="fkBizSPRankLevel" v-else-if="(formData.fkSpRanklevel !==0&&formData.fkSpRanklevel !=='0')&&formData.fkBizSPRankLevel ===''">
+                    </el-form-item>
+                    <el-form-item label="" prop="fkBizSystemDegree" v-else-if="(formData.fkSpRanklevel !==0&&formData.fkSpRanklevel !=='0')&&formData.fkBizSystemDegree ===''">
+                    </el-form-item>
+                    <el-form-item label="" prop="fkBizSystemLevel" v-else-if="(formData.fkSpRanklevel !==0&&formData.fkSpRanklevel !=='0')&&formData.fkBizSystemLevel ===''">
+                    </el-form-item>
+                </li>         
                 <li class="row liMargin">
-                    <div class="col-md-12 text-left">
-                        <label for="" class="col-md-2 col-sm-1 saveTextTitle text-right">
-                            <span class="xing">*</span>
-                            {{description}}：
-                        </label>
-                        <!-- 在处理textarea之前，首先需知道textarea是不会显示value值的，
-                如果想显示需要使用js中的方法 $('#textArea').val('123'); -->
-                        <div class="mcTextArea col-md-10 col-md-offset-1 col-sm-3" @click="text">
-                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.rankExplainDesc" maxlength="200" v-prompt="{type:'textnull'}"></textarea>
+                    <el-form-item label="定级说明描述：" prop="rankExplainDesc">
+                        <div class="mcTextArea" @click="text">
+                            <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.rankExplainDesc" maxlength="200"></textarea>
                             <span class='textAll'><span id="textNum">0</span>/200</span>
                             <!-- 最多200字符，0处显示的是已经写了多少字符-->
                         </div>
-                    </div>
+                    </el-form-item>
+                    <!--<div class="col-md-12 text-left">-->
+                        <!--&lt;!&ndash;<label for="" class="col-md-2 col-sm-1 saveTextTitle text-right">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span class="xing">*</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;{{description}}：&ndash;&gt;-->
+                        <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                        <!--&lt;!&ndash; 在处理textarea之前，首先需知道textarea是不会显示value值的，-->
+                <!--如果想显示需要使用js中的方法 $('#textArea').val('123'); &ndash;&gt;-->
+                        <!--<div class="mcTextArea col-md-10 col-md-offset-1 col-sm-3" @click="text">-->
+                            <!--<textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.rankExplainDesc" maxlength="200" v-prompt="{type:'textnull'}"></textarea>-->
+                            <!--<span class='textAll'><span id="textNum">0</span>/200</span>-->
+                            <!--&lt;!&ndash; 最多200字符，0处显示的是已经写了多少字符&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </li>
                 <li class="row liMargin">
-                    <div class="col-lg-6 col-md-6">
-                        <label class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            定级时间:
-                        </label>
-                        <el-date-picker class="col-md-6 col-sm-3 liPadding useData" id="rankTime" v-model="formData.rankTime" type="date" placeholder="选择日期"></el-date-picker>
-
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="定级时间：" prop="rankTime">
+                            <el-date-picker class="col-md-6 col-sm-3 liPadding useData" id="rankTime" v-model="formData.rankTime" type="date"></el-date-picker>
+                        </el-form-item>
                     </div>
-                    <div class="col-lg-6 col-sm-3">
-                        <label for="" class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            是否有主管部门:
-                        </label>
-                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes1" v-prompt="{type:'choice'}">
-                          <input type="hidden"  v-model="formData.competentIsExisting">
-                          <div class="col-md-6" @click="btnBoolen($event,1)">是</div>
-                          <div class="col-md-6" @click="btnBoolen($event,2)">否</div>
-                        </div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="是否有主管部门：" prop="competentIsExisting">
+                            <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes1">
+                                <input type="hidden"  v-model="formData.competentIsExisting">
+                                <div class="col-md-6" @click="btnBoolen($event,1)">是</div>
+                                <div class="col-md-6" @click="btnBoolen($event,2)">否</div>
+                            </div>
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row liMargin" id="direHide1" style="display: none;">
-                    <div class="col-lg-6 col-md-6">
-                        <label class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            {{competentName}}:
-                        </label>
-                        <div class="col-lg-6 col-md-6 liPadding">
-                            <input id="competentNameinput" type="text"  v-model="formData.competentName" v-prompt="{type:'null',left:'202px'}">
-                        </div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="主管部门名称：" prop="competentName">
+                            <input id="competentNameinput" type="text"  v-model="formData.competentName">
+                        </el-form-item>
                     </div>
-                    <div class="col-lg-6 col-sm-3">
-                        <label for="" class="col-lg-3 col-md-3 text-left labelInformation">
-                            <span class="xing">*</span>
-                            主管部门审批定级情况:
-                        </label>
-                        <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes2" v-prompt="{type:'choice',left:'202px'}">
-                          <input type="hidden"  v-model="formData.competentView" >
-                          <div class="col-md-6" @click="getClass($event,1)">已审批</div>
-                          <div class="col-md-6" @click="getClass($event,2)">未审批</div>
-                        </div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="主管部门审批定级情况：" prop="competentView">
+                            <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes2">
+                                <input type="hidden"  v-model="formData.competentView" >
+                                <div class="col-md-6" @click="getClass($event,1)">已审批</div>
+                                <div class="col-md-6" @click="getClass($event,2)">未审批</div>
+                            </div>
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row liMargin file material"  id="approval">
-                    <div class="col-md-12">
-                        <label for="" class="col-md-2 text-right sysTitle" style="font-size:14px">
-                            <span class="xing">*</span>
-                            上级主管部门审批意见:
-                        </label>
+                    <el-form-item label="上级主管部门审批意见：" prop="directorOpinionName" style="font-size:14px">
                         <div class="clearfix sysText col-md-8">
                             <div class="uploadSty">
                                 <ul class="fileList" id="fileList">
-                                  
                                 </ul>
                                 <el-button type="primary" size="small">上传</el-button>
                             </div>
-                            <input type="file" id="file" @change='onUpload' v-prompt="{type:'file',left:'383px'}">
+                            <input type="file" id="file" @change='onUpload'>
                             <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
                         </div>
-                    </div>
+                    </el-form-item>
                 </li>
                 <li class="row liMargin">
-                    <div class="col-lg-6 col-md-6">
-                        <label class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            {{gradPresen}}:
-                        </label>
-                        <div class="col-lg-6 col-md-6 padding-clear formChange">
-                            <input readonly="readonly" class="col-md-10  padding-clear form-control formControl" id="oInup" type="text"  v-model="formData.gradingReportName" v-prompt="{type:'files',left:'0'}"/>
-                            <div class="addButton"></div>
-                            <input class="updata" type="file" value="" id="file" @change='onUpload1' >
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-sm-3">
-                        <label for="" class="col-lg-3 col-md-3 text-right ">
-                            <span class="xing">*</span>
-                            {{gradPresenName}}:
-                        </label>
-                        <div class="col-md-6 col-sm-3 liPadding">
-                            <input class="promptinput" type="text"  disabled id="fileName" v-model="formData.gradingReportName" v-prompt="{type:'nulls'}">
-                        </div>
-                    </div>
-                </li>
-                <li class="row liMargin">
-                    <div class="col-lg-6 col-md-6">
-                        <label class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            专家评审情况:
-                        </label>
-                        <div class="col-lg-6 col-md-6 formChange liPadding">
-                            <div role="group"  class="mcAddSysBuildChange text-center col-sm-3 col-md-6" id="baseMes3">
-                              <input type="hidden"  v-model="formData.expertView">
-                              <div class="col-md-6" @click="getExpertClass($event,1)">已审批</div>
-                              <div class="col-md-6" @click="getExpertClass($event,2)" v-show="expertType">未审批</div>
-                              <div class="col-md-6" v-show="!expertType">未审批</div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="定级报告：" prop="gradingReportName">
+                            <div class="clearfix sysText">
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList1">
+                                    </ul>
+                                    <el-button type="primary" size="small">上传</el-button>
+                                </div>
+                                <input type="file" id="file" @change='onUpload1'>
                             </div>
-                            <input class="col-md-10 addReview form-control formControl"  type="text" readonly="readonly" v-model="formData.expertReviewName" />
-                            <div class="addButton"></div>
-                            <input class="updata inputfiles" type="file" value="" id="file" @change='onUpload2' v-prompt="{type:'files',left:'0px',add:'1'}">
-                        </div>
+                            <!--<div class="col-lg-6 col-md-6 padding-clear formChange">-->
+                                <!--<input readonly="readonly" class="col-md-10  padding-clear form-control formControl" id="oInup" type="text"  v-model="formData.gradingReportName"/>-->
+                                <!--<div class="addButton"></div>-->
+                                <!--<input class="updata" type="file" value="" id="file" @change='onUpload1' >-->
+                            <!--</div>-->
+                        </el-form-item>
                     </div>
-                    <div class="col-lg-6 col-sm-3">
-                        <label for="" class="col-lg-3 col-md-3 text-right">
-                            <span class="xing">*</span>
-                            {{expertReviewName}}:
-                        </label>
-                        <div class="col-md-6 col-sm-3 liPadding">
-                            <input class="promptinput" type="text" disabled id="fileRew" v-model="formData.expertReviewName" v-prompt="{type:'nulls'}">
-                        </div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="定级报告名称：" prop="gradingReportName">
+                            <input class="promptinput" type="text"  disabled id="fileName" v-model="formData.gradingReportName">
+                        </el-form-item>
                     </div>
                 </li>
                 <li class="row liMargin">
-                    <div class="col-lg-6 col-md-6">
-                        <label class="col-lg-3 col-md-3 text-right">
-                            {{fillFormPerson}}:
-                        </label>
-                        <div class="col-lg-6 col-md-6 liPadding">
-                            <input type="text" v-model="formData.filler">
-                        </div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="专家评审情况：" prop="expertView">
+                            <div class="col-lg-6 col-md-6 formChange liPadding">
+                                <div role="group"  class="mcAddSysBuildChange text-center col-sm-3 col-md-6 p-mcAddSys" id="baseMes3" style="width:50% !important;">
+                                    <input type="hidden"  v-model="formData.expertView">
+                                    <div class="col-md-6" @click="getExpertClass($event,1)" v-show="expertType||((!expertType)&&formData.fkSpRanklevel==0)">已审批</div>
+                                    <div class="col-md-6 btnColor" @click="getExpertClass($event,1)" v-show="(!expertType)&&formData.fkSpRanklevel!==0">已审批</div>
+                                    <div class="col-md-6" @click="getExpertClass($event,2)" v-show="expertType||((!expertType)&&formData.fkSpRanklevel==0)">未审批</div>
+                                    <div class="col-md-6" style="background-color: #c7cace;color: #606266;" v-show="(!expertType)&&formData.fkSpRanklevel!==0">未审批</div>
+                                </div>
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList2" style="width: calc(50% - 70px);height: 36px;">
+                                    </ul>
+                                    <el-button type="primary" size="small" style="right: 0;height: 36px;">上传</el-button>
+                                </div>
+                                <input class="updata inputfiles" type="file" value="" id="file" @change='onUpload2'>
+                                <!--<input class="col-md-10 addReview form-control formControl"  type="text" readonly="readonly" v-model="formData.expertReviewName" />-->
+                                <!--<div class="addButton"></div>-->
+                                <!--<input class="updata inputfiles" type="file" value="" id="file" @change='onUpload2'>-->
+                            </div>
+                        </el-form-item>
                     </div>
-                    <div class="col-lg-6 col-sm-3">
-                        <label for="" class="col-lg-3 col-md-3 text-right">
-                            填表时间:
-                        </label>
-                        <el-date-picker class="col-md-6 col-sm-3 liPadding useData"  id="fillDate" v-model="formData.fillDate" type="date" ></el-date-picker>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="评审附件名称：" prop="expertReviewName">
+                            <input class="promptinput" type="text" disabled id="fileRew" v-model="formData.expertReviewName">
+                        </el-form-item>
+                    </div>
+                </li>
+                <li class="row liMargin">
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="填表人：" prop="filler">
+                            <input type="text" v-model="formData.filler">
+                        </el-form-item>
+                    </div>
+                    <div class="col-lg-6 col-md-6 P-useData">
+                        <el-form-item label="填表时间：" prop="fillDate">
+                            <el-date-picker class="col-md-6 col-sm-3 liPadding useData"  id="fillDate" v-model="formData.fillDate" type="date" ></el-date-picker>
+                        </el-form-item>
                     </div>
                 </li>
                 <slot name="gradNextBtn"></slot>
@@ -369,7 +359,7 @@
                 <slot name="gradChange"></slot>
                 <li class="row liMargin" style="height: 30px;"></li>
             </ul>
-        </form>
+        </el-form>
     </div>
 </div>
 

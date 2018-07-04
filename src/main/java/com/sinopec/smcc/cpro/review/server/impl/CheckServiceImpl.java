@@ -88,7 +88,7 @@ public class CheckServiceImpl implements CheckService {
     //获得相应列表数据
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     
-    //权限
+//    //权限
 //    JurisdictionDataResult organizationApiResult = 
 //        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
 //    

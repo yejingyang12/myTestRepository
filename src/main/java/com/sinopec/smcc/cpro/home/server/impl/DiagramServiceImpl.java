@@ -42,7 +42,6 @@ public class DiagramServiceImpl implements DiagramService {
   @Transactional
   public DiagramResult querySystemLevelDiagram(DiagramParam diagramParam) 
       throws BusinessException {
-    
     return this.diagramMapper.selectSystemLevelProtectionDistribution(diagramParam);
   }
 
@@ -53,7 +52,6 @@ public class DiagramServiceImpl implements DiagramService {
   @Transactional
   public DiagramResult querySystemLevelBySystemType(DiagramParam diagramParam)
       throws BusinessException {
-    
     return this.diagramMapper.selectSystemLevelBySystemType(diagramParam);
   }
 
@@ -64,7 +62,6 @@ public class DiagramServiceImpl implements DiagramService {
   @Transactional
   public List<DiagramListResult> queryRecordCompanyTop10(DiagramParam diagramParam)
       throws BusinessException {
-    
     return this.diagramMapper.selectRecordCompanyTop10(diagramParam);
   }
 
@@ -75,8 +72,16 @@ public class DiagramServiceImpl implements DiagramService {
   @Transactional
   public List<DiagramListResult> queryAcceptCompanyTop10(DiagramParam diagramParam)
       throws BusinessException {
-    
     return this.diagramMapper.selectAcceptCompanyTop10(diagramParam);
+  }
+
+  /**
+   * 系统等保管理趋势
+   */
+  @Override
+  public List<DiagramListResult> querySystemTrendByYear(DiagramParam diagramParam)
+      throws BusinessException {
+    return this.diagramMapper.selectSystemTrendByYear(diagramParam);
   }
 
 }

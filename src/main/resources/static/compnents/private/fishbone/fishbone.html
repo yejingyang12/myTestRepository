@@ -80,11 +80,12 @@
                         <div class="second_div">操作人：{{pro.operator}}</div>
                         <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
                         <div class="thirs_div" v-if="pro.operationOpinion!==''">操作意见：{{pro.operationOpinion}}</div>
+                    	<div class="thirs_div" v-else>操作意见：无</div>
                     </div>
                     <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div>
                 <div class="centerline">
                     <div class="cricle"></div>
-                    <div class="line"></div>
+                    <div class="line beianline"></div>
                 </div>
             </div>
         </li> 

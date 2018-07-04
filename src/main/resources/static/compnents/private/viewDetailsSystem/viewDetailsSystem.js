@@ -4,7 +4,7 @@
 (function() {
     var data ={
     		constructionTypeName:"",//系统信息建设类型
-    		combinedName:"",//是否为合并系统的定级
+    		fkSystemIsMerge:"",//是否为合并系统的定级 
     		systemName:"",//系统名称
     		standardizedCode:"",//标准化代码
     		gradeRecordSysName:"",//等保备案系统名称
@@ -22,6 +22,7 @@
     		subIsSystem:"",//系统是否为分系统
     		executiveDireCon:"",//主管联系人
     		executiveDireConTel:"",//主管联系人电话	
+    		addSystemSub:{},//子系统
     };
     Vue.component('viewDetailsSystem',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/viewDetailsSystem/viewDetailsSystem.html').then(function (res) {
@@ -46,8 +47,8 @@
                   			if(! this.isEmpty(systemResult.data.constructionTypeName)){
                   				this.constructionTypeName = systemResult.data.constructionTypeName;
                   			}
-                  			if(! this.isEmpty(systemResult.data.combinedName)){
-                  				this.combinedName = systemResult.data.combinedName;
+                  			if(! this.isEmpty(systemResult.data.fkSystemIsMerge)){
+                  				this.fkSystemIsMerge = systemResult.data.fkSystemIsMerge;
                   			}
                   			if(! this.isEmpty(systemResult.data.systemName)){
                   				this.systemName = systemResult.data.systemName;
@@ -110,6 +111,10 @@
                   			if(! this.isEmpty(systemResult.data.executiveDireConTel)){
                   				this.executiveDireConTel = systemResult.data.executiveDireConTel;
                   			}
+                  			if(! this.isEmpty(systemResult.data.addSystemSub)){
+                  				this.addSystemSub = systemResult.data.addSystemSub;
+                  			}
+                  			
                   		} 
                   },
                   //判断字符是否为空的方法

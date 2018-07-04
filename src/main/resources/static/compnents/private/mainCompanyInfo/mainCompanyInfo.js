@@ -121,27 +121,28 @@ var data = {
          newCompanyInfoMethod:function(){
            window.location.href = "/page/newUnitInformationPage";
          },
-         //删除
+       //点击 "取消" 关闭弹框
+         closes:function () {
+             $(".inquiry").css("display","none");
+             $(".dialogShaw").css("display","none");
+           },
+       //点击“删除”显示弹窗
+         deleteClickDialog:function(){
+        	 $(".inquiry").css("display","block");
+        	 $(".dialogShaw").css("display","block");
+         },
+         //点击“确认” 删除数据 并 关闭弹窗
          deleteClick:function(id){
            var _self=this;
-           _self.$alert('确定删除此单位信息？', '删除', {
-             confirmButtonText: '确定',
-             callback: function callback(action) {
-               ajaxMethod(_self, 'post',
+           ajaxMethod(_self, 'post',
                    'company/deleteCompany', true,
                    '{"companyIds":["'+id+'"]}', 'json',
                    'application/json;charset=UTF-8',
                    _self.deleteClickSuccessMethod);
-             }
-           });
-           
-         },
+           _self.closes();
+          },
          deleteClickSuccessMethod:function(_self, responseData) {
-           this.$message({
-             message: '删除成功！',
-             type: 'success'
-           });
-           _self.getCompanyListInfoMethod(_self,{});
+            _self.getCompanyListInfoMethod(_self,{});
          },
          //清空
          clearHeadle:function(){

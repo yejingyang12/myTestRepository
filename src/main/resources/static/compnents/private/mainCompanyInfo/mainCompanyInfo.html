@@ -68,7 +68,18 @@
                                 <!--class="hide3"-->
                                 <a class="hide3">
                                     <el-button @click="handleClick(item.companyId)" type="text" size="small">编辑</el-button>
-                                    <el-button @click="deleteClick(item.companyId)" type="text" size="small">删除</el-button>
+                                    <i style="color:#1e91e2 ">|</i>
+                                    <i @click="deleteClickDialog" type="text" size="small">删除</i>
+                                           <!--  测评表格的删除弹窗 -->
+                                            <div class="dialogShaw">
+	                                             <div class="inquiry">
+												        <p>是否删除</p>
+												        <div class="inquiryBtn">
+												            <button type="button" class="btn btn-success fl" @click="deleteClick(item.companyId)">确定</button>
+												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+												        </div>
+												    </div>
+											 </div>
                                 </a>
                             </td>
                         </tr>

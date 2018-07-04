@@ -25,50 +25,22 @@ var data={
           changeType:'',
           saveType:''
       	},
+        rules:{
+            topologyDescriptionName:[
+                {required: true, message: '请上传系统拓扑结构及说明', trigger: 'change' }
+            ],
+            organizationManagementName:[
+                {required: true, message: '请上传系统安全组织机构及管理制度', trigger: 'change' }
+            ],
+            implementationPlanName:[
+                {required: true, message: '请上传系统安全保护设施设计实施方案或改建实施方案', trigger: 'change' }
+            ],
+            licenseCertificateName:[
+                {required: true, message: '请上传系统使用的安全产品清单及认证、销售许可证明', trigger: 'change' }
+            ]
+        }
     };
 (function () {
-    
-    $("#addFormGrad").validate({
-        systemTopology:{
-            required:true,
-            systemTopology:true
-        },
-        systemSecurity:{
-            required:true,
-            systemSecurity:true
-        },
-        systemSafety:{
-            required:true,
-            systemSafety:true
-        },
-        systemUse:{
-            required:true,
-            systemUse:true
-        },
-        onkeyup: false,
-        errorPlacement: function (error, element) {
-            error.appendTo(element.parent());
-            //忽略自定义方法的错误提示
-            if (error.text() == "ignore") {
-                return '';
-            }
-        },
-        errorElement: "span",
-        submitHandler: function (form) {
-            console.log(form);
-            $(form).ajaxSubmit({
-                url: "php/order.php",
-                type: "post",
-                success: function () {
-                    alert("提交成功！");
-                    $(".shadow").show();
-                    $("#comit").click(function () {
-                        window.location.href = "http://55927461.m.weimob.com/vshop/55927461/Index?PageId=513198&IsPre=1";
-                    })
-                }
-            })
-        }
-    })
     Vue.component('addFormMaterial',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/addFormMaterial/addFormMaterial.html').then(function (res) {
             resolve({
@@ -95,15 +67,16 @@ var data={
                       this.formData.topologyDescriptionPath=responseData.data.uploadUrl;
                     }*/
                     
-                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $('#fileList').append(fileHtml);
                     $(".del").click(function(){
-                      $(this).parent("li").remove();
-                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    	var uploadUrl = $(this).parent("li").find("input").val();
                       var len = _self.formData.topologyDescriptionList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.topologyDescriptionList[i].uploadUrl == responseData.data.uploadUrl){
+                      	if(_self.formData.topologyDescriptionList[i].uploadUrl == uploadUrl){
                       		_self.formData.topologyDescriptionList.splice(i,1);
+                      		$(this).parent("li").remove();
+                      		_self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
                       		break;
                       	}
                       }
@@ -130,15 +103,16 @@ var data={
                   	_self.setShowAttachName(_self);
                   	/*this.formData.organizationManagementName=responseData.data.attachName;
                     this.formData.organizationManagementPath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
                     $('#fileList2').append(fileHtml);
                     $(".del").click(function(){
-                      $(this).parent("li").remove();
-                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    	var uploadUrl = $(this).parent("li").find("input").val();
                       var len = _self.formData.organizationManagementList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.organizationManagementList[i].uploadUrl == responseData.data.uploadUrl){
+                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl){
                       		_self.formData.organizationManagementList.splice(i,1);
+                      		$(this).parent("li").remove();
+                      		_self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
                       		break;
                       	}
                       }
@@ -165,15 +139,16 @@ var data={
                   	_self.setShowAttachName(_self);
                     /*this.formData.implementationPlanName=responseData.data.attachName;
                     this.formData.implementationPlanPath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
                     $("#fileList3").append(fileHtml);
                     $(".del").click(function(){
-                      $(this).parent("li").remove();
-                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    	var uploadUrl = $(this).parent("li").find("input").val();
                       var len = _self.formData.organizationManagementList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.organizationManagementList[i].uploadUrl == responseData.data.uploadUrl){
+                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl){
                       		_self.formData.organizationManagementList.splice(i,1);
+                      		$(this).parent("li").remove();
+                      		_self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
                       		break;
                       	}
                       }
@@ -200,15 +175,16 @@ var data={
                   	_self.setShowAttachName(_self);
                     /*this.formData.licenseCertificateName=responseData.data.attachName;
                     this.formData.licenseCertificatePath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
                     $("#fileList4").append(fileHtml);
                     $(".del").click(function(){
-                      $(this).parent("li").remove();
-                      _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                    	var uploadUrl = $(this).parent("li").find("input").val();
                       var len = _self.formData.organizationManagementList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.organizationManagementList[i].uploadUrl == responseData.data.uploadUrl){
+                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl){
                       		_self.formData.organizationManagementList.splice(i,1);
+                      		$(this).parent("li").remove();
+                      		_self.fileDel(uploadUrl,1,responseData.data.attachName);
                       		break;
                       	}
                       }
@@ -252,6 +228,7 @@ var data={
                   	if(_self.formData.topologyDescriptionList == null){
                   		_self.formData.topologyDescriptionList = [];
                   	}
+                  	_self.formData.topologyDescriptionName = '';
                   	var len_topologyDescriptionList = _self.formData.topologyDescriptionList.length;
                   	if(len_topologyDescriptionList > 0){
                   		for(var i=0;i<len_topologyDescriptionList;i++){
@@ -265,6 +242,7 @@ var data={
                   	if(_self.formData.organizationManagementList == null){
                   		_self.formData.organizationManagementList = [];
                   	}
+                  	_self.formData.organizationManagementName = '';
                   	var len_organizationManagementList = _self.formData.organizationManagementList.length;
                   	if(len_organizationManagementList > 0){
                   		for(var i=0;i<len_organizationManagementList;i++){
@@ -278,6 +256,7 @@ var data={
                   	if(_self.formData.implementationPlanList == null){
                   		_self.formData.implementationPlanList = [];
                   	}
+                  	_self.formData.implementationPlanName = '';
                   	var len_implementationPlanList = _self.formData.implementationPlanList.length;
                   	if(len_implementationPlanList > 0){
                   		for(var i=0;i<len_implementationPlanList;i++){
@@ -291,6 +270,7 @@ var data={
                   	if(_self.formData.licenseCertificateList == null){
                   		_self.formData.licenseCertificateList = [];
                   	}
+                  	_self.formData.licenseCertificateName = '';
                   	var len_licenseCertificateList = _self.formData.licenseCertificateList.length;
                   	if(len_licenseCertificateList > 0){
                   		for(var i=0;i<len_licenseCertificateList;i++){
@@ -325,12 +305,12 @@ var data={
                       $("#fileList").html(fileHtml);
                       $(".del").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        $(this).parent("li").remove();
-                        _self.fileDel(fileId,2);
                         var len = _self.formData.topologyDescriptionList.length;
                         for(var i=0;i<len;i++){
                         	if(_self.formData.topologyDescriptionList[i].fileId == fileId){
                         		_self.formData.topologyDescriptionList.splice(i,1);
+                        		$(this).parent("li").remove();
+                        		_self.fileDel(fileId,2);
                         		break;
                         	}
                         }
@@ -353,12 +333,12 @@ var data={
                       $("#fileList2").html(fileHtml);
                       $(".del").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        $(this).parent("li").remove();
-                        _self.fileDel(fileId,2);
                         var len = _self.formData.organizationManagementList.length;
                         for(var i=0;i<len;i++){
                         	if(_self.formData.organizationManagementList[i].fileId == fileId){
                         		_self.formData.organizationManagementList.splice(i,1);
+                        		$(this).parent("li").remove();
+                        		_self.fileDel(fileId,2);
                         		break;
                         	}
                         }
@@ -381,12 +361,12 @@ var data={
                       $("#fileList3").html(fileHtml);
                       $(".del").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        $(this).parent("li").remove();
-                        _self.fileDel(fileId,2);
                         var len = _self.formData.implementationPlanList.length;
                         for(var i=0;i<len;i++){
                         	if(_self.formData.implementationPlanList[i].fileId == fileId){
                         		_self.formData.implementationPlanList.splice(i,1);
+                        		$(this).parent("li").remove();
+                        		_self.fileDel(fileId,2);
                         		break;
                         	}
                         }
@@ -409,12 +389,12 @@ var data={
                       $("#fileList4").html(fileHtml);
                       $(".del").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        $(this).parent("li").remove();
-                        _self.fileDel(fileId,2);
                         var len = _self.formData.licenseCertificateList.length;
                         for(var i=0;i<len;i++){
                         	if(_self.formData.licenseCertificateList[i].fileId == fileId){
                         		_self.formData.licenseCertificateList.splice(i,1);
+                        		$(this).parent("li").remove();
+                        		_self.fileDel(fileId,2);
                         		break;
                         	}
                         }
@@ -454,7 +434,164 @@ var data={
                   }
                 },
                 mounted: function() {
-                    // this.selectChange()
+                  var _self = this;
+                  bus.$on('addMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('addMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('addSubmitMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('addSubmitMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('addPreMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('addPreMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('changeMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('changeMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('changeSubmitMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('changeSubmitMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('changePreMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('changePreMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('changePreMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('changePreMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('gradSubmitMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('gradSubmitMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('gradPreMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('gradPreMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
                 }
             })
         })

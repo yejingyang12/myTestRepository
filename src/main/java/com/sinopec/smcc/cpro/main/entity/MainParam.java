@@ -77,6 +77,9 @@ public class MainParam {
   private Date recordsEndTime;
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date recordsBeginTime;
+  private Integer systemType;
+  private String[] sprankLevelArray;
+  private String[] subordinateProvincesArray;
   
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -88,6 +91,44 @@ public class MainParam {
   private List<String> companyList;
   private List<String> plateList;
   
+
+  
+  /**
+   * @return the subordinateProvincesArray
+   */
+  public String[] getSubordinateProvincesArray() {
+    return subordinateProvincesArray;
+  }
+  /**
+   * @param subordinateProvincesArray the subordinateProvincesArray to set
+   */
+  public void setSubordinateProvincesArray(String[] subordinateProvincesArray) {
+    this.subordinateProvincesArray = subordinateProvincesArray;
+  }
+  /**
+   * @return the sprankLevelArray
+   */
+  public String[] getSprankLevelArray() {
+    return sprankLevelArray;
+  }
+  /**
+   * @param sprankLevelArray the sprankLevelArray to set
+   */
+  public void setSprankLevelArray(String[] sprankLevelArray) {
+    this.sprankLevelArray = sprankLevelArray;
+  }
+  /**
+   * @return the systemType
+   */
+  public Integer getSystemType() {
+    return systemType;
+  }
+  /**
+   * @param systemType the systemType to set
+   */
+  public void setSystemType(Integer systemType) {
+    this.systemType = systemType;
+  }
   public List<String> getCompanyList() {
     return companyList;
   }

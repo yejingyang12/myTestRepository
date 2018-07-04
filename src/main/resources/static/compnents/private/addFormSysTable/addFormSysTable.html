@@ -1,97 +1,106 @@
-<div class="">
-    <div class="col-lg-12 text-center formTable" v-prompt="{type:'selectandinput'}">
-        <label for="" class="col-md-2 col-sm-1 addTable">
-            <span class="xing">*</span>
-            关键产品使用情况：
-        </label>
-        <div class="table-responsive col-md-10 addForm2Table">
-            <table class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>产品类型</th>
-                    <th>数量</th>
-                    <th>是否使用国产品</th>
-                    <th>使用国产品率</th>
-                </tr>
-                </thead> 
-                <tbody id="tbody">
-                  <tr v-for="(itme,index) in sysProductType">
-                    <th>{{index+1}}</th>
-                    <td class="tdLineHei">{{itme.codeName}}
-                      <div class="inputLineHeight" v-if="itme.codeName=='其它'">
-                        <input type="text" v-model="formData.systemKeyProducts[index].otherName"  class="col-lg-8 baseMesIn"/>
-                      </div>
-                    </td>
-                    <td class="tdSelect">
-                      <el-select v-model="formData.systemKeyProducts[index].productsNumber" filterable>
-                        <el-option v-for="number in sysNumber" :key="number.systemCode" :label="number.systemCode" :value="number.systemCode" ></el-option>
-                      </el-select>
-                    </td>
-                    <td>
-                     <span class="dowmBg"></span>
-                      <select class="form-control" v-model="formData.systemKeyProducts[index].fkNationalIsProducts">
-                         <option value="">请选择</option>
-                         <option v-for="prod in sysNationalProducts" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></option>
-                      </select>
-                    </td>
-                    <td>
-                        <!--<div>-->
-                        <input class="form-control pull-left tdWith" v-model="formData.systemKeyProducts[index].nUseProbability">
-                        <!--<span class="sticNum">0</span>-->
-                        <i class="addNum" @click="addNum($event,index)"></i>
-                        <i class="oddNum" @click="oddNum($event,index)"></i>
-                        <span class="pull-left" style="margin:10px">%</span>
-                        <!--</div>-->
-                    </td>
-                   </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="" style="padding-left: 15px;">
+    <!-- <div class="col-lg-12 text-center formTable" > -->
+    <div class="col-lg-12 text-center formTable" >
+        <el-form-item label="关键产品使用情况：" prop="">
+            <div class="table-responsive col-md-10 addForm2Table">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>产品类型</th>
+                        <th>数量</th>
+                        <th>是否使用国产品</th>
+                        <th>使用国产品率</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    <tr v-for="(itme,index) in sysProductType">
+                        <th>{{index+1}}</th>
+                        <td class="tdLineHei">{{itme.codeName}}
+                            <div class="inputLineHeight" v-if="itme.codeName=='其它'">
+                                <input type="text" v-model="formData.systemKeyProducts[index].otherName"  class="col-lg-8 baseMesIn"/>
+                            </div>
+                        </td>
+                        <td class="tdSelect">
+                            <el-select v-model="formData.systemKeyProducts[index].productsNumber" filterable>
+                                <el-option v-for="number in sysNumber" :key="number.systemCode" :label="number.systemCode" :value="number.systemCode" ></el-option>
+                            </el-select>
+                        </td>
+                        <td>
+                            <span class="dowmBg"></span>
+                            <el-select class="form-control" v-model="formData.systemKeyProducts[index].fkNationalIsProducts">
+                                <el-option v-for="prod in sysNationalProducts" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></el-option>
+                            </el-select>
+                            <!--<select class="form-control" v-model="formData.systemKeyProducts[index].fkNationalIsProducts">-->
+                                <!--<option value="">请选择</option>-->
+                                <!--<option v-for="prod in sysNationalProducts" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></option>-->
+                            <!--</select>-->
+                        </td>
+                        <td>
+                            <!--<div>-->
+                            <input class="form-control pull-left tdWith" v-model="formData.systemKeyProducts[index].nUseProbability">
+                            <!--<span class="sticNum">0</span>-->
+                            <i class="addNum" @click="addNum($event,index)"></i>
+                            <i class="oddNum" @click="oddNum($event,index)"></i>
+                            <span class="pull-left" style="margin:10px">%</span>
+                            <!--</div>-->
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </el-form-item>
     </div>
-    <div class="col-lg-12 text-center formTable" v-prompt="{type:'selectandinput'}">
-        <label for="" class="col-md-2 col-sm-1 addTable">
-            <span class="xing">*</span>系统采用服务情况：
-        </label>
-        <div class="table-responsive col-md-10 addForm2Table">
-            <table class="table table-bordered table-striped">
-                <thead>
+    <div class="col-lg-12 text-center formTable">
+    <!-- <div class="col-lg-12 text-center formTable" > -->
+        <el-form-item label="系统采用服务情况：" prop="">
+            <div class="table-responsive col-md-10 addForm2Table">
+                <table class="table table-bordered table-striped">
+                    <thead>
                     <tr>
                         <th>#</th>
                         <th>服务类型</th>
                         <th>是否采用</th>
                         <th>服务责任方类型</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     <tr v-for="(itme,index) in sysServiceType">
-                      <th>{{index+1}}</th>
-                      <td class="tdLineHei proWidth">{{itme.codeName}}
-                        <div class="inputLineHeight" v-if="itme.codeName=='其它'">
-                          <input type="text" v-model="formData.systemUseServices[index].otherName"  class="col-lg-8 baseMesIn"/>
-                        </div>
-                        <input type="hidden" v-model="formData.systemUseServices[index].fkProductsType" value="itme.systemCode"/>
-                      </td>
-                      <td class="proWidth">
-                          <span class="dowmBg"></span>
-                          <div>
-                              <select class="form-control" v-model="formData.systemUseServices[index].serviceIsUse" >
-                                <option value="">请选择</option>
-                                <option value="1">是</option>
-                                <option value="2">否</option>
-                              </select>
-                          </div>
-                      </td>
-                      <td class="proWidth">
-                          <span class="dowmBg"></span>
-                          <select class="form-control" v-model="formData.systemUseServices[index].fkResponsibleType">
-                              <option value="">请选择</option>
-                              <option v-for="prod in sysResponsible" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></option>
-                          </select>
-                      </td>
+                        <th>{{index+1}}</th>
+                        <td class="tdLineHei proWidth">{{itme.codeName}}
+                            <div class="inputLineHeight" v-if="itme.codeName=='其它'">
+                                <input type="text" v-model="formData.systemUseServices[index].otherName"  class="col-lg-8 baseMesIn"/>
+                            </div>
+                            <input type="hidden" v-model="formData.systemUseServices[index].fkProductsType" value="itme.systemCode"/>
+                        </td>
+                        <td class="proWidth">
+                            <span class="dowmBg"></span>
+                            <div>
+                                <el-select class="form-control" v-model="formData.systemUseServices[index].serviceIsUse" >
+                                    <el-option value="1">是</el-option>
+                                    <el-option value="2">否</el-option>
+                                </el-select>
+                                <!--<select class="form-control" v-model="formData.systemUseServices[index].serviceIsUse" >-->
+                                    <!--<option value="">请选择</option>-->
+                                    <!--<option value="1">是</option>-->
+                                    <!--<option value="2">否</option>-->
+                                <!--</select>-->
+                            </div>
+                        </td>
+                        <td class="proWidth">
+                            <span class="dowmBg"></span>
+                            <el-select class="form-control" v-model="formData.systemUseServices[index].fkResponsibleType">
+                                <el-option v-for="prod in sysResponsible" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></el-option>
+                            </el-select>
+                            <!--<select class="form-control" v-model="formData.systemUseServices[index].fkResponsibleType">-->
+                                <!--<option value="">请选择</option>-->
+                                <!--<option v-for="prod in sysResponsible" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></option>-->
+                            <!--</select>-->
+                        </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+        </el-form-item>
     </div>
 </div>

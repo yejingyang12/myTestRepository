@@ -9,15 +9,36 @@ window.onload = function () {
             return data;
         },
         methods : {
-          submitHandler:function(){
-            data.formData.changeType = "2";
-            ajaxMethod(this, 'post',
-                'company/saveCompany', true,JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
+          submitHandler:function(formName){
+            bus.$emit('formName',formName);
           },
           submitHandlerSuccessMethod: function(_self,returnData){
             window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + returnData.data+"&companyCode="+data.formData.companyCode;
           },
+          saveCompanyInfo:function (){
+						bus.$emit("saveCompanyInfo","1");
+					},
+					cleanCompanyInfo:function (){
+						bus.$emit("cleanCompanyInfo","1");
+					},
+					returnCompanyList:function (){
+						bus.$emit("returnCompanyList","1");
+					},
+					//返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
+          }
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('addCompany',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              ajaxMethod(_self, 'post',
+                  'company/saveCompany', true,JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',_self.submitHandlerSuccessMethod);
+            }
+          });
         }
     })
 }

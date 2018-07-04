@@ -248,7 +248,7 @@ td{
     color: red;
 }
 /*审核*/
-.fishBone {
+/* .fishBone {
     height: 400px;
     width: 100%;
     margin-top: 15px;
@@ -318,7 +318,7 @@ td{
     width: 100%;
     position: absolute;
     left: 0;
-    /*top: 40%;*/
+    top: 40%;
 }
 
 .fishBone ul li .centerline .cricle {
@@ -355,12 +355,12 @@ td{
 
 }
 .bottom .item{
-    /*position: relative;*/
+    position: relative;
 }
 
 .bottom .centerline {
-    /*position: absolute;*/
-    /*top: 128px;*/
+    position: absolute;
+    top: 128px;
 }
 
 .bottom .over_time {
@@ -371,4 +371,4 @@ td{
 .bottom .content {
     position: relative;
     top: 185px;
-}
+} */

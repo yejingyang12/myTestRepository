@@ -10,14 +10,8 @@ window.onload = function () {
         },
         methods:{
           //保存
-          saveBtn:function() {
-            data.formData.changeType = "2";
-            data.formData.saveType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.saveBtnSuccessMethod);
+          saveBtn:function(formName) {
+            bus.$emit('gradMaterialFormName',formName);
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -28,33 +22,57 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //提交
-          submitBtn:function() {
-            data.formData.changeType = "2";
-            data.formData.saveType = "2";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.submitBtnSuccessMethod);
+          submitBtn:function(formName) {
+            bus.$emit('gradSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function() {
-            data.formData.changeType = "2";
-            data.formData.saveType = "1";
-            ajaxMethod(this, 'post',
-                'grading/saveSystemMaterialsInfo', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.preBtnSuccessMethod);
+          preBtn:function(formName) {
+            bus.$emit('gradPreMaterialFormName',formName);
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
           }
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('gradMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "1";
+              ajaxMethod(this, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.saveBtnSuccessMethod);
+            }
+          });
+          bus.$on('gradSubmitMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "2";
+              ajaxMethod(this, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.submitBtnSuccessMethod);
+            }
+          });
+          bus.$on('gradPreMaterialFormAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "1";
+              ajaxMethod(this, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.preBtnSuccessMethod);
+            }
+          });
         }
     })
 }

@@ -3,17 +3,14 @@
  */
 (function () {
   var data={
-
+		  activeName: 'record'
   };
   Vue.component('selfAlert',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/selfalert/selfalert.html').then(function(res){
       resolve({
         template:res,
         data:function () {
-          return {
-            activeName: 'record',
-            data
-          }
+          return data;
         },
         created: function() {
 

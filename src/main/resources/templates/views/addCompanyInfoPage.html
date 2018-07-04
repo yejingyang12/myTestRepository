@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
+    <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
     <!--私有css-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addFormCha.css" th:attr="href=@{/css/private/addFormCha.css}">
     <link rel="stylesheet" href="../../static/css/private/addCompanyInfoPage.css" th:attr="href=@{/css/private/addCompanyInfoPage.css}">
+    <link rel="stylesheet" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">
     <style>
     #companyName{
       height:32px!important; 
@@ -63,6 +65,9 @@
     .formControl>.el-input{
         width:100%;
     }
+    .P-form-input2 .el-form-item__content{
+      width:975px;
+    }
     </style>
 </head>
 <body>
@@ -72,25 +77,36 @@
         <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousuo.jpg}" slot="smmc-header-sou">
         <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">-->
     </smcc-header>
-    <smcc-breadcrumb></smcc-breadcrumb>
+    <smcc-breadcrumb>
+      <li slot="materialChangeBtn" class="fr liMargin">
+        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+      </li>
+    </smcc-breadcrumb>
     <add-list></add-list>
     <add-form-cha></add-form-cha>
     <add-form>
-        <div slot="addInf"  class="btn btn-success btnNext fr" @click="submitHandler()" v-updatas>下一步</div>
+        <div slot="addInf"  class="btn btn-success btnNext fr" @click="submitHandler('formData')">下一步 </div>
     </add-form>
     <add-fromalert></add-fromalert>
+    <div class="inquiry" v-show="check">        
+      <p>是否保存本页面</p>        
+      <!-- <p>是否删除</p> -->        
+      <div class="inquiryBtn">            
+        <button type="button" class="btn btn-success fl" @click="submitHandler('formData')">确定</button>            
+        <button type="button" class="btn btn-default fr" @click="check = false">取消</button>        
+      </div>    
+    </div>
   </div>
 </body>
 <!--公用js-->
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
+<script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
 <script type="text/javascript">
   var bus = new Vue();
 </script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
-<script src="../../static/js/public/jquery.validate.min.js" th:attr="src=@{/js/public/jquery.validate.min.js}"></script>
-<script src="../../static/js/public/messages_zh.js" th:attr="src=@{/js/public/messages_zh.js}"></script>
 <!--ajax-->
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
@@ -102,8 +118,6 @@
 <script async src="../../static/compnents/private/addList/addList.js" th:attr="src=@{/compnents/private/addList/addList.js}"></script>
 <script async src="../../static/js/private/addCompanyInfoPage.js" th:attr="src=@{/js/private/addCompanyInfoPage.js}"></script>
 <script async src="../../static/compnents/private/addFromalert/addFromalert.js" th:attr="src=@{/compnents/private/addFromalert/addFromalert.js}"></script>
-<script async src="../../static/compnents/private/addForm/andFormPrompt.js" th:attr="src=@{/compnents/private/addForm/andFormPrompt.js}"></script>
-
 <script type="text/javascript" th:inline="javascript">
 var readonly="";
 var companyId = [[${companyId}]]; 
