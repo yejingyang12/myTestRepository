@@ -211,40 +211,40 @@ public class CompanyServiceImpl implements CompanyService {
   public List<CompanyListResult> queryCompanyName(CompanyParam companyParam)
       throws BusinessException {
     
-    //权限
-    JurisdictionDataResult organizationApiResult = 
-        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    
-    if(organizationApiResult==null){
-      return new ArrayList<CompanyListResult>();
-    }else{
+//    //权限
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    
+//    if(organizationApiResult==null){
+//      return new ArrayList<CompanyListResult>();
+//    }else{
       List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
-      
-      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      case "0":
-        break;
-      case "1":
+//      
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      case "0":
+//        break;
+//      case "1":
         // 获得响应列表数据
         companyListResultList = 
             this.companyMapper.selectCompanyName(companyParam);
-        break;
-      case "2":
-        companyParam.setPlateList(organizationApiResult.getNameList());
-        companyListResultList =  
-        this.companyMapper.selectCompanyName(companyParam);
-        break;
-      case "3":
-        companyParam.setCompanyList(organizationApiResult.getCodeList());
-        companyListResultList =  
-        this.companyMapper.selectCompanyName(companyParam);
-        break;
-
-      default:
-        break;
-      }
+//        break;
+//      case "2":
+//        companyParam.setPlateList(organizationApiResult.getNameList());
+//        companyListResultList =  
+//        this.companyMapper.selectCompanyName(companyParam);
+//        break;
+//      case "3":
+//        companyParam.setCompanyList(organizationApiResult.getCodeList());
+//        companyListResultList =  
+//        this.companyMapper.selectCompanyName(companyParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
       return companyListResultList;
-    }
+//    }
   }
 
   /**
@@ -258,37 +258,37 @@ public class CompanyServiceImpl implements CompanyService {
     
     List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
     
-    //权限
-    JurisdictionDataResult organizationApiResult = 
-        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    
-    if(organizationApiResult==null){
-      return new ArrayList<OrganizationApiCascaderResult>();
-    }else{
-      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      case "0":
-        break;
-      case "1":
-        // 获得响应列表数据
+//    //权限
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    
+//    if(organizationApiResult==null){
+//      return new ArrayList<OrganizationApiCascaderResult>();
+//    }else{
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      case "0":
+//        break;
+//      case "1":
+//        // 获得响应列表数据
         companyListResultList = 
             this.companyMapper.selectCompanyName(companyParam);
-        break;
-      case "2":
-        companyParam.setPlateList(organizationApiResult.getNameList());
-        companyListResultList =  
-        this.companyMapper.selectCompanyName(companyParam);
-        break;
-      case "3":
-        companyParam.setCompanyList(organizationApiResult.getCodeList());
-        companyListResultList =  
-        this.companyMapper.selectCompanyName(companyParam);
-        break;
-
-      default:
-        break;
-      }
-    }
+//        break;
+//      case "2":
+//        companyParam.setPlateList(organizationApiResult.getNameList());
+//        companyListResultList =  
+//        this.companyMapper.selectCompanyName(companyParam);
+//        break;
+//      case "3":
+//        companyParam.setCompanyList(organizationApiResult.getCodeList());
+//        companyListResultList =  
+//        this.companyMapper.selectCompanyName(companyParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
+//    }
     HashMap<String, String> map = new HashMap<String, String>();
     for (CompanyListResult companyListResult : companyListResultList) {
       map.put(companyListResult.getFkPlateType(), companyListResult.getFkPlateType());
