@@ -44,33 +44,33 @@ window.onload = function () {
             if(meg!=null){
               data.formData.changeType = "2";
               data.formData.saveType = "1";
-              ajaxMethod(this, 'post',
+              ajaxMethod(_self, 'post',
                   'grading/saveSystemMaterialsInfo', true,
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
-                  this.saveBtnSuccessMethod);
+                  _self.saveBtnSuccessMethod);
             }
           });
           bus.$on('gradSubmitMaterialFormAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";
               data.formData.saveType = "2";
-              ajaxMethod(this, 'post',
+              ajaxMethod(_self, 'post',
                   'grading/saveSystemMaterialsInfo', true,
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
-                  this.submitBtnSuccessMethod);
+                  _self.submitBtnSuccessMethod);
             }
           });
           bus.$on('gradPreMaterialFormAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";
               data.formData.saveType = "1";
-              ajaxMethod(this, 'post',
+              ajaxMethod(_self, 'post',
                   'grading/saveSystemMaterialsInfo', true,
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
-                  this.preBtnSuccessMethod);
+                  _self.preBtnSuccessMethod);
             }
           });
         }

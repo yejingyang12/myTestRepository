@@ -211,7 +211,7 @@ var  data={
           ],
           executiveDireConTel:[  // 主管联系人电话
               { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
-              { min: 7, max: 12, message: '长度在 7 到 12个字符', trigger: 'blur' },
+              { min: 8, max: 12, message: '长度在 8 到 12个字符', trigger: 'blur' },
               { pattern: /^[0-9]*$/, message: '负责人联系电话输入有误', trigger: 'blur'}
           ],
       }
@@ -887,6 +887,73 @@ var  data={
                     this.formData.systemId = systemId;
                     this.getGetSystemMethod(this,systemId);
                   }
+                  
+                  var _self=this;
+                  bus.$on('addPreSystemName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('addPreSystemAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('addNextSystemName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('addNextSystemAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('changePreSystemName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('changePreSystemAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('changeNextSystemName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('changeNextSystemAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
                 }
             })
         })

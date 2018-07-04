@@ -39,11 +39,11 @@ window.onload = function () {
           bus.$on('gradGradingAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";
-              ajaxMethod(this, 'post',
+              ajaxMethod(_self, 'post',
                   'grading/saveGrading', true,
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
-                  this.saveBtnSuccessMethod);
+                  _self.saveBtnSuccessMethod);
             }
           });
           bus.$on('gradSubmitGradingAjax',function(meg){
@@ -53,7 +53,7 @@ window.onload = function () {
                   'grading/submitGrading', true,
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
-                  this.submitBtnSuccessMethod);
+                  _self.submitBtnSuccessMethod);
             }
           });
         }

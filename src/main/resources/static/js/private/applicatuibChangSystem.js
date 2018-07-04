@@ -26,31 +26,44 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post',
-                'system/editSystem', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.preBtnSuccessMethod);
+          preBtn:function(formName) {
+            bus.$emit('changePreSystemName',formName);
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicationChangePage?companyCode="+companyCode;
           },
           //下一页
-          nextBtn:function() {
-            data.formData.changeType = "1";
-            ajaxMethod(this, 'post',
-                'system/editSystem', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.nextBtnSuccessMethod);
+          nextBtn:function(formName) {
+            bus.$emit('changeNextSystemName',formName);
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
             window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+responseData.data;
           }
+        },
+        mounted : function() {
+          var _self = this;
+          bus.$on('changePreSystemAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post',
+                  'system/editSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.preBtnSuccessMethod);
+            }
+          });
+          bus.$on('changeNextSystemAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "1";
+              ajaxMethod(_self, 'post',
+                  'system/editSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.nextBtnSuccessMethod);
+            }
+          });
         }
     })
 }

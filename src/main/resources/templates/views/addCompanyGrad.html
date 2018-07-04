@@ -23,12 +23,12 @@
             background:#58B24B;
         }
         /*.saveTextTitle{*/
-            /*width: 12%;*/
-            /*padding-left: 15px;*/
+        /*width: 12%;*/
+        /*padding-left: 15px;*/
         /*}*/
         /*.mcTextArea{*/
-            /*width: calc(88% - 26px);*/
-            /*margin-left: 2px;*/
+        /*width: calc(88% - 26px);*/
+        /*margin-left: 2px;*/
         /*}*/
     </style>
 </head>
@@ -47,18 +47,18 @@
     <add-list></add-list>
     <add-form-grad>
         <li slot="gradBtn" class="fr liMargin">
-          <div class="saveBnt">
-            <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')" v-show="!nextBtn">提交</button>
-            <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
-            <button type="button" class="btn btn-default" id="pre" @click="preBtn('formData')" v-show="!nextBtn">上一步</button>
-          </div>
+            <div class="saveBnt">
+                <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')" v-show="!nextBtn">提交</button>
+                <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
+                <button type="button" class="btn btn-default" id="pre" @click="preBtn('formData')" v-show="!nextBtn">上一步</button>
+            </div>
         </li>
         <li slot="gradNextBtn" class="fr liMargin">
-          <div class="saveBnt">
-            <button type="button" class="btn btn-default " id="pre" @click="preBtn('formData')"  v-show="nextBtn">上一步</button>
-            <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')"  v-show="nextBtn">保存</button>
-            <button type="button" class="btn btn-success " id="next" @click="next1Btn('formData')"  v-show="nextBtn">下一步</button>
-          </div>
+            <div class="saveBnt">
+                <button type="button" class="btn btn-default " id="pre" @click="preBtn('formData')"  v-show="nextBtn">上一步</button>
+                <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')"  v-show="nextBtn">保存</button>
+                <button type="button" class="btn btn-success " id="next" @click="next1Btn('formData')"  v-show="nextBtn">下一步</button>
+            </div>
         </li>
     </add-form-grad>
     
@@ -68,7 +68,7 @@
 <script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
 <script type="text/javascript">
-  var bus = new Vue();
+    var bus = new Vue();
 </script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
@@ -82,7 +82,7 @@
 <script async src="../../static/compnents/private/addFormGrad/addFormGrad.js" th:attr="src=@{/compnents/private/addFormGrad/addFormGrad.js}"></script>
 <script async src="../../static/js/private/addCompanyGrad.js" th:attr="src=@{/js/private/addCompanyGrad.js}"></script>
 <script type="text/javascript" th:inline="javascript">
-var systemId = [[${systemId}]]; 
-var type='';
+    var systemId = [[${systemId}]];
+    var type='';
 </script>
 </html>

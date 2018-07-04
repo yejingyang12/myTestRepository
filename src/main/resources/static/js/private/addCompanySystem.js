@@ -9,7 +9,7 @@ window.onload = function () {
             return data;
         },
         methods:{
-          saveBtn:function() {
+          saveBtn:function(formName) {
             data.formData.changeType = "2";
             ajaxMethod(this, 'post',
                 'system/saveSystem', true,
@@ -26,42 +26,16 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function() {
-            data.formData.changeType = "2";
-            if(systemId!=''&&systemId!=null){
-              ajaxMethod(this, 'post',
-                  'system/editSystem', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  this.preBtnSuccessMethod);
-            }else{
-              ajaxMethod(this, 'post',
-                  'system/saveSystem', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  this.preBtnSuccessMethod);
-            }
+          preBtn:function(formName) {
+            bus.$emit('addPreSystemName',formName);
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
           },
           //下一页
-          nextBtn:function() {
-            data.formData.changeType = "2";
-            if(systemId!=''&&systemId!=null){
-              ajaxMethod(this, 'post',
-                  'system/editSystem', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  this.nextBtnSuccessMethod);
-            }else{
-              ajaxMethod(this, 'post',
-                  'system/saveSystem', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  this.nextBtnSuccessMethod);
-            }
+          nextBtn:function(formName) {
+            bus.$emit('addNextSystemName',formName);
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
@@ -217,10 +191,50 @@ window.onload = function () {
 						//bus.$emit("returnSystemList","1");
 						window.location.href = originUrl + "page/mainCompanyInfoPage";
 					},
+				//返回
+	        returnBtn:function() {
+	          window.location.href = originUrl+"page/indexPage";
+	        }
         },
-        //返回
-        returnBtn:function() {
-          window.location.href = originUrl+"page/indexPage";
+        mounted : function() {
+          var _self = this;
+          bus.$on('addPreSystemAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              if(systemId!=''&&systemId!=null){
+                ajaxMethod(_self, 'post',
+                    'system/editSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.preBtnSuccessMethod);
+              }else{
+                ajaxMethod(_self, 'post',
+                    'system/saveSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.preBtnSuccessMethod);
+              }
+            }
+          });
+          bus.$on('addNextSystemAjax',function(meg){
+            var _self = this;
+            if(meg!=null){
+              data.formData.changeType = "2";
+              if(systemId!=''&&systemId!=null){
+                ajaxMethod(_self, 'post',
+                    'system/editSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.nextBtnSuccessMethod);
+              }else{
+                ajaxMethod(_self, 'post',
+                    'system/saveSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    this.nextBtnSuccessMethod);
+              }
+            }
+          });
         }
     })
 }
