@@ -1,7 +1,6 @@
-
 package com.sinopec.smcc.cpro;
 
-import com.sinopec.smcc.common.consts.SmccConsts;
+import com.sinopec.smcc.base.consts.SmccConsts;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
