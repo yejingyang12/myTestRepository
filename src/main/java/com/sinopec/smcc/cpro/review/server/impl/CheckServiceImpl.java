@@ -21,9 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.ubs.client.UbsClient;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.depends.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;

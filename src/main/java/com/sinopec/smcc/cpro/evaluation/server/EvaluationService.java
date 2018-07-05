@@ -11,7 +11,7 @@ package com.sinopec.smcc.cpro.evaluation.server;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;

@@ -11,7 +11,7 @@ package com.sinopec.smcc.cpro.grading.server;
 
 import java.util.List;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 

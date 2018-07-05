@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.entity.DiagramResult;

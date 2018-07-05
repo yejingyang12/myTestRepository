@@ -10,7 +10,7 @@
 package com.sinopec.smcc.cpro.selfexamination.server;
 
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;

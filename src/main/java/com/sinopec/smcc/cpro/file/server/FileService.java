@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 

@@ -25,12 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.result.ResultApi;
-import com.sinopec.smcc.common.ubs.util.UbsUtil;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.depends.ubs.util.UbsUtil;
 
 /**
  * @Title JurisdictionApiController.java

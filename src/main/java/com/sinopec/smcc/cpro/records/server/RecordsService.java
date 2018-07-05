@@ -11,7 +11,7 @@ package com.sinopec.smcc.cpro.records.server;
 
 import java.util.List;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsResult;

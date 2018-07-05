@@ -20,8 +20,8 @@ import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;

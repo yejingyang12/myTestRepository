@@ -14,14 +14,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.ubs.model.OrgResult;
-import com.sinopec.smcc.common.ubs.util.UbsUtil;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApi;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascader;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiParam;
 import com.sinopec.smcc.cpro.codeapi.server.OrganizationApiService;
+import com.sinopec.smcc.depends.ubs.model.OrgResult;
+import com.sinopec.smcc.depends.ubs.util.UbsUtil;
 
 /**
  * @Title OrganizationApiServiceImpl.java

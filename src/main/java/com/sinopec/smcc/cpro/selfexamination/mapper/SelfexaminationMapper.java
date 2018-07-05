@@ -11,7 +11,7 @@ package com.sinopec.smcc.cpro.selfexamination.mapper;
 
 import java.util.List;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;

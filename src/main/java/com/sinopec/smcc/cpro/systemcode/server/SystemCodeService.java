@@ -11,7 +11,7 @@ package com.sinopec.smcc.cpro.systemcode.server;
 
 import java.util.List;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemGradingInfoOneResult;

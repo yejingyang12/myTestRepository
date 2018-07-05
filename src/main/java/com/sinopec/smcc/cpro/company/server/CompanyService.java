@@ -12,7 +12,7 @@ package com.sinopec.smcc.cpro.company.server;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;

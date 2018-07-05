@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.api.SystemApiClient;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemApiParam;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemApiResult;

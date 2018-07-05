@@ -19,8 +19,8 @@ import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;

@@ -10,7 +10,7 @@
 package com.sinopec.smcc.cpro.home.server;
 
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.home.entity.HomeParam;
 import com.sinopec.smcc.cpro.home.entity.HomeResult;
 

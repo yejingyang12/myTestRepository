@@ -9,7 +9,7 @@
 */
 package com.sinopec.smcc.cpro.grading.server;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;

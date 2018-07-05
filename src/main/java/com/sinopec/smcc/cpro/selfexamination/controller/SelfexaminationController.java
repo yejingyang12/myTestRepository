@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.exception.model.EnumResult;
-import com.sinopec.smcc.common.result.ResultApi;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;

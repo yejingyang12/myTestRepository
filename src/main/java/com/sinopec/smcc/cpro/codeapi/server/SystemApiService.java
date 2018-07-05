@@ -10,7 +10,7 @@ package com.sinopec.smcc.cpro.codeapi.server;
 
 import java.util.List;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemApiParam;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemApiResult;
 

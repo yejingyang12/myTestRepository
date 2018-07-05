@@ -20,7 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.sinopec.siam.agent.common.SSOPrincipal;
-import com.sinopec.smcc.common.ubs.client.UbsClient;
+import com.sinopec.smcc.depends.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.codeapi.entity.UserInfoResult;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 

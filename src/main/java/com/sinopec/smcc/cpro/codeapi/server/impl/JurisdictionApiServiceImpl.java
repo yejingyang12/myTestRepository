@@ -18,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.sinopec.smcc.common.ubs.client.UbsClient;
-import com.sinopec.smcc.common.ubs.model.AuthResult;
-import com.sinopec.smcc.common.ubs.util.UbsUtil;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.UserInfoResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
@@ -31,6 +28,9 @@ import com.sinopec.smcc.cpro.company.mapper.CompanyMapper;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.mapper.SystemCodeMapper;
+import com.sinopec.smcc.depends.ubs.client.UbsClient;
+import com.sinopec.smcc.depends.ubs.model.AuthResult;
+import com.sinopec.smcc.depends.ubs.util.UbsUtil;
 
 /**
  * @Title JurisdictionApiServiceImpl.java

@@ -24,8 +24,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sinopec.smcc.common.exception.classify.BusinessException;
-import com.sinopec.smcc.common.exception.model.EnumResult;
+import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.common.mongodb.MongoService;
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
