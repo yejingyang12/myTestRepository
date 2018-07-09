@@ -8,9 +8,7 @@ if(src_ele.dataset) {
 // console.log(comp_src);
 var originUrl = 'http://cpro.smcc.sinopec.com:8082/';
 //var origin = window.location.origin+"/";
-
 //var origin = ''+"/";
-
 // ajax 请求
 /**
  * @param _self: 本页this，
@@ -44,7 +42,6 @@ function ajaxMethod(_self, type, url, async ,data, dataType, contentType, succes
     // }
   });
 }
-
 /**
  * @param _self: 本页this，
  * @param type: 请求方式，get or post
@@ -72,13 +69,6 @@ function ajaxUploadMethod(_self, type, url, async ,data, dataType, successMethod
     }
   });
 }
-
-
-
-
-
-
-
 // get 请求
 function FnGetData(url, type) {
 	var param = {};
@@ -90,7 +80,6 @@ function FnGetData(url, type) {
 		})
 	})
 }
-
 // post 请求
 function FnPostData(url, type) {
 	var param = {};
@@ -108,11 +97,8 @@ function FnPostData(url, type) {
 			})
 		}
 	})
-
 }
-
 // 上传 文件
-
 function FnPostFile(url, formData, type) {
 	var that = this;
 	$.ajax({

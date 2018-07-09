@@ -178,7 +178,7 @@ var  data={
           sysBusSituationType:[  // 业务类型
               { required: true, message: '请选择业务类型', trigger: 'blur' },
           ],
-          sysBusSituationType:[  // 业务描述
+          sysBusDescription:[  // 业务描述
               { required: true, message: '请填写业务描述', trigger: 'blur' },
           ],
           sysServiceSitScope:[  // 服务范围

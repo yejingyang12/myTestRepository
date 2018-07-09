@@ -217,7 +217,6 @@ window.onload = function () {
             }
           });
           bus.$on('addNextSystemAjax',function(meg){
-            var _self = this;
             if(meg!=null){
               data.formData.changeType = "2";
               if(systemId!=''&&systemId!=null){
@@ -231,7 +230,7 @@ window.onload = function () {
                     'system/saveSystem', true,
                     JSON.stringify(data.formData), 'json',
                     'application/json;charset=UTF-8',
-                    this.nextBtnSuccessMethod);
+                    _self.nextBtnSuccessMethod);
               }
             }
           });

@@ -49,7 +49,7 @@ window.onload = function () {
           bus.$on('gradSubmitGradingAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";
-              ajaxMethod(this, 'post',
+              ajaxMethod(_self, 'post',
                   'grading/submitGrading', true,
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
