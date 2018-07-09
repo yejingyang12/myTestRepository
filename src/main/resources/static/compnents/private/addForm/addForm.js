@@ -65,13 +65,11 @@
           ],
           compPrincipalWorkTel: [
               { required: true, message: '请输入办公电话', trigger: 'blur' },
-              { min: 8, max: 12, message: '长度在 8 到10个字符', trigger: 'blur' },
-              { pattern: /^[0-9]*$/, message: '办公电话输入有误', trigger: 'blur'}
+              { pattern: /^\d{8,12}$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           compPrincipalPhone: [
               { required: true, message: '请输入移动电话', trigger: 'blur' },
-              { min: 11, max: 11, message: '长度在 11个字符', trigger: 'blur' },
-              { pattern: /^[0-9]*$/, message: '移动电话输入有误', trigger: 'blur'}
+              { pattern: /^\d{11}$/, message: '移动电话输入有误', trigger: 'blur'}
           ],
           compPrincipalPost: [
               { required: true, message: '请输入职务/职称', trigger: 'blur' },
@@ -88,13 +86,11 @@
           ],
           ldContactWorkTel: [
               { required: true, message: '请输入办公电话', trigger: 'blur' },
-              { min: 8, max: 12, message: '长度在 8 到10个字符', trigger: 'blur' },
-              { pattern: /^[0-9]*$/, message: '办公电话输入有误', trigger: 'blur'}
+              { pattern: /^\d{8,12}$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           ldContactPhone: [
               { required: true, message: '请输入移动电话', trigger: 'blur' },
-              { min: 11, max: 11, message: '长度在 11个字符', trigger: 'blur' },
-              { pattern: /^[0-9]*$/, message: '移动电话输入有误', trigger: 'blur'}
+              { pattern: /^\d{11}$/, message: '移动电话输入有误', trigger: 'blur'}
           ],
           ldContactPost: [
               { required: true, message: '请输入职务/职称', trigger: 'blur' },
@@ -145,11 +141,10 @@
                 })
                 if(e.target.innerHTML.indexOf("其它") != -1){
                   this.formData.fkAffiliation = $("#affiliation").val();
-                  this.$refs.formData.validateField('fkAffiliation');
                 }else{
                   this.formData.fkAffiliation = e.target.innerHTML;
-                  this.$refs.formData.validateField('fkAffiliation');
                 }
+                this.$refs.formData.validateField('fkAffiliation');
               },
               getAffiliation : function() {
                 this.formData.fkAffiliation = $("#affiliation").val();

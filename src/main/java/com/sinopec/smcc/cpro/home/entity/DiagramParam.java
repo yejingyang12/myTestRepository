@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.home.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -38,12 +39,42 @@ public class DiagramParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date dateEnd;
   
+  private List<String> companyList;
+  private List<String> plateList;
+  
   /*
    * 类型:
    *      
    */
   private String codeName;
   private String year;
+  
+  
+  
+  /**
+   * @return the companyList
+   */
+  public List<String> getCompanyList() {
+    return companyList;
+  }
+  /**
+   * @param companyList the companyList to set
+   */
+  public void setCompanyList(List<String> companyList) {
+    this.companyList = companyList;
+  }
+  /**
+   * @return the plateList
+   */
+  public List<String> getPlateList() {
+    return plateList;
+  }
+  /**
+   * @param plateList the plateList to set
+   */
+  public void setPlateList(List<String> plateList) {
+    this.plateList = plateList;
+  }
   public String getYear() {
     return year;
   }

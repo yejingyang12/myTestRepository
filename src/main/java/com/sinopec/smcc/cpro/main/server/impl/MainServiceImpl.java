@@ -149,7 +149,7 @@ public class MainServiceImpl implements MainService{
 //      case "0":
 //        break;
 //      case "1":
-//        // 获得响应列表数据
+////        // 获得响应列表数据
         list = 
             this.mainMapper.selectAllByMainParam(mainParam);
 //        break;
@@ -2505,7 +2505,40 @@ public class MainServiceImpl implements MainService{
    */
   @Override
   public List<MainListResult> queryGradingStatistics(MainParam mainParam) throws BusinessException {
-    return mainMapper.selectGradingStatistics(mainParam);
+    //获得相应图表数据
+    List<MainListResult> list = new ArrayList<MainListResult>();
+//    //权限
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
+//      return null;
+//    }else{
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      
+//      case "0":
+//        break;
+//      case "1":
+//        // 获得响应列表数据
+        list = 
+            this.mainMapper.selectGradingStatistics(mainParam);
+//        break;
+//      case "2":
+//        mainParam.setPlateList(organizationApiResult.getNameList());
+//        list =  
+//            this.mainMapper.selectGradingStatistics(mainParam);
+//        break;
+//      case "3":
+//        mainParam.setCompanyList(organizationApiResult.getCodeList());
+//        list =  
+//            this.mainMapper.selectGradingStatistics(mainParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
+//    }
+    return list;
   }
 
   /**

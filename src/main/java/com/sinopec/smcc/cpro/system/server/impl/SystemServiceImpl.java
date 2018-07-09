@@ -102,7 +102,7 @@ public class SystemServiceImpl implements SystemService {
 		//获得相应列表数据
 		List<SystemListResult> systemListResultlist = new ArrayList<SystemListResult>();
 		
-//		//权限
+		//权限
 //    JurisdictionDataResult organizationApiResult = 
 //        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
 //    

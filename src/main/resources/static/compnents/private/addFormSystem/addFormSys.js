@@ -163,11 +163,14 @@ var  data={
           ],
           systemName:[  // 系统名称
               { required: true, message: '请输入系统名称', trigger: 'blur' },
-              { min: 1, max: 6, message: '长度在 1 到6个字符', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+          ],
+          standardizedCode:[  // 标准化代码
+              { required: true, message: '请输入标准化代码', trigger: 'blur' }
           ],
           gradeRecordSysName:[  // 等保备案系统名称
               { required: true, message: '请输入等保备案系统名称', trigger: 'blur' },
-              { min: 1, max: 6, message: '长度在 1 到6个字符', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在 1 到60个字符', trigger: 'blur' },
           ],
           appIsInternet:[  // 是否为互联网应用
               { required: true, message: '请选择是否为互联网应用', trigger: 'blur' },
@@ -201,19 +204,20 @@ var  data={
           ],
           executiveOfficeName:[  // 主管处室名称
               { required: true, message: '请输入主管处室名称', trigger: 'blur' },
-              { min: 1, max: 6, message: '长度在 1 到6个字符', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
           ],
           subIsSystem:[  // 系统是否为分系统
               { required: true, message: '请选择系统是否为分系统', trigger: 'blur' },
           ],
           executiveDireCon:[  // 主管联系人
               { required: true, message: '请输入主管联系人', trigger: 'blur' },
+              { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' },
           ],
           executiveDireConTel:[  // 主管联系人电话
               { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
               { min: 8, max: 12, message: '长度在 8 到 12个字符', trigger: 'blur' },
               { pattern: /^[0-9]*$/, message: '负责人联系电话输入有误', trigger: 'blur'}
-          ],
+          ]
       }
     };
 
@@ -234,6 +238,7 @@ var  data={
                   getTypeClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.fkInfoSysTypeCon = param;
+                    this.$refs.formData.validateField('fkInfoSysTypeCon');
                   },
                   getMergeClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -268,10 +273,12 @@ var  data={
                       ];
                       this.formData.systemName = "";
                     }
+                    this.$refs.formData.validateField('fkSystemIsMerge');
                   },
                   getRecordClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.appIsInternet = param;
+                    this.$refs.formData.validateField('appIsInternet');
                   },
                   getClass:function(e){
                     $("#sysType div div").click(function(){
@@ -286,9 +293,11 @@ var  data={
                       //$("#sysBusSituationType").val(e.target.innerHTML);
                       this.formData.sysBusSituationType = e.target.innerHTML;
                     }
+                    this.$refs.formData.validateField('sysBusSituationType');
                   },
                   getBus:function(){
                     this.formData.sysBusSituationType = $("#busSituationType").val();
+                    this.$refs.formData.validateField('sysBusSituationType');
                   },
                   getScopeClass:function(e){
                     $("#sysSerScope div div").click(function(){
@@ -308,15 +317,19 @@ var  data={
                       //$("#sysServiceSitScope").val(e.target.innerHTML);
                       this.formData.sysServiceSitScope = e.target.innerHTML;
                     }
+                    this.$refs.formData.validateField('sysServiceSitScope');
                   },
                   getScope1:function(){
                     this.formData.sysServiceSitScope = $("#serviceSitScope").val();
+                    this.$refs.formData.validateField('sysServiceSitScope');
                   },
                   getScope2:function(){
                     this.formData.sysServiceSitScope = "跨省（区、市）跨个^"+$("#serviceSitScope2").val();
+                    this.$refs.formData.validateField('sysServiceSitScope');
                   },
                   getScope3:function(){
                     this.formData.sysServiceSitScope = "跨地（区、市） 跨个^"+$("#serviceSitScope3").val();
+                    this.$refs.formData.validateField('sysServiceSitScope');
                   },
                   getObjectClass:function(e){
                     $("#sysSerObject div div").click(function(){
@@ -330,9 +343,11 @@ var  data={
                       //$("#sysServiceSitObject").val(e.target.innerHTML);
                       this.formData.sysServiceSitObject = e.target.innerHTML;
                     }
+                    this.$refs.formData.validateField('sysServiceSitObject');
                   },
                   getObject:function(){
                     this.formData.sysServiceSitObject = $("#serviceSitObject").val();
+                    this.$refs.formData.validateField('sysServiceSitObject');
                   },
                   getCoverageClass:function(e){
                     $("#sysCoverage div div").click(function(){
@@ -344,9 +359,11 @@ var  data={
                     }else{
                       this.formData.npCoverageRange = e.target.innerHTML;
                     }
+                    this.$refs.formData.validateField('npCoverageRange');
                   },
                   getCoverage:function(){
                     this.formData6.npCoverageRange = $("#coverageRange").val();
+                    this.$refs.formData.validateField('npCoverageRange');
                   },
                   getNetworkClass:function(e){
                     $("#sysNetwork div div").click(function(){
@@ -358,9 +375,11 @@ var  data={
                     }else{
                       this.formData.npNetworkProperties = e.target.innerHTML;
                     }
+                    this.$refs.formData.validateField('npNetworkProperties');
                   },
                   getNetwork:function(){
                     this.formData.npNetworkProperties = $("#networkProperties").val();
+                    this.$refs.formData.validateField('npNetworkProperties');
                   },
                   getSitClass:function(e){
                     $("#sysIntercon div div").click(function(){
@@ -373,13 +392,16 @@ var  data={
                       $("#interconnectionSit").val(e.target.innerHTML);
                       this.formData.interconnectionSit =e.target.innerHTML;
                     }
+                    this.$refs.formData.validateField('interconnectionSit');
                   },
                   getSit:function(){
                     this.formData.interconnectionSit = $("#interconnection").val();
+                    this.$refs.formData.validateField('interconnectionSit');
                   },
                   getSubClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.subIsSystem = param;
+                    this.$refs.formData.validateField('subIsSystem');
                   },
                   btnBoolen:function(e){
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");

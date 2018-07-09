@@ -219,7 +219,7 @@
                     </el-form-item>
                     <el-form-item label="" prop="fkBizSystemLevel" v-else-if="(formData.fkSpRanklevel !==0&&formData.fkSpRanklevel !=='0')&&formData.fkBizSystemLevel ===''">
                     </el-form-item>
-                </li>         
+                </li>
                 <li class="row liMargin">
                     <el-form-item label="定级说明描述：" prop="rankExplainDesc">
                         <div class="mcTextArea" @click="text">
@@ -291,7 +291,7 @@
                     <div class="col-lg-6 col-md-6 P-useData">
                         <el-form-item label="定级报告：" prop="gradingReportName">
                             <div class="clearfix sysText">
-                                <div class="uploadSty">
+                                <div class="uploadSty P-uploadSty">
                                     <ul class="fileList" id="fileList1">
                                     </ul>
                                     <el-button type="primary" size="small">上传</el-button>
@@ -322,8 +322,8 @@
                                     <div class="col-md-6" @click="getExpertClass($event,2)" v-show="expertType||((!expertType)&&formData.fkSpRanklevel==0)">未审批</div>
                                     <div class="col-md-6" style="background-color: #c7cace;color: #606266;" v-show="(!expertType)&&formData.fkSpRanklevel!==0">未审批</div>
                                 </div>
-                                <div class="uploadSty">
-                                    <ul class="fileList" id="fileList2" style="width: calc(50% - 70px);height: 36px;">
+                                <div class="uploadSty P-uploadSty">
+                                    <ul class="fileList" id="fileList2" style="width: calc(50% - 80px);height: 36px;padding-left:5px">
                                     </ul>
                                     <el-button type="primary" size="small" style="right: 0;height: 36px;">上传</el-button>
                                 </div>

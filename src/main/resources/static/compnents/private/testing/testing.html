@@ -9,157 +9,130 @@
                 <span class="fl revokeTitle" v-else>修改系统测评信息</span>
                 <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
             </p>
-            <form action="">
+            <el-form action="" :model="editData" :rules="rules" ref="editData" label-width="140px">
                 <ul class="clearfix">
                     <li class="row">
                         <div style="margin-left: 15px; width: 10%;">测评</div>
                     </li>
-                    <li class="row">
+                    <li class="row P-selfCheck">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
-                                <span class="xing" style="float: right">*<i style="color:#000;">测评项目名称：</i></span>
-                            </label>
-                            <div class="col-md-8 col-sm-3 evalName">
-                                <input type="text" value="" v-model="editData.examName">
-                            </div>
+                            <el-form-item label="测评项目名称：" prop="examName">
+                                <div class="col-md-8 col-sm-3" style="width: 80%;">
+                                    <input type="text" value="" v-model="editData.examName">
+                                </div>
+                            </el-form-item>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3">
-                                <span class="xing" style="float: right">*<i style="color:#000;">测评时间：</i></span>
-                            </label>
-                            <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.examTime" type="date" placeholder="选择日期" style="width: 66.66666667%;padding:0;"></el-date-picker>
+                            <el-form-item label="测评时间：" prop="examTime">
+                                <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.examTime" type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
+                            </el-form-item>
                         </div>
                     </li>
-                    <li class="row">
+                    <li class="row P-selfCheck">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
-                                <span class="xing" style="float: right">*<i style="color:#000;">测评机构：</i></span>
-                            </label>
-                            <div class="col-md-8 col-sm-3 evalName">
-                                <input type="text" value="" v-model="editData.examOrg">
-                            </div>
+                            <el-form-item label="测评机构：" prop="examOrg">
+                                <div class="col-md-8 col-sm-3" style="width: 80%;">
+                                    <input type="text" value="" v-model="editData.examOrg">
+                                </div>
+                            </el-form-item>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3">
-                                <span class="xing" style="float: right">*<i style="color:#000;">测评年度：</i></span>
-                            </label>
-                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:30px;top:5px;color: #cecece">|</span>
-                                <select class="form-control pos-relative"   v-model="editData.examYear">
-                                    <option>2016</option>
-                                    <option>2017</option>
-                                    <option>2018</option>
-                                    <option>2019</option>
-                                </select>
-                            </div>
+                            <el-form-item label="测评年度：" prop="examYear">
+                                <el-select class="col-md-8 col-sm-3"   v-model="editData.examYear" style="width: 80%;">
+                                    <el-option>2016</el-option>
+                                    <el-option>2017</el-option>
+                                    <el-option>2018</el-option>
+                                    <el-option>2019</el-option>
+                                </el-select>
+                            </el-form-item>
                         </div>
                     </li>
-                    <li class="row">
+                    <li class="row P-selfCheck">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
-                                <span class="xing" style="margin-left: 30px;float: right">*<i style="color:#000;">测评状态：</i></span>
-                            </label>
-                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:30px;top:5px;color: #cecece">|</span>
-                                <select class="form-control pos-relative"   v-model="editData.fkExamStatus">
-                                    <option value=0>请选择</option>
-                                    <option value=1>未测评</option>
-                                    <option value=2>已测评</option>
-                                </select>
-                            </div>
+                            <el-form-item label="测评状态：" prop="fkExamStatus">
+                                <el-select class="col-md-8 col-sm-3"   v-model="editData.fkExamStatus" style="width: 80%;">
+                                    <el-option value=0>请选择</el-option>
+                                    <el-option value=1>未测评</el-option>
+                                    <el-option value=2>已测评</el-option>
+                                </el-select>
+                            </el-form-item>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3">
-                                <span class="xing" style="float: right">*<i style="color:#000;">测评结果：</i></span>
-                            </label>
-                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:30px;top:5px;;color: #cecece">|</span>
-                                <select class="form-control pos-relative"   v-model="editData.fkExamResult">
-                                    <option value=0>请选择</option>
-                                    <option value=1>符合</option>
-                                    <option value=2>基本符合</option>
-                                    <option value=3>不符合</option>
-                                </select>
-                            </div>
+                            <el-form-item label="测评结果：" prop="fkExamResult">
+                                <el-select class="col-md-8 col-sm-3"   v-model="editData.fkExamResult" style="width: 80%;">
+                                    <el-option value=0>请选择</el-option>
+                                    <el-option value=1>符合</el-option>
+                                    <el-option value=2>基本符合</el-option>
+                                    <el-option value=3>不符合</el-option>
+                                </el-select>
+                            </el-form-item>
                         </div>
                     </li>
-                   <li class="row">
+                   <li class="row P-selfCheck">
                         <div class="col-md-12 report" style="padding-left: 15px;">
-                            <label for="" class="col-md-2" style="width: 136px;  min-width: 136px;padding:0;text-align: right;">
-                                <span class="xing">*</span>
-                                测评报告： 	
-                            </label>
-                            <div class="clearfix sysText col-md-9 uploadBox">
-							                <div class="uploadSty">
-							                  <ul class="fileList" id="fileList">
-							                  	<li v-if="editData.examReportName != null && editData.examReportName != ''">
-								                  	<div class="fl"  @click="fileDownload(editData.examReportPath,editData.examReportName,editData.examReport)" >{{editData.examReportName}}</div>
-								                  	<i @click="fileDel(editData.examReportPath,1)" class="el-icon-close fl"></i>
-							                  	</li>
-							                  </ul>
-							                  <el-button type="primary" size="small">上传</el-button>
-							                </div>
-							                <input type="file" value="" id="file" @change='onUpload'>
-							                <p>
-							                                                附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
-							                </p>
-							              </div>
+                            <el-form-item label="测评报告：" prop="examReportName">
+                                <div class="clearfix sysText col-md-9 uploadBox">
+                                    <div class="uploadSty">
+                                        <ul class="fileList" id="fileList">
+                                            <li v-if="editData.examReportName != null && editData.examReportName != ''">
+                                                <div class="fl"  @click="fileDownload(editData.examReportPath,editData.examReportName,editData.examReport)" >{{editData.examReportName}}</div>
+                                                <i @click="fileDel(editData.examReportPath,1)" class="el-icon-close fl"></i>
+                                            </li>
+                                        </ul>
+                                        <el-button type="primary" size="small">上传</el-button>
+                                    </div>
+                                    <input type="file" value="" id="file" @change='onUpload'>
+                                    <p>
+                                        附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+                                    </p>
+                                </div>
+                            </el-form-item>
                         </div>
                     </li>
                 </ul>
                 <ul class="clearfix">
                     <li>整改</li>
-                    <li class="row">
+                    <li class="row P-selfCheck">
                         <div class="col-md-6">
-                            <label for="" class="col-md-3" style="width: 136px;  min-width: 136px;">
-                                <span class="xing" style="float: right">*<i style="color:#000;">   整改结果：</i></span>
-                            </label>
-                            <div class="col-md-8 col-sm-3 evalName revData pos-relative">
-                                <span style="z-index:1;position: absolute;right:30px;top:5px;color: #cecece">|</span>
-                                <select id="h-selectzhenggai"
-                                         class=" form-control pos-relative" 
-                                         v-model="editData.fkRectificationReu">
-                                    <option value=0>请选择</option>
-                                    <option value=1>已整改</option>
-                                    <option value=2>未整改</option>
-                                </select>
-                            </div>
+                            <el-form-item label="整改结果：" prop="fkRectificationReu">
+                                <el-select id="h-selectzhenggai"
+                                        class="col-md-8 col-sm-3"
+                                        v-model="editData.fkRectificationReu" style="width: 80%;">
+                                    <el-option value=0>请选择</el-option>
+                                    <el-option value=1>已整改</el-option>
+                                    <el-option value=2>未整改</el-option>
+                                </el-select>
+                            </el-form-item>
                         </div>
                         <div class="col-md-6">
-                            <label for="" class="col-md-3">
-                             <i style="color:#000;float:right;">整改时间：</i>
-                                <span v-show="editData.fkRectificationReu==1" class="xing h-xing" 
-                                style="float: right;margin-top: 2px;">*</span>
-                               
-                            </label>
-                            <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.rectificationDate" type="date" placeholder="选择日期" style="width: 66.66666667%;padding:0;"></el-date-picker>
+                            <el-form-item label="整改时间：" prop="rectificationDate">
+                                <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.rectificationDate" type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
+                            </el-form-item>
                         </div>
                     </li>
-                   <li class="row">
+                   <li class="row P-selfCheck">
                         <div class="col-md-12 report" style="padding-left: 15px;">
-                            <label for="" class="col-md-2" style="width: 136px;  min-width: 136px; padding: 0px; text-align: right;">
-                                <span class="xing" v-show="editData.fkRectificationReu==1">*</span>
-                                整改报告：
-                            </label>
-                            <div class="clearfix sysText col-md-9 uploadBox">
-							                <div class="uploadSty">
-							                  <ul class="fileList" id="fileList2">
-							                  	<li v-if="!(editData.rectificationReportName == null || editData.rectificationReportName == '')">
-								                  	<div class="fl"  @click="fileDownload(editData.rectificationReportPath,editData.rectificationReportName,editData.rectificationReport)" >{{editData.rectificationReportName}}</div>
-								                  	<i @click="fileDel(editData.rectificationReportPath,2)" class="el-icon-close fl"></i>
-							                  	</li>
-							                  </ul>
-							                  <el-button type="primary" size="small">上传</el-button>
-							                </div>
-							                <input type="file" value="" id="file" @change='onUpload2'>
-							                <p>
-							                                                附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
-							                </p>
-							              </div>
+                            <el-form-item label="整改报告：" prop="rectificationReportName">
+                                <div class="clearfix sysText col-md-9 uploadBox">
+                                    <div class="uploadSty">
+                                        <ul class="fileList" id="fileList2">
+                                            <li v-if="!(editData.rectificationReportName == null || editData.rectificationReportName == '')">
+                                                <div class="fl"  @click="fileDownload(editData.rectificationReportPath,editData.rectificationReportName,editData.rectificationReport)" >{{editData.rectificationReportName}}</div>
+                                                <i @click="fileDel(editData.rectificationReportPath,2)" class="el-icon-close fl"></i>
+                                            </li>
+                                        </ul>
+                                        <el-button type="primary" size="small">上传</el-button>
+                                    </div>
+                                    <input type="file" value="" id="file" @change='onUpload2'>
+                                    <p>
+                                        附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+                                    </p>
+                                </div>
+                            </el-form-item>
                         </div>
                     </li>
                 </ul>
-            </form>
+            </el-form>
             <p class="h-p" style="width:100%;margin: -15px 15px;">
                 <button type="button" class="btn btn-default" style="float:right;margin-right: 35px;padding: 6px 10px; height: 34px; width: 70px;" @click="closes">
                     取消</button>

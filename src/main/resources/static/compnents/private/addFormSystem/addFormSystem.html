@@ -63,7 +63,7 @@
                           </el-form-item>
                       </div>
                       <div class="col-lg-6 col-md-6">
-                          <el-form-item label="标准化代码：" prop="" class="P-addsystem">
+                          <el-form-item label="标准化代码：" prop="standardizedCode" class="P-addsystem">
                               <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.standardizedCode" id="standardizedCode">
                           </el-form-item>
                       </div>
@@ -274,9 +274,9 @@
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="所属单位名称：" prop="companyName" class="P-addsystem">
-                                <el-select filterable name="companyName" placeholder="请选择" class="formControl" id="companyName" v-model="formData.companyName">
-                                  <el-option v-for="item in msgName" :key="item.companyCode" :label="item.companyName" :value="item.companyCode"></el-option>
-                                </el-select>
+                              <el-select filterable placeholder="请选择所属单位名称" clearable name="companyName" class="formControl" v-model="formData.companyName">
+                                <el-option v-for="item in msgName" :key="item.companyCode" :label="item.companyName" :value="item.companyCode"></el-option>
+                              </el-select>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">

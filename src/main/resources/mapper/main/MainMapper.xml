@@ -505,8 +505,30 @@
       AND code.systemFatherCode = 3
     LEFT JOIN t_cpro_system system
       ON score.fkSystemId = system.pkId
+    LEFT JOIN t_cpro_company com 
+      ON com.companyCode = system.fkCompanyCode
     <where>
       score.deleteStatus =1
+      <if test="companyList != null">
+        <![CDATA[
+          AND com.companyCode IN  
+        ]]>
+        <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="plateList != null">
+        <![CDATA[
+          AND com.fkPlateType IN  
+        ]]>
+        <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
       <if test="systemType != null and systemType == 1">
         <![CDATA[
            AND system.fkSystemType < 3

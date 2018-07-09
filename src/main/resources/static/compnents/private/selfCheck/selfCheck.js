@@ -36,6 +36,29 @@
 	    "totalPages": 2,
 	    "data": [],
 	  },
+    rules:{
+        inspectionDate:[ //自查时间
+            {required: true, message: '请输入自查时间', trigger: 'blur' },
+        ],
+        fkInspectionStatus:[ //自查状态
+            {required: true, message: '请选择自查状态', trigger: 'blur' },
+        ],
+        fkInspectionReu:[ //自查结果
+            {required: true, message: '请选择自查结果', trigger: 'blur' },
+        ],
+        fkRectificationReu:[ //整改结果
+            {required: true, message: '请选择整改结果', trigger: 'blur' },
+        ],
+        rectificationDate:[ //整改时间
+            {required: true, message: '请输入整改时间', trigger: 'blur' },
+        ],
+        examinationReportName:[ //自查报告
+            {required: true, message: '请上传自查报告', trigger: 'blur' },
+        ],
+        examinationRectificationReportName:[ //整改报告
+            {required: true, message: '请上传整改报告', trigger: 'blur' },
+        ],
+    },
   };
   Vue.component('selfCheck',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/selfCheck/selfCheck.html').then(function(res){
@@ -143,7 +166,7 @@
           saveSelfexaminationSuccess: function(_self, responseData){
           	_self.querySelfCheckList(_self);
           	//点击确定后关闭弹窗
-          	_self.closes();
+          	this.closes();
           },
           //点击 "X" 关闭弹框
           closes:function () {
@@ -172,8 +195,8 @@
           },
         //点击 "取消" 关闭弹框
           closes:function () {
-            $(".inquiry").css("display","none");
-            $(".dialogShaw").css("display","none");
+          	 var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+             evaluationAlert.style.display="none"
           },
           //删除自查信息
           deleteSelfexamination: function(selfexaminationId){

@@ -44,6 +44,40 @@
 			"rectificationReportPath": null,
 			"rectificationReportName": null,
 		},
+      rules:{
+          examName:[  //测评项目名称
+              {required: true, message: '请输入测评项目名称', trigger: 'blur' },
+              { min: 7, max: 12, message: '长度在 7 到 12个字符', trigger: 'blur' },
+		  ],
+          examTime:[  //测评时间
+              {required: true, message: '请输入测评时间', trigger: 'blur' },
+          ],
+          examOrg:[  //测评机构
+              {required: true, message: '请输入测评机构', trigger: 'blur' },
+              { min: 7, max: 12, message: '长度在 7 到 12个字符', trigger: 'blur' },
+          ],
+          examYear:[  //测评年度
+              {required: true, message: '请选择测评年度', trigger: 'blur' },
+          ],
+          fkExamStatus:[  //测评状态
+              {required: true, message: '请选择测评状态', trigger: 'blur' },
+          ],
+          fkExamResult:[  //测评结果
+              {required: true, message: '请选择测评结果', trigger: 'blur' },
+          ],
+          fkRectificationReu:[  //整改结果
+              {required: true, message: '请选择整改结果', trigger: 'blur' },
+          ],
+          rectificationDate:[  //整改时间
+              {required: true, message: '请输入整改时间', trigger: 'blur' },
+          ],
+          examReportName:[  //测评报告
+              {required: true, message: '请上传测评报告', trigger: 'blur' },
+          ],
+          rectificationReportName:[  //整改报告
+              {required: true, message: '请上传整改报告', trigger: 'blur' },
+          ],
+	  },
   };
   Vue.component('testing',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/testing/testing.html').then(function(res){

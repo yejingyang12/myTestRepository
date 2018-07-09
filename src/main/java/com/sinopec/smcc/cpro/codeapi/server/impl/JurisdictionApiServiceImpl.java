@@ -141,6 +141,8 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
             jurisdictionDataResult.setResultType("1");
           } else if (none.equals(rules[1].trim())) {
             jurisdictionDataResult.setResultType("0");
+          } else {
+            jurisdictionDataResult.setResultType("0");
           }
         }
       }
