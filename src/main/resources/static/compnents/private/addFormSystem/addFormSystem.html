@@ -64,7 +64,7 @@
                       </div>
                       <div class="col-lg-6 col-md-6">
                           <el-form-item label="标准化代码：" prop="standardizedCode" class="P-addsystem">
-                              <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.standardizedCode" id="standardizedCode">
+                            <el-input name="standardizedCode" id="standardizedCode" disabled placeholder="请输入" v-model="formData.standardizedCode"></el-input>
                           </el-form-item>
                       </div>
                    </li>
@@ -99,7 +99,7 @@
                     <li class="row">
                         <div class="col-lg-6 col-md-6">
                             <el-form-item label="等保备案系统名称：" prop="gradeRecordSysName" class="P-addsystem">
-                                <input type="text" placeholder="请输入" name="gradeRecordSysName" id="gradeRecordSysName" v-model="formData.gradeRecordSysName">
+                              <el-input name="gradeRecordSysName" id="gradeRecordSysName" placeholder="请输入" v-model="formData.gradeRecordSysName"></el-input>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">
@@ -140,8 +140,8 @@
                     <li class="row">
                         <div class="col-lg-11 text-center baseMesWrap">
                             <el-form-item label="业务描述：" prop="sysBusSituationType">
-                                <div class="mcTextArea col-lg-11 col-sm-3" @click="text">
-                                    <textarea cols="30" rows="10" placeholder="请输入" name="sysBusDescription" id="sysBusDescription" class="sysArea" v-model="formData.sysBusDescription"></textarea>
+                                <div class="col-lg-11 col-sm-3" @click="text" style="width: 100%;">
+                                    <el-input type="textarea" cols="30" rows="10" placeholder="请输入" name="sysBusDescription" id="sysBusDescription" class="sysArea" v-model="formData.sysBusDescription"></el-input>
                                     <span class='textAll'><span id="textNum">0</span>/200</span>
                                     <!-- 最多100字符，0处显示的是已经写了多少字符 -->
                                 </div>
@@ -288,7 +288,7 @@
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管处室名称：" prop="executiveOfficeName" class="P-addsystem">
-                                <input type="text"  placeholder="请输入" name="executiveOfficeName" id="executiveOfficeName" v-model="formData.executiveOfficeName">
+                               <el-input name="executiveOfficeName" id="executiveOfficeName" placeholder="请输入" v-model="formData.executiveOfficeName"></el-input>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">
@@ -304,12 +304,12 @@
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管联系人：" prop="executiveDireCon" class="P-addsystem">
-                                <input type="text"  placeholder="请输入" name="executiveDireCon" id="executiveDireCon" v-model="formData.executiveDireCon">
+                               <el-input name="executiveDireCon" id="executiveDireCon" placeholder="请输入" v-model="formData.executiveDireCon"></el-input>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管联系人电话：" prop="executiveDireConTel" class="P-addsystem">
-                                <input type="text"  placeholder="请输入" name="executiveDireConTel" id="executiveDireConTel" v-model="formData.executiveDireConTel">
+                              <el-input name="executiveDireConTel" id="executiveDireConTel" placeholder="请输入" v-model="formData.executiveDireConTel"></el-input>
                             </el-form-item>
                         </div>
                     </li>

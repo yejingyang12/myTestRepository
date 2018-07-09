@@ -162,11 +162,11 @@ var  data={
               { required: true, message: '请选择是否为合并系统', trigger: 'blur' },
           ],
           systemName:[  // 系统名称
-              { required: true, message: '请输入系统名称', trigger: 'blur' },
-              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+              { required: true, message: '请输入系统名称', trigger: 'change' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'change' },
           ],
           standardizedCode:[  // 标准化代码
-              { required: true, message: '请输入标准化代码', trigger: 'blur' }
+              { required: true, message: '请输入标准化代码', trigger: 'change' }
           ],
           gradeRecordSysName:[  // 等保备案系统名称
               { required: true, message: '请输入等保备案系统名称', trigger: 'blur' },
@@ -197,7 +197,7 @@ var  data={
               { required: true, message: '请选择系统互联情况', trigger: 'blur' },
           ],
           companyName:[  // 所属单位名称
-              { required: true, message: '请选择所属单位名称', trigger: 'blur' },
+              { required: true, message: '请选择所属单位名称', trigger: 'change' },
           ],
           whenInvestmentUse:[  // 何时投入使用
               { required: true, message: '请输入投入使用时间', trigger: 'blur' },
@@ -215,8 +215,7 @@ var  data={
           ],
           executiveDireConTel:[  // 主管联系人电话
               { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
-              { min: 8, max: 12, message: '长度在 8 到 12个字符', trigger: 'blur' },
-              { pattern: /^[0-9]*$/, message: '负责人联系电话输入有误', trigger: 'blur'}
+              { pattern: /^\d{8,12}$/, message: '负责人联系电话输入有误', trigger: 'blur'}
           ]
       }
     };
@@ -272,6 +271,7 @@ var  data={
 //                      }
                       ];
                       this.formData.systemName = "";
+                      this.formData.standardizedCode = "";
                     }
                     this.$refs.formData.validateField('fkSystemIsMerge');
                   },
