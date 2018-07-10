@@ -10,7 +10,7 @@ window.onload = function () {
         },
         methods:{
           //保存
-          saveBtn:function(formData) {
+          saveBtn:function(formName) {
             bus.$emit('gradGradingName',formName);
           },
           // 获取系统信息成功
@@ -22,7 +22,7 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //提交
-          submitBtn:function(formData) {
+          submitBtn:function(formName) {
             bus.$emit('gradSubmitGradingName',formName);
           },
           // 成功

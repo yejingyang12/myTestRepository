@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="width: 100%;height: 100%;">
 <head>
     <meta charset="UTF-8">
     <title>弹窗</title>
@@ -9,16 +9,40 @@
     <link rel="stylesheet" href="../../../css/public/bootstrap.css">
 </head>
 <body>
+    <el-button class="btn btn-success dianji">点击</el-button>
     <div class="startBox">
         <div v-if=""><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P></div>
-        <div v-else><i class="el-icon-circle-close" style="color:red;"></i><P>保存失败!</P></div>
+        <div v-else><i class="failIcon">!</i><P>保存失败!</P></div>
     </div>
-    <div class="inquiry">
-        <p>是否保存</p>
-        <div class="inquiryBtn">
-            <button type="button" class="btn btn-success fl">确定</button>
-            <button type="button" class="btn btn-default fr">取消</button>
+    <div class="inquiryBox">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否保存?</p>
+                    <span>未保存的部分将会消失哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success queding">确定</button>
+                <button type="button" class="btn btn-default quxiao">取消</button>
+            </div>
         </div>
     </div>
 </body>
+<script src="../../../js/public/jquery.min.js"></script>
+<script>
+    $(function(){
+        $(".dianji").click(function(){
+            $(".inquiryBox").show()
+        });
+        $(".queding").click(function(){
+            $(".inquiryBox").hide();
+            $(".startBox").show().delay(10000).fadeOut();
+        });
+        $(".quxiao").click(function(){
+            $(".inquiryBox").hide();
+        })
+    })
+</script>
 </html>

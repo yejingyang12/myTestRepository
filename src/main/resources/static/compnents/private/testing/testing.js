@@ -3,6 +3,8 @@
  */
 (function () {
   var data={
+  	years:[],
+  	yearType:'',
   	systemName: null,
 		visible2: -1,
 		show:{
@@ -47,14 +49,14 @@
       rules:{
           examName:[  //测评项目名称
               {required: true, message: '请输入测评项目名称', trigger: 'blur' },
-              { min: 7, max: 12, message: '长度在 7 到 12个字符', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
 		  ],
           examTime:[  //测评时间
               {required: true, message: '请输入测评时间', trigger: 'blur' },
           ],
           examOrg:[  //测评机构
               {required: true, message: '请输入测评机构', trigger: 'blur' },
-              { min: 7, max: 12, message: '长度在 7 到 12个字符', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
           ],
           examYear:[  //测评年度
               {required: true, message: '请选择测评年度', trigger: 'blur' },
@@ -78,6 +80,39 @@
               {required: true, message: '请上传整改报告', trigger: 'blur' },
           ],
 	  },
+	  examStatus: [{
+    	value: '',
+    	label: '请选择'
+    }, {
+    	value: 1,
+    	label: '未测评'
+    }, {
+    	value: 2,
+    	label: '已测评'
+    }],
+    examResult: [{
+    	value: '',
+    	label: '请选择'
+    },{
+    	value: 1,
+    	label: '符合'
+    }, {
+    	value: 2,
+    	label: '基本符合'
+    }, {
+    	value: 3,
+    	label: '不符合'
+    }],
+    rectificationReu: [{
+    	value: '',
+    	label: '请选择'
+    }, {
+    	value: 1,
+    	label: '已整改'
+    }, {
+    	value: 2,
+    	label: '未整改'
+    }],
   };
   Vue.component('testing',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/testing/testing.html').then(function(res){
@@ -192,14 +227,24 @@
           	_self.queryEvaluationList(_self);
           },
           //添加或编辑确定保存数据
-          saveEvaluation: function(){
+          saveEvaluation: function(formName){
           	var _self = this;
-          	 
-          	ajaxMethod(_self, 'post',
-              '/evaluation/saveEvaluation', true,
-              JSON.stringify(_self.editData), 'json',
-              'application/json;charset=UTF-8',
-              _self.saveEvaluationSuccessMethod);
+          	_self.$refs[formName].validate(function (valid) {
+              if (valid) {
+              	ajaxMethod(_self, 'post',
+                    '/evaluation/saveEvaluation', true,
+                    JSON.stringify(_self.editData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.saveEvaluationSuccessMethod);
+              } else {
+                _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                  confirmButtonText: '确定',
+                  callback: function callback(action) {
+                  }
+                });
+                return false;
+              }
+            });
           },
           saveEvaluationSuccessMethod: function(_self,data){
           	_self.queryEvaluationList(_self);
@@ -344,6 +389,15 @@
         	this.queryParam.fkSystemId = systemId;
         	this.querySystemName(this);
         	this.queryEvaluationList(this);
+        	
+        	 var date=new Date;
+           var year=date.getFullYear(); 
+           for(var i = year ; i>= 2013 ; i--){
+           	this.years.push({
+               "value":i,
+               "label":i
+             })
+           } 
         },
         mounted: function() {
         	var rowOne=document.getElementsByClassName('rowOne')[0];

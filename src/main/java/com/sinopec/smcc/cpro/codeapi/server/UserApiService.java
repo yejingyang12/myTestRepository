@@ -8,7 +8,7 @@
  */
 package com.sinopec.smcc.cpro.codeapi.server;
 
-import com.sinopec.smcc.cpro.codeapi.entity.UserInfoResult;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title UserApiService.java
@@ -20,5 +20,5 @@ import com.sinopec.smcc.cpro.codeapi.entity.UserInfoResult;
  */
 public interface UserApiService {
 
-  UserInfoResult getUserInfo();
+  UserDTO getUserInfo();
 }

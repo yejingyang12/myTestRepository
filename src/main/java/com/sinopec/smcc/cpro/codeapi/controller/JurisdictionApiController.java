@@ -23,14 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
-import com.sinopec.smcc.depends.ubs.util.UbsUtil;
+import com.sinopec.smcc.cpro.codeapi.server.impl.UserApiServiceImpl;
+import com.sinopec.smcc.depends.ubs.dto.ResourceDTO;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 
 /**
  * @Title JurisdictionApiController.java
@@ -48,7 +49,10 @@ public class JurisdictionApiController {
   private JurisdictionApiService jurisdictionApiServiceImpl;
   
   @Autowired
-  private UbsUtil ubsUtil;
+  private UserApiServiceImpl userApiServiceImpl;
+  
+  @Autowired
+  private UbsFeignTemplate ubsFeignTemplate;
 
   @Value("${appId}")
   private String appId;
@@ -77,45 +81,36 @@ public class JurisdictionApiController {
   @ResponseBody
   @RequestMapping(value="/queryMenuJurisdictionApi", method = RequestMethod.GET)
   public ResultApi queryMenuJurisdictionApi(HttpServletRequest request) throws BusinessException{
-    
     ResultApi api = new ResultApi();
-
-    JSONObject json = this.ubsUtil.getMenuPermissions();
-    if (json != null) {
+    UserDTO userDTO = this.userApiServiceImpl.getUserInfo();
+    List<ResourceDTO> resourceDtoList = ubsFeignTemplate.getResourcesByUserId(userDTO.getUserId()+"");
+    if (resourceDtoList != null && resourceDtoList.size()>0) {
       List<Map<String, Object>> backMenu = new ArrayList<Map<String,Object>>();
-      boolean success = json.getBoolean("success").booleanValue();
-      if (success) {
-        JSONArray dataArray = JSONArray.parseArray(json.getString("data"));
-        for (int i = 0; i < dataArray.size(); ++i) {
-          JSONObject obj = (JSONObject)dataArray.get(i);
-          String parentId = obj.getString("parentId");
-          String resourceId = obj.getString("resourceId");
-          if (StringUtils.isBlank(parentId)) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            convert(map, obj);
-            List<Map<String, Object>> childList = getChild(resourceId, dataArray);
-            map.put("children", ((childList != null) && (childList.size() > 0)) ? childList : null);
-            backMenu.add(map);
-          }
+      for (ResourceDTO resourceDto : resourceDtoList) {
+        if (StringUtils.isBlank(resourceDto.getParentId())) {
+          Map<String, Object> map = new HashMap<String, Object>();
+          convert(map, resourceDto);
+          List<Map<String, Object>> childList = 
+              getChild(resourceDto.getResourceId(), resourceDtoList);
+          map.put("children", ((childList != null) && (childList.size() > 0)) ? childList : null);
+          backMenu.add(map);
         }
-        api.setData(backMenu);
-      } else {
-        api.setMsg(json.getString("msg"));
       }
+      api.setData(backMenu);
     }
     return api;
   }
   
-  private List<Map<String, Object>> getChild(String resourceId, JSONArray menuData)
+  private List<Map<String, Object>> getChild(String resourceId, List<ResourceDTO> resourceDtoList)
   {
     List<Map<String, Object>> childMenu = new ArrayList<Map<String, Object>>();
-    for (int i = 0; i < menuData.size(); ++i) {
-      JSONObject obj = (JSONObject)menuData.get(i);
-      String parentId = obj.getString("parentId");
-      if ((!(StringUtils.isNotBlank(parentId))) || 
-        (!(resourceId.equals(parentId)))) continue;
+    for (ResourceDTO ResourceDto : resourceDtoList) {
+      if (StringUtils.isBlank(ResourceDto.getParentId()) || 
+        !resourceId.equals(ResourceDto.getParentId())) {
+        continue;
+      }
       Map<String, Object> map = new HashMap<String, Object>();
-      convert(map, obj);
+      convert(map, ResourceDto);
       childMenu.add(map);
     }
 
@@ -124,20 +119,20 @@ public class JurisdictionApiController {
       String childResourceId = (String)child.get("resourceId");
 
       if (hasChild > 0) {
-        List<Map<String, Object> > childList = getChild(childResourceId, menuData);
+        List<Map<String, Object> > childList = getChild(childResourceId, resourceDtoList);
         child.put("children", ((childList != null) && (childList.size() > 0)) ? childList : null);
       }
     }
     return childMenu;
   }
 
-  private void convert(Map<String, Object> map, JSONObject obj) {
-    map.put("hasChild", obj.get("hasChild"));
-    map.put("resourceUrl", obj.get("resourceUrl"));
-    map.put("resourceId", obj.get("resourceId"));
-    map.put("resourceName", obj.get("resourceName"));
-    map.put("resourceType", obj.get("resourceType"));
-    map.put("resourceCode", obj.get("resourceCode"));
-    map.put("parentId", obj.get("parentId"));
+  private void convert(Map<String, Object> map, ResourceDTO resourceDto) {
+    map.put("hasChild", resourceDto.getHasChild());
+    map.put("resourceUrl", resourceDto.getResourceUrl());
+    map.put("resourceId", resourceDto.getResourceId());
+    map.put("resourceName", resourceDto.getResourceName());
+    map.put("resourceType", resourceDto.getResourceType());
+    map.put("resourceCode", resourceDto.getResourceCode());
+    map.put("parentId", resourceDto.getParentId());
   }
 }

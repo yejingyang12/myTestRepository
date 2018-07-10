@@ -59,6 +59,39 @@
             {required: true, message: '请上传整改报告', trigger: 'blur' },
         ],
     },
+    inspectionReu: [{
+      value: '',
+      label: '请选择'
+    }, {
+      value: 1,
+      label: '符合'
+    }, {
+      value: 2,
+      label: '基本符合'
+    }, {
+      value: 3,
+      label: '不符合'
+    }],
+    inspectionStatus: [{
+    	value: '',
+    	label: '请选择'
+    }, {
+    	value: 1,
+    	label: '未自查'
+    }, {
+    	value: 2,
+    	label: '已自查'
+    }],
+    rectificationReu: [{
+    	value: '',
+    	label: '请选择'
+    }, {
+    	value: 1,
+    	label: '已整改'
+    }, {
+    	value: 2,
+    	label: '未整改'
+    }],
   };
   Vue.component('selfCheck',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/selfCheck/selfCheck.html').then(function(res){
@@ -155,13 +188,23 @@
           },
           
           //保存自查信息
-          saveSelfexamination: function () {
+          saveSelfexamination: function (formName) {
           	var _self=this;
-          	ajaxMethod(_self, "post", 
-          			"/selfexamination/saveSelfexamination", false ,
-          			JSON.stringify(_self.editParam), "json", 
-          			'application/json;charset=UTF-8', _self.saveSelfexaminationSuccess);
-
+          	_self.$refs[formName].validate(function (valid) {
+              if (valid) {
+              	ajaxMethod(_self, "post", 
+              			"/selfexamination/saveSelfexamination", false ,
+              			JSON.stringify(_self.editParam), "json", 
+              			'application/json;charset=UTF-8', _self.saveSelfexaminationSuccess);
+              } else {
+                _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                  confirmButtonText: '确定',
+                  callback: function callback(action) {
+                  }
+                });
+                return false;
+              }
+            });
           },
           saveSelfexaminationSuccess: function(_self, responseData){
           	_self.querySelfCheckList(_self);

@@ -13,25 +13,25 @@ var data={};
                 },
                 methods:{
                     addNum:function (e,index) {
-                        var n = parseInt(e.target.previousElementSibling.value);
+                        var n = this.formData.systemKeyProducts[index].nUseProbability;
                         if( n == 100){
-                            e.target.previousElementSibling.value = 100;
+                          this.formData.systemKeyProducts[index].nUseProbability = 100;
+                        }else if(n>0||n==0){
+                          this.formData.systemKeyProducts[index].nUseProbability++;
                         }else{
-                            e.target.previousElementSibling.value++;
+                          this.formData.systemKeyProducts[index].nUseProbability=0;
                         }
-                        
-                        this.formData.systemKeyProducts[index].nUseProbability = n;
                     },
                     oddNum:function (e,index) {
-                        var n = parseInt(e.target.previousElementSibling.previousElementSibling.value);
+                        var n = this.formData.systemKeyProducts[index].nUseProbability;
                         if(n == 0){
-                            e.target.previousElementSibling.previousElementSibling.value = 0;
+                          this.formData.systemKeyProducts[index].nUseProbability = 0;
+                        }else if(n>0){
+                          this.formData.systemKeyProducts[index].nUseProbability--;
                         }else{
-                            e.target.previousElementSibling.previousElementSibling.value--;
+                          this.formData.systemKeyProducts[index].nUseProbability = 0;
                         }
-                        this.formData.systemKeyProducts[index].nUseProbability = n;
                     },
-                    
                     
                     //获取产品类型信息
                     getProductTypeMethod: function(_self) {
@@ -78,23 +78,30 @@ var data={};
                     },
                     //获取是否使用国产品信息
                     getNationalProductsMethod: function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"9"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getNationalProductsSuccessMethod);
+//                      ajaxMethod(_self, 'post',
+//                          'systemCode/querySystemCodeForKeySystemCode', true,
+//                          '{"codeType":"9"}', 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getNationalProductsSuccessMethod);
+                      var products = JSON.parse('[{"codeName":"请选择","systemCode":""},{"codeName":"全部使用","systemCode":1},{"codeName":"全部未使用","systemCode":2},{"codeName":"部分使用","systemCode":3}]');
+                      _self.sysNationalProducts = products;
                     },
                     // 获取是否使用国产品信息
                     getNationalProductsSuccessMethod : function(_self, responseData) {
+                      
                       _self.sysNationalProducts = responseData.data;
                     },
                     //获取服务责任方类型
                     getResponsibleMethod: function(_self) {
-                      ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
-                          '{"codeType":"15"}', 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getResponsibleSuccessMethod);
+//                      ajaxMethod(_self, 'post',
+//                          'systemCode/querySystemCodeForKeySystemCode', true,
+//                          '{"codeType":"15"}', 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getResponsibleSuccessMethod);
+                      
+                      var responsible = '[{"codeName":"请选择","systemCode":""},{"codeName":"本行业（单位）","systemCode":1},{"codeName":"国内其他服务商","systemCode":2},{"codeName":"国外服务商","systemCode":3}]'
+                      _self.sysResponsible = JSON.parse(responsible);
+                      _self.sysIs = JSON.parse('[{"codeName":"请选择","systemCode":""},{"codeName":"是","systemCode":1},{"codeName":"否","systemCode":2}]');
                     },
                     // 获取服务责任方类型
                     getResponsibleSuccessMethod : function(_self, responseData) {
@@ -125,6 +132,9 @@ var data={};
                         }
                       }
                     },
+                    refMethod:function(number){
+                      bus.$emit('ref',number);
+                    }
                 },
                 created: function() {
                   //获取产品类型
@@ -139,7 +149,17 @@ var data={};
                   this.getResponsibleMethod(this);
                 },
                 mounted: function() {
-                    // this.selectChange()
+                  bus.$on('ref2',function(meg){
+//                    if(meg!=null){
+//                        meg.$refs.formData.validateField('systemKeyOtherName');
+//                        meg.$refs.formData.validateField('systemKeyProductsNumber');
+//                        meg.$refs.formData.validateField('systemKeyFkNationalIsProducts');
+//                        meg.$refs.formData.validateField('systemKeyNUseProbability');
+//                        meg.$refs.formData.validateField('systemUseOtherName');
+//                        meg.$refs.formData.validateField('systemUseFkResponsibleType');
+//                        meg.$refs.formData.validateField('systemUseOtherName');
+//                    }
+                  });
                 }
             })
         })

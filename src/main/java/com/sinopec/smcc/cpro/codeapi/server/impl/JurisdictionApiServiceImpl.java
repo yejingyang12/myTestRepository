@@ -13,13 +13,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
-import com.sinopec.smcc.cpro.codeapi.entity.UserInfoResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
@@ -28,9 +26,9 @@ import com.sinopec.smcc.cpro.company.mapper.CompanyMapper;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.mapper.SystemCodeMapper;
-import com.sinopec.smcc.depends.ubs.client.UbsClient;
-import com.sinopec.smcc.depends.ubs.model.AuthResult;
-import com.sinopec.smcc.depends.ubs.util.UbsUtil;
+import com.sinopec.smcc.depends.ubs.dto.AuthorizationDTO;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 
 /**
  * @Title JurisdictionApiServiceImpl.java
@@ -44,9 +42,7 @@ import com.sinopec.smcc.depends.ubs.util.UbsUtil;
 public class JurisdictionApiServiceImpl implements JurisdictionApiService{
   
   @Autowired
-  private UbsClient ubsClient;
-  @Autowired
-  private UbsUtil ubsUtil;
+  private UbsFeignTemplate ubsFeignTemplate;
   
   @Value("${appId}")
   private String appId;
@@ -76,20 +72,15 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
   @Override
   public JurisdictionDataResult queryDataJurisdictionApi() {
     JurisdictionDataResult jurisdictionDataResult = new JurisdictionDataResult();
-    AuthResult jsonMenu = this.ubsUtil.getDataPermissions(redisId);
-    String rulesTemp = jsonMenu.getRule();
-    if (StringUtils.isBlank(rulesTemp)) {
-      return jurisdictionDataResult;
-    }
-    //通过Or切分多个
-    String[] rulesOr = rulesTemp.split("Or");
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    List<AuthorizationDTO> jsonMenu = this.ubsFeignTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
     
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();
-    
-    for (String ruleOr : rulesOr) {
+    for (AuthorizationDTO authorizationDTO : jsonMenu) {
     //通过等号切分
-      String[] rules = ruleOr.split("=");
+      String[] rules = authorizationDTO.getRule().split("=");
       if (rules.length==2) {
         //如果是两个，代表数据正确，去掉左右空格
         if ("orgCode".equals(rules[0].trim())) {
@@ -119,11 +110,9 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
             }
             jurisdictionDataResult.setResultType("2");
           }
-        } else if ("组织通配符".equals(rules[0].trim())){
-          //获得用户信息
-          UserInfoResult userInfoResult = userApiServiceImpl.getUserInfo();
+        } else if ("TPF".equals(rules[0].trim())){
           if (org.equals(rules[1].trim())) {
-            String[] orgCodes = userInfoResult.getData().getOrgCode().split(",");
+            String[] orgCodes = userDTO.getOrgCode().split(",");
             for (String orgCode : orgCodes) {
               if (orgCode.trim().length()>8) {
                 orgCode = orgCode.trim().substring(0, 8);

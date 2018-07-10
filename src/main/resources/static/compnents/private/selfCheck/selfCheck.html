@@ -21,23 +21,39 @@
                         </div>
                         <div class="col-md-6">
 							<el-form-item label="自查状态：" prop="fkInspectionStatus">
-								<el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionStatus" style="width: 80%;">
+								<!-- <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionStatus" style="width: 80%;">
                   <el-option  label="请选择" value="0"></el-option>
                   <el-option  label="未自查" value="1"></el-option>
                   <el-option  label="已自查" value="2"></el-option>
-								</el-select>
+								</el-select> -->
+								    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change"  filterable placeholder="请选择">
+                         <el-option
+	                          v-for="item in inspectionStatus"
+	                          :key="item.value"
+	                          :label="item.label"
+	                          :value="item.value">
+                        </el-option>
+                    </el-select>
 							</el-form-item>
                         </div>
                     </li>
                     <li class="row P-selfCheck">
                         <div class="col-md-6">
                             <el-form-item label="自查结果：" prop="fkInspectionReu">
-                                <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionReu" style="width: 80%;">
+                       <!--        <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionReu" style="width: 80%;">
                                     <el-option  label="请选择" value="0"></el-option>
                                     <el-option  label="符合" value="1"></el-option>
                                     <el-option  label="基本符合" value="2"></el-option>
                                     <el-option  label="不符合" value="3"></el-option>
-                                </el-select>
+                                </el-select> -->
+                              <el-select v-model="editParam.fkInspectionReu" :disabled = "change"  filterable placeholder="请选择">
+                                   <el-option
+															      v-for="item in inspectionReu"
+															      :key="item.value"
+															      :label="item.label"
+															      :value="item.value">
+															    </el-option>
+                              </el-select>
                             </el-form-item>
                         </div>
                     </li>
@@ -68,11 +84,19 @@
                     <li class="row P-selfCheck">
                         <div class="col-md-6">
                             <el-form-item label="整改结果：" prop="fkRectificationReu">
-                                <el-select class="col-md-8 col-sm-3"  v-model="editParam.fkRectificationReu" style="width: 80%;">
+                                <!-- <el-select class="col-md-8 col-sm-3"  v-model="editParam.fkRectificationReu" style="width: 80%;">
                                     <el-option  label="请选择" value="0"></el-option>
                                     <el-option  label="已整改" value="1"></el-option>
                                     <el-option  label="未整改" value="2"></el-option>
-                                </el-select>
+                                </el-select> -->
+                                <el-select v-model="editParam.fkRectificationReu" :disabled = "change"  filterable placeholder="请选择">
+					                         <el-option
+					                            v-for="item in rectificationReu"
+					                            :key="item.value"
+					                            :label="item.label"
+					                            :value="item.value">
+						                        </el-option>
+						                    </el-select>
                             </el-form-item>
                         </div>
                         <div class="col-md-6">
@@ -111,7 +135,7 @@
                         class="btn btn-default" style="padding: 2px 20px;float:right;margin-right: 35px;padding: 6px 10px; margin-bottom: 15px" @click="closes">
                     取消</button>
                 <button type="button" class="btn"
-                        @click="saveSelfexamination"
+                        @click="saveSelfexamination('editParam')"
                         style="padding: 2px 20px;float:right;margin-right:10px;margin-bottom:15px;background-color: #1e91e2;color:#fff;">确认
                 </button>
 

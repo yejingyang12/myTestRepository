@@ -1308,6 +1308,23 @@ var data={
                        });
                      }
                    });
+                   bus.$on('materialFormName',function(meg){
+                  	 if(meg!=null){
+                  		 _self.$refs[meg].validate(function (valid) {
+                  			 if (valid) {
+                  				 bus.$emit('materialFormAjax',"add");
+                  			 } else {
+                  				 _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                  					 confirmButtonText: '确定',
+                  					 callback: function callback(action) {
+                  					 }
+                  				 });
+                  				 return false;
+                  			 }
+                  		 });
+                  	 }
+                   });
+                   
                 }
             })
         })

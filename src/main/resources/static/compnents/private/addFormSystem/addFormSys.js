@@ -128,7 +128,14 @@ var  data={
           fkSystemId:"",
           serviceIsUse:"",
           otherName:""
-        }]
+        }],
+        systemKeyProductsNumber:'',
+        systemKeyFkNationalIsProducts:'',
+        systemKeyNUseProbability:'',
+        systemKeyOtherName:'',
+        systemUseServiceIsUse:'',
+        systemUseFkResponsibleType:'',
+        systemUseOtherName:''
       },
       systemInfo2:false,
       addSub:true,
@@ -141,6 +148,7 @@ var  data={
       sysIntercon:[],//系统互联情况
       msgName : [],//所属单位名称
       sysSubsystem:[],//系统是否为分系统
+      sysIs:[],
       num : 2, //定义一个变量
       systemInfo:true,
       systemSonInfo:false,
@@ -216,6 +224,33 @@ var  data={
           executiveDireConTel:[  // 主管联系人电话
               { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
               { pattern: /^\d{8,12}$/, message: '负责人联系电话输入有误', trigger: 'blur'}
+          ],
+          systemKeyProducts:[  // 关键产品
+              { required: true, message: '关键产品使用情况', trigger: 'blur' }
+          ],
+          systemKeyProductsNumber:[  // 关键产品
+              { required: true, message: '请选择关键产品使用情况-数量', trigger: 'change' }
+          ],
+          systemKeyFkNationalIsProducts:[  // 关键产品
+              { required: true, message: '请选择关键产品使用情况-是否使用国产品', trigger: 'change' }
+          ],
+          systemKeyNUseProbability:[  // 关键产品
+              { required: true, message: '请选择关键产品使用情况-使用国产品率', trigger: 'change' }
+          ],
+          systemKeyOtherName:[  // 关键产品
+              { required: true, message: '请输入关键产品使用情况-其它名称', trigger: 'blur' }
+          ],
+          systemUseServices:[  // 关键产品
+              { required: true, message: '选择关键产品', trigger: 'blur' }
+          ],
+          systemUseServiceIsUse:[  // 关键产品
+              { required: true, message: '请选择系统采用服务情况--是否采用', trigger: 'change' }
+          ],
+          systemUseFkResponsibleType:[  // 关键产品
+              { required: true, message: '请选择系统采用服务情况-- 服务责任方类型', trigger: 'change' }
+          ],
+          systemUseOtherName:[  // 关键产品
+              { required: true, message: '请输入系统采用服务情况--其它名称', trigger: 'blur' }
           ]
       }
     };
@@ -974,6 +1009,12 @@ var  data={
                           return false;
                         }
                       });
+                    }
+                  });
+                  
+                  bus.$on('ref',function(meg){
+                    if(meg!=null){
+                      bus.$emit('ref2',_self);
                     }
                   });
                 }
