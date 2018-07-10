@@ -104,7 +104,7 @@
         </el-form-item>
         <div v-for="(itme,index) in sysServiceType" >
           <el-form-item label="" prop="systemUseServiceIsUse" v-if="formData.systemUseServices[index].serviceIsUse ===''"></el-form-item>
-          <el-form-item label="" prop="systemUseFkResponsibleType" v-else-if="formDatasystemUseServices[index].fkResponsibleType ==='' "></el-form-item>
+          <el-form-item label="" prop="systemUseFkResponsibleType" v-else-if="formData.systemUseServices[index].fkResponsibleType ==='' "></el-form-item>
           <el-form-item label="" prop="systemUseOtherName" v-else-if="itme.codeName=='其它'&&formData.systemUseServices[index].otherName ===''"></el-form-item>
         </div>
     </div>
