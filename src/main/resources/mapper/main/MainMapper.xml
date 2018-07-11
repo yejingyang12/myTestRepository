@@ -66,8 +66,8 @@
         AND score.pkId = gradingAttch.fkSyssonId
         AND gradingAttch.fkAttachType = 'gradingReport'
       LEFT JOIN t_cpro_attach AS checkAttch 
-        ON examine.fkSystemId = checkAttch.fkSystemId
-        AND examine.pkId = checkAttch.fkSyssonId
+        ON score.fkSystemId = checkAttch.fkSystemId
+        AND score.pkId = checkAttch.fkSyssonId
         AND checkAttch.fkAttachType = 'expertReview'
       LEFT JOIN t_cpro_attach AS evaluationAttch 
         ON evaluation.fkSystemId = evaluationAttch.fkSystemId
@@ -76,22 +76,22 @@
       LEFT JOIN t_cpro_attach AS selfAttch 
         ON selfInspection.fkSystemId = selfAttch.fkSystemId
         AND selfInspection.pkId = selfAttch.fkSyssonId
-        AND selfAttch.fkAttachType = 'expertReview'
+        AND selfAttch.fkAttachType = 'examinationReport'
       LEFT JOIN t_cpro_system_code AS gradingSystemCode 
         ON system.gradingStatus = gradingSystemCode.systemCode
         AND gradingSystemCode.fkCodeType = 25
-	    LEFT JOIN t_cpro_system_code AS examineSystemCode 
-	      ON system.examineStatus = examineSystemCode.systemCode
-	      AND examineSystemCode.fkCodeType = 25
-	    LEFT JOIN t_cpro_system_code AS recordSystemCode 
-	      ON system.recordStatus = recordSystemCode.systemCode
-	      AND recordSystemCode.fkCodeType = 25
-	    LEFT JOIN t_cpro_system_code AS evaluationSystemCode 
-	      ON system.evaluationStatus = evaluationSystemCode.systemCode
-	      AND evaluationSystemCode.fkCodeType = 25
-	    LEFT JOIN t_cpro_system_code AS examinationSystemCode 
-	      ON system.examinationStatus = examinationSystemCode.systemCode
-	      AND examinationSystemCode.fkCodeType = 25
+      LEFT JOIN t_cpro_system_code AS examineSystemCode 
+        ON system.examineStatus = examineSystemCode.systemCode
+        AND examineSystemCode.fkCodeType = 25
+      LEFT JOIN t_cpro_system_code AS recordSystemCode 
+        ON system.recordStatus = recordSystemCode.systemCode
+        AND recordSystemCode.fkCodeType = 25
+      LEFT JOIN t_cpro_system_code AS evaluationSystemCode 
+        ON system.evaluationStatus = evaluationSystemCode.systemCode
+        AND evaluationSystemCode.fkCodeType = 25
+      LEFT JOIN t_cpro_system_code AS examinationSystemCode 
+        ON system.examinationStatus = examinationSystemCode.systemCode
+        AND examinationSystemCode.fkCodeType = 25
     ]]>
     <where>
       <if test="companyList != null">

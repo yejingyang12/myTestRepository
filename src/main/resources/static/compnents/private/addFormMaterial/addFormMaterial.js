@@ -67,16 +67,17 @@ var data={
                       this.formData.topologyDescriptionPath=responseData.data.uploadUrl;
                     }*/
                     
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $('#fileList').append(fileHtml);
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
+                    	uploadUrl = uploadUrl.split("&");
                       var len = _self.formData.topologyDescriptionList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.topologyDescriptionList[i].uploadUrl == uploadUrl){
+                      	if(_self.formData.topologyDescriptionList[i].uploadUrl == uploadUrl[0]){
                       		_self.formData.topologyDescriptionList.splice(i,1);
                       		$(this).parent("li").remove();
-                      		_self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
                       }
@@ -86,7 +87,8 @@ var data={
                     });
                     $(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
-                      _self.fileDownload(fileId,2);
+                    	fileId = fileId.split("&");
+                      _self.fileDownload(fileId[0],1,fileId[1]);
                     });
                   },
                   onUpload2: function(e){
@@ -103,16 +105,17 @@ var data={
                   	_self.setShowAttachName(_self);
                   	/*this.formData.organizationManagementName=responseData.data.attachName;
                     this.formData.organizationManagementPath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $('#fileList2').append(fileHtml);
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
+                    	uploadUrl = uploadUrl.split("&");
                       var len = _self.formData.organizationManagementList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl){
+                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl[0]){
                       		_self.formData.organizationManagementList.splice(i,1);
                       		$(this).parent("li").remove();
-                      		_self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
                       }
@@ -122,7 +125,8 @@ var data={
                     });
                     $(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
-                      _self.fileDownload(fileId,2);
+                    	fileId = fileId.split("&");
+                      _self.fileDownload(fileId[0],1,fileId[1]);
                     });
                   },
                   onUpload3: function(e){
@@ -139,16 +143,17 @@ var data={
                   	_self.setShowAttachName(_self);
                     /*this.formData.implementationPlanName=responseData.data.attachName;
                     this.formData.implementationPlanPath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $("#fileList3").append(fileHtml);
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
-                      var len = _self.formData.organizationManagementList.length;
+                    	uploadUrl = uploadUrl.split("&");
+                      var len = _self.formData.implementationPlanList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl){
-                      		_self.formData.organizationManagementList.splice(i,1);
+                      	if(_self.formData.implementationPlanList[i].uploadUrl == uploadUrl[0]){
+                      		_self.formData.implementationPlanList.splice(i,1);
                       		$(this).parent("li").remove();
-                      		_self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
+                      		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
                       }
@@ -158,7 +163,8 @@ var data={
                     });
                     $(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
-                      _self.fileDownload(fileId,2);
+                    	fileId = fileId.split("&");
+                      _self.fileDownload(fileId[0],1,fileId[1]);
                     });
                   },
                   onUpload4: function(e){
@@ -175,16 +181,17 @@ var data={
                   	_self.setShowAttachName(_self);
                     /*this.formData.licenseCertificateName=responseData.data.attachName;
                     this.formData.licenseCertificatePath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $("#fileList4").append(fileHtml);
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
-                      var len = _self.formData.organizationManagementList.length;
+                    	uploadUrl = uploadUrl.split("&");
+                      var len = _self.formData.licenseCertificateList.length;
                       for(var i=0;i<len;i++){
-                      	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl){
-                      		_self.formData.organizationManagementList.splice(i,1);
+                      	if(_self.formData.licenseCertificateList[i].uploadUrl == uploadUrl[0]){
+                      		_self.formData.licenseCertificateList.splice(i,1);
                       		$(this).parent("li").remove();
-                      		_self.fileDel(uploadUrl,1,responseData.data.attachName);
+                      		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
                       }
@@ -194,7 +201,8 @@ var data={
                     });
                     $(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
-                      _self.fileDownload(fileId,2);
+                    	fileId = fileId.split("&");
+                      _self.fileDownload(fileId[0],1,fileId[1]);
                     });
                   },
                   fileDel:function(path,type){
@@ -348,7 +356,7 @@ var data={
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        _self.fileDownload(fileId,2);
+                      	_self.fileDownload(fileId,2);
                       });
                     }
                     
@@ -376,7 +384,7 @@ var data={
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        _self.fileDownload(fileId,2);
+                      	_self.fileDownload(fileId,2);
                       });
                     }
                     
@@ -404,7 +412,7 @@ var data={
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
-                        _self.fileDownload(fileId,2);
+                      	_self.fileDownload(fileId,2);
                       });
                     }
                   },

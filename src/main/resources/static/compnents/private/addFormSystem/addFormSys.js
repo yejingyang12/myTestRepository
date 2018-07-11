@@ -133,9 +133,6 @@ var  data={
         systemKeyFkNationalIsProducts:'',
         systemKeyNUseProbability:'',
         systemKeyOtherName:'',
-        systemUseServiceIsUse:'',
-        systemUseFkResponsibleType:'',
-        systemUseOtherName:''
       },
       systemInfo2:false,
       addSub:true,
@@ -211,18 +208,18 @@ var  data={
               { required: true, message: '请输入投入使用时间', trigger: 'blur' },
           ],
           executiveOfficeName:[  // 主管处室名称
-              { required: true, message: '请输入主管处室名称', trigger: 'blur' },
-              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+              { required: false, message: '请输入主管处室名称', trigger: 'blur' },
+              { min: 0, max: 60, message: '长度在 0 到 60个字符', trigger: 'blur' },
           ],
           subIsSystem:[  // 系统是否为分系统
               { required: true, message: '请选择系统是否为分系统', trigger: 'blur' },
           ],
           executiveDireCon:[  // 主管联系人
-              { required: true, message: '请输入主管联系人', trigger: 'blur' },
-              { min: 1, max: 40, message: '长度在 1 到 40个字符', trigger: 'blur' },
+              { required: false, message: '请输入主管联系人', trigger: 'blur' },
+              { min: 0, max: 40, message: '长度在 0 到 40个字符', trigger: 'blur' },
           ],
           executiveDireConTel:[  // 主管联系人电话
-              { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
+              { required: false, message: '请输入主管联系人电话', trigger: 'blur' },
               { pattern: /^\d{8,12}$/, message: '负责人联系电话输入有误', trigger: 'blur'}
           ],
           systemKeyProducts:[  // 关键产品
@@ -241,16 +238,7 @@ var  data={
               { required: true, message: '请输入关键产品使用情况-其它名称', trigger: 'blur' }
           ],
           systemUseServices:[  // 关键产品
-              { required: true, message: '选择关键产品', trigger: 'blur' }
-          ],
-          systemUseServiceIsUse:[  // 关键产品
-              { required: true, message: '请选择系统采用服务情况--是否采用', trigger: 'change' }
-          ],
-          systemUseFkResponsibleType:[  // 关键产品
-              { required: true, message: '请选择系统采用服务情况-- 服务责任方类型', trigger: 'change' }
-          ],
-          systemUseOtherName:[  // 关键产品
-              { required: true, message: '请输入系统采用服务情况--其它名称', trigger: 'blur' }
+              { required: false, message: '选择关键产品', trigger: 'blur' }
           ]
       }
     };
@@ -1012,11 +1000,13 @@ var  data={
                     }
                   });
                   
-                  bus.$on('ref',function(meg){
-                    if(meg!=null){
-                      bus.$emit('ref2',_self);
-                    }
-                  });
+//                  bus.$on('aaa',function(meg){
+//                    if(meg!=null){
+//                      _self.$refs['formData'].validate(function (valid) {
+//                        
+//                      });
+//                    }
+//                  });
                 }
             })
         })

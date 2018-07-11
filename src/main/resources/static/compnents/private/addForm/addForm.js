@@ -49,8 +49,8 @@
               { min: 0, max: 400, message: '长度在 0 到 400 个字符', trigger: 'blur' }
           ],
           postalCode: [
-              { required: true, message: '请输入邮政编码', trigger: 'blur' },
-              { pattern: /^\d{1,6}$/, message: '邮政编码输入有误', trigger: 'blur'}
+              { required: false, message: '请输入邮政编码', trigger: 'blur' },
+              { pattern: /^\d{0,6}$/, message: '邮政编码输入有误', trigger: 'blur'}
           ],
           fkSubordinatePro: [
               { required: true, message: '请选择所属省份', trigger: 'blur' }
@@ -60,24 +60,24 @@
               { pattern: /^\d{0,10}$/, message: '行政区划编码输入有误', trigger: 'blur'}
           ],
           compPrincipalName: [
-              { required: true, message: '请输入单位负责人姓名', trigger: 'blur' },
-              { min: 1, max: 40, message: '长度在 1 到 40 个字符', trigger: 'blur' }
+              { required: false, message: '请输入单位负责人姓名', trigger: 'blur' },
+              { min: 0, max: 40, message: '长度在 0 到 40 个字符', trigger: 'blur' }
           ],
           compPrincipalWorkTel: [
-              { required: true, message: '请输入办公电话', trigger: 'blur' },
-              { pattern: /^\d{8,12}$/, message: '办公电话输入有误', trigger: 'blur'}
+              { required: false, message: '请输入办公电话', trigger: 'blur' },
+              { pattern: /^\d{7,12}$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           compPrincipalPhone: [
-              { required: true, message: '请输入移动电话', trigger: 'blur' },
+              { required: false, message: '请输入移动电话', trigger: 'blur' },
               { pattern: /^\d{11}$/, message: '移动电话输入有误', trigger: 'blur'}
           ],
           compPrincipalPost: [
-              { required: true, message: '请输入职务/职称', trigger: 'blur' },
-              { min: 1, max: 40, message: '长度在 1 到40个字符', trigger: 'blur' }
+              { required: false, message: '请输入职务/职称', trigger: 'blur' },
+              { min: 0, max: 40, message: '长度在 0 到40个字符', trigger: 'blur' }
           ],
           compPrincipalEm: [
-              { required: true, message: '请输入电子邮件', trigger: 'blur' },
-              { min: 1, max: 50, message: '长度在  1 到50个字符', trigger: 'blur' },
+              { required: false, message: '请输入电子邮件', trigger: 'blur' },
+              { min: 0, max: 50, message: '长度在  1 到50个字符', trigger: 'blur' },
               { pattern: /^([a-zA-Z0-9._-])+\@+[0-9a-zA-Z]*\.(com|com.cn|edu|hk|cn|net)$/, message: '电子邮件输入有误', trigger: 'blur'}
           ],
           ldContactName: [

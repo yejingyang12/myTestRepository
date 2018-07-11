@@ -203,7 +203,7 @@
           </otherwise>
         </choose>
         <choose>
-          <when test="postalCode != null ">
+          <when test="postalCode != null and postalCode !=''">
             <![CDATA[
               #{postalCode},
             ]]>

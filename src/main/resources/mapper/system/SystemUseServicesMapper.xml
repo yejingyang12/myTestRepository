@@ -51,14 +51,14 @@
 				        #{item.systemUseServicesId,jdbcType=VARCHAR},
 				  ]]>
 		  		<choose>
-				    <when test="item.fkResponsibleType != null ">
+				    <when test="item.fkResponsibleType != null and item.fkResponsibleType != ''">
 				      <![CDATA[
 				        #{item.fkResponsibleType,jdbcType=VARCHAR},
 				      ]]>
 				    </when>
 				    <otherwise>
 				      <![CDATA[
-				        DEFAULT,
+				        0,
 				      ]]>
 				    </otherwise>
 		  		</choose>
@@ -106,12 +106,12 @@
 				    </when>
 				    <otherwise>
 				      <![CDATA[
-				        DEFAULT,
+				        0,
 				      ]]>
 				    </otherwise>
 		  		</choose>
 		  		<choose>
-				    <when test="item.otherName != null ">
+				    <when test="item.otherName != null and item.otherName != ''">
 				      <![CDATA[
 				        #{item.otherName,jdbcType=VARCHAR},
 				      ]]>
@@ -123,7 +123,7 @@
 				    </otherwise>
 		  		</choose>
 		  		<choose>
-				    <when test="item.fkSystemId != null ">
+				    <when test="item.fkSystemId != null and item.fkSystemId != ''">
 				      <![CDATA[
 				        #{item.fkSystemId,jdbcType=VARCHAR},
 				      ]]>

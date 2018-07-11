@@ -132,8 +132,8 @@ var data={};
                         }
                       }
                     },
-                    refMethod:function(number){
-                      bus.$emit('ref',number);
+                    a:function(){
+                      bus.$emit('aaa',"2");
                     }
                 },
                 created: function() {
@@ -149,17 +149,7 @@ var data={};
                   this.getResponsibleMethod(this);
                 },
                 mounted: function() {
-                  bus.$on('ref2',function(meg){
-//                    if(meg!=null){
-//                        meg.$refs.formData.validateField('systemKeyOtherName');
-//                        meg.$refs.formData.validateField('systemKeyProductsNumber');
-//                        meg.$refs.formData.validateField('systemKeyFkNationalIsProducts');
-//                        meg.$refs.formData.validateField('systemKeyNUseProbability');
-//                        meg.$refs.formData.validateField('systemUseOtherName');
-//                        meg.$refs.formData.validateField('systemUseFkResponsibleType');
-//                        meg.$refs.formData.validateField('systemUseOtherName');
-//                    }
-                  });
+
                 }
             })
         })

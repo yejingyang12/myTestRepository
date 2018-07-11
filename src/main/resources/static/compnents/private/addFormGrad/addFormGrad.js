@@ -70,10 +70,10 @@ var data={
               {required: true, message: '请选择安全保护等级', trigger: 'change' },
               { pattern: /^[1-9]\d*$/, message: '请选择安全保护等级', trigger: 'change'}
           ],
-          rankExplainDesc:[  //定级说明描述
+          /*rankExplainDesc:[  //定级说明描述
               {required: true, message: '请输入定级说明', trigger: 'blur' },
               { min: 0, max: 200, message: '长度在 0 到 200个字符', trigger: 'blur' },
-          ],
+          ],*/
           rankTime:[  //定级时间
               {required: true, message: '请选择定级时间', trigger: 'blur' },
           ],

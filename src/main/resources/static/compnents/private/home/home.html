@@ -901,8 +901,8 @@
                                                         <a @click="downloadList2(pro.systemId)"> 
                                                           <el-dropdown-item class="list">表2</el-dropdown-item>
                                                         </a>
-                                                        <a @click="downloadList3(pro.systemId)"> 
-                                                           <el-dropdown-item class="list">表3</el-dropdown-item>
+                                                        <a @click="downloadList3(pro.systemId)" v-if="pro.fkSpRanklevel != null && pro.fkSpRanklevel != ''"> 
+                                                           <el-dropdown-item class="list">表3</el-dropdown-item> 
                                                         </a>
                                                         <a @click="downloadList4(pro.systemId)" v-if="pro.fkSpRanklevel >=303 && pro.gradingStatus!==1 && pro.recordStatus != 4"> 
                                                            <el-dropdown-item class="list" >表4</el-dropdown-item>
