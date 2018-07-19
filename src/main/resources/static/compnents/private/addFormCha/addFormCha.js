@@ -3,6 +3,7 @@
  */
 (function () {
     var data1 = {companyOptions: [],
+    		selCompany:true,
         selectedOptions: []};
     Vue.component('addFormCha',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/addFormCha/addFormCha.html').then(function (res) {
@@ -65,6 +66,9 @@
                 },
                 created: function() {
                   this.getCompanyNameMethod(this);
+                  if(jurisdiction == null || jurisdiction == ''){
+                		this.selCompany=false;
+                	}
                 },
                 mounted: function() {
                     //new Ctor().$mount('#add');

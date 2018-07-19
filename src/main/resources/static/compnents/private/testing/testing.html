@@ -63,7 +63,7 @@
                                     <el-option  label="未测评" value="1"></el-option>
                                     <el-option  label="已测评" value="2"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editData.fkExamStatus" :disabled = "change"  filterable placeholder="请选择">
+                                <el-select v-model="editData.fkExamStatus" :disabled = "change" @change="changeStatus()" filterable placeholder="请选择">
                                    <el-option
                                       v-for="item in examStatus"
                                       :key="item.value"
@@ -296,4 +296,7 @@
 	    </div>
 	  </div>
 	</div>
+	<div class="startBox" id="startBoxTest" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
+    </div>
 </div>

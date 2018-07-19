@@ -24,7 +24,6 @@ import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.entity.DiagramResult;
 import com.sinopec.smcc.cpro.home.mapper.DiagramMapper;
 import com.sinopec.smcc.cpro.home.server.DiagramService;
-import com.sinopec.smcc.cpro.main.entity.MainListResult;
 
 /**
  * @Title DiagramServiceImpl.java
@@ -70,37 +69,37 @@ public class DiagramServiceImpl implements DiagramService {
       throws BusinessException {
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
-//      return null;
-//    }else{
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
+      return null;
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.diagramMapper.selectRecordCompanyTop10(diagramParam);
-//        break;
-//      case "2":
-//        diagramParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.diagramMapper.selectRecordCompanyTop10(diagramParam);
-//        break;
-//      case "3":
-//        diagramParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.diagramMapper.selectRecordCompanyTop10(diagramParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        diagramParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.diagramMapper.selectRecordCompanyTop10(diagramParam);
+        break;
+      case "3":
+        diagramParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.diagramMapper.selectRecordCompanyTop10(diagramParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     return list;
   }
 
@@ -113,37 +112,37 @@ public class DiagramServiceImpl implements DiagramService {
       throws BusinessException {
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    if(organizationApiResult==null || organizationApiResult.getCodeList().size() == 0){
-//      return null;
-//    }else{
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    if(organizationApiResult==null || organizationApiResult.getCodeList().size() == 0){
+      return null;
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.diagramMapper.selectAcceptCompanyTop10(diagramParam);
-//        break;
-//      case "2":
-//        diagramParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.diagramMapper.selectAcceptCompanyTop10(diagramParam);
-//        break;
-//      case "3":
-//        diagramParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.diagramMapper.selectAcceptCompanyTop10(diagramParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        diagramParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.diagramMapper.selectAcceptCompanyTop10(diagramParam);
+        break;
+      case "3":
+        diagramParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.diagramMapper.selectAcceptCompanyTop10(diagramParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     return list;
   }
 
@@ -156,36 +155,36 @@ public class DiagramServiceImpl implements DiagramService {
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
     //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    if(organizationApiResult==null || organizationApiResult.getCodeList().size() == 0){
-//      return null;
-//    }else{
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    if(organizationApiResult==null || organizationApiResult.getCodeList().size() == 0){
+      return null;
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.diagramMapper.selectSystemTrendByYear(diagramParam);
-//        break;
-//      case "2":
-//        diagramParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.diagramMapper.selectSystemTrendByYear(diagramParam);
-//        break;
-//      case "3":
-//        diagramParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.diagramMapper.selectSystemTrendByYear(diagramParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        diagramParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.diagramMapper.selectSystemTrendByYear(diagramParam);
+        break;
+      case "3":
+        diagramParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.diagramMapper.selectSystemTrendByYear(diagramParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     return list;
   }
 

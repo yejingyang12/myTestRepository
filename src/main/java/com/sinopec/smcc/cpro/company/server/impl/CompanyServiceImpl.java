@@ -74,44 +74,43 @@ public class CompanyServiceImpl implements CompanyService {
     // 初始化分页拦截器
     PageHelper.startPage(companyParam.getCurrentPage(), companyParam.getPageSize(),
         orderBy.toString());
-    List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
-
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return new PageInfo<>();
-//    }else{
-//      List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
       companyListResultList = 
           this.companyMapper.selectAllByCompanyParam(companyParam);
-//        break;
-//      case "2":
-//        companyParam.setPlateList(organizationApiResult.getNameList());
-//        companyListResultList =  
-//        this.companyMapper.selectAllByCompanyParam(companyParam);
-//        break;
-//      case "3":
-//        companyParam.setCompanyList(organizationApiResult.getCodeList());
-//        companyListResultList =  
-//        this.companyMapper.selectAllByCompanyParam(companyParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
-    // 装载列表数据
-    PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
-    return pageInfo;
+        break;
+      case "2":
+        companyParam.setPlateList(organizationApiResult.getNameList());
+        companyListResultList =  
+        this.companyMapper.selectAllByCompanyParam(companyParam);
+        break;
+      case "3":
+        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyListResultList =  
+        this.companyMapper.selectAllByCompanyParam(companyParam);
+        break;
+
+      default:
+        break;
+      }
+      // 装载列表数据
+      PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
+      return pageInfo;
+    }
   }
 
   /**
@@ -124,7 +123,7 @@ public class CompanyServiceImpl implements CompanyService {
     if (StringUtils.isBlank(companyParam.getCompanyId())) {
       String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
       //判断单位编码是否被创建，如果已创建则抛出异常不进行添加或修改
-      if(StringUtils.isNotBlank(companyCode))
+      if(StringUtils.isBlank(companyCode))
         throw new BusinessException(EnumResult.LINKEDID_ERROR);
       companyParam.setCompanyId(Utils.getUuidFor32());
       companyParam.setDeleteStatus(1);
@@ -210,41 +209,41 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public List<CompanyListResult> queryCompanyName(CompanyParam companyParam)
       throws BusinessException {
-    List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
-
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return new ArrayList<CompanyListResult>();
-//    }else{
-//      
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new ArrayList<CompanyListResult>();
+    }else{
+      List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         companyListResultList = 
             this.companyMapper.selectCompanyName(companyParam);
-//        break;
-//      case "2":
-//        companyParam.setPlateList(organizationApiResult.getNameList());
-//        companyListResultList =  
-//        this.companyMapper.selectCompanyName(companyParam);
-//        break;
-//      case "3":
-//        companyParam.setCompanyList(organizationApiResult.getCodeList());
-//        companyListResultList =  
-//        this.companyMapper.selectCompanyName(companyParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
-    return companyListResultList;
+        break;
+      case "2":
+        companyParam.setPlateList(organizationApiResult.getNameList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+      case "3":
+        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+
+      default:
+        break;
+      }
+      return companyListResultList;
+    }
   }
 
   /**
@@ -259,36 +258,36 @@ public class CompanyServiceImpl implements CompanyService {
     List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
     
     //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return new ArrayList<OrganizationApiCascaderResult>();
-//    }else{
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      case "0":
-//        break;
-//      case "1":
-////        // 获得响应列表数据
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new ArrayList<OrganizationApiCascaderResult>();
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      case "0":
+        break;
+      case "1":
+//        // 获得响应列表数据
         companyListResultList = 
             this.companyMapper.selectCompanyName(companyParam);
-//        break;
-//      case "2":
-//        companyParam.setPlateList(organizationApiResult.getNameList());
-//        companyListResultList =  
-//        this.companyMapper.selectCompanyName(companyParam);
-//        break;
-//      case "3":
-//        companyParam.setCompanyList(organizationApiResult.getCodeList());
-//        companyListResultList =  
-//        this.companyMapper.selectCompanyName(companyParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        companyParam.setPlateList(organizationApiResult.getNameList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+      case "3":
+        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     HashMap<String, String> map = new HashMap<String, String>();
     for (CompanyListResult companyListResult : companyListResultList) {
       map.put(companyListResult.getFkPlateType(), companyListResult.getFkPlateType());

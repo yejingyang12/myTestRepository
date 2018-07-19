@@ -1,4 +1,5 @@
 var data = {
+    check:false,
     companyForm:{
       pagesize:'',
       currentPage:'',
@@ -64,12 +65,17 @@ var data = {
           },
           
           deleteCompanyInfoMethod:function(){
-            $(".firstChecked input").removeAttr("checked");
-            ajaxMethod(this, 'post',
-                'company/deleteCompany', true,
-                '{"companyIds":'+JSON.stringify(this.companyForm.companyIds)+'}', 'json',
-                'application/json;charset=UTF-8',
-                this.deleteClickSuccessMethod);
+            this.check = false;
+            if(this.companyForm.companyIds.length>0){
+              $(".firstChecked input").removeAttr("checked");
+              ajaxMethod(this, 'post',
+                  'company/deleteCompany', true,
+                  '{"companyIds":'+JSON.stringify(this.companyForm.companyIds)+'}', 'json',
+                  'application/json;charset=UTF-8',
+                  this.deleteClickSuccessMethod);
+            }else{
+              $(".startBoxError").show().delay(2000).fadeOut();
+            }
           },
           checkboxMethod:function(e,id){
             var value=10;
@@ -123,12 +129,12 @@ var data = {
          },
        //点击 "取消" 关闭弹框
          closes:function () {
-             $(".inquiry").css("display","none");
+             $(".inquiryDelete").css("display","none");
              $(".dialogShaw").css("display","none");
            },
        //点击“删除”显示弹窗
          deleteClickDialog:function(){
-        	 $(".inquiry").css("display","block");
+        	 $(".inquiryDelete").css("display","block");
         	 $(".dialogShaw").css("display","block");
          },
          //点击“确认” 删除数据 并 关闭弹窗
@@ -142,7 +148,8 @@ var data = {
            _self.closes();
           },
          deleteClickSuccessMethod:function(_self, responseData) {
-            _self.getCompanyListInfoMethod(_self,{});
+           _self.getCompanyListInfoMethod(_self,{});
+           $(".startBoxSuccess").show().delay(2000).fadeOut();
          },
          //清空
          clearHeadle:function(){

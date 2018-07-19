@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--private-->
     <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
@@ -49,6 +50,12 @@ input:focus{outline:none!important;box-shadow:none}
         width: 100%;
         background: url("../../images/home/xiazai bukexiazai.png") left no-repeat ;
     }
+    /* 返回按钮 */
+    .btnNext{
+      font-size: 14px !important;
+      width: 80px;
+      margin: 5px 0 20px !important;
+    }
 </style>
 <body class="h-body">
 <div id="app">
@@ -59,6 +66,9 @@ input:focus{outline:none!important;box-shadow:none}
     </smcc-header>
     <smcc-breadcrumb>
         <!--<div slot="a1"></div>-->
+        <li slot="materialChangeBtn" class="fr liMargin">
+        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+      </li>
     </smcc-breadcrumb>
     <audit>
     	<!--排序图标-->

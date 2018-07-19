@@ -41,76 +41,81 @@
                 相关公安部门人员将会对递交的材料进行审核，查验，通过审核的备案会得到信息系统安全等级保护备案证明。
     </div>
     <div class="datasMain">
-      <form action="#">
+      <el-form  ref="formData" :rules="rules" :model="formData" label-width="210px">
         <ul class="clearfix dataForm">
-          <li class="row">
+          <li class="row P-record">
             <div class="col-lg-6 col-sm-3">
-              <label for="" class="col-lg-3 col-md-3 text-right">
-                <span class="xing">*</span> 备案编号:
-              </label>
-              <div class="col-md-6 col-sm-3">
+              <el-form-item label="备案编号：" prop="recordCode">
                 <input type="text" placeholder="请输入" name="recordCode" id="recordCode" v-model="formData.recordCode" >
-              </div>
+              </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
-              <label for="" class="col-lg-3 col-md-3 text-right">
-                <span class="xing">*</span> 备案单位:
-              </label>
-              <div class="col-md-6 col-sm-3">
+              <el-form-item label="备案单位：" prop="recordCompany">
                 <input type="text" placeholder="请输入" name="recordCompany" id="recordCompany" v-model="formData.recordCompany">
-              </div>
+              </el-form-item>
             </div>
           </li>
-          <li class="row">
+          <li class="row P-record">
             <div class="col-lg-6 col-sm-3">
-              <label for="" class="col-lg-3 col-md-3 text-right">
-                <span class="xing">*</span> 备案时间:
-              </label>
-              <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.recordDate" type="date"></el-date-picker>
+              <el-form-item label="备案时间：" prop="recordDate">
+                <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.recordDate" type="date"></el-date-picker>
+              </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
-              <label for="" class="col-lg-3 col-md-3 text-right">
-                <span class="xing">*</span> 受理备案单位:
-              </label>
-              <div class="col-md-6 col-sm-3">
+              <el-form-item label="受理备案单位：" prop="acceptCompany">
                 <input type="text" placeholder="请输入" name="acceptCompany" id="acceptCompany" v-model="formData.acceptCompany">
-              </div>
+              </el-form-item>
             </div>
           </li>
-          <li class="row">
+          <li class="row P-record">
             <div class="col-lg-6 col-sm-3">
-              <label for="" class="col-lg-3 col-md-3 text-right">
-                <span class="xing">*</span> 受理日期:
-              </label>
-              <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.acceptDate" type="date"></el-date-picker>
+              <el-form-item label="受理日期：" prop="acceptDate">
+                <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.acceptDate" type="date"></el-date-picker>
+              </el-form-item>
             </div>
           </li>
-          <li class="row lastFile">
+          <li class="row lastFile P-record">
             <div class="col-md-12">
-              <label for="" class="col-md-3 text-right sysTitle">
-                <span class="xing">*</span> 信息系统安全等级保护备案证明:
-              </label>
-              <div class="clearfix sysText col-md-9 uploadBox">
-                <div class="uploadSty">
-                  <ul class="fileList" id="fileList">
-                  	<li v-if="!(formData.recordReportName == null || formData.recordReportName == '')">
-	                  	<div class="fl"  @click="fileDownload(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" >{{formData.recordReportName}}</div>
-                  		<i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
-                  	</li>
-                  </ul>
-                  <el-button type="primary" size="small">上传</el-button>
+              <el-form-item label="信息系统安全等级保护备案证明：" prop="recordReportName">
+                <div class="clearfix sysText col-md-9 uploadBox">
+                  <div class="uploadSty">
+                    <ul class="fileList" id="fileList">
+                      <li v-if="!(formData.recordReportName == null || formData.recordReportName == '')">
+                        <div class="fl"  @click="fileDownload(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" >{{formData.recordReportName}}</div>
+                        <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
+                      </li>
+                    </ul>
+                    <el-button type="primary" size="small">上传</el-button>
+                  </div>
+                  <input type="file" value="" id="file" @change='onUpload'>
+                  <p>
+                    附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+                  </p>
                 </div>
-                <input type="file" value="" id="file" @change='onUpload'>
-                <p>
-                                                附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
-                </p>
-              </div>
+              </el-form-item>
             </div>
           </li>
         </ul>
-      </form>
+      </el-form>
     </div>
     <div class="datasMain">备案已完成</div>
   </div>
+        <!-- 首页表格的删除弹窗 -->
+  <div class="dialogShaw" id="recordDialogShaw">
+    <div class="startBox" v-show="deleteDialog">
+      <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
+      <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
+    </div>
+    <div class="inquiry" style="display:none" id="recordInquiry">
+      <p>是否确认提交审批？</p>
+      <div class="inquiryBtn">
+          <button type="button" class="btn btn-success fl" @click="submitRecordDia('formData')">确定</button>
+          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+      </div>
+     </div>
+  </div>
+   <div class="startBox" id="startBoxRecord" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>提交成功!</P>
+    </div>
 </div>
 

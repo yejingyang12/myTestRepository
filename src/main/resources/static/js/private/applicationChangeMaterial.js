@@ -16,29 +16,41 @@ window.onload = function () {
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
             data.formData.systemMaterialsId = responseData.data;
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-            window.location.href = originUrl+"page/indexPage";
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/indexPage";
+            }, 2300);
           },
           //提交
           submitBtn:function(formName) {
+            data.submitCheck = false;
             bus.$emit('changeSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
             data.formData.systemMaterialsId = responseData.data;
-            window.location.href = originUrl+"page/indexPage";
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/indexPage";
+            }, 2300);
           },
           //上一页
           preBtn:function(formName) {
+            data.check = false;
             bus.$emit('changePreMaterialFormName',formName);
           },
           // 成功
-          preBtnSuccessMethod : function(_self, responseData) {
-            data.formData.systemMaterialsId = responseData.data;
-            window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+          preBtnSuccessMethod : function(_self, responseData,boo) {
+            if(boo){
+              data.check = false;
+              data.formData.systemMaterialsId = responseData.data;
+              window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+            }else{
+              $(".startBox").show().delay(2000).fadeOut();
+              window.setTimeout(function () {
+                window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+              }, 2300);
+            }
           }
         },
         mounted : function() {

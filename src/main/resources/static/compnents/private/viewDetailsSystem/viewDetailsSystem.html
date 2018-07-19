@@ -39,6 +39,11 @@
                 <span class="col-md-4 text-right">等保备案系统名称：</span>
                 <span class="col-md-8 text-left">{{gradeRecordSysName}}</span>
             </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">是否为互联网应用：</span>
+                <span class="col-md-5 text-left" v-if="appIsInternet=='1'">是</span>
+                <span class="col-md-5 text-left" v-else>否</span>
+            </p>
         </li>
     </ul>
     <ul class="clearfix">

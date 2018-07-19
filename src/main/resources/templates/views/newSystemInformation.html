@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--组件样式-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addFormSysTable.css" th:attr="href=@{/css/private/addFormSysTable.css}">
@@ -25,9 +26,9 @@
     <smcc-breadcrumb></smcc-breadcrumb>
     <add-form-system>
         <div slot="newSys" class="unitBtn">
-            <button type="button" class="btn btn-success" @click="saveSystemInfo">保存</button>
-            <button type="button" class="btn btn-default" @click="cleanSystemInfo">清空</button>
-            <button type="button" class="btn btn-default" @click="returnSystemList">返回</button>
+            <button type="button" class="btn btn-success" @click="saveSystemInfo('formData')">保存</button>
+            <button type="button" class="btn btn-default" @click="cleanSystemInfo()">清空</button>
+            <button type="button" class="btn btn-default" @click="returnSystemList()">返回</button>
         </div>
     </add-form-system>
 </div>
@@ -55,5 +56,5 @@ var type="new";
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormSysTable/addFormSysTable.js" th:attr="src=@{/compnents/private/addFormSysTable/addFormSysTable.js}"></script>
 <script async src="../../static/compnents/private/addFormSystem/addFormSys.js" th:attr="src=@{/compnents/private/addFormSystem/addFormSys.js}"></script>
-<script async src="../../static/js/private/addCompanySystem.js" th:attr="src=@{/js/private/addCompanySystem.js}"></script>
+<script async src="../../static/js/private/newSystemInformation.js" th:attr="src=@{/js/private/newSystemInformation.js}"></script>
 </html>

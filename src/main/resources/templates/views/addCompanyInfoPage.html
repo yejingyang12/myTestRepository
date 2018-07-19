@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--私有css-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addFormCha.css" th:attr="href=@{/css/private/addFormCha.css}">
@@ -85,17 +86,27 @@
     <add-list></add-list>
     <add-form-cha></add-form-cha>
     <add-form>
-        <div slot="addInf"  class="btn btn-success btnNext fr" @click="submitHandler('formData')">下一步 </div>
+        <div slot="addInf"  class="btn btn-success dianji btnNext fr" @click="submitHandler('formData')">下一步 </div>
     </add-form>
     <add-fromalert></add-fromalert>
-    <div class="inquiry" v-show="check">        
-      <p>是否保存本页面</p>        
-      <!-- <p>是否删除</p> -->        
-      <div class="inquiryBtn">            
-        <button type="button" class="btn btn-success fl" @click="submitHandler('formData')">确定</button>            
-        <button type="button" class="btn btn-default fr" @click="check = false">取消</button>        
-      </div>    
+    <!-- <div class="inquiryBoxShow" v-show="check">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否保存?</p>
+                    <span>未保存的部分将会消失哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="submitHandler('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="check = false">取消</button>
+            </div>
+        </div>
     </div>
+    <div class="startBox">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
+    </div> -->
   </div>
 </body>
 <!--公用js-->
@@ -121,6 +132,8 @@
 <script type="text/javascript" th:inline="javascript">
 var readonly="";
 var companyId = [[${companyId}]]; 
+var companyCode = [[${companyCode}]]; 
 var type="create";
+var jurisdiction=[[${jurisdiction}]];
 </script>
 </html>

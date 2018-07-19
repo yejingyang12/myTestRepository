@@ -31,7 +31,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/applicationChangePage?companyCode="+companyCode;
+              window.location.href = originUrl+"page/applicationChangePage?companyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
           },
           //下一页
           nextBtn:function(formName) {

@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
 
     <link rel="stylesheet" type="text/css" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">-->
     <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
     <!--private-->
@@ -20,6 +21,9 @@
    <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
 
 <style>
+	.startBoxError{
+        width:230px;
+    }
     li{
         margin-bottom: 15px;
     }
@@ -74,6 +78,7 @@
     }
     .el-tabs__nav{
         margin-left: 15px;
+        z-index: 0;
     }
     .hh-btn {
         height: 34px;
@@ -99,7 +104,12 @@
         background-image: url("../../images/xinzenggreen.png");
          background-size: 100% 100%;
     }
-
+    /* 返回按钮 */
+    .btnNext{
+      font-size: 14px !important;
+      width: 80px;
+      margin: 5px 0 20px !important;
+    }
 </style>
 </head>
 <body class="h-body">
@@ -109,7 +119,11 @@
         <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
         <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss"> -->
     </smcc-header>
-    <smcc-breadcrumb></smcc-breadcrumb>
+    <smcc-breadcrumb>
+      <li slot="materialChangeBtn" class="fr liMargin">
+        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+      </li>
+    </smcc-breadcrumb>
     <tab-main-company-info></tab-main-company-info>
 </div>
 </body>
@@ -134,6 +148,7 @@
 <script async src="../../static/compnents/private/mainCompanyInfo/mainCompanyInfo.js" th:attr="src=@{/compnents/private/mainCompanyInfo/mainCompanyInfo.js}"></script>
 <!--mainSystemInfo组件-->
 <script async src="../../static/compnents/private/mainSystemInfo/mainSystemInfo.js" th:attr="src=@{/compnents/private/mainSystemInfo/mainSystemInfo.js}"></script>
+<script async src="../../static/js/private/mainCompanyInfo.js" th:attr="src=@{/js/private/mainCompanyInfo.js}"></script>
 
 <!--分页-->
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>

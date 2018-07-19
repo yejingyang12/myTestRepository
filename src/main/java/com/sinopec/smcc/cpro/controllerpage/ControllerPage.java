@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
@@ -39,8 +40,9 @@ public class ControllerPage {
   //新建单位信息填写
   @RequestMapping("/addCompanyInfoPage")
   public String addCompanyInfoPagePage(HttpServletRequest request, Model model,
-      CompanyParam companyParam){
+      CompanyParam companyParam,@ModelAttribute("jurisdiction")String jurisdiction){
     model.addAttribute("companyId", companyParam.getCompanyId());
+
     return "views/addCompanyInfoPage";
   }
   //新建系统信息填写
@@ -74,6 +76,8 @@ public class ControllerPage {
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     model.addAttribute("companyId", systemParam.getCompanyId());
+    model.addAttribute("companyId", systemParam.getCompanyId());
+    model.addAttribute("theLastStep", systemParam.getTheLastStep());
     return "views/applicationChange";
   }
   //申请变更系统信息填写
@@ -112,6 +116,7 @@ public class ControllerPage {
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("fkBusinessNode", checkParam.getFkBusinessNode());
+    model.addAttribute("fkExaminStatus", checkParam.getFkExaminStatus());
     return "views/auditGrad";
   }
   //审核申请变更

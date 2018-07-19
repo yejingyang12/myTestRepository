@@ -1,5 +1,12 @@
 (function () {
   var data = {
+      paramGrading:false,
+      paramEvaluation:false,
+      paramDelete:false,
+      paramRecord:false,
+      paramSelfExamination:false,
+      paramApplication:false,
+      
 		  ruleForm: {
 	          name: '',
 	          region:'',
@@ -127,7 +134,15 @@
     value2: '',
     xiala:null,
     result:{},
-    value: ''
+    value: '',
+    maintain:false,
+    auditManagement:false,
+    oneKeyExportJurisdiction:false,
+    templateImport:false,
+    templateExport:false,
+    newlyBuild:false,
+    headquarters:false,
+    enterprise:false
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/home/home.html').then(function (res) {
@@ -223,7 +238,6 @@
           //ajax请求成功的方法
           listSuccess: function (_self, dataList) {
             data.result = dataList;
-            
           },
           //上一页下一页点击事件
           clickPage: function (page) {
@@ -287,7 +301,7 @@
           //点击“删除”显示弹窗
           deleteClick:function(){
          	 $(".inquiry").css("display","block");
-         	$(".dialogShaw").css("display","block");
+         	 $(".dialogShaw").css("display","block");
           },
           //点击删除显示弹窗的“确定”；删除数据并隐藏弹窗；
           deleteClickSure:function(systemId,companyId){
@@ -303,9 +317,13 @@
                       _self.deleteClickSureMethod); 
         	 },
             deleteClickSureMethod:function(_self, responseData) {
+
+            	$("#startBoxDelete").show().delay(2000).fadeOut();
+              window.setTimeout(function () {
+              }, 2300);
             	 $(".inquiry").css("display","none");
+             	 $(".dialogShaw").css("display","none");
             	if(!data.deleteSuccessDialog){
-            		 console.log(11234578)
             		data.deleteDialog=true;
              		data.deleteSuccessDialog=true; 
             	 }
@@ -475,7 +493,11 @@
           },
           //新建登保申请
           toAddCompanyInfoPagePage : function() {
-          	window.location.href="/page/addCompanyInfoPage";
+            if(data.headquarters){
+            	window.location.href="/page/addCompanyInfoPage?jurisdiction=headquarters";
+            }else{
+            	window.location.href="/page/addCompanyInfoPage";
+            }
           },
           //申请变更弹窗和删除按钮弹出窗：隐藏弹窗；
           closes:function () {
@@ -774,7 +796,7 @@
               }
             }
           },
-          //一键导出
+          //一键
           oneKeyExport : function (){
           	var _self = this;
           	ajaxMethod(_self, 'post',
@@ -782,6 +804,10 @@
                 "{}", 'json',
                 'application/json;charset=UTF-8',
                 _self.downloadSuccess);
+          	$("#startBoxExport").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+            }, 2300);
           },
           //下载成功回调
           downloadSuccess: function (_self,responseData) {
@@ -881,14 +907,14 @@
             }
 
             //定级模版导出让checkbox显示
-            for (let i = 0; i < data.firstChecked.length; i++) {
+            for (var i = 0; i < data.firstChecked.length; i++) {
               let cur = data.firstChecked[i];
               var checkbox = cur.getElementsByClassName("checkName")[0];
               if (i == 0) {//表示第一列，全选按钮
                 checkbox.onclick = function () {
                   if (this.checked) {//第一次选中
                     console.log(1);
-                    for (let j = 1; j < data.firstChecked.length; j++) {//从第二行开始
+                    for (var j = 1; j < data.firstChecked.length; j++) {//从第二行开始
                       var child_check = data.firstChecked[j].getElementsByClassName("checkName")[0];
                       child_check.checked = this.checked;
                       data.checked_system.push(data.tr_row[j].getAttribute("data-td"));
@@ -896,7 +922,7 @@
                       data.check_status.splice(child_check.index, 1, this.checked);
                     }
                   } else {//清除选中
-                    for (let j = 1; j < data.firstChecked.length; j++) {//从第二行开始
+                    for (var j = 1; j < data.firstChecked.length; j++) {//从第二行开始
                       var child_check = data.firstChecked[j].getElementsByClassName("checkName")[0];
                       child_check.checked = this.checked;
                       child_check.index = j - 1;
@@ -921,7 +947,7 @@
                   console.log(data.check_status);
                   document.getElementsByClassName("frist")[0].checked = data.check_status.every(function (item) {
                     return item
-                  })
+                  });
                 }
               }
             }
@@ -930,6 +956,10 @@
           //定级模版导出按钮
           checkallexport: function () {
          	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl=/excel/定级模板.xlsm&attachName=定级模板.xlsm";
+         	 $("#startBoxExport").show().delay(2000).fadeOut();
+           window.setTimeout(function () {
+             //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+           }, 2300);
           },
           //首页列表排序
           listsort: function () {
@@ -992,9 +1022,40 @@
               }
             }
           },
-
+          getPermitJurisdictionInfo: function(_self){
+            ajaxMethod(_self,"post",
+                "jurisdiction/queryDataJurisdictionApi",false,
+                JSON.stringify(""),"json",
+                'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+          },
+          getPermitJurisdictionSuccess: function(_self,response){
+            for (var i = 0; i < response.data.permssions.length; i++) {
+              var permssions = response.data.permssions[i];
+              
+              if(permssions==S_STR_PERMIT_PARAM_GRADING){
+                _self.paramGrading = true;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_EVALUATION){
+                _self.paramEvaluation = true;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_DELETE){
+                _self.paramDelete = true;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_RECORD){
+                _self.paramRecord = true;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_SELF_EXAMINATION){
+                _self.paramSelfExamination = true;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_APPLICATION_CHANGE){
+                _self.paramApplication = true;
+              }
+            }
+          }
       },
-        mounted: function() {
+      mounted: function() {
+          this.getPermitJurisdictionInfo(this);
+        
           var all=document.getElementById('all-bankuai-type');//获取到点击全选的那个复选框的id
           var all2=document.getElementById('all-status-type');
           var all3=document.getElementById('all-level-type');
@@ -1034,6 +1095,38 @@
           this.checkitem();
           this.listsort();
           this.imgArrowDownload();
+          //功能权限
+          $.ajax({
+            type: "get",
+            url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+            async: true,
+            data: "",
+            dataType: "json",
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+            	//维护单位信息功能权限
+            	data.maintain = getJurisdictionMethod(response,'0102010106');
+            	//审核管理权限
+            	data.auditManagement = getJurisdictionMethod(response,'0102010105');
+            	//一键导出权限
+            	data.oneKeyExportJurisdiction = getJurisdictionMethod(response,'0102010104');
+            	//新建权限
+            	if(getJurisdictionMethod(response,'0102010101') == true || getJurisdictionMethod(response,'0102010108') ==true){
+            		data.newlyBuild = true;
+            	}
+            	//定级模板导入权限
+            	data.templateImport = getJurisdictionMethod(response,'0102010103');
+            	//定级模板导出权限
+            	data.templateExport = getJurisdictionMethod(response,'0102010102');	
+            	
+            	data.headquarters = getJurisdictionMethod(response,'0102010101');
+            	data.enterprise = getJurisdictionMethod(response,'0102010108');
+            },
+            error: function(err) {
+            }
+          });
         },
        /* destroyed () {
         	  data.timer=null;

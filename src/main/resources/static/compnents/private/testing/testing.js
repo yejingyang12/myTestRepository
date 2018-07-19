@@ -122,6 +122,12 @@
           return data;
         },
         methods:{
+        	changeStatus : function(){
+        		if(this.editData.fkExamStatus == 1){
+          		this.rules.fkExamResult[0].required = false;
+          		this.rules.examReportName[0].required = false;
+          	}
+        	},
         	//获取系统名称
         	querySystemName: function(_self) {
         		var querySystemNameParam = {systemId:systemId,};
@@ -247,6 +253,10 @@
             });
           },
           saveEvaluationSuccessMethod: function(_self,data){
+          	$("#startBoxTest").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+            }, 2300);
           	_self.queryEvaluationList(_self);
           	_self.closes();
           },
@@ -282,6 +292,25 @@
           },
           
           onUpload: function(e){
+          	var fileSize = e.target.files[0].size;//文件大小（字节）
+          	var fimeMax = 1048576 *30;
+          	if(fileSize > fimeMax){
+          		this.$alert('文件不能大于30M！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+          	var fileFormat = e.target.value.split(".");//文件后缀
+          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+          		this.$alert('不接受此文件类型！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
 						var uploadData = new FormData(); 
 						uploadData.append('file', e.target.files[0]);
 						uploadData.append('type', 'test');
@@ -292,6 +321,25 @@
 						_self.editData.examReportPath=responseData.data.uploadUrl;
 					},
 					onUpload2: function(e){
+						var fileSize = e.target.files[0].size;//文件大小（字节）
+          	var fimeMax = 1048576 *30;
+          	if(fileSize > fimeMax){
+          		this.$alert('文件不能大于30M！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+          	var fileFormat = e.target.value.split(".");//文件后缀
+          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+          		this.$alert('不接受此文件类型！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
 						var uploadData = new FormData(); 
 						uploadData.append('file', e.target.files[0]);
 						uploadData.append('type', 'test');

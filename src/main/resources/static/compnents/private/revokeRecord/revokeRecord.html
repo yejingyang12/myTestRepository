@@ -1,54 +1,67 @@
 <div  class="wrap cover">
   <div class="revokeBg"></div>
   <div class="revoke">
-    <span class="closes" @click="closes"></span>
+    <span class="closes" @click="closesDir"></span>
     <p class="clearfix cuto">
       <span class="fl revokeTitle">撤销备案</span>
       <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
     </p>
-    <form action="#">
+    <el-form action="#" ref="formData" :rules="rules" :model="formData" label-width="160px">
       <ul class="clearfix" style="margin: 0 15px !important;">
-        <li class="row">
-          <label for="" class="col-md-2 margin">
-            <span class="xing">*</span>变更事项：
-          </label>
-          <span class="revokeText">撤销备案</span>
+        <li class="row P-record">
+          <el-form-item label="变更事项：" prop="">
+            <div style="line-height: 34px">撤销备案</div>
+          </el-form-item>
         </li>
-        <li class="row">
-          <label for="" class="col-md-2 margin">
-            <span class="xing">*</span>撤销证明:
-          </label>
-          <div class="clearfix sysTet col-md-9 uploadBox">
-          	<div class="uploadSty">
-              <ul class="fileList" id="fileList">
-              	<li v-if="!(formData.revokeAttachName == null || formData.revokeAttachName == '')">
-                	<div class="fl"  @click="fileDownload(formData.revokeAttachPath,formData.revokeAttachName,formData.revokeAttachId)" >{{formData.revokeAttachName}}</div>
-              		<i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
-              	</li>
-              </ul>
-              <el-button type="primary" size="small">上传</el-button>
+        <li class="row P-record">
+          <el-form-item label="撤销证明：" prop="revokeAttachName">
+            <div class=" col-md-9 uploadBox" style="width:90%">
+              <div class="uploadSty">
+                <ul class="fileList" id="fileList">
+                  <li v-if="!(formData.revokeAttachName == null || formData.revokeAttachName == '')">
+                    <div class="fl"  @click="fileDownload(formData.revokeAttachPath,formData.revokeAttachName,formData.revokeAttachId)" >{{formData.revokeAttachName}}</div>
+                    <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
+                  </li>
+                </ul>
+                <el-button type="primary" size="small">上传</el-button>
+              </div>
+              <input type="file" value="" id="file" @change='onUpload'>
+              <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
             </div>
-            <input type="file" value="" id="file" @change='onUpload'>
-            <p>附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
-          </div>
+          </el-form-item>
         </li>
-        <li class="row">
-          <label for="" class="col-md-2 margin">
-            <span class="xing">*</span>
-                                撤销原因：
-          </label>
-          <div class="mcTextArea col-md-11 col-md-offset-1 col-sm-3" @click="text" style="width:87%;margin-left:-9% !important;">
+        <li class="row P-record">
+          <el-form-item label="撤销原因：" prop="revokereason">
+            <div class="mcTextArea col-md-11 col-sm-3" @click="text" style="width:90%;">
               <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.revokereason"></textarea>
               <span class='textAll'><span id="textNum">0</span>/200</span>
               <!-- 最多200字符，0处显示的是已经写了多少字符-->
-          </div>
+            </div>
+          </el-form-item>
         </li>
       </ul>
       <p class="fr">
-        <button class="btn btn-success fl" type="button" @click="submitRevokeRecord()">提交</button>
-        <button class="btn btn-default fl btnRight" type="button" @click="closes()">取消</button>
+        <button class="btn btn-success fl" type="button" @click="submitRevokeRecordDir('formData')">提交</button>
+        <button class="btn btn-default fl btnRight" type="button" @click="closesDir()">取消</button>
       </p>
-    </form>
+    </el-form>
   </div>
+      <!-- 首页表格的删除弹窗 -->
+  <div class="dialogShaw" id="revokeRecordDialogShaw" style="z-index: 150">
+    <div class="startBox" v-show="deleteDialog">
+      <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
+      <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
+    </div>
+    <div class="inquiry" id="revokeRecordInquiry" style="display:none">
+      <p>是否确认提交审批？</p>
+      <div class="inquiryBtn">
+          <button type="button" class="btn btn-success fl" @click="submitRevokeRecord('formData')">确定</button>
+          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+      </div>
+     </div>
+  </div>
+   <div class="startBox" id="startBoxRevokeRecord" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>提交成功!</P>
+    </div>
 </div>
 

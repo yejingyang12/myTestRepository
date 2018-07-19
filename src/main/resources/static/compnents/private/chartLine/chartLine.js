@@ -148,13 +148,15 @@
               this.getSystemTrendByYearSuccess);
           } ,
           getSystemTrendByYearSuccess : function(_self,result){
-	        	for(var i = 0; i < result.data.length; i++){
-	        		this.option.series[0].data[i] = result.data[i].readyGradCount;
-	        		this.option.series[1].data[i] = result.data[i].checkGradCount;	
-	        		this.option.series[2].data[i] = result.data[i].recordsCount;	
-	        		this.option.series[3].data[i] = result.data[i].evaluationCount;	
-	        		this.option.series[4].data[i] = result.data[i].selfInspectionCount;	
-	        	}
+          	if(result.data != null){
+          		for(var i = 0; i < result.data.length; i++){
+  	        		this.option.series[0].data[i] = result.data[i].readyGradCount;
+  	        		this.option.series[1].data[i] = result.data[i].checkGradCount;	
+  	        		this.option.series[2].data[i] = result.data[i].recordsCount;	
+  	        		this.option.series[3].data[i] = result.data[i].evaluationCount;	
+  	        		this.option.series[4].data[i] = result.data[i].selfInspectionCount;	
+  	        	}
+          	}
 	        }
         },
         created: function() {

@@ -75,6 +75,8 @@
         series: [
             {
                 name: '一级',
+                barWidth : 50,//柱图宽度
+                max:20, //关键第一句
                 type: 'bar',
                 stack: '总量',
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -121,6 +123,7 @@
                 name: '五级',
                 type: 'bar',
                 stack: '总量',
+                barCateGoryGap:6,
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
                 itemStyle: {
                     normal: {
@@ -154,14 +157,16 @@
           	this.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
-	        	for(var i = 0; i < result.data.length; i++){
-	        		this.option.xAxis.data[i] = result.data[i].companyName;
-	        		this.option.series[0].data[i] = result.data[i].level1;
-	        		this.option.series[1].data[i] = result.data[i].level2;	
-	        		this.option.series[2].data[i] = result.data[i].level3;	
-	        		this.option.series[3].data[i] = result.data[i].level4;	
-	        		this.option.series[4].data[i] = result.data[i].level5;	
-	        	}
+          	if(result.data != null){
+          		for(var i = 0; i < result.data.length; i++){
+  	        		this.option.xAxis.data[i] = result.data[i].companyName;
+  	        		this.option.series[0].data[i] = result.data[i].level1;
+  	        		this.option.series[1].data[i] = result.data[i].level2;	
+  	        		this.option.series[2].data[i] = result.data[i].level3;	
+  	        		this.option.series[3].data[i] = result.data[i].level4;	
+  	        		this.option.series[4].data[i] = result.data[i].level5;	
+  	        	}
+          	}
 	        }
         },
         created: function() {

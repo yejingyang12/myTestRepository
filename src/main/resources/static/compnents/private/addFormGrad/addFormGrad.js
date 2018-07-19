@@ -1,4 +1,6 @@
 var data={
+    check : false,
+    submitCheck:false,
         formData:{
           gradingId:'',
           fkSystemId:'',
@@ -173,6 +175,25 @@ var data={
                     },
                     
                     onUpload: function(e){
+                    	var fileSize = e.target.files[0].size;//文件大小（字节）
+                    	var fimeMax = 1048576 *30;
+                    	if(fileSize > fimeMax){
+                    		this.$alert('文件不能大于30M！', '信息提示', {
+                          confirmButtonText: '确定',
+                          callback: function callback(action) {
+                          }
+                        });
+                    		return;
+                    	}
+                    	var fileFormat = e.target.value.split(".");//文件后缀
+                    	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                    		this.$alert('不接受此文件类型！', '信息提示', {
+                          confirmButtonText: '确定',
+                          callback: function callback(action) {
+                          }
+                        });
+                    		return;
+                    	}
                       var uploadData = new FormData(); 
                       uploadData.append('file', e.target.files[0]);
                       uploadData.append('type', 'test');
@@ -196,7 +217,27 @@ var data={
                       });
                     },
                     onUpload1: function(e){
-                      var uploadData = new FormData(); 
+                    	
+                    	var fileSize = e.target.files[0].size;//文件大小（字节）
+                    	var fimeMax = 1048576 *30;
+                    	if(fileSize > fimeMax){
+                    		this.$alert('文件不能大于30M！', '信息提示', {
+                          confirmButtonText: '确定',
+                          callback: function callback(action) {
+                          }
+                        });
+                    		return;
+                    	}
+                    	var fileFormat = e.target.value.split(".");//文件后缀
+                    	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                    		this.$alert('不接受此文件类型！', '信息提示', {
+                          confirmButtonText: '确定',
+                          callback: function callback(action) {
+                          }
+                        });
+                    		return;
+                    	}
+                    	var uploadData = new FormData(); 
                       uploadData.append('file', e.target.files[0]);
                       uploadData.append('type', 'test');
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod1);
@@ -219,6 +260,25 @@ var data={
                       });
                     },
                     onUpload2: function(e){
+                    	var fileSize = e.target.files[0].size;//文件大小（字节）
+                    	var fimeMax = 1048576 *30;
+                    	if(fileSize > fimeMax){
+                    		this.$alert('文件不能大于30M！', '信息提示', {
+                          confirmButtonText: '确定',
+                          callback: function callback(action) {
+                          }
+                        });
+                    		return;
+                    	}
+                    	var fileFormat = e.target.value.split(".");//文件后缀
+                    	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                    		this.$alert('不接受此文件类型！', '信息提示', {
+                          confirmButtonText: '确定',
+                          callback: function callback(action) {
+                          }
+                        });
+                    		return;
+                    	}
                       var uploadData = new FormData(); 
                       uploadData.append('file', e.target.files[0]);
                       uploadData.append('type', 'test');
@@ -255,13 +315,12 @@ var data={
                         $(this).parent("li").remove();
                     },
                     fileDownload:function(path,type,name){
-                      
                       if(type=='1'){
                         //下载路径
-                        window.location.href = "http://localhost:8082/fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name;
+                        window.location.href = originUrl+"/fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name;
                       }else{
                         //下载路径
-                        window.location.href = "http://localhost:8082/fileHandle/downloadFile?fileId="+path;
+                        window.location.href = originUrl+ "/fileHandle/downloadFile?fileId="+path;
                       }
                         
                     },

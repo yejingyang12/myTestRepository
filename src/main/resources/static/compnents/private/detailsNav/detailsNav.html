@@ -1,7 +1,7 @@
 <div id="main" class="inner">
   <p class="recordTitle">{{systemName}}</p>
   <div class="recBtn">
-    <button class="btn btn-success btnBack comitBtm fl" type="button" @click="submitRecord">提交</button>
+    <button class="btn btn-success btnBack comitBtm fl" type="button" @click="submitRecord('formData')">提交</button>
     <button class="btn btn-danger btnBack fl" v-show="revokeRecordShow" type="submit" @click="revokeRecord">撤销备案</button>
     <button class="btn btn-default btnBack fl" type="button" @click="backRecord">返回</button>
   </div>

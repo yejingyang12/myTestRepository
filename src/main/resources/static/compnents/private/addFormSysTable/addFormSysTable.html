@@ -27,15 +27,16 @@
                             </el-select>
                         </td>
                         <td>
-                            <span class="dowmBg"></span>
+                            <span class="dowmBg"></span>           
                             <el-select class="form-control" v-model="formData.systemKeyProducts[index].fkNationalIsProducts" filterable @change="a()">
                                 <el-option v-for="prod in sysNationalProducts" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></el-option>
                             </el-select>
+         
                             <!--<select class="form-control" v-model="formData.systemKeyProducts[index].fkNationalIsProducts">-->
                                 <!--<option value="">请选择</option>-->
                                 <!--<option v-for="prod in sysNationalProducts" :key="prod.systemCode" :label="prod.codeName" :value="prod.systemCode"></option>-->
                             <!--</select>-->
-                        </td>
+                        </td>   
                         <td>
                             <!--<div>-->
                             <input class="form-control pull-left tdWith" v-model="formData.systemKeyProducts[index].nUseProbability" @change="a()">

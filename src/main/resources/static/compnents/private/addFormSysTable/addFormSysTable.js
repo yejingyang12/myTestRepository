@@ -1,7 +1,6 @@
 /**
  * Created by timha on 2018/6/1.
  */
-var data={};
 (function () {
     
     Vue.component('addFormSysTable',function (resolve,reject) {
@@ -83,12 +82,12 @@ var data={};
 //                          '{"codeType":"9"}', 'json',
 //                          'application/json;charset=UTF-8',
 //                          _self.getNationalProductsSuccessMethod);
-                      var products = JSON.parse('[{"codeName":"请选择","systemCode":""},{"codeName":"全部使用","systemCode":1},{"codeName":"全部未使用","systemCode":2},{"codeName":"部分使用","systemCode":3}]');
-                      _self.sysNationalProducts = products;
+//                      var products = JSON.parse([{"codeName":"请选择","systemCode":""},{"codeName":"全部使用","systemCode":1},{"codeName":"全部未使用","systemCode":2},{"codeName":"部分使用","systemCode":3}]);
+//                      _self.sysNationalProducts = products;
+                      _self.sysNationalProducts = [{codeName:'请选择',systemCode:''},{codeName:'全部使用',systemCode:'1'},{codeName:'全部未使用',systemCode:'2'},{codeName:'部分使用',systemCode:'3'}];
                     },
                     // 获取是否使用国产品信息
                     getNationalProductsSuccessMethod : function(_self, responseData) {
-                      
                       _self.sysNationalProducts = responseData.data;
                     },
                     //获取服务责任方类型
@@ -99,9 +98,9 @@ var data={};
 //                          'application/json;charset=UTF-8',
 //                          _self.getResponsibleSuccessMethod);
                       
-                      var responsible = '[{"codeName":"请选择","systemCode":""},{"codeName":"本行业（单位）","systemCode":1},{"codeName":"国内其他服务商","systemCode":2},{"codeName":"国外服务商","systemCode":3}]'
+                      var responsible = '[{"codeName":"请选择","systemCode":0},{"codeName":"本行业（单位）","systemCode":1},{"codeName":"国内其他服务商","systemCode":2},{"codeName":"国外服务商","systemCode":3}]'
                       _self.sysResponsible = JSON.parse(responsible);
-                      _self.sysIs = JSON.parse('[{"codeName":"请选择","systemCode":""},{"codeName":"是","systemCode":1},{"codeName":"否","systemCode":2}]');
+                      _self.sysIs = JSON.parse('[{"codeName":"请选择","systemCode":0},{"codeName":"是","systemCode":1},{"codeName":"否","systemCode":2}]');
                     },
                     // 获取服务责任方类型
                     getResponsibleSuccessMethod : function(_self, responseData) {

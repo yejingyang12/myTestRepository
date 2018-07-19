@@ -15,7 +15,20 @@ var revokeRecordData={
 		revokeAttachPath: "",
 		revokeAttachName: ""
 	},
+//删除弹窗的
+  deleteDialog:false,
+  deleteSuccessDialog:false,
+	deleteFailDialog:false,
 	fileDelete: null,
+  rules:{
+      revokeAttachName:[//撤销证明
+          {required: true, message: '请上传撤销证明', trigger: 'change' }
+      ],
+      revokereason:[//撤销原因
+          {required: true, message: '请输入撤销原因', trigger: 'change' },
+          { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+      ]
+	}
 };
 (function() {
 	Vue.component('revokeRecord', function(resolve, reject) {
@@ -27,11 +40,30 @@ var revokeRecordData={
 					return revokeRecordData;
 				},
 				methods : {
-					closes: function() {
+					closesDir: function() {
 						$('.wrap').addClass('cover');
 						this.formData.revokereason = '';
 					},
 					onUpload: function(e){
+						var fileSize = e.target.files[0].size;//文件大小（字节）
+          	var fimeMax = 1048576 *30;
+          	if(fileSize > fimeMax){
+          		this.$alert('文件不能大于30M！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+          	var fileFormat = e.target.value.split(".");//文件后缀
+          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+          		this.$alert('不接受此文件类型！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
 						var uploadData = new FormData(); 
 						uploadData.append('file', e.target.files[0]);
 						uploadData.append('type', 'test');
@@ -77,17 +109,46 @@ var revokeRecordData={
           	//下载路径
           	window.location.href = originUrl + "fileHandle/downloadFile?uploadUrl="+uploadUrl+"&attachName="+attachName+"&fileId="+fileId;
 					},
-					submitRevokeRecord: function(){
+					submitRevokeRecord: function(formData){
 						var _self = this;
 						_self.formData.fkSystemId=systemId;
-						ajaxMethod(_self, 'post',
-                'records/saveRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
-                'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
+						_self.sureDelFile(_self);
+						_self.$refs[formData].validate(function (valid) {
+              if (valid) {
+              	ajaxMethod(_self, 'post',
+                    'records/saveRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
+                    'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
+              } else {
+              	$("#revokeRecordDialogShaw").css("display","none");
+                $("#revokeRecordInquiry").css("display","none");
+                _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                  confirmButtonText: '确定',
+                  callback: function callback(action) {
+                  }
+                });
+                return false;
+              }
+            });
+					},
+					submitRevokeRecordDir: function(formData){
+						$("#revokeRecordDialogShaw").css("display","block");
+	         	$("#revokeRecordInquiry").css("display","block");
 					},
 					submitRevokeRecordSuccessMethod: function(_self, responseData){
+						$('.wrap').addClass('cover');
 						_self.formData.revokereason = '';
-						window.location.href= originUrl + "/page/indexPage"
+						$("#revokeRecordDialogShaw").css("display","none");
+            $("#revokeRecordInquiry").css("display","none");
+						$(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+            	window.location.href= originUrl + "page/indexPage"           
+            }, 2300);
 					},
+				  //关闭弹窗
+					closes:function () {
+            $("#revokeRecordDialogShaw").css("display","none");
+            $("#revokeRecordInquiry").css("display","none");
+          },
 					text : function() {
 						$('#textArea').on("keyup", function() {
 							$('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
@@ -97,16 +158,6 @@ var revokeRecordData={
 							}
 						})
 					},
-					onUpload: function(e){
-						var uploadData = new FormData(); 
-						uploadData.append('file', e.target.files[0]);
-						uploadData.append('type', 'test');
-						ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
-					},
-					onUploadSuccessMethod: function(_self,responseData){
-						this.formData.revokeAttachName=responseData.data.attachName;
-						this.formData.revokeAttachPath=responseData.data.uploadUrl;
-					}
 				},
 				created : function() {
 					this.formData.fkSystemId = systemId;

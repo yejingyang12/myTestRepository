@@ -175,7 +175,7 @@
                                         <div class="col-md-3 h-system" style="margin-right:0;margin-left:12px;width: 82px; min-width: 75px;" >
                                             系统名称:
                                         </div>
-                                        <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:10;position:relative;">
+                                        <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:5;position:relative;">
                                             <!-- <span style="z-index:1;position: absolute;right:43px;top: 14%;color: #cecece" >|</span> -->
                                             <template >
                                                 <el-select v-model="value8" id="selectSystemName" filterable placeholder="请选择" >
@@ -734,21 +734,21 @@
                <!--  <button type="button" class="h-btn btn btn-default" id="h-btn-add" @click="toAddCompanyInfoPagePage()">
                      <slot name="xinzengdengbao"></slot>
                 </button> -->
-                <button   class="h-btn btn h-btn-add" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;"> </button>
+                <button v-show="newlyBuild"  class="h-btn btn h-btn-add" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;"> </button>
                 
-                <button style="padding:5px;width:auto;" type="button" id="h-score-list2" class="btn btn-default h-borde-hover" @click="checkallexport()" hascheck="">
+                <button v-show="templateExport" style="padding:5px;width:auto;" type="button" id="h-score-list2" class="btn btn-default h-borde-hover" @click="checkallexport()" hascheck="">
                     定级模板导出
                 </button>
 
-                <button  style="padding:5px;width:auto;" class="btn btn-default  h-borde-hover" id="h-score-list3" onclick="fileEle.click()" @mousedown="changeColor"> 定级信息导入
+                <button v-show="templateImport" style="padding:5px;width:auto;" class="btn btn-default  h-borde-hover" id="h-score-list3" onclick="fileEle.click()" @mousedown="changeColor"> 定级信息导入
                     <input type="file" id="fileEle" class="col-md-12 smt" style="margin-right:255px; display:none" formmethod="POST" value="上传文件" @change="getFile('#fileEle')">
                 </button>
-                <button type="button" class="btn btn-default float-ri" style="margin-right: 10px;padding:5px;width:auto;"  @click="toMainCompanyInfoPage()">
+                <button v-show="maintain" type="button" class="btn btn-default float-ri" style="margin-right: 10px;padding:5px;width:auto;"  @click="toMainCompanyInfoPage()">
                     维护单位系统信息</button>
-                <button type="button" class="btn  float-ri"
+                <button v-show="auditManagement" type="button" class="btn  float-ri"
                         style="margin-right: 10px;background-color: #1e91e2;color:#fff;width:auto;" @click="toAuditPage()">审核管理
                 </button>
-                <button type="button" class="btn  float-ri"
+                <button v-show="oneKeyExport"  type="button" class="btn  float-ri"
                         style="margin-right: 10px;background-color: #1e91e2;color:#fff;width:auto;" @click="oneKeyExport()">一键导出
                 </button>
             </p>
@@ -803,11 +803,11 @@
                                     style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
                                     <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
                                 <td>{{index+1}}</td>
- 								<td>
-                                  <div v-if="pro.recordStatus != 4">
+ 								                <td>
+                                  <!-- <div v-if="pro.recordStatus != 4"> -->
                                     <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
-                                  </div>
-                                  <div v-else  style="color:#bfbfbf">{{pro.systemName}}</div>
+                                 <!--  </div>
+                                  <div v-else  style="color:#bfbfbf">{{pro.systemName}}</div> -->
                                 </td>                              
                                 <td>{{pro.companyName}}</td>
                                 <td>{{pro.plateType}}</td>
@@ -918,8 +918,8 @@
                                 <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
                                     <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                     <a class="hide3" style="cursor:pointer;">  
-                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
-                                          <i @click="deleteClick" type="text" size="small">删除</i>
+                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)"  v-show="paramGrading">定级</i> <i style="color:#1e91e2 ">|</i>
+                                          <i @click="deleteClick" type="text" size="small"  v-show="paramDelete">删除</i>
                                            <!-- 首页表格的删除弹窗 -->
                                             <div class="dialogShaw">
 	                                              <div class="startBox" v-show="deleteDialog">
@@ -927,10 +927,15 @@
 												        <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
 												  </div>
 												   <div class="inquiry">
-												        <p>是否删除</p>
+                                <div class="cenrerBox">
+                                    <i class="failIcon fl">!</i>
+                                    <div class="fl">
+                                        <p>是否删除</p>
+                                    </div>
+                                </div>
 												        <div class="inquiryBtn">
-												            <button type="button" class="btn btn-success fl" @click="deleteClickSure(pro.systemId,pro.companyId)">确定</button>
-												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+												            <button type="button" class="btn btn-success" @click="deleteClickSure(pro.systemId,pro.companyId)">确定</button>
+												            <button type="button" class="btn btn-default" @click="closes">取消</button>
 												        </div>
 												    </div>
 											 </div> 
@@ -938,10 +943,10 @@
                                 </td>
                                 <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">
                                     <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer">申请变更</a> <i style="color:#1e91e2 ">|</i>
-                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer">备案</a><i style="color:#1e91e2 ">|</i>
-                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer">测评</a><i style="color:#1e91e2 ">|</i>
-                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" >自查</a>
+                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication">申请变更</a> <i style="color:#1e91e2 ">|</i>
+                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 ">|</i>
+                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 ">|</i>
+                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramSelfExamination">自查</a>
                                 </td>
                                 <td style="color:#1e91e2;" v-else>
                                 </td>
@@ -991,5 +996,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="startBox" id="startBoxDelete" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
+    </div>
+    <div class="startBox" id="startBoxExport" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>导出成功！</P>
     </div>
 </div>

@@ -2,6 +2,11 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
+      check:false,
+		systemNameSon1:[true],
+		systemNameSon12:[false],
+		addSystemSubSonT:[],
+		count:0,
       formData:{
         systemId:"",
         companyId:"",
@@ -29,6 +34,11 @@ var  data={
         companyName:"",
         fkComCode:"",
         changeType:"",
+        stars:"1",
+        aa:"1",
+        systemNameSon:"",
+        systemCodeSon:"",
+        addSystemSubSon:[],
         addSystemSub:[
 //        {
 //          label:"子系统1系统名称：",
@@ -170,6 +180,19 @@ var  data={
               { required: true, message: '请输入系统名称', trigger: 'change' },
               { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'change' },
           ],
+          systemNameSon:[  // 子系统名称
+              { required: true, message: '请输入子系统名称', trigger: 'change' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'change' },
+          ],
+          systemCodeSon:[  // 子系统Code
+             { required: true, message: '请输入子系统标准化代码', trigger: 'change' }
+          ],
+          stars:[  // 子系统Code
+             { required: true, message: '1', trigger: 'change' }
+          ],
+          aa:[  // 子系统Code
+             { required: true, message: '该系统已选择,请勿重复选择', trigger: 'change' }
+          ],
           standardizedCode:[  // 标准化代码
               { required: true, message: '请输入标准化代码', trigger: 'change' }
           ],
@@ -208,18 +231,18 @@ var  data={
               { required: true, message: '请输入投入使用时间', trigger: 'blur' },
           ],
           executiveOfficeName:[  // 主管处室名称
-              { required: false, message: '请输入主管处室名称', trigger: 'blur' },
+              { required: true, message: '请输入主管处室名称', trigger: 'blur' },
               { min: 0, max: 60, message: '长度在 0 到 60个字符', trigger: 'blur' },
           ],
           subIsSystem:[  // 系统是否为分系统
               { required: true, message: '请选择系统是否为分系统', trigger: 'blur' },
           ],
           executiveDireCon:[  // 主管联系人
-              { required: false, message: '请输入主管联系人', trigger: 'blur' },
+              { required: true, message: '请输入主管联系人', trigger: 'blur' },
               { min: 0, max: 40, message: '长度在 0 到 40个字符', trigger: 'blur' },
           ],
           executiveDireConTel:[  // 主管联系人电话
-              { required: false, message: '请输入主管联系人电话', trigger: 'blur' },
+              { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
               { pattern: /^\d{8,12}$/, message: '负责人联系电话输入有误', trigger: 'blur'}
           ],
           systemKeyProducts:[  // 关键产品
@@ -269,14 +292,16 @@ var  data={
                       this.formData.addSystemSub.push({
                         "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
                         "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
-                        "systemName":"",
+                        "systemNameSon":"",
                         "standardizedCode":""
                       });
                       this.systemInfo = false;
                       this.systemSonInfo = true;
                       this.formData.systemName = "";
                       this.formData.standardizedCode = "";
+                      this.rules.standardizedCode[0].required=false;
                     }else{
+                    	this.rules.standardizedCode[0].required=true;
                       this.systemInfo = true;
                       this.systemSonInfo = false;
                       this.formData.addSystemSub=[
@@ -440,6 +465,10 @@ var  data={
                       if(this.formData.addSystemSub.length>=this.sysName.length){
                         this.addSub = false;
                       }else{
+                      	this.systemNameSon1.push(true);
+                      	this.systemNameSon12.push(false);
+                      	this.formData.systemNameSon="";
+                      	this.formData.systemCodeSon="";
                         this.formData.addSystemSub.push({
                           "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
                           "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
@@ -589,17 +618,45 @@ var  data={
                       _self.msgName = responseData.data;
                     },
                     setStandardizedCode:function(e,val){
-                      if(e!=null){
-                        for(var i=0;i<this.sysName.length;i++){
-                          if(e==this.sysName[i].systemName){
-                            if(val==1){
-                              this.formData.standardizedCode = this.sysName[i].systemCode;
-                            }else{
-                              this.formData.addSystemSub[val-2].standardizedCode = this.sysName[i].systemCode;
-                            }
-                          }
-                        }
-                      }
+                    	this.formData.addSystemSubSon.push(e);
+                  		if(e!=null){
+                  			for(var i=0;i<this.sysName.length;i++){
+                  				if(e==this.sysName[i].systemName){
+                  					if(val==1){
+                  						this.formData.standardizedCode = this.sysName[i].systemCode;
+                  					}else{
+                  						this.systemNameSon1[val-2] = false;
+                  						this.formData.systemNameSon=this.sysName[i].systemName;
+                  						this.formData.systemCodeSon=this.sysName[i].systemCode;
+                  						this.formData.addSystemSub[val-2].standardizedCode = this.sysName[i].systemCode;
+                  					}
+                  				}
+                  			}
+                  		}
+                  		var isNan = true;
+                  		for(var i = 0 ; i < this.formData.addSystemSubSon.length; i++){
+                  			var boo = true;
+                  			var count = 0;
+                  			for(var j = 0 ; j < this.formData.addSystemSubSon.length; j++){
+	                  			 if(this.formData.addSystemSubSon[i] == this.formData.addSystemSubSon[j]){
+	                  				  boo = false;
+	 	                    			count ++ ;
+		                    	 }
+                  			}
+                  			if(count > 1){
+                  				if(boo){
+                    				this.systemNameSon12[i] = false;
+                    			}else{
+                    				this.systemNameSon12[i] = true;
+                    				this.formData.aa = '';
+	                    			this.$refs.formData.validateField('aa');
+	                    			isNan = false;
+                    			}
+                  			}
+                    	}
+                  		if(isNan){
+                  			this.formData.aa = '1';
+                  		}
                     },
                     getGetSystemMethod:function(_self,systemId){
                       ajaxMethod(_self, 'post',
@@ -609,9 +666,8 @@ var  data={
                     getGetSystemSuccessMethod: function(_self, responseData) {
                       //var response='{"fkInfoSysTypeCon":"1","appIsInternet":"1","fkSystemIsMerge":"1","systemName":"胜利时刻","standardizedCode":"271","gradeRecordSysName":"等保时刻","sysBusSituationType":"公众服务","sysBusDescription":"公众描述","sysServiceSitScope":"全国","sysServiceSitObject":"单位内部人员","npCoverageRange":"局域网","npNetworkProperties":"互联网","interconnectionSit":"与其他行业系统连接","fkExaminStatus":"数据库","productsNumber":"无","fkNationalIsProducts":"全部使用","fkProductsType":"等级测评","fkResponsibleType":"国外服务商","fkCompanyCode":"100","executiveOfficeName":"主管室时刻","executiveDireCon":"主管联系人","executiveDireConTel":"2710000","whenInvestmentUseL":"2018-05-24 11:13:17","subIsSystem":"1","addSystemSub":[{"systemName":"子1时刻","standardizedCode":"27101"},{"systemName":"子2时刻","standardizedCode":"27102"}],"systemKeyProducts":[{"fkNationalIsProducts":"1","fkExaminStatus":"2","productsNumber":"无","nUseProbability":1,"otherName":""}],"systemUseServices":[{"fkResponsibleType":"1","fkProductsType":"2","serviceIsUse":"1","otherName":"暂无"}]}';
                       //response = JSON.parse(response);
-                      var response = responseData.data;
+                    	var response = responseData.data;
                       _self.formData = response;
-                      
                       for(var i=0;i<10;i++){
                         if(response.addSystemSub!=null){
                           if(response.addSystemSub.length<_self.formData.addSystemSub.length){
@@ -650,6 +706,7 @@ var  data={
                               "otherName":""
                             });
                           }else if(response.systemKeyProducts.length>_self.formData.systemKeyProducts.length){
+
                             _self.formData.systemKeyProducts.push({
                               "fkNationalIsProducts":"",
                               "fkExaminStatus":"",
@@ -951,6 +1008,7 @@ var  data={
                     }
                   });
                   bus.$on('addNextSystemName',function(meg){
+                  	
                     if(meg!=null){
                       _self.$refs[meg].validate(function (valid) {
                         if (valid) {
@@ -986,6 +1044,9 @@ var  data={
                   bus.$on('changeNextSystemName',function(meg){
                     if(meg!=null){
                       _self.$refs[meg].validate(function (valid) {
+                      	var i=0;
+                      	console.log(valid+"+"+i)
+                      	i++;
                         if (valid) {
                           bus.$emit('changeNextSystemAjax',"add");
                         } else {

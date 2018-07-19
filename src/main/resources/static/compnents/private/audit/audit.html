@@ -183,18 +183,18 @@
                                         <!--状态-->
                                         <!--1：待企业安全员管理审核；2：待总部安全管理员审核；3：企业安全员管理审核未通过；4：总部安全管理员审核未通过；5：归档。-->
                                         <td class="liststatus">
-                                            <span class="audit" v-if="pro.fkExaminStatus=='1'">待企业安全员管理审核</span>
-                                            <span class="handing" v-else-if="pro.fkExaminStatus=='2'">待总部安全员审核</span>
-                                            <span class="archivage" v-else-if="pro.fkExaminStatus=='3'">企业安全员管理审核未通过
+                                            <span class="audit" v-if="pro.fkExaminStatus=='1'">待企业业务审核</span>
+                                            <span class="handing" v-else-if="pro.fkExaminStatus=='2'">待总部安全审核</span>
+                                            <span class="archivage" v-else-if="pro.fkExaminStatus=='3'">企业业务审核未通过
                                             </span>
-                                            <span class="passe-pas" v-else-if="pro.fkExaminStatus=='4'">总部安全管理员审核未通过
+                                            <span class="passe-pas" v-else-if="pro.fkExaminStatus=='4'">总部安全审核未通过
                                             </span>
                                             <span class="passe-pas" v-else-if="pro.fkExaminStatus=='5'">归档</span>
                                         </td>
                                         <!--操作-->
                                         <td style="color:#1e91e2;">
                                           <div v-if="pro.fkExaminStatus!=='5'">
-                                            <a  style="cursor: pointer;"  @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId,pro.companyId)">审核</a>
+                                            <a  style="cursor: pointer;"  @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId,pro.companyId,pro.fkExaminStatus)">审核</a>
                                           </div>                                  
                                        </td>
                                     </tr>

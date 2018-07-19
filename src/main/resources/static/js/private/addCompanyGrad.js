@@ -16,28 +16,40 @@ window.onload = function () {
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
             data.formData.gradingId = responseData.data;
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-            window.location.href = originUrl+"page/indexPage";
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/indexPage";
+            }, 2300);
           },
           //提交
           submitBtn:function(formName) {
+            data.submitCheck = false;
             bus.$emit('addSubmitGradName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
-            window.location.href = originUrl+"page/indexPage";
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/indexPage";
+            }, 2300);
           },
           //上一页
           preBtn:function(formName) {
+            data.check = false;
             bus.$emit('addPreGradName',formName);
           },
           // 获取系统信息成功
-          preBtnSuccessMethod : function(_self, responseData) {
-            data.formData.gradingId = responseData.data;
-            window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
+          preBtnSuccessMethod : function(_self, responseData,boo) {
+            if(boo){
+              data.check = false;
+              window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
+            }else{
+              $(".startBox").show().delay(2000).fadeOut();
+              window.setTimeout(function () {
+                data.formData.gradingId = responseData.data;
+                window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
+              }, 2300);
+            }
           },
           //下一页
           next1Btn:function(formName) {

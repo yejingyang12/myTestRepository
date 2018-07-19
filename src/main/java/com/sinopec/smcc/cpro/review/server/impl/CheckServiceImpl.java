@@ -23,7 +23,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
-import com.sinopec.smcc.depends.ubs.client.UbsClient;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
@@ -58,8 +57,6 @@ public class CheckServiceImpl implements CheckService {
   private SystemService systemServiceImpl;
   @Autowired
   private MainService mainServiceImpl;
-  @Autowired
-  UbsClient ubsClient;
   @Value("${appId}") 
   private String appId;
   @Autowired
@@ -88,39 +85,39 @@ public class CheckServiceImpl implements CheckService {
     //获得相应列表数据
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return new PageInfo<>();
-//    }else{
-//      
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.checkMapper.selectAllByCheckParam(checkParam);
-//        break;
-//      case "2":
-//        checkParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.checkMapper.selectAllByCheckParam(checkParam);
-//        break;
-//      case "3":
-//        checkParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.checkMapper.selectAllByCheckParam(checkParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        checkParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.checkMapper.selectAllByCheckParam(checkParam);
+        break;
+      case "3":
+        checkParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.checkMapper.selectAllByCheckParam(checkParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     //装载列表数据
     PageInfo<CheckListResult> pageInfo = new PageInfo<>(list);
     return pageInfo;

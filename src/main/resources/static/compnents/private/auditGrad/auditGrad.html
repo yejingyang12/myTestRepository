@@ -85,7 +85,7 @@
                 </div>
              </div>
              <!--审核意见-->
-             <div class="row h-table-border" style="margin:0 ;    margin-bottom: 15px;">
+             <div class="row h-table-border" style="margin:0 ;    margin-bottom: 15px;" v-show="jurisdictionShow">
                  <div class="col-md-12" style="padding: 0;">
                      <!--审核结果-->
                      <div class="row" style=" margin-left: 0;margin-top:5px;">
@@ -99,11 +99,12 @@
                               
                               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 								  <el-form-item label="审核结果：" prop="scoreCheckResult">
-								    <el-select v-model="ruleForm.scoreCheckResult" id="scoreCheckResult" filterable placeholder="请选择">
+								    <el-select v-model="ruleForm.scoreCheckResult" id="scoreCheckResult" @change="changeScore()" filterable placeholder="请选择">
 								     <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
 								  </el-select>
 								  </el-form-item> 
-								 <div class="one" @click="submitForm('ruleForm')"> 
+								 <div class="one"> 
+                 <!-- <div class="one" @click="submitForm('','ruleForm')">  -->
 								      <el-form-item label="审核原因：" prop="scoreCheckReason" >
 									    <el-input type="textarea" id="textArea" v-model="ruleForm.scoreCheckReason"></el-input>
 									  </el-form-item>

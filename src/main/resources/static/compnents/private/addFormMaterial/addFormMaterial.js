@@ -2,6 +2,8 @@
  * Created by timha on 2018/5/24.
  */
 var data={
+    check : false,
+    submitCheck:false,
         formData:{
       		systemMaterialsId: '',
       		fkSystemId: '',
@@ -51,6 +53,25 @@ var data={
                 methods:{
 
                   onUpload: function(e){
+                  	var fileSize = e.target.files[0].size;//文件大小（字节）
+                  	var fimeMax = 1048576 *30;
+                  	if(fileSize > fimeMax){
+                  		this.$alert('文件不能大于30M！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
+                  	var fileFormat = e.target.value.split(".");//文件后缀
+                  	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                  		this.$alert('不接受此文件类型！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
@@ -92,6 +113,25 @@ var data={
                     });
                   },
                   onUpload2: function(e){
+                  	var fileSize = e.target.files[0].size;//文件大小（字节）
+                  	var fimeMax = 1048576 *30;
+                  	if(fileSize > fimeMax){
+                  		this.$alert('文件不能大于30M！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
+                  	var fileFormat = e.target.value.split(".");//文件后缀
+                  	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                  		this.$alert('不接受此文件类型！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
@@ -130,6 +170,25 @@ var data={
                     });
                   },
                   onUpload3: function(e){
+                  	var fileSize = e.target.files[0].size;//文件大小（字节）
+                  	var fimeMax = 1048576 *30;
+                  	if(fileSize > fimeMax){
+                  		this.$alert('文件不能大于30M！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
+                  	var fileFormat = e.target.value.split(".");//文件后缀
+                  	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                  		this.$alert('不接受此文件类型！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');
@@ -168,6 +227,25 @@ var data={
                     });
                   },
                   onUpload4: function(e){
+                  	var fileSize = e.target.files[0].size;//文件大小（字节）
+                  	var fimeMax = 1048576 *30;
+                  	if(fileSize > fimeMax){
+                  		this.$alert('文件不能大于30M！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
+                  	var fileFormat = e.target.value.split(".");//文件后缀
+                  	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                  		this.$alert('不接受此文件类型！', '信息提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                  		return;
+                  	}
                     var uploadData = new FormData(); 
                     uploadData.append('file', e.target.files[0]);
                     uploadData.append('type', 'test');

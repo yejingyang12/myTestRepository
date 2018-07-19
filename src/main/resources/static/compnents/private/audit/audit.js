@@ -17,10 +17,10 @@
 		tableData: {},
 		businessNodeList: [{codeId: '1',codeName: '定级'},{codeId: '2',codeName: '撤销备案'},{codeId: '3',codeName: '定级信息变更'}],
 		examinStatusList: [
-		                   {codeId: '1',codeName: '待企业安全员管理审核'},
-		                   {codeId: '2',codeName: '待总部安全员审核'},
-		                   {codeId: '3',codeName: '企业安全员管理审核未通过'},
-		                   {codeId: '4',codeName: '总部安全管理员审核未通过'},
+		                   {codeId: '1',codeName: '待企业业务审核'},
+		                   {codeId: '2',codeName: '待总部安全审核'},
+		                   {codeId: '3',codeName: '企业业务审核未通过'},
+		                   {codeId: '4',codeName: '总部安全审核未通过'},
 		                   {codeId: '5',codeName: '归档'}
 		                  ],
 		auditBtn:null,
@@ -77,11 +77,11 @@
           },
           
           //审核
-          checkThisRow: function(fkBusinessNode,systemId,companyId){
+          checkThisRow: function(fkBusinessNode,systemId,companyId,examinStatus){
 						//定级：1
           	//撤销备案：2
           	//定级信息变更：3
-						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId;
+						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus"+examinStatus;
           },
           
           //专家评审意见和备案证明下载

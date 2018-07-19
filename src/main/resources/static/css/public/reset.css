@@ -434,3 +434,24 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .P-selfCheck .el-form-item__content>div{
     padding:0;
 }
+
+/*备案信息、撤销备案*/
+.P-record .el-form-item{
+    margin-bottom:0 !important;
+}
+.P-record .useData.el-input{
+    width: 100%;
+    margin-bottom:-30px;
+}
+.P-record .useData span.el-input__suffix{
+    top:-32px;
+}
+.P-record .uploadBox{
+    width: 100%;
+    padding-left:0;
+}
+.P-record .mcTextArea{
+    width: 100%;
+    margin-left:0 !important;
+    padding:0 5px !important;;
+}

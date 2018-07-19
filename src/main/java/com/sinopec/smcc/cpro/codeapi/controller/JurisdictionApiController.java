@@ -125,7 +125,26 @@ public class JurisdictionApiController {
     }
     return childMenu;
   }
-
+  
+  /**
+   * @Descrption 获取单位Code
+   * @author dongxu
+   * @date 2018年7月18日下午8:16:58
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @ResponseBody
+  @RequestMapping(value="/getCompanyCode", method = RequestMethod.POST)
+  public ResultApi getCompanyCode(HttpServletRequest request) throws BusinessException{
+    String companyCode = 
+        this.jurisdictionApiServiceImpl.getCompanyCode();
+    //通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(companyCode);
+    return result;
+  }
+  
   private void convert(Map<String, Object> map, ResourceDTO resourceDto) {
     map.put("hasChild", resourceDto.getHasChild());
     map.put("resourceUrl", resourceDto.getResourceUrl());

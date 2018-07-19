@@ -10,17 +10,28 @@ window.onload = function () {
       },
       methods : {
         submitForm:function(formName){
+          data.check=false;
           bus.$emit('changeFormName',formName);
         },
-        submitHandlerSuccessMethod: function(_self,data){
-          window.location.href = originUrl+"page/applicatuibChangSystemPage?companyCode=" + data.data+"&systemId="+systemId;
+        submitHandlerSuccessMethod: function(_self,data,boo){
+          if(boo){
+            data.check = false;
+            window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" + data.data+"&systemId="+systemId;
+          }else{
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" + data.data+"&systemId="+systemId;
+            }, 2300);
+          }
         },
       },
       mounted : function() {
         var _self = this;
         bus.$on('changeFormAjax',function(meg){
           if(meg!=null){
-            data.formData.changeType = "1";
+          	if(theLastStep == null || theLastStep == ''){
+          		data.formData.changeType = "1";
+          	}
             data.formData.systemId = systemId;
             ajaxMethod(_self, 'post',
                 'company/saveCompany', true,JSON.stringify(data.formData), 'json',

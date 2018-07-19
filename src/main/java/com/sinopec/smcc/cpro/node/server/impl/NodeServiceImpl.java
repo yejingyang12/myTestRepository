@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sinopec.smcc.depends.ubs.client.UbsClient;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
@@ -44,6 +46,9 @@ public class NodeServiceImpl implements NodeService {
   
   @Value("${appId}") 
   private String appId;
+  
+  @Autowired
+  private UserApiService userApiServiceImpl;
   
   /**
    * 响应单位列表数据
@@ -79,8 +84,9 @@ public class NodeServiceImpl implements NodeService {
     String userInfo = ubsClient.getUserByAccount(appId,"1", uid);
     String userName = JSONObject.parseObject(JSONObject.parseObject(userInfo).
         getString("data")).get("userName").toString();*/
-    String userName = "admin";
-    return userName;
+  //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    return userDTO.getUserName();
   }
   @Override
   public NodeResult selectSingleNode(NodeParam nodeParam) {

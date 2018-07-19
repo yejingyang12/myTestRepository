@@ -98,8 +98,22 @@ public class EvaluationServiceImpl implements EvaluationService {
 			evaluationParam.setEvaluationId(Utils.getUuidFor32());
 			evaluationParam.setCreateTime(new Date());
 		  //修改测评状态为已完成
-      MainParam mainParam = new MainParam();
-      mainParam.setEvaluationStatus("3");
+			MainParam mainParam = new MainParam();
+			List<EvaluationListResult> evaluationListResult = 
+			    evaluationMapper.selectAllByEvaluationSystemId(evaluationParam);
+			if(evaluationParam.getFkExamStatus() == 1){
+			  mainParam.setEvaluationStatus("1");
+			  if(!ObjectUtils.isEmpty(evaluationListResult)){
+	        for(EvaluationListResult evalResult : evaluationListResult){
+	          if(evalResult.getFkExamStatus() == 2){
+	            mainParam.setEvaluationStatus("3");
+	            break;
+	          }
+	        }
+	      }
+			}else{
+			  mainParam.setEvaluationStatus("3");
+			}
       mainParam.setSystemId(evaluationParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
 			try {

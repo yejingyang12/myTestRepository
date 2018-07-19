@@ -20,7 +20,7 @@ var detailsData={
 						console.log(tab, event);
 					},
 					submitRecord:function (){
-						bus.$emit("submitRecord","1");
+						bus.$emit("submitRecord","formData");
 					},
 					revokeRecord:function () {
 						$('.wrap').removeClass('cover');

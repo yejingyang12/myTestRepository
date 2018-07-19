@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
     <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--组件样式-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addCompanyInfoPage.css" th:attr="href=@{/css/private/addCompanyInfoPage.css}">
     <link rel="stylesheet" href="../../static/css/private/addReList.css" th:attr="href=@{/css/private/addReList.css}">
+    <link rel="stylesheet" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">
 <style>
     #companyName{
       height:32px!important; 
@@ -78,9 +80,25 @@
     <smcc-breadcrumb></smcc-breadcrumb>
     <add-re-list></add-re-list>
     <add-form>
-        <div slot="changeInf"  class="btn btn-success btnNext fr" @click="submitForm('formData')" >下一步</div>
+        <div slot="changeInf"  class="btn btn-success btnNext fr" @click="check=true" >下一步</div>
     </add-form>
     <add-fromalert></add-fromalert>
+    
+    <div class="inquiryBoxShow" v-show="check">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否保存?</p>
+                    <span>未保存的部分将会消失哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="submitForm('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="submitHandlerSuccessMethod('','',true)">取消</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
@@ -108,7 +126,10 @@
 <script type="text/javascript" th:inline="javascript">
 var companyCode = [[${companyCode}]]; 
 var systemId = [[${systemId}]]; 
+var companyId = [[${companyId}]]; 
+var theLastStep = [[${theLastStep}]]; 
 var readonly="update";
 var type="change";
+var jurisdiction = '';
 </script>
 </html>

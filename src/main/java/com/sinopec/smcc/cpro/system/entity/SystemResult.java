@@ -69,8 +69,25 @@ public class SystemResult {
   private String fkCompanyCode;
   private Integer fkInfoSysTypeCon;
   private Integer fkSystemIsMerge;
+  private Integer gradingStatus;
 
   
+  /**
+   * @return the gradingStatus
+   */
+  public Integer getGradingStatus() {
+    return gradingStatus;
+  }
+
+
+  /**
+   * @param gradingStatus the gradingStatus to set
+   */
+  public void setGradingStatus(Integer gradingStatus) {
+    this.gradingStatus = gradingStatus;
+  }
+
+
   /**
    * @return the fkFatherSystemId
    */

@@ -15,16 +15,7 @@ window.onload = function () {
           submitHandlerSuccessMethod: function(_self,returnData){
             window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + returnData.data+"&companyCode="+data.formData.companyCode;
           },
-          saveCompanyInfo:function (){
-						bus.$emit("saveCompanyInfo","1");
-					},
-					cleanCompanyInfo:function (){
-						bus.$emit("cleanCompanyInfo","1");
-					},
-					returnCompanyList:function (){
-						bus.$emit("returnCompanyList","1");
-					},
-					//返回
+          //返回
           returnBtn:function() {
             window.location.href = originUrl+"page/indexPage";
           }

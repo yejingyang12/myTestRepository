@@ -29,6 +29,7 @@ public class JurisdictionDataResult {
   private List<String> codeList;
   private List<String> nameList;
   private String orgId;
+  private List<String> permssions;
   
   public String getResultType() {
     return resultType;
@@ -53,6 +54,12 @@ public class JurisdictionDataResult {
   }
   public void setNameList(List<String> nameList) {
     this.nameList = nameList;
+  }
+  public List<String> getPermssions() {
+    return permssions;
+  }
+  public void setPermssions(List<String> permssions) {
+    this.permssions = permssions;
   }
   
   public String toString(){

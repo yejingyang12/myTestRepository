@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--私有css-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addCompanyInfoPage.css" th:attr="href=@{/css/private/addCompanyInfoPage.css}">
@@ -79,7 +80,7 @@
     <smcc-breadcrumb></smcc-breadcrumb>
     <add-form>
         <p slot="addInf" class="unitBtn">
-            <button type="button" class="btn btn-success" @click="saveCompanyInfo">保存</button><!--  -->
+            <button type="button" class="btn btn-success" @click="saveCompanyInfo('formData')">保存</button><!--  -->
             <button type="button" class="btn btn-default" @click="cleanCompanyInfo">清空</button><!--  -->
             <button type="button" class="btn btn-default" @click="returnCompanyList">返回</button><!--  -->
         </p>
@@ -103,7 +104,7 @@
 <script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addForm/addForm.js" th:attr="src=@{/compnents/private/addForm/addForm.js}"></script>
-<script async src="../../static/js/private/addCompanyInfoPage.js" th:attr="src=@{/js/private/addCompanyInfoPage.js}"></script>
+<script async src="../../static/js/private/changeUnitInformation.js" th:attr="src=@{/js/private/changeUnitInformation.js}"></script>
 <script async src="../../static/compnents/private/addFromalert/addFromalert.js" th:attr="src=@{/compnents/private/addFromalert/addFromalert.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 var companyId = [[${companyId}]]; 

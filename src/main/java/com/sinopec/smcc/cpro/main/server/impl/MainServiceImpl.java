@@ -137,37 +137,37 @@ public class MainServiceImpl implements MainService{
     }
     //获得相应列表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    if(organizationApiResult==null){
-//      return new PageInfo<>();
-//    }else{
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-////        // 获得响应列表数据
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.mainMapper.selectAllByMainParam(mainParam);
-//        break;
-//      case "2":
-//        mainParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.mainMapper.selectAllByMainParam(mainParam);
-//        break;
-//      case "3":
-//        mainParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.mainMapper.selectAllByMainParam(mainParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        mainParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.mainMapper.selectAllByMainParam(mainParam);
+        break;
+      case "3":
+        mainParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.mainMapper.selectAllByMainParam(mainParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     //装载列表数据
     PageInfo<MainListResult> pageInfo = new PageInfo<>(list);
     return pageInfo;
@@ -1058,17 +1058,17 @@ public class MainServiceImpl implements MainService{
               }
               //是否使用国产品
               if(systemRes.getFkNationalIsProducts() != null){
-                if(systemRes.getFkNationalIsProducts() == 1){
+                if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan1","✓");
                   dataMap.put("nan2"," ");
                   dataMap.put("nan3"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 2){
+                if(systemRes.getFkNationalIsProducts().equals("2")){
                   dataMap.put("nan2","✓");
                   dataMap.put("nan1"," ");
                   dataMap.put("nan3"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 3){
+                if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan3","✓");
                   dataMap.put("nan2"," ");
                   dataMap.put("nan1"," ");
@@ -1086,17 +1086,17 @@ public class MainServiceImpl implements MainService{
               }
               //是否使用国产品
               if(systemRes.getFkNationalIsProducts() != null){
-                if(systemRes.getFkNationalIsProducts() == 1){
+                if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan4","✓");
                   dataMap.put("nan5"," ");
                   dataMap.put("nan6"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 2){
+                if(systemRes.getFkNationalIsProducts().equals("2")){
                   dataMap.put("nan5","✓");
                   dataMap.put("nan4"," ");
                   dataMap.put("nan6"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() ==3){
+                if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan6","✓");
                   dataMap.put("nan5"," ");
                   dataMap.put("nan4"," ");
@@ -1114,17 +1114,17 @@ public class MainServiceImpl implements MainService{
               }
               //是否使用国产品
               if(systemRes.getFkNationalIsProducts() != null){
-                if(systemRes.getFkNationalIsProducts() == 1){
+                if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan7","✓");
                   dataMap.put("nan8"," ");
                   dataMap.put("nan9"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 2){
+                if(systemRes.getFkNationalIsProducts().equals("2")){
                   dataMap.put("nan8","✓");
                   dataMap.put("nan7"," ");
                   dataMap.put("nan9"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 3){
+                if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan9","✓");
                   dataMap.put("nan8"," ");
                   dataMap.put("nan7"," ");
@@ -1142,17 +1142,17 @@ public class MainServiceImpl implements MainService{
               }
               //是否使用国产品
               if(systemRes.getFkNationalIsProducts() != null){
-                if(systemRes.getFkNationalIsProducts() == 1){
+                if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan10","✓");
                   dataMap.put("nan11"," ");
                   dataMap.put("nan12"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 2){
+                if(systemRes.getFkNationalIsProducts().equals("2")){
                   dataMap.put("nan11","✓");
                   dataMap.put("nan10"," ");
                   dataMap.put("nan12"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 3){
+                if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan12","✓");
                   dataMap.put("nan11"," ");
                   dataMap.put("nan10"," ");
@@ -1170,17 +1170,17 @@ public class MainServiceImpl implements MainService{
               }
               //是否使用国产品
               if(systemRes.getFkNationalIsProducts() != null){
-                if(systemRes.getFkNationalIsProducts() == 1){
+                if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan13","✓");
                   dataMap.put("nan14"," ");
                   dataMap.put("nan15"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 2){
+                if(systemRes.getFkNationalIsProducts().equals("2")){
                   dataMap.put("nan14","✓");
                   dataMap.put("nan13"," ");
                   dataMap.put("nan15"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 3){
+                if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan15","✓");
                   dataMap.put("nan14"," ");
                   dataMap.put("nan15"," ");
@@ -1201,17 +1201,17 @@ public class MainServiceImpl implements MainService{
               }
               //是否使用国产品
               if(systemRes.getFkNationalIsProducts() != null){
-                if(systemRes.getFkNationalIsProducts() == 1){
+                if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan16","✓");
                   dataMap.put("nan17"," ");
                   dataMap.put("nan18"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 2){
+                if(systemRes.getFkNationalIsProducts().equals("2")){
                   dataMap.put("nan17","✓");
                   dataMap.put("nan16"," ");
                   dataMap.put("nan18"," ");
                 }
-                if(systemRes.getFkNationalIsProducts() == 3){
+                if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan18","✓");
                   dataMap.put("nan17"," ");
                   dataMap.put("nan16"," ");
@@ -2334,39 +2334,39 @@ public class MainServiceImpl implements MainService{
     
   //获得相应列表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return list;
-//    }else{
-//      
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return list;
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.mainMapper.selectSystemName(mainParam);
-//        break;
-//      case "2":
-//        mainParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.mainMapper.selectSystemName(mainParam);
-//        break;
-//      case "3":
-//        mainParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.mainMapper.selectSystemName(mainParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        mainParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+      case "3":
+        mainParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.mainMapper.selectSystemName(mainParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     return list;
   }
   
@@ -2507,37 +2507,37 @@ public class MainServiceImpl implements MainService{
   public List<MainListResult> queryGradingStatistics(MainParam mainParam) throws BusinessException {
     //获得相应图表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
-//    //权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
-//      return null;
-//    }else{
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
+      return null;
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         list = 
             this.mainMapper.selectGradingStatistics(mainParam);
-//        break;
-//      case "2":
-//        mainParam.setPlateList(organizationApiResult.getNameList());
-//        list =  
-//            this.mainMapper.selectGradingStatistics(mainParam);
-//        break;
-//      case "3":
-//        mainParam.setCompanyList(organizationApiResult.getCodeList());
-//        list =  
-//            this.mainMapper.selectGradingStatistics(mainParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        mainParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.mainMapper.selectGradingStatistics(mainParam);
+        break;
+      case "3":
+        mainParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.mainMapper.selectGradingStatistics(mainParam);
+        break;
+
+      default:
+        break;
+      }
+    }
     return list;
   }
 

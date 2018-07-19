@@ -69,26 +69,28 @@
 		         this.option.series[0].data[2].value = 0;
 		         this.option.series[0].data[3].value = 0;
 		         this.option.series[0].data[4].value = 0;
-	        	 for(var i = 0; i < result.data.length; i++){
-	        		 if(result.data[i].spRanklevelName == '一级'){
-	        			 this.option.series[0].data[0].value = result.data[i].spRanklevelCount;
-	 	        	 }
-	 	        	 if(result.data[i].spRanklevelName == '二级'){
-	 	        		this.option.series[0].data[1].value = result.data[i].spRanklevelCount;
-	 	        	 }
-	 	        	 if(result.data[i].spRanklevelName == '三级'){
-	 	        		this.option.series[0].data[2].value = result.data[i].spRanklevelCount;
-	 	        	 }
-	 	        	 if(result.data[i].spRanklevelName == '四级'){
-	 	        		this.option.series[0].data[3].value = result.data[i].spRanklevelCount;
-	 	        	 }
-	 	        	 if(result.data[i].spRanklevelName == '五级'){
-	 	        		this.option.series[0].data[4].value = result.data[i].spRanklevelCount;
-	 	        	 }
-//	        		this.option.series[0].data[i].value = result.data[i].spRanklevelCount;
-//	          	this.option.series[0].data[i].name = result.data[i].spRanklevelName;	
-//	          	this.option.legend.data[i] = result.data[i].spRanklevelName;
-	        	}
+		         if(result.data != null){
+		        	 for(var i = 0; i < result.data.length; i++){
+		        		 if(result.data[i].spRanklevelName == '一级'){
+		        			 this.option.series[0].data[0].value = result.data[i].spRanklevelCount;
+		 	        	 }
+		 	        	 if(result.data[i].spRanklevelName == '二级'){
+		 	        		this.option.series[0].data[1].value = result.data[i].spRanklevelCount;
+		 	        	 }
+		 	        	 if(result.data[i].spRanklevelName == '三级'){
+		 	        		this.option.series[0].data[2].value = result.data[i].spRanklevelCount;
+		 	        	 }
+		 	        	 if(result.data[i].spRanklevelName == '四级'){
+		 	        		this.option.series[0].data[3].value = result.data[i].spRanklevelCount;
+		 	        	 }
+		 	        	 if(result.data[i].spRanklevelName == '五级'){
+		 	        		this.option.series[0].data[4].value = result.data[i].spRanklevelCount;
+		 	        	 }
+//		        		this.option.series[0].data[i].value = result.data[i].spRanklevelCount;
+//		          	this.option.series[0].data[i].name = result.data[i].spRanklevelName;	
+//		          	this.option.legend.data[i] = result.data[i].spRanklevelName;
+		           }
+		         }
 	        }
         },
         created: function() { 

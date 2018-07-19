@@ -11,11 +11,19 @@ window.onload = function () {
         methods:{
           saveBtn:function(formName) {
             data.formData.changeType = "2";
-            ajaxMethod(this, 'post',
-                'system/saveSystem', true,
-                JSON.stringify(data.formData), 'json',
-                'application/json;charset=UTF-8',
-                this.saveBtnSuccessMethod);
+            if(systemId!=''&&systemId!=null){
+              ajaxMethod(this, 'post',
+                  'system/editSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.saveBtnSuccessMethod);
+            }else{
+              ajaxMethod(this, 'post',
+                  'system/saveSystem', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.saveBtnSuccessMethod);
+            }
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -27,11 +35,20 @@ window.onload = function () {
           },
           //上一页
           preBtn:function(formName) {
+            data.check = false;
             bus.$emit('addPreSystemName',formName);
           },
           // 获取系统信息成功
-          preBtnSuccessMethod : function(_self, responseData) {
+          preBtnSuccessMethod : function(_self, responseData,boo) {
+            if(boo){
+              data.check = false;
               window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+            }else{
+              $(".startBox").show().delay(2000).fadeOut();
+              window.setTimeout(function () {
+                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+              }, 2300);
+            }
           },
           //下一页
           nextBtn:function(formName) {
@@ -43,11 +60,11 @@ window.onload = function () {
           },
           
           saveSystemInfoSuccessMethod :function(_self, responseData){
-          	window.location.href = originUrl + "page/mainCompanyInfoPage";
+            window.location.href = originUrl + "page/mainCompanyInfoPage";
           },
           saveSystemInfo:function (){
-						//bus.$emit("saveSystemInfo","1");
-          	if(systemId!=''&&systemId!=null){
+            //bus.$emit("saveSystemInfo","1");
+            if(systemId!=''&&systemId!=null){
               ajaxMethod(this, 'post',
                   'system/editSystem', true,
                   JSON.stringify(data.formData), 'json',
@@ -60,10 +77,9 @@ window.onload = function () {
                   'application/json;charset=UTF-8',
                   this.saveSystemInfoSuccessMethod);
             }
-					},
-					cleanSystemInfo:function (){
-						//bus.$emit("cleanSystemInfo","1");
-						data.formData={
+          },
+          cleanSystemInfo:function (){
+            data.formData={
                 systemId:"",
                 companyId:"",
                 fkInfoSysTypeCon:"",
@@ -185,16 +201,15 @@ window.onload = function () {
                   otherName:""
                 }]
               };
-						$(".baseMes1").find(".btnColor").removeClass("btnColor");
-					},
-					returnSystemList:function (){
-						//bus.$emit("returnSystemList","1");
-						window.location.href = originUrl + "page/mainCompanyInfoPage";
-					},
-				//返回
-	        returnBtn:function() {
-	          window.location.href = originUrl+"page/indexPage";
-	        }
+            $(".baseMes1").find(".btnColor").removeClass("btnColor");
+          },
+          returnSystemList:function (){
+            window.location.href = originUrl + "page/mainCompanyInfoPage";
+          },
+          //返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
+          }
         },
         mounted : function() {
           var _self = this;

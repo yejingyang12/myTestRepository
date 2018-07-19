@@ -61,9 +61,18 @@
         <![CDATA[
           #{operationResult},
         ]]>
-        <![CDATA[
-          #{operationOpinion},
-        ]]>
+        <choose>
+          <when test="operationOpinion != null and operationOpinion != ''">
+              <![CDATA[
+                #{operationOpinion,jdbcType=VARCHAR},
+              ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
         <![CDATA[
           #{createTime},
         ]]>

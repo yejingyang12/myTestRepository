@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--组件样式-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addFormMaterial.css" th:attr="href=@{/css/private/addFormMaterial.css}">
@@ -37,13 +38,32 @@
     <smcc-breadcrumb>
       <li slot="materialChangeBtn" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')">提交</button>
+          <button type="button" class="btn btn-success " id="submit" @click="submitCheck = true">提交</button>
           <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')">保存</button>
           <!-- <button type="button" class="btn btn-default" id="pre" @click="preBtn()">上一步</button> -->
         </div>
       </li>
     </smcc-breadcrumb>
     <material-nav></material-nav>
+    
+    <div class="inquiryBoxShow" v-show="submitCheck">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否确认提交审批?</p>
+                    <!-- <span>未保存的部分将会消失哦</span> -->
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="submitBtn('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="submitCheck = false">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="startBox" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
+    </div>
 </div>
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>

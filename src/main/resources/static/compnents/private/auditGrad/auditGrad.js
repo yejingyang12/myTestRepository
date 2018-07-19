@@ -1,5 +1,7 @@
 (function () {
   var data = {
+      jurisdictionShow:false,
+      jurisdictionType:0,
 		  ruleForm: {
 	          name: '',
 	          scoreCheckResult: '',
@@ -67,12 +69,17 @@
 		        this.$refs[formName].resetFields();
 		      },
         	submitForm:function(_self,formName) {
-			      this.$refs[formName].validate(function(valid){
+        	  if(_self==''){
+        	    _self = this;
+        	  }
+        	  this.$refs[formName].validate(function(valid){
 			          if (valid) {
 			        	_self.saveGradCheck(_self);
 			          } else {
-			        	_self.open5();
-			            return false;
+			          	if(_self.ruleForm.scoreCheckResult != 1){
+			          		_self.open5();
+				            return false;
+			          	}
 			         }
 			     });
 			 },
@@ -174,40 +181,101 @@
         		}
         	},
         	saveGradCheck: function(_self){
-        		_self.ruleForm.scoreCheckResult
-        		switch (fkBusinessNode) {
-            case '1':
-            	ajaxMethod(_self,"post",
-   							 "checkController/saveGradCheck",false,
-   							 JSON.stringify(this.formData),"json",
-   							 'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
-              break;
-            case '2':
-            	_self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
-            	_self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
-            	ajaxMethod(_self,"post",
-   							 "checkController/saveCancelRecordsCheck",false,
-   							 JSON.stringify(this.formData),"json",
-   							 'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
-              break;
-            case '3':
-            	_self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
-            	_self.formData.scoreCheckChangeReason = _self.ruleForm.scoreCheckReason;
-            	ajaxMethod(_self,"post",
-   							 "checkController/saveGradChangeCheck",false,
-   							 JSON.stringify(this.formData),"json",
-   							 'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
-              break;
+        	  if(_self.jurisdictionType==1){
+        	    switch (fkBusinessNode) {
+              case '1':
+                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
+                ajaxMethod(_self,"post",
+                   "checkController/saveHeadGradCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+              case '2':
+                _self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
+                _self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
+                ajaxMethod(_self,"post",
+                   "checkController/saveCancelRecordsCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+              case '3':
+                _self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
+                _self.formData.scoreCheckChangeReason = _self.ruleForm.scoreCheckReason;
+                ajaxMethod(_self,"post",
+                   "checkController/saveHeadGradChangeCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
 
-            default:
-              break;
-            }
+              default:
+                break;
+              }
+        	  }else if(_self.jurisdictionType==2){
+        	    switch (fkBusinessNode) {
+              case '1':
+                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
+                ajaxMethod(_self,"post",
+                   "checkController/saveGradCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+              case '2':
+//                _self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
+//                _self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
+//                ajaxMethod(_self,"post",
+//                   "checkController/saveCancelRecordsCheck",false,
+//                   JSON.stringify(this.formData),"json",
+//                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+              case '3':
+                _self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
+                _self.formData.scoreCheckChangeReason = _self.ruleForm.scoreCheckReason;
+                ajaxMethod(_self,"post",
+                   "checkController/saveGradChangeCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+
+              default:
+                break;
+              }
+        	  }
           },
           saveGradCheckSuccess: function(_self,response){
         		window.location.href="/page/auditPage";
           },
-          
-          
+          getPermitJurisdictionInfo: function(_self){
+            ajaxMethod(_self,"post",
+                "jurisdiction/queryDataJurisdictionApi",false,
+                JSON.stringify(this.formData),"json",
+                'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+          },
+          getPermitJurisdictionSuccess: function(_self,response){
+            
+            for (var i = 0; i < response.data.permssions.length; i++) {
+              var permssions = response.data.permssions[i];
+              if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_AUDIT){
+                _self.jurisdictionType = 1;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_AUDIT){
+                _self.jurisdictionType = 2;
+              }
+            }
+            if(_self.jurisdictionType==1&&fkExaminStatus=='1'){
+              _self.jurisdictionShow = true;
+            }else if(_self.jurisdictionType==2&&fkExaminStatus=='2'){
+              _self.jurisdictionShow = true;
+            }else{
+              _self.jurisdictionShow = false;
+              bus.$emit("jurisdictionShow","1");
+            }
+          },
+          //审核结构：显示输
+          changeScore : function(){
+          	if(this.ruleForm.scoreCheckResult == 1){
+          		this.rules.scoreCheckReason[0].required = false;
+          	}
+          },
           //审核结构：显示输入内容的字数
           text:function(){
             $('#scoreCheckReason').on("keyup",function(){
@@ -223,6 +291,9 @@
         
         mounted: function() {
         	var _self=this;
+        	//审核人
+        	_self.getPermitJurisdictionInfo(_self);
+        	
           //点击提交按钮 发送请求 
           bus.$on("gradSubmit",function(meg){
             if(meg!=null){

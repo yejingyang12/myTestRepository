@@ -30,6 +30,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
@@ -53,6 +54,7 @@ import com.sinopec.smcc.cpro.system.util.ConvertFieldUtil;
 import com.sinopec.smcc.cpro.tools.JacobExcelTool;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title SystemServiceImpl.java
@@ -78,6 +80,9 @@ public class SystemServiceImpl implements SystemService {
 	private MainService mainServiceImpl;
 	@Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
+	@Autowired
+  private UserApiService userApiServiceImpl;
+	
 	/**
    * 响应系统列表数据
    */
@@ -103,38 +108,38 @@ public class SystemServiceImpl implements SystemService {
 		List<SystemListResult> systemListResultlist = new ArrayList<SystemListResult>();
 		
 		//权限
-//    JurisdictionDataResult organizationApiResult = 
-//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-//    
-//    if(organizationApiResult==null){
-//      return new PageInfo<>();
-//    }else{
-//      
-//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-//      switch (organizationApiResult.getResultType()) {
-//      
-//      case "0":
-//        break;
-//      case "1":
-//        // 获得响应列表数据
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return new PageInfo<>();
+    }else{
+      
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
         systemListResultlist = 
             this.systemMapper.selectAllBySystemParam(systemParam);
-//        break;
-//      case "2":
-//        systemParam.setPlateList(organizationApiResult.getNameList());
-//        systemListResultlist =  
-//            this.systemMapper.selectAllBySystemParam(systemParam);
-//        break;
-//      case "3":
-//        systemParam.setCompanyList(organizationApiResult.getCodeList());
-//        systemListResultlist =  
-//            this.systemMapper.selectAllBySystemParam(systemParam);
-//        break;
-//
-//      default:
-//        break;
-//      }
-//    }
+        break;
+      case "2":
+        systemParam.setPlateList(organizationApiResult.getNameList());
+        systemListResultlist =  
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+      case "3":
+        systemParam.setCompanyList(organizationApiResult.getCodeList());
+        systemListResultlist =  
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+
+      default:
+        break;
+      }
+    }
 		//装载列表数据
 		PageInfo<SystemListResult> pageInfo = new PageInfo<>(systemListResultlist);
 		return pageInfo;
@@ -147,7 +152,18 @@ public class SystemServiceImpl implements SystemService {
   @Transactional
   public String saveSystem(String userName, SystemParam systemParam) 
       throws BusinessException {
-    String fkCompanyCode = "0101";
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    String fkCompanyCode = "";
+    String[] orgCodes = userDTO.getOrgCode().split(",");
+    for (String strCode : orgCodes) {
+      if (strCode.trim().length()>8) {
+        fkCompanyCode = strCode.trim().substring(0, 8);
+      }else {
+        fkCompanyCode = strCode.trim();
+      }
+      break;
+    }
     
     List<SystemKeyProducts> keyList = systemParam.getSystemKeyProducts();
     List<SystemParam> systemCode = systemParam.getAddSystemSub();
@@ -173,9 +189,7 @@ public class SystemServiceImpl implements SystemService {
       systemParam.setAppIsInternet(2);
       systemParam.setCreateTime(new Date());
       systemParam.setEvaluationStatus(1);
-      if (systemParam.getFkComCode() == 1) {
-        systemParam.setFkCompanyCode(systemParam.getFkCompanyCode());
-      }else if(systemParam.getFkComCode() == 2){
+      if(systemParam.getFkComCode() == 2){
         systemParam.setFkCompanyCode(fkCompanyCode);
       }
       subSystemList.add(systemParam);

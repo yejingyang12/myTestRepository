@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--private-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css" th:attr="href=@{/css/private/auditzero.css}">
@@ -136,7 +137,7 @@
     font-size:0;
  }
 .seachstarttime .el-input__prefix {
-    right: 5px; !imoprtant
+    right: 5px !important;
     left:unset;
 }
 
@@ -222,10 +223,14 @@ input[type="radio"] {
     margin: 0;
 }
 .el-checkbox__input.is-focus .el-checkbox__inner {
-    border-color:grays;
+    border-color:gray;
 }
 /*去掉ie下input的小眼睛和“x”*/ 
-::-ms-clear,::-ms-reveal{display:none;}   
+::-ms-clear,::-ms-reveal{display:none;}
+ .tableTopimg{
+     margin-top:-3px;
+     margin-right:2px;
+ }
 </style>
 </head>
 <body class="h-body">
@@ -239,11 +244,11 @@ input[type="radio"] {
         
         <!--表格说明状态图标-->
         <img src="../../static/images/home/s01ztyichexiao.png" slot="s01ztyichexiao" alt="" th:attr="src=@{/images/home/s01ztyichexiao.png}">
-        <img src="../../static/images/home/s01ztyiwancheng.png" alt=""
+        <img src="../../static/images/home/s01ztyiwancheng.png" class="tableTopimg" alt=""
         th:attr="src=@{/images/home/s01ztyiwancheng.png}" slot="s01ztyiwancheng">
-        <img src="../../static/images/home/s01ztjinxingzhong.png" alt="" th:attr="src=@{/images/home/s01ztjinxingzhong.png}" slot="s01ztjinxingzhong">
-        <img src="../../static/images/home/s01ztweijinxing.png" alt="" th:attr="src=@{/images/home/s01ztweijinxing.png}" slot="s01ztweijinxing">
-       	<img src="../../static/images/home/examine.png" alt="" th:attr="src=@{/images/home/examine.png}" slot="s01ztexamine">
+        <img src="../../static/images/home/s01ztjinxingzhong.png" class="tableTopimg" alt="" th:attr="src=@{/images/home/s01ztjinxingzhong.png}" slot="s01ztjinxingzhong">
+        <img src="../../static/images/home/s01ztweijinxing.png" class="tableTopimg" alt="" th:attr="src=@{/images/home/s01ztweijinxing.png}" slot="s01ztweijinxing">
+       	<img src="../../static/images/home/examine.png" class="tableTopimg" alt="" th:attr="src=@{/images/home/examine.png}" slot="s01ztexamine">
         
          <!--排序图标-->
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
@@ -284,6 +289,7 @@ input[type="radio"] {
 <!--ajax路径-->
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
+<script src="../../static/js/public/permitParam.js" th:attr="src=@{/js/public/permitParam.js}"></script>
 
 <!--头部组件-->
 <script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>

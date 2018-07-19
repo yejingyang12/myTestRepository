@@ -27,6 +27,7 @@ import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.mapper.SystemCodeMapper;
 import com.sinopec.smcc.depends.ubs.dto.AuthorizationDTO;
+import com.sinopec.smcc.depends.ubs.dto.PermissionDTO;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 
@@ -76,12 +77,26 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
     List<AuthorizationDTO> jsonMenu = this.ubsFeignTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
     
+//    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsFeignTemplate.
+//        getDataAuthByUserIdAfterChange(userDTO.getUserId()+""); 
+//    System.out.println(dataAuthByUserIdAfterChange);
+//    List<AuthorizationDTO> dataAuthByUserIdAfterChange1 = this.ubsFeignTemplate.
+//        getDataAuthByUserIdAfterChange(userDTO.getUserId()+"","");
+    
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();
+    List<String> permssionsList = new ArrayList<String>();
     for (AuthorizationDTO authorizationDTO : jsonMenu) {
-    //通过等号切分
+      //增加权限许可
+      if (authorizationDTO.getPermissionList() != null) {
+        List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
+        for (PermissionDTO permissionDTO : permissionDTOList) {
+          permssionsList.add(permissionDTO.getPermcode());
+        }
+      }
+      //通过等号切分
       String[] rules = authorizationDTO.getRule().split("=");
-      if (rules.length==2) {
+      if (rules.length==2) { 
         //如果是两个，代表数据正确，去掉左右空格
         if ("orgCode".equals(rules[0].trim())) {
           //去掉空格后通过逗号切分
@@ -136,6 +151,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
         }
       }
     }
+    jurisdictionDataResult.setPermssions(permssionsList);
     jurisdictionDataResult.setCodeList(codeList);
     return jurisdictionDataResult;
   }
@@ -159,6 +175,27 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     return COMPANY_NAME_MAP.get(rules);
   }
   
+  /**
+   * @Descrption 获取单位Code
+   * @author dongxu
+   * @date 2018年7月18日下午8:12:31
+   * @return
+   */
+  @Override
+  public String getCompanyCode() {
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    String[] orgCodes = userDTO.getOrgCode().split(",");
+    String companyCode = "";
+    for (String orgCode : orgCodes) {
+      if (orgCode.trim().length()>8) {
+        companyCode = orgCode.trim().substring(0, 8);
+      }else {
+        companyCode = orgCode.trim();
+      }
+    }
+    return companyCode;
+  } 
   /**
    * @Descrption
    * @author eric

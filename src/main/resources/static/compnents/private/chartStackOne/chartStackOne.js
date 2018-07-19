@@ -152,14 +152,16 @@
           	this.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
-	        	for(var i = 0; i < result.data.length; i++){
-	        		this.option.xAxis.data[i] = result.data[i].companyName;
-	        		this.option.series[0].data[i] = result.data[i].level1;
-	        		this.option.series[1].data[i] = result.data[i].level2;	
-	        		this.option.series[2].data[i] = result.data[i].level3;	
-	        		this.option.series[3].data[i] = result.data[i].level4;	
-	        		this.option.series[4].data[i] = result.data[i].level5;	
-	        	}
+          	if(result.data != null){
+          		for(var i = 0; i < result.data.length; i++){
+  	        		this.option.xAxis.data[i] = result.data[i].companyName;
+  	        		this.option.series[0].data[i] = result.data[i].level1;
+  	        		this.option.series[1].data[i] = result.data[i].level2;	
+  	        		this.option.series[2].data[i] = result.data[i].level3;	
+  	        		this.option.series[3].data[i] = result.data[i].level4;	
+  	        		this.option.series[4].data[i] = result.data[i].level5;	
+  	        	}
+          	}
 	        }
         },
         created: function() {

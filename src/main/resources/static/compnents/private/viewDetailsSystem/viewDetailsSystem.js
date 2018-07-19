@@ -7,6 +7,7 @@
     		fkSystemIsMerge:"",//是否为合并系统的定级 
     		systemName:"",//系统名称
     		standardizedCode:"",//标准化代码
+    		appIsInternet:"",//是否为互联网应用
     		gradeRecordSysName:"",//等保备案系统名称
     		sysBusSituationType:"",//业务类型
     		sysBusDescription:"",//业务描述
@@ -113,6 +114,10 @@
                   			}
                   			if(! this.isEmpty(systemResult.data.addSystemSub)){
                   				this.addSystemSub = systemResult.data.addSystemSub;
+                  			}
+                  			if(! this.isEmpty(systemResult.data.appIsInternet)){
+                  				this.appIsInternet = systemResult.data.appIsInternet;
+                  				
                   			}
                   			
                   		} 

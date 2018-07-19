@@ -73,6 +73,7 @@ public class SystemParam {
   private List<SystemUseResult> systemUseResult;
   private List<SystemResult> systemResult;
   private Integer fkComCode;
+  private String theLastStep;
 
 
 
@@ -88,6 +89,19 @@ public class SystemParam {
   private List<String> companyList;
   private List<String> plateList;
   
+  
+  /**
+   * @return the theLastStep
+   */
+  public String getTheLastStep() {
+    return theLastStep;
+  }
+  /**
+   * @param theLastStep the theLastStep to set
+   */
+  public void setTheLastStep(String theLastStep) {
+    this.theLastStep = theLastStep;
+  }
   public List<String> getCompanyList() {
     return companyList;
   }

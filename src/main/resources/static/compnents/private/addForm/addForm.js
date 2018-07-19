@@ -1,6 +1,8 @@
   var data = {
+  		disabledInput:false,
       directive:false,
       check : false,
+      dtlCompanyCode:"",
       formData:{
         companyName:"",
         companyTypeName:"",
@@ -42,7 +44,7 @@
               { required: true, message: '请选择单位名称', trigger: 'change' },
           ],
           companyCode: [
-              { required: true, message: '请输入单位编码', trigger: 'change' }
+              { required: true, message: '请输入单位编码', trigger: 'blur' }
           ],
           companyAddress: [
               { required: false, message: '请输入单位地址', trigger: 'blur' },
@@ -390,10 +392,25 @@
                   _self.msgName = data.data;
                 }
               },
-              submitHandler:function(){
-                ajaxMethod(this, 'post',
-                    'company/saveCompany', true,JSON.stringify(this.formData), 'json',
-                    'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
+              submitHandler:function(formData){
+              	var _self = this;
+              	if(formData!=null){
+                  _self.$refs[formData].validate(function (valid) {
+                    if (valid) {
+                    	ajaxMethod(this, 'post',
+                          'company/saveCompany', true,JSON.stringify(_self.formData), 'json',
+                          'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
+                    } else {
+                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                          
+                        }
+                      });
+                      return false;
+                    }
+                  });
+                }  
               },
               submitHandlerSuccessMethod: function(_self,data){
 //                console.log(companyCode!=''&&companyCode!=null)
@@ -422,8 +439,8 @@
                 bus.$emit("industryCategory","1");
               },
               
-              saveCompanyInfo: function(_self){
-              	_self.submitHandler();
+              saveCompanyInfo: function(formData){
+              	this.submitHandler(formData);
               },
               cleanCompanyInfo: function(_self){
               	_self.formData={
@@ -459,6 +476,39 @@
               returnCompanyList: function(_self){
               	window.location.href = originUrl + "page/mainCompanyInfoPage";
               },
+              // 获取单位Code
+              getCompanyCode : function(_self) {
+                ajaxMethod(_self, 'post',
+                    'jurisdiction/getCompanyCode', true,
+                    '{}', 'json',
+                    'application/json;charset=UTF-8',
+                    _self.getCompanyCodeSuccessMethod);
+              },
+              // 获取单位Code成功
+              getCompanyCodeSuccessMethod : function(_self, responseData) {
+              	this.dtlCompanyCode=responseData.data;
+              	this.getCompanyDetailsMethod(_self,responseData.data);
+              },
+              getCompanyDetailsMethod:function(_self,meg){
+                ajaxMethod(_self, 'post',
+                    'company/queryCompanyByCode', true,'{"companyCode":"'+meg+'"}', 'json',
+                    'application/json;charset=UTF-8',_self.getCompanyDetailsMethodSuccess);
+              },
+              getCompanyDetailsMethodSuccess:function(_self, responseData){
+              	//如果有该单位信息则显示详情，没有则显示单位名称及code
+              	if(responseData.data != null){
+              		this.getCompanyInfoSuccessMethod(_self,responseData)
+              		data.disabledInput=true;
+              	}else{
+              		for(var i = 0; i < this.msgName.length ; i++){
+              			if(this.dtlCompanyCode == this.msgName[i].orgCode){
+              				this.formData.companyCode = this.dtlCompanyCode;
+              				this.formData.companyName=this.msgName[i].orgName;
+              				data.disabledInput=true;
+              			}
+              		}
+              	}
+              }
             },
             created : function() {
               // 获取省份
@@ -474,21 +524,28 @@
               //获取系统ID
               
               //getJurisdictionMethod(a,"0101010101");
+              if(jurisdiction == null || jurisdiction == ''){
+            		this.getCompanyCode(this);
+            	}
             },
             mounted : function() {
               // this.selectChange()
               // new Ctor().$mount('#wrap');
               var _self=this;
-              if(readonly=='update'){
+
+              if(companyId!=''&&companyId!=null){
+                _self.getCompanyInfoByIdMethod(_self,companyId);
+              }else if(companyCode!=null){
                 _self.getCompanyInfoMethod(_self,companyCode);
+              }
+              
+              if(readonly=='update'){
                 _self.nameReadonly = true;
               }
               if(type=='update'){
-                _self.getCompanyInfoByIdMethod(_self,companyId);
                 _self.nameReadonly = true;
               }
               bus.$on("selectedOptions",function(meg){
-                
                 if(meg!=null){
                   // 获取单位回显
                   _self.transmitParam = meg;
@@ -506,7 +563,7 @@
               
               bus.$on("saveCompanyInfo",function(meg){
                 if(meg!=null){
-                  _self.saveCompanyInfo(_self);
+                  _self.saveCompanyInfo(meg);
                 }
               });
               bus.$on("cleanCompanyInfo",function(meg){

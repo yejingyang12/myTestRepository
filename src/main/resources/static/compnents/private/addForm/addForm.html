@@ -13,7 +13,7 @@
           <li class="row" >
               <div class="col-lg-6 col-sm-3">
                 <el-form-item label="单位名称:" prop="companyName" class="P-form-input">
-                  <el-select filterable placeholder="请筛选单位名称" clearable name="companyName" class="formControl" id="companyName" @change="msgNameMethod()" v-model="formData.companyName" :disabled="nameReadonly">
+                  <el-select :disabled="disabledInput" filterable placeholder="请筛选单位名称" clearable name="companyName" class="formControl" id="companyName" @change="msgNameMethod()" v-model="formData.companyName" >
                     <el-option v-for="item in msgName" :key="item.orgCode" :label="item.orgName" :value="item.orgName"></el-option>
                   </el-select>
                 </el-form-item>

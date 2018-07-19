@@ -15,19 +15,22 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
-            this.$message({
-              message: '保存成功！',
-              type: 'success'
-            });
-            window.location.href = originUrl+"page/indexPage";
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/indexPage";
+            }, 2300);
           },
           //提交
           submitBtn:function(formName) {
+            data.submitCheck = false;
             bus.$emit('gradSubmitGradingName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
-            window.location.href = originUrl+"page/indexPage";
+            $(".startBox").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+              window.location.href = originUrl+"page/indexPage";
+            }, 2300);
           },
           //返回
           returnBtn:function() {

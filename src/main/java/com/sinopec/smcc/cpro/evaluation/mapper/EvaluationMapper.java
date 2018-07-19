@@ -77,5 +77,13 @@ public interface EvaluationMapper {
    * @return
    */
   List<EvaluationListResult> selectExamOrgCompany(RecordsParam recordsParam);
-
+  
+  /**
+   * @Descrption 通过系统ID查询测评数据
+   * @author dongxu
+   * @date 2018年7月12日下午2:52:13
+   * @param companyParam
+   * @return
+   */
+  List<EvaluationListResult> selectAllByEvaluationSystemId(EvaluationParam companyParam);
 }

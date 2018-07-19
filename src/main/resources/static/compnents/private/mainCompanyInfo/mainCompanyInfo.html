@@ -30,7 +30,7 @@
         <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
         <p class="h-p" style="margin: 15px 0;">
             <button   class="h-btn btn h-btn-add" id="h-btn-add" @click="newCompanyInfoMethod()" style="border: none;"> </button>
-            <button type="button" class="hh-btn btn btn-default h-bagimg" id="h-btn-add" @click="deleteCompanyInfoMethod()">
+            <button type="button" class="hh-btn btn btn-default h-bagimg" id="h-btn-add" @click="check = true">
                 <img class="hh-add   btn-default" src="/images/del.png" alt="">
                 <slot name="shanchu"></slot>
             </button>
@@ -71,12 +71,17 @@
                                     <i style="color:#1e91e2 ">|</i>
                                     <i @click="deleteClickDialog" type="text" size="small">删除</i>
                                            <!--  测评表格的删除弹窗 -->
-                                            <div class="dialogShaw">
-	                                             <div class="inquiry">
-												        <p>是否删除</p>
+                        <div class="dialogShaw">
+                           <div class="inquiry inquiryDelete">
+												        <div class="cenrerBox">
+                                    <i class="failIcon fl">!</i>
+                                    <div class="fl">
+                                        <p>是否删除</p>
+                                    </div>
+                                </div>
 												        <div class="inquiryBtn">
-												            <button type="button" class="btn btn-success fl" @click="deleteClick(item.companyId)">确定</button>
-												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+												            <button type="button" class="btn btn-success" @click="deleteClick(item.companyId)">确定</button>
+												            <button type="button" class="btn btn-default" @click="closes">取消</button>
 												        </div>
 												    </div>
 											 </div>
@@ -120,6 +125,27 @@
             </nav>
           </div>
         </div>
+    </div>
+    <div class="inquiryBoxShow" v-show="check">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否批量删除?</p>
+                    <!-- <span>未保存的部分将会消失哦</span> -->
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="deleteCompanyInfoMethod()">确定</button>
+                <button type="button" class="btn btn-default" @click="check = false">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="startBox startBoxSuccess">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
+    </div>
+    <div class="startBox startBoxError">
+        <div><i class="failIcon">!</i><P>请选择删除数据!</P></div>
     </div>
 </div>
 

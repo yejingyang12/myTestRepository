@@ -28,5 +28,13 @@ public interface JurisdictionApiService {
    * @return
    */
   JurisdictionDataResult queryDataJurisdictionApi();
+  
+  /**
+   * @Descrption 获取单位Code
+   * @author dongxu
+   * @date 2018年7月18日下午8:18:41
+   * @return
+   */
+  String getCompanyCode();
 
 }

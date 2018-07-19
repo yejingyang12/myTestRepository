@@ -1452,6 +1452,7 @@
 			system.subIsSystem,
 			system.executiveDireCon,
 			system.executiveDireConTel,
+			system.appIsInternet,
       system.companyName
 		FROM
 			t_cpro_system AS system
@@ -3504,6 +3505,7 @@
       system.executiveDireConTel,
       system.whenInvestmentUse,
       system.systemName,
+      system.gradingStatus,
       system.subIsSystem
     FROM t_cpro_system system
     WHERE system.pkId = #{systemId,jdbcType=VARCHAR}

@@ -7,11 +7,13 @@
     <link rel="stylesheet" href="../../static/css/public/reset.css" th:attr="href=@{/css/public/reset.css}">
     <link rel="stylesheet" href="../../static/css/public/bootstrap.css" th:attr="href=@{/css/public/bootstrap.css}">
     <link rel="stylesheet" href="../../static/css/public/index.css" th:attr="href=@{/css/public/index.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--组件样式-->
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
     <link rel="stylesheet" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
     <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
+    <link rel="stylesheet" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">
     <style>
         .mcAdd .addBaseBg,.mcAdd  .addSysBg{
             background-position: 0px -140px;
@@ -48,19 +50,52 @@
     <add-form-grad>
         <li slot="gradBtn" class="fr liMargin">
             <div class="saveBnt">
-                <button type="button" class="btn btn-success " id="submit" @click="submitBtn('formData')" v-show="!nextBtn">提交</button>
+                <button type="button" class="btn btn-success " id="submit" @click="submitCheck = true" v-show="!nextBtn">提交</button>
                 <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
-                <button type="button" class="btn btn-default" id="pre" @click="preBtn('formData')" v-show="!nextBtn">上一步</button>
+                <button type="button" class="btn btn-default" id="pre" @click="check = true" v-show="!nextBtn">上一步</button>
             </div>
         </li>
         <li slot="gradNextBtn" class="fr liMargin">
             <div class="saveBnt">
-                <button type="button" class="btn btn-default " id="pre" @click="preBtn('formData')"  v-show="nextBtn">上一步</button>
+                <button type="button" class="btn btn-default " id="pre" @click="check = true"  v-show="nextBtn">上一步</button>
                 <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')"  v-show="nextBtn">保存</button>
                 <button type="button" class="btn btn-success " id="next" @click="next1Btn('formData')"  v-show="nextBtn">下一步</button>
             </div>
         </li>
     </add-form-grad>
+    <div class="inquiryBoxShow" v-show="check">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否保存?</p>
+                    <span>未保存的部分将会消失哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="preBtn('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="preBtnSuccessMethod('','',true)">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="inquiryBoxShow" v-show="submitCheck">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否确认提交审批?</p>
+                    <!-- <span>未保存的部分将会消失哦</span> -->
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="submitBtn('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="submitCheck = false">取消</button>
+            </div>
+        </div>
+    </div>
+    <div class="startBox" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
+    </div>
     
 </div>
 </body>

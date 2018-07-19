@@ -11,6 +11,7 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,11 +45,18 @@ public class UserApiServiceImpl implements UserApiService{
     HttpServletRequest request = 
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
-    SSOPrincipal ssoPrincipal = (SSOPrincipal)session.getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR);
-    UserDTO userDTO = ubsFeignTemplate.getUserBySsoUid(ssoPrincipal.getUid());
+    String userId = (String) session.getAttribute("userId");
+    UserDTO userDTO = new UserDTO();
+    if (StringUtils.isBlank(userId)) {
+      SSOPrincipal ssoPrincipal = (SSOPrincipal)session.getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR);
+      userDTO = ubsFeignTemplate.getUserBySsoUid(ssoPrincipal.getUid());
+    } else {
+      userDTO = ubsFeignTemplate.getUserByUserId(userId);
+    }
     if (userDTO==null) {
       userDTO = new UserDTO();
     }
+    session.removeAttribute("userId");
     return userDTO;
   }
 

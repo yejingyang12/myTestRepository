@@ -26,7 +26,7 @@ public class SystemKeyResult {
   private Integer nUseProbability;
   private String otherName;
   private Integer fkExaminStatus;
-  private Integer fkNationalIsProducts;
+  private String fkNationalIsProducts;
   private String fkSystemId;
   
   
@@ -57,13 +57,13 @@ public class SystemKeyResult {
   /**
    * @return the fkNationalIsProducts
    */
-  public Integer getFkNationalIsProducts() {
+  public String getFkNationalIsProducts() {
     return fkNationalIsProducts;
   }
   /**
    * @param fkNationalIsProducts the fkNationalIsProducts to set
    */
-  public void setFkNationalIsProducts(Integer fkNationalIsProducts) {
+  public void setFkNationalIsProducts(String fkNationalIsProducts) {
     this.fkNationalIsProducts = fkNationalIsProducts;
   }
   /**

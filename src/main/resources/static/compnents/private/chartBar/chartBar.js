@@ -89,24 +89,26 @@
 	        } ,
 	        getGradingShapeSuccess : function(_self,result){	
 	        	this.option.series[0].data = ([0,0,0,0,0]);
-	        	for(var i = 0; i < result.data.length; i++){
-	        		if(result.data[i].spRanklevelName == '一级'){
-	        			 this.option.series[0].data[0] = result.data[i].spRanklevelCount;
-               }
-	             if(result.data[i].spRanklevelName == '二级'){
-	            	 this.option.series[0].data[1] = result.data[i].spRanklevelCount; 
-	             }
-	             if(result.data[i].spRanklevelName == '三级'){
-	            	 this.option.series[0].data[2] = result.data[i].spRanklevelCount;
-	             }
-	             if(result.data[i].spRanklevelName == '四级'){
-	            	 this.option.series[0].data[3] = result.data[i].spRanklevelCount;
-	             }
-	             if(result.data[i].spRanklevelName == '五级'){
-	            	 this.option.series[0].data[4] = result.data[i].spRanklevelCount;
-	             }
+	        	if(result.data != null){
+	        		for(var i = 0; i < result.data.length; i++){
+	        			if(result.data[i].spRanklevelName == '一级'){
+	        				this.option.series[0].data[0] = result.data[i].spRanklevelCount;
+	        			}
+	        			if(result.data[i].spRanklevelName == '二级'){
+	        				this.option.series[0].data[1] = result.data[i].spRanklevelCount; 
+	        			}
+	        			if(result.data[i].spRanklevelName == '三级'){
+	        				this.option.series[0].data[2] = result.data[i].spRanklevelCount;
+	        			}
+	        			if(result.data[i].spRanklevelName == '四级'){
+	        				this.option.series[0].data[3] = result.data[i].spRanklevelCount;
+	        			}
+	        			if(result.data[i].spRanklevelName == '五级'){
+	        				this.option.series[0].data[4] = result.data[i].spRanklevelCount;
+	        			}
 //	        		this.option.series[0].data[i] = result.data[i].spRanklevelCount;
 //	          	this.option.xAxis[0].data[i] = result.data[i].spRanklevelName;	
+	        		}
 	        	}
 	        }
         },

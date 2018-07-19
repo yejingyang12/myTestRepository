@@ -1,4 +1,4 @@
-var data={
+var data1={
 	formData:{
 		recordsId: null,
 		fkSystemId: systemId,
@@ -9,10 +9,37 @@ var data={
 		acceptCompany: null,
 		acceptDate: null,
 		acceptReason : null,
-		recordReportPath : null,
+		recordReportPath : null, 
 		recordReportName : null
 	},
+//删除弹窗的
+  deleteDialog:false,
+  deleteSuccessDialog:false,
+	deleteFailDialog:false,
 	deleteFileId: null,
+  rules:{
+      recordCode:[//备案编号
+          {required: true, message: '请输入备案编号', trigger: 'change' },
+          { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+      ],
+      recordCompany:[//备案单位
+          {required: true, message: '请输入备案单位', trigger: 'change' },
+          { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+      ],
+      recordDate:[//备案时间
+          {required: true, message: '请输入备案时间', trigger: 'change' }
+      ],
+      acceptCompany:[//受理备案单位
+          {required: true, message: '请输入受理备案单位', trigger: 'change' },
+          { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+      ],
+      acceptDate:[//受理日期
+          {required: true, message: '请输入受理日期', trigger: 'change' }
+      ],
+      recordReportName:[//信息系统安全等级保护备案证明
+          {required: true, message: '请上传信息系统安全等级保护备案证明', trigger: 'change' }
+      ],
+	}
 };
 (function () {
 	Vue.component('record',function (resolve,reject) {
@@ -20,18 +47,46 @@ var data={
 			resolve({
 				template:res,
 				data:function () {
-					return data;
+					return data1;
 				},
 				methods:{
-					submitRecord:function(_self){
+					//提交弹窗
+					submitRecordDia:function(formData){
+						var _self = this;
 						_self.sureDelFile(_self);
-						ajaxMethod(_self, 'post',
-                'records/saveRecords', true,JSON.stringify(_self.formData), 'json',
-                'application/json;charset=UTF-8',_self.submitRecordSuccessMethod);
+						_self.$refs[formData].validate(function (valid) {
+	            if (valid) {
+	            	ajaxMethod(_self, 'post',
+	                  'records/saveRecords', true,JSON.stringify(_self.formData), 'json',
+	                  'application/json;charset=UTF-8',_self.submitRecordSuccessMethod);
+	            } else {
+	            	$("#recordInquiry").css("display","none");
+	              $("#recordDialogShaw").css("display","none");
+	              _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+	                confirmButtonText: '确定',
+	                callback: function callback(action) {
+	                }
+	              });
+	              return false;
+	            }
+	          });
+					},
+					//提交
+					submitRecord:function(formData){
+						$("#recordInquiry").css("display","block");
+	         	$("#recordDialogShaw").css("display","block");
 					},
 					submitRecordSuccessMethod:function(_self,responseData){
-						window.location.href= originUrl + "/page/indexPage"
+						$("#startBoxRecord").show().delay(2000).fadeOut();
+            window.setTimeout(function () {
+            	window.location.href= originUrl + "page/indexPage"           
+            }, 2300);
 					},
+					//关闭弹窗
+					closes:function () {
+            $("#recordInquiry").css("display","none");
+            $("#recordDialogShaw").css("display","none");
+          },
 					getRecord:function(_self){
 						ajaxMethod(_self, 'post',
                 'records/queryRecords', true, JSON.stringify(_self.formData), 'json',
@@ -98,6 +153,25 @@ var data={
 						$(".recordPro>div").eq($(e.currentTarget).index()).css("display","block").siblings("div").css("display","none");
 					},
 					onUpload: function(e){
+						var fileSize = e.target.files[0].size;//文件大小（字节）
+          	var fimeMax = 1048576 *30;
+          	if(fileSize > fimeMax){
+          		this.$alert('文件不能大于30M！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+          	var fileFormat = e.target.value.split(".");//文件后缀
+          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+          		this.$alert('不接受此文件类型！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
 						var uploadData = new FormData(); 
 						uploadData.append('file', e.target.files[0]);
 						uploadData.append('type', 'test');
@@ -214,7 +288,7 @@ var data={
 					var _self = this;
 					bus.$on("submitRecord",function(meg){
             if(meg!=null){
-            	_self.submitRecord(_self);
+            	_self.submitRecord(meg);
             }
           });
 					bus.$on("revokeRecord",function(meg){
