@@ -43,6 +43,6 @@ cpro.api.url: http://10.246.146.156:8092/
 appId: 907
 redisId: 100
 wildcard: 
-    org: $org1$
-    all: $all$
+    org: '@'
+    all: '@ALL_UNIT@'
     none: $none$
