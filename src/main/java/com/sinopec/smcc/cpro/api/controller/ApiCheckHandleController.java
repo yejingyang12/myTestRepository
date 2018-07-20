@@ -38,7 +38,7 @@ public class ApiCheckHandleController {
   @Autowired
   private ApiCheckHandleService apiCheckHandleServiceImpl;
   
-  @RequestMapping(value = "/queryCheckHandleApi", method = RequestMethod.POST)
+  @RequestMapping(value = "/queryCheckHandleApi", method = RequestMethod.GET)
   public List<CheckListResult> queryCheckHandleApi(String userId, 
       HttpServletRequest request) throws BusinessException{
     //调用service实体获得方法，CheckListResult填写返回的参数
