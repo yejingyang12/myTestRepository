@@ -77,6 +77,8 @@ var data1={
 	         	$("#recordDialogShaw").css("display","block");
 					},
 					submitRecordSuccessMethod:function(_self,responseData){
+						 $("#recordInquiry").css("display","none");
+	           $("#recordDialogShaw").css("display","none");
 						$("#startBoxRecord").show().delay(2000).fadeOut();
             window.setTimeout(function () {
             	window.location.href= originUrl + "page/indexPage"           

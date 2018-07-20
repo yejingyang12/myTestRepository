@@ -117,11 +117,11 @@ var revokeRecordData={
 						_self.sureDelFile(_self);
 						_self.$refs[formData].validate(function (valid) {
               if (valid) {
-                if(paramHeadquarters){
+                if(revokeRecordData.paramHeadquarters){
                   ajaxMethod(_self, 'post',
                       'records/saveHeadRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
                       'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
-                }else if(paramEnterprise){
+                }else if(revokeRecordData.paramEnterprise){
                   ajaxMethod(_self, 'post',
                       'records/saveRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
                       'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
