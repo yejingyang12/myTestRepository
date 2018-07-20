@@ -47,7 +47,6 @@
         methods:{
           listSuccess:function(_self,dataList){
             data.result=dataList;
-            console.log(data.result);
           },
           //鱼骨图弹窗：隐藏弹窗
           closes:function () {

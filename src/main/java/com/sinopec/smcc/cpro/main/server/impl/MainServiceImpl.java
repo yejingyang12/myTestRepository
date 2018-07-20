@@ -138,36 +138,36 @@ public class MainServiceImpl implements MainService{
     //获得相应列表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
     //权限
-    JurisdictionDataResult organizationApiResult = 
-        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    if(organizationApiResult==null){
-      return new PageInfo<>();
-    }else{
-      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      
-      case "0":
-        break;
-      case "1":
-        // 获得响应列表数据
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    if(organizationApiResult==null){
+//      return new PageInfo<>();
+//    }else{
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      
+//      case "0":
+//        break;
+//      case "1":
+//        // 获得响应列表数据
         list = 
             this.mainMapper.selectAllByMainParam(mainParam);
-        break;
-      case "2":
-        mainParam.setPlateList(organizationApiResult.getNameList());
-        list =  
-            this.mainMapper.selectAllByMainParam(mainParam);
-        break;
-      case "3":
-        mainParam.setCompanyList(organizationApiResult.getCodeList());
-        list =  
-            this.mainMapper.selectAllByMainParam(mainParam);
-        break;
-
-      default:
-        break;
-      }
-    }
+//        break;
+//      case "2":
+//        mainParam.setPlateList(organizationApiResult.getNameList());
+//        list =  
+//            this.mainMapper.selectAllByMainParam(mainParam);
+//        break;
+//      case "3":
+//        mainParam.setCompanyList(organizationApiResult.getCodeList());
+//        list =  
+//            this.mainMapper.selectAllByMainParam(mainParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
+//    }
     //装载列表数据
     PageInfo<MainListResult> pageInfo = new PageInfo<>(list);
     return pageInfo;
