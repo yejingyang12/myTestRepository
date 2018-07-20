@@ -5,10 +5,8 @@ if(src_ele.dataset) {
 } else {
 	comp_src = $('#src-qianhou').data('src')
 }
-// console.log(comp_src);
 var originUrl = 'http://cpro.smcc.sinopec.com:8082/';
-//var origin = window.location.origin+"/";
-//var origin = ''+"/";
+
 // ajax 请求
 /**
  * @param _self: 本页this，
@@ -42,6 +40,7 @@ function ajaxMethod(_self, type, url, async ,data, dataType, contentType, succes
     // }
   });
 }
+
 /**
  * @param _self: 本页this，
  * @param type: 请求方式，get or post
@@ -69,6 +68,92 @@ function ajaxUploadMethod(_self, type, url, async ,data, dataType, successMethod
     }
   });
 }
+
+/**
+ * @param returnJson: 功能权限json，
+ * @param code: 功能code
+ */
+function getJurisdictionMethod(returnData,code){
+  var boo = false;
+//  var returnData = JSON.parse(returnJson)
+  for(var i=0;i<returnData.data.length;i++){
+    if(returnData.data[i].resourceType==3){
+    }else{
+      var childrenOne = returnData.data[i].children;
+      for(var j=0;j<childrenOne.length;j++){
+        if(childrenOne[j].resourceType==3){
+          if(childrenOne[j].resourceCode==code){
+            boo = true;
+            break;
+          }
+        }else{
+          var childrenTwo = childrenOne[j].children;
+          for(var k=0;k<childrenTwo.length;k++){
+            if(childrenTwo[k].resourceType==3){
+              if(childrenTwo[k].resourceCode==code){
+                boo = true;
+                break;
+              }
+            }else{
+              var childrenThree = childrenTwo[k].children;
+              for(var l=0;l<childrenThree.length;l++){
+                if(childrenThree[l].resourceType==3){
+                  if(childrenThree[l].resourceCode==code){
+                    boo = true;
+                    break;
+                  }
+                }else{
+                  var childrenFour = childrenThree[l].children;
+                  for(var a=0;a<childrenFour.length;a++){
+                    if(childrenFour[a].resourceType==3){
+                      if(childrenFour[a].resourceCode==code){
+                        boo = true;
+                        break;
+                      }
+                    }else{
+                      var childrenFive = childrenFour[a].children;
+                      for(var b=0;b<childrenFive.length;b++){
+                        if(childrenFive[b].resourceType==3){
+                          if(childrenFive[b].resourceCode==code){
+                            boo = true;
+                            break;
+                          }
+                        }else{
+                          
+                        }
+                      }
+                    }
+                  }
+                  if(boo){
+                    break;
+                  }
+                }
+                if(boo){
+                  break;
+                }
+              }
+            }
+            if(boo){
+              break;
+            }
+          }
+        }
+        if(boo){
+          break;
+        }
+      }
+    }
+    if(boo){
+      break;
+    }
+  }
+  return boo;
+}
+
+
+
+
+
 // get 请求
 function FnGetData(url, type) {
 	var param = {};
@@ -80,6 +165,7 @@ function FnGetData(url, type) {
 		})
 	})
 }
+
 // post 请求
 function FnPostData(url, type) {
 	var param = {};
@@ -97,8 +183,11 @@ function FnPostData(url, type) {
 			})
 		}
 	})
+
 }
+
 // 上传 文件
+
 function FnPostFile(url, formData, type) {
 	var that = this;
 	$.ajax({

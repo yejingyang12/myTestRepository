@@ -7,6 +7,8 @@ $('#textArea').on("keyup", function() {
 	}
 });
 var revokeRecordData={
+  paramHeadquarters : false,
+  paramEnterprise : false,
 	formData:{
 		recordsId: "",
 		fkSystemId: "",
@@ -115,9 +117,15 @@ var revokeRecordData={
 						_self.sureDelFile(_self);
 						_self.$refs[formData].validate(function (valid) {
               if (valid) {
-              	ajaxMethod(_self, 'post',
-                    'records/saveRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
-                    'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
+                if(paramHeadquarters){
+                  ajaxMethod(_self, 'post',
+                      'records/saveHeadRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
+                      'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
+                }else if(paramEnterprise){
+                  ajaxMethod(_self, 'post',
+                      'records/saveRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
+                      'application/json;charset=UTF-8',_self.submitRevokeRecordSuccessMethod);
+                }
               } else {
               	$("#revokeRecordDialogShaw").css("display","none");
                 $("#revokeRecordInquiry").css("display","none");
@@ -158,9 +166,29 @@ var revokeRecordData={
 							}
 						})
 					},
+					getPermitJurisdictionInfo: function(_self){
+            ajaxMethod(_self,"post",
+                "jurisdiction/queryDataJurisdictionApi",false,
+                JSON.stringify(""),"json",
+                'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+          },
+          getPermitJurisdictionSuccess: function(_self,response){
+            for (var i = 0; i < response.data.permssions.length; i++) {
+              var permssions = response.data.permssions[i];
+              //总部撤销备案
+              if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_REVOKE_RECORD){
+                _self.paramHeadquarters = true;
+              }
+              //企业撤销备案
+              if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_REVOKE_RECORD){
+                _self.paramEnterprise = true;
+              }
+            }
+          }
 				},
 				created : function() {
 					this.formData.fkSystemId = systemId;
+					this.getPermitJurisdictionInfo(this);
 				},
 				mounted : function() {
 					// this.selectChange()

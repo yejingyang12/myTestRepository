@@ -3,6 +3,7 @@
  */
 (function () {
   var data={
+      change:false,
   	years:[],
   	yearType:'',
   	systemName: null,

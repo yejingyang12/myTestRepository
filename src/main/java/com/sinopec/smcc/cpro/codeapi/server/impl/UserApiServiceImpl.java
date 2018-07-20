@@ -56,7 +56,6 @@ public class UserApiServiceImpl implements UserApiService{
     if (userDTO==null) {
       userDTO = new UserDTO();
     }
-    session.removeAttribute("userId");
     return userDTO;
   }
 

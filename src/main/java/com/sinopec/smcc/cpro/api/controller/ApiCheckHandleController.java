@@ -13,16 +13,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.api.service.ApiCheckHandleService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
-import com.sinopec.smcc.cpro.review.server.CheckService;
 
 /**
  * @Title ApiCheckHandleController.java
@@ -37,30 +36,23 @@ import com.sinopec.smcc.cpro.review.server.CheckService;
 public class ApiCheckHandleController {
 
   @Autowired
-  private CheckService checkServiceImpl;
-  
-  @Autowired
   private ApiCheckHandleService apiCheckHandleServiceImpl;
   
   @RequestMapping(value = "/queryCheckHandleApi", method = RequestMethod.POST)
   public List<CheckListResult> queryCheckHandleApi(String userId, 
       HttpServletRequest request) throws BusinessException{
     //调用service实体获得方法，CheckListResult填写返回的参数
-    CheckParam checkParam = new CheckParam();
-    checkParam.setHandlingState(1);
-    request.getSession().setAttribute("userId", userId);
-    PageInfo<CheckListResult> pageInfo = this.checkServiceImpl.queryCheckList(checkParam);
+    List<CheckListResult> checkList = this.apiCheckHandleServiceImpl.queryCheckList(request, userId);
     //通过resultApi实体组成返回参数
-    return pageInfo.getList();
+    return checkList;
   }
   
   @RequestMapping(value = "/batchCheckHandleApi", method = RequestMethod.POST)
-  public List<String> batchCheckHandleApi(List<CheckParam> checkList, String userId, 
-      HttpServletRequest request) throws BusinessException{
+  public List<String> batchCheckHandleApi(@RequestBody BatchCheckHandleParam batchCheckHandleParam, 
+      String userId, HttpServletRequest request) throws BusinessException{
     //调用service实体获得方法，CheckListResult填写返回的参数
-    CheckParam checkParam = new CheckParam();
-    checkParam.setHandlingState(1);
-    List<String> idList = this.apiCheckHandleServiceImpl.saveCheck(checkParam);
+    List<String> idList = this.apiCheckHandleServiceImpl.saveCheck(
+        batchCheckHandleParam.getCheckList(), userId, request);
     //通过resultApi实体组成返回参数
     return idList;
   }

@@ -78,6 +78,7 @@ var data={
                     ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
                   },
                   onUploadSuccessMethod: function(_self,responseData){
+                    console.log(JSON.stringify(responseData))
                   	var topologyDescription = {fileId: '',attachName: '',uploadUrl: ''};
                   	topologyDescription.attachName = responseData.data.attachName;
                   	topologyDescription.uploadUrl = responseData.data.uploadUrl;

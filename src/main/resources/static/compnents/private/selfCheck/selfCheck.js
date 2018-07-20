@@ -3,6 +3,7 @@
  */
 (function () {
   var data={
+      change:false,
   		systemName: null,
   		show:{
   			visible2: -1,
