@@ -5,7 +5,9 @@ var  data={
       check:false,
 		systemNameSon1:[true],
 		systemNameSon12:[false],
+		systemNameSon13:[true],
 		addSystemSubSonT:[],
+		promptCount:false,
 		count:0,
       formData:{
         systemId:"",
@@ -36,6 +38,7 @@ var  data={
         changeType:"",
         stars:"1",
         aa:"1",
+        checkCount:"1",
         systemNameSon:"",
         systemCodeSon:"",
         addSystemSubSon:[],
@@ -192,6 +195,9 @@ var  data={
           ],
           aa:[  // 子系统Code
              { required: true, message: '该系统已选择,请勿重复选择', trigger: 'change' }
+          ],
+          checkCount:[  //总条数
+             { required: true, message: '至少创建两条子系统', trigger: 'change' }
           ],
           standardizedCode:[  // 标准化代码
               { required: true, message: '请输入标准化代码', trigger: 'change' }
@@ -661,6 +667,13 @@ var  data={
                     	}
                   		if(isNan){
                   			this.formData.aa = '1';
+                  		}
+                  		if(val-1 <2){
+                  			this.formData.checkCount = '';
+                  			this.promptCount=true;
+                  			this.$refs.formData.validateField('checkCount');
+                  		}else{
+                  			this.promptCount=false;
                   		}
                     },
                     getGetSystemMethod:function(_self,systemId){

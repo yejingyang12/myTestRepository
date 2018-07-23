@@ -920,7 +920,7 @@
                                     <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                     <a class="hide3" style="cursor:pointer;">  
                                         <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
-                                          <i @click="deleteClick(pro.companyId)" type="text" size="small">删除</i>
+                                          <i @click="deleteClick(pro.systemId)" type="text" size="small">删除</i>
                                            <!-- 首页表格的删除弹窗 -->
                                             <div class="dialogShaw">
 	                                              <div class="startBox" v-show="deleteDialog">
@@ -930,7 +930,7 @@
 												   <div class="inquiry">
 												        <p>是否删除</p>
 												        <div class="inquiryBtn">
-												            <button type="button" class="btn btn-success fl" @click="deleteClickSure(pro.systemId)">确定</button>
+												            <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
 												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
 												        </div>
 												    </div>

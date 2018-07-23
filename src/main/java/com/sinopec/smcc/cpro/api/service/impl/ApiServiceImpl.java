@@ -18,10 +18,8 @@ import com.sinopec.smcc.cpro.api.service.ApiService;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
-import com.sinopec.smcc.cpro.home.server.DiagramService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
-import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 
 /**

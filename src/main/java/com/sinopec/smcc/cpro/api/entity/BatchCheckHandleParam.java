@@ -23,41 +23,16 @@ import com.sinopec.smcc.cpro.review.entity.CheckParam;
  */
 public class BatchCheckHandleParam {
 
-	  private String userId;  
-	  
-	  private String opinion;
-	  
-	  private Integer result;
+  private List<CheckParam> checkList;
 
-	  public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getOpinion() {
-		return opinion;
-	}
-	public void setOpinion(String opinion) {
-		this.opinion = opinion;
-	}
-	public Integer getResult() {
-		return result;
-	}
-	public void setResult(Integer result) {
-		this.result = result;
-	}
-
-	private List<CheckParam> checkList;
-	
-	  public List<CheckParam> getCheckList() {
-	    return checkList;
-	  }
-	  public void setCheckList(List<CheckParam> checkList) {
-	    this.checkList = checkList;
-	  }
-	  
-	  public String toString(){
-	    return JSON.toJSONString(this);
-	  }
+  public List<CheckParam> getCheckList() {
+    return checkList;
+  }
+  public void setCheckList(List<CheckParam> checkList) {
+    this.checkList = checkList;
+  }
+  
+  public String toString(){
+    return JSON.toJSONString(this);
+  }
 }

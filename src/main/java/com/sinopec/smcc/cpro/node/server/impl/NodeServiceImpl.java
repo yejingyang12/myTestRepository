@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sinopec.smcc.depends.ubs.client.UbsClient;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
@@ -27,6 +25,7 @@ import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title NodeServiceImpl.java
@@ -41,8 +40,6 @@ public class NodeServiceImpl implements NodeService {
 
   @Autowired
   private NodeMapper nodeMapper;
-  @Autowired
-  UbsClient ubsClient;
   
   @Value("${appId}") 
   private String appId;
@@ -69,22 +66,14 @@ public class NodeServiceImpl implements NodeService {
   @Transactional
   public void addNodeInfo(NodeParam nodeParam) {
     
-    
     nodeParam.setNodeId(Utils.getUuidFor32());
     nodeParam.setCreateTime(DateUtils.getDate());
-    //nodeParam.setOperator(userName);
     // 添加节点数据
     this.nodeMapper.insertBynodeParam(nodeParam);
   }
   @Override
   public String getUserNameFromRequest(HttpServletRequest request) {
-    /*HttpSession session = request.getSession();
-    SSOPrincipal attribute = (SSOPrincipal)session.getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR);
-    String uid = attribute.getUid();
-    String userInfo = ubsClient.getUserByAccount(appId,"1", uid);
-    String userName = JSONObject.parseObject(JSONObject.parseObject(userInfo).
-        getString("data")).get("userName").toString();*/
-  //获得用户信息
+    //获得用户信息
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
     return userDTO.getUserName();
   }

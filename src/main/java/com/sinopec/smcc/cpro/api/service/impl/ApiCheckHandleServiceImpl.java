@@ -86,8 +86,10 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
   @Override
   public List<String> saveCheck(List<CheckParam> checkList, 
       String userId, HttpServletRequest request) throws BusinessException{
+    
+    List<String> list = new ArrayList<String>();
     if (checkList == null || checkList.size()==0) {
-      return new ArrayList<String>();
+      return list;
     }
     request.getSession().setAttribute("userId", userId);
     
@@ -97,7 +99,7 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
     
     if (organizationApiResult==null||"0".equals(organizationApiResult.getResultType())) {
-      return new ArrayList<String>();
+      return list;
     }
     
     String examinStatus = "";
@@ -109,7 +111,7 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
     } else if (permssionsList.contains(CommonParam.S_STR_PERMIT_PARAM_HEADQUARTERS_AUDIT)) {
       examinStatus = "2";
     } else {
-      return new ArrayList<String>();
+      return list;
     }
     
     for (CheckParam checkParam : checkList) {
@@ -117,20 +119,25 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
       case "1":
         if ("1".equals(examinStatus)) {
           this.checkServiceImpl.saveGradCheck(userDTO.getUserName(), checkParam);
+          list.add(checkParam.getCheckId());
         } else {
           this.checkServiceImpl.saveHeadGradCheck(userDTO.getUserName(), checkParam);
+          list.add(checkParam.getCheckId());
         }
         break;
       case "2":
         if ("2".equals(examinStatus)) {
           this.checkServiceImpl.saveCancelRecordsCheck(userDTO.getUserName(), checkParam);
+          list.add(checkParam.getCheckId());
         }
         break;
       case "3":
         if ("1".equals(examinStatus)) {
           this.checkServiceImpl.saveGradChangeCheck(userDTO.getUserName(), checkParam);
+          list.add(checkParam.getCheckId());
         } else {
           this.checkServiceImpl.saveHeadGradChangeCheck(userDTO.getUserName(), checkParam);
+          list.add(checkParam.getCheckId());
         }
         break;
 
@@ -139,7 +146,7 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
       }
     }
     request.getSession().removeAttribute("userId");
-    return null;
+    return list;
   }
 
 }

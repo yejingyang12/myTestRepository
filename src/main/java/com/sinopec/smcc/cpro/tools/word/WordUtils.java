@@ -10,39 +10,20 @@
 package com.sinopec.smcc.cpro.tools.word;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.nio.channels.FileChannel;
-import java.nio.channels.WritableByteChannel;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.poi.hwpf.extractor.WordExtractor;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
-
-import com.jacob.activeX.ActiveXComponent;
-import com.jacob.com.Dispatch;
-import com.jacob.com.Variant;
-import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 
 import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
 
 /**
  * @Title WordUtils.java
@@ -53,10 +34,10 @@ import freemarker.template.TemplateExceptionHandler;
  * @version V1.0
  */
 public class WordUtils {
-  private static Configuration configuration = null;    
+  private static Configuration configuration;    
   
-  public WordUtils(){    
-    configuration = new Configuration();    
+  public WordUtils(){     
+//    configuration = new Configuration();    
     configuration.setDefaultEncoding("UTF-8");    
   }    
   /**

@@ -6,7 +6,7 @@
       paramRecord:false,
       paramSelfExamination:false,
       paramApplication:false,
-      delCompanyId:"",
+      delSystemId:"",
       
 		  ruleForm: {
 	          name: '',
@@ -299,17 +299,16 @@
           },
           
           //点击“删除”显示弹窗
-         deleteClick:function(companyId){
-          	this.delCompanyId=companyId;
+         deleteClick:function(systemId){
+          	this.delSystemId=systemId;
          	 $(".inquiry").css("display","block");
          	 $(".dialogShaw").css("display","block");
           },
           //点击删除显示弹窗的“确定”；删除数据并隐藏弹窗；
-          deleteClickSure:function(systemId){
+          deleteClickSure:function(){
         	  var _self=this;
               var dataparmars = {
-                  "systemId":systemId,
-                  "companyId":this.delCompanyId
+                  "systemId":this.delSystemId
                 };
               ajaxMethod(_self, 'post',
                       'main/deleteMainBySystemId', false,

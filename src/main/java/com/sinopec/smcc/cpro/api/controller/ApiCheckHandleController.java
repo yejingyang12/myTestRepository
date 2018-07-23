@@ -49,11 +49,10 @@ public class ApiCheckHandleController {
   
   @RequestMapping(value = "/batchCheckHandleApi", method = RequestMethod.POST)
   public List<String> batchCheckHandleApi(@RequestBody BatchCheckHandleParam batchCheckHandleParam, 
-     HttpServletRequest request) throws BusinessException{
+      String userId, HttpServletRequest request) throws BusinessException{
     //调用service实体获得方法，CheckListResult填写返回的参数
-	String uesrId=batchCheckHandleParam.getUserId();
     List<String> idList = this.apiCheckHandleServiceImpl.saveCheck(
-        batchCheckHandleParam.getCheckList(), uesrId, request);
+        batchCheckHandleParam.getCheckList(), userId, request);
     //通过resultApi实体组成返回参数
     return idList;
   }
