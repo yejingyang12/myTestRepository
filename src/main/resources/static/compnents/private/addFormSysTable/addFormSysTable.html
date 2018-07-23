@@ -6,7 +6,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th style="width:5%;">序号</th>
                         <th>产品类型</th>
                         <th>数量</th>
                         <th>是否使用国产品</th>
@@ -39,7 +39,7 @@
                         </td>   
                         <td>
                             <!--<div>-->
-                            <input class="form-control pull-left tdWith" v-model="formData.systemKeyProducts[index].nUseProbability" @change="a()">
+                            <input type="number" class="form-control pull-left tdWith"  v-model="formData.systemKeyProducts[index].nUseProbability" @change="a()">
                             <!--<span class="sticNum">0</span>-->
                             <i class="addNum" @click="addNum($event,index)"></i>
                             <i class="oddNum" @click="oddNum($event,index)"></i>
@@ -104,7 +104,7 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th style="width:5%;">序号</th>
                         <th>服务类型</th>
                         <th>是否采用</th>
                         <th>服务责任方类型</th>

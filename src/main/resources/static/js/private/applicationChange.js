@@ -14,16 +14,20 @@ window.onload = function () {
           bus.$emit('changeFormName',formName);
         },
         submitHandlerSuccessMethod: function(_self,data,boo){
-          if(boo){
-            data.check = false;
-            window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" + data.data+"&systemId="+systemId;
-          }else{
-            $(".startBox").show().delay(2000).fadeOut();
-            window.setTimeout(function () {
+//          if(boo){
+//            data.check = false;
+//            window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" + data.data+"&systemId="+systemId;
+//          }else{
+//            $(".startBox").show().delay(2000).fadeOut();
+//            window.setTimeout(function () {
               window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" + data.data+"&systemId="+systemId;
-            }, 2300);
-          }
+//            }, 2300);
+//          }
         },
+        //返回
+        returnBtn:function() {
+          window.location.href = originUrl+"page/indexPage";
+        }
       },
       mounted : function() {
         var _self = this;

@@ -21,10 +21,10 @@
                             <div class="col-md-6 bingzhuangtu two">
                                 <div style="height: 100px">
                                     <p class="p1">系统等保等级分布</p>
-                                    <p class="p2">系统等保等级分布</p>
+                                    <p class="p2">点击图表查看不同等保等级下系统详情</p>
                                     <div class="p3">
                                         <p class="float-le h-applyTime" >时间:</p>
-                                        <div class="float-le timeInput chartstarttime">
+                                        <div class="float-le timeInput  chartstarttime"> 
                                             <template>
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
@@ -83,7 +83,7 @@
                                             </template>
                                         </div>
                                         <p class="float-le"> 到 </p>
-                                        <div class="float-le timeInput chartstarttime"  >
+                                        <div class="float-le timeInput chartstarttime two">
                                             <template>
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
@@ -105,15 +105,14 @@
                                             <!--<span>|</span>-->
                                             <template>
                                                 <el-select v-model="gradingShapeType" @change="getGradingShapeType()" filterable placeholder="请选择">
-                                                      <el-option
-																										      v-for="item in shapeType"
-																										      :key="item.value"
-																										      :label="item.label"
-																										      :value="item.value">
+                                                      <el-option  v-for="item in shapeType"
+																  :key="item.value"
+																  :label="item.label"
+																  :value="item.value">
                                                     </el-option>
                                                 </el-select>
                                             </template>
-                                            <div class="xiaoduitubiao"> 
+                                            <div class="xiaoduitubiao" style="margin-left:-20px;"> 
                                                 <chart-bar></chart-bar>
                                              </div>
                                         </div>
@@ -130,7 +129,7 @@
                                  <div class="p3 pos-relative">
                                           <div>
                                              <p class="float-le" style="min-width: 5%">时间:</p>
-                                             <div class="float-le timeInput chartstarttime">
+                                             <div class="float-le timeInput chartstarttime two">
                                                  <template>
                                                      <div class="block">
                                                          <!--<span class="demonstration">默认</span>-->
@@ -144,7 +143,7 @@
                                                  </template>
                                              </div>
                                              <p class="float-le"> 到 </p>
-                                             <div class="float-le timeInput chartstarttime three"  >
+                                             <div class="float-le timeInput chartstarttime two"  >
                                                  <template>
                                                      <div class="block">
                                                          <!--<span class="demonstration">默认</span>-->
@@ -159,15 +158,15 @@
                                              </div>
                                           </div>
                                          <p class="float-ri tubiaocon">
-                                             <span class="float-ri"><i class="sekuai"></i> 五级</span>
-                                             <span class="float-ri"><i class="sekuai"></i> 四级</span>
-                                             <span class="float-ri"><i class="sekuai"> </i> 三级</span>
-                                             <span class="float-ri"><i class="sekuai"></i> 二级</span>
-                                             <span class="float-ri"><i class="sekuai"></i> 一级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen5"></i> 五级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen4"></i> 四级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen3"> </i> 三级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen2"></i> 二级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen1"></i> 一级</span>
                                          </p>
                                      </div>
                              </div>
-                             <div class="bingzhuangBox" style="width:900px;margin-left:0px;margin-left:-35px;">
+                             <div class="bingzhuangBox" style="width:750px;margin-left:-65px;">
                                <chart-stack-one></chart-stack-one>
                              </div>
                          </div>
@@ -239,16 +238,16 @@
                                         </div>
                                     </div>
                                     <p class="float-ri tubiaocon">
-                                        <span class="float-ri"><i class="sekuaiTwo"></i> 五级</span>
-                                        <span class="float-ri"><i class="sekuaiTwo"></i> 四级</span>
-                                        <span class="float-ri"><i class="sekuaiTwo"></i> 三级</span>
-                                        <span class="float-ri"><i class="sekuaiTwo"></i> 二级</span>
-                                        <span class="float-ri"><i class="sekuaiTwo"></i> 一级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue5"></i> 五级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue4"></i> 四级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue3"></i> 三级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue2"></i> 二级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue1"></i> 一级</span>
                                     </p>
 
                                 </div>
                             </div>
-                            <div class="bingzhuangBox" style="width:850px;margin-left:-65px;">
+                            <div class="bingzhuangBox" style="width:750px;margin-left:-65px;">
                               <chart-stack-two></chart-stack-two>
                             </div>
                         </div>

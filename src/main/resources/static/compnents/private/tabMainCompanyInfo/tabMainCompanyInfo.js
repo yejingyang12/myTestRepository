@@ -18,7 +18,9 @@
           }
         },
         created: function() {
-
+        	if(activeName == 'second'){
+        		this.activeName = activeName;
+        	}
         },
         mounted: function() {
           // this.selectChange()

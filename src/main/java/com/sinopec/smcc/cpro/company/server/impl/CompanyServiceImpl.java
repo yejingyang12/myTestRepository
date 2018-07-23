@@ -123,7 +123,7 @@ public class CompanyServiceImpl implements CompanyService {
     if (StringUtils.isBlank(companyParam.getCompanyId())) {
       String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
       //判断单位编码是否被创建，如果已创建则抛出异常不进行添加或修改
-      if(StringUtils.isBlank(companyCode))
+      if(StringUtils.isNotBlank(companyCode))
         throw new BusinessException(EnumResult.LINKEDID_ERROR);
       companyParam.setCompanyId(Utils.getUuidFor32());
       companyParam.setDeleteStatus(1);

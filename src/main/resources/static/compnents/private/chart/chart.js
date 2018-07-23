@@ -83,10 +83,10 @@
         	getStatisticsType:function(type){
         	
         		if(type==1){
-        			$('.hoverTwo').css("color","#3d95df");
-          		$('.hoverTwo').css(" border-bottom","3px solid #3d95df");
-          		$('.hoverOne').css("color","#3d95df");
-          		$('.hoverOne').css(" border-bottom","3px solid #3d95df");
+        		$('.hoverTwo').css("color","#3d95df");
+          		$('.hoverTwo').css("border-bottom-style","solid");
+          		$('.hoverOne').css("color","#333");
+          		$('.hoverOne').css("border-bottom-style","none");
               bus.$emit("gradingStatisticsEnd",'{"systemType":"1","type":"1"}');
               bus.$emit("gradingShapeBegin",'{"systemType":"1","type":"1"}');
               bus.$emit("recordBegin",'{"systemType":"1","type":"1"}');
@@ -95,7 +95,9 @@
               this.statisticsType = 1;
         		}else{
         			$('.hoverOne').css("color","#3d95df");
-          		$('.hoverOne').css(" border-bottom","3px solid #3d95df");
+              		$('.hoverOne').css("border-bottom-style","solid");
+              		$('.hoverTwo').css("color","#333");
+              		$('.hoverTwo').css("border-bottom-style","none");
         			bus.$emit("gradingStatisticsEnd",'{"systemType":"2","type":"1"}');
               bus.$emit("gradingShapeBegin",'{"systemType":"2","type":"1"}');
               bus.$emit("recordBegin",'{"systemType":"2","type":"1"}');

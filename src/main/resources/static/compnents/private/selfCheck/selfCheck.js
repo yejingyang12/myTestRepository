@@ -3,7 +3,7 @@
  */
 (function () {
   var data={
-      change:false,
+ 		  change:false,
   		systemName: null,
   		show:{
   			visible2: -1,
@@ -42,22 +42,22 @@
             {required: true, message: '请输入自查时间', trigger: 'blur' },
         ],
         fkInspectionStatus:[ //自查状态
-            {required: true, message: '请选择自查状态', trigger: 'blur' },
+            {required: true, message: '请选择自查状态', trigger: 'change' },
         ],
         fkInspectionReu:[ //自查结果
-            {required: true, message: '请选择自查结果', trigger: 'blur' },
+            {required: true, message: '请选择自查结果', trigger: 'change' },
         ],
         fkRectificationReu:[ //整改结果
-            {required: true, message: '请选择整改结果', trigger: 'blur' },
+            {required: true, message: '请选择整改结果', trigger: 'change' },
         ],
         rectificationDate:[ //整改时间
             {required: true, message: '请输入整改时间', trigger: 'blur' },
         ],
         examinationReportName:[ //自查报告
-            {required: true, message: '请上传自查报告', trigger: 'blur' },
+            {required: true, message: '请上传自查报告', trigger: 'change' },
         ],
         examinationRectificationReportName:[ //整改报告
-            {required: true, message: '请上传整改报告', trigger: 'blur' },
+            {required: true, message: '请上传整改报告', trigger: 'change' },
         ],
     },
     inspectionReu: [{
@@ -218,8 +218,9 @@
           },
           //点击 "X" 关闭弹框
           closes:function () {
+          	this.$refs['editParam'].resetFields();
             var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
-            evaluationAlert.style.display="none"
+            evaluationAlert.style.display="none";
           },
           cleanEditParam: function (_self) {
           	_self.editParam={
@@ -240,11 +241,6 @@
           deleteClick:function(){
          	 $(".inquiry").css("display","block");
          	$(".dialogShaw").css("display","block");
-          },
-        //点击 "取消" 关闭弹框
-          closes:function () {
-          	 var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
-             evaluationAlert.style.display="none"
           },
           //删除自查信息
           deleteSelfexamination: function(selfexaminationId){

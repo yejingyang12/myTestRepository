@@ -141,32 +141,32 @@ public class MainServiceImpl implements MainService{
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
     if(organizationApiResult==null){
-     return new PageInfo<>();
+      return new PageInfo<>();
     }else{
-     //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-     switch (organizationApiResult.getResultType()) {
-     
-     case "0":
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
         break;
-     case "1":
+      case "1":
         // 获得响应列表数据
         list = 
             this.mainMapper.selectAllByMainParam(mainParam);
         break;
-     case "2":
+      case "2":
         mainParam.setPlateList(organizationApiResult.getNameList());
         list =  
             this.mainMapper.selectAllByMainParam(mainParam);
         break;
-     case "3":
+      case "3":
         mainParam.setCompanyList(organizationApiResult.getCodeList());
         list =  
             this.mainMapper.selectAllByMainParam(mainParam);
         break;
 
-     default:
+      default:
         break;
-     }
+      }
     }
     //装载列表数据
     PageInfo<MainListResult> pageInfo = new PageInfo<>(list);
@@ -1055,9 +1055,11 @@ public class MainServiceImpl implements MainService{
               //数量
               if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
                 dataMap.put("nu1", systemRes.getProductsNumber());
+              }else{
+                dataMap.put("nu1", "");
               }
               //是否使用国产品
-              if(systemRes.getFkNationalIsProducts() != null){
+              if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan1","✓");
                   dataMap.put("nan2"," ");
@@ -1073,19 +1075,33 @@ public class MainServiceImpl implements MainService{
                   dataMap.put("nan2"," ");
                   dataMap.put("nan1"," ");
                 }
+              }else{
+                  dataMap.put("nan1"," ");
+                  dataMap.put("nan2"," ");
+                  dataMap.put("nan3"," ");
+                  dataMap.put("nan2"," ");
+                  dataMap.put("nan1"," ");
+                  dataMap.put("nan3"," ");
+                  dataMap.put("nan3"," ");
+                  dataMap.put("nan2"," ");
+                  dataMap.put("nan1"," ");
               }
               //使用率
               if(systemRes.getnUseProbability() != null){
                   dataMap.put("nvl1",systemRes.getnUseProbability());
+              }else{
+                dataMap.put("nvl1","");
               }
             }else if(systemRes.getFkExaminStatus() == 2){//网络产品
               networkCount = 1;
               //数量
               if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
                 dataMap.put("nu2", systemRes.getProductsNumber());
+              }else{
+                dataMap.put("nu2", "");
               }
               //是否使用国产品
-              if(systemRes.getFkNationalIsProducts() != null){
+              if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan4","✓");
                   dataMap.put("nan5"," ");
@@ -1101,19 +1117,33 @@ public class MainServiceImpl implements MainService{
                   dataMap.put("nan5"," ");
                   dataMap.put("nan4"," ");
                 }
+              }else{
+                  dataMap.put("nan4"," ");
+                  dataMap.put("nan5"," ");
+                  dataMap.put("nan6"," ");
+                  dataMap.put("nan5"," ");
+                  dataMap.put("nan4"," ");
+                  dataMap.put("nan6"," ");
+                  dataMap.put("nan6"," ");
+                  dataMap.put("nan5"," ");
+                  dataMap.put("nan4"," ");
               }
               //使用率
               if(systemRes.getnUseProbability() != null){
                   dataMap.put("nvl2",systemRes.getnUseProbability());
+              }else{
+                dataMap.put("nvl2","");
               }
             }else if(systemRes.getFkExaminStatus() == 3){//操作系统
               systemCount = 1;
               //数量
               if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
                 dataMap.put("nu3", systemRes.getProductsNumber());
+              }else{
+                dataMap.put("nu3", "");
               }
               //是否使用国产品
-              if(systemRes.getFkNationalIsProducts() != null){
+              if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan7","✓");
                   dataMap.put("nan8"," ");
@@ -1129,19 +1159,33 @@ public class MainServiceImpl implements MainService{
                   dataMap.put("nan8"," ");
                   dataMap.put("nan7"," ");
                 }
+              }else{
+                  dataMap.put("nan7"," ");
+                  dataMap.put("nan8"," ");
+                  dataMap.put("nan9"," ");
+                  dataMap.put("nan8"," ");
+                  dataMap.put("nan7"," ");
+                  dataMap.put("nan9"," ");
+                  dataMap.put("nan9"," ");
+                  dataMap.put("nan8"," ");
+                  dataMap.put("nan7"," ");
               }
               //使用率
               if(systemRes.getnUseProbability() != null){
                   dataMap.put("nvl3",systemRes.getnUseProbability());
+              }else{
+                dataMap.put("nvl3","");
               }
             }else if(systemRes.getFkExaminStatus() == 4){//数据库
               baseCount = 1;
               //数量
               if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
                 dataMap.put("nu4", systemRes.getProductsNumber());
+              }else{
+                dataMap.put("nu4", "");
               }
               //是否使用国产品
-              if(systemRes.getFkNationalIsProducts() != null){
+              if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan10","✓");
                   dataMap.put("nan11"," ");
@@ -1157,19 +1201,33 @@ public class MainServiceImpl implements MainService{
                   dataMap.put("nan11"," ");
                   dataMap.put("nan10"," ");
                 }
+              }else{
+                  dataMap.put("nan10"," ");
+                  dataMap.put("nan11"," ");
+                  dataMap.put("nan12"," ");
+                  dataMap.put("nan11"," ");
+                  dataMap.put("nan10"," ");
+                  dataMap.put("nan12"," ");
+                  dataMap.put("nan12"," ");
+                  dataMap.put("nan11"," ");
+                  dataMap.put("nan10"," ");
               }
               //使用率
               if(systemRes.getnUseProbability() != null){
                   dataMap.put("nvl4",systemRes.getnUseProbability());
+              }else{
+                dataMap.put("nvl4","");
               }
             }else if(systemRes.getFkExaminStatus() == 5){ //服务器
               serverCount = 1;
               //数量
               if(StringUtils.isNotBlank(systemRes.getProductsNumber())){
                 dataMap.put("nu5", systemRes.getProductsNumber());
+              }else{
+                dataMap.put("nu5", "");
               }
               //是否使用国产品
-              if(systemRes.getFkNationalIsProducts() != null){
+              if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan13","✓");
                   dataMap.put("nan14"," ");
@@ -1185,10 +1243,22 @@ public class MainServiceImpl implements MainService{
                   dataMap.put("nan14"," ");
                   dataMap.put("nan15"," ");
                 }
+              }else{
+                  dataMap.put("nan13"," ");
+                  dataMap.put("nan14"," ");
+                  dataMap.put("nan15"," ");
+                  dataMap.put("nan14"," ");
+                  dataMap.put("nan13"," ");
+                  dataMap.put("nan15"," ");
+                  dataMap.put("nan15"," ");
+                  dataMap.put("nan14"," ");
+                  dataMap.put("nan15"," ");
               }
               //使用率
               if(systemRes.getnUseProbability() != null){
                   dataMap.put("nvl5",systemRes.getnUseProbability());
+              }else{
+                dataMap.put("nvl5","");
               }
             }else{ //其他
               productOtherCount = 1;
@@ -1200,7 +1270,7 @@ public class MainServiceImpl implements MainService{
                 dataMap.put("nu6","");
               }
               //是否使用国产品
-              if(systemRes.getFkNationalIsProducts() != null){
+              if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
                   dataMap.put("nan16","✓");
                   dataMap.put("nan17"," ");
@@ -1216,6 +1286,16 @@ public class MainServiceImpl implements MainService{
                   dataMap.put("nan17"," ");
                   dataMap.put("nan16"," ");
                 }
+              }else{
+                  dataMap.put("nan16"," ");
+                  dataMap.put("nan17"," ");
+                  dataMap.put("nan18"," ");
+                  dataMap.put("nan17"," ");
+                  dataMap.put("nan16"," ");
+                  dataMap.put("nan18"," ");
+                  dataMap.put("nan18"," ");
+                  dataMap.put("nan17"," ");
+                  dataMap.put("nan16"," ");
               }
               //使用率
               if(systemRes.getnUseProbability() != null){

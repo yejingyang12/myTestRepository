@@ -6,6 +6,7 @@
       paramRecord:false,
       paramSelfExamination:false,
       paramApplication:false,
+      delCompanyId:"",
       
 		  ruleForm: {
 	          name: '',
@@ -18,8 +19,7 @@
 	          desc: '',
 	          desc1: '',
 	        },
-	        rules: {
-		        
+	        rules: { 
 		          region: [
 		            { required: true, message: '请选择变更事项', trigger: 'change' }
 		          ],
@@ -151,7 +151,7 @@
         data:function () {
           return data;
         },
-        created: function() {
+        created: function() { 
           // 获取系统名称
           this.getSystemName(this);
           // 获取单位名称
@@ -299,16 +299,17 @@
           },
           
           //点击“删除”显示弹窗
-          deleteClick:function(){
+         deleteClick:function(companyId){
+          	this.delCompanyId=companyId;
          	 $(".inquiry").css("display","block");
          	 $(".dialogShaw").css("display","block");
           },
           //点击删除显示弹窗的“确定”；删除数据并隐藏弹窗；
-          deleteClickSure:function(systemId,companyId){
+          deleteClickSure:function(systemId){
         	  var _self=this;
               var dataparmars = {
                   "systemId":systemId,
-                  "companyId":companyId
+                  "companyId":this.delCompanyId
                 };
               ajaxMethod(_self, 'post',
                       'main/deleteMainBySystemId', false,
@@ -443,6 +444,7 @@
 					},
 					// 获取变更事项成功
 					getChangeMattersSuccessMethod : function(_self, responseData) {
+					  responseData.data.splice(3,1);
 					  _self.changeMatters = responseData.data;
 					},
 					// 申请变更提交
@@ -501,6 +503,7 @@
           },
           //申请变更弹窗和删除按钮弹出窗：隐藏弹窗；
           closes:function () {
+          	this.$refs['ruleForm'].resetFields();
             var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
             evaluationAlert.style.display="none";
             $(".inquiry").css("display","none");
@@ -516,13 +519,13 @@
             if(a<=0){
               ("请输入正确页数");
             	this.queryParam.currentPage = 1;
-            	this.search(this);
+            	this.search(a);
             }else if(a>data.resultPage.totalPages){
             	this.queryParam.currentPage = data.resultPage.totalPages;
-            	this.search(this);
+            	this.search(a);
             }else{
             	this.queryParam.currentPage = a;
-            	this.search(this);
+            	this.search(a);
             }
           },
  
@@ -541,10 +544,9 @@
               console.log($('#arrowHelp').css('transform'));
               help.setAttribute('openHelp', 'open')
             }
-            var h = document.getElementById('h-bread');
-//            $(h).toogle()
+            var h = document.getElementById('h-bread'); 
             h.style.display=h.style.display=="none"?"block":"none";
-            $("#h-help-center").toggle();
+            /*$("#h-help-center").toggle();*/
             $("#h-help-bottom2").toggle();
 
           },
@@ -1127,6 +1129,15 @@
             error: function(err) {
             }
           });
+          //从其他页面进入首页 让帮助中心隐藏
+          var once = sessionStorage.getItem('key'); 
+          if(once==""||once==null){  
+        	// 保存数据到sessionStorage
+        	 sessionStorage.setItem('key', 'a'); 
+          }else{  
+        	  $("#h-bread").hide();
+          }
+          
         },
        /* destroyed () {
         	  data.timer=null;

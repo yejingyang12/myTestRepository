@@ -116,6 +116,11 @@
           AND fkExaminStatus = #{fkExaminStatus}
         ]]>
       </if>
+      <if test="fkInfoSysTypeCon != null and fkInfoSysTypeCon != ''">
+        <![CDATA[
+          AND fkInfoSysTypeCon = #{fkInfoSysTypeCon}
+        ]]>
+      </if>
       <choose>
       	<when test="handlingState == 1">
       		<choose>

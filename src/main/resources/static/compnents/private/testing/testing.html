@@ -18,7 +18,7 @@
                         <div class="col-md-6">
                             <el-form-item label="测评项目名称：" prop="examName">
                                 <div class="col-md-8 col-sm-3" style="width: 80%;">
-                                    <input type="text" value="" v-model="editData.examName">
+                                    <el-input type="text" value="" v-model="editData.examName">
                                 </div>
                             </el-form-item>
                         </div>
@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                             <el-form-item label="测评机构：" prop="examOrg">
                                 <div class="col-md-8 col-sm-3" style="width: 80%;">
-                                    <input type="text" value="" v-model="editData.examOrg">
+                                    <el-input type="text" value="" v-model="editData.examOrg">
                                 </div>
                             </el-form-item>
                         </div>
@@ -242,18 +242,17 @@
                                     <!--class="hide3"-->
                                     <a class="hide3">
                                         <i id="h-dingji" @click="showDialog(testItem.evaluationId)">编辑</i> <i style="color:#1e91e2 ">|</i>
-                                      	<i @click="deleteClick" type="text" size="small">删除</i>
+                                      	<i @click="deleteClick(testItem.evaluationId)" type="text" size="small">删除</i>
                                            <!--  测评表格的删除弹窗 -->
                                             <div class="dialogShaw">
-	                                               
-												   <div class="inquiry">
-												        <p>是否删除</p>
-												        <div class="inquiryBtn">
-												            <button type="button" class="btn btn-success fl" @click="deleteEvaluation(testItem.evaluationId)">确定</button>
-												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-												        </div>
-												    </div>
-											 </div> 
+												                       <div class="inquiry">
+									                                <p>是否删除</p>
+									                                <div class="inquiryBtn">
+									                                    <button type="button" class="btn btn-success fl" @click="deleteEvaluation()">确定</button>
+									                                    <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+									                                </div>
+												                        </div>
+                                            </div> 
                                         </a>
                                 </td>
                             </tr>

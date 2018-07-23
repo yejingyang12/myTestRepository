@@ -71,20 +71,24 @@
     </style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
         <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
         <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss"> -->
     </smcc-header>
-    <smcc-breadcrumb></smcc-breadcrumb>
+    <smcc-breadcrumb>
+      <li slot="materialChangeBtn" class="fr liMargin">
+        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+      </li>
+    </smcc-breadcrumb>
     <add-re-list></add-re-list>
     <add-form>
-        <div slot="changeInf"  class="btn btn-success btnNext fr" @click="check=true" >下一步</div>
+        <div slot="changeInf"  class="btn btn-success btnNext fr" @click="submitForm('formData')" >下一步</div>
     </add-form>
     <add-fromalert></add-fromalert>
     
-    <div class="inquiryBoxShow" v-show="check">
+    <!-- <div class="inquiryBoxShow" v-show="check">
         <div class="inquiry">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
@@ -98,6 +102,9 @@
                 <button type="button" class="btn btn-default" @click="submitHandlerSuccessMethod('','',true)">取消</button>
             </div>
         </div>
+    </div> -->
+    <div class="startBox" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
     </div>
 </div>
 </body>

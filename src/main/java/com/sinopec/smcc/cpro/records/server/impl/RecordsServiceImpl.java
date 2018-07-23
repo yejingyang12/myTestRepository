@@ -174,8 +174,11 @@ public class RecordsServiceImpl implements RecordsService{
     
     //修改系统状态
     MainParam mainParam = new MainParam();
-    mainParam.setRecordStatus("2");
-    mainParam.setExamineStatus("2");
+    mainParam.setGradingStatus("4");
+    mainParam.setRecordStatus("4");
+    mainParam.setExamineStatus("5");
+    mainParam.setEvaluationStatus("4");
+    mainParam.setExaminationStatus("4");
     mainParam.setSystemId(recordsParam.getFkSystemId());
     mainServiceImpl.editSystemStatusBySystemId(mainParam);
     recordsParam.setRecordsId(selectRecordsByFkSystemIdForRecordsDetail.getRecordsId());
@@ -230,8 +233,9 @@ public class RecordsServiceImpl implements RecordsService{
     
     //修改系统状态
     MainParam mainParam = new MainParam();
+    mainParam.setGradingStatus("4");
     mainParam.setRecordStatus("4");
-    mainParam.setExamineStatus("3");
+    mainParam.setExamineStatus("5");
     mainParam.setEvaluationStatus("4");
     mainParam.setExaminationStatus("4");
     mainParam.setSystemId(recordsParam.getFkSystemId());

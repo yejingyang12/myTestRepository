@@ -38,7 +38,7 @@ public class ApiCheckHandleController {
   @Autowired
   private ApiCheckHandleService apiCheckHandleServiceImpl;
   
-  @RequestMapping(value = "/queryCheckHandleApi", method = RequestMethod.GET)
+  @RequestMapping(value = "/queryCheckHandleApi", method = RequestMethod.POST)
   public List<CheckListResult> queryCheckHandleApi(String userId, 
       HttpServletRequest request) throws BusinessException{
     //调用service实体获得方法，CheckListResult填写返回的参数
@@ -49,9 +49,8 @@ public class ApiCheckHandleController {
   
   @RequestMapping(value = "/batchCheckHandleApi", method = RequestMethod.POST)
   public List<String> batchCheckHandleApi(@RequestBody BatchCheckHandleParam batchCheckHandleParam, 
-      HttpServletRequest request) throws BusinessException{
+      String userId, HttpServletRequest request) throws BusinessException{
     //调用service实体获得方法，CheckListResult填写返回的参数
-	String userId=batchCheckHandleParam.getUserId();
     List<String> idList = this.apiCheckHandleServiceImpl.saveCheck(
         batchCheckHandleParam.getCheckList(), userId, request);
     //通过resultApi实体组成返回参数

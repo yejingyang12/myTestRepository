@@ -4,7 +4,8 @@
 		formData: {
 			instanceName: null,
 			initiator: null,
-			attachName: null,
+			//attachName: null,
+			fkInfoSysTypeCon: null,
 			fkBusinessNode: null,
 			fkExaminStatus: null,
 			pageSize: 10,
@@ -15,6 +16,7 @@
 		},
 		//表单数据
 		tableData: {},
+		fkInfoSysTypeConList: [{codeId: '1',codeName: '自建'},{codeId: '2',codeName: '统建'},{codeId: '3',codeName: '总部统建'}],
 		businessNodeList: [{codeId: '1',codeName: '定级'},{codeId: '2',codeName: '撤销备案'},{codeId: '3',codeName: '定级信息变更'}],
 		examinStatusList: [
 		                   {codeId: '1',codeName: '待企业业务审核'},
@@ -81,7 +83,7 @@
 						//定级：1
           	//撤销备案：2
           	//定级信息变更：3
-						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus"+examinStatus;
+						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus="+examinStatus;
           },
           
           //专家评审意见和备案证明下载
@@ -117,7 +119,8 @@
           clearInfo:function () {
             this.formData.instanceName = null;
             this.formData.initiator = null;
-            this.formData.attachName = null;
+            //this.formData.attachName = null;
+            this.formData.fkInfoSysTypeCon = null;
             this.formData.fkBusinessNode = null;
             this.formData.fkExaminStatus = null;
             this.formData.handlingState = null;

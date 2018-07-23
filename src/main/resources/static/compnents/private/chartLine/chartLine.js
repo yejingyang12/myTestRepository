@@ -33,6 +33,7 @@
       },
       yAxis: {
           type: 'value',
+          minInterval : 1,
           splitLine: {lineStyle:{color:'#ededed'}},//网格线颜色
           axisLine: {
               lineStyle: {

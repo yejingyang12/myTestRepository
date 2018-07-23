@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <!--附件名称-->
-                        <div class="col-md-3" style="margin-left: 4%">
+                        <!-- <div class="col-md-3" style="margin-left: 4%">
                             <div class="row">
                                 <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width: 73px; min-width: 71px;">
                                     附件名称：
@@ -42,10 +42,26 @@
                                            v-model="formData.attachName" id="attachName" name="attachName" placeholder="请输入" >
                                 </div>
                             </div>
+                        </div> -->
+                        <!--建设类型-->
+                        <div class="col-md-3" style="margin-left: 4%">
+                            <div class="row">
+                                <div class="col-md-9 h-col-md-9 float-ri h-status" style="width: 58%">
+                                    <el-select v-model="formData.fkInfoSysTypeCon" id="fkInfoSysTypeCon" filterable
+                                               placeholder="请选择">
+                                        <el-option v-for="item in fkInfoSysTypeConList" :key="item.codeId"
+                                                   :label="item.codeName" :value="item.codeId"></el-option>
+                                    </el-select>
+                                </div>
+                                <i class="col-md-3 float-ri textCenter clearPadding" style="line-height: 34px;width: 90px;
+    min-width: 80px;">
+                                   建设类型:
+                                </i>
+                            </div>
                         </div>
+
+
                         <!--业务节点-->
-
-
                         <div class="col-md-3 pos-absolute-ri">
                             <div class="row">
                                 <div class="col-md-9 h-col-md-9 float-ri h-status" style="width: 58%">
@@ -88,10 +104,10 @@
                 <br>
             </div>
         </div>
-                <!--系统检测列表-->
+                <!--审核管理列表-->
          <div class="container" style="background:#fff;padding:0 15px;  margin-top: 15px;">
                     <div style="height: 50px;line-height: 50px">
-                        <i class="h-list-line" style="vertical-align: middle"></i>系统检测列表
+                        <i class="h-list-line" style="vertical-align: middle"></i>审核管理列表
                     </div>
                     <div style="width: calc(100% + 30px);height:2px;background-color: #ededed;margin: 0 -15px;"></div>
                     <p class="h-p auditCepingList">

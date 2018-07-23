@@ -231,18 +231,18 @@ var  data={
               { required: true, message: '请输入投入使用时间', trigger: 'blur' },
           ],
           executiveOfficeName:[  // 主管处室名称
-              { required: true, message: '请输入主管处室名称', trigger: 'blur' },
+              { required: false, message: '请输入主管处室名称', trigger: 'blur' },
               { min: 0, max: 60, message: '长度在 0 到 60个字符', trigger: 'blur' },
           ],
           subIsSystem:[  // 系统是否为分系统
               { required: true, message: '请选择系统是否为分系统', trigger: 'blur' },
           ],
           executiveDireCon:[  // 主管联系人
-              { required: true, message: '请输入主管联系人', trigger: 'blur' },
+              { required: false, message: '请输入主管联系人', trigger: 'blur' },
               { min: 0, max: 40, message: '长度在 0 到 40个字符', trigger: 'blur' },
           ],
           executiveDireConTel:[  // 主管联系人电话
-              { required: true, message: '请输入主管联系人电话', trigger: 'blur' },
+              { required: false, message: '请输入主管联系人电话', trigger: 'blur' },
               { pattern: /^\d{8,12}$/, message: '负责人联系电话输入有误', trigger: 'blur'}
           ],
           systemKeyProducts:[  // 关键产品
@@ -255,7 +255,8 @@ var  data={
               { required: true, message: '请选择关键产品使用情况-是否使用国产品', trigger: 'change' }
           ],
           systemKeyNUseProbability:[  // 关键产品
-              { required: true, message: '请选择关键产品使用情况-使用国产品率', trigger: 'change' }
+              { required: true, message: '请选择关键产品使用情况-使用国产品率', trigger: 'change' },
+//              { pattern: /\d/, message: '使用国产品率输入有误', trigger: 'blur'}
           ],
           systemKeyOtherName:[  // 关键产品
               { required: true, message: '请输入关键产品使用情况-其它名称', trigger: 'blur' }
@@ -618,7 +619,11 @@ var  data={
                       _self.msgName = responseData.data;
                     },
                     setStandardizedCode:function(e,val){
-                    	this.formData.addSystemSubSon.push(e);
+                    	if(this.formData.addSystemSubSon.length >= val-1){
+                    		this.formData.addSystemSubSon[val-2] = e;
+                    	}else{
+                    		this.formData.addSystemSubSon.push(e);
+                    	}
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
                   				if(e==this.sysName[i].systemName){

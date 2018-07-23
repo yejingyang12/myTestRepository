@@ -15,9 +15,18 @@
     <link rel="stylesheet" href="../../static/css/private/newSystemInformation.css" th:attr="href=@{/css/private/newSystemInformation.css}">
         <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
 
+<style type="text/css">
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+      }
+      input[type="number"]{
+          -moz-appearance: textfield;
+      }
+</style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
         <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">
@@ -50,7 +59,8 @@
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addFormSysTable/addFormSysTable.js" th:attr="src=@{/compnents/private/addFormSysTable/addFormSysTable.js}"></script>
 <script async src="../../static/compnents/private/addFormSystem/addFormSys.js" th:attr="src=@{/compnents/private/addFormSystem/addFormSys.js}"></script>
-<script async src="../../static/js/private/newSystemInformation.js" th:attr="src=@{/js/private/newSystemInformation.js}"></script>
+<!-- <script async src="../../static/js/private/newSystemInformation.js" th:attr="src=@{/js/private/newSystemInformation.js}"></script> -->
+<script async src="../../static/js/private/addCompanySystem.js" th:attr="src=@{/js/private/addCompanySystem.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 var systemId = [[${systemId}]]; 
 var companyId = ''; 

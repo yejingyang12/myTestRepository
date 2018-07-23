@@ -12,7 +12,9 @@ package com.sinopec.smcc.cpro.api.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +60,10 @@ public class ApiController {
   @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
   public ResultApi querySystemTrendByYear(HttpServletRequest request,
       @ModelAttribute("diagramParam") DiagramParam diagramParam) throws BusinessException{
+    if(StringUtils.isNotBlank(diagramParam.getUserId())){
+      HttpSession session = request.getSession();
+      session.setAttribute("userId", diagramParam.getUserId());
+    }
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
         querySystemTrendByYear(diagramParam);

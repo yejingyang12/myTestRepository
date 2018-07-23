@@ -7,30 +7,54 @@
   font-size:13px; 
 } 
 .timeInput .el-input__suffix-inner i{
-  display:none;
+  /* display:none; */
 }
 .sekuai{
-    display: inline-block;
-    background: #bedfb9;
+    display: inline-block; 
     height: 5px;
     width: 37%;
     max-width: 60%;
  }
- .sekuaiTwo{
-    display: inline-block;
-    background: #bedfb9;
-    height: 5px;
-    width:37%;
-    max-width: 60%;
- }
- .two .el-input__suffix {
+.sekuaiGreen1{ background: #dfefdc;} 
+.sekuaiGreen2{ background: #bedfb9;} 
+.sekuaiGreen3{ background: #9ece97;}
+.sekuaiGreen4{ background: #7dbe74;}
+.sekuaiGreen5{ background: #5dae51;}
+
+.sekuaiBlue1{ background: #cce0f1;} 
+.sekuaiBlue2{ background: #99c1e3;}
+.sekuaiBlue3{ background: #66a3d6;}
+.sekuaiBlue4{ background: #3384c8;}
+.sekuaiBlue5{ background: #0065ba;}
+.two .el-input__suffix {
+    margin-right: 25px;
     top: 7px;
+    height: 0px; 
+    width: 0px; 
+    background: none; 
+    right: 21px;
+    transition: all .3s;
+   /*  top: 7px;
     height: 20px;
     width: 1px;
     background: rgb(206, 206, 206);
     right: 32px;
-    transition: all .3s;
+    transition: all .3s;*/
+} 
+.two .el-input__suffix .el-input__suffix-inner{
+	top: -9px;
+    position: absolute;
 }
+ 
+.two .el-input__suffix .el-input__prefix:before {
+    color: red;
+    content: '|'!important;
+    height: 100%;
+    width: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
  .three .el-input__suffix {
     top: 7px;
     height: 20px;
@@ -55,14 +79,14 @@
 }
 
 .xiahuaxian{
-    font-size: 14px;
-    padding:0 1%;
-    border:0 solid #fff;
+	border-bottom-color: rgb(61, 149, 223);
+    border-bottom-width: 2px; 
+    float: right;
+    height: 51px;
+    width: 120px;
+    text-align: center;
 }
-.xiahuaxian:hover{
-    color: #3d95df;
-    border-bottom:3px solid #3d95df;
-}
+ 
 .chart{
     height: 402px;
 }
@@ -101,7 +125,7 @@
 }
 
 .bingzhuangBox{
-    margin-top: 15px;
+    margin-top: -3px;
     height:302px;
     overflow:hidden;
 }
@@ -167,7 +191,7 @@
 .xiaoduidieBox .duidieIns span{
         z-index:1;
         position:absolute;
-        right:3px;
+        right:4px;
         top:15%;
         color: #cecece;
 }

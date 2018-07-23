@@ -383,8 +383,6 @@
   <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
     UPDATE 
       t_cpro_system AS system
-    LEFT JOIN t_cpro_company AS company
-      ON system.fkCompanyCode = company.companyCode
     LEFT JOIN t_cpro_score AS score
       ON system.pkid = score.fkSystemId
     LEFT JOIN t_cpro_check AS cproCheck
@@ -392,7 +390,6 @@
     LEFT JOIN t_cpro_records AS records
       ON system.pkid = records.fkSystemId
     SET system.deleteStatus = 2,
-      company.deleteStatus = 2,
       cproCheck.deleteStatus = 2,
       records.deleteStatus = 2,
       score.deleteStatus = 2
@@ -400,11 +397,6 @@
       <if test="systemId != null and systemId != ''">
           <![CDATA[
              system.pkId = #{systemId}
-          ]]>
-      </if>
-      <if test="companyId != null and companyId != ''">
-          <![CDATA[
-            AND company.pkId = #{companyId}
           ]]>
       </if>
     </where>
@@ -509,6 +501,7 @@
       ON com.companyCode = system.fkCompanyCode
     <where>
       score.deleteStatus =1
+      AND system.deleteStatus =1
       <if test="companyList != null">
         <![CDATA[
           AND com.companyCode IN  

@@ -18,7 +18,7 @@ window.onload = function () {
               message: '保存成功！',
               type: 'success'
             });
-            window.location.href = originUrl + "page/mainCompanyInfoPage";
+            window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";
           },
           
           cleanSystemInfo:function (){
@@ -49,14 +49,25 @@ window.onload = function () {
                 companyName:"",
                 fkComCode:"",
                 changeType:"",
-                addSystemSub:[{
-                  systemName:"",
-                  standardizedCode:""
-                },
-                {
-                  systemName:"",
-                  standardizedCode:""
-                }],
+                stars:"1",
+                aa:"1",
+                systemNameSon:"",
+                systemCodeSon:"",
+                addSystemSubSon:[],
+                addSystemSub:[
+//                {
+//                  label:"子系统1系统名称：",
+//                  labelCode:"子系统1标准化代码：",
+//                  systemName:"",
+//                  standardizedCode:""
+//                },
+//                {
+//                  label:"子系统2系统名称：",
+//                  labelCode:"子系统2标准化代码：",
+//                  systemName:"",
+//                  standardizedCode:""
+//                }
+                ],
                 systemKeyProducts:[{
                   fkNationalIsProducts:"",
                   fkExaminStatus:"",
@@ -142,12 +153,16 @@ window.onload = function () {
                   fkSystemId:"",
                   serviceIsUse:"",
                   otherName:""
-                }]
+                }],
+                systemKeyProductsNumber:'',
+                systemKeyFkNationalIsProducts:'',
+                systemKeyNUseProbability:'',
+                systemKeyOtherName:'',
               };
             $(".baseMes1").find(".btnColor").removeClass("btnColor");
           },
           returnSystemList:function (){
-            window.location.href = originUrl + "page/mainCompanyInfoPage";
+            window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";
           }
         },
         mounted : function() {

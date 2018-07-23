@@ -251,8 +251,8 @@ var data={
                       $(".del2").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
-                        _self.formData.expertReviewName='';
-                        _self.formData.expertReviewPath='';
+                        _self.formData.gradingReportName='';
+                        _self.formData.gradingReportName='';
                       });
                       $(".updwon2").click(function(){
                         //$(this).parent("li").remove();
@@ -1156,6 +1156,11 @@ var data={
                           this.expertType = false;
                           this.formData.expertView = 1;
                         }
+                      }
+                      
+                      //时间显示问题
+                      if(this.formData.fillDate == '1970-01-01'){
+                      	this.formData.fillDate = '';
                       }
                     },
                     

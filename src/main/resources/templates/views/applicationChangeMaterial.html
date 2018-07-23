@@ -41,10 +41,17 @@
         .fileList li{
           padding-right:0
         }
+        .P-addForm-fj{
+        	width:50%;
+        	float:left;
+        }
+        .P-addForm-fj .P-addForm-fj{
+        	width:35%;
+        }
     </style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
         <!-- <img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousou.jpg}" slot="smmc-header-sou">

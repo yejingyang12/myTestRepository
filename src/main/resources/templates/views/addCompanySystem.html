@@ -22,10 +22,17 @@
             background-position: -70px -70px;
         }
        .mcAddWrap .line:nth-child(2){background:#58B24B;}
+       input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+      }
+      input[type="number"]{
+          -moz-appearance: textfield;
+      }
     </style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
         <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousuo.jpg}" slot="smmc-header-sou">-->

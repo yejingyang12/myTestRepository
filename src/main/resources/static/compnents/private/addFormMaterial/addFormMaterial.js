@@ -88,7 +88,7 @@ var data={
                       this.formData.topologyDescriptionName=responseData.data.attachName;
                       this.formData.topologyDescriptionPath=responseData.data.uploadUrl;
                     }*/
-                    
+                  	
                     var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $('#fileList').append(fileHtml);
                     $(".del").click(function(){
@@ -112,6 +112,8 @@ var data={
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
                     });
+                    _self.$refs.topologyDescriptionName.clearValidate();
+                    _self.$refs.formData.validateField('topologyDescriptionName');
                   },
                   onUpload2: function(e){
                   	var fileSize = e.target.files[0].size;//文件大小（字节）
@@ -146,6 +148,7 @@ var data={
                   	_self.setShowAttachName(_self);
                   	/*this.formData.organizationManagementName=responseData.data.attachName;
                     this.formData.organizationManagementPath=responseData.data.uploadUrl;*/
+                  	
                     var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
                     $('#fileList2').append(fileHtml);
                     $(".del").click(function(){
@@ -169,6 +172,8 @@ var data={
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
                     });
+                    _self.$refs.organizationManagementName.clearValidate();
+                    _self.$refs.formData.validateField('organizationManagementName');
                   },
                   onUpload3: function(e){
                   	var fileSize = e.target.files[0].size;//文件大小（字节）
@@ -226,6 +231,8 @@ var data={
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
                     });
+                    _self.$refs.implementationPlanName.clearValidate();
+                    _self.$refs.formData.validateField('implementationPlanName');
                   },
                   onUpload4: function(e){
                   	var fileSize = e.target.files[0].size;//文件大小（字节）
@@ -283,6 +290,8 @@ var data={
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
                     });
+                    _self.$refs.licenseCertificateName.clearValidate();
+                    _self.$refs.formData.validateField('licenseCertificateName');
                   },
                   fileDel:function(path,type){
                     var url='';

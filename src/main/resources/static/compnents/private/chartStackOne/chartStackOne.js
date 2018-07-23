@@ -55,7 +55,8 @@
           }
       },
       yAxis:  {
-          type: 'value',
+          type: 'value', 
+          minInterval : 1,
           splitLine: {lineStyle:{color:'#ededed'}},//网格线颜色
           axisLine: {
               lineStyle: {
@@ -71,8 +72,10 @@
           }
       },
       series: [
+               
           {
               name: '一级',
+              barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -84,6 +87,7 @@
           },
           {
               name: '二级',
+              barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -95,6 +99,7 @@
           },
           {
               name: '三级',
+              barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -106,6 +111,7 @@
           },
           {
               name: '四级',
+              barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
@@ -117,6 +123,7 @@
           },
           {
               name: '五级',
+              barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
               data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],

@@ -60,7 +60,7 @@ window.onload = function () {
           },
           
           saveSystemInfoSuccessMethod :function(_self, responseData){
-            window.location.href = originUrl + "page/mainCompanyInfoPage";
+            window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";
           },
           saveSystemInfo:function (){
             //bus.$emit("saveSystemInfo","1");
@@ -80,12 +80,12 @@ window.onload = function () {
           },
           cleanSystemInfo:function (){
             data.formData={
-                systemId:"",
-                companyId:"",
-                fkInfoSysTypeCon:"",
-                fkSystemIsMerge:"",
-                systemName:"",
-                standardizedCode:"",
+                systemId:data.formData.systemId,
+                companyId:data.formData.companyId,
+                fkInfoSysTypeCon:data.formData.fkInfoSysTypeCon,
+                fkSystemIsMerge:data.formData.fkSystemIsMerge,
+                systemName:data.formData.systemName,
+                standardizedCode:data.formData.standardizedCode,
                 gradeRecordSysName:"",
                 sysBusSituationType:"",
                 sysBusDescription:"",
@@ -106,14 +106,12 @@ window.onload = function () {
                 companyName:"",
                 fkComCode:"",
                 changeType:"",
-                addSystemSub:[{
-                  systemName:"",
-                  standardizedCode:""
-                },
-                {
-                  systemName:"",
-                  standardizedCode:""
-                }],
+                stars:"1",
+                aa:"1",
+                systemNameSon:data.formData.systemNameSon,
+                systemCodeSon:data.formData.systemCodeSon,
+                addSystemSubSon:data.formData.addSystemSubSon,
+                addSystemSub:data.formData.addSystemSub,
                 systemKeyProducts:[{
                   fkNationalIsProducts:"",
                   fkExaminStatus:"",
@@ -199,12 +197,38 @@ window.onload = function () {
                   fkSystemId:"",
                   serviceIsUse:"",
                   otherName:""
-                }]
+                }],
+                systemKeyProductsNumber:'',
+                systemKeyFkNationalIsProducts:'',
+                systemKeyNUseProbability:'',
+                systemKeyOtherName:'',
               };
             $(".baseMes1").find(".btnColor").removeClass("btnColor");
+            var array = $('#baseMes1').find('div').map(function (index, ele) {
+              if(data.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
+                return ele;
+              }else if(data.formData.fkInfoSysTypeCon==2&&ele.innerHTML=='统建'){
+                return ele;
+              }else if(data.formData.fkInfoSysTypeCon==3&&ele.innerHTML=='总部系统'){
+                return ele;
+              }else{
+                 return "";
+              }
+            }).get();
+            $(array).addClass('btnColor');
+            var array2 = $('#baseMes2').find('div').map(function (index, ele) {
+              if(data.formData.fkSystemIsMerge==1&&ele.innerHTML=='是'){
+                return ele;
+              }else if(data.formData.fkSystemIsMerge==2&&ele.innerHTML=='否'){
+                return ele;
+              }else{
+                 return "";
+              }
+            }).get();
+            $(array2).addClass('btnColor');
           },
           returnSystemList:function (){
-            window.location.href = originUrl + "page/mainCompanyInfoPage";
+            window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";
           },
           //返回
           returnBtn:function() {

@@ -52,7 +52,7 @@
           ],
           postalCode: [
               { required: false, message: '请输入邮政编码', trigger: 'blur' },
-              { pattern: /^\d{0,6}$/, message: '邮政编码输入有误', trigger: 'blur'}
+              { pattern: /^\d{6}$/, message: '邮政编码输入有误', trigger: 'blur'}
           ],
           fkSubordinatePro: [
               { required: true, message: '请选择所属省份', trigger: 'blur' }
@@ -444,10 +444,10 @@
               },
               cleanCompanyInfo: function(_self){
               	_self.formData={
-                    companyName:"",
+                    companyName:_self.formData.companyName,
                     companyTypeName:"",
                     ldContactName:"",
-                    companyCode:"",
+                    companyCode:_self.formData.companyCode,
                     companyAddress:"",
                     postalCode:"",
                     administrativeNum:"",
@@ -467,14 +467,14 @@
                     fkAffiliation:"",
                     fkPlateType:"",
                     fkCompanyType:"",
-                    companyId:"",
+                    companyId:_self.formData.companyId,
                     changeType:"",
-                    systemId:""
+                    systemId:_self.formData.systemId
                  };
               	$(".baseMes1").find(".btnColor").removeClass("btnColor");
               },
               returnCompanyList: function(_self){
-              	window.location.href = originUrl + "page/mainCompanyInfoPage";
+              	window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=first";
               },
               // 获取单位Code
               getCompanyCode : function(_self) {

@@ -143,6 +143,7 @@
                   }
           				_self.formData.revokereason = responseData.data.revokereason;
           				_self.formData.revokeRecordsName = responseData.data.revokeRecordsName;
+          				_self.formData.revokeRecordsId = responseData.data.revokeRecordsId;
           			}
               case '3':
               	if(responseData.data.fkChangeMatter!= null){
@@ -220,12 +221,12 @@
                    'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
                 break;
               case '2':
-//                _self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
-//                _self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
-//                ajaxMethod(_self,"post",
-//                   "checkController/saveCancelRecordsCheck",false,
-//                   JSON.stringify(this.formData),"json",
-//                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                _self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
+                _self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
+                ajaxMethod(_self,"post",
+                   "checkController/saveCancelRecordsCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
                 break;
               case '3':
                 _self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
@@ -272,8 +273,11 @@
           },
           //审核结构：显示输
           changeScore : function(){
-          	if(this.ruleForm.scoreCheckResult == 1){
+          	if(this.ruleForm.scoreCheckResult == 2){
+          		this.rules.scoreCheckReason[0].required = true;
+          	}else{
           		this.rules.scoreCheckReason[0].required = false;
+          		this.$refs.scoreCheckReason.clearValidate();
           	}
           },
           //审核结构：显示输入内容的字数
@@ -287,6 +291,17 @@
               }
             })
           },
+          
+          downloadFile: function(fileId,attachName){
+          	if(attachName == "undefined"){
+          		attachName = null;
+          	}
+          	if(fileId == "undefined"){
+          		fileId = null;
+          	}
+          	//下载路径
+          	window.location.href = originUrl + "fileHandle/downloadFile?attachName="+attachName+"&fileId="+fileId;
+          }
         },
         
         mounted: function() {

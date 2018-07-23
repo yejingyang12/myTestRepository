@@ -3,7 +3,8 @@
  */
 (function () {
   var data={
-      change:false,
+		evaluationId:"",
+    change:false,
   	years:[],
   	yearType:'',
   	systemName: null,
@@ -51,7 +52,7 @@
           examName:[  //测评项目名称
               {required: true, message: '请输入测评项目名称', trigger: 'blur' },
               { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
-		  ],
+          ],
           examTime:[  //测评时间
               {required: true, message: '请输入测评时间', trigger: 'blur' },
           ],
@@ -60,13 +61,13 @@
               { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
           ],
           examYear:[  //测评年度
-              {required: true, message: '请选择测评年度', trigger: 'blur' },
+              {required: true, message: '请选择测评年度', trigger: 'change' },
           ],
           fkExamStatus:[  //测评状态
               {required: true, message: '请选择测评状态', trigger: 'blur' },
           ],
           fkExamResult:[  //测评结果
-              {required: true, message: '请选择测评结果', trigger: 'blur' },
+              {required: true, message: '请选择测评结果', trigger: 'change' },
           ],
           fkRectificationReu:[  //整改结果
               {required: true, message: '请选择整改结果', trigger: 'blur' },
@@ -148,6 +149,7 @@
             evaluationAlert.style.display="none";
             $(".inquiry").css("display","none");
             $(".dialogShaw").css("display","none");
+            this.$refs['editData'].resetFields();
           },
         
           //点击加号和编辑 让弹框 显示并做相应处理
@@ -212,16 +214,17 @@
           	_self.result = data;
           },
         //点击“删除”显示弹窗
-          deleteClick:function(){
+          deleteClick:function(evaluationId){
+          	this.evaluationId=evaluationId;
          	 $(".inquiry").css("display","block");
-         	$(".dialogShaw").css("display","block");
+         	 $(".dialogShaw").css("display","block");
           },
           
           //删除数据
-          deleteEvaluation: function(evaluationId) {
+          deleteEvaluation: function() {
           	var _self = this;
           	this.show.visible2 = -1;
-          	var deleteParam = {"evaluationId":evaluationId,"fkSystemId":systemId};
+          	var deleteParam = {"evaluationId":this.evaluationId,"fkSystemId":systemId};
           	ajaxMethod(_self, 'post',
               '/evaluation/deleteEvaluation', true,
               JSON.stringify(deleteParam), 'json',

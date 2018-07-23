@@ -207,6 +207,10 @@ button:-moz-focusring,
     -webkit-appearance: button;
     font: inherit;
 }
+/* 页面加载闪烁 */
+[v-cloak] {
+  display: none;
+}
 /*浮动*/
 .fl{
     float:left;
@@ -347,7 +351,7 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .el-cascader-menu{
   min-width:312px !important;
   height:auto !important;
-  max-width:204px
+  /* max-width:204px */
 }
 .el-cascader-menu li{
   margin-bottom:0 !important;

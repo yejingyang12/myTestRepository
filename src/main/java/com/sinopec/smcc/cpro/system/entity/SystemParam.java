@@ -75,6 +75,7 @@ public class SystemParam {
   private Integer fkComCode;
   private String theLastStep;
 
+  private String activeName;//进入维护单位系统信息那个页签
 
 
   private List<SystemParam> addSystemSub;
@@ -101,6 +102,12 @@ public class SystemParam {
    */
   public void setTheLastStep(String theLastStep) {
     this.theLastStep = theLastStep;
+  }
+  public String getActiveName() {
+    return activeName;
+  }
+  public void setActiveName(String activeName) {
+    this.activeName = activeName;
   }
   public List<String> getCompanyList() {
     return companyList;

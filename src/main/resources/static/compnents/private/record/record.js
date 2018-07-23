@@ -102,7 +102,7 @@ var data1={
 							var index = -(2*100+8)+"px"+" -190px";
 							$(".process>li").eq(2).children('i').css('background-position',index);
 							$(".process>li").eq(2).prevAll().children('i').next('span').css('background-color','#3d95df');
-							$(".process>li").eq(2).prevAll().children('i').css('background-position','-8px -260px');
+							$(".process>li").eq(2).prevAll().children('i').css('background-position-y','-190px');
 							$(".process>li").eq(2).children('i').next('span').css('background-color','#cecece');
 							$(".process>li").eq(2).nextAll().children('i').next('span').css('background-color','#cecece');
 							$(".process>li").eq(2).nextAll().children('i').css('background-position','');
@@ -136,7 +136,7 @@ var data1={
 						var index = -($(e.currentTarget).index()*100+8)+"px"+" -190px";
 						$(e.currentTarget).children('i').css('background-position',index);
 						$(e.currentTarget).prevAll().children('i').next('span').css('background-color','#3d95df');
-						$(e.currentTarget).prevAll().children('i').css('background-position','-8px -260px');
+						$(e.currentTarget).prevAll().children('i').css('background-position-y','-190px');
 						$(e.currentTarget).children('i').next('span').css('background-color','#cecece');
 						$(e.currentTarget).nextAll().children('i').next('span').css('background-color','#cecece');
 						$(e.currentTarget).nextAll().children('i').css('background-position','');

@@ -9,7 +9,7 @@
             <ul class="clearfix dataForm">
                 <li class="row">
                     <div class="col-md-12">
-                        <el-form-item label="1.系统拓扑结构及说明：" prop="topologyDescriptionName">
+                        <el-form-item label="1.系统拓扑结构及说明：" prop="topologyDescriptionName" ref="topologyDescriptionName">
                             <div class="clearfix sysText col-md-12 uploadBox">
                                 <div class="uploadSty">
                                     <ul class="fileList" id="fileList"></ul>
@@ -22,7 +22,7 @@
                         </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <el-form-item label="附件名称：" prop="topologyDescriptionName">
+                        <el-form-item label="附件名称：" prop="topologyDescriptionName" ref="topologyDescriptionName">
                             <div class="clearfix sysEnclosure">
                                 <input type="text" class="col-md-11 inpEnclosure" v-model="formData.topologyDescriptionName" name="fileText" id="fileText" disabled>
                             </div>
@@ -31,7 +31,7 @@
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <el-form-item label="2.系统安全组织机构及管理制度：" prop="organizationManagementName">
+                        <el-form-item label="2.系统安全组织机构及管理制度：" prop="organizationManagementName" ref="organizationManagementName">
                             <div class="clearfix sysText col-md-12 uploadBox">
                                 <div class="uploadSty">
                                     <ul class="fileList" id="fileList2">
@@ -45,7 +45,7 @@
                         </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <el-form-item label="附件名称：" prop="organizationManagementName">
+                        <el-form-item label="附件名称：" prop="organizationManagementName" ref="organizationManagementName">
                             <div class="clearfix sysEnclosure">
                                 <input type="text" class="col-md-11 inpEnclosure" v-model="formData.organizationManagementName" name="upSyst" id="upSyst" disabled>
                             </div>
@@ -54,7 +54,7 @@
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <el-form-item label="3.系统安全保护设施设计实施方案或改建实施方案：" prop="implementationPlanName">
+                        <el-form-item label="3.系统安全保护设施设计实施方案或改建实施方案：" prop="implementationPlanName" ref="implementationPlanName">
                             <div class="clearfix sysText col-md-12 uploadBox">
                                 <div class="uploadSty">
                                     <ul class="fileList" id="fileList3">
@@ -68,7 +68,7 @@
                         </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <el-form-item label="附件名称：" prop="implementationPlanName">
+                        <el-form-item label="附件名称：" prop="implementationPlanName" ref="implementationPlanName">
                             <div class="clearfix sysEnclosure">
                                 <input type="text" class="col-md-11 inpEnclosure" v-model="formData.implementationPlanName" name="upBuid" id="upBuid" disabled>
                             </div>
@@ -77,7 +77,7 @@
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <el-form-item label="4.系统使用的安全产品清单及认证、销售许可证明：" prop="licenseCertificateName">
+                        <el-form-item label="4.系统使用的安全产品清单及认证、销售许可证明：" prop="licenseCertificateName" ref="licenseCertificateName">
                             <div class="clearfix sysText col-md-12 uploadBox">
                                 <div class="uploadSty">
                                     <ul class="fileList" id="fileList4">
@@ -91,7 +91,7 @@
                         </el-form-item>
                     </div>
                     <div class="col-md-12">
-                        <el-form-item label="附件名称：" prop="licenseCertificateName">
+                        <el-form-item label="附件名称：" prop="licenseCertificateName" ref="licenseCertificateName">
                             <div class="clearfix sysEnclosure">
                                 <input type="text" class="col-md-11 inpEnclosure" v-model="formData.licenseCertificateName" name="upList" id="upList" disabled>
                             </div>
@@ -100,11 +100,11 @@
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <div class="col-md-6">
+                        <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 P-sysTitle text-right sysTitle">5.系统等级测评报告：</label>
-                            <p class="downDoc col-md-6" @click="downloadFile(formData.evaluationPresentationId)">{{formData.evaluationPresentationName}}</p>
+                            <p class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.evaluationPresentationId)">{{formData.evaluationPresentationName}}</p>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
                             <p class="col-md-9 text-left dixName">{{formData.evaluationPresentationName}}</p>
                         </div>
@@ -112,11 +112,11 @@
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <div class="col-md-6">
+                        <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 P-sysTitle text-right sysTitle">6.专家评审情况：</label>
-                            <p class="downDoc col-md-6" @click="downloadFile(formData.expertReviewId)">{{formData.expertReviewName}}</p>
+                            <p class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.expertReviewId)">{{formData.expertReviewName}}</p>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
                             <p class="col-md-9 text-left dixName">{{formData.expertReviewName}}</p>
                         </div>
@@ -124,11 +124,11 @@
                 </li>
                 <li class="row">
                     <div class="col-md-12">
-                        <div class="col-md-6">
+                        <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 text-right sysTitle P-sysTitle">7.上级主管部门审批意见：</label>
-                            <p class="downDoc col-md-6" @click="downloadFile(formData.directorOpinionId)">{{formData.directorOpinionName}}</p>
+                            <p class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.directorOpinionId)">{{formData.directorOpinionName}}</p>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
                             <p class="col-md-9 text-left dixName">{{formData.directorOpinionName}}</p>
                         </div>

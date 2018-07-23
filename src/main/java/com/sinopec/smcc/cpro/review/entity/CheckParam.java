@@ -71,6 +71,7 @@ public class CheckParam {
   private String remark;
   
   private String attachName;
+  private String fkInfoSysTypeCon;
   
   //办理状态
   private Integer handlingState;
@@ -356,6 +357,12 @@ public class CheckParam {
   }
   public void setAttachName(String attachName) {
     this.attachName = attachName;
+  }
+  public String getFkInfoSysTypeCon() {
+    return fkInfoSysTypeCon;
+  }
+  public void setFkInfoSysTypeCon(String fkInfoSysTypeCon) {
+    this.fkInfoSysTypeCon = fkInfoSysTypeCon;
   }
   public String toString(){
     return JSON.toJSONString(this);

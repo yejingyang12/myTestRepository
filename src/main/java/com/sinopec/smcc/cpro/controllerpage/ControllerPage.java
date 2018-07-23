@@ -165,7 +165,9 @@ public class ControllerPage {
   }
   //维护单位系统信息
   @RequestMapping("/mainCompanyInfoPage")
-  public String mainCompanyInfoPage(HttpServletRequest request, Model model){
+  public String mainCompanyInfoPage(HttpServletRequest request, Model model, 
+      SystemParam systemParam){
+    model.addAttribute("activeName", systemParam.getActiveName());
     return "views/mainCompanyInfo";
   }
   //维护单位--新建单位信息

@@ -58,6 +58,7 @@
         },
         yAxis:  {
             type: 'value',
+            minInterval : 1, 
             splitLine: {lineStyle:{color:'#ededed'}},//网格线颜色
             axisLine: {
                 lineStyle: {
@@ -69,27 +70,54 @@
                 textStyle: {
                    color: '#000',
                    fontSize: 12
-                }
+                },
+               /* formatter: function (value) {
+                	console.log(value);
+                	var texts = [];
+                	if(value=0){
+                       texts.push('0');
+                    }
+                	if(0<value<=1){
+                	   texts.push('1');
+                	}
+                	else if (1<value<=2) { 
+                	   texts.push('2');
+                	} 
+                	else if (2<value<=3) { 
+                       texts.push('2');
+                    }
+                	else if (3<value<=4) { 
+                    	texts.push('4');
+                    }
+                	else{
+                		texts.push('5');
+                	}
+                	return texts;
+             }*/
             }
         },
         series: [
             {
                 name: '一级',
-                barWidth : 50,//柱图宽度
+                barWidth : 40,//柱图宽度
                 max:20, //关键第一句
                 type: 'bar',
                 stack: '总量',
+                barCateGoryGap:"1",
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
                 itemStyle: {
                     normal: {
                         color:'rgba(0,101,186,1)'//颜色编码，透明度
+                         	
                     }
                 }
             },
             {
                 name: '二级',
+                barWidth : 40,//柱图宽度
                 type: 'bar',
                 stack: '总量',
+                barCateGoryGap:"1",
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
                 itemStyle: {
                     normal: {
@@ -99,8 +127,10 @@
             },
             {
                 name: '三级',
+                barWidth : 40,//柱图宽度
                 type: 'bar',
                 stack: '总量',
+                barCateGoryGap:"1",
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
                 itemStyle: {
                     normal: {
@@ -110,8 +140,10 @@
             },
             {
                 name: '四级',
+                barWidth : 40,//柱图宽度
                 type: 'bar',
                 stack: '总量',
+                barCateGoryGap:"1",
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
                 itemStyle: {
                     normal: {
@@ -121,9 +153,10 @@
             },
             {
                 name: '五级',
+                barWidth : 40,//柱图宽度
                 type: 'bar',
                 stack: '总量',
-                barCateGoryGap:6,
+                barCateGoryGap:"1",
                 data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
                 itemStyle: {
                     normal: {
@@ -152,6 +185,7 @@
               this.getRecordsCompanyNumSuccess);
           } ,
           getRecordsCompanyNumSuccess : function(_self,result){
+        	  console.log(result);
           	this.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
