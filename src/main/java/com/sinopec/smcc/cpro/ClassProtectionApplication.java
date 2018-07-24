@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 修改时间:
  * 修改备注:
  */
-@SpringBootApplication(exclude = MongoAutoConfiguration.class)
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MailSenderAutoConfiguration.class})
 @EnableAspectJAutoProxy(exposeProxy = true)
 @EnableFeignClients("com.sinopec.smcc")
 @MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
