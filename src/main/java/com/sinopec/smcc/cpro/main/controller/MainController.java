@@ -28,6 +28,7 @@ import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title MainController.java
@@ -318,6 +319,43 @@ public class MainController {
         this.mainServiceImpl.queryGradingStatistics(mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(gradingStatisticsResult);
+    return result;
+  }
+  
+  /**
+   * @Descrption 获取用户信息
+   * @author Aran
+   * @date 2018年7月23日下午6:49:33
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi getUserInfo(HttpServletRequest request) 
+      throws BusinessException {
+    UserDTO userInfo = 
+        this.mainServiceImpl.getUserInfo();
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(userInfo);
+    return result;
+  }
+  
+  /**
+   * @Descrption 退出登录
+   * @author Aran
+   * @date 2018年7月23日下午6:49:50
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/logout", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi logout(HttpServletRequest request) 
+      throws BusinessException {
+    request.getSession().invalidate(); 
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(null);
     return result;
   }
 }

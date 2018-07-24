@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="../../static/css/private/addCompanyInfoPage.css" th:attr="href=@{/css/private/addCompanyInfoPage.css}">
     <link rel="stylesheet" href="../../static/css/private/newUnitInformation.css" th:attr="href=@{/css/private/newUnitInformation.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">
     <style type="text/css">
     .formControl{
         padding:0;
@@ -68,11 +69,43 @@
     </smcc-header>
     <smcc-breadcrumb></smcc-breadcrumb>
     <add-form>
-        <p slot="addInf" class="unitBtn">
-            <button type="button" class="btn btn-success" @click="saveCompanyInfo('formData')">保存</button><!--  -->
-            <button type="button" class="btn btn-default" @click="cleanCompanyInfo">清空</button><!--  -->
+        <div slot="addInf" class="unitBtn">
+            <button type="button" class="btn btn-success" @click="openSaveCompanyInfo">保存</button><!--  -->
+            <!-- 维护单位信息的保存提示弹窗 -->
+            <div class="dialogShaw" id="saveCompanyInfoDialogShaw">
+							<div class="inquiry" id="saveCompanyInfoDialog">
+								<div class="cenrerBox">
+                  <i class="failIcon fl">!</i>
+                  <div class="fl">
+                    <p>是否保存</p>
+                  </div>
+                </div>
+				        <div class="inquiryBtn">
+				            <button type="button" class="btn btn-success" @click="saveCompanyInfo('formData')">确定</button>
+				            <button type="button" class="btn btn-default" @click="closeDialog">取消</button>
+				        </div>
+							</div>
+						</div>
+						
+            <button type="button" class="btn btn-default" @click="openCleanCompanyInfo">清空</button><!--  -->
+            <!-- 维护单位信息的清空提示弹窗 -->
+            <div class="dialogShaw" id="cleanCompanyInfoDialogShaw">
+							<div class="inquiry" id="cleanCompanyInfoDialog">
+								<div class="cenrerBox">
+                  <i class="failIcon fl">!</i>
+                  <div class="fl">
+                    <p>是否清空</p>
+                  </div>
+                </div>
+				        <div class="inquiryBtn">
+				            <button type="button" class="btn btn-success" @click="cleanCompanyInfo">确定</button>
+				            <button type="button" class="btn btn-default" @click="closeDialog">取消</button>
+				        </div>
+							</div>
+						</div>
+						
             <button type="button" class="btn btn-default" @click="returnCompanyList">返回</button><!--  -->
-        </p>
+        </div>
     </add-form>
     <add-fromalert></add-fromalert>
 </div>
@@ -101,6 +134,6 @@ var companyCode = [[${companyCode}]];
 var companyId = [[${companyId}]]; 
 var readonly="";
 var type="new";
-var jurisdiction="";
+var jurisdiction=[[${jurisdiction}]];
 </script>
 </html>

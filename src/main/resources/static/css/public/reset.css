@@ -207,6 +207,11 @@ button:-moz-focusring,
     -webkit-appearance: button;
     font: inherit;
 }
+/* bootstrap  删除按钮 hover */
+.clearfix .btn-default:hover {
+  background-color: #e90a0a !important;
+  color: #fff !important;
+}
 /* 页面加载闪烁 */
 [v-cloak] {
   display: none;

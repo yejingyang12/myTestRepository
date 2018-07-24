@@ -222,8 +222,20 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     padding-right: 0;
 }
 .trueSys .sysSun{
+    right: 40px;
+    padding:6px;
+}
+.trueSys .P-btn-sysSun{    
+		position: absolute;
     right: 0px;
-    padding:6px 10px;
+    padding: 6px;
+    bottom: 17px;
+}
+.trueSys .P-btn-del{
+		position: absolute;
+    right: 76px;
+    padding: 6px;
+    bottom: 1px;
 }
 .dataForm .mcTextArea{
     width: calc(87.5% - 15px);

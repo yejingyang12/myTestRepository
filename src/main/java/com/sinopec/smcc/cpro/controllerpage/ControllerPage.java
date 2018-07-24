@@ -172,7 +172,9 @@ public class ControllerPage {
   }
   //维护单位--新建单位信息
   @RequestMapping("/newUnitInformationPage")
-  public String newUnitInformationPage(HttpServletRequest request, Model model){
+  public String newUnitInformationPage(HttpServletRequest request, Model model,
+      @ModelAttribute("jurisdiction")String jurisdiction){
+    model.addAttribute("jurisdiction",jurisdiction);
     return "views/newUnitInformation";
   }
   //维护单位--修改单位信息

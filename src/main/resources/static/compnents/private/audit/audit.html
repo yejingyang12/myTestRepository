@@ -13,7 +13,7 @@
                                     流程实例名称：
                                 </div>
                                 <div style="width:58%;" class="col-md-8 h-col-md-9 float-le clearPadding">
-                                    <input type="text" class="h-form-control"
+                                    <el-input type="text" class="h-form-control"
                                            style="height:34px; background-image: none;    width: 100%;"
                                            v-model="formData.instanceName" id="instanceName" name="instanceName" placeholder="请输入" >
                                 </div>
@@ -26,7 +26,7 @@
                                     发起人：
                                 </div>
                                 <div style="width: 58%;" class="col-md-8 clearPadding">
-                                    <input type="text" class="h-form-control" style="background-image: none;width: 100%;"
+                                    <el-input type="text" class="h-form-control" style="background-image: none;width: 100%;"
                                            v-model="formData.initiator" id="initiator" name="initiator" placeholder="请输入" >
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                             </div>
                         </div> -->
                         <!--建设类型-->
-                        <div class="col-md-3" style="margin-left: 4%">
+                        <div class="col-md-3">
                             <div class="row">
                                 <div class="col-md-9 h-col-md-9 float-ri h-status" style="width: 58%">
                                     <el-select v-model="formData.fkInfoSysTypeCon" id="fkInfoSysTypeCon" filterable

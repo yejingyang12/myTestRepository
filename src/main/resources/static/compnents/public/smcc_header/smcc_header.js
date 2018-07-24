@@ -12,7 +12,8 @@ var emitdata = new Vue();
         mainNav: [],
         titleList: [],
         toggleOneData: [],
-        toggleTwoData: []
+        toggleTwoData: [],
+        userName:'',
     }
     Vue.component('smccHeader',function (resolve, reject) {
         $.get(comp_src+'/compnents/public/smcc_header/smcc_header.html').then(function (res) {
@@ -75,9 +76,37 @@ var emitdata = new Vue();
                     }.bind(this))
                     _self.HeaderData = responseData;
                   },
+                  getUserInfoMethod:function(_self){
+                    ajaxMethod(_self, 'post',
+                        'main/getUserInfo', true,'', 'json',
+                        'application/json;charset=UTF-8',
+                        _self.getUserInfoSuccessMethod);
+                  },
+                  getUserInfoSuccessMethod: function(_self, responseData) {
+                    _self.userName=responseData.data.userName;
+                  },
+                  signOutMethod:function(){
+                    ajaxMethod(this, 'post',
+                        'main/logout', true,'', 'json',
+                        'application/json;charset=UTF-8',
+                        this.signOutSuccessMethod);
+                  },
+                  signOutSuccessMethod: function(_self, responseData) {
+                    _self.clearAllCookie();
+//                    location.reload();
+                  },
+                //清除所有cookie函数
+                  clearAllCookie:function() {
+                    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+                    if(keys) {
+                      for(var i = keys.length; i--;)
+                        document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
+                    }
+                  }
                 },
                 created: function() {
                   this.getMenuInfoMethod(this);
+                  this.getUserInfoMethod(this);
                 },
                 mounted: function() {
                     // this.selectChange()

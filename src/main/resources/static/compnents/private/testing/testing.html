@@ -126,7 +126,7 @@
                                      <el-option  label="已整改" value="1"></el-option>
                                      <el-option  label="未整改" value="2"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editData.fkRectificationReu" :disabled = "change"  filterable placeholder="请选择">
+                                <el-select v-model="editData.fkRectificationReu" :disabled = "change" @change="changeResult()"  filterable placeholder="请选择">
                                    <el-option
                                       v-for="item in rectificationReu"
                                       :key="item.value"

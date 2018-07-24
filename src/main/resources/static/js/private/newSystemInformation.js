@@ -10,6 +10,8 @@ window.onload = function () {
         },
         methods:{
           saveSystemInfo:function(formName) {
+          	this.closeDialog();
+          	data.check=false;
             bus.$emit('addPreSystemName',formName);
           },
           // 获取系统信息成功
@@ -22,6 +24,7 @@ window.onload = function () {
           },
           
           cleanSystemInfo:function (){
+          	this.closeDialog();
             data.formData={
                 systemId:"",
                 companyId:"",
@@ -163,7 +166,23 @@ window.onload = function () {
           },
           returnSystemList:function (){
             window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";
-          }
+          },
+          
+          //显示弹窗
+          openSaveSystemInfo:function(){
+          	$("#saveSystemInfoDialog").css("display","block");
+          	$("#saveSystemInfoDialogShaw").css("display","block");
+          },
+          openCleanSystemInfo:function(){
+          	$("#cleanSystemInfoDialog").css("display","block");
+          	$("#cleanSystemInfoDialogShaw").css("display","block");
+          },
+          closeDialog:function(){
+          	$("#saveSystemInfoDialog").css("display","none");
+          	$("#cleanSystemInfoDialog").css("display","none");
+          	$("#saveSystemInfoDialogShaw").css("display","none");
+          	$("#cleanSystemInfoDialogShaw").css("display","none");
+          },
         },
         mounted : function() {
           var _self = this;

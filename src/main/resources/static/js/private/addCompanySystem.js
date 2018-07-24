@@ -2,7 +2,15 @@
  * Created by timha on 2018/6/1.
  */
 window.onload = function () {
-
+		var dialogShow = {
+				saveDialog: false,
+				saveSuccessDialog: false,
+				saveFailDialog: false,
+				cleanDialog: false,
+				cleanSuccessDialog: false,
+				cleanFailDialog: false,
+		};
+	
     var app = new Vue({
         el:"#app",
         data:function () {
@@ -62,23 +70,13 @@ window.onload = function () {
           saveSystemInfoSuccessMethod :function(_self, responseData){
             window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";
           },
-          saveSystemInfo:function (){
-            //bus.$emit("saveSystemInfo","1");
-            if(systemId!=''&&systemId!=null){
-              ajaxMethod(this, 'post',
-                  'system/editSystem', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  this.saveSystemInfoSuccessMethod);
-            }else{
-              ajaxMethod(this, 'post',
-                  'system/saveSystem', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  this.saveSystemInfoSuccessMethod);
-            }
+          saveSystemInfo:function (formName){
+          	this.closeDialog();
+          	data.check=false;
+            bus.$emit('addPreSystemName',formName);
           },
           cleanSystemInfo:function (){
+          	this.closeDialog();
             data.formData={
                 systemId:data.formData.systemId,
                 companyId:data.formData.companyId,
@@ -233,7 +231,23 @@ window.onload = function () {
           //返回
           returnBtn:function() {
             window.location.href = originUrl+"page/indexPage";
-          }
+          },
+          
+          //显示弹窗
+          openSaveSystemInfo:function(){
+          	$("#saveSystemInfoDialog").css("display","block");
+          	$("#saveSystemInfoDialogShaw").css("display","block");
+          },
+          openCleanSystemInfo:function(){
+          	$("#cleanSystemInfoDialog").css("display","block");
+          	$("#cleanSystemInfoDialogShaw").css("display","block");
+          },
+          closeDialog:function(){
+          	$("#saveSystemInfoDialog").css("display","none");
+          	$("#cleanSystemInfoDialog").css("display","none");
+          	$("#saveSystemInfoDialogShaw").css("display","none");
+          	$("#cleanSystemInfoDialogShaw").css("display","none");
+          },
         },
         mounted : function() {
           var _self = this;

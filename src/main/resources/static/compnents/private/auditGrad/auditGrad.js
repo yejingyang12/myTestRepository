@@ -182,37 +182,8 @@
         		}
         	},
         	saveGradCheck: function(_self){
-        	  if(_self.jurisdictionType==1){
-        	    switch (fkBusinessNode) {
-              case '1':
-                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
-                ajaxMethod(_self,"post",
-                   "checkController/saveHeadGradCheck",false,
-                   JSON.stringify(this.formData),"json",
-                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
-                break;
-              case '2':
-                _self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
-                _self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
-                ajaxMethod(_self,"post",
-                   "checkController/saveCancelRecordsCheck",false,
-                   JSON.stringify(this.formData),"json",
-                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
-                break;
-              case '3':
-                _self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
-                _self.formData.scoreCheckChangeReason = _self.ruleForm.scoreCheckReason;
-                ajaxMethod(_self,"post",
-                   "checkController/saveHeadGradChangeCheck",false,
-                   JSON.stringify(this.formData),"json",
-                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
-                break;
-
-              default:
-                break;
-              }
-        	  }else if(_self.jurisdictionType==2){
-        	    switch (fkBusinessNode) {
+            if(_self.jurisdictionType==1){
+              switch (fkBusinessNode) {
               case '1':
                 _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
                 ajaxMethod(_self,"post",
@@ -236,11 +207,40 @@
                    JSON.stringify(this.formData),"json",
                    'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
                 break;
-
+    
               default:
                 break;
               }
-        	  }
+            }else if(_self.jurisdictionType==2){
+              switch (fkBusinessNode) {
+              case '1':
+                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
+                ajaxMethod(_self,"post",
+                   "checkController/saveHeadGradCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+              case '2':
+//                _self.formData.cancelRecordsResult = _self.ruleForm.scoreCheckResult;
+//                _self.formData.cancelRecordsReason = _self.ruleForm.scoreCheckReason; 
+//                ajaxMethod(_self,"post",
+//                   "checkController/saveCancelRecordsCheck",false,
+//                   JSON.stringify(this.formData),"json",
+//                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+//                break;
+              case '3':
+                _self.formData.scoreCheckChangeResult = _self.ruleForm.scoreCheckResult;
+                _self.formData.scoreCheckChangeReason = _self.ruleForm.scoreCheckReason;
+                ajaxMethod(_self,"post",
+                   "checkController/saveHeadGradChangeCheck",false,
+                   JSON.stringify(this.formData),"json",
+                   'application/json;charset=UTF-8', _self.saveGradCheckSuccess);
+                break;
+    
+              default:
+                break;
+              }
+            }
           },
           saveGradCheckSuccess: function(_self,response){
         		window.location.href="/page/auditPage";

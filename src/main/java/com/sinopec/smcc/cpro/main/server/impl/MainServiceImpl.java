@@ -35,6 +35,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
@@ -71,6 +72,7 @@ import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.SheetBean;
 import com.sinopec.smcc.cpro.tools.word.WordUtils;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title MainServiceImpl.java
@@ -109,6 +111,10 @@ public class MainServiceImpl implements MainService{
   
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
+  
+  @Autowired
+  private UserApiService userApiServiceImpl;
+  
   /**
    * 响应等保列表数据
    */
@@ -2627,5 +2633,14 @@ public class MainServiceImpl implements MainService{
   @Override
   public List<MainListResult> queryRecordsCompanyNum(MainParam mainParam) throws BusinessException {
     return mainMapper.selectRecordsCompanyNum(mainParam);
+  }
+
+  /**
+   * 获取用户信息
+   */
+  @Override
+  public UserDTO getUserInfo() throws BusinessException {
+    
+    return userApiServiceImpl.getUserInfo();
   }
 }

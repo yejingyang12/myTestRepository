@@ -485,9 +485,13 @@
                     _self.getCompanyCodeSuccessMethod);
               },
               // 获取单位Code成功
-              getCompanyCodeSuccessMethod : function(_self, responseData) {
+              getCompanyCodeSuccessMethod : function(_self, responseData,type) {
               	this.dtlCompanyCode=responseData.data;
-              	this.getCompanyDetailsMethod(_self,responseData.data);
+              	if(type!= null && type != ''){
+                	this.getCompanyDetailsMethod(_self,responseData);
+              	}else{
+                	this.getCompanyDetailsMethod(_self,responseData.data);
+              	}
               },
               getCompanyDetailsMethod:function(_self,meg){
                 ajaxMethod(_self, 'post',
@@ -495,6 +499,7 @@
                     'application/json;charset=UTF-8',_self.getCompanyDetailsMethodSuccess);
               },
               getCompanyDetailsMethodSuccess:function(_self, responseData){
+              	debugger
               	//如果有该单位信息则显示详情，没有则显示单位名称及code
               	if(responseData.data != null){
               		this.getCompanyInfoSuccessMethod(_self,responseData)
@@ -508,6 +513,9 @@
               			}
               		}
               	}
+              },
+              getCompanyDetailsByCompanyIdMethodSuccess:function(_self, responseData){
+              	this.getCompanyCodeSuccessMethod(_self,responseData.data.companyCode,'update');
               }
             },
             created : function() {
@@ -522,11 +530,18 @@
               // 获取单位
               this.getCompanyMethod(this);
               //获取系统ID
-              
               //getJurisdictionMethod(a,"0101010101");
+              
+              if(type == 'update'){
+                ajaxMethod(this, 'post',
+                    'company/queryDetailsCompany', true,'{"companyId":"'+companyId+'"}', 'json',
+                    'application/json;charset=UTF-8',this.getCompanyDetailsByCompanyIdMethodSuccess);
+                return;
+              }
               if(jurisdiction == null || jurisdiction == ''){
             		this.getCompanyCode(this);
             	}
+              	
             },
             mounted : function() {
               // this.selectChange()

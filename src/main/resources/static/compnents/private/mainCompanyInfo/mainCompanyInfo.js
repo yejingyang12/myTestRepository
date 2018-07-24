@@ -1,4 +1,5 @@
 var data = {
+		headquarters:false,
     check:false,
     companyForm:{
       pagesize:'',
@@ -123,10 +124,14 @@ var data = {
             _self.companyForm.result = responseData;
          },
          handleClick:function(id){
-           window.location.href = "/page/changeUnitInformationPage?companyId="+id;
+        		 window.location.href = "/page/changeUnitInformationPage?companyId="+id;      
          },
          newCompanyInfoMethod:function(){
-           window.location.href = "/page/newUnitInformationPage";
+        	 if(this.headquarters){
+        		 window.location.href = "/page/newUnitInformationPage?jurisdiction=headquarters";
+        	 }else{
+        		 window.location.href = "/page/newUnitInformationPage";
+        	 }
          },
          //点击 "取消" 关闭弹框
          closes:function () {
@@ -197,6 +202,23 @@ var data = {
         },
         created: function() {
           this.getCompanyListInfoMethod(this,{});
+        //功能权限
+          $.ajax({
+            type: "get",
+            url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+            async: true,
+            data: "",
+            dataType: "json",
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+            	data.headquarters = getJurisdictionMethod(response,'0102010101');
+            },
+            error: function(err) {
+            }
+          });
+          
         },
         mounted: function() {
           //表格排序需要获取的元素

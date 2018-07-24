@@ -166,21 +166,21 @@ public class RecordsServiceImpl implements RecordsService{
     //修改审核状态
     CheckParam checkParam = new CheckParam();
     checkParam.setFkSystemId(recordsParam.getFkSystemId());
-    checkParam.setFkExaminStatus("2");
+    checkParam.setFkExaminStatus("1");
     checkParam.setFkBusinessNode("2");
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkServiceImpl.editCheckStatusBySystemId(checkParam);
-    
-    //修改系统状态
-    MainParam mainParam = new MainParam();
-    mainParam.setGradingStatus("4");
-    mainParam.setRecordStatus("4");
-    mainParam.setExamineStatus("5");
-    mainParam.setEvaluationStatus("4");
-    mainParam.setExaminationStatus("4");
-    mainParam.setSystemId(recordsParam.getFkSystemId());
-    mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//    
+//    //修改系统状态
+//    MainParam mainParam = new MainParam();
+//    mainParam.setGradingStatus("4");
+//    mainParam.setRecordStatus("4");
+//    mainParam.setExamineStatus("5");
+//    mainParam.setEvaluationStatus("4");
+//    mainParam.setExaminationStatus("4");
+//    mainParam.setSystemId(recordsParam.getFkSystemId());
+//    mainServiceImpl.editSystemStatusBySystemId(mainParam);
     recordsParam.setRecordsId(selectRecordsByFkSystemIdForRecordsDetail.getRecordsId());
     if (StringUtils.isNotBlank(recordsParam.getRevokeAttachPath())) {
       try {

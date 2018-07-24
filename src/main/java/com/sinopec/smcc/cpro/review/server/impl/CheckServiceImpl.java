@@ -352,7 +352,7 @@ public class CheckServiceImpl implements CheckService {
     return checkParam.getFkSystemId();
   }
   /**
-   * 总部管理员撤销备案审核
+   * 企业管理员撤销备案审核
    */
   @Override
   @Transactional
@@ -380,14 +380,16 @@ public class CheckServiceImpl implements CheckService {
       check.setCancelRecordsResult(1);
       check.setCancelRecordsReason(checkParam.getScoreCheckReason());
       editCheckStatusBySystemId(check);
-      //修改系统状态
-      MainParam mainParam = new MainParam();
-      mainParam.setExamineStatus("3");
-      mainParam.setRecordStatus("4");
-      mainParam.setEvaluationStatus("4");
-      mainParam.setExaminationStatus("4");
-      mainParam.setSystemId(checkParam.getFkSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    
+    //修改系统状态
+    MainParam mainParam = new MainParam();
+    mainParam.setGradingStatus("4");
+    mainParam.setRecordStatus("4");
+    mainParam.setExamineStatus("5");
+    mainParam.setEvaluationStatus("4");
+    mainParam.setExaminationStatus("4");
+    mainParam.setSystemId(checkParam.getFkSystemId());
+    mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态

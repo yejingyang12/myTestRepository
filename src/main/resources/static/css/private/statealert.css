@@ -90,6 +90,7 @@
     width: 340px;
     background-color: #fff;
     padding: 20px;
+    padding: 20px !important;
     position: absolute;
     left:50%;
     top:30%;

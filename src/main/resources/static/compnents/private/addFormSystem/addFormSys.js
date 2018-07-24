@@ -2,13 +2,15 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
-      check:false,
+		btnId:"",
+    check:false,
 		systemNameSon1:[true],
 		systemNameSon12:[false],
 		systemNameSon13:[true],
 		addSystemSubSonT:[],
 		promptCount:false,
 		count:0,
+    deleteBtn:[true],
       formData:{
         systemId:"",
         companyId:"",
@@ -286,6 +288,18 @@ var  data={
 
                 },
                 methods:{
+                	delSonSystem:function(index){
+                		
+                	},
+                	gernerateId: function (index){
+                		return "person_" +index
+                	},
+                	dataDel:function(i){
+                		$("#person_"+i).show();
+                	},
+                	hiddenDel:function(i){
+                		$("#person_"+i).hide();
+                	},
                     //点击切换 添加class名
                   getTypeClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");

@@ -3,6 +3,7 @@
  */
 (function () {
   var data={
+    change:false,
 		evaluationId:"",
     change:false,
   	years:[],
@@ -64,13 +65,13 @@
               {required: true, message: '请选择测评年度', trigger: 'change' },
           ],
           fkExamStatus:[  //测评状态
-              {required: true, message: '请选择测评状态', trigger: 'blur' },
+              {required: true, message: '请选择测评状态', trigger: 'change' },
           ],
           fkExamResult:[  //测评结果
               {required: true, message: '请选择测评结果', trigger: 'change' },
           ],
           fkRectificationReu:[  //整改结果
-              {required: true, message: '请选择整改结果', trigger: 'blur' },
+              {required: true, message: '请选择整改结果', trigger: 'change' },
           ],
           rectificationDate:[  //整改时间
               {required: true, message: '请输入整改时间', trigger: 'blur' },
@@ -128,6 +129,11 @@
         		if(this.editData.fkExamStatus == 1){
           		this.rules.fkExamResult[0].required = false;
           		this.rules.examReportName[0].required = false;
+          	}
+        	},
+        	changeResult:function(){
+        		if(this.editData.fkRectificationReu == 2){
+          		this.rules.rectificationReportName[0].required = false;
           	}
         	},
         	//获取系统名称

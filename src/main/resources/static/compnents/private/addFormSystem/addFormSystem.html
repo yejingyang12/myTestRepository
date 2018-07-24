@@ -77,7 +77,8 @@
                                     </el-form-item>
                                 </div>
                             </li>
-                            <li class="row" v-for="(addSys,i) in formData.addSystemSub">
+                            <div v-for="(addSys,i) in formData.addSystemSub" >
+                              <li class="row" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)"  >
                                 <div class="col-lg-6 col-md-6">
                                     <el-form-item :label="formData.addSystemSub[[i]].label" prop="stars" class="P-addsystem" style="padding-left: 15px;">
                                         <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
@@ -87,17 +88,20 @@
                                     <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemNameSon"  class="P-addsystem" style="padding-left: 15px;"></el-form-item>
                                     <el-form-item label="" v-show="systemNameSon12[[i]]" prop="aa"  class="P-addsystem" style="padding-left: 15px;"></el-form-item>
                                     <el-form-item label="" v-show="promptCount" prop="checkCount"  class="P-addsystem" style="padding-left: 15px;"></el-form-item>
-                               </div>
-                                <div class="col-lg-6 col-sm-3">
-                                    <el-form-item :label="formData.addSystemSub[[i]].labelCode" prop="stars" class="P-addsystem" style="padding-left: 15px;">
-                                        <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
-                                    </el-form-item>
-                                    <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
-                                </div>
-                            </li>
-                            <li class="btn btn-success fr sysSun" @click="addSys($event)" id="add" v-show="addSub">添加更多子系统</li>
-                            <li class="btn btn-default fr sysSun" id="add2" v-show="!addSub">添加更多子系统</li>
-                        </ul>
+	                               </div>
+	                               <div class="col-lg-6 col-sm-3">
+	                                  <el-form-item :label="formData.addSystemSub[[i]].labelCode" prop="stars" class="P-addsystem" style="padding-left: 15px;">
+	                                      <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
+	                                  </el-form-item>
+	                                  <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
+<!-- 	                                  <button  v-if="formData.addSystemSub.length != i+1" type="button" class="btn btn-default P-btn-del" style="background-color:red;color:#FFFFFF;":id="gernerateId(i)" @click="delSonSystem(i)">删除</button>
+ -->	                               </div>
+	                            </li>
+                            </div>
+                            <li class="btn btn-success sysSun" @click="addSys($event)" id="add" v-show="addSub">添加子系统</li>
+                            <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
+<!--                             <li class="btn btn-default P-btn-sysSun" style="background-color:red;color:#FFFFFF;"  v-show="true">删除</li>
+ -->                        </ul>
                     </li>
                     
                     <li class="row">
