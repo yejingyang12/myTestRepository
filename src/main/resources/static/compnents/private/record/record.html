@@ -87,7 +87,7 @@
                     </ul>
                     <el-button type="primary" size="small">上传</el-button>
                   </div>
-                  <input type="file" value="" id="file" @change='onUpload'>
+                  <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
                   <p>
                     附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
                   </p>

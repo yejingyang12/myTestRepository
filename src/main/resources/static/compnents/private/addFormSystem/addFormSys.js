@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
+		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
     check:false,
 		systemNameSon1:[true],
@@ -148,6 +149,7 @@ var  data={
         systemKeyFkNationalIsProducts:'',
         systemKeyNUseProbability:'',
         systemKeyOtherName:'',
+        systemProServices:''
       },
       systemInfo2:false,
       addSub:true,
@@ -271,6 +273,9 @@ var  data={
           ],
           systemUseServices:[  // 关键产品
               { required: false, message: '选择关键产品', trigger: 'blur' }
+          ],
+          systemProServices:[
+              { required: true, message: '填写国产品使用率有误', trigger: 'blur' }
           ]
       }
     };
@@ -288,8 +293,46 @@ var  data={
 
                 },
                 methods:{
+                	delSonSystemLast:function(){
+                		var sonLength = this.formData.addSystemSub.length -1;
+                		if(this.formData.addSystemSub.length > 1){
+                			$("#count_"+sonLength).remove();
+                  		this.formData.addSystemSub.splice(sonLength,1);
+                		}
+                		if(sonLength <2){
+                			this.formData.checkCount = '';
+                			this.promptCount=true;
+                			this.$refs.formData.validateField('checkCount');
+                		}
+              			this.promptCount=false;
+              			this.formData.checkCount = '1';
+              			this.systemNameSon1[sonLength] = false;
+              			this.systemNameSon12[sonLength] = false;
+                  	this.formData.systemNameSon="1";
+                  	this.formData.systemCodeSon="1";
+                  	this.formData.stars="1";
+                  	this.formData.aa = '1';
+                	},
+                	delCount: function (index){
+                		return "count_" +index;
+                	},
                 	delSonSystem:function(index){
                 		
+                		this.formData.addSystemSub.splice(index,1);
+                		$("#count_"+index+1).remove();
+                		if(this.formData.addSystemSub.length <2){
+                			this.formData.checkCount = '';
+                			this.promptCount=true;
+                			this.$refs.formData.validateField('checkCount');
+                		}else{
+                			this.promptCount=false;
+                			this.formData.checkCount = '1';
+                		}
+              			this.systemNameSon1[0] = true;
+              			this.systemNameSon12[0] = true;
+                  	this.formData.systemNameSon="1";
+                  	this.formData.systemCodeSon="1";
+                  	this.formData.stars="1";
                 	},
                 	gernerateId: function (index){
                 		return "person_" +index
@@ -310,6 +353,12 @@ var  data={
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.fkSystemIsMerge = param;
                     if(param==1){
+                      this.formData.addSystemSub.push({
+                        "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
+                        "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
+                        "systemNameSon":"",
+                        "standardizedCode":""
+                      });
                       this.formData.addSystemSub.push({
                         "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
                         "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
@@ -490,7 +539,7 @@ var  data={
                       	this.systemNameSon12.push(false);
                       	this.formData.systemNameSon="";
                       	this.formData.systemCodeSon="";
-                        this.formData.addSystemSub.push({
+                    		this.formData.addSystemSub.push({
                           "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
                           "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
                           "systemName":"",
@@ -688,6 +737,7 @@ var  data={
                   			this.$refs.formData.validateField('checkCount');
                   		}else{
                   			this.promptCount=false;
+                  			this.formData.checkCount = '1';
                   		}
                     },
                     getGetSystemMethod:function(_self,systemId){
@@ -700,6 +750,16 @@ var  data={
                       //response = JSON.parse(response);
                     	var response = responseData.data;
                       _self.formData = response;
+                      if(response.addSystemSub!=null){
+                      	for(var i=0;i<response.addSystemSub.length;i++){
+ 	                   		 _self.formData.addSystemSub[i] = {
+ 	                          "label":"子系统"+(i+1)+"系统名称：",
+ 	                          "labelCode":"子系统"+(i+1)+"标准化代码：",
+ 	                          "systemName":response.addSystemSub[i].systemName,
+ 	                          "standardizedCode":response.addSystemSub[i].standardizedCode
+ 	                        };
+ 	                   		}
+                      }
                       for(var i=0;i<10;i++){
                         if(response.addSystemSub!=null){
                           if(response.addSystemSub.length<_self.formData.addSystemSub.length){
@@ -717,6 +777,20 @@ var  data={
                               "standardizedCode":""
                             });
                           }
+                          if(response.addSystemSub.length <2){
+                      			this.formData.checkCount = '';
+                      			this.promptCount=true;
+//                      			this.$refs.formData.validateField('checkCount');
+                      		}else{
+                      			this.promptCount=false;
+                      			this.formData.checkCount = '1';
+                      		}
+                          this.systemNameSon1[0] = true;
+                    			this.systemNameSon12[0] = true;
+                        	this.formData.systemNameSon="1";
+                        	this.formData.systemCodeSon="1";
+                        	this.formData.stars="1";
+                        	this.formData.aa="1";
                         }
                         if(response.systemKeyProducts==null){
                           response.systemKeyProducts = []
@@ -798,7 +872,9 @@ var  data={
                         this.systemInfo = false;
                         $("#systemInfo1").attr("disabled","disabled");
                         this.systemInfo2 = true;
+                        this.rules.standardizedCode[0].required=false;
                       }else{
+                      	this.rules.standardizedCode[0].required=true;
                         this.systemSonInfo = false;
                         this.systemInfo = true;
                       }
@@ -987,6 +1063,11 @@ var  data={
                         }).get();
                         $(array).addClass('btnColor')
                       }
+                    },
+                    headleArrayMethod:function(_self){
+                    	for(var i=0;i<_self.nUsePro.length;i++){
+                    		Vue.set(data.nUsePro, i, false);
+                    	}
                     }
                 },
                 created: function() {
@@ -1040,7 +1121,6 @@ var  data={
                     }
                   });
                   bus.$on('addNextSystemName',function(meg){
-                  	
                     if(meg!=null){
                       _self.$refs[meg].validate(function (valid) {
                         if (valid) {
@@ -1100,6 +1180,8 @@ var  data={
 //                      });
 //                    }
 //                  });
+									//获取数组信息
+                  this.headleArrayMethod(this);
                 }
             })
         })

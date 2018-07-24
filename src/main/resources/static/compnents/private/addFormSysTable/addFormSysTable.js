@@ -133,6 +133,53 @@
                     },
                     a:function(){
                       bus.$emit('aaa',"2");
+                    },
+                    //是否使用国产品联动产品率
+                    productChange:function(val,index,number){
+                    	if(number==1){
+                    	  if(val=="1"||val==1){
+                    	    this.formData.systemKeyProducts[index].nUseProbability=100;
+                    	  }else if(val=="2"||val==2){
+                    	    this.formData.systemKeyProducts[index].nUseProbability=0;
+                    	  }
+                    	}else{
+                    	  var nUsePr = this.formData.systemKeyProducts[index].nUseProbability;
+                    	  if(nUsePr=="100"||nUsePr==100){
+                    	    this.formData.systemKeyProducts[index].fkNationalIsProducts = '1';
+                    	  }else if(nUsePr=="0"||nUsePr==0){
+                    	    this.formData.systemKeyProducts[index].fkNationalIsProducts = '2';
+                    	  }else{
+                    	    this.formData.systemKeyProducts[index].fkNationalIsProducts ='3';
+                    	  }
+                    	}
+                    	
+                    	var a = this.formData.systemKeyProducts[index].fkNationalIsProducts;
+                      var b= this.formData.systemKeyProducts[index].nUseProbability;
+                      switch (a) {
+                      case "1":
+                        if(b==100){
+                          Vue.set(data.nUsePro, index, false);
+                        }else{
+                          Vue.set(data.nUsePro, index, true);
+                        }
+                        break;
+                      case "2":
+                        if(b==0){
+                          Vue.set(data.nUsePro, index, false);
+                        }else{
+                          Vue.set(data.nUsePro, index, true);
+                        }
+                        break;
+                      case "3":
+                        if(100>b && b>0){
+                          Vue.set(data.nUsePro, index, false);
+                        }else{
+                          Vue.set(data.nUsePro, index, true);
+                        }
+                        break;
+                      default:
+                        break;
+                      }
                     }
                 },
                 created: function() {

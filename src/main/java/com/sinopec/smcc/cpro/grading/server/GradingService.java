@@ -62,6 +62,15 @@ public interface GradingService {
    * @return
    */
   String submitGrading(String userName,GradingParam gradingParam) throws BusinessException;
+  /**
+   * @Descrption
+   * @author hanxin
+   * @date 2018年6月7日下午1:37:25
+   * @param gradingParam
+   * @return
+   */
+  String submitGradingForHeadquarters(String userName,GradingParam gradingParam) 
+      throws BusinessException;
 
   /**
    * @Descrption 根据系统ID查询定级列表

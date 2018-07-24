@@ -26,7 +26,7 @@
                   <el-option  label="未自查" value="1"></el-option>
                   <el-option  label="已自查" value="2"></el-option>
 								</el-select> -->
-								    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change"  filterable placeholder="请选择">
+								    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change"  filterable placeholder="请选择" >
                          <el-option
 	                          v-for="item in inspectionStatus"
 	                          :key="item.value"
@@ -70,7 +70,7 @@
                                         </ul>
                                         <el-button type="primary" size="small">上传</el-button>
                                     </div>
-                                    <input type="file" value="" id="file" @change='onUpload'>
+                                    <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
                                     <p>
                                         附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
                                     </p>
@@ -89,7 +89,7 @@
                                     <el-option  label="已整改" value="1"></el-option>
                                     <el-option  label="未整改" value="2"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editParam.fkRectificationReu" :disabled = "change"  filterable placeholder="请选择">
+                                <el-select v-model="editParam.fkRectificationReu" :disabled = "change"  filterable placeholder="请选择" @change="rectChange">
 					                         <el-option
 					                            v-for="item in rectificationReu"
 					                            :key="item.value"
@@ -118,7 +118,7 @@
                                         </ul>
                                         <el-button type="primary" size="small">上传</el-button>
                                     </div>
-                                    <input type="file" value="" id="file" @change='onUpload2'>
+                                    <input type="file" value="" id="file" @change='onUpload2' ref="refOnUpload2">
                                     <p>
                                         附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
                                     </p>

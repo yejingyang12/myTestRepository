@@ -12,6 +12,9 @@ package com.sinopec.smcc.cpro.home.server.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,8 +153,13 @@ public class DiagramServiceImpl implements DiagramService {
    * 系统等保管理趋势
    */
   @Override
-  public List<DiagramListResult> querySystemTrendByYear(DiagramParam diagramParam)
-      throws BusinessException {
+  public List<DiagramListResult> querySystemTrendByYear(HttpServletRequest request,
+      DiagramParam diagramParam)throws BusinessException {
+    
+    if(StringUtils.isNotBlank(diagramParam.getUserId())){
+      request.getSession().setAttribute("userId", diagramParam.getUserId());
+    }
+    
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
     //权限

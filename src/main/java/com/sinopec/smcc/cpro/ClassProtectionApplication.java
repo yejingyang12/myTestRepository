@@ -1,16 +1,21 @@
+
 package com.sinopec.smcc.cpro;
 
-import com.sinopec.smcc.base.consts.SmccConsts;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sinopec.smcc.base.consts.SmccConsts;
 
 /**
  * 项目名称:smcc-cpro
@@ -21,10 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 修改时间:
  * 修改备注:
  */
-@SpringBootApplication(exclude = MailSenderAutoConfiguration.class,scanBasePackages=SmccConsts.BASH_PACKAGE)
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class,MailSenderAutoConfiguration.class} ,scanBasePackages=SmccConsts.BASH_PACKAGE)
 @EnableAspectJAutoProxy(exposeProxy = true)
-@EnableFeignClients(SmccConsts.BASH_PACKAGE)
+@EnableFeignClients("com.sinopec.smcc")
 @MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
+@ComponentScan(value = "com.sinopec.smcc")
 @Controller
 public class ClassProtectionApplication {
 	
@@ -36,6 +42,11 @@ public class ClassProtectionApplication {
 	public String mainPage() {
 		return "views/index";
 	}
+	
+	@RequestMapping("/A")
+  public String mainPage1() {
+    return "index";
+  }
 
 	/**
 	 * 方法描述: 为统一身份认证添加的配置

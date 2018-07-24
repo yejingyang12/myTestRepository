@@ -129,11 +129,18 @@
         		if(this.editData.fkExamStatus == 1){
           		this.rules.fkExamResult[0].required = false;
           		this.rules.examReportName[0].required = false;
+          	}else{
+          		this.rules.fkExamResult[0].required = true;
+          		this.rules.examReportName[0].required = true;
           	}
         	},
         	changeResult:function(){
         		if(this.editData.fkRectificationReu == 2){
           		this.rules.rectificationReportName[0].required = false;
+          		this.rules.rectificationDate[0].required = false;
+          	}else{
+          		this.rules.rectificationReportName[0].required = true ;
+          		this.rules.rectificationDate[0].required = true;
           	}
         	},
         	//获取系统名称
@@ -313,8 +320,7 @@
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -327,6 +333,7 @@
 						ajaxUploadMethod(this, 'POST','/fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 					},
 					onUploadSuccessMethod: function(_self,responseData){
+						this.$refs.refOnUpload.value = null;
 						_self.editData.examReportName=responseData.data.attachName;
 						_self.editData.examReportPath=responseData.data.uploadUrl;
 					},
@@ -342,8 +349,7 @@
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -356,6 +362,7 @@
 						ajaxUploadMethod(this, 'POST','/fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 					},
 					onUploadSuccessMethod2: function(_self,responseData){
+						this.$refs.refOnUpload2.value = null;
 						_self.editData.rectificationReportName=responseData.data.attachName;
 						_self.editData.rectificationReportPath=responseData.data.uploadUrl;
 					},

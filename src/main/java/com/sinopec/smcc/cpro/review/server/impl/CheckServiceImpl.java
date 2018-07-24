@@ -80,8 +80,7 @@ public class CheckServiceImpl implements CheckService {
       //默认排序规则
       orderBy.append("che.createtime desc");
     }
-    //初始化分页拦截器
-    PageHelper.startPage(checkParam.getCurrentPage(), checkParam.getPageSize(),orderBy.toString());
+    
     //获得相应列表数据
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     
@@ -92,7 +91,8 @@ public class CheckServiceImpl implements CheckService {
     if(organizationApiResult==null){
       return new PageInfo<>();
     }else{
-      
+    //初始化分页拦截器
+      PageHelper.startPage(checkParam.getCurrentPage(), checkParam.getPageSize(),orderBy.toString());
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       

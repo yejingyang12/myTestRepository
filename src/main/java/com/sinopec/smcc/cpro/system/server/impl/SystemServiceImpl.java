@@ -101,9 +101,7 @@ public class SystemServiceImpl implements SystemService {
 			//默认排序规则
 			orderBy.append("system.createTime DESC");
 		}
-		//初始化分页拦截器
-		PageHelper.startPage(systemParam.getCurrentPage(), systemParam.getPageSize(),
-		    orderBy.toString());
+		
 		//获得相应列表数据
 		List<SystemListResult> systemListResultlist = new ArrayList<SystemListResult>();
 		
@@ -114,7 +112,10 @@ public class SystemServiceImpl implements SystemService {
     if(organizationApiResult==null){
       return new PageInfo<>();
     }else{
-      
+     //初始化分页拦截器
+  		PageHelper.startPage(systemParam.getCurrentPage(), systemParam.getPageSize(),
+  		    orderBy.toString());
+    	
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       
@@ -368,6 +369,8 @@ public class SystemServiceImpl implements SystemService {
 	  if(systemParam.getFkSystemIsMerge()==1){
 	    //查询子表信息
 	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
+//	     List<SystemParam> subSystemList = systemParam.getAddSystemSub();
+
 	    for (SystemSubResult systemSubParam : subSystemList) {
 	      SystemParam systemTempParam = new SystemParam();
 	      systemTempParam.addSystemParam(systemParam);

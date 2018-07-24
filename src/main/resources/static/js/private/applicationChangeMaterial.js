@@ -70,11 +70,19 @@ window.onload = function () {
             if(meg!=null){
               data.formData.changeType = "1";
               data.formData.saveType = "2";
-              ajaxMethod(_self, 'post',
-                  'grading/saveSystemMaterialsInfo', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  _self.submitBtnSuccessMethod);
+              if(data.jurisdictionType==1){
+                ajaxMethod(_self, 'post',
+                    'grading/submitSystemMaterials', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.submitBtnSuccessMethod);
+              }else if(data.jurisdictionType==2){
+                ajaxMethod(_self, 'post',
+                    'grading/submitSystemMaterialsForHeadquarters', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.submitBtnSuccessMethod);
+              }
             }
           });
           

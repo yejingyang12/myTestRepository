@@ -11,6 +11,8 @@ package com.sinopec.smcc.cpro.home.server;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
@@ -70,11 +72,12 @@ public interface DiagramService {
   /**
    * @Descrption 系统等保管理趋势
    * @author dongxu
+   * @param request 
    * @date 2018年6月28日下午5:02:02
    * @param diagramParam
    * @return
    */
-  List<DiagramListResult> querySystemTrendByYear(DiagramParam diagramParam) 
+  List<DiagramListResult> querySystemTrendByYear(HttpServletRequest request, DiagramParam diagramParam) 
       throws BusinessException; 
 
 }

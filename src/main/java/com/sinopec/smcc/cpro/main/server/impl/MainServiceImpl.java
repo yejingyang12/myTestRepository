@@ -134,9 +134,7 @@ public class MainServiceImpl implements MainService{
       //默认排序规则
       orderBy.append("system.createTime DESC");
     }
-    //初始化分页拦截器
-    PageHelper.startPage(mainParam.getCurrentPage(), mainParam.getPageSize(), 
-        orderBy.toString());
+   
     //处理高级查询状态
     if(mainParam.getStatus() != null){
       this.handleStatus(mainParam);
@@ -149,6 +147,10 @@ public class MainServiceImpl implements MainService{
     if(organizationApiResult==null){
       return new PageInfo<>();
     }else{
+    	 //初始化分页拦截器
+      PageHelper.startPage(mainParam.getCurrentPage(), mainParam.getPageSize(), 
+          orderBy.toString());
+      
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       
@@ -2642,5 +2644,14 @@ public class MainServiceImpl implements MainService{
   public UserDTO getUserInfo() throws BusinessException {
     
     return userApiServiceImpl.getUserInfo();
+  }
+
+  /**
+   * 退出登陆
+   */
+  @Override
+  public String logout() throws BusinessException {
+    
+    return "";
   }
 }

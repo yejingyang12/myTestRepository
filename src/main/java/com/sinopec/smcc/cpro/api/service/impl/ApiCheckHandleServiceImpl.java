@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.api.service.ApiCheckHandleService;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
@@ -84,14 +85,15 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
   }
 
   @Override
-  public List<String> saveCheck(List<CheckParam> checkList, 
-      String userId, HttpServletRequest request) throws BusinessException{
+  public List<String> saveCheck(BatchCheckHandleParam batchCheckHandleParam, 
+      HttpServletRequest request) throws BusinessException{
     
+    List<CheckParam> checkList = batchCheckHandleParam.getCheckList();
     List<String> list = new ArrayList<String>();
     if (checkList == null || checkList.size()==0) {
       return list;
     }
-    request.getSession().setAttribute("userId", userId);
+    request.getSession().setAttribute("userId", batchCheckHandleParam.getUserId());
     
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();

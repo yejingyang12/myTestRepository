@@ -201,4 +201,12 @@ public interface MainService {
    * @return
    */
   UserDTO getUserInfo() throws BusinessException;
+
+  /**
+   * @Descrption 退出登陆
+   * @author Aran
+   * @date 2018年7月24日上午10:06:25
+   * @return
+   */
+  String logout() throws BusinessException;
 }

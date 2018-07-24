@@ -18,7 +18,7 @@
                         <div class="col-md-6">
                             <el-form-item label="测评项目名称：" prop="examName">
                                 <div class="col-md-8 col-sm-3" style="width: 80%;">
-                                    <el-input type="text" value="" v-model="editData.examName">
+                                    <el-input type="text" value="" v-model="editData.examName"></el-input>
                                 </div>
                             </el-form-item>
                         </div>
@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                             <el-form-item label="测评机构：" prop="examOrg">
                                 <div class="col-md-8 col-sm-3" style="width: 80%;">
-                                    <el-input type="text" value="" v-model="editData.examOrg">
+                                    <el-input type="text" value="" v-model="editData.examOrg"></el-input>
                                 </div>
                             </el-form-item>
                         </div>
@@ -105,7 +105,7 @@
                                         </ul>
                                         <el-button type="primary" size="small">上传</el-button>
                                     </div>
-                                    <input type="file" value="" id="file" @change='onUpload'>
+                                    <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
                                     <p>
                                         附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
                                     </p>
@@ -155,7 +155,7 @@
                                         </ul>
                                         <el-button type="primary" size="small">上传</el-button>
                                     </div>
-                                    <input type="file" value="" id="file" @change='onUpload2'>
+                                    <input type="file" value="" id="file" @change='onUpload2' ref="refOnUpload2">
                                     <p>
                                         附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
                                     </p>

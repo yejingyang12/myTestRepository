@@ -77,9 +77,9 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
     List<AuthorizationDTO> jsonMenu = this.ubsFeignTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
     
-    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsFeignTemplate.
-        getDataAuthByUserIdAfterChange(userDTO.getUserId()+""); 
-    System.out.println(dataAuthByUserIdAfterChange);
+//    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsFeignTemplate.
+//        getDataAuthByUserIdAfterChange(userDTO.getUserId()+""); 
+//    System.out.println(dataAuthByUserIdAfterChange);
     
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();

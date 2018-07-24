@@ -222,8 +222,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     padding-right: 0;
 }
 .trueSys .sysSun{
-    right: 40px;
-    padding:6px;
+    right: 0px;
+    padding:6px 10px;
 }
 .trueSys .P-btn-sysSun{    
 		position: absolute;
@@ -333,6 +333,11 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     right: 10px;
     top: 0;
     opacity: 0;
+}
+.liAddsty .formChange .inputfiles{
+		width:70px;
+		right:0;
+		height:36px;
 }
 .liAddsty .formControl{
     margin-left:0;

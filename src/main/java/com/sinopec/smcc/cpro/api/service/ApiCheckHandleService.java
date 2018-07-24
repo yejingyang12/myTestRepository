@@ -13,8 +13,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 
 /**
  * @Title ApiCheckHandleService.java
@@ -42,12 +42,12 @@ public interface ApiCheckHandleService {
    * @Descrption
    * @author eric
    * @date 2018年7月19日下午3:01:46
-   * @param checkList
+   * @param batchCheckHandleParam
    * @param userId 
    * @param request 
    * @return
    */
-  public List<String> saveCheck(List<CheckParam> checkList, 
-      String userId, HttpServletRequest request) throws BusinessException;
+  public List<String> saveCheck(BatchCheckHandleParam batchCheckHandleParam, 
+      HttpServletRequest request) throws BusinessException;
 
 }

@@ -1,5 +1,6 @@
 var data={
     check : false,
+    jurisdictionType:0,
     submitCheck:false,
         formData:{
           gradingId:'',
@@ -186,8 +187,7 @@ var data={
                     		return;
                     	}
                     	var fileFormat = e.target.value.split(".");//文件后缀
-                    	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-                    		this.$alert('不接受此文件类型！', '信息提示', {
+                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                    		this.$alert('不接受此文件类型！', '信息提示', {
                           confirmButtonText: '确定',
                           callback: function callback(action) {
                           }
@@ -200,7 +200,7 @@ var data={
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
                     },
                     onUploadSuccessMethod: function(_self,responseData){
-                      
+                    	this.$refs.refOnUpload.value = null;
                       this.formData.directorOpinionName=responseData.data.attachName;
                       this.formData.directorOpinionPath=responseData.data.uploadUrl;
                       var fileHtml='<li><div class="fl updwon1">'+responseData.data.attachName+'</div><i class="el-icon-close fl del1"></i></li>'
@@ -229,7 +229,7 @@ var data={
                     		return;
                     	}
                     	var fileFormat = e.target.value.split(".");//文件后缀
-                    	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
                     		this.$alert('不接受此文件类型！', '信息提示', {
                           confirmButtonText: '确定',
                           callback: function callback(action) {
@@ -243,6 +243,7 @@ var data={
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod1);
                     },
                     onUploadSuccessMethod1: function(_self,responseData){
+                    	this.$refs.refOnUpload1.value = null;
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
                       
@@ -271,8 +272,7 @@ var data={
                     		return;
                     	}
                     	var fileFormat = e.target.value.split(".");//文件后缀
-                    	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-                    		this.$alert('不接受此文件类型！', '信息提示', {
+                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                    		this.$alert('不接受此文件类型！', '信息提示', {
                           confirmButtonText: '确定',
                           callback: function callback(action) {
                           }
@@ -285,6 +285,7 @@ var data={
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
                     },
                     onUploadSuccessMethod2: function(_self,responseData){
+                    	this.$refs.refOnUpload2.value = null;
                       this.formData.expertReviewName=responseData.data.attachName;
                       this.formData.expertReviewPath=responseData.data.uploadUrl;
                       var fileHtml='<li><div class="fl updwon3">'+responseData.data.attachName+'</div><i class="el-icon-close fl del3"></i></li>'
@@ -1191,9 +1192,27 @@ var data={
                     } ,
                     getSystemSuccess : function(_self,result){
                     	this.formData.systemName = result.data.systemName;
+                    },
+                    getPermitJurisdictionInfo: function(_self){
+                      ajaxMethod(_self,"post",
+                          "jurisdiction/queryDataJurisdictionApi",false,
+                          JSON.stringify(""),"json",
+                          'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+                    },
+                    getPermitJurisdictionSuccess: function(_self,response){
+                      for (var i = 0; i < response.data.permssions.length; i++) {
+                        var permssions = response.data.permssions[i];
+                        if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_AUDIT){
+                          _self.jurisdictionType = 1;
+                        }
+                        if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_AUDIT){
+                          _self.jurisdictionType = 2;
+                        }
+                      }
                     }
                 },
                 created: function() {
+                    this.getPermitJurisdictionInfo(this);
                     // 设置默认长度
                     this.smccChecdArr[0].length = 1;
                     this.smccChecdArr[1].length = 2;

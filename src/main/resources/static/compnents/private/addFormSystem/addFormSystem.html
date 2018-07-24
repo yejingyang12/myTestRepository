@@ -78,7 +78,7 @@
                                 </div>
                             </li>
                             <div v-for="(addSys,i) in formData.addSystemSub" >
-                              <li class="row" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)"  >
+                              <li class="row" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)" :id="delCount(i)" >
                                 <div class="col-lg-6 col-md-6">
                                     <el-form-item :label="formData.addSystemSub[[i]].label" prop="stars" class="P-addsystem" style="padding-left: 15px;">
                                         <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
@@ -94,14 +94,14 @@
 	                                      <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
 	                                  </el-form-item>
 	                                  <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
-<!-- 	                                  <button  v-if="formData.addSystemSub.length != i+1" type="button" class="btn btn-default P-btn-del" style="background-color:red;color:#FFFFFF;":id="gernerateId(i)" @click="delSonSystem(i)">删除</button>
- -->	                               </div>
+	                                  <button  v-if="formData.addSystemSub.length != i+1" type="button" class="btn btn-default P-btn-del" style="background-color:red;color:#FFFFFF;":id="gernerateId(i)" @click="delSonSystem(i)">删除</button>
+	                               </div>
 	                            </li>
                             </div>
                             <li class="btn btn-success sysSun" @click="addSys($event)" id="add" v-show="addSub">添加子系统</li>
                             <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
-<!--                             <li class="btn btn-default P-btn-sysSun" style="background-color:red;color:#FFFFFF;"  v-show="true">删除</li>
- -->                        </ul>
+                            <li class="btn btn-default P-btn-sysSun" style="background-color:red;color:#FFFFFF;"  v-show="true" @click="delSonSystemLast()">删除</li>
+                        </ul>
                     </li>
                     
                     <li class="row">

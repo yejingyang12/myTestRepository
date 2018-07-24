@@ -52,11 +52,19 @@ window.onload = function () {
           bus.$on('gradSubmitGradingAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";
-              ajaxMethod(_self, 'post',
-                  'grading/submitGrading', true,
-                  JSON.stringify(data.formData), 'json',
-                  'application/json;charset=UTF-8',
-                  _self.submitBtnSuccessMethod);
+              if(data.jurisdictionType==1){
+                ajaxMethod(_self, 'post',
+                    'grading/submitGrading', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.submitBtnSuccessMethod);
+              }else if(data.jurisdictionType==2){
+                ajaxMethod(_self, 'post',
+                    'grading/submitGradingForHeadquarters', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.submitBtnSuccessMethod);
+              }
             }
           });
         }

@@ -12,11 +12,10 @@ package com.sinopec.smcc.cpro.api.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,16 +56,13 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
+  @PostMapping(value = "/querySystemTrendByYear")
   public ResultApi querySystemTrendByYear(HttpServletRequest request,
-      @ModelAttribute("diagramParam") DiagramParam diagramParam) throws BusinessException{
-    if(StringUtils.isNotBlank(diagramParam.getUserId())){
-      HttpSession session = request.getSession();
-      session.setAttribute("userId", diagramParam.getUserId());
-    }
+      @RequestBody DiagramParam diagramParam) throws BusinessException{
+    
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
-        querySystemTrendByYear(diagramParam);
+        querySystemTrendByYear(request,diagramParam);
     // 通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(diagramListResult);

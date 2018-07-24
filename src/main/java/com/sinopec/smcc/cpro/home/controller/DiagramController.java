@@ -145,7 +145,7 @@ public class DiagramController {
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
-        querySystemTrendByYear(diagramParam);
+        querySystemTrendByYear(request,diagramParam);
     // 通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(diagramListResult);

@@ -209,7 +209,7 @@ public class GradingServiceImpl implements GradingService{
   }
   
   /**
-   * 提交定级信息修改定级状态
+   * 企业提交定级信息修改定级状态
    */
   @Override
   @Transactional
@@ -238,6 +238,175 @@ public class GradingServiceImpl implements GradingService{
       CheckParam checkParamAdd = new CheckParam();
       checkParamAdd.setFkSystemId(gradingParam.getFkSystemId());
       checkParamAdd.setFkExaminStatus("1");
+      checkParamAdd.setFkBusinessNode("1");
+      checkParamAdd.setInstanceName(systemResult.getSystemName());
+      checkParamAdd.setInitiator(userName);
+      checkParamAdd.setPrevExecutor(userName);
+      checkParamAdd.setExecuteTime(new Date());
+      checkServiceImpl.addCheck(checkParamAdd);
+      
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(gradingParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+      if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
+        //保存附件  定级报告
+        AttachParam gradingReport = new AttachParam();
+        gradingReport.setFileId(Utils.getUuidFor32());
+        gradingReport.setSystemId(gradingParam.getFkSystemId());
+        gradingReport.setSyssonId(gradingParam.getGradingId());
+        gradingReport.setAttachType("gradingReport");
+        gradingReport.setUploadUrl(gradingParam.getGradingReportPath());
+        gradingReport.setAttachName(gradingParam.getGradingReportName());
+        this.fileServiceImpl.addFile(gradingReport);
+      }
+      if (StringUtils.isNotBlank(gradingParam.getExpertReviewPath())) {
+        //保存附件  专家评审报告
+        AttachParam expertReview = new AttachParam();
+        expertReview.setFileId(Utils.getUuidFor32());
+        expertReview.setSystemId(gradingParam.getFkSystemId());
+        expertReview.setSyssonId(gradingParam.getGradingId());
+        expertReview.setAttachType("expertReview");
+        expertReview.setUploadUrl(gradingParam.getExpertReviewPath());
+        expertReview.setAttachName(gradingParam.getExpertReviewName());
+        this.fileServiceImpl.addFile(expertReview);
+      }
+      if (StringUtils.isNotBlank(gradingParam.getDirectorOpinionPath())) {
+        //保存附件  上级主管部门审批意见
+        AttachParam directorOpinion = new AttachParam();
+        directorOpinion.setFileId(Utils.getUuidFor32());
+        directorOpinion.setSystemId(gradingParam.getFkSystemId());
+        directorOpinion.setSyssonId(gradingParam.getGradingId());
+        directorOpinion.setAttachType("directorOpinion");
+        directorOpinion.setUploadUrl(gradingParam.getDirectorOpinionPath());
+        directorOpinion.setAttachName(gradingParam.getDirectorOpinionName());
+        this.fileServiceImpl.addFile(directorOpinion);
+      }
+    } else {
+      
+      if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
+        //保存附件  定级报告
+        AttachParam gradingReport = new AttachParam();
+        gradingReport.setSystemId(gradingParam.getFkSystemId());
+        gradingReport.setSyssonId(gradingParam.getGradingId());
+        gradingReport.setAttachType("gradingReport");
+        this.fileServiceImpl.deleteFile(gradingReport);
+        gradingReport.setFileId(Utils.getUuidFor32());
+        gradingReport.setUploadUrl(gradingParam.getGradingReportPath());
+        gradingReport.setAttachName(gradingParam.getGradingReportName());
+        this.fileServiceImpl.addFile(gradingReport);
+      }
+      if (StringUtils.isNotBlank(gradingParam.getExpertReviewPath())) {
+        //保存附件  专家评审报告
+        AttachParam expertReview = new AttachParam();
+        expertReview.setSystemId(gradingParam.getFkSystemId());
+        expertReview.setSyssonId(gradingParam.getGradingId());
+        expertReview.setAttachType("expertReview");
+        this.fileServiceImpl.deleteFile(expertReview);
+        expertReview.setFileId(Utils.getUuidFor32());
+        expertReview.setUploadUrl(gradingParam.getExpertReviewPath());
+        expertReview.setAttachName(gradingParam.getExpertReviewName());
+        this.fileServiceImpl.addFile(expertReview);
+      }
+      if (StringUtils.isNotBlank(gradingParam.getDirectorOpinionPath())) {
+        //保存附件  上级主管部门审批意见
+        AttachParam directorOpinion = new AttachParam();
+        directorOpinion.setSystemId(gradingParam.getFkSystemId());
+        directorOpinion.setSyssonId(gradingParam.getGradingId());
+        directorOpinion.setAttachType("directorOpinion");
+        this.fileServiceImpl.deleteFile(directorOpinion);
+        directorOpinion.setFileId(Utils.getUuidFor32());
+        directorOpinion.setUploadUrl(gradingParam.getDirectorOpinionPath());
+        directorOpinion.setAttachName(gradingParam.getDirectorOpinionName());
+        this.fileServiceImpl.addFile(directorOpinion);
+      }
+    }
+    if ("1".equals(gradingParam.getChangeType())) {
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(gradingParam.getFkSystemId());
+      nodeParam.setOperation("申请变更");
+      nodeParam.setOperationResult("已提交");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
+      
+      //修改审核状态
+      CheckParam checkParam = new CheckParam();
+      checkParam.setFkSystemId(gradingParam.getFkSystemId());
+      checkParam.setFkExaminStatus("1");
+      checkParam.setFkBusinessNode("3");
+      checkParam.setPrevExecutor(userName);
+      checkParam.setExecuteTime(new Date());
+      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(gradingParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } else if("2".equals(gradingParam.getChangeType())){
+      //添加节点状态信息
+      NodeParam nodeParam = new NodeParam();
+      nodeParam.setSystemId(gradingParam.getFkSystemId());
+      nodeParam.setOperation("创建");
+      nodeParam.setOperationResult("已提交");
+      nodeParam.setOperationOpinion("");
+      nodeParam.setOperator(userName);
+      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      if (nodeResult == null) {
+        this.nodeServiceImpl.addNodeInfo(nodeParam);
+      }else{
+        nodeParam.setNodeId(nodeResult.getNodeId());
+        this.nodeServiceImpl.editNodeInfo(nodeParam);
+      }
+    }
+    
+    //修改系统定级状态
+    this.gradingMapper.updateGradingStatus(gradingParam);
+    //修改或添加信息
+    this.gradingMapper.insertGrading(gradingParam);
+    return gradingParam.getFkSystemId();
+  }
+  
+  /**
+   * 总部提交定级信息修改定级状态
+   */
+  @Override
+  @Transactional
+  public String submitGradingForHeadquarters(String userName,GradingParam gradingParam) throws BusinessException {
+    if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.ERROR);
+    }
+    gradingParam.setCreateTime(new Date());
+    if(StringUtils.isBlank(gradingParam.getGradingId())) {
+      gradingParam.setGradingId(Utils.getUuidFor32());
+      gradingParam.setCreateUserName(userName);
+
+      //创建审核记录
+      SystemParam systemParam = new SystemParam();
+      systemParam.setSystemId(gradingParam.getFkSystemId());
+      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+      
+      CheckParam checkParam = new CheckParam();
+      checkParam.setFkSystemId(gradingParam.getFkSystemId());
+      //查询审核详情通过systemID
+      CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
+      
+      if(checkResult != null){
+        checkServiceImpl.deleteCheckByCheckId(checkParam);
+      }
+      CheckParam checkParamAdd = new CheckParam();
+      checkParamAdd.setFkSystemId(gradingParam.getFkSystemId());
+      checkParamAdd.setFkExaminStatus("2");
       checkParamAdd.setFkBusinessNode("1");
       checkParamAdd.setInstanceName(systemResult.getSystemName());
       checkParamAdd.setInitiator(userName);

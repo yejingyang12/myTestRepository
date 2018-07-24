@@ -71,9 +71,7 @@ public class CompanyServiceImpl implements CompanyService {
       // 默认排序
       orderBy.append("updateTime DESC");
     }
-    // 初始化分页拦截器
-    PageHelper.startPage(companyParam.getCurrentPage(), companyParam.getPageSize(),
-        orderBy.toString());
+
     
     //权限
     JurisdictionDataResult organizationApiResult = 
@@ -82,6 +80,10 @@ public class CompanyServiceImpl implements CompanyService {
     if(organizationApiResult==null){
       return new PageInfo<>();
     }else{
+      // 初始化分页拦截器
+      PageHelper.startPage(companyParam.getCurrentPage(), companyParam.getPageSize(),
+          orderBy.toString());
+      
       List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {

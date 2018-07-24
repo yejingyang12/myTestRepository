@@ -37,7 +37,7 @@ public class WordUtils {
   private static Configuration configuration;    
   
   public WordUtils(){     
-//    configuration = new Configuration();    
+    configuration = new Configuration();    
     configuration.setDefaultEncoding("UTF-8");    
   }    
   /**

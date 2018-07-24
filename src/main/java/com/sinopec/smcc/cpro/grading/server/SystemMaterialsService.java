@@ -57,7 +57,7 @@ public interface SystemMaterialsService {
       throws BusinessException;
 
   /**
-   * @Descrption 提交材料信息修改状态
+   * @Descrption 企业提交材料信息修改状态
    * @author yejingyang
    * @date 2018年6月11日下午3:02:50
    * @param userName
@@ -66,6 +66,16 @@ public interface SystemMaterialsService {
    */
   String submitSystemMaterials(String userName, SystemMaterialsParam systemMaterialsParam)
       throws BusinessException;
+  /**
+   * @Descrption 总部提交材料信息修改状态
+   * @author yejingyang
+   * @date 2018年6月11日下午3:02:50
+   * @param userName
+   * @param systemMaterialsParam
+   * @return
+   */
+  String submitSystemMaterialsForHeadquarters(String userName, 
+      SystemMaterialsParam systemMaterialsParam) throws BusinessException;
 
   /**
    * @Descrption  获取材料回显信息(同一种附件有多个附件情况下的获取)

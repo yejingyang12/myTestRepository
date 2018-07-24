@@ -354,8 +354,11 @@ public class MainController {
   public ResultApi logout(HttpServletRequest request) 
       throws BusinessException {
     request.getSession().invalidate(); 
+    
+    String strValue = 
+        this.mainServiceImpl.logout();
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(null);
+    result.setData(strValue);
     return result;
   }
 }

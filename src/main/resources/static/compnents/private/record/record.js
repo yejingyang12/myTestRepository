@@ -166,8 +166,7 @@ var data1={
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -180,6 +179,7 @@ var data1={
 						ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 					},
 					onUploadSuccessMethod: function(_self,responseData){
+						this.$refs.refOnUpload.value = null;
 						_self.formData.recordReportName=responseData.data.attachName;
 						_self.formData.recordReportPath=responseData.data.uploadUrl;
 						/*var fileHtml='<li><div class="fl"  @click="fileDownload("\'+responseData.data.uploadUrl+\'")" >'+responseData.data.attachName+'</div><i @click="fileDel("'+responseData.data.uploadUrl+'")" class="el-icon-close fl"></i></li>'

@@ -113,7 +113,7 @@ public class GradingController {
   
   /**
    * 
-   * 提交定级信息修改定级状态
+   * 企业提交定级信息修改定级状态
    * @author hanxin
    * @date 2018年6月8日下午5:04:03
    * @param request
@@ -126,6 +126,26 @@ public class GradingController {
       @RequestBody GradingParam gradingParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String gradingId = this.gradingServiceImpl.submitGrading(userName, gradingParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(gradingId);
+    return result;
+  }
+  
+  /**
+   * 
+   * 总部提交定级信息修改定级状态
+   * @author hanxin
+   * @date 2018年6月8日下午5:04:03
+   * @param request
+   * @param gradingParam
+   * @return
+   */
+  @RequestMapping(value = "/submitGradingForHeadquarters", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi submitGradingForHeadquarters(HttpServletRequest request, 
+      @RequestBody GradingParam gradingParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String gradingId = this.gradingServiceImpl.submitGradingForHeadquarters(userName, gradingParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(gradingId);
     return result;
@@ -237,7 +257,7 @@ public class GradingController {
   
   /**
    * 
-   * 提交材料信息修改状态
+   * 企业提交材料信息修改状态
    * @author hanxin
    * @date 2018年6月8日下午6:10:39
    * @param request
@@ -251,6 +271,27 @@ public class GradingController {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
         submitSystemMaterials(userName,systemMaterialsParam);
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(fkSystemId);
+    return result;
+  }
+  
+  /**
+   * 
+   * 总部提交材料信息修改状态
+   * @author hanxin
+   * @date 2018年6月8日下午6:10:39
+   * @param request
+   * @param gradingParam
+   * @return
+   */
+  @RequestMapping(value = "/submitSystemMaterialsForHeadquarters", method = RequestMethod.POST)
+  @ResponseBody
+  public ResultApi submitSystemMaterialsForHeadquarters(HttpServletRequest request, 
+      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String fkSystemId = this.systemMaterialsServiceImpl.
+        submitSystemMaterialsForHeadquarters(userName,systemMaterialsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(fkSystemId);
     return result;

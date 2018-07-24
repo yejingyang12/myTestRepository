@@ -269,8 +269,7 @@
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -283,6 +282,7 @@
 						ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 					},
 					onUploadSuccessMethod: function(_self,responseData){
+						this.$refs.refOnUpload.value = null;
 						_self.editParam.examinationReportName=responseData.data.attachName;
 						_self.editParam.examinationReportPath=responseData.data.uploadUrl;
 					},
@@ -298,8 +298,7 @@
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'word' && fileFormat[1] != 'pdf' && fileFormat[1] != 'exl' && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
-          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -312,6 +311,7 @@
 						ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 					},
 					onUploadSuccessMethod2: function(_self,responseData){
+						this.$refs.refOnUpload2.value = null;
 						_self.editParam.examinationRectificationReportName=responseData.data.attachName;
 						_self.editParam.examinationRectificationReportPath=responseData.data.uploadUrl;
 					},
@@ -387,6 +387,16 @@
               };
             }
           },//listsort end
+          //整改结果验证是否非必填
+          rectChange:function(){
+          	if(this.editParam.fkRectificationReu==2){
+          		this.rules.examinationRectificationReportName[0].required=false;
+          		this.rules.rectificationDate[0].required=false;
+          	}else{
+          		this.rules.examinationRectificationReportName[0].required=true;
+          		this.rules.rectificationDate[0].required=true;
+          	}
+          }
           
           
         },//methods

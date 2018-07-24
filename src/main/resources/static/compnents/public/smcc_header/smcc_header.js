@@ -93,9 +93,9 @@ var emitdata = new Vue();
                   },
                   signOutSuccessMethod: function(_self, responseData) {
                     _self.clearAllCookie();
-//                    location.reload();
+                    location.reload();
                   },
-                //清除所有cookie函数
+                  //清除所有cookie函数
                   clearAllCookie:function() {
                     var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
                     if(keys) {
