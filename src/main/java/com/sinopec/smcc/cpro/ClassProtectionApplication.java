@@ -1,4 +1,3 @@
-
 package com.sinopec.smcc.cpro;
 
 import org.mybatis.spring.annotation.MapperScan;
@@ -42,11 +41,6 @@ public class ClassProtectionApplication {
 	public String mainPage() {
 		return "views/index";
 	}
-	
-	@RequestMapping("/A")
-  public String mainPage1() {
-    return "index";
-  }
 
 	/**
 	 * 方法描述: 为统一身份认证添加的配置
