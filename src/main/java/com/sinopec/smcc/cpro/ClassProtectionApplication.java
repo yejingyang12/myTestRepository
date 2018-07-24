@@ -5,11 +5,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,11 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 修改时间:
  * 修改备注:
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MailSenderAutoConfiguration.class})
+@SpringBootApplication(exclude = MailSenderAutoConfiguration.class,scanBasePackages=SmccConsts.BASH_PACKAGE)
 @EnableAspectJAutoProxy(exposeProxy = true)
-@EnableFeignClients("com.sinopec.smcc")
+@EnableFeignClients(SmccConsts.BASH_PACKAGE)
 @MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
-@ComponentScan(value = "com.sinopec.smcc")
 @Controller
 public class ClassProtectionApplication {
 	
