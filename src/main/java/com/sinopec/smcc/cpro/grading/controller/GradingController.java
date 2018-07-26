@@ -267,10 +267,10 @@ public class GradingController {
   @RequestMapping(value = "/submitSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi submitSystemMaterials(HttpServletRequest request, 
-      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+      @RequestBody  SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
-        submitSystemMaterials(userName,systemMaterialsParam);
+        submitSystemMaterials(userName, systemMaterialsBeanParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(fkSystemId);
     return result;
@@ -288,10 +288,10 @@ public class GradingController {
   @RequestMapping(value = "/submitSystemMaterialsForHeadquarters", method = RequestMethod.POST)
   @ResponseBody
   public ResultApi submitSystemMaterialsForHeadquarters(HttpServletRequest request, 
-      @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
+      @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
-        submitSystemMaterialsForHeadquarters(userName,systemMaterialsParam);
+        submitSystemMaterialsForHeadquarters(userName,systemMaterialsBeanParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(fkSystemId);
     return result;

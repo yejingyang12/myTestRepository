@@ -10,4 +10,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface SystemApiClient {
 	@RequestMapping(value = "/restful/SystemInfo/findSystemInfoBySpOrgNumber", method = RequestMethod.GET)
 	String querySystemList(@RequestParam("spOrgNumber") String spOrgNumber);
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年7月25日下午6:24:29
+   * @return
+   */
+  @RequestMapping(value = "/restful/SystemInfo/findSystemInfo", method = RequestMethod.GET)
+  String querySystemList();
 }

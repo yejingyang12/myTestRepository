@@ -14,12 +14,13 @@
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
     <link rel="stylesheet" href="../../static/css/private/viewDetailsNav.css" th:attr="href=@{/css/private/viewDetailsNav.css}">
     <link rel="stylesheet" href="../../static/css/private/viewDetailsInfor.css" th:attr="href=@{/css/private/viewDetailsInfor.css}">
+     <link rel="stylesheet" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">
     <style>
       .inner2{
          width:auto;
       }
       .liMargin {
-		 margin-top:0px;
+		 margin-top:15px;
 		 margin-bottom: 0px;
 	  } 
 	 .breadcrumb li{
@@ -29,19 +30,7 @@
 </head>
 <body>
 <div id="app" v-cloak>
-    <smcc-header>
-        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
-    </smcc-header>
-    <smcc-breadcrumb>
-      <li slot="gradChange" class="fr liMargin">
-        <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" v-show="!nextBtn" @click="submitCheck = true">提交</button>
-          <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')">保存</button>
-          <button type="button" class="btn btn-default" id="return" @click="returnBtn()">返回</button>
-        </div>
-      </li>
-    </smcc-breadcrumb>
-    <grading-nav></grading-vav>
+
     
     <div class="inquiryBoxShow" v-show="submitCheck">
         <div class="inquiry">
@@ -61,6 +50,20 @@
     <div class="startBox" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
     </div>
+    <smcc-header>
+        <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
+    </smcc-header>
+    <smcc-breadcrumb>
+      <li slot="gradChange" class="fr liMargin">
+        <div class="saveBnt">
+          <button type="button" class="btn btn-success " id="submit" v-show="!nextBtn" @click="submitCheck = true">提交</button>
+          <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')">保存</button>
+          <button type="button" class="btn btn-default" id="return" @click="returnBtn()">返回</button>
+        </div>
+      </li>
+    </smcc-breadcrumb>
+    <grading-nav></grading-vav>
+    
 </div>
 </body>
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>

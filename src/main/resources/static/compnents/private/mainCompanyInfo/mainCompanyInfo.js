@@ -202,7 +202,7 @@ var data = {
         },
         created: function() {
           this.getCompanyListInfoMethod(this,{});
-        //功能权限
+          //功能权限
           $.ajax({
             type: "get",
             url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 

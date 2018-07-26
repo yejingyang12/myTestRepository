@@ -134,7 +134,6 @@ public class FileServiceImpl implements FileService{
       try {
         this.mongoServiceImpl.deleteByObjectId(mongoFileId);
       } catch (Exception e) {
-        e.printStackTrace();
         throw new BusinessException(EnumResult.UNKONW_ERROR);
       }
     }

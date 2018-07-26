@@ -81,7 +81,7 @@
                               <li class="row" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)" :id="delCount(i)" >
                                 <div class="col-lg-6 col-md-6">
                                     <el-form-item :label="formData.addSystemSub[[i]].label" prop="stars" class="P-addsystem" style="padding-left: 15px;">
-                                        <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
+                                        <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2[[i]]"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
                                             <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -94,7 +94,7 @@
 	                                      <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
 	                                  </el-form-item>
 	                                  <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
-	                                  <button  v-if="formData.addSystemSub.length != i+1" type="button" class="btn btn-default P-btn-del" style="background-color:red;color:#FFFFFF;":id="gernerateId(i)" @click="delSonSystem(i)">删除</button>
+	                                  <button  v-if="formData.addSystemSub.length != i+1" type="button" class="btn btn-default P-btn-del" style="background-color:red;color:#FFFFFF;display:none":id="gernerateId(i)" @click="delSonSystem(i)">删除</button>
 	                               </div>
 	                            </li>
                             </div>
@@ -279,11 +279,11 @@
                     <li class="row">
                         <add-form-sys-table></add-form-sys-table>
                     </li>
-                    <li class="row">
+                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="所属单位名称：" prop="companyName" class="P-addsystem">
-                              <el-select filterable placeholder="请选择所属单位名称" clearable name="companyName" class="formControl" v-model="formData.companyName">
-                                <el-option v-for="item in msgName" :key="item.companyCode" :label="item.companyName" :value="item.companyCode"></el-option>
+                              <el-select placeholder="请选择所属单位名称" clearable :disabled="companyNameDisabled" @change="headleCompanyName()" name="companyName" class="formControl" v-model="formData.companyName">
+                                <el-option v-for="item in msgName" :key="item.companyCode" :label="item.companyName" :value="item.companyName"></el-option>
                               </el-select>
                             </el-form-item>
                         </div>
@@ -294,9 +294,12 @@
                         </div>
                     </li>
                     <li class="row">
-                        <div class="col-lg-6 col-sm-3">
+                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管处室名称：" prop="executiveOfficeName" class="P-addsystem">
-                               <el-input name="executiveOfficeName" id="executiveOfficeName" placeholder="请输入" v-model="formData.executiveOfficeName"></el-input>
+                              <el-input name="executiveOfficeName" id="executiveOfficeName" placeholder="请输入" v-model="formData.executiveOfficeName"></el-input>
+                              <!-- <el-select v-model="formData.executiveOfficeName" clearable filterable placeholder="请选择" @change="headleRelation()" @clear="executiveClear()">
+                                <el-option v-for="item in sysNameExecutive" :key="item.bcdCode" :label="item.bcdName" :value="item.bcdName" ></el-option>
+                              </el-select> -->
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">
@@ -311,8 +314,9 @@
                     </li>
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
+                        <!-- :disabled = "executiveDisabled" -->
                             <el-form-item label="主管联系人：" prop="executiveDireCon" class="P-addsystem">
-                               <el-input name="executiveDireCon" id="executiveDireCon" placeholder="请输入" v-model="formData.executiveDireCon"></el-input>
+                               <el-input name="executiveDireCon" id="executiveDireCon" placeholder="请输入"  v-model="formData.executiveDireCon" ></el-input>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">

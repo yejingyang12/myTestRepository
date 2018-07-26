@@ -64,7 +64,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
-            window.location.href = originUrl+"page/addCompanyGradPage?systemId="+responseData.data;
+            window.location.href = originUrl+"page/addCompanyGradPage?systemId="+responseData.data+"&fkCompanyCode="+companyCode+"&companyId="+companyId;
           },
           
           saveSystemInfoSuccessMethod :function(_self, responseData){

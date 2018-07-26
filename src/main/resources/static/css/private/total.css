@@ -222,8 +222,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     padding-right: 0;
 }
 .trueSys .sysSun{
-    right: 0px;
-    padding:6px 10px;
+    right: 38px;
+    padding:6px 0px;
 }
 .trueSys .P-btn-sysSun{    
 		position: absolute;
@@ -233,7 +233,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .trueSys .P-btn-del{
 		position: absolute;
-    right: 76px;
+    right: 60px;
     padding: 6px;
     bottom: 1px;
 }
@@ -367,4 +367,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .el-picker-panel .el-input{
     width: 100%;
+}
+.count_1 .col-lg-6{
+		width:48%!important;
 }

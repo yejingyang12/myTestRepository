@@ -1,4 +1,50 @@
+<!-- 批量导入 -->
 <div class="container h-padding" style="margin:0">
+<!-- 弹窗 -->
+	<div id="dialog" class="evaluationAlert"
+	   style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
+	    <div class="evaluation" 
+	    style="padding:15px;border: 1px solid #cecece;background:#fff; width: 80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 1s2;">
+	   		<p class="clearfix cut">
+	          <span class="fl revokeTitle">批量导入</span>
+	          <span @click="closes" class="fr revokeTitle" style="margin-right: 15px;margin-bottom: 15px;">X</span>
+	        </p>
+	            <div>
+	                <div class="row" style="margin:0">
+	                
+	                    <div class="col-md-12">
+	                    
+	                    	<!--   <el-form :model="" :rules="rules" ref="" label-width="100px" class="demo-ruleForm">
+								
+								<div class="col-md-12">
+			                        <el-form-item label="上传附件" prop="" ref="topologyDescriptionName">
+			                            <div class="clearfix sysText col-md-12 uploadBox">
+			                                <div class="uploadSty">
+			                                    <ul class="fileList" id="fileList"></ul>
+			                                    <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null" size="small">继续上传</el-button>
+			                                    <el-button type="primary" v-else size="small">上传</el-button>
+			                                </div>
+			                                <input type="file" value="" id="file" @change='onUpload'>
+			                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep</p>
+			                            </div>
+			                        </el-form-item>
+			                    </div>
+								   <p class="h-p">
+			                         <el-form-item>
+			                            <el-button class="btn btn-default" @click="closes">取消</el-button>
+										<el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
+									  </el-form-item>  
+									</p>     
+							                    
+							  </el-form>  -->
+				</div>
+	         </div>
+	      </div>
+	            <input type="hidden" id="changeMattersSystemId">
+	            <input type="hidden" id="changeMattersCompanyCode">
+	            <input type="hidden" id="changeMattersCompanyId">
+	      </div>
+	</div>
     <div class="container h-table-border" style="background:#fff;padding: 15px;margin-top: -15px">
         <div style="height: 50px;line-height: 50px;margin-top: -15px">
             <i class="h-list-line" style="vertical-align:middle;"></i>
@@ -28,7 +74,7 @@
              @click="newSystemInfoMethod()" 
             style="border: none;"> </button>
             
-            <button type="button" class="btn btn-default float-ri" style="margin-right: 10px">  批量导入</button>
+            <button type="button" class="btn btn-default float-ri" style="margin-right: 10px" @click="systemInfoImprot">  批量导入</button>
             <button type="button" class="btn btn-default float-ri" style="margin-right: 10px;pointer-events: none; cursor: default; opacity: 0.6;background: #cecece">
                                            模版导出</button>
         </p>

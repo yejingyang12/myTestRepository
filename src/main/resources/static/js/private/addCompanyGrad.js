@@ -47,7 +47,7 @@ window.onload = function () {
               $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {
                 data.formData.gradingId = responseData.data;
-                window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
+                window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId+"&companyId="+companyId+"&companyCode="+companyCode;
               }, 2300);
             }
           },
@@ -58,7 +58,7 @@ window.onload = function () {
           // 获取成功
           nextBtn2SuccessMethod : function(_self, responseData) {
             data.formData.gradingId = responseData.data;
-            window.location.href = originUrl+"page/addCompanyMaterialPage?systemId="+systemId;
+            window.location.href = originUrl+"page/addCompanyMaterialPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
           },
           //返回
           returnBtn:function() {

@@ -22,41 +22,10 @@
    <link rel="stylesheet" type="text/css" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
    <link rel="stylesheet" type="text/css" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
    <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
-   <link rel="stylesheet" type="text/css" href="../../static/css/private/homeDialog.css" th:attr="href=@{/css/private/homeDialog.css}">	
-<style>
- 
-.b>.el-select__tags>span{position: absolute; top: 0;} 
-.el-select__tags{
-    max-width: none!important;
-    white-space: nowrap;
-    margin: 3px 0px 3px 2px;
-    height: 34px;
-    width: 185px;
-    overflow: hidden;
-    /* overflow-x:auto; */
-    text-overflow: ellipsis;
-    white-space: nowrap;
- } 
- .el-select .el-tag{padding: 0 0 0 5px!important;}
- .el-tag{border-radius:1px;}
- .el-select .el-tag__close.el-icon-close{right:0;}
-.el-select-dropdown__list {
-    width: 200px;
-}
-.is-multiple .el-select-dropdown__list li {
-    margin-left: 10px;
-    display: inline-block;
-    padding: 0;
-} 
-.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after{
-    display:none; 
-    color: #fff;
-    z-index: 1;
-    position: absolute;
-    left: 21px;
-} 
+    <link rel="stylesheet" type="text/css" href="../../static/css/private/homeDialog.css" th:attr="href=@{/css/private/homeDialog.css}">	
+ <style>
 .h-bread {
-    height: 240px;
+    height: 270px;
     /* background: pink; */
 }
 /* 弹窗 */
@@ -204,11 +173,12 @@
     background-image: url("../../images/xinzenggreen.png");
     background-size: 100% 100%;
 }
-  .el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-    background-color:#409EFF;
-    border-color:#409EFF;
-}   
-/* .el-checkbox__inner::after {
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+    background-color: #fff;
+    border-color: gray;
+}
+
+.el-checkbox__inner::after {
     border: 2px solid gray!important;
     border-top: 0!important;
     border-left: 0!important;
@@ -216,7 +186,7 @@
 .el-checkbox__inner{
     border: 1.5px solid gray;
     border-radius: 2px;
-} */
+}
 .el-checkbox-group{
       display: block;
     margin-left: 94px;
@@ -228,7 +198,7 @@
     color: #333;
 }
 .el-checkbox__inner:hover{
-    border: 1px solid #409EFF;
+    border: 1.5px solid gray;
     border-radius: 2px;
 }
 .el-checkbox__label:hover{
@@ -245,25 +215,15 @@
     margin-left: -16px;
 }
 input[type="radio"] {
-    width: 14px;
-    height: 14px;
     border: none;
     margin: 0;
 }
 input[type="radio"] {
-    border: 1px solid #dcdfe6;
+    border: 1px solid gray;
     margin: 0;
 }
-.h-clear-time .el-input__icon{    
-    position: relative;
-    right: 22px;
-    top: -9px;
-}
-  .h-clear-time .el-input__prefix{right: 1px;}
-  .h-clear-time .el-input__suffix{right: 23px;}
-/*点击 多选框 边框颜色*/ 
 .el-checkbox__input.is-focus .el-checkbox__inner {
-    border-color:#409EFF;
+    border-color:gray;
 }
 /*去掉ie下input的小眼睛和“x”*/ 
 ::-ms-clear,::-ms-reveal{display:none;}
@@ -271,16 +231,20 @@ input[type="radio"] {
      margin-top:-3px;
      margin-right:2px;
  }
-.btn.focus, .btn:focus, .btn:hover {
-    color: #fff;
-}
 </style>
 </head>
 <body class="h-body">
 <div id="app">
-     <smcc-header>
+    <smcc-header>
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
      </smcc-header>
+    <smcc-breadcrumb>
+        <button slot="breadcrumb-return"
+                type="button"
+                class="float-ri  btn btn-default float-ri"
+                style="margin-right: 10px;width: auto">返回
+        </button>
+    </smcc-breadcrumb>
     <home>
         <!--帮助中心 箭头 插槽-->
         <img src="../../static/images/home/s01xialayijianxiazai.png" id="arrowHelp" th:attr="src=@{/images/home/s01xialayijianxiazai.png}" slot="arrowHelp">
@@ -292,18 +256,15 @@ input[type="radio"] {
         <img src="../../static/images/home/s01ztjinxingzhong.png" class="tableTopimg" alt="" th:attr="src=@{/images/home/s01ztjinxingzhong.png}" slot="s01ztjinxingzhong">
         <img src="../../static/images/home/s01ztweijinxing.png" class="tableTopimg" alt="" th:attr="src=@{/images/home/s01ztweijinxing.png}" slot="s01ztweijinxing">
        	<img src="../../static/images/home/examine.png" class="tableTopimg" alt="" th:attr="src=@{/images/home/examine.png}" slot="s01ztexamine">
-        
-         <!--排序图标-->
+       	
+        <!--排序图标-->
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou4">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou5">
         <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou6">
-        <!--<img @click="downloadFile('')" id="download" src="../../static/images/home/xiazaikexiazai.png"-->
-        <!--alt="" th:attr="src=@{/images/home/xiazaikexiazai.png}" slot="xiazaikexiazai">-->
-</home>
-    <chart></chart>
+		</home>
 </div>
 </body>
 <!--插件-->
@@ -311,20 +272,10 @@ input[type="radio"] {
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
 <script>
  var bus=new Vue();
-</script>
+ </script>
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
  <script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
-<!--图表插件-->
-<script src="../../static/js/public/echarts/echarts.min.js" th:attr="src=@{/js/public/echarts/echarts.min.js}"></script>
- <script src="../../static/js/public/echarts/echarts-gl.min.js" th:attr="src=@{/js/public/echarts/echarts-gl.min.js}"></script>
-<script src="../../static/js/public/echarts/ecStat.min.js" th:attr="src=@{/js/public/echarts/ecStat.min.js}"></script>
-<script src="../../static/js/public/echarts/dataTool.min.js" th:attr="src=@{/js/public/echarts/dataTool.min.js}"></script>
-<script src="../../static/js/public/echarts/world.js" th:attr="src=@{/js/public/echarts/world.js}"></script>
-<script src="../../static/js/public/echarts/ZUONbpqGBs.js" th:attr="src=@{/js/public/echarts/ZUONbpqGBs.js}"></script>
-<script src="../../static/js/public/echarts/china.js" th:attr="src=@{/js/public/echarts/china.js}"></script>
-<script src="../../static/js/public/echarts/bmap.min.js" th:attr="src=@{/js/public/echarts/bmap.min.js}"></script>
-<script src="../../static/js/public/echarts/simplex.js" th:attr="src=@{/js/public/echarts/simplex.js}"></script>
 <script type="text/javascript">
   var bus = new Vue();
 </script>
@@ -338,24 +289,16 @@ input[type="radio"] {
 <script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
 <!--面包屑导航-->
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
-<!--home组件-->
-<script async src="../../static/compnents/private/home/home.js" th:attr="src=@{/compnents/private/home/home.js}"></script>
-<!--chart-->
-<script async src="../../static/compnents/private/chart/chart.js" th:attr="src=@{/compnents/private/chart/chart.js}"></script>
+<!--showChartDataList组件-->
+<script async src="../../static/compnents/private/showChartDataList/showChartDataList.js" th:attr="src=@{/compnents/private/showChartDataList/showChartDataList.js}"></script>
 <!--分页-->
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 <script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>
-
-<!--chart-->
-<script async src="../../static/compnents/private/chart/chart.js" th:attr="src=@{/compnents/private/chart/chart.js}"></script>
-<!--chartPie 饼状图组件-->
-<script async src="../../static/compnents/private/chartPie/chartPie.js" th:attr="src=@{/compnents/private/chartPie/chartPie.js}"></script>
-<!--chartBar 柱状图组件-->
-<script async src="../../static/compnents/private/chartBar/chartBar.js" th:attr="src=@{/compnents/private/chartBar/chartBar.js}"></script>
-<!--chartLine 折线图组件-->
-<script async src="../../static/compnents/private/chartLine/chartLine.js" th:attr="src=@{/compnents/private/chartLine/chartLine.js}"></script>
-<!--chartStackOne 堆叠图组件-->
-<script async src="../../static/compnents/private/chartStackOne/chartStackOne.js" th:attr="src=@{/compnents/private/chartStackOne/chartStackOne.js}"></script>
-<!--chartStackTwo 堆叠图组件-->
-<script async src="../../static/compnents/private/chartStackTwo/chartStackTwo.js" th:attr="src=@{/compnents/private/chartStackTwo/chartStackTwo.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+  var sprankLevel = [[${sprankLevel}]];
+  var gradingBeginTimeStamp = [[${gradingBeginTimeStamp}]];
+  var gradingEndTimeStamp = [[${gradingEndTimeStamp}]];
+  var systemType = [[${systemType}]];
+  var gradingShapeType = [[${gradingShapeType}]];
+</script>
 </html>

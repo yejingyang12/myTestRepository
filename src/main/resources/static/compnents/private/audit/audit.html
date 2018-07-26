@@ -15,7 +15,7 @@
                                 <div style="width:58%;" class="col-md-8 h-col-md-9 float-le clearPadding">
                                     <el-input type="text" class="h-form-control"
                                            style="height:34px; background-image: none;    width: 100%;"
-                                           v-model="formData.instanceName" id="instanceName" name="instanceName" placeholder="请输入" >
+                                           v-model="formData.instanceName" id="instanceName" name="instanceName" placeholder="请输入" ></el-input>
                                 </div>
                             </div>
                         </div>
@@ -27,22 +27,10 @@
                                 </div>
                                 <div style="width: 58%;" class="col-md-8 clearPadding">
                                     <el-input type="text" class="h-form-control" style="background-image: none;width: 100%;"
-                                           v-model="formData.initiator" id="initiator" name="initiator" placeholder="请输入" >
+                                           v-model="formData.initiator" id="initiator" name="initiator" placeholder="请输入" ></el-input>
                                 </div>
                             </div>
                         </div>
-                        <!--附件名称-->
-                        <!-- <div class="col-md-3" style="margin-left: 4%">
-                            <div class="row">
-                                <div class="col-md-3 h-line clearPadding" style="margin-left:-1%;width: 73px; min-width: 71px;">
-                                    附件名称：
-                                </div>
-                                <div class="col-md-9 h-col-md-9" style="width:58%;">
-                                    <input type="text" class="form-control" style="background-image: none"
-                                           v-model="formData.attachName" id="attachName" name="attachName" placeholder="请输入" >
-                                </div>
-                            </div>
-                        </div> -->
                         <!--建设类型-->
                         <div class="col-md-3">
                             <div class="row">
@@ -116,9 +104,6 @@
                         </button>
                         <button type="button" class="audit-btn btn btn-default"
                                 style="color:#333;background-color: white" @click="changeHandlingState(1)">待办
-                           <!--  <div style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">
-                                1
-                            </div> -->
                         </button>
                         <button type="button" class="audit-btn btn btn-default "
                                 style="color:#333;background-color: white" @click="changeHandlingState(2)">已办
@@ -209,7 +194,7 @@
                                         </td>
                                         <!--操作-->
                                         <td style="color:#1e91e2;">
-                                          <div v-if="pro.fkExaminStatus!=='5'">
+                                          <div v-if="(pro.fkExaminStatus=='2' && jurisdictionType==2) || (pro.fkExaminStatus=='1' && jurisdictionType==1)">
                                             <a  style="cursor: pointer;"  @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId,pro.companyId,pro.fkExaminStatus)">审核</a>
                                           </div>                                  
                                        </td>

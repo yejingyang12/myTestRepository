@@ -153,25 +153,25 @@
                     	  }
                     	}
                     	
-                    	var a = this.formData.systemKeyProducts[index].fkNationalIsProducts;
-                      var b= this.formData.systemKeyProducts[index].nUseProbability;
-                      switch (a) {
+                    	var nationalIsPro = this.formData.systemKeyProducts[index].fkNationalIsProducts;
+                      var probability = this.formData.systemKeyProducts[index].nUseProbability;
+                      switch (nationalIsPro) {
                       case "1":
-                        if(b==100){
+                        if(probability==100){
                           Vue.set(data.nUsePro, index, false);
                         }else{
                           Vue.set(data.nUsePro, index, true);
                         }
                         break;
                       case "2":
-                        if(b==0){
+                        if(probability==0){
                           Vue.set(data.nUsePro, index, false);
                         }else{
                           Vue.set(data.nUsePro, index, true);
                         }
                         break;
                       case "3":
-                        if(100>b && b>0){
+                        if(100>probability && probability>0){
                           Vue.set(data.nUsePro, index, false);
                         }else{
                           Vue.set(data.nUsePro, index, true);

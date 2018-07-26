@@ -1465,7 +1465,7 @@
     LEFT JOIN t_cpro_company AS company
       ON system.fkCompanyCode = company.companyCode
     WHERE
-      system.pkId = #{systemId,jdbcType=VARCHAR}
+      system.pkId = #{systemId,jdbcType=VARCHAR} and company.deleteStatus=1
 	</select>
 	
   <resultMap id="BaseSubResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemSubResult">
@@ -1478,7 +1478,10 @@
       system.standardizedCode,
       system.systemName
     FROM t_cpro_system AS system
-    WHERE system.fkFatherSystemId = #{systemId,jdbcType=VARCHAR}
+    WHERE 
+	      system.deleteStatus = 1 
+	    AND 
+	      system.fkFatherSystemId = #{systemId,jdbcType=VARCHAR}
   </select>
   
   <resultMap id="BaseKeyResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemKeyResult">
@@ -1584,7 +1587,7 @@
     LEFT JOIN t_cpro_company AS company
       ON system.fkCompanyCode = company.companyCode
     WHERE
-      system.pkId = #{systemId,jdbcType=VARCHAR}
+      system.pkId = #{systemId,jdbcType=VARCHAR} and company.deleteStatus=1
   </select>
   
 	<select id="selectAllBySystemParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="SystemListResult">
@@ -1598,6 +1601,7 @@
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
     <where>
+    	 company.deleteStatus=1
       <if test="companyList != null">
         <![CDATA[
           AND company.companyCode IN  
@@ -3441,6 +3445,11 @@
             subIsSystem = #{subIsSystem,jdbcType=TINYINT},
           ]]>
         </if>
+        <if test="deleteStatus != null ">
+          <![CDATA[
+            deleteStatus = #{deleteStatus,jdbcType=TINYINT},
+          ]]>
+        </if>
       </set>
       <where>
           pkId = #{systemId,jdbcType=VARCHAR}
@@ -3477,7 +3486,7 @@
     LEFT JOIN t_cpro_company AS company
       ON system.fkCompanyCode = company.companyCode
     WHERE
-      system.fkFatherSystemId = #{systemId,jdbcType=VARCHAR}
+      system.fkFatherSystemId = #{systemId,jdbcType=VARCHAR} and company.deleteStatus=1
   </select>
   
   <select id="selectSubSystemInfo" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">

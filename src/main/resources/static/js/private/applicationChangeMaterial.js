@@ -48,7 +48,7 @@ window.onload = function () {
             }else{
               $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {
-                window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+                window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
               }, 2300);
             }
           }

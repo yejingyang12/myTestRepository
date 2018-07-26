@@ -369,15 +369,43 @@ public class SystemServiceImpl implements SystemService {
 	  if(systemParam.getFkSystemIsMerge()==1){
 	    //查询子表信息
 	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
-//	     List<SystemParam> subSystemList = systemParam.getAddSystemSub();
-
+	    int sum = 0;//计数器
 	    for (SystemSubResult systemSubParam : subSystemList) {
+	      boolean sonBoo = false;
 	      SystemParam systemTempParam = new SystemParam();
 	      systemTempParam.addSystemParam(systemParam);
 	      systemTempParam.setSystemId(systemSubParam.getSystemId());
 	      systemParamAddList.add(systemTempParam);
+	      for(SystemParam systemParamSon : systemParam.getAddSystemSub()){
+	        //如果已有子系统与新提交的子系统Code相同，则sonBoo为true，不进行删除
+	        if(systemParamSon.getStandardizedCode().equals(systemSubParam.getStandardizedCode())){
+	          sonBoo = true;
+	        }
+	      }
+	      if(!sonBoo){
+	        systemTempParam.setDeleteStatus(2);
+	      }
 	      this.systemMapper.updateSystemEdit(systemTempParam);
       }
+	    for (SystemSubResult systemSubParam : subSystemList) {
+        SystemParam systemTempParam = new SystemParam();
+        systemTempParam.addSystemParam(systemParam);
+        systemTempParam.setSystemId(systemSubParam.getSystemId());
+        //如果是新添加子系统
+        if(sum == 0){
+          if(systemParam.getAddSystemSub().size() > subSystemList.size()){
+            for (int i = systemParam.getAddSystemSub().size(); i >= 0; i--) {
+              if(i < subSystemList.size()){
+                systemParam.getAddSystemSub().remove(i);
+              }
+            }
+            this.saveSonSystem(systemParam);
+          }
+          sum = 1;
+        }
+        this.systemMapper.updateSystemEdit(systemTempParam);
+      }
+	    
 	    systemParamAddList.add(systemParam);
 	    this.systemMapper.updateSystemEdit(systemParam);
 	    
@@ -1411,5 +1439,113 @@ public class SystemServiceImpl implements SystemService {
   @Override
   public SystemResult querySystemInformationBySystemId(SystemParam systemParam) {
     return this.systemMapper.selectSystem(systemParam);
+  }
+  
+  /**
+   * 添加子系统信息
+   */
+  public void saveSonSystem(SystemParam systemParam) {
+    
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    String fkCompanyCode = "";
+    String[] orgCodes = userDTO.getOrgCode().split(",");
+    for (String strCode : orgCodes) {
+      if (strCode.trim().length()>8) {
+        fkCompanyCode = strCode.trim().substring(0, 8);
+      }else {
+        fkCompanyCode = strCode.trim();
+      }
+      break;
+    }
+    systemParam.setExamineStatus(1);
+    systemParam.setExaminationStatus(1);
+    systemParam.setSubIsSystem(2);
+    if (systemParam.getFkSystemIsMerge() == 1) {
+      systemParam.setFkSystemType(2);
+    }else if(systemParam.getFkSystemIsMerge() == 2){
+      systemParam.setFkSystemType(1);
+    }
+    systemParam.setRecordStatus(1);
+    systemParam.setGradingStatus(1);
+    systemParam.setFkChangeMatter(5);
+    systemParam.setAppIsInternet(2);
+    systemParam.setCreateTime(new Date());
+    systemParam.setEvaluationStatus(1);
+      systemParam.setFkCompanyCode(fkCompanyCode);
+    List<SystemParam> systemCode = systemParam.getAddSystemSub();
+    List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
+    List<SystemUseServices> subUseList = systemParam.getSystemUseServices();
+    List<SystemParam> subSystemList = new ArrayList<SystemParam>();
+    List<SystemKeyProducts> systemKeyProductsList = new ArrayList<SystemKeyProducts>();
+    List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
+    if(systemParam.getAddSystemSub() != null){
+        for (int subSystem = 0; subSystem < systemParam.getAddSystemSub().size(); subSystem++) {
+          SystemParam systemParamSub = new SystemParam();
+          systemParamSub.setSystemId(Utils.getUuidFor32());
+          systemParamSub.setExamineStatus(systemParam.getExaminationStatus());
+          systemParamSub.setExaminationStatus(systemParam.getExaminationStatus());
+          systemParamSub.setFkSystemType(3);
+          systemParamSub.setRecordStatus(systemParam.getRecordStatus());
+          systemParamSub.setGradingStatus(systemParam.getGradingStatus());
+          systemParamSub.setFkChangeMatter(systemParam.getFkChangeMatter());
+          systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
+          systemParamSub.setCreateTime(systemParam.getCreateTime());
+          systemParamSub.setWhenInvestmentUse(systemParam.getWhenInvestmentUse());
+          systemParamSub.setFkInfoSysTypeCon(systemParam.getFkInfoSysTypeCon());
+          systemParamSub.setFkSystemIsMerge(2);
+          systemParamSub.setAppIsInternet(systemParam.getAppIsInternet());
+          systemParamSub.setGradeRecordSysName(systemParam.getGradeRecordSysName());
+          systemParamSub.setSysBusSituationType(systemParam.getSysBusSituationType());
+          systemParamSub.setSysBusDescription(systemParam.getSysBusDescription());
+          systemParamSub.setSysServiceSitScope(systemParam.getSysServiceSitScope());
+          systemParamSub.setSubIsSystem(1);
+          systemParamSub.setSysServiceSitObject(systemParam.getSysServiceSitObject());
+          systemParamSub.setNpCoverageRange(systemParam.getNpCoverageRange());
+          systemParamSub.setNpNetworkProperties(systemParam.getNpNetworkProperties());
+          systemParamSub.setFkCompanyCode(systemParam.getFkCompanyCode());
+          systemParamSub.setExecutiveOfficeName(systemParam.getExecutiveOfficeName());
+          systemParamSub.setExecutiveDireCon(systemParam.getExecutiveDireCon());
+          systemParamSub.setExecutiveDireConTel(systemParam.getExecutiveDireConTel());
+          systemParamSub.setEvaluationStatus(systemParam.getEvaluationStatus());
+          systemParamSub.setSystemName(systemCode.get(subSystem).getSystemName());
+          systemParamSub.setStandardizedCode(systemCode.get(subSystem).getStandardizedCode());
+          systemParamSub.setFkFatherSystemId(systemParam.getSystemId());
+          systemParamSub.setCompanyName(systemParam.getCompanyName());
+          subSystemList.add(systemParamSub);
+          
+          for (int subKey = 0; subKey < subKeyList.size(); subKey++) {
+            SystemKeyProducts systemKeyProductsBeanSub = new SystemKeyProducts();
+            systemKeyProductsBeanSub.setSystemKeyProductsId(Utils.getUuidFor32());
+            systemKeyProductsBeanSub.setFkSystemId(systemParamSub.getSystemId());
+            systemKeyProductsBeanSub.setDeleteStatus(subKeyList.get(subKey).getDeleteStatus());
+            systemKeyProductsBeanSub.setCreateTime(new Date());
+            systemKeyProductsBeanSub.setFkExaminStatus(subKeyList.get(subKey).getFkExaminStatus());
+            systemKeyProductsBeanSub.setProductsNumber(subKeyList.get(subKey).getProductsNumber());
+            systemKeyProductsBeanSub.setFkNationalIsProducts(subKeyList.get(subKey).getFkNationalIsProducts());
+            systemKeyProductsBeanSub.setnUseProbability(subKeyList.get(subKey).getnUseProbability());
+            systemKeyProductsBeanSub.setOtherName(subKeyList.get(subKey).getOtherName());
+            systemKeyProductsList.add(systemKeyProductsBeanSub);
+          }
+         
+          for (int subUse = 0; subUse < subUseList.size(); subUse++) {
+            SystemUseServices SystemUseServicesBeanSub = new SystemUseServices();
+            SystemUseServicesBeanSub.setSystemUseServicesId(Utils.getUuidFor32());
+            SystemUseServicesBeanSub.setFkSystemId(systemParamSub.getSystemId());
+            SystemUseServicesBeanSub.setCreateTime(subUseList.get(subUse).getCreateTime());
+            SystemUseServicesBeanSub.setServiceIsUse(subUseList.get(subUse).getServiceIsUse());
+            SystemUseServicesBeanSub.setFkProductsType(subUseList.get(subUse).getFkProductsType());
+            SystemUseServicesBeanSub.setFkResponsibleType(subUseList.get(subUse).getFkResponsibleType());
+            SystemUseServicesBeanSub.setCreateTime(new Date());
+            SystemUseServicesBeanSub.setOtherName(subUseList.get(subUse).getOtherName());
+            systemUseServicesList.add(SystemUseServicesBeanSub);
+          }
+       }
+    }
+    this.systemKeyProductsMapper.insertSystemKeyProductsBySystemKeyProductsId(
+        systemKeyProductsList);
+    this.systemUseServicesMapper.insertSystemUseServicesBySystemUseServicesId(
+        systemUseServicesList);
+    this.systemMapper.insertBatchSystem(subSystemList);
   }
 }

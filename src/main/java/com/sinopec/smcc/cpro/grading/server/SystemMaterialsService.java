@@ -64,7 +64,7 @@ public interface SystemMaterialsService {
    * @param systemMaterialsParam
    * @return
    */
-  String submitSystemMaterials(String userName, SystemMaterialsParam systemMaterialsParam)
+  String submitSystemMaterials(String userName,  SystemMaterialsBeanParam systemMaterialsBeanParam)
       throws BusinessException;
   /**
    * @Descrption 总部提交材料信息修改状态
@@ -75,7 +75,7 @@ public interface SystemMaterialsService {
    * @return
    */
   String submitSystemMaterialsForHeadquarters(String userName, 
-      SystemMaterialsParam systemMaterialsParam) throws BusinessException;
+      SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException;
 
   /**
    * @Descrption  获取材料回显信息(同一种附件有多个附件情况下的获取)

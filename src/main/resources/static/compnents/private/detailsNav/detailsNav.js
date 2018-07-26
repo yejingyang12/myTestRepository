@@ -48,10 +48,14 @@ var detailsData={
 				mounted: function() {
 					var _self=this;
 					bus.$on("changeLi",function(meg){
-						console.log("meg:"+meg);
-            if(meg!=null){
-            	_self.revokeRecordShow = meg;
-            }
+						if(_self.revokeRecordShow){
+							if(meg!=null){
+								_self.revokeRecordShow = meg;
+							}
+						}
+          });
+					bus.$on("showRevokeRecord",function(meg){
+            _self.revokeRecordShow = meg;
           });
 				}
 			})

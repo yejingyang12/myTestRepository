@@ -80,6 +80,8 @@ public class MainParam {
   private Integer systemType;
   private String[] sprankLevelArray;
   private String[] subordinateProvincesArray;
+  private Long gradingBeginTimeStamp;//定级开始时间戳
+  private Long gradingEndTimeStamp;//定级结束时间戳
   
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -104,6 +106,24 @@ public class MainParam {
    */
   public void setSubordinateProvincesArray(String[] subordinateProvincesArray) {
     this.subordinateProvincesArray = subordinateProvincesArray;
+  }
+  public Long getGradingBeginTimeStamp() {
+    return gradingBeginTimeStamp;
+  }
+  public void setGradingBeginTimeStamp(Long gradingBeginTimeStamp) {
+    if(gradingBeginTimeStamp != null){
+      this.gradingBeginTime = new Date(gradingBeginTimeStamp);
+    }
+    this.gradingBeginTimeStamp = gradingBeginTimeStamp;
+  }
+  public Long getGradingEndTimeStamp() {
+    return gradingEndTimeStamp;
+  }
+  public void setGradingEndTimeStamp(Long gradingEndTimeStamp) {
+    if(gradingEndTimeStamp != null){
+      this.gradingEndTime = new Date(gradingEndTimeStamp);
+    }
+    this.gradingEndTimeStamp = gradingEndTimeStamp;
   }
   /**
    * @return the sprankLevelArray

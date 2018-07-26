@@ -1,0 +1,329 @@
+<div class="container h-padding" style="margin:0 15px;font-size: 14px;font-style: normal">
+<!-- 首页申请变更弹窗 -->
+  <div id="dialog" class="evaluationAlert"
+  style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
+    <div class="evaluation" 
+    style="padding:15px;border: 1px solid #cecece;background:#fff; width: 80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 1s2;">
+   		<p class="clearfix cut">
+        <span class="fl revokeTitle">申请变更</span>
+        <span @click="closes" class="fr revokeTitle" style="margin-right: 15px;margin-bottom: 15px;">X</span>
+      </p>
+      <div>
+        <div class="row" style="margin:0">
+          <div class="col-md-12">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+							<el-form-item label="变更事项：" prop="region">
+								<el-select v-model="ruleForm.region" id="scoreCheckResult" filterable placeholder="请选择">
+								  <el-option v-for="item in changeMatters"
+                         :key="item.systemCode" 
+                          :label="item.codeName"
+                          :value="item.systemCode">
+                  </el-option>
+							  </el-select>
+							</el-form-item> 
+							<div class="one"  > 
+								<el-form-item label="变更原因：" prop="desc" >
+							    <el-input type="textarea" id="textArea"
+							  			  v-model="ruleForm.desc">
+							    </el-input>
+							  </el-form-item>
+						  </div> 
+						  <div class="one"  > 
+						      <el-form-item label="变更内容：" prop="desc1" >
+							    <el-input type="textarea" id="textArea" class="textArea1"  v-model="ruleForm.desc1">
+							    </el-input>
+							  </el-form-item>
+							</div>
+			   			<p class="h-p">
+	              <el-form-item>
+	                <el-button class="btn btn-default" @click="closes">取消</el-button>
+									<el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
+								</el-form-item>  
+							</p>     
+	          </el-form> 
+					</div>
+	      </div>
+	    </div>
+      <input type="hidden" id="changeMattersSystemId">
+      <input type="hidden" id="changeMattersCompanyCode">
+      <input type="hidden" id="changeMattersCompanyId">
+		</div>
+	</div>
+    <!--查询、定级备案测评列表-->
+    <div class="container h-padding" style="margin:0">
+        <!--系统定级备案测评列表-->
+        <!--<div class="h-bottom-line  h-bottom-position"></div>-->
+        <div class="container h-table-border" style="background:#fff;padding: 15px">
+            <div style="height: 50px;line-height: 50px;margin-top: -15px">
+                <i class="h-list-line" style="vertical-align:middle;"></i>
+                图标详情数据展示列表
+                <span style="float: right;">
+                  	<slot name="s01ztyichexiao"></slot>
+                    已撤销
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                  	<slot name="s01ztyiwancheng"></slot>
+                    已完成
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                  	<slot name="s01ztexamine"></slot>
+                    未通过            
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                  	<slot name="s01ztjinxingzhong"></slot>
+                    进行中 
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                  	<slot name="s01ztweijinxing"></slot>
+                    未进行
+                </span>
+            </div>
+            <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+            <div class="row" style="margin:0">
+                <div class="col-md-12">
+                    <div class="row table-responsive">
+                        <table id="h-list-show" class="table table-bordered table-striped">
+                            <tr class="tr-row rowOne">
+                                <th class="firstChecked"
+                                    style="min-width:34px;display:none;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
+                                    <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;"></th>
+                                <th style="min-width:47px">序号</th>
+                                <th>系统名称
+                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                    <slot name="paixujiantou"></slot>
+                                </th>
+                                <th>所属单位
+                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                    <slot name="paixujiantou2"></slot>
+                                </th>
+                                <th>板块
+                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                    <slot name="paixujiantou3"></slot>
+                                </th>
+                                <th>建设类型
+                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                    <slot name="paixujiantou4"></slot>
+                                </th>
+                                <th>等保级别
+                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                    <slot name="paixujiantou5"></slot>
+                                </th>
+                                <th style="max-width:75px">是否为互联网应用
+                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                    <slot name="paixujiantou6"></slot>
+                                </th>
+                                <th>定级状态</th>
+                                <th>审核状态</th>
+                                <th>备案状态</th>
+                                <th>测评状态</th>
+                                <th>自查状态</th>
+                                <th style="width:5%;">专家评审意见</th>
+                                <th>定级报告</th>
+                                <th>测评报告</th>
+                                <th>自查报告</th>
+                                <th style="white-space: nowrap;width:7%;">备案表下载</th>
+                                <th>操作</th>
+                            </tr>
+                            <tr class="tr-row" v-for="(pro,index) in result.data" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
+                                data-td="https://codeload.github.com/douban/douban-client/legacy.zip/master">
+                                <td class="firstChecked"
+                                    style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
+                                    <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
+                                <td>{{index+1}}</td>
+ 								                <td>
+                                  <!-- <div v-if="pro.recordStatus != 4"> -->
+                                    <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
+                                 <!--  </div>
+                                  <div v-else  style="color:#bfbfbf">{{pro.systemName}}</div> -->
+                                </td>                              
+                                <td>{{pro.companyName}}</td>
+                                <td>{{pro.plateType}}</td>
+                                <td>{{pro.infoSysTypeConstruction}}</td>
+                                <td>
+                                  <div v-if="pro.fkSpRanklevel==='301'">
+                                                                                                       一级
+                                  </div>
+                                  <div v-if="pro.fkSpRanklevel==='302'">
+                                                                                                         二级
+                                  </div>
+                                  <div v-if="pro.fkSpRanklevel==='303'">
+                                                                                                         三级
+                                  </div>
+                                  <div v-if="pro.fkSpRanklevel==='304'">
+                                                                                                        四级
+                                  </div>
+                                  <div v-if="pro.fkSpRanklevel==='305'">
+                                                                                                       五级
+                                  </div>
+                                </td>
+                                <td style=" vertical-align: middle;">
+                                  <div v-if="pro.appIsInternet===1">
+                                                                                                        是
+                                  </div>
+                                  <div v-if="pro.appIsInternet===2">
+                                                                                                         否
+                                  </div>
+                                </td>
+                                <!-- &lt;!&ndash;定级状态 1&#45;&#45;进行中；2&#45;&#45;&ndash;&gt; -->
+                                <td v-if="pro.gradingStatus===1" class="h-moren h-weijinxing"></td>
+                                <td v-if="pro.gradingStatus===2" class="h-moren h-jingxingzhong"></td>
+                                <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng"></td>
+                                <td v-if="pro.gradingStatus===4" class="h-moren h-chexiao"></td>
+                                <!-- &lt;!&ndash;审核状态&ndash;&gt; -->
+                                <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing"></td>
+                                <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong"></td>
+                                <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"></td>
+                                <td v-if="pro.examineStatus==4" class="h-moren h-examine"></td>
+                                <td v-if="pro.examineStatus==5" class="h-moren h-chexiao"></td>
+                                <!-- &lt;!&ndash;备案状态&ndash;&gt; -->
+                                <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"></td>
+                                <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong"></td>
+                                <td v-if="pro.recordStatus==3" class="h-moren h-wancheng"></td>
+                                <td v-if="pro.recordStatus==4" class="h-moren h-chexiao"></td>
+                                <!-- &lt;!&ndash;测评状态&ndash;&gt; -->
+                                <td v-if="pro.evaluationStatus==1" class="h-moren h-weijinxing"></td>
+                                <td v-if="pro.evaluationStatus==2" class="h-moren h-jingxingzhong"></td>
+                                <td v-if="pro.evaluationStatus==3" class="h-moren h-wancheng"></td>
+                                <td v-if="pro.evaluationStatus==4" class="h-moren h-chexiao"></td>
+                                <!-- &lt;!&ndash;自查状态&ndash;&gt; -->
+                                <td v-if="pro.examinationStatus==1" class="h-moren h-weijinxing"></td>
+                                <td v-if="pro.examinationStatus==2" class="h-moren h-jingxingzhong"></td>
+                                <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng"></td>
+                                <td v-if="pro.examinationStatus==4" class="h-moren h-chexiao"></td>
+
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.checkPkId != null && pro.checkPkId !=  '' && pro.recordStatus != 4" @click="downloadFile(pro.checkPkId)"></td>
+                                <td class="h-morenxiazai h-weixiazai" v-else></td>
+                                
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.gradingPkId != null && pro.gradingPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.gradingPkId)"></td>
+                                <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.evaluationPkId != null && pro.evaluationPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.evaluationPkId)"></td>
+                                <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                                <td class="h-morenxiazai h-xiazai" v-if="pro.selfPkId != null && pro.selfPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.selfPkId)"></td>
+                                <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                                </td>
+                                <!-- &lt;!&ndash;一键下载&ndash;&gt; -->
+                              
+                                 <td style="position: relative; ">
+                                 <div v-if="pro.recordStatus == 4">
+                                    <span style="display:block; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
+                                 </div> 
+                                 <div v-else>
+                                    <span style="display:none; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
+                                 </div>
+                                    <a @click="oneKeydownload(pro.systemId,pro.companyId)" style="float: left;cursor: pointer;"  v-bind:class="{'tr-row-gray':pro.recordStatus == 4}">一键下载</a>
+                                   <!-- &lt;!&ndash;class=app1 都是app1&ndash;&gt; -->
+                                    <i class="app1" style="float: left">
+                                        <el-row class="block-col-2">
+                                            <el-col :span="12">
+                                                <el-dropdown trigger="click">
+                                                    <span class="el-dropdown-link">
+                                                        <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
+                                                    </span>
+                                                    <el-dropdown-menu slot="dropdown">
+                                                        <a @click="downloadList1(pro.companyId)"> 
+                                                          <el-dropdown-item class="list" >表1</el-dropdown-item>
+                                                        </a>
+                                                        <a @click="downloadList2(pro.systemId)"> 
+                                                          <el-dropdown-item class="list">表2</el-dropdown-item>
+                                                        </a>
+                                                        <a @click="downloadList3(pro.systemId)" v-if="pro.fkSpRanklevel != null && pro.fkSpRanklevel != ''"> 
+                                                           <el-dropdown-item class="list">表3</el-dropdown-item> 
+                                                        </a>
+                                                        <a @click="downloadList4(pro.systemId)" v-if="pro.fkSpRanklevel >=303 && pro.gradingStatus!==1 && pro.recordStatus != 4"> 
+                                                           <el-dropdown-item class="list" >表4</el-dropdown-item>
+                                                        </a>
+                                                    </el-dropdown-menu>
+                                                </el-dropdown>
+                                            </el-col>
+                                        </el-row>
+                                    </i>
+                                 
+                                </td>
+                                <!-- &lt;!&ndash;操作&ndash;&gt; -->
+                                <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
+                                    <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
+                                    <a class="hide3" style="cursor:pointer;">  
+                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
+                                          <i @click="deleteClick(pro.systemId)" type="text" size="small">删除</i>
+                                           <!-- 首页表格的删除弹窗 -->
+                                            <div class="dialogShaw">
+	                                              <div class="startBox" v-show="deleteDialog">
+	                                              		<div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
+												        <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
+												  </div>
+												   <div class="inquiry">
+												        <p>是否删除</p>
+												        <div class="inquiryBtn">
+												            <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
+												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+												        </div>
+												    </div>
+											 </div> 
+                                    </a>
+                                </td>
+                                <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">
+                                    <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
+                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer">申请变更</a> <i style="color:#1e91e2 ">|</i>
+                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer">备案</a><i style="color:#1e91e2 ">|</i>
+                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer">测评</a><i style="color:#1e91e2 ">|</i>
+                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" >自查</a>
+                                </td>
+                                <td style="color:#1e91e2;" v-else>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--分页-->
+            <div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
+  <span style="float: left;padding-top: 18px">
+                    <div v-if="result.currentPage==0">
+                                                                        显示0到0行，共0行记录
+                    </div>
+                    <div v-else>
+                                                                        显示{{((result.currentPage-1)*result.pagesize)+1}}到{{(result.currentPage)*(result.pagesize)}}行，共{{result.total}}行记录
+                    </div>
+                </span>
+                    <div class="h-page">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li @click="clickPage(result.currentPage-1)">
+                                <a href="javascript:;" aria-label="Previous" >
+                                    <span aria-hidden="true">上一页</span>
+                                </a>
+                            </li>
+                            <li  v-for="n in result.totalPages" :class="[n==result.currentPage ? 'current' : '' ]">
+                                <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
+                            </li>
+                            <li @click="clickPage(result.currentPage+1)">
+                                <a href="javascript:;" aria-label="Next" >
+                                    <span aria-hidden="true">下一页</span>
+                                </a>
+                            </li>
+                            共{{result.totalPages}}页，跳到
+                                <li>
+                            <input type="text" id="txt" 
+                                  @keydown.enter="hpageNum(this)"
+                                  onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                   onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                                   style="overflow: visible;">
+                            <div class="box" id="box"></div>
+                        </li>
+                            页
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="startBox" id="startBoxDelete" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
+    </div>
+    <div class="startBox" id="startBoxExport" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>导出成功！</P>
+    </div>
+</div>

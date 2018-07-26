@@ -210,7 +210,7 @@
           saveSelfexaminationSuccess: function(_self, responseData){
           	$("#startBoxSelf").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-              //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
             }, 2300);
           	_self.querySelfCheckList(_self);
           	//点击确定后关闭弹窗

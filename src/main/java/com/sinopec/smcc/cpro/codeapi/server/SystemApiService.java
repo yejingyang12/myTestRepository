@@ -32,5 +32,4 @@ public interface SystemApiService {
    * @return
    */
   List<SystemApiResult> querySystemApi(SystemApiParam systemApiParam) throws BusinessException;
-
 }

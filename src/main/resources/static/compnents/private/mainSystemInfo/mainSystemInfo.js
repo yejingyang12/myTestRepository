@@ -61,6 +61,17 @@ var data1={
               this.getSystemListInfoMethod(this,this.systemForm.queryData);
             }
           },
+          //显示批量导入弹窗
+          systemInfoImprot:function(){
+          	$("#dialog").css("display","block");
+          },
+          closes:function () {
+//          	this.$refs['ruleForm'].resetFields();
+            var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+            evaluationAlert.style.display="none";
+            $(".inquiry").css("display","none");
+            $(".dialogShaw").css("display","none");
+          },
           checkboxAllMethod:function(){
             if($("#checkboxAll1").is(':checked')){
               $(".firstChecked input").prop("checked",true);

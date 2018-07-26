@@ -67,7 +67,8 @@
           ],
           compPrincipalWorkTel: [
               { required: false, message: '请输入办公电话', trigger: 'blur' },
-              { pattern: /^\d{7,12}$/, message: '办公电话输入有误', trigger: 'blur'}
+              { min: 7, max: 13, message: '长度在7 到 13个字符', trigger: 'blur' },
+              { pattern: /^([\d-+]*)$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           compPrincipalPhone: [
               { required: false, message: '请输入移动电话', trigger: 'blur' },
@@ -88,7 +89,8 @@
           ],
           ldContactWorkTel: [
               { required: true, message: '请输入办公电话', trigger: 'blur' },
-              { pattern: /^\d{8,12}$/, message: '办公电话输入有误', trigger: 'blur'}
+              { min: 7, max: 13, message: '长度在7 到 13个字符', trigger: 'blur' },
+              { pattern: /^([\d-+]*)$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           ldContactPhone: [
               { required: true, message: '请输入移动电话', trigger: 'blur' },
@@ -485,12 +487,14 @@
                     _self.getCompanyCodeSuccessMethod);
               },
               // 获取单位Code成功
-              getCompanyCodeSuccessMethod : function(_self, responseData,type) {
+              getCompanyCodeSuccessMethod : function(_self, responseData) {
               	this.dtlCompanyCode=responseData.data;
               	if(type!= null && type != ''){
-                	this.getCompanyDetailsMethod(_self,responseData);
-              	}else{
-                	this.getCompanyDetailsMethod(_self,responseData.data);
+              		if(type == "new" || type == "create"){
+              			this.getCompanyDetailsMethod(_self,responseData.data);
+              		}else{
+              			this.getCompanyDetailsMethod(_self,responseData);
+              		}
               	}
               },
               getCompanyDetailsMethod:function(_self,meg){
@@ -513,8 +517,8 @@
               		}
               	}
               },
-              getCompanyDetailsByCompanyIdMethodSuccess:function(_self, responseData){
-              	this.getCompanyCodeSuccessMethod(_self,responseData.data.companyCode,'update');
+              getCompanyDetailsByCompanyIdMethodSuccess:function(_self, companyCode){
+              	this.getCompanyCodeSuccessMethod(_self,companyCode);
               }
             },
             created : function() {
@@ -530,23 +534,20 @@
               this.getCompanyMethod(this);
               //获取系统ID
               //getJurisdictionMethod(a,"0101010101");
-              
-              if(type == 'update'){
-                ajaxMethod(this, 'post',
-                    'company/queryDetailsCompany', true,'{"companyId":"'+companyId+'"}', 'json',
-                    'application/json;charset=UTF-8',this.getCompanyDetailsByCompanyIdMethodSuccess);
+              if(type == 'change'){
+                this.getCompanyDetailsByCompanyIdMethodSuccess(this,companyCode);
                 return;
               }
               if(jurisdiction == null || jurisdiction == ''){
             		this.getCompanyCode(this);
             	}
-              	
             },
             mounted : function() {
               // this.selectChange()
               // new Ctor().$mount('#wrap');
               var _self=this;
-
+              // 获取单位
+              _self.getCompanyMethod(_self);
               if(companyId!=''&&companyId!=null){
                 _self.getCompanyInfoByIdMethod(_self,companyId);
               }else if(companyCode!=null){

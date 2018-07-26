@@ -511,7 +511,7 @@ public class GradingServiceImpl implements GradingService{
       //修改审核状态
       CheckParam checkParam = new CheckParam();
       checkParam.setFkSystemId(gradingParam.getFkSystemId());
-      checkParam.setFkExaminStatus("1");
+      checkParam.setFkExaminStatus("2");
       checkParam.setFkBusinessNode("3");
       checkParam.setPrevExecutor(userName);
       checkParam.setExecuteTime(new Date());

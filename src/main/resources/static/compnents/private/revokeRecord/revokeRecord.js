@@ -178,10 +178,14 @@ var revokeRecordData={
               //总部撤销备案
               if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_REVOKE_RECORD){
                 _self.paramHeadquarters = true;
+                bus.$emit("showRevokeRecord",true);
+                break;
               }
               //企业撤销备案
               if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_REVOKE_RECORD){
                 _self.paramEnterprise = true;
+                bus.$emit("showRevokeRecord",true);
+                break;
               }
             }
           }

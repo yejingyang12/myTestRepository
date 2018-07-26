@@ -86,10 +86,11 @@ var emitdata = new Vue();
                     _self.userName=responseData.data.userName;
                   },
                   signOutMethod:function(){
-                    ajaxMethod(this, 'post',
-                        'main/logout', true,'', 'json',
-                        'application/json;charset=UTF-8',
-                        this.signOutSuccessMethod);
+                    window.location.href = originUrl +"SSO/GLO/Redirect";
+//                    ajaxMethod(this, 'post',
+//                        'main/logout', true,'', 'json',
+//                        'application/json;charset=UTF-8',
+//                        this.signOutSuccessMethod);
                   },
                   signOutSuccessMethod: function(_self, responseData) {
                     _self.clearAllCookie();

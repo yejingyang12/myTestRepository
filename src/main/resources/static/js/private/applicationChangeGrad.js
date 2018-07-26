@@ -45,7 +45,7 @@ window.onload = function () {
             }else{
               $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {
-                window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId;
+                window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
               }, 2300);
             }
           },
@@ -55,7 +55,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/applicationChangeMaterialPage?systemId="+systemId;
+              window.location.href = originUrl+"page/applicationChangeMaterialPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
           },
         },
         mounted : function() {

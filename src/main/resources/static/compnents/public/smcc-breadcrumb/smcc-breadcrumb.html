@@ -2,8 +2,9 @@
     <ol class="breadcrumb"  style="background-color: transparent;">
         <li style="width: 100%">
             <a v-for="(a,index) in breadcrumb"
-                :href="a.href"  style="color: #565656;">{{a.name}} <span
-                v-if="index !== (breadcrumb.length-1)">></span>
+                :href="a.href"  
+                style="color: #565656;">{{a.name}} 
+                <span v-if="index !== (breadcrumb.length-1)">></span>
             </a>
 
             <i  @click="hReturn()">

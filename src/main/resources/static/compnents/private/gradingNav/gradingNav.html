@@ -10,9 +10,9 @@
             </el-tab-pane>
             <el-tab-pane label="定级信息（备案表三）" name="third">
               <add-form-grad>
-                <li slot="materialBtn" class="fr liMargin">
+                <li slot="materialBtn" class="fr liMargin" v-show="materialShow">
                   <div class="saveBnt">
-                    <button type="button" class="btn btn-success " id="safe" @click="next2Btn('formData')">填写系统材料情况</button>
+                    <button type="button" class="btn btn-success "  id="safe" @click="next2Btn('formData')">填写系统材料情况</button>
                   </div>
                 </li>
               </add-form-grad>

@@ -4,7 +4,6 @@
 		formData: {
 			instanceName: null,
 			initiator: null,
-			//attachName: null,
 			fkInfoSysTypeCon: null,
 			fkBusinessNode: null,
 			fkExaminStatus: null,
@@ -12,8 +11,10 @@
 	  	currentPage: 1,
 	  	field: null,
 	  	sort: null, 
-	  	handlingState: null //办理状态
+	  	handlingState: null, //办理状态
+	  	role: null,//角色
 		},
+		jurisdictionType: null,
 		//表单数据
 		tableData: {},
 		fkInfoSysTypeConList: [{codeId: '1',codeName: '自建'},{codeId: '2',codeName: '统建'},{codeId: '3',codeName: '总部统建'}],
@@ -36,9 +37,30 @@
           return data;
         },
         created: function() {
+        	this.getPermitJurisdictionInfo(this);
         	this.queryCheckList(this);
         },
         methods: {
+        	getPermitJurisdictionInfo: function(_self){
+            ajaxMethod(_self,"post",
+                "jurisdiction/queryDataJurisdictionApi",false,
+                JSON.stringify(this.formData),"json",
+                'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+          },
+          getPermitJurisdictionSuccess: function(_self,response){
+            
+            for (var i = 0; i < response.data.permssions.length; i++) {
+              var permssions = response.data.permssions[i];
+              if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_AUDIT){
+                _self.jurisdictionType = 1;
+                _self.formData.role = 1;
+              }
+              if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_AUDIT){
+                _self.jurisdictionType = 2;
+                _self.formData.role = 2;
+              }
+            }
+          },
         	queryCheckListMethods: function(){
         		this.queryCheckList(this);
         	},
@@ -119,11 +141,10 @@
           clearInfo:function () {
             this.formData.instanceName = null;
             this.formData.initiator = null;
-            //this.formData.attachName = null;
             this.formData.fkInfoSysTypeCon = null;
             this.formData.fkBusinessNode = null;
             this.formData.fkExaminStatus = null;
-            this.formData.handlingState = null;
+            //this.formData.handlingState = null;
           },
           auditDetails:function (systemId,companyId) {
             window.location.href=originUrl+"/page/auditDetailsPage?systemId="+systemId+"&companyId="+companyId;

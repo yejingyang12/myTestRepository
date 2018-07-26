@@ -1,5 +1,7 @@
 (function () {
-  var data = {
+  var data = { 
+      arrowdown:true,
+	  hStatus:["未定级","预定级","已定级","未审核","待审核","已审核","审核未通过","未备案","已备案","撤销备案","未测评","已测评","未自查","已自查"],
       paramGrading:false,
       paramEvaluation:false,
       paramDelete:false,
@@ -101,6 +103,8 @@
     value18: '',
     value19: '',
     value20: '',
+    value21: '',
+    value22: '',
     systemLevel:[],
     systemProvince:[],
     changeMattersSystemId :'',
@@ -162,7 +166,7 @@
            //	 列表请求数据
            ajaxMethod(_self, "post", url, false ,"{}", "json", 'application/json;charset=UTF-8', _self.listSuccess);
         },
-        methods: {
+        methods: { 
         	 submitForm:function(formName) {
 			      this.$refs[formName].validate(function(valid){
 			          if (valid) {
@@ -191,8 +195,11 @@
                  }
              })
           },
-        	transfer:function(value){
+        	transfer:function(value,e){
         		$("#plateType").val(value);
+        		console.log(value)
+        		$(".pic").css("background-image","url(../../images/home/square.png)")
+        		$(e.target).parent(".pic").css("background-image","url(../../images/home/square-true.png)");
         	},
         	transferLevel:function(value){
         		var systemLevel = $("input[type='checkbox'][name='systemLevel']").is(':checked');
@@ -713,6 +720,7 @@
           /*点击首页"高级查询"让其显示和隐藏*/
           searchclick: function () {
             $("#h-height-search").toggle();
+            this.arrowdown=!this.arrowdown;
             // 获取受理备案单位
             this.getRecordCompany(this);
             // 获取测评单位
@@ -1121,8 +1129,9 @@
             	data.templateImport = getJurisdictionMethod(response,'0102010103');
             	//定级模板导出权限
             	data.templateExport = getJurisdictionMethod(response,'0102010102');	
-            	
+            	//总部新建
             	data.headquarters = getJurisdictionMethod(response,'0102010101');
+            	//企业新建
             	data.enterprise = getJurisdictionMethod(response,'0102010108');
             },
             error: function(err) {

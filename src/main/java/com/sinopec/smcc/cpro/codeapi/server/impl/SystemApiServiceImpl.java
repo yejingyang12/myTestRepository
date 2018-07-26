@@ -48,8 +48,13 @@ public class SystemApiServiceImpl implements SystemApiService{
     List<SystemApiResult> systemApiResultList = new ArrayList<SystemApiResult>();
     SystemInfoList systemInfoList = null;
     try {
-//      systemInfoList = JSON.parseObject(systemApiClient.querySystemList(systemApiParam.getCompanyCode()), SystemInfoList.class);
-      systemInfoList = JSON.parseObject(systemApiClient.querySystemList("34400000"), SystemInfoList.class);
+//      if(StringUtils.isNotBlank(systemApiParam.getCompanyCode())){
+//        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(
+//            systemApiParam.getCompanyCode()), SystemInfoList.class);
+//      }else{
+        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+//      }
+//      systemInfoList = JSON.parseObject(systemApiClient.querySystemList("34400000"), SystemInfoList.class);
     } catch (Exception e) {
       e.printStackTrace();
       return systemApiResultList;
@@ -63,6 +68,14 @@ public class SystemApiServiceImpl implements SystemApiService{
         outermost:
         for (int i = 0; i < systemInfoListSize; i++) {
           SystemInfo systemInfo = systemInfoList.getData().get(i);
+          if(!systemApiParam.getCompanyCode().equals("null")){
+            if(!systemApiParam.getCompanyCode().equals(systemInfo.getBcdCode())){
+              continue;
+            }
+          }
+          if("".equals(systemInfo.getSystemallname())||systemInfo.getSystemallname()==null){
+            continue;
+          }
           for (int j = 0; j < systemListSize; j++) {
             SystemListResult systemListResult = systemList.get(j);
             if (systemListResult.getSystemName().equals(systemInfo.getSystemallname())) {
@@ -72,6 +85,10 @@ public class SystemApiServiceImpl implements SystemApiService{
           SystemApiResult systemApiResult = new SystemApiResult();
           systemApiResult.setSystemCode(systemInfo.getSystemcode());
           systemApiResult.setSystemName(systemInfo.getSystemallname());
+          systemApiResult.setBcdCode(systemInfo.getBcdCode());
+          systemApiResult.setBcdName(systemInfo.getBcdName());
+          systemApiResult.setBcdCpname(systemInfo.getBcdCpname());
+          systemApiResult.setBcdCptel(systemInfo.getBcdCptel());
           systemApiResultList.add(systemApiResult);
         }
       }
@@ -83,6 +100,10 @@ public class SystemApiServiceImpl implements SystemApiService{
           SystemApiResult systemApiResult = new SystemApiResult();
           systemApiResult.setSystemCode(systemInfo.getSystemcode());
           systemApiResult.setSystemName(systemInfo.getSystemallname());
+          systemApiResult.setBcdCode(systemInfo.getBcdCode());
+          systemApiResult.setBcdName(systemInfo.getBcdName());
+          systemApiResult.setBcdCpname(systemInfo.getBcdCpname());
+          systemApiResult.setBcdCptel(systemInfo.getBcdCptel());
           systemApiResultList.add(systemApiResult);
         }
       }
@@ -90,5 +111,4 @@ public class SystemApiServiceImpl implements SystemApiService{
     
     return systemApiResultList;
   }
-
 }

@@ -166,7 +166,7 @@ public class RecordsServiceImpl implements RecordsService{
     //修改审核状态
     CheckParam checkParam = new CheckParam();
     checkParam.setFkSystemId(recordsParam.getFkSystemId());
-    checkParam.setFkExaminStatus("1");
+    checkParam.setFkExaminStatus("2");
     checkParam.setFkBusinessNode("2");
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());

@@ -225,6 +225,7 @@
       </if>
       AND system.deleteStatus=1 
       AND system.fkSystemType != 3
+      AND company.deleteStatus=1
       <if test="customizedSearch != null ">
         <![CDATA[
           AND records.recordDate >= #{customizedSearch,jdbcType=DATE}
@@ -378,6 +379,79 @@
           ]]>
         </foreach>
       </if>
+      <!-- 等级 -->
+      <if test="sprankLevel != null and sprankLevel != ''">
+      	<![CDATA[
+          AND score.fkSprankLevel = #{sprankLevel,jdbcType=VARCHAR}  
+        ]]>
+      </if>
+      <!-- 定级系统或标准化网站系统 -->
+      <choose>
+      	<when test="systemType == 1">
+      		<![CDATA[
+      			AND system.fkSystemType < 3
+      		]]>
+      	</when>
+      	<when test="systemType == 2">
+      		<![CDATA[
+      			AND system.fkSystemType = 3
+      		]]>
+      	</when>
+      	<otherwise>
+      		<![CDATA[
+      			AND system.fkSystemType != 3
+      		]]>
+      	</otherwise>
+      </choose>
+      <!-- 图表类型 -->
+      <if test="gradingShapeType != null ">
+	      <if test="gradingShapeType == 1 ">
+	        <![CDATA[
+	          AND system.recordStatus = 3
+	        ]]>
+	      </if>
+        <if test="gradingShapeType == 2 ">
+          <![CDATA[
+            AND system.evaluationStatus = 1
+          ]]>
+        </if>
+        <if test="gradingShapeType == 3 ">
+          <![CDATA[
+            AND system.evaluationStatus = 2
+          ]]>
+        </if>
+        <if test="gradingShapeType == 4 ">
+          <![CDATA[
+            AND system.examinationStatus = 1
+          ]]>
+        </if>
+        <if test="gradingShapeType == 5 ">
+          <![CDATA[
+            AND system.examinationStatus = 2
+          ]]>
+        </if>
+        <if test="gradingShapeType == 6 ">
+          <![CDATA[
+            AND system.fkInfoSysTypeCon = 1
+          ]]>
+        </if>
+        <if test="gradingShapeType == 7 ">
+          <![CDATA[
+            AND system.fkInfoSysTypeCon = 2
+          ]]>
+        </if>
+      </if>
+      <!-- 定级时间 -->
+      <if test="gradingBeginTime != null ">
+        <![CDATA[
+         AND score.rankTime >= #{gradingBeginTime}
+        ]]>
+      </if>
+      <if test="gradingEndTime != null ">
+        <![CDATA[
+          AND score.rankTime <= #{gradingEndTime}
+        ]]>
+      </if>
     </where>
   </select>
   <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
@@ -410,7 +484,7 @@
       t_cpro_system AS system
     LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
-    WHERE system.deleteStatus=1 and system.fkSystemType != 3
+    WHERE system.deleteStatus=1 and system.fkSystemType != 3 and company.deleteStatus=1
     
     <if test="companyList != null">
       <![CDATA[
@@ -502,6 +576,7 @@
     <where>
       score.deleteStatus =1
       AND system.deleteStatus =1
+      AND com.deleteStatus =1
       <if test="companyList != null">
         <![CDATA[
           AND com.companyCode IN  
@@ -534,12 +609,12 @@
       </if>
       <if test="gradingBeginTime != null ">
         <![CDATA[
-         AND  score.rankTime >= #{gradingBeginTime,jdbcType=DATE}
+         AND score.rankTime >= #{gradingBeginTime}
         ]]>
       </if>
       <if test="gradingEndTime != null ">
         <![CDATA[
-          AND score.rankTime <= #{gradingEndTime,jdbcType=DATE}
+          AND score.rankTime <= #{gradingEndTime}
         ]]>
       </if>
       <if test="gradingShapeType != null ">
@@ -598,7 +673,9 @@
       LEFT JOIN t_cpro_records rec ON rec.fkSystemId = sys.pkId
       
     <where>
-      records.deleteStatus = 1
+      sys.deleteStatus = 1
+      AND sce.deleteStatus = 1
+      AND rec.deleteStatus = 1
       <if test="recordsBeginTime != null ">
         <![CDATA[
          AND rec.recordDate >= #{recordsBeginTime,jdbcType=DATE}

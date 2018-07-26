@@ -530,22 +530,44 @@ var data={
                   getPermitJurisdictionSuccess: function(_self,response){
                     for (var i = 0; i < response.data.permssions.length; i++) {
                       var permssions = response.data.permssions[i];
-                      if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_AUDIT){
+                      if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_CREATE){
                         _self.jurisdictionType = 1;
                       }
-                      if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_AUDIT){
+                      if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE){
                         _self.jurisdictionType = 2;
                       }
                     }
                   }
                 },
                 created: function() {
-                  this.getPermitJurisdictionInfo(this);
+                  //this.getPermitJurisdictionInfo(this);
                    //获取资料信息
                   if(systemId!=null&&systemId!=''){
                     this.formData.fkSystemId = systemId;
                     this.getMaterialsInfo(this,systemId);
                   }
+                  _self = this;
+                  //功能权限
+                  $.ajax({
+                    type: "get",
+                    url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+                    async: true,
+                    data: "",
+                    dataType: "json",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                    	if(getJurisdictionMethod(response,S_STR_PERMIT_PARAM_ENTERPRISE_CREATE)){
+                    		_self.jurisdictionType = 1;
+                    	}
+                    	if(getJurisdictionMethod(response,S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE)){
+                    		_self.jurisdictionType = 2;
+                    	}
+                    },
+                    error: function(err) {
+                    }
+                  });
                 },
                 mounted: function() {
                   var _self = this;
@@ -706,6 +728,24 @@ var data={
                       });
                     }
                   });
+                  bus.$on('gradMaterialFormName',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('gradMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
                 }
             })
         })

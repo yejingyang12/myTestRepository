@@ -73,9 +73,9 @@ public class CheckParam {
   private String attachName;
   private String fkInfoSysTypeCon;
   
-  //办理状态
-  private Integer handlingState;
-  private String role;
+  
+  private Integer handlingState;//办理状态: 1：待办； 2：已办
+  private String role;//角色： "1"：企业审核员（企业主联络人）；"2"：总部审核员（总部等保管理员）
   
   private int pageSize;
   private int currentPage;

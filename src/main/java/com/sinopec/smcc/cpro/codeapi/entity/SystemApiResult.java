@@ -22,6 +22,11 @@ public class SystemApiResult {
 
   private String systemCode;
   private String systemName;
+  private String bcdCode;
+  private String bcdName;
+  private String bcdCpname;
+  private String bcdCptel;
+
   public String getSystemCode() {
     return systemCode;
   }
@@ -34,7 +39,30 @@ public class SystemApiResult {
   public void setSystemName(String systemName) {
     this.systemName = systemName;
   }
-  
+  public String getBcdCode() {
+    return bcdCode;
+  }
+  public void setBcdCode(String bcdCode) {
+    this.bcdCode = bcdCode;
+  }
+  public String getBcdName() {
+    return bcdName;
+  }
+  public void setBcdName(String bcdName) {
+    this.bcdName = bcdName;
+  }
+  public String getBcdCpname() {
+    return bcdCpname;
+  }
+  public void setBcdCpname(String bcdCpname) {
+    this.bcdCpname = bcdCpname;
+  }
+  public String getBcdCptel() {
+    return bcdCptel;
+  }
+  public void setBcdCptel(String bcdCptel) {
+    this.bcdCptel = bcdCptel;
+  }
   public String toString(){
     return JSON.toJSONString(this);
   }

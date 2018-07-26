@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 
@@ -42,7 +43,8 @@ public class ControllerPage {
   public String addCompanyInfoPagePage(HttpServletRequest request, Model model,
       CompanyParam companyParam,@ModelAttribute("jurisdiction")String jurisdiction){
     model.addAttribute("companyId", companyParam.getCompanyId());
-
+    model.addAttribute("companyCode", companyParam.getCompanyCode());
+    model.addAttribute("jurisdiction",jurisdiction);
     return "views/addCompanyInfoPage";
   }
   //新建系统信息填写
@@ -59,6 +61,8 @@ public class ControllerPage {
   public String addCompanyGradPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("companyCode", systemParam.getFkCompanyCode());
+    model.addAttribute("companyId", systemParam.getCompanyId());
     return "views/addCompanyGrad";
   }
   //新建材料信息填写
@@ -66,6 +70,8 @@ public class ControllerPage {
   public String addCompanyMaterialPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("companyId", systemParam.getCompanyId());
+    model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     return "views/addCompanyMaterial";
   }
   
@@ -75,7 +81,6 @@ public class ControllerPage {
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
-    model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("theLastStep", systemParam.getTheLastStep());
     return "views/applicationChange";
@@ -94,6 +99,7 @@ public class ControllerPage {
   public String applicationChangeGradPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     return "views/applicationChangeGrad";
   }
   //申请变更材料信息填写
@@ -101,6 +107,7 @@ public class ControllerPage {
   public String applicationChangeMaterialPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
+    model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     return "views/applicationChangeMaterial";
   }
   
@@ -221,5 +228,16 @@ public class ControllerPage {
     model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("systemId", systemParam.getSystemId());
     return "views/viewDetails";
+  }
+  //图表详情列表
+  @RequestMapping("/showChartDataListPage")
+  public String showChartDataListPage(HttpServletRequest request, Model model, MainParam mainParam){
+    //图表传入的5个参数
+    model.addAttribute("sprankLevel", mainParam.getSprankLevel());
+    model.addAttribute("gradingBeginTimeStamp", mainParam.getGradingBeginTimeStamp());
+    model.addAttribute("gradingEndTimeStamp", mainParam.getGradingEndTimeStamp());
+    model.addAttribute("systemType", mainParam.getSystemType());
+    model.addAttribute("gradingShapeType", mainParam.getGradingShapeType());
+    return "views/showChartDataList";
   }
 }

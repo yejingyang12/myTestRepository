@@ -31,7 +31,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/applicationChangePage?companyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
+              window.location.href = originUrl+"page/applicationChangePage?fkCompanyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
           },
           //下一页
           nextBtn:function(formName) {
@@ -39,7 +39,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
-            window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+responseData.data;
+            window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+responseData.data+"&fkCompanyCode="+companyCode;
           }
         },
         mounted : function() {

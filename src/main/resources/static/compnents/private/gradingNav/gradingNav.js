@@ -2,7 +2,7 @@
  * Created by timha on 2018/5/29.
  */
 var data1 = {
-    activeName: 'third',
+		activeName: 'third',
     materialShow:false
 };
 (function () {
@@ -32,7 +32,7 @@ var data1 = {
           }
         },
         created: function() {
-
+        	
         },
         mounted: function() {
           var _self = this;

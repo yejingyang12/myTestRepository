@@ -68,6 +68,9 @@
 			LEFT JOIN t_cpro_attach recordReport ON che.fkSystemId = recordReport.fkSystemId AND recordReport.fkAttachType = 'recordReport'
   	]]>
   	<where>
+			<![CDATA[
+        AND com.deleteStatus = 1 AND sys.deleteStatus = 1
+      ]]>
       <if test="companyList != null">
         <![CDATA[
           AND com.companyCode IN  
@@ -122,44 +125,72 @@
         ]]>
       </if>
       <choose>
-      	<when test="handlingState == 1">
+      	<when test="role == '1'.toString()">
       		<choose>
-      			<when test="'企业审核员' == '企业审核员'">
-      				AND fkExaminStatus = '1'
+      			<when test="handlingState == 1">
+	      			<![CDATA[
+	      				AND fkExaminStatus = '1'
+      				]]>
       			</when>
-      			<when test="'总部安全管理员' == '总部安全管理员1'">
-      				AND fkExaminStatus = '2'
+      			<when test="handlingState == 2">
+	      			<![CDATA[
+	      				AND 
+	      				(
+	      					(
+		      					(
+		      						fkExaminStatus = '2' 
+		      						OR fkExaminStatus = '3' 
+		      						OR fkExaminStatus = '4' 
+		      						OR fkExaminStatus = '5' 
+		      					) 
+		      					AND 
+		      					(
+		      						sys.fkInfoSysTypeCon = '1' 
+		      						OR sys.fkInfoSysTypeCon = '2' 
+		      					)
+		      				)
+		      			)
+      				]]>
       			</when>
-      		</choose>
-      	</when>
-      	<when test="handlingState == 2">
-      		<choose>
-      			<when test="'企业审核员' == '企业审核员'">
-      				AND 
-      				(
+      			<otherwise>
+      				<![CDATA[
+      					AND 
       					(
-	      					(
-	      						fkExaminStatus = '2' 
-	      						OR fkExaminStatus = '4' 
-	      						OR fkExaminStatus = '5' 
-	      					) 
-	      					AND 
-	      					(
-	      						sys.fkInfoSysTypeCon = '1' 
-	      						OR sys.fkInfoSysTypeCon = '2' 
-	      					)
-	      				)
-	      				OR fkExaminStatus = '3' 
-	      			)
-      			</when>
-      			<when test="'总部安全管理员' == '总部安全管理员1'">
-      				AND 
-      				(
-      					fkExaminStatus = '4' OR fkExaminStatus = '5' 
-      				)
-      			</when>
+      						sys.fkInfoSysTypeCon = '1' 
+      						OR sys.fkInfoSysTypeCon = '2' 
+      					)
+      				]]>
+      			</otherwise>
       		</choose>
       	</when>
+      	<when test="role == '2'.toString()">
+      		AND (fkBusinessNode = '1' OR fkBusinessNode = '3')
+      		<choose>
+      			<when test="handlingState == 1">
+	      			<![CDATA[
+      					AND fkExaminStatus = '2' 
+      				]]>
+      			</when>
+      			<when test="handlingState == 2">
+      				<![CDATA[
+      	     		AND 
+	      				(
+	      					fkExaminStatus = '4' OR fkExaminStatus = '5' 
+	      				)
+      	      ]]>
+      			</when>
+      			<otherwise>
+      				<![CDATA[
+      	     		
+      	      ]]>
+      			</otherwise>
+      		</choose>
+      	</when>
+      	<otherwise>
+      		<![CDATA[
+      			AND 1=2
+      		]]>
+      	</otherwise>
       </choose>
   	</where>
   </select>

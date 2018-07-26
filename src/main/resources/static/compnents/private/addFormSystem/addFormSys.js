@@ -5,12 +5,15 @@ var  data={
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
     check:false,
+    paramNan:true,
 		systemNameSon1:[true],
 		systemNameSon12:[false],
 		systemNameSon13:[true],
 		addSystemSubSonT:[],
 		promptCount:false,
 		count:0,
+		companyNameDisabled:true,
+		executiveDisabled:true,
     deleteBtn:[true],
       formData:{
         systemId:"",
@@ -151,9 +154,10 @@ var  data={
         systemKeyOtherName:'',
         systemProServices:''
       },
-      systemInfo2:false,
+      systemInfo2:[false],
       addSub:true,
       sysName:[],//系统名称
+      sysNameExecutive:[],//主管处室
       sysType:[],//业务类型
       sysServiceScope:[],//服务范围
       sysServiceObject:[],//服务对象
@@ -207,8 +211,8 @@ var  data={
               { required: true, message: '请输入标准化代码', trigger: 'change' }
           ],
           gradeRecordSysName:[  // 等保备案系统名称
-              { required: true, message: '请输入等保备案系统名称', trigger: 'blur' },
-              { min: 1, max: 60, message: '长度在 1 到60个字符', trigger: 'blur' },
+              { required: false, message: '请输入等保备案系统名称', trigger: 'blur' },
+              { min: 0, max: 60, message: '长度在 0 到60个字符', trigger: 'blur' },
           ],
           appIsInternet:[  // 是否为互联网应用
               { required: true, message: '请选择是否为互联网应用', trigger: 'blur' },
@@ -253,7 +257,7 @@ var  data={
           ],
           executiveDireConTel:[  // 主管联系人电话
               { required: false, message: '请输入主管联系人电话', trigger: 'blur' },
-              { pattern: /^\d{8,12}$/, message: '负责人联系电话输入有误', trigger: 'blur'}
+              { pattern: /^([\d-+]*)$/, message: '负责人联系电话输入有误', trigger: 'blur'}
           ],
           systemKeyProducts:[  // 关键产品
               { required: true, message: '关键产品使用情况', trigger: 'blur' }
@@ -294,6 +298,10 @@ var  data={
                 },
                 methods:{
                 	delSonSystemLast:function(){
+                	  alert(this.formData.fkSystemIsMerge)
+                	  if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
+                	    return;
+                	  }
                 		var sonLength = this.formData.addSystemSub.length -1;
                 		if(this.formData.addSystemSub.length > 1){
                 			$("#count_"+sonLength).remove();
@@ -317,7 +325,7 @@ var  data={
                 		return "count_" +index;
                 	},
                 	delSonSystem:function(index){
-                		
+                		this.systemInfo2[this.formData.addSystemSub.length-1] = false;
                 		this.formData.addSystemSub.splice(index,1);
                 		$("#count_"+index+1).remove();
                 		if(this.formData.addSystemSub.length <2){
@@ -343,6 +351,9 @@ var  data={
                 	hiddenDel:function(i){
                 		$("#person_"+i).hide();
                 	},
+                	systemSonNameDis: function (index){
+                		return "dis_" +index
+                	},
                     //点击切换 添加class名
                   getTypeClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -352,7 +363,7 @@ var  data={
                   getMergeClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.fkSystemIsMerge = param;
-                    if(param==1){
+                    if(param==1 && this.paramNan == true){
                       this.formData.addSystemSub.push({
                         "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
                         "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
@@ -370,7 +381,10 @@ var  data={
                       this.formData.systemName = "";
                       this.formData.standardizedCode = "";
                       this.rules.standardizedCode[0].required=false;
-                    }else{
+                      this.paramNan = false;
+                    }
+                    if(param == 2){
+                    	this.paramNan = true;
                     	this.rules.standardizedCode[0].required=true;
                       this.systemInfo = true;
                       this.systemSonInfo = false;
@@ -686,18 +700,26 @@ var  data={
                     //获取单位信息
                     getCompanySuccessMethod:function(_self,responseData){
                       _self.msgName = responseData.data;
+                      if(companyCode!=''&&companyCode!=null){
+                        for(var i=0;i<_self.msgName.length;i++){
+                          if(companyCode==_self.msgName[i].companyCode){
+                            _self.formData.companyName = _self.msgName[i].companyName;
+                            _self.formData.fkCompanyCode = _self.msgName[i].companyCode;
+                            break;
+                          }
+                        }
+                      }
                     },
                     setStandardizedCode:function(e,val){
-                    	if(this.formData.addSystemSubSon.length >= val-1){
-                    		this.formData.addSystemSubSon[val-2] = e;
-                    	}else{
-                    		this.formData.addSystemSubSon.push(e);
-                    	}
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
                   				if(e==this.sysName[i].systemName){
                   					if(val==1){
                   						this.formData.standardizedCode = this.sysName[i].systemCode;
+                  						this.formData.executiveDireCon = this.sysName[i].bcdCpname;
+                              this.formData.executiveDireConTel = this.sysName[i].bcdCptel;
+                              this.formData.executiveOfficeName = this.sysName[i].bcdName;
+                              this.executiveDisabled = true;
                   					}else{
                   						this.systemNameSon1[val-2] = false;
                   						this.formData.systemNameSon=this.sysName[i].systemName;
@@ -707,6 +729,17 @@ var  data={
                   				}
                   			}
                   		}
+                  		
+                  		if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
+                        return;
+                      }
+                  		if(this.formData.addSystemSubSon != null){
+                        if(this.formData.addSystemSubSon.length >= val-1){
+                          this.formData.addSystemSubSon[val-2] = e;
+                        }else{
+                          this.formData.addSystemSubSon.push(e);
+                        }
+                      }
                   		var isNan = true;
                   		for(var i = 0 ; i < this.formData.addSystemSubSon.length; i++){
                   			var boo = true;
@@ -752,6 +785,7 @@ var  data={
                       _self.formData = response;
                       if(response.addSystemSub!=null){
                       	for(var i=0;i<response.addSystemSub.length;i++){
+                      		this.systemInfo2[i] = true;
  	                   		 _self.formData.addSystemSub[i] = {
  	                          "label":"子系统"+(i+1)+"系统名称：",
  	                          "labelCode":"子系统"+(i+1)+"标准化代码：",
@@ -791,6 +825,7 @@ var  data={
                         	this.formData.systemCodeSon="1";
                         	this.formData.stars="1";
                         	this.formData.aa="1";
+                        	this.formData.addSystemSubSon=[];
                         }
                         if(response.systemKeyProducts==null){
                           response.systemKeyProducts = []
@@ -871,7 +906,7 @@ var  data={
                         this.systemSonInfo = true;
                         this.systemInfo = false;
                         $("#systemInfo1").attr("disabled","disabled");
-                        this.systemInfo2 = true;
+//                        this.systemInfo2 = true;
                         this.rules.standardizedCode[0].required=false;
                       }else{
                       	this.rules.standardizedCode[0].required=true;
@@ -1068,7 +1103,36 @@ var  data={
                     	for(var i=0;i<_self.nUsePro.length;i++){
                     		Vue.set(data.nUsePro, i, false);
                     	}
-                    }
+                    },
+                    headleRelation:function(){
+                      
+                    },
+                    executiveClear:function(){
+                      this.formData.executiveDireCon = '';
+                      this.formData.executiveDireConTel = '';
+                      this.executiveDisabled = true;
+                    },
+                    headleCompanyName:function(){
+                      for(var i=0;i<this.msgName.length;i++){
+                        if(this.formData.companyName==this.msgName[i].companyName){
+//                          this.formData.companyName = this.msgName[i].companyName;
+                          this.formData.fkCompanyCode = this.msgName[i].companyCode;
+                          break;
+                        }
+                      }
+                    },
+                    getSystemExecutiveApi: function(_self) {
+                      ajaxMethod(_self, 'post',
+                          'systemapi/querySystemExecutiveApi', true,
+                          '{"companyCode":"'+companyCode+'"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getSystemExecutiveApiSuccessMethod);
+                    },
+                    // 获取系统信息成功
+                    getSystemExecutiveApiSuccessMethod : function(_self, responseData) {
+                      _self.sysNameExecutive = responseData.data;
+//                      console.log(JSON.stringify(responseData.data))
+                    },
                 },
                 created: function() {
                   // 获取系统信息
@@ -1087,11 +1151,16 @@ var  data={
                   this.getInterconnectionMethod(this);
                   //获取单位信息
                   this.getCompanyMethod(this);
-
+                  //获取系统主管处室
+//                  this.getSystemExecutiveApi(this);
                 },
                 mounted: function() {
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;
+                  
+                  if(companyCode==''||companyCode==null){
+                    this.companyNameDisabled = false;
+                  }
                   if(companyCode!=''&&companyCode!=null){
                     this.formData.fkComCode = "1";
                   }else{

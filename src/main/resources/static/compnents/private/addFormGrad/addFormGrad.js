@@ -1,7 +1,8 @@
 var data={
     check : false,
     jurisdictionType:0,
-    submitCheck:false,
+		systemName:"",
+		submitCheck:false,
         formData:{
           gradingId:'',
           fkSystemId:'',
@@ -485,8 +486,14 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
+                        if(data1!=null){
+                          data1.materialShow = true;
+                        }
                       }else{
                         this.nextBtn = false;
+                        if(data1!=null){
+                          data1.materialShow = false;
+                        }
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
@@ -649,8 +656,14 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
+                        if(data1!=null){
+                          data1.materialShow = true;
+                        }
                       }else{
                         this.nextBtn = false;
+                        if(data1!=null){
+                          data1.materialShow = false;
+                        }
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
@@ -769,8 +782,14 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
+                        if(data1!=null){
+                          data1.materialShow = true;
+                        }
                       }else{
                         this.nextBtn = false;
+                        if(data1!=null){
+                          data1.materialShow = false;
+                        }
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
@@ -922,7 +941,7 @@ var data={
                       if(this.formData.fkBizSPRankLevel==''&&this.formData.fkBizSystemLevel==''){
                         this.formData.fkSpRanklevel = 0;
                       }
-
+                      
                       if(parseInt(this.formData.fkBizSPRankLevel)+100<parseInt(this.formData.fkBizSystemLevel)){
                         this.formData.fkSpRanklevel = parseInt(this.formData.fkBizSystemLevel)+100;
                       }else{
@@ -930,8 +949,14 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
+                        if(data1!=null){
+                          data1.materialShow = true;
+                        }
                       }else{
                         this.nextBtn = false;
+                        if(data1!=null){
+                          data1.materialShow = false;
+                        }
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
@@ -1140,15 +1165,16 @@ var data={
                       }
                       
                       if(this.formData.fkSpRanklevel>=303){
+                      	console.log(11111);
                         this.nextBtn = true;
-//                        if(data1!=null){
-//                          data1.materialShow = true;
-//                        }
+                        if(data1!=null){
+                          data1.materialShow = true;
+                        }
                       }else{
                         this.nextBtn = false;
-//                        if(data1!=null){
-//                          data1.materialShow = false;
-//                        }
+                        if(data1!=null){
+                          data1.materialShow = false;
+                        }
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
@@ -1202,17 +1228,17 @@ var data={
                     getPermitJurisdictionSuccess: function(_self,response){
                       for (var i = 0; i < response.data.permssions.length; i++) {
                         var permssions = response.data.permssions[i];
-                        if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_AUDIT){
+                        if(permssions==S_STR_PERMIT_PARAM_ENTERPRISE_CREATE){
                           _self.jurisdictionType = 1;
                         }
-                        if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_AUDIT){
+                        if(permssions==S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE){
                           _self.jurisdictionType = 2;
                         }
                       }
                     }
                 },
                 created: function() {
-                    this.getPermitJurisdictionInfo(this);
+                    //this.getPermitJurisdictionInfo(this);
                     // 设置默认长度
                     this.smccChecdArr[0].length = 1;
                     this.smccChecdArr[1].length = 2;
@@ -1226,6 +1252,28 @@ var data={
                     }
                     $("#direHide1").hide();
                     $("#approval").hide();
+                    _self = this;
+                    //功能权限
+                    $.ajax({
+                      type: "get",
+                      url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+                      async: true,
+                      data: "",
+                      dataType: "json",
+                      cache: false,
+                      processData: false,
+                      contentType: false,
+                      success: function(response) {
+                      	if(getJurisdictionMethod(response,S_STR_PERMIT_PARAM_ENTERPRISE_CREATE)){
+                      		_self.jurisdictionType = 1;
+                      	}
+                      	if(getJurisdictionMethod(response,S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE)){
+                      		_self.jurisdictionType = 2;
+                      	}
+                      },
+                      error: function(err) {
+                      }
+                    });
                 },
                 mounted: function() {
                    var _self=this;
