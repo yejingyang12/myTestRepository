@@ -203,7 +203,6 @@ public class ControllerPage {
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     //TODO:从session中获取当前用户的companyCode
-    model.addAttribute("companyCode", "10010008");
     return "views/changeSystemInformation";
   }
   
