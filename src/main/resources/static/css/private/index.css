@@ -44,6 +44,7 @@
 }
 /*涓嬭浇*/
 .h-xiazai{
+	cursor: pointer;
     background: url("../../images/home/xiazaikexiazai.png") no-repeat 8px center  ;
 }
 .h-weixiazai{
@@ -216,6 +217,7 @@
 }
 
 .box1 .bg-item1 .content h4 {
+	width: 78%;
     float: left;
     min-width: 152px;
     text-align: center;

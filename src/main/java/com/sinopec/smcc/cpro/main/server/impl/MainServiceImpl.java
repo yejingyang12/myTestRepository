@@ -35,7 +35,6 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
-import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
@@ -58,6 +57,7 @@ import com.sinopec.smcc.cpro.records.server.RecordsService;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemSubResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
@@ -72,7 +72,6 @@ import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.SheetBean;
 import com.sinopec.smcc.cpro.tools.word.WordUtils;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title MainServiceImpl.java
@@ -111,9 +110,6 @@ public class MainServiceImpl implements MainService{
   
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
-  
-  @Autowired
-  private UserApiService userApiServiceImpl;
   
   /**
    * 响应等保列表数据
@@ -220,6 +216,21 @@ public class MainServiceImpl implements MainService{
     List<CellBean> cellList = new ArrayList<CellBean>();
     
     // 装载第一行为表头
+//    cellList.add(ExcelUtils.getExportCelBean("定级备案信息系统名称"));
+//    cellList.add(ExcelUtils.getExportCelBean("合并定级包含的信息系统名称"));
+//    cellList.add(ExcelUtils.getExportCelBean("单位名称"));
+//    cellList.add(ExcelUtils.getExportCelBean("等保级别"));
+//    cellList.add(ExcelUtils.getExportCelBean("定级备案状态"));
+//    cellList.add(ExcelUtils.getExportCelBean("定级时间"));
+//    cellList.add(ExcelUtils.getExportCelBean("备案时间"));
+//    cellList.add(ExcelUtils.getExportCelBean("备案编号"));
+//    cellList.add(ExcelUtils.getExportCelBean("受理备案单位"));
+//    cellList.add(ExcelUtils.getExportCelBean("变更记录"));
+//    cellList.add(ExcelUtils.getExportCelBean("测评时间"));
+//    cellList.add(ExcelUtils.getExportCelBean("测评结果"));
+//    cellList.add(ExcelUtils.getExportCelBean("自查时间"));
+//    cellList.add(ExcelUtils.getExportCelBean("自查结果"));
+    
     cellList.add(ExcelUtils.getExportCelBean("系统名称"));
     cellList.add(ExcelUtils.getExportCelBean("所属单位"));
     cellList.add(ExcelUtils.getExportCelBean("板块"));
@@ -243,7 +254,50 @@ public class MainServiceImpl implements MainService{
     if(mainListResultList != null && mainListResultList.size() > 0){
       for (MainListResult mainResult : mainListResultList) {
         cellList = new ArrayList<CellBean>();
+        //系统名称
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
+//        //如果是合并系统
+//        if(mainResult.getFkSystemIsMerge() == 1){
+//          //查询子表信息
+//          SystemParam systemParam = new SystemParam();
+//          systemParam.setSystemId(mainResult.getSystemId());
+//          List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
+//          StringBuffer sb = new StringBuffer ();
+//          for(SystemSubResult systemSubResult : subSystemList){
+//             sb.append(systemSubResult.getSystemName()+"、");
+//          }
+//          //合并定级包含的信息系统名称
+//          cellList.add(ExcelUtils.getExportCelBean(sb.toString().substring(0,sb.length() - 1)));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean(""));
+//        }
+//        //单位名称
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
+//        //等保级别
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSprankLevel()));
+//        //备案状态
+//        if(mainResult.getRecordStatus() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
+//        }else if(mainResult.getRecordStatus() == 2){
+//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
+//        }else if(mainResult.getRecordStatus() == 3){
+//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+//        }
+//        //定级时间
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getScoreCreateTime()));
+//        //备案时间
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCreateTime()));
+//        //单位编码
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCode()));
+//        //受理备案单位
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getAcceptCompany()));
+//        //变更记录
+//        
+//        //
+        
+        
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getPlateType()));
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getInfoSysTypeConstruction()));
@@ -2636,16 +2690,6 @@ public class MainServiceImpl implements MainService{
   public List<MainListResult> queryRecordsCompanyNum(MainParam mainParam) throws BusinessException {
     return mainMapper.selectRecordsCompanyNum(mainParam);
   }
-
-  /**
-   * 获取用户信息
-   */
-  @Override
-  public UserDTO getUserInfo() throws BusinessException {
-    
-    return userApiServiceImpl.getUserInfo();
-  }
-
   /**
    * 退出登陆
    */

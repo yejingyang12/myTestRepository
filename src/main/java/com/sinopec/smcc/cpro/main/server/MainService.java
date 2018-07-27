@@ -18,7 +18,6 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
   * @Title MainService.java
@@ -193,14 +192,6 @@ public interface MainService {
    * @return
    */
   List<MainListResult> queryRecordsCompanyNum(MainParam mainParam) throws BusinessException;
-
-  /**
-   * @Descrption
-   * @author Aran
-   * @date 2018年7月23日下午6:54:42
-   * @return
-   */
-  UserDTO getUserInfo() throws BusinessException;
 
   /**
    * @Descrption 退出登陆

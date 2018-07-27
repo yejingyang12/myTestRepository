@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.annotation.LoginUser;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.interceptor.User;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
-import com.sinopec.smcc.cpro.codeapi.server.impl.UserApiServiceImpl;
 import com.sinopec.smcc.depends.ubs.dto.ResourceDTO;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 
 /**
@@ -47,9 +47,6 @@ public class JurisdictionApiController {
 
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
-  
-  @Autowired
-  private UserApiServiceImpl userApiServiceImpl;
   
   @Autowired
   private UbsFeignTemplate ubsFeignTemplate;
@@ -80,10 +77,9 @@ public class JurisdictionApiController {
   
   @ResponseBody
   @RequestMapping(value="/queryMenuJurisdictionApi", method = RequestMethod.GET)
-  public ResultApi queryMenuJurisdictionApi(HttpServletRequest request) throws BusinessException{
+  public ResultApi queryMenuJurisdictionApi(@LoginUser User loginUser, HttpServletRequest request) throws BusinessException{
     ResultApi api = new ResultApi();
-    UserDTO userDTO = this.userApiServiceImpl.getUserInfo();
-    List<ResourceDTO> resourceDtoList = ubsFeignTemplate.getResourcesByUserId(userDTO.getUserId()+"");
+    List<ResourceDTO> resourceDtoList = ubsFeignTemplate.getResourcesByUserId(loginUser.getUbsUserId()+"");
     if (resourceDtoList != null && resourceDtoList.size()>0) {
       List<Map<String, Object>> backMenu = new ArrayList<Map<String,Object>>();
       for (ResourceDTO resourceDto : resourceDtoList) {

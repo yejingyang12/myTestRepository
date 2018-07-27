@@ -130,6 +130,7 @@ var data1={
 									recordReportPath : null,
 									recordReportName : null
 								};
+							bus.$emit("changeLi",false);
 						}
 					},
 					changeLi:function(e) {

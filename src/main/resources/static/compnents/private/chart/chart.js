@@ -121,7 +121,11 @@
         		if(this.value1 != null && this.value3 != null){
         			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
               bus.$emit("gradingStatisticsBegin",dataparmars);
+              
+        			var getgradingTime = '{"gradingBeginTime":"'+this.value1+'","gradingEndTime":"'+this.value3+'"}';
+              bus.$emit("getgradingTime",dataparmars);
         		}
+        		
           },
           //系统等保等级分布结束时间
         	getGradingStatisticsEnd:function(){

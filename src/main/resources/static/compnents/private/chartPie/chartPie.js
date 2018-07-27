@@ -175,6 +175,8 @@
               		 }
               	 	 });
                });  
+            	 bus.$on("getgradingTime",function(meg){
+               });  
           }
         }
       })

@@ -83,7 +83,7 @@ var emitdata = new Vue();
                         _self.getUserInfoSuccessMethod);
                   },
                   getUserInfoSuccessMethod: function(_self, responseData) {
-                    _self.userName=responseData.data.userName;
+                    _self.userName=responseData.data.ubsUserName;
                   },
                   signOutMethod:function(){
                     window.location.href = originUrl +"SSO/GLO/Redirect";

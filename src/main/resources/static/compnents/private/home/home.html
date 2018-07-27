@@ -258,11 +258,11 @@
 			                                                                      查询
 			                        </button>                       
 			                        <div class="btn-group" style="margin-left: 10">
-			                            <button type="button" class="btn h-btn-info dropdown-toggle"
+			                            <button type="button" class="btn h-btn-info dropdown-toggle downh"
 			                                    data-toggle="dropdown"
 			                                    aria-haspopup="true" aria-expanded="false" @click="searchclick">
 			                                                                                          高级查询  
-			                                <i class="el-icon-arrow-down" v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
+			                                <i class="el-icon-arrow-down"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
 			                            </button>
 			                        </div>
 			                        <button type="button" class="btn btn-default" style="width:70px" @click="empty()">
@@ -399,11 +399,12 @@
                                                                 :value="item.examOrg">
                                                         </el-option>
                                                     </el-select> -->
-                                                    <el-select v-model="value21"   filterable placeholder="请选择">
+                                                    <el-select v-model="value21"   filterable placeholder="请选择" >
                                                         <el-option
-                                                                v-for="(item,index) in hStatus"
-                                                                :key="item.index" 
-                                                                :value="item">
+                                                                v-for="item in hStatus"
+                                                                 :key="item.value"
+																														     :label="item.label"
+																														     :value="item.value">
                                                         </el-option>
                                                     </el-select>
                                                 </template>
@@ -529,11 +530,11 @@
                                                 <template> 
                                                     <!--地区-->
                                                     <el-select v-model="value22" multiple filterable placeholder="请选择" class="b" >
-													    <el-option class="c" 
-													      v-for="item in msgProvince"
-													      :key="item.systemCode"
-													      :label="item.codeName"
-													      :value="item.systemCode">
+																										    <el-option class="c" 
+																										      v-for="item in msgProvince"
+																										      :key="item.systemCode"
+																										      :label="item.codeName"
+																										      :value="item.systemCode">
 													     <span class="a" style="float: left"><el-checkbox>{{item.codeName}}</el-checkbox></span>
                                                          </el-option>
 													 </el-select>
@@ -554,7 +555,7 @@
                     <input type="hidden" name="name" checked  id="plateType" />
                     <div class="checkbox checkbox-inline" v-for="(item,index) in msgPlate" v-if="item.codeName!='其它'">
                         <span class="pic">
-                        <input type="radio" name="name"  
+                        <input type="radio" name="name"
                                @click="transfer(item.codeName,$event)" 
                                value="index"
                                class="checkName1"
@@ -681,7 +682,7 @@
                     </el-checkbox-group> 
                 </div>
                 <!-- 地区 -->
-              <!-- 
+    <!--      <!-- 
                 <div class="form-group has-feedback">
                     <label class="col-md-1 control-label">地区：</label>
                     <el-checkbox-group v-model="systemProvince">

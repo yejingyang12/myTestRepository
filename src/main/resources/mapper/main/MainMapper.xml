@@ -17,6 +17,7 @@
       SELECT
         system.pkId AS systemId, 
         system.systemName, 
+        system.fkSystemIsMerge,
         company.companyName, 
         company.fkPlateType AS plateType, 
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
@@ -33,7 +34,11 @@
         gradingAttch.pkId AS gradingPkId,
         checkAttch.pkId AS checkPkId,
         evaluationAttch.pkId AS evaluationPkId,
-        selfAttch.pkId AS selfPkId 
+        selfAttch.pkId AS selfPkId,
+        score.createTime AS scoreCreateTime,
+        records.recordDate AS recordCreateTime,
+        records.recordCode,
+        records.acceptCompany
       FROM
         t_cpro_system AS system
       LEFT JOIN t_cpro_company AS company 

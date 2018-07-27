@@ -22,13 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.annotation.LoginUser;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.interceptor.User;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title MainController.java
@@ -332,12 +333,10 @@ public class MainController {
    */
   @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi getUserInfo(HttpServletRequest request) 
+  public ResultApi getUserInfo(@LoginUser User loginUser,HttpServletRequest request) 
       throws BusinessException {
-    UserDTO userInfo = 
-        this.mainServiceImpl.getUserInfo();
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(userInfo);
+    result.setData(loginUser);
     return result;
   }
   

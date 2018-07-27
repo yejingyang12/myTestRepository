@@ -8,6 +8,10 @@
 */
 package com.sinopec.smcc.cpro.main.entity;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * @Title MainListResult.java
  * @Package com.sinopec.smcc.cpro.main.entity
@@ -40,8 +44,73 @@ public class MainListResult {
   private Integer spRanklevelCount;
   private String spRanklevelName;
   private String recordCompany;
+  private Integer fkSystemIsMerge;
+  private Date scoreCreateTime;
+  private Date recordCreateTime;
+  private String recordCode;
+  private String acceptCompany;
+
   
-  
+  /**
+   * @return the recordCode
+   */
+  public String getRecordCode() {
+    return recordCode;
+  }
+  /**
+   * @param recordCode the recordCode to set
+   */
+  public void setRecordCode(String recordCode) {
+    this.recordCode = recordCode;
+  }
+  /**
+   * @return the acceptCompany
+   */
+  public String getAcceptCompany() {
+    return acceptCompany;
+  }
+  /**
+   * @param acceptCompany the acceptCompany to set
+   */
+  public void setAcceptCompany(String acceptCompany) {
+    this.acceptCompany = acceptCompany;
+  }
+  /**
+   * @return the recordCreateTime
+   */
+  public Date getRecordCreateTime() {
+    return recordCreateTime;
+  }
+  /**
+   * @param recordCreateTime the recordCreateTime to set
+   */
+  public void setRecordCreateTime(Date recordCreateTime) {
+    this.recordCreateTime = recordCreateTime;
+  }
+  /**
+   * @return the scoreCreateTime
+   */
+  public Date getScoreCreateTime() {
+    return scoreCreateTime;
+  }
+  /**
+   * @param scoreCreateTime the scoreCreateTime to set
+   */
+  public void setScoreCreateTime(Date scoreCreateTime) {
+    this.scoreCreateTime = scoreCreateTime;
+  }
+  /**
+   * @return the fkSystemIsMerge
+   */
+  public Integer getFkSystemIsMerge() {
+    return fkSystemIsMerge;
+  }
+  /**
+   * @param fkSystemIsMerge the fkSystemIsMerge to set
+   */
+  public void setFkSystemIsMerge(Integer fkSystemIsMerge) {
+    this.fkSystemIsMerge = fkSystemIsMerge;
+  }
   /**
    * @return the recordCompany
    */

@@ -1,8 +1,52 @@
 (function () {
   var data = { 
+  		plateRad:"",
       arrowdown:true,
-	  hStatus:["未定级","预定级","已定级","未审核","待审核","已审核","审核未通过","未备案","已备案","撤销备案","未测评","已测评","未自查","已自查"],
-      paramGrading:false,
+      hStatus: [{
+        value: '1',
+        label: '未定级'
+      }, {
+        value: '选项2',
+        label: '预定级'
+      }, {
+        value: '3',
+        label: '已定级'
+      }, {
+        value: '4',
+        label: '未审核'
+      }, {
+        value: '5',
+        label: '待审核'
+      },{
+        value: '6',
+        label: '已审核'
+      },{
+        value: '7',
+        label: '审核未通过'
+      },{
+        value: '8',
+        label: '未备案'
+      },{
+        value: '9',
+        label: '已备案'
+      },{
+        value: '10',
+        label: '撤销备案'
+      },{
+        value: '11',
+        label: '未测评'
+      },{
+        value: '12',
+        label: '已测评'
+      },{
+        value: '13',
+        label: '未自查'
+      },{
+        value: '14',
+        label: '已自查'
+      }],
+/*	  hStatus:["未定级","预定级","已定级","未审核","待审核","已审核","审核未通过","未备案","已备案","撤销备案","未测评","已测评","未自查","已自查"],
+*/      paramGrading:false,
       paramEvaluation:false,
       paramDelete:false,
       paramRecord:false,
@@ -232,15 +276,17 @@
         		this.value9 = '';
         		this.value12 = '';
         		this.value10 = '';
+        		this.value21 = '';
+        		this.value22 = [];
         		this.systemLevel = [];
         		this.systemProvince = [];
-        		$(".checkName1").attr("checked",false);
+        		$(".pic").css("background-image","url(../../images/home/square.png)")
+        		$(".checkName1").attr("checked",false);       		
         		$("#plateType").val("");
-        		$(".checkName2").attr("checked",false);
         		$("#systemCodeLevel").val("");
         		$(".checkName3").attr("checked",false);
         		$("#systemCodeProvince").val("");
-        		$(".checkName4").attr("checked",false);  		
+        		$(".checkName4").attr("checked",false); 
         	},
           //ajax请求成功的方法
           listSuccess: function (_self, dataList) {
@@ -271,12 +317,8 @@
             var inspectionDateBegin = $("#inspectionDateBegin").val();
             var inspectionDateEnd = $("#inspectionDateEnd").val();
             var plateType = $("#plateType").val();
-            var status ;
-            $('input:radio[class="checkName2"]:checked').each(function () {
-            	status = $(this).val();
-            });	
             var systemCodeLevel = this.systemLevel;
-            var systemCodeProvince = this.systemProvince;
+//            var systemCodeProvince = this.systemProvince;
             var customFiltering = $("#customFiltering").val();
             var url = "main/queryMainList";
             var _self=this;
@@ -296,9 +338,9 @@
               "inspectionDateBegin": inspectionDateBegin,//自查开始时间
               "inspectionDateEnd": inspectionDateEnd,//自查结束时间
               "plateType": plateType,//所属板块
-              "status": status,//状态
+              "status": this.value21,//状态
               "sprankLevelArray": systemCodeLevel,//等保级别
-              "subordinateProvincesArray": systemCodeProvince,//地区
+              "subordinateProvincesArray": this.value22,//地区
               "customFiltering": customFiltering,//自定义
               "currentPage": page,
             };
