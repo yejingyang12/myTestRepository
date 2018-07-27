@@ -1080,6 +1080,14 @@
                 'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
           },
           getPermitJurisdictionSuccess: function(_self,response){
+            console.log(JSON.stringify(response.data))
+            _self.paramGrading = false;
+            _self.paramEvaluation = false;
+            _self.paramDelete = false;
+            _self.paramRecord = false;
+            _self.paramSelfExamination = false;
+            _self.paramApplication = false;
+            
             for (var i = 0; i < response.data.permssions.length; i++) {
               var permssions = response.data.permssions[i];
               

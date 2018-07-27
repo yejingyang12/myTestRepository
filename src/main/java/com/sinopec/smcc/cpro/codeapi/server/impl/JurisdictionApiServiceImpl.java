@@ -29,7 +29,7 @@ import com.sinopec.smcc.cpro.systemcode.mapper.SystemCodeMapper;
 import com.sinopec.smcc.depends.ubs.dto.AuthorizationDTO;
 import com.sinopec.smcc.depends.ubs.dto.PermissionDTO;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
-import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
+import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
 /**
  * @Title JurisdictionApiServiceImpl.java
@@ -43,7 +43,7 @@ import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 public class JurisdictionApiServiceImpl implements JurisdictionApiService{
   
   @Autowired
-  private UbsFeignTemplate ubsFeignTemplate;
+  private UbsTemplate ubsTemplate;
   
   @Value("${appId}")
   private String appId;
@@ -75,7 +75,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     JurisdictionDataResult jurisdictionDataResult = new JurisdictionDataResult();
     //获得用户信息
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
-    List<AuthorizationDTO> jsonMenu = this.ubsFeignTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
+    List<AuthorizationDTO> jsonMenu = this.ubsTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
     
 //    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsFeignTemplate.
 //        getDataAuthByUserIdAfterChange(userDTO.getUserId()+""); 

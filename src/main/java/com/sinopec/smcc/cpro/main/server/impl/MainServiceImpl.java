@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -254,20 +255,25 @@ public class MainServiceImpl implements MainService{
     if(mainListResultList != null && mainListResultList.size() > 0){
       for (MainListResult mainResult : mainListResultList) {
         cellList = new ArrayList<CellBean>();
-        //系统名称
-        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
+//        //系统名称
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
 //        //如果是合并系统
 //        if(mainResult.getFkSystemIsMerge() == 1){
 //          //查询子表信息
 //          SystemParam systemParam = new SystemParam();
 //          systemParam.setSystemId(mainResult.getSystemId());
 //          List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
-//          StringBuffer sb = new StringBuffer ();
-//          for(SystemSubResult systemSubResult : subSystemList){
-//             sb.append(systemSubResult.getSystemName()+"、");
+//          if(!ObjectUtils.isEmpty(subSystemList)){
+//            StringBuffer sb = new StringBuffer ();
+//            for(SystemSubResult systemSubResult : subSystemList){
+//               sb.append(systemSubResult.getSystemName()+"、");
+//            }
+//            String str  = sb.toString();
+//            //合并定级包含的信息系统名称
+//            cellList.add(ExcelUtils.getExportCelBean(str.substring(0,str.length() - 1)));
+//          }else{
+//            cellList.add(ExcelUtils.getExportCelBean(""));
 //          }
-//          //合并定级包含的信息系统名称
-//          cellList.add(ExcelUtils.getExportCelBean(sb.toString().substring(0,sb.length() - 1)));
 //        }else{
 //          cellList.add(ExcelUtils.getExportCelBean(""));
 //        }
@@ -285,19 +291,36 @@ public class MainServiceImpl implements MainService{
 //        }else{
 //          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
 //        }
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 //        //定级时间
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getScoreCreateTime()));
+//        if(mainResult.getScoreCreateTime() != null){
+//          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(mainResult.getScoreCreateTime())));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean(""));
+//        }
 //        //备案时间
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCreateTime()));
+//        if(mainResult.getRecordCreateTime() != null){
+//          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(mainResult.getRecordCreateTime())));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean(""));
+//        }
 //        //单位编码
 //        cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCode()));
 //        //受理备案单位
 //        cellList.add(ExcelUtils.getExportCelBean(mainResult.getAcceptCompany()));
 //        //变更记录
-//        
-//        //
+//        cellList.add(ExcelUtils.getExportCelBean(""));
+//        //测评时间
+//        cellList.add(ExcelUtils.getExportCelBean(""));
+//        //测评结果
+//        cellList.add(ExcelUtils.getExportCelBean(""));
+//        //自查时间
+//        cellList.add(ExcelUtils.getExportCelBean(""));
+//        //自查结果
+//        cellList.add(ExcelUtils.getExportCelBean(""));
         
         
+        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));  
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getPlateType()));
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getInfoSysTypeConstruction()));
@@ -358,6 +381,7 @@ public class MainServiceImpl implements MainService{
         }else{
           cellList.add(ExcelUtils.getExportCelBean("已撤销"));
         }
+        
         dataList.add(cellList);
       }
     }

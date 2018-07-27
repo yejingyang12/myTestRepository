@@ -69,7 +69,7 @@ public class SystemApiServiceImpl implements SystemApiService{
         for (int i = 0; i < systemInfoListSize; i++) {
           SystemInfo systemInfo = systemInfoList.getData().get(i);
           if(!systemApiParam.getCompanyCode().equals("null")){
-            if(!systemApiParam.getCompanyCode().equals(systemInfo.getBcdCode())){
+            if(!systemApiParam.getCompanyCode().equals(systemInfo.getCuCode())){
               continue;
             }
           }

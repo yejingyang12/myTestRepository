@@ -754,7 +754,7 @@
                 <button v-show="auditManagement" type="button" class="btn  float-ri"
                         style="margin-right: 10px;background-color: #1e91e2;color:#fff;width:auto;" @click="toAuditPage()">审核管理
                 </button>
-                <button v-show="oneKeyExport"  type="button" class="btn  float-ri"
+                <button v-show="oneKeyExportJurisdiction"  type="button" class="btn  float-ri"
                         style="margin-right: 10px;background-color: #1e91e2;color:#fff;width:auto;" @click="oneKeyExport()">一键导出
                 </button>
             </p>
@@ -925,8 +925,8 @@
                                 <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
                                     <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                     <a class="hide3" style="cursor:pointer;">  
-                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
-                                          <i @click="deleteClick(pro.systemId)" type="text" size="small">删除</i>
+                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
+                                          <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
                                            <!-- 首页表格的删除弹窗 -->
                                             <div class="dialogShaw">
 	                                              <div class="startBox" v-show="deleteDialog">
@@ -945,10 +945,10 @@
                                 </td>
                                 <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">
                                     <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer">申请变更</a> <i style="color:#1e91e2 ">|</i>
-                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer">备案</a><i style="color:#1e91e2 ">|</i>
-                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer">测评</a><i style="color:#1e91e2 ">|</i>
-                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" >自查</a>
+                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication">|</i>
+                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
+                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 " v-show="paramEvaluation">|</i>
+                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramSelfExamination">自查</a>
                                 </td>
                                 <td style="color:#1e91e2;" v-else>
                                 </td>
