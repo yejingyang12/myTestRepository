@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -60,7 +61,7 @@ public class EvaluationController {
    */
   @RequestMapping(value = "/queryEvaluationList", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryEvaluationList(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     //调用service实体，获得测评列表数据
@@ -87,7 +88,7 @@ public class EvaluationController {
    */
   @RequestMapping(value = "/queryEditEvaluation", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryEditEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     EvaluationResult evaluationResult = 
@@ -109,7 +110,7 @@ public class EvaluationController {
    */
   @RequestMapping(value = "/saveEvaluation", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi saveEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -131,7 +132,7 @@ public class EvaluationController {
    */
   @RequestMapping(value = "/deleteEvaluation", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi deleteEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -152,7 +153,7 @@ public class EvaluationController {
    */
   @RequestMapping(value = "/queryDetailsEvaluation", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryDetailsEvaluation(HttpServletRequest request, 
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     EvaluationResult evaluationResult = 
@@ -173,7 +174,7 @@ public class EvaluationController {
    */
   @RequestMapping(value = "/queryExamOrgCompany", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryExamOrgCompany(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException {
     List<EvaluationListResult> evaluationListResultList = 

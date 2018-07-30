@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -101,7 +102,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @ResponseBody
   public ResultApi deleteCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {

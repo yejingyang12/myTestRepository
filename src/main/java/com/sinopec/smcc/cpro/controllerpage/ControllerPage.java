@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
@@ -36,14 +37,14 @@ import com.sinopec.smcc.cpro.system.entity.SystemParam;
 public class ControllerPage {
   //系统定级备案测评列表
   @RequestMapping("/indexPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String indexPage(HttpServletRequest request, Model model){
     return "views/index";
   }
   
   //新建单位信息填写
   @RequestMapping("/addCompanyInfoPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String addCompanyInfoPagePage(HttpServletRequest request, Model model,
       CompanyParam companyParam,@ModelAttribute("jurisdiction")String jurisdiction){
     model.addAttribute("companyId", companyParam.getCompanyId());
@@ -53,7 +54,7 @@ public class ControllerPage {
   }
   //新建系统信息填写
   @RequestMapping("/addCompanySystemPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String addCompanySystemPage(HttpServletRequest request, Model model,
       CompanyParam companyParam){
     model.addAttribute("companyId", companyParam.getCompanyId());
@@ -63,7 +64,7 @@ public class ControllerPage {
   }
   //新建定级信息填写
   @RequestMapping("/addCompanyGradPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String addCompanyGradPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -73,7 +74,7 @@ public class ControllerPage {
   }
   //新建材料信息填写
   @RequestMapping("/addCompanyMaterialPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String addCompanyMaterialPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -84,7 +85,7 @@ public class ControllerPage {
   
   //申请变更单位信息填写
   @RequestMapping("/applicationChangePage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationChangePage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -95,7 +96,7 @@ public class ControllerPage {
   }
   //申请变更系统信息填写
   @RequestMapping("/applicatuibChangSystemPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicatuibChangSystemPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -105,7 +106,7 @@ public class ControllerPage {
   }
   //申请变更定级信息填写
   @RequestMapping("/applicationChangeGradPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationChangeGradPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -114,7 +115,7 @@ public class ControllerPage {
   }
   //申请变更材料信息填写
   @RequestMapping("/applicationChangeMaterialPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationChangeMaterialPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -124,13 +125,13 @@ public class ControllerPage {
   
   //审核管理页面
   @RequestMapping("/auditPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String auditPage(HttpServletRequest request, Model model){
     return "views/audit";
   }
   //审核定级
   @RequestMapping("/auditGradPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String auditGradPage(HttpServletRequest request, Model model, 
       SystemParam systemParam, CheckParam checkParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -141,21 +142,21 @@ public class ControllerPage {
   }
   //审核申请变更
   @RequestMapping("/auditChangePage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String auditChangePage(HttpServletRequest request, Model model, SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     return "views/auditChange";
   }
   //审核撤销备案
   @RequestMapping("/auditCancelPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String auditCancelPage(HttpServletRequest request, Model model, SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     return "views/auditCancel";
   }
   //审核详情
   @RequestMapping("/auditDetailsPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String auditDetailsPage(HttpServletRequest request, Model model, SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyId", systemParam.getCompanyId());
@@ -163,7 +164,7 @@ public class ControllerPage {
   }
   //备案
   @RequestMapping("/companyRecordPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String companyRecordPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -173,7 +174,7 @@ public class ControllerPage {
 
   //申请定级信息
   @RequestMapping("/applicationGradingPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationGradingPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -182,7 +183,7 @@ public class ControllerPage {
   }
   //填写材料信息
   @RequestMapping("/applicationGradingInfoPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationGradingInfoPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -191,7 +192,7 @@ public class ControllerPage {
   }
   //维护单位系统信息
   @RequestMapping("/mainCompanyInfoPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String mainCompanyInfoPage(HttpServletRequest request, Model model, 
       SystemParam systemParam){
     model.addAttribute("activeName", systemParam.getActiveName());
@@ -199,7 +200,7 @@ public class ControllerPage {
   }
   //维护单位--新建单位信息
   @RequestMapping("/newUnitInformationPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String newUnitInformationPage(HttpServletRequest request, Model model,
       @ModelAttribute("jurisdiction")String jurisdiction){
     model.addAttribute("jurisdiction",jurisdiction);
@@ -207,7 +208,7 @@ public class ControllerPage {
   }
   //维护单位--修改单位信息
   @RequestMapping("/changeUnitInformationPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String changeUnitInformationPage(HttpServletRequest request, Model model,
       CompanyParam companyParam){
     model.addAttribute("companyId", companyParam.getCompanyId());
@@ -215,14 +216,14 @@ public class ControllerPage {
   }
   //维护单位--新建系统信息
   @RequestMapping("/newSystemInformationPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String newSystemInformationPage(HttpServletRequest request, Model model){
 
     return "views/newSystemInformation";
   }
   //维护单位--修改系统信息
   @RequestMapping("/changeSystemInformationPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String changeSystemInformationPage(HttpServletRequest request, Model model,
       SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -231,7 +232,7 @@ public class ControllerPage {
   
   //自查
   @RequestMapping("/selfCheckPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String selfCheckPage(HttpServletRequest request, Model model, SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyId", systemParam.getCompanyId());
@@ -239,7 +240,7 @@ public class ControllerPage {
   }
   //测评
   @RequestMapping("/testingPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String testingPage(HttpServletRequest request, Model model, SystemParam systemParam){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyId", systemParam.getCompanyId());
@@ -247,7 +248,7 @@ public class ControllerPage {
   }
   //详情
   @RequestMapping("/viewDetailsPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String viewDetailsPage(HttpServletRequest request, Model model, SystemParam systemParam){
     model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("systemId", systemParam.getSystemId());
@@ -255,7 +256,7 @@ public class ControllerPage {
   }
   //图表详情列表
   @RequestMapping("/showChartDataListPage")
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String showChartDataListPage(HttpServletRequest request, Model model, MainParam mainParam){
     //图表传入的5个参数
     model.addAttribute("sprankLevel", mainParam.getSprankLevel());

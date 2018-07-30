@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -55,7 +56,7 @@ public class FileController {
    * @throws BusinessException
    */
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
   public ResultApi uploadFile(HttpServletRequest request,
       @RequestParam("file") MultipartFile file) throws BusinessException{
@@ -67,7 +68,7 @@ public class FileController {
   }
   
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
   public ResultApi deleteFile(HttpServletRequest request, 
       @RequestBody AttachParam attachParam) throws BusinessException{
@@ -92,7 +93,7 @@ public class FileController {
    * @throws BusinessException
    */
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
   public ResultApi downloadFile(HttpServletRequest request, HttpServletResponse response, 
       AttachParam attachParam) throws BusinessException{

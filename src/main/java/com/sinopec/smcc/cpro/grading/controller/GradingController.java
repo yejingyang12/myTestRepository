@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -64,7 +65,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryDetailsGrading", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryDetailsGrading(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
     GradingListResult gradingListResult = 
@@ -86,7 +87,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryEditGrading", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryEditGrading(HttpServletRequest request,
       @RequestBody GradingParam gradingParam) throws BusinessException{
     GradingListResult gradingListResult = this.gradingServiceImpl.queryEditGrading(gradingParam);
@@ -106,7 +107,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/saveGrading", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi saveGrading(HttpServletRequest request, @RequestBody GradingParam gradingParam)
       throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -127,7 +128,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/submitGrading", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi submitGrading(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -148,7 +149,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/submitGradingForHeadquarters", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi submitGradingForHeadquarters(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -170,7 +171,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/querySystemMaterials", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi querySystemMaterials(HttpServletRequest request,
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     SystemMaterialsResult systemMaterialsResult = 
@@ -192,7 +193,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryEditSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryEditSystemMaterials(HttpServletRequest request,
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     SystemMaterialsResult systemMaterialsResult = 
@@ -213,7 +214,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/queryEditSystemMaterialsInfo", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryEditSystemMaterialsInfo(HttpServletRequest request,
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     SystemMaterialsBeanResult systemMaterialsBeanResult = 
@@ -234,7 +235,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/saveSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi saveSystemMaterials(HttpServletRequest request, 
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -256,7 +257,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/saveSystemMaterialsInfo", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi saveSystemMaterialsInfo(HttpServletRequest request, 
       @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -278,7 +279,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/submitSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi submitSystemMaterials(HttpServletRequest request, 
       @RequestBody  SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -300,7 +301,7 @@ public class GradingController {
    */
   @RequestMapping(value = "/submitSystemMaterialsForHeadquarters", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi submitSystemMaterialsForHeadquarters(HttpServletRequest request, 
       @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);

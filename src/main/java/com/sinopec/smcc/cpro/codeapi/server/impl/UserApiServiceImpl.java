@@ -19,9 +19,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.sinopec.siam.agent.common.SSOPrincipal;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
-import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
 /**
  * @Title UserApiServiceImpl.java
@@ -35,7 +35,7 @@ import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 public class UserApiServiceImpl implements UserApiService{
   
   @Autowired
-  private UbsFeignTemplate ubsFeignTemplate;
+  private UbsTemplate ubsTemplate;
   
   @Value("${appId}")
   private String appId;
@@ -49,9 +49,9 @@ public class UserApiServiceImpl implements UserApiService{
     UserDTO userDTO = new UserDTO();
     if (StringUtils.isBlank(userId)) {
       SSOPrincipal ssoPrincipal = (SSOPrincipal)session.getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR);
-      userDTO = ubsFeignTemplate.getUserBySsoUid(ssoPrincipal.getUid());
+      userDTO = ubsTemplate.getUserBySsoUid(ssoPrincipal.getUid());
     } else {
-      userDTO = ubsFeignTemplate.getUserByUserId(userId);
+      userDTO = ubsTemplate.getUserByUserId(userId);
     }
     if (userDTO==null) {
       userDTO = new UserDTO();

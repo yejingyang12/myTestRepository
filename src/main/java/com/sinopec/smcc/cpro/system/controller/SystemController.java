@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -64,7 +65,7 @@ public class SystemController {
    */
   @RequestMapping(value="/querySystemList", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi querySystemList(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     //调用service实体获得方法，CompanyListResult填写返回的参数
@@ -94,7 +95,7 @@ public class SystemController {
    */
   @RequestMapping(value="/saveSystem", method =  RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi saveSystem(HttpServletRequest request, @RequestBody SystemParam systemParam) 
       throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -115,7 +116,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/queryDetailsSystem", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryDetailsSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryDetailsSystem(systemParam);
@@ -136,7 +137,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/editSystem", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi editSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -158,7 +159,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/queryEditSystem", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryEditDetailsSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryEditSystem(systemParam);
@@ -179,7 +180,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.GET)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportExcelForSystemTemplate(HttpServletRequest request, 
       SystemParam systemParam) throws FileNotFoundException, IOException{
     this.systemServiceImpl.exportExcelForSystemTemplate(systemParam);
@@ -199,7 +200,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/importForSystemTemplate", method = RequestMethod.GET)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi importForSystemTemplate(HttpServletRequest request) 
       throws IOException, BusinessException{
     this.systemServiceImpl.importForSystemTemplate();
@@ -220,7 +221,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/exportUploadSystemInfo", method = RequestMethod.GET)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportUploadSystemInfo(HttpServletRequest request
       ,HttpServletResponse response, String strFilePath) throws BusinessException{
     this.systemServiceImpl.exportUploadSystemInfo(request,response,strFilePath);
@@ -240,7 +241,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/queryGradingEditAudit", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryGradingEditAudit(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemGradingChangeResult systemResult = this.systemServiceImpl.queryGradingEditAudit(systemParam);
@@ -260,7 +261,7 @@ public class SystemController {
    */
   @RequestMapping(value = "/querySystemInformationBySystemId", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi querySystemInformationBySystemId(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.querySystemInformationBySystemId(systemParam);

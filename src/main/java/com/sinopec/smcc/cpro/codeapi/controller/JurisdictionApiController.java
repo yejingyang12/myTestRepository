@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sinopec.smcc.base.annotation.LoginUser;
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -67,7 +68,7 @@ public class JurisdictionApiController {
    */
   @ResponseBody
   @RequestMapping(value="/queryDataJurisdictionApi", method = RequestMethod.POST)
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryDataJurisdictionApi(HttpServletRequest request) throws BusinessException{
     
     JurisdictionDataResult organizationApiResult = 
@@ -80,7 +81,7 @@ public class JurisdictionApiController {
   
   @ResponseBody
   @RequestMapping(value="/queryMenuJurisdictionApi", method = RequestMethod.GET)
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryMenuJurisdictionApi(@LoginUser User loginUser, HttpServletRequest request) throws BusinessException{
     ResultApi api = new ResultApi();
     List<ResourceDTO> resourceDtoList = ubsFeignTemplate.getResourcesByUserId(loginUser.getUbsUserId()+"");
@@ -136,7 +137,7 @@ public class JurisdictionApiController {
    */
   @ResponseBody
   @RequestMapping(value="/getCompanyCode", method = RequestMethod.POST)
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi getCompanyCode(HttpServletRequest request) throws BusinessException{
     String companyCode = 
         this.jurisdictionApiServiceImpl.getCompanyCode();

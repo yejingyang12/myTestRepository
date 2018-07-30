@@ -79,16 +79,19 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
 //      startContext.setWorkflowId(workFlowData.getWorkflowId());
 //      appCallResult = dpsTemplate.initStart(startContext);
       
-//      //提交通过流程
+      //
+      
+      
+      //提交通过流程
 //    final ExecuteContext executeContext = new ExecuteContext();
 //    executeContext.setAppId(dpsConfig.getAppId());
 //    executeContext.setExecutorId(String.valueOf(userDTO.getUserId()));
-//    executeContext.setExecutorName(processDTO.getLoginUser().getUbsUserName());
-//    executeContext.setTaskId(processDTO.getTaskId());
+//    executeContext.setExecutorName(userDTO.getUserName());
+//    executeContext.setTaskId(userDTO.getprocessDTO.getTaskId());
 //    executeContext.setExecuteDate(new Date());
 //    executeContext.setMetasList(processDTO.getDataList());
 //    executeContext.setVariableList(processDTO.getVariableList());
-
+//
 //    return dpsTemplate.approveComplete(executeContext);
     } catch (Exception e) {
       e.printStackTrace();

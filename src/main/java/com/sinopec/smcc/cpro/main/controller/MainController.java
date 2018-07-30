@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.annotation.LoginUser;
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -59,7 +60,7 @@ public class MainController {
    */
   @RequestMapping(value = "/queryMainList", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryMainList(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException{
     //调用service实体，获得
@@ -91,7 +92,7 @@ public class MainController {
    */
   @RequestMapping(value = "/deleteMainBySystemId", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi deleteMainBySystemId(@RequestBody MainParam mainParam) throws BusinessException{
     this.mainServiceImpl.deleteMainBySystemId(mainParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -108,7 +109,7 @@ public class MainController {
    */
   @RequestMapping(value = "/exportExcelForMain", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportExcelForMain(HttpServletRequest request) throws BusinessException{
     String filePath = this.mainServiceImpl.exportExcelForMain(request);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -126,7 +127,7 @@ public class MainController {
    */
   @RequestMapping(value = "/exportUploadApplicationInfo", method = RequestMethod.GET)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportUploadApplicationInfo(HttpServletRequest request
       ,HttpServletResponse response,@RequestBody String strFilePath) throws BusinessException{
     this.mainServiceImpl.exportUploadApplicationInfo(request,response,strFilePath);
@@ -145,7 +146,7 @@ public class MainController {
    */
   @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.GET)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException{
     this.mainServiceImpl.exportExcelForGradeTemplate(response,systemIds);
@@ -165,7 +166,7 @@ public class MainController {
    */
   @RequestMapping(value = "/tableCompany", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi tableCompany(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap= this.mainServiceImpl.tableCompany(request,mainParam);
@@ -186,7 +187,7 @@ public class MainController {
    */
   @RequestMapping(value = "/tableSystem", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi tableSystem(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap = this.mainServiceImpl.tableSystem(request,mainParam);
@@ -206,7 +207,7 @@ public class MainController {
    */
   @RequestMapping(value = "/tableGrading", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi tableGrading(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap = this.mainServiceImpl.tableGrading(request,mainParam);
@@ -226,7 +227,7 @@ public class MainController {
   */
   @RequestMapping(value = "/tableAttach", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi tableAttach(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap = this.mainServiceImpl.tableAttach(request,mainParam);
@@ -246,7 +247,7 @@ public class MainController {
    */
   @RequestMapping(value = "/oneButtonDownloading", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
       @RequestBody MainParam mainParam) throws BusinessException {
     String filePath = this.mainServiceImpl.oneButtonDownloading(request,response,mainParam);
@@ -267,7 +268,7 @@ public class MainController {
    */
   @RequestMapping(value = "/querySystemName", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi querySystemName(HttpServletRequest request
       ,@RequestBody MainParam mainParam) 
       throws BusinessException {
@@ -288,7 +289,7 @@ public class MainController {
    */  
   @RequestMapping(value = "/importExcelForGradeTemplate", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi importExcelForGradeTemplate(HttpServletRequest request,
       @RequestBody String file) 
       throws BusinessException {
@@ -308,7 +309,7 @@ public class MainController {
    */
   @RequestMapping(value = "/queryApplicationChange", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi queryApplicationChange(HttpServletRequest request,
       @RequestBody MainParam mainParam) 
       throws BusinessException {
@@ -329,7 +330,7 @@ public class MainController {
    */
   @RequestMapping(value = "/queryGradingStatistics", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi gradingStatistics(HttpServletRequest request,@RequestBody MainParam mainParam) 
       throws BusinessException {
     List<MainListResult> gradingStatisticsResult = 
@@ -349,7 +350,7 @@ public class MainController {
    */
   @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi getUserInfo(@LoginUser User loginUser,HttpServletRequest request) 
       throws BusinessException {
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -367,7 +368,7 @@ public class MainController {
    */
   @RequestMapping(value = "/logout", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi logout(HttpServletRequest request) 
       throws BusinessException {
     request.getSession().invalidate(); 

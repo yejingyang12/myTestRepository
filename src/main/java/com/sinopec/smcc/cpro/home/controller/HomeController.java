@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
@@ -42,7 +43,7 @@ public class HomeController {
   @Autowired
   public HomeService homeService;
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/homeRecordStatistics", method = RequestMethod.POST)
   public ResultApi uploadFile(HttpServletRequest request,HomeParam hParam) throws BusinessException{
     // 调用service实体，获得
@@ -58,7 +59,7 @@ public class HomeController {
   }
   
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/homeScoreStatistics", method = RequestMethod.POST)
   public ResultApi homeScoreStatistics(HttpServletRequest request,HomeParam hParam) throws BusinessException{
     // 调用service实体，获得
