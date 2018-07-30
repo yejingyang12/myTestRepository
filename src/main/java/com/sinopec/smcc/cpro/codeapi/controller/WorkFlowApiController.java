@@ -46,12 +46,11 @@ public class WorkFlowApiController {
   private String appId;
 
   /**
-   * 流程发起
+   * @Descrption 流程发起
    * @author dongxu
-   * @date 2018年7月11日下午4:11:19
+   * @date 2018年7月30日上午11:49:09
    * @param request
-   * @param systemCodeParam：传入json格式数据，支持针对
-   * @return list：返回数据中包含[{"organization": [{"orgCode": "00","orgName": "单位名称00"}],"plateName": "板块0","value": "1"}]
+   * @return
    * @throws BusinessException
    */
   @ResponseBody

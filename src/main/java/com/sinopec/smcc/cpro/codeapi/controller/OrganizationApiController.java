@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApi;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
@@ -52,6 +54,7 @@ public class OrganizationApiController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value="/queryOrganizationApi", method = RequestMethod.POST)
   public ResultApi queryOrganizationApi(HttpServletRequest request, 
       @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{
@@ -74,6 +77,7 @@ public class OrganizationApiController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value="/queryOrganizationForKeyOrganizationCode", method = RequestMethod.POST)
   public ResultApi queryOrganizationForKeyOrganizationCode(HttpServletRequest request, 
       @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{
@@ -95,6 +99,7 @@ public class OrganizationApiController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value="/queryOrganizationForKeyOrganizationName", method = RequestMethod.POST)
   public ResultApi queryOrganizationForKeyOrganizationName(HttpServletRequest request, 
       @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{

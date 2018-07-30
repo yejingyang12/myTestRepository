@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
@@ -52,6 +54,7 @@ public class NodeController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value = "/queryNodeList", method = RequestMethod.POST)
   public ResultApi queryNodeList(HttpServletRequest request,
       @RequestBody NodeParam nodeParam) throws BusinessException{

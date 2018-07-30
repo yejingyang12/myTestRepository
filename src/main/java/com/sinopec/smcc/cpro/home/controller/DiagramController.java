@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
@@ -53,6 +55,7 @@ public class DiagramController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value = "/querySystemLevelDiagram", method = RequestMethod.POST)
   public ResultApi querySystemLevelDiagram(HttpServletRequest request, 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
@@ -74,6 +77,7 @@ public class DiagramController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value = "/querySystemLevelBySystemType", method = RequestMethod.POST)
   public ResultApi querySystemLevelBySystemType(HttpServletRequest request, 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
@@ -96,6 +100,7 @@ public class DiagramController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value = "/queryRecordCompanyTop10", method = RequestMethod.POST)
   public ResultApi queryRecordCompanyTop10(HttpServletRequest request, 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
@@ -118,6 +123,7 @@ public class DiagramController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value = "/queryAcceptCompanyTop10", method = RequestMethod.POST)
   public ResultApi queryAcceptCompanyTop10(HttpServletRequest request, 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
@@ -140,6 +146,7 @@ public class DiagramController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
   public ResultApi querySystemTrendByYear(HttpServletRequest request, 
       @RequestBody DiagramParam diagramParam) throws BusinessException{

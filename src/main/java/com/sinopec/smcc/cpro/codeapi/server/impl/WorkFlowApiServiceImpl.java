@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.codeapi.server.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +19,16 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
+import com.pcitc.ssc.dps.inte.workflow.AppWorkflowData;
+import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.StartContext;
 import com.sinopec.smcc.base.consts.SmccConsts;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.tools.Utils;
+import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
 import com.sinopec.smcc.depends.soap.SoapApiService;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
@@ -46,6 +51,8 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   private UserApiService userApiServiceImpl;
   @Autowired
   SoapApiService soapApiService;
+  @Autowired
+  private DpsConfig dpsConfig;
   
   /**
    * 流程发起
@@ -54,29 +61,39 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   public AppCallResult initStart() throws BusinessException {
     AppCallResult appCallResult = new AppCallResult();
     try {
-      String data=soapApiService.soapGetApi("/app/workflow/SMCC/"+SmccConsts.CATEGORY_CODE_USMG+"/1");
-      JSONArray jSONArray=JSONObject.parseArray(data);
-      JSONObject jSONObject=(JSONObject) jSONArray.get(0);
-      
+      // 获取流程模板信息
+      final List<AppWorkflowData> appWorkflowPublic = dpsTemplate.appWorkflowPublic(WorkFlowConsts.CATEGORY_CODE_CPRO);
+      final AppWorkflowData workFlowData = appWorkflowPublic.get(0);
       //获得用户信息
       UserDTO userDTO = userApiServiceImpl.getUserInfo();
-      StartContext startContext = new StartContext();
-      startContext.setUserId(String.valueOf(userDTO.getUserId()));
-      startContext.setAppId("SMCC");
-      startContext.setUserName(userDTO.getUserName());
-      startContext.setOrganiseId("#templateorgId#");
-      startContext.setOrganiseName(userDTO.getOrgName());
-      startContext.setBusinessId(Utils.getUuidFor32());
-      startContext.setBusinessName("撤销备案申请流程");
-      startContext.setCategoryCode("usmg");
-      startContext.setExecuteDate(new Date());
-      startContext.setWorkflowId(jSONObject.get("workflowId").toString());
-      appCallResult = dpsTemplate.initStart(startContext);
+//      StartContext startContext = new StartContext();
+//      startContext.setUserId(String.valueOf(userDTO.getUserId()));
+//      startContext.setAppId("SMCC");
+//      startContext.setUserName(userDTO.getUserName());
+//      startContext.setOrganiseId("#templateorgId#");
+//      startContext.setOrganiseName(userDTO.getOrgName());
+//      startContext.setBusinessId(Utils.getUuidFor32());
+//      startContext.setBusinessName("测试撤销备案申请流程");
+//      startContext.setExecuteDate(new Date());
+//      startContext.setCategoryCode(workFlowData.getCategoryCode());
+//      startContext.setWorkflowId(workFlowData.getWorkflowId());
+//      appCallResult = dpsTemplate.initStart(startContext);
+      
+//      //提交通过流程
+//    final ExecuteContext executeContext = new ExecuteContext();
+//    executeContext.setAppId(dpsConfig.getAppId());
+//    executeContext.setExecutorId(String.valueOf(userDTO.getUserId()));
+//    executeContext.setExecutorName(processDTO.getLoginUser().getUbsUserName());
+//    executeContext.setTaskId(processDTO.getTaskId());
+//    executeContext.setExecuteDate(new Date());
+//    executeContext.setMetasList(processDTO.getDataList());
+//    executeContext.setVariableList(processDTO.getVariableList());
+
+//    return dpsTemplate.approveComplete(executeContext);
     } catch (Exception e) {
-      // TODO: handle exception
+      e.printStackTrace();
     }
     return appCallResult;
-   
   }
 
 }

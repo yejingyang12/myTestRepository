@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
-import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
+import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemGradingInfoOneResult;
 import com.sinopec.smcc.cpro.systemcode.server.SystemCodeService;
 
@@ -58,6 +60,7 @@ public class SystemCodeController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value="/querySystemCodeForKeySystemCode", method = RequestMethod.POST)
   public ResultApi querySystemCodeForKeySystemCode(HttpServletRequest request, 
       @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
@@ -86,6 +89,7 @@ public class SystemCodeController {
    * @throws BusinessException
    */
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   @RequestMapping(value="/querySystemCodeForKeyCodeName", method = RequestMethod.POST)
   public ResultApi querySystemCodeForKeyCodeName(HttpServletRequest request, 
       @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
@@ -110,6 +114,7 @@ public class SystemCodeController {
    */
   @RequestMapping(value = "/queryGradingInfoList", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryGradingInfoList(HttpServletRequest request,
       @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
     List<SystemGradingInfoOneResult> SystemGradingInfoResultList = this.systemCodeServiceImpl.

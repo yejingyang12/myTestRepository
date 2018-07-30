@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
@@ -48,6 +50,7 @@ public class CheckController {
    */
   @RequestMapping(value = "/queryCheckList", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryCheckList(HttpRequest request,@RequestBody CheckParam checkParam) 
       throws BusinessException {
     // 调用service实体获得方法，CheckListResult填写返回的参数
@@ -79,6 +82,7 @@ public class CheckController {
    */
   @RequestMapping(value = "/saveGradCheck", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveGradCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -98,6 +102,7 @@ public class CheckController {
    */
   @RequestMapping(value = "/saveHeadGradCheck", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveHeadGradCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -118,6 +123,7 @@ public class CheckController {
    */
   @RequestMapping(value = "/saveGradChangeCheck", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveGradChangeCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -137,6 +143,7 @@ public class CheckController {
    */
   @RequestMapping(value = "/saveHeadGradChangeCheck", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveHeadGradChangeCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -157,6 +164,7 @@ public class CheckController {
    */
   @RequestMapping(value = "/saveCancelRecordsCheck", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveCancelRecordsCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);

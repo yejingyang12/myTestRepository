@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
@@ -54,6 +56,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryCompanyList", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi queryCompanyList(HttpServletRequest request, 
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -78,6 +81,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi saveCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -97,6 +101,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi deleteCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -115,6 +120,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryDetailsCompany", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi queryDetailsCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -134,6 +140,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryEditCompany", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi queryEditCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -152,6 +159,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryCompanyByCode", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi queryCompanyByCode(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -171,6 +179,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryCompanyName", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi queryCompanyName(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) 
@@ -190,6 +199,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryCompanyListByName", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
   public ResultApi queryCompanyListByName(HttpServletRequest request, 
       @RequestBody CompanyParam companyParam) throws BusinessException {

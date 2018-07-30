@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
@@ -55,6 +57,7 @@ public class SelfexaminationController {
    */
   @RequestMapping(value = "/querySelfexaminationList", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi querySelfexaminationList(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     PageInfo<SelfexaminationListResult> page = this.selfexaminationServiceImpl.
@@ -79,7 +82,8 @@ public class SelfexaminationController {
    */
   @RequestMapping(value = "/saveSelfexamination", method = RequestMethod.POST)
   @ResponseBody
-  public ResultApi saveSelfexamination(HttpServletRequest request, 
+  @RequestLog(module=SmccModuleEnum.cpro)
+  ResultApi saveSelfexamination(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String pkId = this.selfexaminationServiceImpl.
@@ -100,6 +104,7 @@ public class SelfexaminationController {
    */
   @RequestMapping(value = "/queryEditSelfexamination", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryEditSelfexamination(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     SelfexaminationResult selfexaminationResult = this.selfexaminationServiceImpl.
@@ -120,6 +125,7 @@ public class SelfexaminationController {
    */
   @RequestMapping(value = "/deleteSelfexaminationBySelfexaminationId", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi deleteSelfexaminationBySelfexaminationId(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);

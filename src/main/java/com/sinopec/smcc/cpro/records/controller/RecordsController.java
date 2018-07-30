@@ -20,14 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
-import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
 
@@ -58,6 +60,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/saveRecords", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveRecords(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -78,6 +81,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/queryRecords", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryRecords(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsResult recordsResult = 
@@ -98,6 +102,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/saveRevokeRecordsInfo", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveRevokeRecordsInfo(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -116,6 +121,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/saveHeadRevokeRecordsInfo", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi saveHeadRevokeRecordsInfo(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
@@ -135,6 +141,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/queryRevokeRecords", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryRevokeRecords(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RevokeRecordsResult revokeRecordsResult = this.recordsServiceImpl.
@@ -155,6 +162,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/editRecordsForStatus", method = RequestMethod.POST)
   @ResponseBody 
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi editRecordsStatus(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     this.recordsServiceImpl.editRecordsForStatus(recordsParam);
@@ -173,6 +181,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/queryRecordsDetail", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryRecordsDetail(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsDetailResult recordsDetailResult = 
@@ -193,6 +202,7 @@ public class RecordsController {
    */
   @RequestMapping(value = "/queryRecordCompany", method = RequestMethod.POST)
   @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro)
   public ResultApi queryRecordCompany(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException {
     List<RecordsListResult> recordsListResultList = 
