@@ -486,18 +486,24 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
-                        if(data1!=null){
-                          data1.materialShow = true;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = true;
+	                        }
                         }
                       }else{
                         this.nextBtn = false;
-                        if(data1!=null){
-                          data1.materialShow = false;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = false;
+	                        }
                         }
                       }
                       if(this.formData.fkSpRanklevel==301){
+                      	console.log('fkSpRanklevel=========='+this.formData.fkSpRanklevel);
                         this.expertType = true;
                       }else{
+                      	console.log('fkSpRanklevel=========='+this.formData.fkSpRanklevel);
                         this.expertType = false;
                         this.formData.expertView = 1;
                       }
@@ -656,13 +662,17 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
-                        if(data1!=null){
-                          data1.materialShow = true;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = true;
+	                        }
                         }
                       }else{
                         this.nextBtn = false;
-                        if(data1!=null){
-                          data1.materialShow = false;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = false;
+	                        }
                         }
                       }
                       if(this.formData.fkSpRanklevel==301){
@@ -782,13 +792,17 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
-                        if(data1!=null){
-                          data1.materialShow = true;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = true;
+	                        }
                         }
                       }else{
                         this.nextBtn = false;
-                        if(data1!=null){
-                          data1.materialShow = false;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = false;
+	                        }
                         }
                       }
                       if(this.formData.fkSpRanklevel==301){
@@ -949,13 +963,17 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel>=303){
                         this.nextBtn = true;
-                        if(data1!=null){
-                          data1.materialShow = true;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = true;
+	                        }
                         }
                       }else{
                         this.nextBtn = false;
-                        if(data1!=null){
-                          data1.materialShow = false;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = false;
+	                        }
                         }
                       }
                       if(this.formData.fkSpRanklevel==301){
@@ -1167,13 +1185,17 @@ var data={
                       if(this.formData.fkSpRanklevel>=303){
                       	console.log(11111);
                         this.nextBtn = true;
-                        if(data1!=null){
-                          data1.materialShow = true;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = true;
+	                        }
                         }
                       }else{
                         this.nextBtn = false;
-                        if(data1!=null){
-                          data1.materialShow = false;
+                        if(type!="new"&&type!="change"){
+	                        if(data1!=null){
+	                          data1.materialShow = false;
+	                        }
                         }
                       }
                       if(this.formData.fkSpRanklevel==301){

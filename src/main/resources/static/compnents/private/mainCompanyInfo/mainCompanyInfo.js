@@ -6,12 +6,12 @@ var data = {
       currentPage:'',
       total:'',
       totalPages:'',
-      formData:{
+      formData:[{
         companyId:'',
         companyName:'',
         fkCompanyType:'',
         ldContactName:''
-      },
+      }],
       queryData:{
         companyName:'',
         ldContactName:'',
@@ -23,7 +23,8 @@ var data = {
 	    imgList:null,//列表表头第一行的排序箭头
 	    result:{},
     },
-    delCompanyId:''
+    delCompanyId:'',
+    existSysCompanyNum: '',
 };
 (function () {
   
@@ -122,6 +123,20 @@ var data = {
             _self.companyForm.currentPage = responseData.currentPage;
             _self.companyForm.total = responseData.total;
             _self.companyForm.result = responseData;
+            /*var ids = [];
+            for(var i=0;i<_self.companyForm.formData.length;i++){
+            	var checked = false;
+            	for(var j=0;j<_self.companyForm.companyIds.length;j++){
+            		if(_self.companyForm.formData[i].companyId == _self.companyForm.companyIds[j]){
+            			checked = true;
+            			ids.push(_self.companyForm.companyIds[j]);
+            			break;
+            		}
+            	}
+            	_self.companyForm.formData[i].checked = checked;
+            }
+            _self.companyForm.companyIds = ids;*/
+            
          },
          handleClick:function(id){
         		 window.location.href = "/page/changeUnitInformationPage?companyId="+id;      
@@ -160,8 +175,19 @@ var data = {
           },
          deleteClickSuccessMethod:function(_self, responseData) {
            _self.delCompanyId = "";
+           //有单位下存在系统的数据
+           if(responseData.data != '' && responseData.data != null){
+          	 _self.existSysCompanyNum = responseData.data.length;
+          	 var companyIds = [];
+          	 for(var i=0;i<responseData.data.length;i++){
+          		 companyIds.push(responseData.data.companyId);
+          	 }
+          	 _self.companyForm.companyIds = companyIds;
+          	 $(".startBoxExistSys").show().delay(2000).fadeOut();
+           }else{
+          	 $(".startBoxSuccess").show().delay(2000).fadeOut();
+           }
            _self.getCompanyListInfoMethod(_self,{});
-           $(".startBoxSuccess").show().delay(2000).fadeOut();
          },
          //清空
          clearHeadle:function(){
@@ -214,6 +240,7 @@ var data = {
             contentType: false,
             success: function(response) {
             	data.headquarters = getJurisdictionMethod(response,'0102010101');
+            	
             },
             error: function(err) {
             }

@@ -26,13 +26,13 @@
         }
       }]
     },
-    value1: '',
+    value1: '1',//饼状图开始时间；
     value2: '',
     options:'',
-    value3: '',
+    value3: '',//饼状图结束时间；
     value8: '',
-    gradingShapeBegin: '',
-    gradingShapeEnd: '',
+    gradingShapeBegin: '',//小堆叠图的开始时间；
+    gradingShapeEnd: '',//小堆叠图的结束时间；
     
     recordNum: '',
     noEvaluationNum: '',
@@ -41,7 +41,7 @@
     selfedNum: '',
     enterpriseNum: '',
     headquartersNum: '',
-    gradingShapeType:'',
+    gradingShapeType:'',//小堆叠图的下拉类型
     recordDateEnd:'',
     recordDateBegin:'',
     acceptRecordDateBegin:'',
@@ -108,6 +108,7 @@
         	},
           //系统等保等级分布开始时间
         	getGradingStatisticsBegin:function(){
+        		bus.$emit("pie",this.value1,this.value3);
         		var begin;
         		var end;
         		if(this.value1 != null){
@@ -119,16 +120,14 @@
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
         		}
         		if(this.value1 != null && this.value3 != null){
+        			console.log(this.value1)
         			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
-              bus.$emit("gradingStatisticsBegin",dataparmars);
-              
-        			var getgradingTime = '{"gradingBeginTime":"'+this.value1+'","gradingEndTime":"'+this.value3+'"}';
-              bus.$emit("getgradingTime",dataparmars);
-        		}
-        		
+              bus.$emit("gradingStatisticsBegin",dataparmars); 
+        		} 
           },
           //系统等保等级分布结束时间
         	getGradingStatisticsEnd:function(){
+        		bus.$emit("pie",this.value1,this.value3);
         		var begin;
         		var end;
         		if(this.value1 != null){
@@ -143,10 +142,12 @@
         		if(this.value1 != null && this.value3 != null){
         			dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
         		}
+        		console.log(this.value3);
         		bus.$emit("gradingStatisticsEnd",dataparmars);
           },
           //不同等保级别系统在不同等保管理状态下详情-开始时间
         	getGradingShapeBegin:function(){
+        		bus.$emit("bar",this.value1,this.value3);
         		var begin;
         		var end;
         		if(this.gradingShapeBegin != null){
@@ -169,6 +170,7 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-结束时间
           getGradingShapeEnd:function(){
+        	    bus.$emit("bar",this.value1,this.value3);
         		var begin;
         		var end;
         		if(this.gradingShapeBegin != null){
@@ -190,6 +192,8 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-类型
           getGradingShapeType:function(){
+        	  bus.$emit("bar",this.gradingShapeType);
+        	  bus.$emit("bar",);
           	var begin;
         		var end;
         
@@ -298,6 +302,8 @@
           } 
         },
         mounted: function() {
+        	  bus.$emit("pie",this.value1,this.value3,);
+        	  bus.$emit("bar",this.value1,this.value3,this.gradingShapeType);
         }
       })
     })

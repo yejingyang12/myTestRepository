@@ -98,4 +98,13 @@ public interface CompanyMapper {
    */
   List<CompanyListResult> selectCompanyName(CompanyParam companyParam);
 
+  /**
+   * @Descrption  根据companyParam查询有系统的单位列表
+   * @author yejingyang
+   * @date 2018年7月27日上午10:52:38
+   * @param companyParam
+   * @return
+   */
+  List<CompanyListResult> selectAllCompanyExistSysByParam(CompanyParam companyParam);
+
 }

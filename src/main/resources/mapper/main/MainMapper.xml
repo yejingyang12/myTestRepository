@@ -581,6 +581,7 @@
     <where>
       score.deleteStatus =1
       AND system.deleteStatus =1
+      AND system.recordStatus !=4
       AND com.deleteStatus =1
       <if test="companyList != null">
         <![CDATA[

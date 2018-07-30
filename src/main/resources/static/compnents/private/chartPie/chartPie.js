@@ -1,5 +1,8 @@
 (function () {
   var data={
+	hSystemType:1,	  
+    val1:"",
+    val3:"",
     dom:null,
     myChart:null,
     option :null,
@@ -46,15 +49,15 @@
       color: ['#ff9933','#0065ba','#028bff','#12cbf6','#50e3c2']
     },
   };
+  
   Vue.component('chartPie',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/chartPie/chartPie.html').then(function(res){
       resolve({ 
         template:res,
         data:function () {
           return data;
-        },
+        }, 
         methods:{
-        	
         	// 获取系统等保等级分布统计图数据
         	getGradingStatistics : function(_self) {
           	ajaxMethod(_self, 'post',
@@ -97,14 +100,16 @@
           //获取系统等保等级分布统计图数据
           this.getGradingStatistics(this);
         },
-        mounted: function() {
+        mounted: function() {  
             data.dom = document.getElementById("container-pie");
             data.myChart = echarts.init(data.dom);
             /*console.log(data.dom)*/
             var _self = this;
              if (data.option && typeof data.option === "object") {
             	 data.myChart.setOption(data.option, true);
-            	 bus.$on("gradingStatisticsEnd",function(meg){
+            	 bus.$on("gradingStatisticsEnd",function(meg){ 
+            		 var a=JSON.parse(meg) 
+            		 _self.hSystemType=a.systemType;  
             	 ajaxMethod(_self, 'post',
                  'main/queryGradingStatistics', false,
                   meg, 'json',
@@ -151,7 +156,7 @@
 	            		 	} 
             	 	 });
             	 }); 
-            	 bus.$on("gradingStatisticsBegin",function(meg){
+            	 bus.$on("gradingStatisticsBegin",function(meg){    
               	 ajaxMethod(_self, 'post',
                    'main/queryGradingStatistics', false,
                     meg, 'json',
@@ -175,10 +180,39 @@
               		 }
               	 	 });
                });  
-            	 bus.$on("getgradingTime",function(meg){
-               });  
           }
-        }
+             bus.$on("pie",function(val1,val3){ 
+            	 console.log(val1,val3);
+            	 this.val1=val1;
+            	 this.val3=val3; 
+            	 console.log(this.val1,this.val3);
+             });
+             var that=this; 
+          data.myChart.on('click', function (params) {  
+        	 var sprankLevel ="",
+        	     gradingBeginTimeStamp="",
+        	     gradingEndTimeStamp="",
+        	     systemType="",
+        	     gradingShapeType="";    
+              if(params.name== "一级"){ 
+            	  sprankLevel="301"; 
+	             }else if(params.name== "二级"){
+	            	 sprankLevel="302";
+	             }else if(params.name== "三级"){
+	            	 sprankLevel="303";
+	             }else if(params.name== "四级"){
+	            	 sprankLevel="304";
+	             }else if(params.name== "五级"){
+	            	 sprankLevel="305";
+	             } 
+              gradingBeginTimeStamp=that.val1;
+     	      gradingEndTimeStamp=that.val3;
+     	      systemType=that.hSystemType;
+     	      gradingShapeType="";
+             window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
+           /*  window.location.href = "http://echarts.baidu.com/examples/editor.html";*/
+         }) 
+        },
       })
     })
   })

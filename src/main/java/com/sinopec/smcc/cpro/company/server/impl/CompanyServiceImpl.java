@@ -173,11 +173,59 @@ public class CompanyServiceImpl implements CompanyService {
    */
   @Override
   @Transactional
-  public void delelteCompany(CompanyParam companyParam) throws BusinessException {
-    System.out.println("companyParam:"+companyParam);
+  public List<CompanyListResult> delelteCompany(CompanyParam companyParam) throws BusinessException {
     if(companyParam.getCompanyIds() == null || companyParam.getCompanyIds().length == 0)
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
-    this.companyMapper.updateCompanyByCompanyIds(companyParam);
+    //查询有系统的单位列表
+    List<CompanyListResult> existSysList = this.companyMapper.
+        selectAllCompanyExistSysByParam(companyParam);
+    //用于提醒用户哪些单位下有系统
+    List<CompanyListResult> failedDeleteList = null;
+    //有单位下存在系统时
+    if (existSysList != null) {
+      failedDeleteList = new ArrayList<CompanyListResult>();
+      int existSysListSize = existSysList.size();
+      String[] companyIds = companyParam.getCompanyIds();
+      if(companyIds.length > existSysListSize){
+        //准备新的companyIds来删除
+        String[] newCompanyIds = new String[companyIds.length - existSysListSize];
+        //用于对newCompanyIds计数
+        int newCompanyIdsI = 0;
+        for (int i = 0; i < companyIds.length; i++) {
+          boolean deleteIt = true;
+          for (CompanyListResult companyListResult : existSysList) {
+            //存在系统
+            if (companyListResult.getCompanyId().equals(companyIds[i])) {
+              failedDeleteList.add(companyListResult);
+              deleteIt = false;
+              break;
+            }
+          }
+          if (deleteIt) {
+            newCompanyIds[newCompanyIdsI] = companyIds[i];
+            newCompanyIdsI++;
+          }
+        }
+        //数量不对时，不删除
+        if (newCompanyIds.length != 0 && newCompanyIdsI != newCompanyIds.length - 1) {
+          companyParam.setCompanyIds(null);
+          failedDeleteList = null;
+        }else{
+          companyParam.setCompanyIds(newCompanyIds);
+        }
+      }else if(companyIds.length == existSysListSize){
+        //全部单位都存在系统
+        for (CompanyListResult companyListResult : existSysList) {
+          failedDeleteList.add(companyListResult);
+        }
+        companyParam.setCompanyIds(null);
+      }
+      
+    }
+    if(companyParam.getCompanyIds() != null && companyParam.getCompanyIds().length > 0){
+      this.companyMapper.updateCompanyByCompanyIds(companyParam);
+    }
+    return failedDeleteList;
   }
   
   /**

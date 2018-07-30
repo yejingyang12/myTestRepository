@@ -100,8 +100,9 @@ public class CompanyController {
   @ResponseBody
   public ResultApi deleteCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
-    this.companyServiceImpl.delelteCompany(companyParam);
+    List<CompanyListResult> companys = this.companyServiceImpl.delelteCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(companys);
     return result;
   }
   

@@ -1,4 +1,5 @@
 var data={
+			materialViewShow:false,
       formData:{
       	systemName:'',
         gradingId:'',
@@ -86,6 +87,11 @@ var data={
                       	}
                         _self.formData = responseData.data;
                       }
+                      if(_self.formData.fkSpRanklevel<303 || _self.formData.fkSpRanklevel<'303'){
+                    		this.materialViewShow = false;
+                    	}else{
+                    		this.materialViewShow = true;
+                    	}
                       if(_self.formData.fkBizSPRankDegree!=''){
                         _self.formData.fkBizSPRankDegree = _self.formData.fkBizSPRankDegree+",";
                         var bizSPRankDegree = _self.formData.fkBizSPRankDegree.split(",");
@@ -104,6 +110,7 @@ var data={
                           }
                         }
                       }
+                      bus.$emit('materialView',this.materialViewShow);
                     },
                     // 获取安全按等级成功
                     submitGradeInfoSuccessMethod : function(_self, responseData) {

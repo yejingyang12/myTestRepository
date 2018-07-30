@@ -1,5 +1,9 @@
 (function () {
   var data={
+	hgradingShapeType:"",	  
+	hSystemType:1,
+	val1:"",
+    val3:"",
     dom:null,
     myChart:null,
     option :null,
@@ -198,6 +202,8 @@
             	 });
              }); 
           	 bus.$on("gradingShapeType",function(meg){
+          		 var a=JSON.parse(meg); 
+        		 _self.hSystemType=a.systemType;  
             	 ajaxMethod(_self, 'post',
                  'main/queryGradingStatistics', false,
                   meg, 'json',
@@ -233,6 +239,38 @@
             	 });
              }); 
            }
+           bus.$on("bar",function(val1,val3,hgradingShapeType){ 
+          	 console.log(val1,val3);
+          	 this.val1=val1;
+          	 this.val3=val3; 
+          	 this.hgradingShapeType=hgradingShapeType; 
+          	/* console.log(this.val1,this.val3);*/
+           });
+           var that=this;
+           data.myChart.on('click', function (params) {  
+          	 var sprankLevel ="",
+          	     gradingBeginTimeStamp="",
+          	     gradingEndTimeStamp="",
+          	     systemType="",
+          	     gradingShapeType="";    
+                if(params.name== "一级"){ 
+              	  sprankLevel="301"; 
+  	             }else if(params.name== "二级"){
+  	            	 sprankLevel="302";
+  	             }else if(params.name== "三级"){
+  	            	 sprankLevel="303";
+  	             }else if(params.name== "四级"){
+  	            	 sprankLevel="304";
+  	             }else if(params.name== "五级"){
+  	            	 sprankLevel="305";
+  	             } 
+               gradingBeginTimeStamp=that.val1;
+       	      gradingEndTimeStamp=that.val3;
+       	      systemType=that.hSystemType;
+       	      gradingShapeType=that.hgradingShapeType;
+               window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
+/*               window.location.href = "http://echarts.baidu.com/examples/editor.html";
+*/           }) 
           
         }
       })

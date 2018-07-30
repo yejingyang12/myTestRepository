@@ -16,33 +16,25 @@
      <link rel="stylesheet" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}">
     <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
-
-
-    <style>
-        .mcAdd .addBaseBg,.mcAdd  .addSysBg{
-            background-position: 0px -140px;
-        }
-        .mcAdd .addRankBg{
-            background-position:-140px -70px;
-        }
-        .mcAddWrap .line{
-            background:#58B24B;
-        }
-      .saveTitle {
-        margin-left: 8px;
-        }
-  .bottom .centerline {
+<style>
+.text-right{ color:#333; }
+.text-left{  color:#666; }
+.mcAdd .addBaseBg,.mcAdd  .addSysBg{ background-position: 0px -140px; }
+.mcAdd .addRankBg{ background-position:-140px -70px; }
+.mcAddWrap .line{ background:#58B24B; }
+.saveTitle { margin-left: 8px; }
+.bottom .centerline {
  	position: absolute;
     left: 0;
     top:112px;  
     margin-top:50px;
 }
-   .bottom .over_time {
+.bottom .over_time {
  	position: absolute;
     left: 0;
     top:178px;  
   }  
-   .bottom  {
+.bottom  {
      padding-top:204px;
      position:relative;
 }
@@ -57,8 +49,7 @@
 .xzBox>span{
 	padding-right:10px;
 }
-    </style>
-    
+</style> 
 </head>
 <body>
 <div id="app">
@@ -74,6 +65,9 @@
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
 <script src="../../static/js/public/index.js" th:attr="src=@{/js/public/index.js}"></script>
 <script src="../../static/js/public/jquery.min.js" th:attr="src=@{/js/public/jquery.min.js}"></script>
+<script type="text/javascript">
+    var bus = new Vue();
+</script>
 <script type="text/javascript" th:inline="javascript">
   var companyId = [[${companyId}]];
   var systemId = [[${systemId}]];

@@ -101,7 +101,7 @@ window.onload = function () {
                 executiveDireConTel:"",
                 whenInvestmentUse:"",
                 subIsSystem:"",
-                companyName:"",
+                companyName:data.formData.companyName,
                 fkComCode:"",
                 changeType:"",
                 stars:"1",

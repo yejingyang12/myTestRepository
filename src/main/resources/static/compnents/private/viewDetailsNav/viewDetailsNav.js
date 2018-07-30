@@ -2,16 +2,17 @@
  * Created by timha on 2018/5/29.
  */
 (function () {
-    var data={
+    var data1={
     		systemName:'',
-    		activeName: 'information'
+    		activeName: 'information',
+    		materialView:false
     };
     Vue.component('viewDetailsNav',function (resolve,reject) {
         $.get(comp_src+'/compnents/private/viewDetailsNav/viewDetailsNav.html').then(function(res){
             resolve({
                 template:res,
                 data:function () {
-                    return data;
+                    return data1;
                 },
                 methods:{
                     handleClick: function(tab, event) {
@@ -41,6 +42,12 @@
                 },
                 mounted: function() {
                     // this.selectChange()
+                	var _self=this;
+                	bus.$on('materialView',function(meg){
+                    if(meg!=null){
+                    	_self.materialView = meg;
+                    }
+                  });
                 }
             })
         })

@@ -10,9 +10,8 @@
     <link rel="stylesheet" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
     <!--时间选择器-->
-		<link rel="stylesheet" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
-    <!--组件样式-->
-    
+	<link rel="stylesheet" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
+    <!--组件样式--> 
     <link rel="stylesheet" href="../../static/css/private/record.css" th:attr="href=@{/css/private/record.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/private/fishbone.css" th:attr="href=@{/css/private/fishbone.css}">
     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}">
@@ -22,73 +21,57 @@
     <link rel="stylesheet" href="../../static/css/private/addList.css" th:attr="href=@{/css/private/addList.css}">
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
     <link rel="stylesheet" href="../../static/css/private/revokeRecord.css" th:attr="href=@{/css/private/revokeRecord.css}">
-    
-     
-
-  <style>
-        .mcAdd .addBaseBg,.mcAdd  .addSysBg{
-            background-position: 0px -140px;
-        }
-        .mcAdd .addRankBg{
-            background-position:-140px -70px;
-        }
-        .mcAddWrap .line{
-            background:#58B24B;
-        }
-      .saveTitle {
-			    margin-left: 8px;
-			}
-			.bottom .content {
-			     position: relative;  
-			    top: 208px;
-			}
-			.fishBone ul {
-			    height: 100%;
-			    white-space: nowrap;
-			    overflow-x: auto;
-			}
-			.innerSys p.cut:before{
-				display:none;
-			}
-			.innerSys p .tianMsg{
-		    margin:0;
-		    margin-bottom:30px;
-			}
-			.cut:after{margin-left:0;}
-			.process .line{
-				width:100%;
-			}
-			.uploadBox input{
-			    width:70px;
-			    height: 34px;
-			    margin: 0;
-			    padding: 0;
-			    overflow: hidden;
-			    position: absolute;
-			    right: 0;
-			    top: 0;
-			    opacity: 0;
-			}
-			.cut:after, .recordMain:after {
+<style>
+.el-form-item__label{width:222px!important;}
+.el-form .el-form-item__content{margin-left: 222px!important;}
+.mcAdd .addBaseBg,.mcAdd  .addSysBg{ background-position: 0px -140px;  }
+.mcAdd .addRankBg{ background-position:-140px -70px; }
+.mcAddWrap .line{ background:#58B24B; }
+.saveTitle { margin-left: 8px; }
+.bottom .content {
+	position: relative;  
+	top: 208px;
+}
+.fishBone ul {
+    height: 100%;
+    white-space: nowrap;
+    overflow-x: auto;
+}
+.innerSys p.cut:before{ display:none; }
+.innerSys p .tianMsg{
+    margin:0;
+    margin-bottom:30px;
+}
+.cut:after{margin-left:0;}
+.process .line{
+	width:100%;
+}
+.uploadBox input{
+    width:70px;
+    height: 34px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.cut:after, .recordMain:after {
     content: "";
     display: none; 
 }
-.xzBox {
-	padding:0;
+.xzBox { padding:0; }
+.xzBox>span{ padding-right:10px; }
+.fishBone ul li .centerline {
+   margin-left: 5px;
+   height:10px;
+   width:260px;
 }
-.xzBox>span{
-	padding-right:10px;
-}
-	
-	.fishBone ul li .centerline {
-    margin-left: 5px;
-    height:10px;
-    width:260px;
-}
-   .bottom .over_time {
- 	position: absolute;
-    left: 0;
-    top:140px;  
+.bottom .over_time {
+  position: absolute;
+  left: 0;
+  top:140px;  
 }
 .bottom  {
      padding-top:1px;
@@ -100,8 +83,7 @@
     top:75px;  
     margin-top:50px;
 }
-
- .beianline{
+.beianline{
     content: '';
     display: block;
     width: 100%;
@@ -111,7 +93,6 @@
     bottom: 20px;
     left:15px;
 }
- 
 .fishBone ul li .centerline {
     margin-left: 5px;
     height:30px;
@@ -134,8 +115,8 @@
 	overflow-x: auto;
 	padding-top:40px;
 }		    
-    </style>
-    </head>
+</style>
+</head>
 <body>
 <div id="app">
     <smcc-header>

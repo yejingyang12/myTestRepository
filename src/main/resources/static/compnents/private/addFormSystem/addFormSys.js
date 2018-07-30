@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
+		jurisdiction: false,
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
     check:false,
@@ -1133,8 +1134,25 @@ var  data={
                       _self.sysNameExecutive = responseData.data;
 //                      console.log(JSON.stringify(responseData.data))
                     },
+                    //获取权限
+          					getPermitJurisdictionInfo: function(_self){
+                      ajaxMethod(_self,"get",
+                          "jurisdiction/queryMenuJurisdictionApi",false,
+                          JSON.stringify(""),"json",
+                          'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+                    },
+                    getPermitJurisdictionSuccess: function(_self,response){
+                      _self.jurisdiction = getJurisdictionMethod(response,S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE);
+                    }
                 },
                 created: function() {
+                	//获取权限
+                	this.getPermitJurisdictionInfo(this);
+                	if(type == "new" || type == "create"){
+                		if(this.jurisdiction){
+                			this.companyNameDisabled = false;
+                		}
+                	}
                   // 获取系统信息
                   this.getSystemInfoMethod(this);
                   // 获取业务承受业务类型

@@ -56,7 +56,7 @@ public interface CompanyService {
    * @return
    * @throws BusinessException
    */
-  void delelteCompany(CompanyParam companyParam) throws BusinessException;
+  List<CompanyListResult> delelteCompany(CompanyParam companyParam) throws BusinessException;
 
   /**
    * @Descrption 通过CompanyId查询单位详情

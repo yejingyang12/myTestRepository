@@ -18,7 +18,7 @@
                         责任部门负责人:
                     </div>
                     <div class="col-md-3 h-col-md-9 h-padding pos-relative">
-                        <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.ldContactName">
+                        <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.ldContactName"/>
                     </div>
                     <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="...">
                         <button type="button" @click="queryCompanyListInfoMethod()" class="btn btn-default" style="width:70px;background:#3d95df;color:#fff;">查询</button>
@@ -31,7 +31,7 @@
         <p class="h-p" style="margin: 15px 0;">
             <button   class="h-btn btn h-btn-add" id="h-btn-add" @click="newCompanyInfoMethod()" style="border: none;"> </button>
             <button type="button" class="hh-btn btn btn-default h-bagimg" id="h-btn-add" @click="check = true">
-                <img class="hh-add   btn-default" src="/images/del.png" alt="">
+                <img class="hh-add   btn-default" src="/images/del.png" alt=""/>
                 <slot name="shanchu"></slot>
             </button>
         </p>
@@ -42,7 +42,7 @@
                         <tr class="tr-row rowOne">
                             <th class="firstChecked"
                                 style="width:4%;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
-                                <input class="checkName frist" type="checkbox" @click="checkboxAllMethod()" style=" margin: 4px 36%;" id="checkboxAll"></th>
+                                <input class="checkName frist" type="checkbox" @click="checkboxAllMethod()" style=" margin: 4px 36%;" id="checkboxAll"/></th>
                             <th style="min-width:47px">序号</th>
                             <th>单位名称
                                 <slot name="paixujiantou"></slot>
@@ -57,7 +57,7 @@
                         </tr>
                         <tr class="tr-row" v-for="(item,index) in companyForm.formData">
                             <td class="firstChecked" style="min-width:34px;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
-                              <input class="checkName ids" type="checkbox" style="margin: 4px 36%;" @click="checkboxMethod($event,item.companyId)">
+                              <input class="checkName ids" type="checkbox" style="margin: 4px 36%;" @click="checkboxMethod($event,item.companyId)"/>
                             </td>
                             <td>{{index+1}}</td>
                             <td>{{item.companyName}} </td>
@@ -119,7 +119,7 @@
                   </a>
                 </li> 共{{companyForm.totalPages}}页，跳到
                 <li>
-                <input type="text" id="txt" v-model="companyForm.txt" @keydown.enter="hpageNum(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="overflow: visible;">
+                <input type="text" id="txt" v-model="companyForm.txt" @keydown.enter="hpageNum(this)" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" style="overflow: visible;"/>
                   <div class="box" id="box"></div></li> 页
               </ul>
             </nav>
@@ -142,7 +142,14 @@
         </div>
     </div>
     <div class="startBox startBoxSuccess">
-      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
+    	<div>
+      	<i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
+      </div>
+    </div>
+    <div class="startBox startBoxExistSys">
+    	<div>
+      	<i class="failIcon">!</i><P>因存在系统,{{existSysCompanyNum}}条删除失败!</P>
+      </div>
     </div>
     <div class="startBox startBoxError">
         <div><i class="failIcon">!</i><P>请选择删除数据!</P></div>

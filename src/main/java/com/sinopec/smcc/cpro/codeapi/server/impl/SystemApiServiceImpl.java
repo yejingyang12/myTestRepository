@@ -11,6 +11,7 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,13 +49,13 @@ public class SystemApiServiceImpl implements SystemApiService{
     List<SystemApiResult> systemApiResultList = new ArrayList<SystemApiResult>();
     SystemInfoList systemInfoList = null;
     try {
-//      if(StringUtils.isNotBlank(systemApiParam.getCompanyCode())){
+      if(StringUtils.isNotBlank(systemApiParam.getCompanyCode())){
 //        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(
 //            systemApiParam.getCompanyCode()), SystemInfoList.class);
-//      }else{
+        systemInfoList = JSON.parseObject(systemApiClient.querySystemList("10010037"), SystemInfoList.class);
+      }else{
         systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
-//      }
-//      systemInfoList = JSON.parseObject(systemApiClient.querySystemList("34400000"), SystemInfoList.class);
+      }
     } catch (Exception e) {
       e.printStackTrace();
       return systemApiResultList;
@@ -68,11 +69,11 @@ public class SystemApiServiceImpl implements SystemApiService{
         outermost:
         for (int i = 0; i < systemInfoListSize; i++) {
           SystemInfo systemInfo = systemInfoList.getData().get(i);
-          if(!systemApiParam.getCompanyCode().equals("null")){
-            if(!systemApiParam.getCompanyCode().equals(systemInfo.getCuCode())){
-              continue;
-            }
-          }
+//          if(!systemApiParam.getCompanyCode().equals("null")){
+//            if(systemApiParam.getCompanyCode().equals(systemInfo.getCuCode())){
+//              continue;
+//            }
+//          }
           if("".equals(systemInfo.getSystemallname())||systemInfo.getSystemallname()==null){
             continue;
           }
