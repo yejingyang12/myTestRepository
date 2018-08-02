@@ -18,7 +18,7 @@
                  <div class="col-md-12 text-left clearPadding" >
                      <span class="col-md-1  clearPadding" 
                             style=" width: 71px;  min-width: 71px;"> 
-                             变更事项：
+                                                           变更事项：
                      </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px; padding: 0;">
                         <p class="textArea">{{formData.fkChangeMatter}}</p> 
@@ -31,7 +31,7 @@
              v-show="changeContentShow">
                  <div class="col-md-12 text-left clearPadding" >
                      <span class="col-md-1  clearPadding" style="  width: 71px;  min-width: 71px;  "> 
-                      变更原因：
+                                                                变更原因：
                      </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
                          <p class="textArea">{{formData.changeContent}}</p>
@@ -42,7 +42,7 @@
              <div class="row auditChangeshixiang" v-show="changeReasonShow"  style="margin-top: 10px;margin-left:10px;">
                  <div class="col-md-12 text-left clearPadding" >
                      <span class="col-md-1  clearPadding" style=" width: 71px;  min-width: 71px;">
-                      变更内容：
+                                                                  变更内容：
                        </span>
                      <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;" >
                          <p class="textArea">{{formData.changeReason}}</p>
@@ -52,8 +52,8 @@
              <!--变更事项-->
              <div class="row auditChangeshixiang" style="margin-top: 10px;margin-left:10px;" v-show="fkrevokematterShow">
                 <div class="col-md-12 text-left clearPadding" >
-                    <span class="col-md-1  clearPadding"  style=" width: 71px;  min-width: 71px;"> 
-                     变更事项：
+                     <span class="col-md-1  clearPadding"  style=" width: 71px;  min-width: 71px;"> 
+                                                                     变更事项：
                       </span>
                     <div class="auditChangeyuanyin col-md-10" style="margin-left: 10px;    padding: 0;">
                        <p   class="textArea">{{formData.fkrevokematter}}
@@ -65,7 +65,8 @@
              <div class="row auditChangeshixiang" v-show="revokereasonShow" style="margin-left: 10px;">
                  <div class="col-md-12 text-left clearPadding" >
                      <span class="col-md-1  clearPadding" style=" width: 71px;  min-width: 71px; margin-bottom: 10px;" >
-                       撤销原因： </span>
+                                                        撤销原因： 
+                    </span>
                      <div class="auditChangeyuanyin col-md-10" style=" padding-left: 0px;  margin-left: 10px;">
                          <p class="textArea">{{formData.revokereason}}</p>
                      </div>
@@ -75,7 +76,7 @@
             <div class="row auditChangeshixiang" style="margin-left:10px;" v-show="revokeRecordsNameShow">
                 <div class="col-md-12 text-left clearPadding" >
                     <span class="col-md-1  clearPadding" style=" width: 71px;  min-width: 71px"> 
-                     撤销证明：
+                                                            撤销证明：
                       </span>
                     <div class="auditChangeyuanyin col-md-10" style="padding-left: 0px;  margin-left: 10px;">
                         <p class="textArea">
@@ -90,21 +91,14 @@
                      <!--审核结果-->
                      <div class="row" style=" margin-left: 0;margin-top:5px;">
                          <div class="col-md-4 clearPadding">
-                             <div class="col-md-8 h-col-md-9" style="margin-left:-8px;">
-                             <!--  <template>
-                                <el-select v-model="formData.scoreCheckResult" id="scoreCheckResult" filterable placeholder="请选择" >
-                                  <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
-                                </el-select>
-                              </template> -->
-                              
+                             <div class="col-md-8 h-col-md-9" style="margin-left:-8px;">  
                               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 								  <el-form-item label="审核结果：" prop="scoreCheckResult">
-								    <el-select v-model="ruleForm.scoreCheckResult" id="scoreCheckResult" @change="changeScore()" filterable placeholder="请选择">
+								    <el-select clearable v-model="ruleForm.scoreCheckResult" id="scoreCheckResult" @change="changeScore()" filterable placeholder="请选择">
 								     <el-option v-for="item in scoreCheckResultList" :key="item.codeId" :label="item.codeName" :value="item.codeId"></el-option>
 								  </el-select>
 								  </el-form-item> 
-								 <div class="one"> 
-                 <!-- <div class="one" @click="submitForm('','ruleForm')">  -->
+								 <div class="one">  
 								      <el-form-item label="审核原因：" prop="scoreCheckReason" ref="scoreCheckReason">
 									    <el-input type="textarea" id="textArea" v-model="ruleForm.scoreCheckReason"></el-input>
 									  </el-form-item>

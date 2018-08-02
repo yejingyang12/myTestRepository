@@ -109,7 +109,10 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     border-left:1px solid #cecece;
 }
 .useData span i{
-    display: none;
+    display: block;
+}
+.el-icon-date:before{
+	display:none;
 }
 .useData .el-input__inner{
     padding:0 10px;
@@ -138,14 +141,14 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     overflow: hidden;
     position: absolute;
     right: 0;
-    top: 0;
+    bottom: 34px;
     opacity: 0;
 }
 .uploadSty button{
     position: absolute;
     width: 70px;
     right: 0;
-    top: 0;
+    bottom: 34px;
     padding: 0;
     height: 34px;
     border-radius:2px;
@@ -156,7 +159,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .uploadSty .fileList{
     width:calc(100% - 80px);
     border-bottom: 1px solid #cecece;
-    height: 34px;
+    height: unset;
+    min-height: 34px;
     overflow: hidden;
 }
 .fileList li{

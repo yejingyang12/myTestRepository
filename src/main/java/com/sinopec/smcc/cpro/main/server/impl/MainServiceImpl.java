@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,9 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jacob.com.Dispatch;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
@@ -39,10 +42,13 @@ import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
+import com.sinopec.smcc.cpro.file.constant.FileConstant;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.mapper.GradingMapper;
 import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
@@ -52,13 +58,15 @@ import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.mapper.MainMapper;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.main.utils.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.entity.NodeResult;
+import com.sinopec.smcc.cpro.node.server.impl.NodeServiceImpl;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
-import com.sinopec.smcc.cpro.system.entity.SystemSubResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
@@ -68,6 +76,7 @@ import com.sinopec.smcc.cpro.systemcode.server.SystemCodeService;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.FileOperateUtil;
 import com.sinopec.smcc.cpro.tools.JacobExcelTool;
+import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
 import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
@@ -111,6 +120,12 @@ public class MainServiceImpl implements MainService{
   
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
+  
+  @Autowired
+  private NodeServiceImpl nodeServiceImpl;
+  @Autowired
+  private GradingMapper gradingMapper;
+  
   
   /**
    * 响应等保列表数据
@@ -435,25 +450,50 @@ public class MainServiceImpl implements MainService{
    * 定级模板导出
    */
   @Override
-  public String exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds) 
-      throws BusinessException {
-    File file = new File(MainConstant.EXCEL_FILE_PATH);//原文件
-    String primaryfilePth = MainConstant.EXCEL_FILE_PATH;//原文件路径
+  public AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
+      HttpServletResponse response,String [] systemIds) throws BusinessException {
+    String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
     String filePath = MainConstant.TEMPORARY_FILE_PATH;//文件生成路径
-    String fileCopyPath = MainConstant.COPY_EXCEL_FILE_PATH;//复制路径
-    String expName = "定级模板"+"_"+DateUtils.getMilliseconds();
+    String temporaryCopyPath = MainConstant.TEMPORARY_COPY_EXCEL_FILE_PATH;//复制模板文件（导出文件）路径
+    String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds();
     GradingParam gradingParam = new GradingParam();
     gradingParam.setFkSystemIds(systemIds);
     List<GradingListResult> gradingListResultList = 
         this.gradingServiceImpl.queryGradingByParam(gradingParam);
     List<File> srcfile = new ArrayList<File>();// 生成的excel的文件的list
     File fileCopy = null;
-    //Excel宏设置
-    JacobExcelTool tool = new JacobExcelTool();
-    //打开
-    tool.OpenExcel(primaryfilePth,false,false);
     try {
-      for (GradingListResult gradingListResult : gradingListResultList) {
+      //获取模板文件
+      File tempFile = new File(tempPath+MainConstant.GRADING_TEMP_NAME);
+      //Excel宏设置
+      JacobExcelTool tool = new JacobExcelTool();
+      //循环生成选择的系统
+      for (int i = 0; i < gradingListResultList.size(); i++) {
+        GradingListResult gradingListResult = gradingListResultList.get(i);
+        //每次新生成一个Excel，并将模板内容复制给新生成的文件
+        String newFile = temporaryCopyPath + gradingListResult.getSystemName()+"_"+
+            DateUtils.getMilliseconds()+".xlsm";
+        fileCopy = new File(newFile);
+        FileInputStream ins = new FileInputStream(tempFile);
+        FileOutputStream out = new FileOutputStream(fileCopy);
+        byte[] b = new byte[1024];
+        int count=0;
+        while((count=ins.read(b))!=-1){
+          out.write(b, 0, count);
+        }
+        ins.close();
+        out.close();
+        
+        //打开excel文件，将需要填写的地方填写上
+        tool.OpenExcel(fileCopy.getAbsolutePath(),false,false);
+        tool.setValue(tool.getCurrentSheet(), "B1", "value",gradingListResult.getSystemName());
+        tool.setValue(tool.getCurrentSheet(), "D1", "value",gradingListResult.getStandardizedCode());
+        //关闭excel文件
+        tool.CloseExcel(true, true);
+        //将新生成的文件放入数组，便于打包使用
+        srcfile.add(fileCopy);
+      }
+      /*for (GradingListResult gradingListResult : gradingListResultList) {
         //如果业务信息级别与宏名相同则选中
         if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
           if(gradingListResult.getFkBizSPRankLevel().equals("1")){
@@ -542,15 +582,22 @@ public class MainServiceImpl implements MainService{
         srcfile.add(fileCopy);
         ins.close();
         out.close();
-      }
+      }*/
       // 将复制后的excel压缩
       FileOperateUtil.createRar(response, filePath, srcfile, expName);
       //压缩后清除复制的excel
-      FileOperateUtil.deleteAllFile(fileCopyPath);
+      FileOperateUtil.deleteAllFile(temporaryCopyPath);
+      //下载压缩包
+      /*FileOperateUtil.download(request, response, 
+          filePath+expName+".rar", expName+".rar", "UTF-8", "ISO8859-1", 20480);*/
     }catch (Exception e){
       e.printStackTrace();
     }
-    return filePath + expName;
+    //生成一个附件对象存放生成的文件信息，便于返回前台用于下载
+    AttachResult attachResult = new AttachResult();
+    attachResult.setUploadUrl(expName+".rar");
+    attachResult.setAttachName(expName+".rar");
+    return attachResult;
   }
   
   /**
@@ -2574,39 +2621,287 @@ public class MainServiceImpl implements MainService{
    * 定级模板导入
    */
   @Override
-  public void importExcelForGradeTemplate(String filePath) throws BusinessException {
-    File file = new File(filePath);//原文件
-    String primaryfilePth = MainConstant.EXCEL_FILE_PATH;//原文件路径
-
-    GradingParam gradingParam = new GradingParam();
-    List<File> srcfile = new ArrayList<File>();// 生成的excel的文件的list
-    File fileCopy = null;
-    //Excel宏设置
-    JacobExcelTool tool = new JacobExcelTool();
-    //打开
-    tool.OpenExcel(filePath,false,false);
-    try {
-        //打开excel文件
-        tool.OpenExcel(primaryfilePth,false,false);
-        
-        //关闭并保存，释放对象
-        tool.CloseExcel(true, true);
-       
-        FileInputStream ins = new FileInputStream(file);
-        FileOutputStream out = new FileOutputStream(fileCopy);
-        byte[] b = new byte[1024];
-        int count=0;
-        while((count=ins.read(b))!=-1){
-          out.write(b, 0, count);
-        }
-        srcfile.add(fileCopy);
-        ins.close();
-        out.close();
-      
-    }catch (Exception e){
-      e.printStackTrace();
+  public void importExcelForGradeTemplate(HttpServletRequest request, 
+      MultipartFile file, String userName) throws BusinessException {
+    if (file==null|file.getSize()<=1) {
+      throw new BusinessException(EnumResult.UNKONW_REQUEST_OBJ_ERROR);
     }
-
+    //控制fileId
+    String fileId = Utils.getUuidFor32();
+    //初始化文件路径
+    String filePath = FileConstant.TEMPORARY_FILE_PATH;
+    //获得真实文件名称
+    String fileName = file.getOriginalFilename();
+    //获取文件后缀
+    //String strExtensionName = fileName.substring(fileName.lastIndexOf("."));
+    //全路径
+    StringBuffer allfilePath = new StringBuffer();
+    try {
+      FileOperateUtil.uploadFile(file.getBytes(), filePath, 
+          fileId+fileName.substring(fileName.lastIndexOf(".")));
+      allfilePath.append(filePath).append(fileId).
+        append(fileName.substring(fileName.lastIndexOf(".")));
+    } catch (IOException e) {
+      throw new BusinessException(EnumResult.UNKONW_ERROR);
+    }
+    //读取导入文件
+    List<String[]> dataList = new ArrayList<String[]>();
+    try {
+      dataList.addAll(ExcelUtils.read(allfilePath.toString(), "sheet1"));
+    } catch (Exception e) {
+      e.printStackTrace();
+      dataList = new ArrayList<String[]>();
+      throw new BusinessException(EnumResult.UNKONW_ERROR);
+    }
+    if(dataList.size()<1){
+      throw new BusinessException(EnumResult.UNKONW_ERROR);
+    }
+    for (String[] strings : dataList) {
+      for (int i = 0; i < strings.length; i++) {
+        System.out.print("第"+i+"="+strings[i]+" ");
+      }
+      System.out.println();
+    }
+    //获取系统信息用于核对信息
+    SystemParam systemParam = new SystemParam();
+    //如果第一行数据不足4个，即导入模板错误
+    if(dataList.get(0).length < 4){
+      throw new BusinessException(EnumResult.UNKONW_ERROR);
+    }
+    String systemName = dataList.get(0)[1];
+    systemParam.setSystemName(systemName);
+    String standardizedCode = dataList.get(0)[3];
+    systemParam.setStandardizedCode(standardizedCode);
+    //如果系统名称或标准化代码没填写，导入失败
+    if(StringUtils.isBlank(systemName) || StringUtils.isBlank(standardizedCode)){
+      throw new BusinessException(EnumResult.UNKONW_ERROR);
+    }
+    //根据系统名称和标准化代码查询系统信息
+    SystemResult systemResult = this.systemMapper.
+        selectSystemBySystemNameAndStandardizedCode(systemParam);
+    //查不出系统时导入失败
+    if(systemResult == null){
+      throw new BusinessException(EnumResult.UNKONW_ERROR);
+    }else{
+      //开始查询定级信息
+      GradingParam gradingParam = new GradingParam();
+      gradingParam.setFkSystemId(systemResult.getSystemId());
+      GradingListResult gradingResult = this.gradingMapper.selectDetailsGrading(gradingParam);
+      //没有定级信息则添加，有则修改
+      gradingParam.setCreateTime(new Date());
+      boolean existGradingId = true;
+      if(gradingResult == null){
+        gradingParam.setGradingId(Utils.getUuidFor32());
+        gradingParam.setCreateUserName(userName);
+        existGradingId = false;
+      }else{
+        gradingParam.setGradingId(gradingResult.getGradingId());
+      }
+      //业务信息-损害客体及损害程度,系统代码表Code多选用‘，’隔开
+      String fkBizSPRankDegree = "";
+      if("1".equals(dataList.get(2)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10101,";
+      }
+      if("1".equals(dataList.get(3)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10201,";
+      }
+      if("1".equals(dataList.get(4)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10202,";
+      }
+      if("1".equals(dataList.get(5)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10301,";
+      }
+      if("1".equals(dataList.get(6)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10302,";
+      }
+      if("1".equals(dataList.get(7)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10303,";
+      }
+      if("1".equals(dataList.get(8)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10401,";
+      }
+      if("1".equals(dataList.get(9)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10402,";
+      }
+      if("1".equals(dataList.get(10)[1])){
+        fkBizSPRankDegree = fkBizSPRankDegree + "10501,";
+      }
+      gradingParam.setFkBizSPRankDegree(fkBizSPRankDegree);
+      //业务信息--级别
+      String fkBizSPRankLevel = "";
+      switch (dataList.get(2)[4]) {
+      case "1":
+        fkBizSPRankLevel = "101";
+        break;
+      case "2":
+        fkBizSPRankLevel = "102";
+        break;
+      case "3":
+        fkBizSPRankLevel = "103";
+        break;
+      case "4":
+        fkBizSPRankLevel = "104";
+        break;
+      case "5":
+        fkBizSPRankLevel = "105";
+        break;
+      default:
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }
+      gradingParam.setFkBizSPRankLevel(fkBizSPRankLevel);
+      //系统服务-损害客体及损害程，系统代码表Code多选用‘，’隔开
+      String fkBizSystemDegree = "";
+      if("1".equals(dataList.get(12)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20101,";
+      }
+      if("1".equals(dataList.get(13)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20201,";
+      }
+      if("1".equals(dataList.get(14)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20202,";
+      }
+      if("1".equals(dataList.get(15)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20301,";
+      }
+      if("1".equals(dataList.get(16)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20302,";
+      }
+      if("1".equals(dataList.get(17)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20303,";
+      }
+      if("1".equals(dataList.get(18)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20401,";
+      }
+      if("1".equals(dataList.get(19)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20402,";
+      }
+      if("1".equals(dataList.get(20)[1])){
+        fkBizSystemDegree = fkBizSystemDegree + "20501,";
+      }
+      gradingParam.setFkBizSystemDegree(fkBizSystemDegree);
+      //系统服务--级别
+      String fkBizSystemLevel = "";
+      switch (dataList.get(11)[4]) {
+      case "1":
+        fkBizSystemLevel = "201";
+        break;
+      case "2":
+        fkBizSystemLevel = "202";
+        break;
+      case "3":
+        fkBizSystemLevel = "203";
+        break;
+      case "4":
+        fkBizSystemLevel = "204";
+        break;
+      case "5":
+        fkBizSystemLevel = "205";
+        break;
+      default:
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }
+      gradingParam.setFkBizSystemLevel(fkBizSystemLevel);
+      //信息系统安全保护等级
+      Integer intSPRankLevel = Integer.parseInt(dataList.get(2)[4]);
+      Integer intSystemLevel = Integer.parseInt(dataList.get(11)[4]);
+      String fkSpRanklevel = intSPRankLevel > intSystemLevel?dataList.get(2)[4]:dataList.get(11)[4];
+      switch (fkSpRanklevel) {
+      case "1":
+        fkSpRanklevel = "301";
+        break;
+      case "2":
+        fkSpRanklevel = "302";
+        break;
+      case "3":
+        fkSpRanklevel = "303";
+        break;
+      case "4":
+        fkSpRanklevel = "304";
+        break;
+      case "5":
+        fkSpRanklevel = "305";
+        break;
+      default:
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }
+      gradingParam.setFkSpRanklevel(fkSpRanklevel);
+      //TODO:定级说明描述,模板中没有，故此默认空字符串
+      String rankExplainDesc = "";
+      gradingParam.setRankExplainDesc(rankExplainDesc);
+      //专家评审情况
+      String strExpertView = dataList.get(23)[1];
+      Integer expertView = Integer.parseInt(strExpertView);
+      gradingParam.setExpertView(expertView);
+      //定级时间
+      String strRankTime = dataList.get(21)[1];
+      Date rankTime;
+        try {
+          rankTime = DateUtils.getDate("yyyy-MM-dd HH:mm:ss", strRankTime);
+        } catch (ParseException e) {
+          e.printStackTrace();
+          throw new BusinessException(EnumResult.UNKONW_ERROR);
+        }
+      gradingParam.setRankTime(rankTime);
+      //是否有主管部门
+      String strCompetentIsExisting = dataList.get(21)[3];
+      Integer competentIsExisting = Integer.parseInt(strCompetentIsExisting);
+      gradingParam.setCompetentIsExisting(competentIsExisting);
+      //主管部门名称
+      String competentName = dataList.get(22)[1];
+      gradingParam.setCompetentName(competentName);
+      //主管审批定级情况
+      String strCompetentView = dataList.get(23)[1];
+      Integer competentView = Integer.parseInt(strCompetentView);
+      gradingParam.setCompetentView(competentView);
+      //填写人
+      String filler = dataList.get(24)[1];
+      gradingParam.setFiller(filler);
+      //填写时间
+      String strFillDate = dataList.get(24)[3];
+      Date fillDate;
+      try {
+        fillDate = DateUtils.getDate("yyyy-MM-dd HH:mm:ss", strFillDate);
+      } catch (ParseException e) {
+        e.printStackTrace();
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }
+      gradingParam.setFillDate(fillDate);
+      
+      //准备节点信息
+      if (existGradingId) {
+        //添加节点状态信息
+        NodeParam nodeParam = new NodeParam();
+        nodeParam.setSystemId(gradingParam.getFkSystemId());
+        nodeParam.setOperation("申请变更");
+        nodeParam.setOperationResult("已修改");
+        nodeParam.setOperationOpinion("");
+        nodeParam.setOperator(userName);
+        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+        if (nodeResult == null) {
+          this.nodeServiceImpl.addNodeInfo(nodeParam);
+        }else{
+          nodeParam.setNodeId(nodeResult.getNodeId());
+          this.nodeServiceImpl.editNodeInfo(nodeParam);
+        }
+      } else {
+        //添加节点状态信息
+        NodeParam nodeParam = new NodeParam();
+        nodeParam.setSystemId(gradingParam.getFkSystemId());
+        nodeParam.setOperation("创建");
+        nodeParam.setOperationResult("已创建");
+        nodeParam.setOperationOpinion("");
+        nodeParam.setOperator(userName);
+        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+        if (nodeResult == null) {
+          this.nodeServiceImpl.addNodeInfo(nodeParam);
+        }else{
+          nodeParam.setNodeId(nodeResult.getNodeId());
+          this.nodeServiceImpl.editNodeInfo(nodeParam);
+        }
+      }
+      //导入数据获取成功，准备保存定级信息
+      this.gradingMapper.insertGrading(gradingParam);
+    }
   }
 
   /**

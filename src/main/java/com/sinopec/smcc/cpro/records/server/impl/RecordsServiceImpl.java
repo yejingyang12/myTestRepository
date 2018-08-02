@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
@@ -62,6 +63,8 @@ public class RecordsServiceImpl implements RecordsService{
   private MainService mainServiceImpl;
   @Autowired
   private CheckService checkServiceImpl;
+  @Autowired
+  private WorkFlowApiService workFlowApiServiceImpl;
   
 
   /**
@@ -164,13 +167,17 @@ public class RecordsServiceImpl implements RecordsService{
     RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
         selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
     //修改审核状态
-    CheckParam checkParam = new CheckParam();
-    checkParam.setFkSystemId(recordsParam.getFkSystemId());
-    checkParam.setFkExaminStatus("1");
-    checkParam.setFkBusinessNode("2");
-    checkParam.setPrevExecutor(userName);
-    checkParam.setExecuteTime(new Date());
-    checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//    CheckParam checkParam = new CheckParam();
+//    checkParam.setFkSystemId(recordsParam.getFkSystemId());
+//    checkParam.setFkExaminStatus("1");
+//    checkParam.setFkBusinessNode("2");
+//    checkParam.setPrevExecutor(userName);
+//    checkParam.setExecuteTime(new Date());
+//    checkServiceImpl.editCheckStatusBySystemId(checkParam);
+    
+    //发起审核流程
+    workFlowApiServiceImpl.initStart("撤销备案", "3", recordsParam.getFkSystemId());
+    
 //    
 //    //修改系统状态
 //    MainParam mainParam = new MainParam();
@@ -197,15 +204,15 @@ public class RecordsServiceImpl implements RecordsService{
         //TODO: 保存文件出错
       }
     }
-    
-    //添加节点状态信息
-    NodeParam nodeParam = new NodeParam();
-    nodeParam.setSystemId(recordsParam.getFkSystemId());
-    nodeParam.setOperation("撤销备案");
-    nodeParam.setOperationResult("已提交");
-    nodeParam.setOperationOpinion("");
-    nodeParam.setOperator(userName);
-    this.nodeServiceImpl.addNodeInfo(nodeParam);
+//    
+//    //添加节点状态信息
+//    NodeParam nodeParam = new NodeParam();
+//    nodeParam.setSystemId(recordsParam.getFkSystemId());
+//    nodeParam.setOperation("撤销备案");
+//    nodeParam.setOperationResult("已提交");
+//    nodeParam.setOperationOpinion("");
+//    nodeParam.setOperator(userName);
+//    this.nodeServiceImpl.addNodeInfo(nodeParam);
   }
 
   /**
@@ -223,13 +230,16 @@ public class RecordsServiceImpl implements RecordsService{
     RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
         selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
     //修改审核状态
-    CheckParam checkParam = new CheckParam();
-    checkParam.setFkSystemId(recordsParam.getFkSystemId());
-    checkParam.setFkExaminStatus("5");
-    checkParam.setPrevExecutor(userName);
-    checkParam.setExecuteTime(new Date());
-    checkParam.setCancelRecordsResult(1);
-    checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//    CheckParam checkParam = new CheckParam();
+//    checkParam.setFkSystemId(recordsParam.getFkSystemId());
+//    checkParam.setFkExaminStatus("5");
+//    checkParam.setPrevExecutor(userName);
+//    checkParam.setExecuteTime(new Date());
+//    checkParam.setCancelRecordsResult(1);
+//    checkServiceImpl.editCheckStatusBySystemId(checkParam);
+    
+    //发起审核流程
+//    workFlowApiServiceImpl.initStart("撤销备案", "2", recordsParam.getFkSystemId());
     
     //修改系统状态
     MainParam mainParam = new MainParam();
@@ -258,13 +268,13 @@ public class RecordsServiceImpl implements RecordsService{
     }
     
     //添加节点状态信息
-    NodeParam nodeParam = new NodeParam();
-    nodeParam.setSystemId(recordsParam.getFkSystemId());
-    nodeParam.setOperation("撤销备案");
-    nodeParam.setOperationResult("");
-    nodeParam.setOperationOpinion("");
-    nodeParam.setOperator(userName);
-    this.nodeServiceImpl.addNodeInfo(nodeParam);
+//    NodeParam nodeParam = new NodeParam();
+//    nodeParam.setSystemId(recordsParam.getFkSystemId());
+//    nodeParam.setOperation("撤销备案");
+//    nodeParam.setOperationResult("");
+//    nodeParam.setOperationOpinion("");
+//    nodeParam.setOperator(userName);
+//    this.nodeServiceImpl.addNodeInfo(nodeParam);
   }
   
   /**

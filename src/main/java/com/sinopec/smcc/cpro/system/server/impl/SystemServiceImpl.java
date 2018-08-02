@@ -24,11 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.api.SystemApiClient;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList;
+import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList.SystemInfo;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.main.server.MainService;
@@ -36,6 +40,8 @@ import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.server.CheckService;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyProducts;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
@@ -50,7 +56,7 @@ import com.sinopec.smcc.cpro.system.mapper.SystemKeyProductsMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemUseServicesMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
-import com.sinopec.smcc.cpro.system.util.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.system.util.SystemInfoUtil;
 import com.sinopec.smcc.cpro.tools.JacobExcelTool;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
@@ -82,6 +88,8 @@ public class SystemServiceImpl implements SystemService {
   private JurisdictionApiService jurisdictionApiServiceImpl;
 	@Autowired
   private UserApiService userApiServiceImpl;
+	@Autowired
+  private SystemApiClient systemApiClient;
 	
 	/**
    * 响应系统列表数据
@@ -93,7 +101,7 @@ public class SystemServiceImpl implements SystemService {
 		//判断field是否有值
 		if(StringUtils.isNotBlank(systemParam.getField())){
 			//如有值，则将排序字段放入orderBy对象
-			orderBy.append(ConvertFieldUtil.sortField(systemParam.getField()));
+			orderBy.append(SystemInfoUtil.sortField(systemParam.getField()));
 			if(StringUtils.isNotBlank(systemParam.getSort())){
 				orderBy.append(" ").append(systemParam.getSort());
 			}
@@ -1547,5 +1555,112 @@ public class SystemServiceImpl implements SystemService {
     this.systemUseServicesMapper.insertSystemUseServicesBySystemUseServicesId(
         systemUseServicesList);
     this.systemMapper.insertBatchSystem(subSystemList);
+  }
+  
+  /**
+   * 通过系统ID查询审核列表系统信息
+   */
+  @Override
+  public SystemResult querySystemByCheck(SystemParam systemParam) {
+    return systemMapper.selectSystemByCheck(systemParam);
+  }
+  
+  /**
+   * 获取维护单位系统信息导出回显
+   */
+  @Override
+  public List<SystemEchoResult> querySystemInfoEchoList(
+      SystemEchoParam systemEchoParam) {
+    
+    List<SystemEchoResult> systemEchoResultList = new ArrayList<SystemEchoResult>();
+    
+    //获取系统信息
+    SystemParam systemParam = new SystemParam();
+    systemParam.setSystemName(systemEchoParam.getSearchSystem());
+    List<SystemListResult> systemList = new ArrayList<SystemListResult>();
+    
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    
+    if(organizationApiResult==null){
+      return systemEchoResultList;
+    }else{
+     
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        systemList = 
+            systemMapper.selectAllBySystemParam(systemParam);
+        break;
+      case "2":
+        systemParam.setPlateList(organizationApiResult.getNameList());
+        systemList =  
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+      case "3":
+        systemParam.setCompanyList(organizationApiResult.getCodeList());
+        systemList =  
+            this.systemMapper.selectAllBySystemParam(systemParam);
+        break;
+
+      default:
+        break;
+      }
+    }
+    
+    SystemInfoList systemInfoList = null;
+    try {
+      systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return systemEchoResultList;
+    }
+    
+    if (systemList!=null&&systemList.size()>0) {
+      if (systemInfoList!=null&&systemInfoList.getData()!=null&&systemInfoList.getData().size()>0) {
+        int systemListSize = systemList.size();
+        int systemInfoListSize = systemInfoList.getData().size();
+        outermost:
+        for (int i = 0; i < systemListSize; i++) {
+          SystemListResult systemListResult = systemList.get(i);
+          if("3".equals(systemListResult.getFkSystemType())){
+            continue;
+          }
+          
+          for (int j = 0; j < systemInfoListSize; j++) {
+            SystemInfo systemInfo = systemInfoList.getData().get(j);
+            if (systemListResult.getStandardizedCode().equals(systemInfo.getSystemcode())) {
+              SystemEchoResult systemEchoResult = new SystemEchoResult();
+              systemEchoResult.setSystemId(systemListResult.getSystemId());
+              systemEchoResult.setSystemName(systemListResult.getSystemName());
+              systemEchoResult.setSystemCode(systemListResult.getStandardizedCode());
+              systemEchoResult.setSystemAlias(systemInfo.getIsbaSysalias());
+              systemEchoResult.setAppRangeName(systemInfo.getIsbaRangename());
+              systemEchoResult.setSystemBranch(systemInfo.getIsbaSysbranch());
+              systemEchoResult.setSystemGroup(systemInfo.getIsbaGroup());
+              systemEchoResult.setExecutiveOffice(systemInfo.getBcdName());
+              systemEchoResultList.add(systemEchoResult);
+              continue outermost;
+            }
+          }
+          SystemEchoResult systemEchoResult = new SystemEchoResult();
+          systemEchoResult.setSystemId(systemListResult.getSystemId());
+          systemEchoResult.setSystemName(systemListResult.getSystemName());
+          systemEchoResult.setSystemCode((int)((Math.random()*9+1)*100000)+"");
+          systemEchoResult.setSystemAlias("");
+          systemEchoResult.setAppRangeName("");
+          systemEchoResult.setSystemBranch("");
+          systemEchoResult.setSystemGroup("");
+          systemEchoResult.setExecutiveOffice(systemListResult.getExecutiveOffice());
+          systemEchoResultList.add(systemEchoResult);
+        }
+      }
+    }
+    return systemEchoResultList;
   }
 }

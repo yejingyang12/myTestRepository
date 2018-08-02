@@ -1,8 +1,9 @@
 (function () {
   var data = { 
-  		plateRad:"",
+	  a:1,
+      checkBox:'false',
       arrowdown:true,
-      hStatus: [{
+	  hStatus: [{
         value: '1',
         label: '未定级'
       }, {
@@ -46,14 +47,13 @@
         label: '已自查'
       }],
 /*	  hStatus:["未定级","预定级","已定级","未审核","待审核","已审核","审核未通过","未备案","已备案","撤销备案","未测评","已测评","未自查","已自查"],
-*/      paramGrading:false,
+*/    paramGrading:false,
       paramEvaluation:false,
       paramDelete:false,
       paramRecord:false,
       paramSelfExamination:false,
       paramApplication:false,
-      delSystemId:"",
-      
+      delSystemId:"", 
 		  ruleForm: {
 	          name: '',
 	          region:'',
@@ -241,7 +241,6 @@
           },
         	transfer:function(value,e){
         		$("#plateType").val(value);
-        		console.log(value)
         		$(".pic").css("background-image","url(../../images/home/square.png)")
         		$(e.target).parent(".pic").css("background-image","url(../../images/home/square-true.png)");
         	},
@@ -338,7 +337,7 @@
               "inspectionDateBegin": inspectionDateBegin,//自查开始时间
               "inspectionDateEnd": inspectionDateEnd,//自查结束时间
               "plateType": plateType,//所属板块
-              "status": this.value21,//状态
+              "status":this.value21,//状态
               "sprankLevelArray": systemCodeLevel,//等保级别
               "subordinateProvincesArray": this.value22,//地区
               "customFiltering": customFiltering,//自定义
@@ -517,9 +516,9 @@
 						var companyId = $("#changeMattersCompanyId").val();
 					  window.location.href="/page/applicationChangePage?systemId="+ responseData.data +"&fkCompanyCode="+companyCode+"&companyId="+companyId;
 					},
-          //跳转到备案
-          toCompanyRecordPage : function(systemId,companyId) {
-          	window.location.href="/page/companyRecordPage?systemId="+systemId+"&companyId=" + companyId;
+				  //跳转到备案
+          toCompanyRecordPage : function(examineStatus,systemId,companyId) {
+          	window.location.href="/page/companyRecordPage?systemId="+systemId+"&companyId=" + companyId+"&examineStatus="+examineStatus;
           },
           //跳转到自查
           toSelfCheckPage : function(systemId,companyId) {
@@ -847,6 +846,37 @@
               }
             }
           },
+          //定级信息导入
+          importGarding: function(e){
+          	var fileSize = e.target.files[0].size;//文件大小（字节）
+          	var fimeMax = 1048576 *30;
+          	if(fileSize > fimeMax){
+          		this.$alert('文件不能大于30M！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+          	var fileFormat = e.target.value.split(".");//文件后缀
+          	if(fileFormat[1] != 'xlsm' && fileFormat[1] != 'xlsx'){
+          		this.$alert('不接受此文件类型！', '信息提示', {
+              confirmButtonText: '确定',
+              callback: function callback(action) {
+              }
+            });
+        		return;
+        	}
+					var importData = new FormData(); 
+					importData.append('file', e.target.files[0]);
+					importData.append('type', 'test');
+					ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
+          },
+          //导入成功
+          importGardingSuccessMethod: function(_self,responseData){
+          	
+          },
+          
           //一键
           oneKeyExport : function (){
           	var _self = this;
@@ -865,16 +895,7 @@
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
          	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
-          },
-          changeColor: function () {
-            var _this = data.h_score_list3;
-            console.log(1, _this);
-            _this.style.background = '#1489e6';//定级模版导出按钮变蓝色
-            _this.style.color = '#fff';//定级模版导出按钮字体变白色
-            _this.style.border = 'none';//定级模版导出按钮字体变白色
-            $(_this).prev().css('background', '#ededed');
-            $(_this).prev().css('color', 'black');
-          },
+          }, 
           /*首页"高级查询"下的复选框--所属板块：*/
           checkAllHeightSearch: function () {
             for (var i = 0; i < data.one1.length; i++) {
@@ -1005,12 +1026,58 @@
           },
 
           //定级模版导出按钮
-          checkallexport: function () {
-         	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl=/excel/定级模板.xlsm&attachName=定级模板.xlsm";
-         	 $("#startBoxExport").show().delay(2000).fadeOut();
-           window.setTimeout(function () {
-             //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
-           }, 2300);
+          checkallexport:function(){ 
+          	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl=/excel/gradingTemp.xlsm&attachName=定级模板.xlsm";
+        	  /*var flag= document.getElementById("h-score-list2");
+        	  if (flag.getAttribute('show')){
+        		  $("#h-score-list2").css({"background":"rgb(61, 149, 223)","color":"#fff","border":"1px solid rgb(61, 149, 223)"});//定级模版导出按钮变蓝色 
+        		  for (var j = 1; j < data.firstChecked.length; j++) {//从第二行开始
+        			  var child_check = data.firstChecked[j].getElementsByClassName("checkName")[0];
+        			  child_check.checked = this.checked;
+        			  child_check.index = j - 1;
+        			  data.check_status.splice(child_check.index, 1, this.checked);
+        		  }
+        		  this.checkBox='true'; 
+        		  flag.setAttribute('show', '')
+        	  } else {
+        		  $("#h-score-list2").css({"background":"#fff","color":"#666","border":"1px solid #d0d0d0"});//定级模版导出按钮变回白色 
+        		  var _self = this;
+        		  //存放要导出的系统id
+        		  var systemIds = new Array();
+        		  for(var length=0;length<data.check_status.length;length++){
+        			  if(data.check_status[length]){
+        				  systemIds.push(_self.result.data[length].systemId);
+        			  }
+        		  }
+        		  if(systemIds.length<1){
+          			return;
+          		}
+        		  var exportData = {
+        				  "systemIds": systemIds,
+        				  //不加后台接收会报错
+        				  "systemId": ""
+        		  };
+        		  $("#startBoxExporting").css('display', 'block');
+        		  ajaxMethod(_self, 'post',
+        				  'main/exportExcelForGradeTemplate', true,
+        				  JSON.stringify(exportData), 'json',
+        				  'application/json;charset=UTF-8',
+        				  _self.exportExcelForGradeTemplateSuccessMethod);
+        		  flag.setAttribute('show', 'show');
+        		  $("#startBoxExport").show().delay(2000).fadeOut();
+        		  window.setTimeout(function () {
+        			  //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+        		  }, 2300);
+        		  this.checkBox='false'; 
+        	  };*/
+          },
+          //导出文件生成成功后，准备下载导出文件
+          exportExcelForGradeTemplateSuccessMethod: function (_self,response) {
+        		$("#startBoxExporting").css('display', 'none');
+          	if(response.data){
+          		window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+response.data.uploadUrl+"&attachName="+response.data.attachName;
+          		$("#startBoxExport").show().delay(2000).fadeOut();
+          	}
           },
           //首页列表排序
           listsort: function () {
@@ -1080,7 +1147,7 @@
                 'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
           },
           getPermitJurisdictionSuccess: function(_self,response){
-            console.log(JSON.stringify(response.data))
+             /*console.log(JSON.stringify(response.data))*/
             _self.paramGrading = false;
             _self.paramEvaluation = false;
             _self.paramDelete = false;

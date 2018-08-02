@@ -28,6 +28,7 @@ public class GradingListResult {
   private String gradingId;
   private String fkSystemId;
   private String systemName;
+  private String standardizedCode;
   private String fkBizSPRankDegree;
   private String fkBizSPRankLevel;
   private String fkBizSystemDegree;
@@ -137,6 +138,12 @@ public class GradingListResult {
   }
   public void setSystemName(String systemName) {
     this.systemName = systemName;
+  }
+  public String getStandardizedCode() {
+    return standardizedCode;
+  }
+  public void setStandardizedCode(String standardizedCode) {
+    this.standardizedCode = standardizedCode;
   }
   public String getFkBizSPRankDegree() {
     return fkBizSPRankDegree;

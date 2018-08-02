@@ -367,4 +367,20 @@ public interface SystemMapper {
    */
   List<SystemParam> selectSubSystemInfo(SystemParam systemParam);
 
+  /**
+   * @Descrption
+   * @author dongxu
+   * @date 2018年7月31日下午5:38:56
+   * @param systemParam
+   * @return
+   */
+  SystemResult selectSystemByCheck(SystemParam systemParam);
+  
+  /**
+   * @Descrption  根据系统名称和标准化代码查询系统信息
+   * @author yejingyang
+   * @date 2018年7月30日下午6:40:22
+   * @param systemParam
+   */
+  SystemResult selectSystemBySystemNameAndStandardizedCode(SystemParam systemParam);
 }

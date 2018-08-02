@@ -14,8 +14,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 
@@ -72,8 +75,8 @@ public interface MainService {
    * @author dongxu
    * @date 2018年6月4日下午6:20:52
    */
-  String exportExcelForGradeTemplate(HttpServletResponse response,String [] systemIds)
-      throws BusinessException;
+  AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
+      HttpServletResponse response,String [] systemIds) throws BusinessException;
 
   /**
    * @Descrption 一键下载（表1 单位信息）
@@ -145,7 +148,8 @@ public interface MainService {
    * @date 2018年6月12日下午3:59:04
    * @param mainParam
    */
-  void importExcelForGradeTemplate(String file) throws BusinessException;
+  void importExcelForGradeTemplate(HttpServletRequest request, 
+      MultipartFile file, String userName) throws BusinessException;
 
   /**
    * @Descrption 修改申请变更（弹窗）

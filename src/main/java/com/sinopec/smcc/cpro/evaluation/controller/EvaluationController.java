@@ -62,7 +62,7 @@ public class EvaluationController {
   @RequestMapping(value = "/queryEvaluationList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEvaluationList(HttpServletRequest request,
+  public ResultApi queryEvaluationList(
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     //调用service实体，获得测评列表数据
     PageInfo<EvaluationListResult> page = 
@@ -89,7 +89,7 @@ public class EvaluationController {
   @RequestMapping(value = "/queryEditEvaluation", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditEvaluation(HttpServletRequest request,
+  public ResultApi queryEditEvaluation(
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     EvaluationResult evaluationResult = 
         this.evaluationServiceImpl.queryEditEvaluation(evaluationParam);
@@ -154,7 +154,7 @@ public class EvaluationController {
   @RequestMapping(value = "/queryDetailsEvaluation", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryDetailsEvaluation(HttpServletRequest request, 
+  public ResultApi queryDetailsEvaluation( 
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     EvaluationResult evaluationResult = 
         this.evaluationServiceImpl.queryDetailsEvaluation(evaluationParam);
@@ -175,7 +175,7 @@ public class EvaluationController {
   @RequestMapping(value = "/queryExamOrgCompany", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryExamOrgCompany(HttpServletRequest request,
+  public ResultApi queryExamOrgCompany(
       @RequestBody RecordsParam recordsParam) throws BusinessException {
     List<EvaluationListResult> evaluationListResultList = 
         this.evaluationServiceImpl.queryExamOrgCompany(recordsParam);

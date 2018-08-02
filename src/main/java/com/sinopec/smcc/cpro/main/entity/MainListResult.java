@@ -10,8 +10,6 @@ package com.sinopec.smcc.cpro.main.entity;
 
 import java.util.Date;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 /**
  * @Title MainListResult.java
  * @Package com.sinopec.smcc.cpro.main.entity

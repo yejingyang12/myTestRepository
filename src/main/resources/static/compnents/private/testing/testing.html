@@ -18,11 +18,11 @@
                         <div class="col-md-6">
                             <el-form-item label="测评项目名称：" prop="examName">
                                 <div class="col-md-8 col-sm-3" style="width: 80%;">
-                                    <el-input type="text" value="" v-model="editData.examName"></el-input>
+                                    <el-input clearable type="text" value="" v-model="editData.examName"></el-input>
                                 </div>
                             </el-form-item>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 timeClear">
                             <el-form-item label="测评时间：" prop="examTime">
                                 <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.examTime" type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
                             </el-form-item>
@@ -32,7 +32,7 @@
                         <div class="col-md-6">
                             <el-form-item label="测评机构：" prop="examOrg">
                                 <div class="col-md-8 col-sm-3" style="width: 80%;">
-                                    <el-input type="text" value="" v-model="editData.examOrg"></el-input>
+                                    <el-input clearable type="text" value="" v-model="editData.examOrg"></el-input>
                                 </div>
                             </el-form-item>
                         </div>
@@ -44,7 +44,7 @@
                                     <el-option  label="2018" value="2018"></el-option>
                                     <el-option  label="2019" value="2019"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editData.examYear" filterable placeholder="请选择" style="width: 80%;">
+                                <el-select clearable v-model="editData.examYear" filterable placeholder="请选择" style="width: 80%;">
                                             <el-option
                                                     v-for="item in years"
                                                     :key="item.value"
@@ -57,13 +57,13 @@
                     </li>
                     <li class="row P-selfCheck">
                         <div class="col-md-6">
-                            <el-form-item label="测评状态：" prop="fkExamStatus">
+                            <el-form-item clearable label="测评状态：" prop="fkExamStatus">
                                 <!-- <el-select class="col-md-8 col-sm-3"   v-model="editData.fkExamStatus" style="width: 80%;">
                                     <el-option  label="请选择" value="0"></el-option>
                                     <el-option  label="未测评" value="1"></el-option>
                                     <el-option  label="已测评" value="2"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editData.fkExamStatus" :disabled = "change" @change="changeStatus()" filterable placeholder="请选择">
+                                <el-select clearable style="width: 80%;" v-model="editData.fkExamStatus" :disabled = "change" @change="changeStatus()" filterable placeholder="请选择">
                                    <el-option
                                       v-for="item in examStatus"
                                       :key="item.value"
@@ -81,7 +81,7 @@
                                     <el-option  label="基本符合" value="2"></el-option>
                                     <el-option  label="不符合" value="3"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editData.fkExamResult" :disabled = "change"  filterable placeholder="请选择">
+                                <el-select clearable style="width: 80%;" v-model="editData.fkExamResult" :disabled = "change"  filterable placeholder="请选择">
                                    <el-option
                                       v-for="item in examResult"
                                       :key="item.value"
@@ -126,7 +126,7 @@
                                      <el-option  label="已整改" value="1"></el-option>
                                      <el-option  label="未整改" value="2"></el-option>
                                 </el-select> -->
-                                <el-select v-model="editData.fkRectificationReu" :disabled = "change" @change="changeResult()"  filterable placeholder="请选择">
+                                <el-select clearable style="width: 80%;" v-model="editData.fkRectificationReu" :disabled = "change" @change="changeResult()"  filterable placeholder="请选择">
                                    <el-option
                                       v-for="item in rectificationReu"
                                       :key="item.value"
@@ -136,7 +136,7 @@
                                 </el-select>
                             </el-form-item>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 timeClear">
                             <el-form-item label="整改时间：" prop="rectificationDate">
                                 <el-date-picker class="col-md-6 col-sm-3 useData" v-model="editData.rectificationDate" type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
                             </el-form-item>
@@ -166,10 +166,13 @@
                 </ul>
             </el-form>
             <p class="h-p" style="width:100%;margin: -15px 15px;">
-                <button type="button" class="btn btn-default" style="float:right;margin-right: 35px;padding: 6px 10px; height: 34px; width: 70px;" @click="closes">
-                    取消</button>
-                <button type="button" class="btn " @click="saveEvaluation('editData')"
-                        style="float: right;height: 34px; width: 70px;sfloat:right;margin-right:10px;background-color: #1e91e2;color:#fff;">确认
+                <button type="button" class="btn btn-default" 
+                        style="float:right;margin-right: 35px;padding: 6px 10px;height: 34px;" 
+                        @click="closes">
+                                        取消</button>
+                <button type="button" class="btn " 
+                        @click="saveEvaluation('editData')"
+                        style="padding: 6px 10px;float:right;height:34px;width:70px;sfloat:right;margin-right:10px;background-color: #1e91e2;color:#fff;">确认
                 </button>
             </p>
         </div>

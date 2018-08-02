@@ -26,7 +26,7 @@
         }
       }]
     },
-    value1: '1',//饼状图开始时间；
+    value1: '',//饼状图开始时间；
     value2: '',
     options:'',
     value3: '',//饼状图结束时间；
@@ -147,7 +147,8 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-开始时间
         	getGradingShapeBegin:function(){
-        		bus.$emit("bar",this.value1,this.value3);
+        	
+        		bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd);
         		var begin;
         		var end;
         		if(this.gradingShapeBegin != null){
@@ -167,10 +168,12 @@
         			dataparmars = '{"gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
         		}
         		bus.$emit("gradingShapeBegin",dataparmars);
+        		console.log("start",this.gradingShapeBegin,this.gradingShapeEnd);
           },
           //不同等保级别系统在不同等保管理状态下详情-结束时间
           getGradingShapeEnd:function(){
-        	    bus.$emit("bar",this.value1,this.value3);
+        	  console.log("end",this.gradingShapeBegin,this.gradingShapeEnd);
+        	    bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd);
         		var begin;
         		var end;
         		if(this.gradingShapeBegin != null){
@@ -192,8 +195,8 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-类型
           getGradingShapeType:function(){
-        	  bus.$emit("bar",this.gradingShapeType);
-        	  bus.$emit("bar",);
+        	  console.log("类型",this.gradingShapeType);
+        	  bus.$emit("bar",this.gradingShapeType); 
           	var begin;
         		var end;
         
@@ -302,8 +305,8 @@
           } 
         },
         mounted: function() {
-        	  bus.$emit("pie",this.value1,this.value3,);
-        	  bus.$emit("bar",this.value1,this.value3,this.gradingShapeType);
+        	  bus.$emit("pie",this.value1,this.value3);
+        	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
         }
       })
     })

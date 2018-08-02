@@ -19,12 +19,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
+import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
+import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
@@ -34,9 +37,12 @@ import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.mapper.CheckMapper;
 import com.sinopec.smcc.cpro.review.server.CheckService;
-import com.sinopec.smcc.cpro.review.uitl.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
+import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.tools.Utils;
+import com.sinopec.smcc.depends.dps.util.DpsTemplate;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title CheckServiceImpl.java
@@ -61,6 +67,12 @@ public class CheckServiceImpl implements CheckService {
   private String appId;
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
+  @Autowired
+  private UserApiService userApiServiceImpl;
+  @Autowired
+  private DpsTemplate dpsTemplate;
+  @Autowired
+  private WorkFlowApiService workFlowApiServiceImpl;
   
   /**
    * 获取备案信息列表数据
@@ -68,58 +80,191 @@ public class CheckServiceImpl implements CheckService {
   @Override
   public PageInfo<CheckListResult> queryCheckList(CheckParam checkParam) throws BusinessException{
     //创建排序字段
-    StringBuffer orderBy = new StringBuffer();
-    //判断field是否有值
-    if(StringUtils.isNotBlank(checkParam.getField())){
-      //如有值，则将排序字段放入orderBy对象
-      orderBy.append(ConvertFieldUtil.sortField(checkParam.getField()));
-      if(StringUtils.isNotBlank(checkParam.getSort())){
-        orderBy.append(" ").append(checkParam.getSort());
-      }
-    }else {
-      //默认排序规则
-      orderBy.append("che.createtime desc");
-    }
+//    StringBuffer orderBy = new StringBuffer();
+//    //判断field是否有值
+//    if(StringUtils.isNotBlank(checkParam.getField())){
+//      //如有值，则将排序字段放入orderBy对象
+//      orderBy.append(ConvertFieldUtil.sortField(checkParam.getField()));
+//      if(StringUtils.isNotBlank(checkParam.getSort())){
+//        orderBy.append(" ").append(checkParam.getSort());
+//      }
+//    }else {
+//      //默认排序规则
+//      orderBy.append("che.createtime desc");
+//    }
     
     //获得相应列表数据
     List<CheckListResult> list = new ArrayList<CheckListResult>();
+  
+    //获取用户信息
+    UserDTO user=userApiServiceImpl.getUserInfo();
+    String UserId=String.valueOf(user.getUserId());
     
-    //权限
-    JurisdictionDataResult organizationApiResult = 
-        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    
-    if(organizationApiResult==null){
-      return new PageInfo<>();
-    }else{
-    //初始化分页拦截器
-      PageHelper.startPage(checkParam.getCurrentPage(), checkParam.getPageSize(),orderBy.toString());
-      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      
-      case "0":
-        break;
-      case "1":
-        // 获得响应列表数据
-        list = 
-            this.checkMapper.selectAllByCheckParam(checkParam);
-        break;
-      case "2":
-        checkParam.setPlateList(organizationApiResult.getNameList());
-        list =  
-            this.checkMapper.selectAllByCheckParam(checkParam);
-        break;
-      case "3":
-        checkParam.setCompanyList(organizationApiResult.getCodeList());
-        list =  
-            this.checkMapper.selectAllByCheckParam(checkParam);
-        break;
-
-      default:
-        break;
+    int appPagedTODOTaskTotal = 0;
+    int appPagedTODOTaskPageNum = 0;
+    //获取待办列表
+    if(checkParam.getHandlingState() == 1){
+      final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,checkParam.getCurrentPage(), "");
+      appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
+      appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
+      if((appPagedTODOTask.getExecuteTaskList())!=null){
+        List<ExecuteTaskData> executeTaskDataList = appPagedTODOTask.getExecuteTaskList();      
+        for(ExecuteTaskData executeTaskData : executeTaskDataList){
+          //获取扩展数据systemId
+          String systemId = executeTaskData.getExt001();
+          SystemParam systemParam = new SystemParam();
+          systemParam.setSystemId(systemId);
+          SystemResult systemResult = systemServiceImpl.querySystemByCheck(systemParam);
+          if(systemResult != null){
+            CheckListResult checkListResult = new CheckListResult();
+            checkListResult.setInstanceName(systemResult.getSystemName());
+            checkListResult.setFkSystemId(systemResult.getSystemId());
+            checkListResult.setCompanyId(systemResult.getCompanyId());
+            checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
+            checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
+            checkListResult.setInitiator(executeTaskData.getExecutorName());//发起人
+            checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
+            checkListResult.setFkBusinessNode(executeTaskData.getBusinessName());//业务节点
+            checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
+            checkListResult.setRecordReportName(systemResult.getRecordReportName());
+            checkListResult.setRecordReportId(systemResult.getRecordReportId());
+            checkListResult.setTaskId(executeTaskData.getBusinessId());
+            checkListResult.setBusinessId(executeTaskData.getBusinessId());
+            //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
+            if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+                //待企业待企业安全员管理审核
+                checkListResult.setFkExaminStatus("1");
+              }else{
+                //待总部安全管理员审核
+                checkListResult.setFkExaminStatus("2");
+              }
+            }else if(executeTaskData.getExecuteResult() == 2){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+                //如果企业安全员已通过，则该状态为待总部安全管理员审核
+                checkListResult.setFkExaminStatus("2");
+              }else{
+                //归档
+                checkListResult.setFkExaminStatus("5");
+              }
+            }else if(executeTaskData.getExecuteResult() == 3){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+                //如果企业主联络员未通过 状态为  企业安全员管理审核未通过
+                checkListResult.setFkExaminStatus("3");
+              }else{
+                //如果总部未通过  则状态为 总部安全管理员审核未通过
+                checkListResult.setFkExaminStatus("4");
+              }
+            }
+            list.add(checkListResult);
+          }
+        }
       }
     }
+    
+    //获取已办列表
+    if(checkParam.getHandlingState() == 2){
+      final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,checkParam.getCurrentPage(), "");
+      appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();
+      appPagedTODOTaskPageNum = appPagedTODOTaskHaveDone.getPageIndex();
+      if((appPagedTODOTaskHaveDone.getExecuteTaskList())!=null){
+        List<ExecuteTaskData> haveDoneList= appPagedTODOTaskHaveDone.getExecuteTaskList();
+        for(ExecuteTaskData executeTaskData:haveDoneList){
+          //获取扩展数据systemId
+          String systemId = executeTaskData.getExt001();
+          SystemParam systemParam = new SystemParam();
+          systemParam.setSystemId(systemId);
+          SystemResult systemResult = systemServiceImpl.querySystemByCheck(systemParam);
+          if(systemResult != null){
+            CheckListResult checkListResult = new CheckListResult();
+            checkListResult.setInstanceName(systemResult.getSystemName());
+            checkListResult.setFkSystemId(systemResult.getSystemId());
+            checkListResult.setCompanyId(systemResult.getCompanyId());
+            checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
+            checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
+            checkListResult.setInitiator(executeTaskData.getExecutorName());//发起人
+            checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
+            checkListResult.setFkBusinessNode(executeTaskData.getBusinessName());
+            checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
+            checkListResult.setRecordReportName(systemResult.getRecordReportName());
+            checkListResult.setRecordReportId(systemResult.getRecordReportId());
+            checkListResult.setTaskId(executeTaskData.getBusinessId());
+            checkListResult.setBusinessId(executeTaskData.getBusinessId());
+            //executeResult : 1和-1 为待办状态，2 审批通过 3 审批未通过
+            if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+                //待企业待企业安全员管理审核
+                checkListResult.setFkExaminStatus("1");
+              }else{
+                //待总部安全管理员审核
+                checkListResult.setFkExaminStatus("2");
+              }
+            }else if(executeTaskData.getExecuteResult() == 2){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+                //如果企业安全员已通过，则该状态为待总部安全管理员审核
+                checkListResult.setFkExaminStatus("2");
+              }else{
+                //归档
+                checkListResult.setFkExaminStatus("5");
+              }
+            }else if(executeTaskData.getExecuteResult() == 3){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+                //如果企业主联络员未通过 状态为  企业安全员管理审核未通过
+                checkListResult.setFkExaminStatus("3");
+              }else{
+                //如果总部未通过  则状态为 总部安全管理员审核未通过
+                checkListResult.setFkExaminStatus("4");
+              }
+            }
+            list.add(checkListResult);
+          }
+        }
+      }
+    }
+    
+//    //权限
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    
+//    if(organizationApiResult==null){
+//      return new PageInfo<>();
+//    }else{
+//    //初始化分页拦截器
+////      PageHelper.startPage(checkParam.getCurrentPage(), checkParam.getPageSize(),orderBy.toString());
+//      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+//      switch (organizationApiResult.getResultType()) {
+//      case "0":
+//        break;
+//      case "1":
+//        // 获得响应列表数据
+//        list = 
+//            this.checkMapper.selectAllByCheckParam(checkParam);
+//        break;
+//      case "2":
+//        checkParam.setPlateList(organizationApiResult.getNameList());
+//        list =  
+//            this.checkMapper.selectAllByCheckParam(checkParam);
+//        break;
+//      case "3":
+//        checkParam.setCompanyList(organizationApiResult.getCodeList());
+//        list =  
+//            this.checkMapper.selectAllByCheckParam(checkParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
+//    }
     //装载列表数据
     PageInfo<CheckListResult> pageInfo = new PageInfo<>(list);
+    pageInfo.setTotal(appPagedTODOTaskTotal);
+    if(appPagedTODOTaskTotal > 10){
+      int totalPageNum = (appPagedTODOTaskTotal  +  9) /  10;
+      pageInfo.setPages(totalPageNum);
+    }else{
+      pageInfo.setPages(1);
+    }
+    pageInfo.setPageNum(appPagedTODOTaskPageNum);
     return pageInfo;
   }
   
@@ -144,26 +289,32 @@ public class CheckServiceImpl implements CheckService {
     if (checkParam.getScoreCheckResult() == 1) {
     //通过定级审核
       nodeParam.setOperationResult("通过");
-      //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("2");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckResult(1);
-      editCheckStatusBySystemId(check);
-   
+//      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("2");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(1);
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("3");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckResult(2);
-      check.setScoreCheckReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("3");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(2);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      
       //修改系统状态为
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");
@@ -198,13 +349,17 @@ public class CheckServiceImpl implements CheckService {
       //通过定级审核
       nodeParam.setOperationResult("通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("5");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckResult(1);
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("5");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(1);
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("3");
@@ -214,14 +369,18 @@ public class CheckServiceImpl implements CheckService {
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("4");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckResult(2);
-      check.setScoreCheckReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("4");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(2);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");
@@ -256,14 +415,18 @@ public class CheckServiceImpl implements CheckService {
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("2");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckChangeResult(1);
-      check.setScoreCheckReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("2");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(1);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");
@@ -273,14 +436,18 @@ public class CheckServiceImpl implements CheckService {
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("3");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckChangeResult(2);
-      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("3");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(2);
+//      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");
@@ -315,14 +482,17 @@ public class CheckServiceImpl implements CheckService {
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("5");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckChangeResult(1);
-      check.setScoreCheckReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("5");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(1);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("3");
@@ -332,14 +502,18 @@ public class CheckServiceImpl implements CheckService {
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("4");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setScoreCheckChangeResult(2);
-      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("4");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(2);
+//      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");
@@ -371,15 +545,18 @@ public class CheckServiceImpl implements CheckService {
     nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
     if (checkParam.getCancelRecordsResult() ==1 ) {
       nodeParam.setOperationResult("通过");
-      //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("5");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setCancelRecordsResult(1);
-      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("5");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setCancelRecordsResult(1);
+//      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
     
     //修改系统状态
     MainParam mainParam = new MainParam();
@@ -392,15 +569,19 @@ public class CheckServiceImpl implements CheckService {
     mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       nodeParam.setOperationResult("未通过");
-      //修改审核状态
-      CheckParam check = new CheckParam();
-      check.setFkSystemId(checkParam.getFkSystemId());
-      check.setFkExaminStatus("4");
-      check.setPrevExecutor(userName);
-      check.setExecuteTime(new Date());
-      check.setCancelRecordsResult(2);
-      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
-      editCheckStatusBySystemId(check);
+//      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("4");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setCancelRecordsResult(2);
+//      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setRecordStatus("2");

@@ -26,7 +26,10 @@ import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
+import com.sinopec.smcc.base.result.PageUtil;
 import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
@@ -57,20 +60,14 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/queryCompanyList", method = RequestMethod.POST)
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @ResponseBody
-  public ResultApi queryCompanyList(HttpServletRequest request, 
+  public RetResult<PageUtil> queryCompanyList( 
       @RequestBody CompanyParam companyParam) throws BusinessException {
     // 调用service实体，获得
     PageInfo<CompanyListResult> page = this.companyServiceImpl.queryCompanyList(companyParam);
-    // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setCurrentPage(page.getPageNum());
-    result.setPagesize(page.getPageSize());
-    result.setData(page.getList());
-    result.setTotal(page.getTotal());
-    result.setTotalPages(page.getPages());
-    return result;
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
 
   /**
@@ -82,7 +79,7 @@ public class CompanyController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
-  @RequestLog(module=SmccModuleEnum.cpro)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @ResponseBody
   public ResultApi saveCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
@@ -104,7 +101,7 @@ public class CompanyController {
   @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @ResponseBody
-  public ResultApi deleteCompany(HttpServletRequest request,
+  public ResultApi deleteCompany(
       @RequestBody CompanyParam companyParam) throws BusinessException {
     List<CompanyListResult> companys = this.companyServiceImpl.delelteCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -123,7 +120,7 @@ public class CompanyController {
   @RequestMapping(value = "/queryDetailsCompany", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
-  public ResultApi queryDetailsCompany(HttpServletRequest request,
+  public ResultApi queryDetailsCompany(
       @RequestBody CompanyParam companyParam) throws BusinessException {
     CompanyResult companyResult = this.companyServiceImpl.queryDetailsCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -143,7 +140,7 @@ public class CompanyController {
   @RequestMapping(value = "/queryEditCompany", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
-  public ResultApi queryEditCompany(HttpServletRequest request,
+  public ResultApi queryEditCompany(
       @RequestBody CompanyParam companyParam) throws BusinessException {
     CompanyResult companyResult = this.companyServiceImpl.queryEditCompany(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -162,7 +159,7 @@ public class CompanyController {
   @RequestMapping(value = "/queryCompanyByCode", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
-  public ResultApi queryCompanyByCode(HttpServletRequest request,
+  public ResultApi queryCompanyByCode(
       @RequestBody CompanyParam companyParam) throws BusinessException {
     CompanyResult companyResult = this.companyServiceImpl.queryCompanyByCode(companyParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -182,7 +179,7 @@ public class CompanyController {
   @RequestMapping(value = "/queryCompanyName", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
-  public ResultApi queryCompanyName(HttpServletRequest request,
+  public ResultApi queryCompanyName(
       @RequestBody CompanyParam companyParam) 
       throws BusinessException {
     List<CompanyListResult> mainList = this.companyServiceImpl.queryCompanyName(companyParam);
@@ -202,7 +199,7 @@ public class CompanyController {
   @RequestMapping(value = "/queryCompanyListByName", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro)
   @ResponseBody
-  public ResultApi queryCompanyListByName(HttpServletRequest request, 
+  public ResultApi queryCompanyListByName( 
       @RequestBody CompanyParam companyParam) throws BusinessException {
     // 调用service实体，获得
     List<OrganizationApiCascaderResult> list = this.companyServiceImpl.

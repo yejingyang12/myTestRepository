@@ -24,6 +24,7 @@
    <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
    <link rel="stylesheet" type="text/css" href="../../static/css/private/homeDialog.css" th:attr="href=@{/css/private/homeDialog.css}">	
 <style>
+/* .el-select-dropdown__list{    width: auto!important;} */
 .downh .el-icon-arrow-down:before{color: #fff; font-size: unset;}
 .el-dropdown{top: -2px;}
 .el-icon-arrow-down:before{color: #c0c4cc; font-size: 22px;}
@@ -103,10 +104,10 @@
         margin: 0;
         -webkit-transition: .1s;
         transition: .1s;
-        padding:0;
+        padding: 10px 20px;
         font-size: 14px;
         border-radius:0;
-        color:#1e91e2;
+        color:#333;
 }
 .breadcrumb {
         padding: 0 0;
@@ -140,7 +141,10 @@
         position: relative;
         width:100%;
     }
-.el-input--prefix .el-input__inner {  padding-left: 10px;}
+.el-input--prefix .el-input__inner {
+  padding-left: 10px;
+  background: url(../../../images/datatime.png) no-repeat right 3px top 8.5px;
+}
 .seachstarttime.block .el-date-editor.el-input, .el-date-editor.el-input__inner { width: 100%;}
 .el-date-editor.el-input, .el-date-editor.el-input__inner { width: 100%; }
 .seachstarttime .el-input__prefix{
@@ -164,10 +168,9 @@
  .chartstarttime .el-icon-date{ font-size:0; }
  .chartstarttime .el-input__prefix{
  	color:black;
-	background:url("../../../images/datatime.png") no-repeat center;
+	/* background:url("../../../images/datatime.png") no-repeat center; */
 	background-position-x: calc(100% - 6px); 
  }
- 
 .el-input__prefix {
     right: 5px;
     left: unset;

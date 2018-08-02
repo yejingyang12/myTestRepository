@@ -2,6 +2,11 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
+		 pickerOptions0: {
+	          disabledDate(time) {
+	            return time.getTime() < Date.now() - 8.64e7;
+	          }
+	        },
 		jurisdiction: false,
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
@@ -297,9 +302,15 @@ var  data={
                 watch:{
 
                 },
-                methods:{
-                	delSonSystemLast:function(){
-                	  alert(this.formData.fkSystemIsMerge)
+                methods:{ 
+                	 closes:function () { 
+                         $(".dialogShaw").css("display","none");
+                	 },
+                	 deleteSys:function(){
+                		$(".inquiry").css("display","block");
+                        $(".dialogShaw").css("display","block");
+                	},
+                	delSonSystemLast:function(){  
                 	  if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
                 	    return;
                 	  }
@@ -342,6 +353,7 @@ var  data={
                   	this.formData.systemNameSon="1";
                   	this.formData.systemCodeSon="1";
                   	this.formData.stars="1";
+                  	this.closes();
                 	},
                 	gernerateId: function (index){
                 		return "person_" +index

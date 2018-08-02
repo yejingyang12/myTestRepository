@@ -11,8 +11,6 @@ package com.sinopec.smcc.cpro.node.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,7 +55,7 @@ public class NodeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryNodeList", method = RequestMethod.POST)
-  public ResultApi queryNodeList(HttpServletRequest request,
+  public ResultApi queryNodeList(
       @RequestBody NodeParam nodeParam) throws BusinessException{
     List<NodeResult> page = this.nodeServiceImpl.queryNodeList(nodeParam);
     //通过resultApi实体组成返回参数

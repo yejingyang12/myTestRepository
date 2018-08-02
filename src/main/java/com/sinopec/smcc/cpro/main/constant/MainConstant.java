@@ -22,5 +22,9 @@ public class MainConstant {
   public final static String TEMPORARY_FILE_PATH = "file/uploadTemp/";
   public final static String EXCEL_FILE_PATH = "/file/template/excel/";//excel生成路径
   public final static String COPY_EXCEL_FILE_PATH = "file/excel/copy/";//复制路径
+  public final static String TEMPORARY_COPY_EXCEL_FILE_PATH = "file/uploadTemp/copy/";//复制路径
+  public final static String TEMPORARY_EXCEL_FILE_PATH = "file/uploadTemp/excel/";//模板所在路径
   
+  
+  public final static String GRADING_TEMP_NAME = "gradingTemp.xlsm";//定级模板名
 }

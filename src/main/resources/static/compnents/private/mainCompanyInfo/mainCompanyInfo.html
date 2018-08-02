@@ -8,21 +8,34 @@
         <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
             <div class="row" style="margin-top: 15px">
                 <div class="col-md-12">
-                    <div class="col-md-3 h-system h-padding" style="width: 5%">
-                        单位名称:
+                    <div class="col-md-3 h-system h-padding" style="width: 60px;min-width: 58px;">
+                                                              单位名称:
                     </div>
                     <div class="col-md-3 h-col-md-9 h-padding pos-relative">
-                        <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.companyName"/>
+                <!-- <input type="text" class="h-form-control" 
+                            style="width: 74%" v-model="companyForm.queryData.companyName"/>-->                     
+                         <el-input   placeholder="请输入内容"
+								       v-model="companyForm.queryData.companyName"
+								       clearable
+								       class="h-form-control" 
+								       style="width:74%">
+						   </el-input>
                     </div>
-                    <div class="col-md-4 h-system h-padding" style="margin-left: -3%;width: 8%;">
-                        责任部门负责人:
+                     <div class="col-md-4 h-system h-padding" style="margin-left: -3%;width: 8%;">
+                                                                  责任部门负责人:
                     </div>
                     <div class="col-md-3 h-col-md-9 h-padding pos-relative">
-                        <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.ldContactName"/>
+<!--                         <input type="text" class="h-form-control" style="width: 74%" v-model="companyForm.queryData.ldContactName"/>
+ -->                      <el-input  placeholder="请输入内容"
+							         v-model="companyForm.queryData.ldContactName"
+							         clearable
+							         class="h-form-control" 
+							         style="width: 74%">
+						  </el-input> 
                     </div>
                     <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="...">
-                        <button type="button" @click="queryCompanyListInfoMethod()" class="btn btn-default" style="width:70px;background:#3d95df;color:#fff;">查询</button>
-                        <button type="button" class="btn btn-default" style="width:70px" @click="clearHeadle">   清空</button>
+                        <button type="button" @click="queryCompanyListInfoMethod()" class="btn btn-default" style="padding:5px 20px;width:70px;background:#3d95df!important;color:#fff;">查询</button>
+                        <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;padding: 5px 20px;" @click="clearHeadle">清空</button>
                     </div>
                 </div>
             </div>
@@ -142,7 +155,7 @@
         </div>
     </div>
     <div class="startBox startBoxSuccess">
-    	<div>
+     <div>
       	<i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
       </div>
     </div>

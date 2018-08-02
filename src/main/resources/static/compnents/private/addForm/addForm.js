@@ -556,6 +556,7 @@
               
               if(readonly=='update'){
                 _self.nameReadonly = true;
+                _self.disabledInput = true;
               }
               if(type=='update'){
                 _self.nameReadonly = true;

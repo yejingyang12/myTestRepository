@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="../../static/css/private/evaluationAlert.css" th:attr="href=@{/css/private/evaluationAlert.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
  <style>
+	  
         .mcAdd .addBaseBg,.mcAdd  .addSysBg{
             background-position: 0px -140px;
         }
@@ -102,7 +103,7 @@
     /* margin: 0 16px 40px; */
 }
  .uploadSty button {
-    background: #337ab7;
+    background:rgb(61,149,223);
     display: block;
     position: absolute;
     width: 70px;
@@ -217,8 +218,23 @@
 	padding:0;paddding-left:10px;
 	background:none
 }
-    </style>
-    </head>
+.el-date-editor .el-input__suffix .el-input__suffix-inner{ 
+     position: absolute;
+     top: -10px;
+     right: 3px; 
+ }
+ .el-select {
+    width: 80%;
+}  
+.el-message-box .el-message-box__btns .el-button{
+        background: rgb(61,149,223); 
+        padding: 10px;
+}  
+.el-message-box .el-message-box__btns .el-button span{ 
+        color:#fff; 
+}   
+</style>
+</head>
     
 <body class="h-body">
 <div id="app">

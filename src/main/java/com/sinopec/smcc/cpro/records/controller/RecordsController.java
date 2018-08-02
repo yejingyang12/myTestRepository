@@ -83,7 +83,7 @@ public class RecordsController {
   @RequestMapping(value = "/queryRecords", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRecords(HttpServletRequest request,
+  public ResultApi queryRecords(
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsResult recordsResult = 
         this.recordsServiceImpl.queryRecordsByFkSystemId(recordsParam);
@@ -164,7 +164,7 @@ public class RecordsController {
   @RequestMapping(value = "/editRecordsForStatus", method = RequestMethod.POST)
   @ResponseBody 
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi editRecordsStatus(HttpServletRequest request,
+  public ResultApi editRecordsStatus(
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     this.recordsServiceImpl.editRecordsForStatus(recordsParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
@@ -183,7 +183,7 @@ public class RecordsController {
   @RequestMapping(value = "/queryRecordsDetail", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRecordsDetail(HttpServletRequest request,
+  public ResultApi queryRecordsDetail(
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsDetailResult recordsDetailResult = 
         this.recordsServiceImpl.queryRecordsDetail(recordsParam);
@@ -204,7 +204,7 @@ public class RecordsController {
   @RequestMapping(value = "/queryRecordCompany", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRecordCompany(HttpServletRequest request,
+  public ResultApi queryRecordCompany(
       @RequestBody RecordsParam recordsParam) throws BusinessException {
     List<RecordsListResult> recordsListResultList = 
         this.recordsServiceImpl.queryRecordCompany(recordsParam);

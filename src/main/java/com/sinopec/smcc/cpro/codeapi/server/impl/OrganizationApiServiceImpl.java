@@ -21,7 +21,7 @@ import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiParam;
 import com.sinopec.smcc.cpro.codeapi.server.OrganizationApiService;
 import com.sinopec.smcc.depends.ubs.dto.OrganizationDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsConstants.OrganizationLevelEnum;
-import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
+import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
 /**
  * @Title OrganizationApiServiceImpl.java
@@ -35,7 +35,7 @@ import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 public class OrganizationApiServiceImpl implements OrganizationApiService{
   
   @Autowired
-  private UbsFeignTemplate ubsFeignTemplate;
+  private UbsTemplate ubsTemplate;
   
   @Override
   public List<OrganizationApiCascaderResult> queryOrganizationApi(
@@ -80,7 +80,7 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
     List<OrganizationApi> organizationList = new ArrayList<OrganizationApi>();
     
     List<OrganizationDTO>  organizationApiList = 
-        this.ubsFeignTemplate.getOrgsByDefaultTypeCodeAndLevelCode(
+        this.ubsTemplate.getOrgsByDefaultTypeCodeAndLevelCode(
             OrganizationLevelEnum.ORG_SMCC_LEVEL3);
     //判断总部数据开始
     if (organizationApiList!=null&&organizationApiList.size()>0) {
@@ -100,7 +100,7 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
     List<OrganizationApi> organizationList = new ArrayList<OrganizationApi>();
     
     List<OrganizationDTO>  organizationApiList = 
-        this.ubsFeignTemplate.getOrgsByDefaultTypeCodeAndLevelCode(
+        this.ubsTemplate.getOrgsByDefaultTypeCodeAndLevelCode(
             OrganizationLevelEnum.ORG_SMCC_LEVEL3);
     //判断总部数据开始
     if (organizationApiList!=null&&organizationApiList.size()>0) {

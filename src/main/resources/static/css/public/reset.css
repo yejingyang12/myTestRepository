@@ -256,7 +256,23 @@ input.el-input__inner::-moz-placeholder, textarea::-moz-placeholder {
 input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
     /* Internet Explorer 10+ */
     color: #666;
+} 
+/*bootstrap按钮样式修改  */
+.btn-default:hover {
+	color: #333 !important;
+	background-color: #fff !important;
+	border-color: #cecece;
 }
+.btn-default.focus,
+.btn-default:focus {
+	color: #333!important;
+	background-color: #fff !important;
+	border-color:#cecece;
+}
+.btn-default .badge {
+	color: #333 !important;
+	background-color: #fff !important;
+} 
 
 /*表一表单样式*/
 .el-input__inner{
@@ -462,5 +478,24 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .P-record .mcTextArea{
     width: 100%;
     margin-left:0 !important;
-    padding:0 5px !important;;
+    padding:0 5px !important;
+}
+/* 按钮 */
+.selfButton{
+	background: #fff;
+    border: 1px solid #d0d0d0;
+    padding:6px 16px;
+    color: #666;
+    border-radius: 2px;
+}
+/* 按钮鼠标移上颜色 */
+.hoverBlue:hover{
+	background:rgb(53, 127, 190)!important;
+}
+.hovergrey:hover{
+	background:#f1f0f0!important;
+}
+/* 下拉框箭头的大小 */
+.el-select .el-input .el-select__caret{
+	    font-size: 22px!important;
 }

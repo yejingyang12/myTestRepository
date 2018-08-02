@@ -19,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.annotation.LoginUser;
@@ -30,9 +32,11 @@ import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.interceptor.User;
 import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.cpro.node.server.NodeService;
 
 /**
  * @Title MainController.java
@@ -48,6 +52,8 @@ public class MainController {
   
   @Autowired
   private MainService mainServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
   
   /**
    * @Descrption 系统信息列表
@@ -61,7 +67,7 @@ public class MainController {
   @RequestMapping(value = "/queryMainList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryMainList(HttpServletRequest request,
+  public ResultApi queryMainList(
       @RequestBody MainParam mainParam) throws BusinessException{
     //调用service实体，获得
     PageInfo<MainListResult> page = this.mainServiceImpl.queryMainList(mainParam);
@@ -144,13 +150,15 @@ public class MainController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.GET)
+  @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportExcelForGradeTemplate(HttpServletRequest request,
-      HttpServletResponse response,String [] systemIds) throws BusinessException{
-    this.mainServiceImpl.exportExcelForGradeTemplate(response,systemIds);
+      HttpServletResponse response,@RequestBody MainParam mainParam) throws BusinessException{
+    AttachResult attachResult = this.mainServiceImpl.
+        exportExcelForGradeTemplate(request, response,mainParam.getSystemIds());
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(attachResult);
     return result;
   }
   
@@ -291,9 +299,9 @@ public class MainController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi importExcelForGradeTemplate(HttpServletRequest request,
-      @RequestBody String file) 
-      throws BusinessException {
-    this.mainServiceImpl.importExcelForGradeTemplate(file);
+      @RequestParam("file") MultipartFile file) throws BusinessException {
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    this.mainServiceImpl.importExcelForGradeTemplate(request, file, userName);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     return result;
   }
@@ -331,7 +339,7 @@ public class MainController {
   @RequestMapping(value = "/queryGradingStatistics", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi gradingStatistics(HttpServletRequest request,@RequestBody MainParam mainParam) 
+  public ResultApi gradingStatistics(@RequestBody MainParam mainParam) 
       throws BusinessException {
     List<MainListResult> gradingStatisticsResult = 
         this.mainServiceImpl.queryGradingStatistics(mainParam);

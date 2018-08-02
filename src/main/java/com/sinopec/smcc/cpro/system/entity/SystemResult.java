@@ -70,8 +70,93 @@ public class SystemResult {
   private Integer fkInfoSysTypeCon;
   private Integer fkSystemIsMerge;
   private Integer gradingStatus;
-
+  private String companyId;
+  private String expertReviewName;
+  private String expertReviewId;
+  private String recordReportName;
+  private String recordReportId;
   
+  
+  /**
+   * @return the expertReviewName
+   */
+  public String getExpertReviewName() {
+    return expertReviewName;
+  }
+
+
+  /**
+   * @param expertReviewName the expertReviewName to set
+   */
+  public void setExpertReviewName(String expertReviewName) {
+    this.expertReviewName = expertReviewName;
+  }
+
+
+  /**
+   * @return the expertReviewId
+   */
+  public String getExpertReviewId() {
+    return expertReviewId;
+  }
+
+
+  /**
+   * @param expertReviewId the expertReviewId to set
+   */
+  public void setExpertReviewId(String expertReviewId) {
+    this.expertReviewId = expertReviewId;
+  }
+
+
+  /**
+   * @return the recordReportName
+   */
+  public String getRecordReportName() {
+    return recordReportName;
+  }
+
+
+  /**
+   * @param recordReportName the recordReportName to set
+   */
+  public void setRecordReportName(String recordReportName) {
+    this.recordReportName = recordReportName;
+  }
+
+
+  /**
+   * @return the recordReportId
+   */
+  public String getRecordReportId() {
+    return recordReportId;
+  }
+
+
+  /**
+   * @param recordReportId the recordReportId to set
+   */
+  public void setRecordReportId(String recordReportId) {
+    this.recordReportId = recordReportId;
+  }
+
+
+  /**
+   * @return the companyId
+   */
+  public String getCompanyId() {
+    return companyId;
+  }
+
+
+  /**
+   * @param companyId the companyId to set
+   */
+  public void setCompanyId(String companyId) {
+    this.companyId = companyId;
+  }
+
+
   /**
    * @return the gradingStatus
    */

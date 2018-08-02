@@ -1734,38 +1734,38 @@ a.text-danger:hover {
 
 a.bg-primary:focus,
 a.bg-primary:hover {
-	background-color: #286090
+	background-color: #286090/* 深蓝色 */
 }
 
 .bg-success {
-	background-color: #dff0d8
+	background-color: #dff0d8/* 浅浅的微绿色 */
 }
 
 a.bg-success:focus,
 a.bg-success:hover {
-	background-color: #c1e2b3
+	background-color: #c1e2b3 /* 比上面深一点*/
 }
 
 .bg-info {
-	background-color: #d9edf7
+	background-color: #d9edf7/* 浅浅的微蓝色 */
 }
 
 a.bg-info:focus,
 a.bg-info:hover {
-	background-color: #afd9ee
+	background-color: #afd9ee/* 比上面深一点*/
 }
 
 .bg-warning {
-	background-color: #fcf8e3
+	background-color: #fcf8e3/* 浅浅的微粉色 */
 }
 
 a.bg-warning:focus,
 a.bg-warning:hover {
-	background-color: #f7ecb5
+	background-color: #f7ecb5/* 浅浅的微黄色 */
 }
 
 .bg-danger {
-	background-color: #f2dede
+	background-color: #f2dede/* 比浅浅的微粉色  深一点*/
 }
 
 a.bg-danger:focus,
@@ -4194,7 +4194,7 @@ fieldset[disabled] .btn-link:hover {
 
 .btn-group-sm>.btn,
 .btn-sm {
-	padding: 5px 10px;
+	padding:6px 16px;
 	font-size: 12px;
 	line-height: 1.5;
 	border-radius: 3px
@@ -4486,12 +4486,14 @@ tbody.collapse.in {
 }
 
 .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	border-radius: 0px;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0
 }
 
 .btn-group>.btn:last-child:not(:first-child),
 .btn-group>.dropdown-toggle:not(:first-child) {
+	border-radius: 0px;
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0
 }

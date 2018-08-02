@@ -5,7 +5,8 @@ var bus = new Vue();
 var detailsData={
 	revokeRecordShow: false,
 	activeName: 'record',
-	systemName: ''
+	systemName: '',
+	examineStatus:''
 };
 (function () {
 	Vue.component('detailsNav',function (resolve,reject) {
@@ -44,6 +45,7 @@ var detailsData={
 				created: function() {
 				//获取系统信息
           this.getSystem(this);
+          this.examineStatus= examineStatus;
 				},
 				mounted: function() {
 					var _self=this;

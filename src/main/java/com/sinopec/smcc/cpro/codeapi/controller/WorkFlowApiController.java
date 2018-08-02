@@ -22,6 +22,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 
 /**
@@ -56,7 +57,7 @@ public class WorkFlowApiController {
   @ResponseBody
   @RequestMapping(value="/initStart", method = RequestMethod.POST)
   public ResultApi initStart(HttpServletRequest request) throws BusinessException{
-    AppCallResult appCallResult = workFlowApiServiceImpl.initStart();
+    AppCallResult appCallResult = workFlowApiServiceImpl.initStart("","","");
     //通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(appCallResult);

@@ -98,7 +98,7 @@
 .btn {
     position: relative;
     height: 34px;
-    width: 125px;
+    /* width: 125px; */
     font-size: 14px;
 
 }
@@ -634,6 +634,9 @@
 }
 .pic:hover{
 	background-image: url(../../images/home/square-blue.png);
+}
+.h-bread-le .el-icon-arrow-down:before{
+	    color: rgb(51, 51, 51);
 }
 
 

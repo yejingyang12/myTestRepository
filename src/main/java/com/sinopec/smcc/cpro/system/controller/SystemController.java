@@ -11,6 +11,7 @@ package com.sinopec.smcc.cpro.system.controller;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,11 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -178,7 +183,7 @@ public class SystemController {
    * @throws IOException 
    * @throws FileNotFoundException 
    */
-  @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.GET)
+  @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportExcelForSystemTemplate(HttpServletRequest request, 
@@ -268,5 +273,27 @@ public class SystemController {
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(systemResult);
     return result;
+  }
+  
+  
+  /**
+   * 获取维护单位系统信息导出回显
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年6月11日下午5:02:58
+   * @param request
+   * @param systemParam
+   * @return
+   * @throws BusinessException
+   */
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  @RequestMapping(value = "/querySystemInfoEchoList", method = RequestMethod.POST)
+  public RetResult<List<SystemEchoResult>> querySystemInfoEchoList(
+      @RequestBody SystemEchoParam systemEchoParam) throws BusinessException{
+    List<SystemEchoResult> systemGradingInfoResultList = this.systemServiceImpl.
+        querySystemInfoEchoList(systemEchoParam);
+    
+    return RetResultUtil.ok(systemGradingInfoResultList);
   }
 }

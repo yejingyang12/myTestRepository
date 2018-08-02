@@ -116,6 +116,6 @@ input{
 }
 .btn {
     position: relative;
-    height: 30px;
+    /* height: 30px; */
     width: auto;
     font-size: 14px;}

@@ -18,6 +18,14 @@
     <link rel="stylesheet" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}">
     <link rel="stylesheet" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">
     <style>
+        .uploadBox>div{height:unset;min-height:34px;}
+        .uploadSty .fileList{height:unset;min-height:34px;}
+        .uploadSty button{bottom: 34px;}
+        .dataForm .uploadBox input{bottom: 34px;}
+        .dataForm>li input{
+             overflow: hidden;
+             text-overflow: ellipsis; 
+        }
         .mcAdd{
             width: 86px;
         }
@@ -47,8 +55,7 @@
         }
         .P-addForm-fj .P-addForm-fj{
         	width:35%;
-        }
-        
+        } 
     </style>
 </head>
 <body>

@@ -70,7 +70,7 @@ public class FileController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
-  public ResultApi deleteFile(HttpServletRequest request, 
+  public ResultApi deleteFile( 
       @RequestBody AttachParam attachParam) throws BusinessException{
     this.fileService.deleteFile(attachParam);
     //通过resultApi实体组成返回参数

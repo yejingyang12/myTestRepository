@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
@@ -61,6 +62,8 @@ public class GradingServiceImpl implements GradingService{
   private CheckService checkServiceImpl;
   @Autowired
   private SystemMapper systemMapperImpl;
+  @Autowired
+  private WorkFlowApiService workFlowApiServiceImpl;
   
   
   
@@ -235,15 +238,18 @@ public class GradingServiceImpl implements GradingService{
       if(checkResult != null){
         checkServiceImpl.deleteCheckByCheckId(checkParam);
       }
-      CheckParam checkParamAdd = new CheckParam();
-      checkParamAdd.setFkSystemId(gradingParam.getFkSystemId());
-      checkParamAdd.setFkExaminStatus("1");
-      checkParamAdd.setFkBusinessNode("1");
-      checkParamAdd.setInstanceName(systemResult.getSystemName());
-      checkParamAdd.setInitiator(userName);
-      checkParamAdd.setPrevExecutor(userName);
-      checkParamAdd.setExecuteTime(new Date());
-      checkServiceImpl.addCheck(checkParamAdd);
+//      CheckParam checkParamAdd = new CheckParam();
+//      checkParamAdd.setFkSystemId(gradingParam.getFkSystemId());
+//      checkParamAdd.setFkExaminStatus("1");
+//      checkParamAdd.setFkBusinessNode("1");
+//      checkParamAdd.setInstanceName(systemResult.getSystemName());
+//      checkParamAdd.setInitiator(userName);
+//      checkParamAdd.setPrevExecutor(userName);
+//      checkParamAdd.setExecuteTime(new Date());
+//      checkServiceImpl.addCheck(checkParamAdd);
+      
+      //发起审核流程
+      workFlowApiServiceImpl.initStart("定级", "1", gradingParam.getFkSystemId());
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
@@ -339,14 +345,18 @@ public class GradingServiceImpl implements GradingService{
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
       
-      //修改审核状态
-      CheckParam checkParam = new CheckParam();
-      checkParam.setFkSystemId(gradingParam.getFkSystemId());
-      checkParam.setFkExaminStatus("1");
-      checkParam.setFkBusinessNode("3");
-      checkParam.setPrevExecutor(userName);
-      checkParam.setExecuteTime(new Date());
-      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//      //修改审核状态
+//      CheckParam checkParam = new CheckParam();
+//      checkParam.setFkSystemId(gradingParam.getFkSystemId());
+//      checkParam.setFkExaminStatus("1");
+//      checkParam.setFkBusinessNode("3");
+//      checkParam.setPrevExecutor(userName);
+//      checkParam.setExecuteTime(new Date());
+//      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      
+      //发起审核流程
+      workFlowApiServiceImpl.initStart("申请变更", "1", gradingParam.getFkSystemId());
+      
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");
@@ -404,15 +414,18 @@ public class GradingServiceImpl implements GradingService{
       if(checkResult != null){
         checkServiceImpl.deleteCheckByCheckId(checkParam);
       }
-      CheckParam checkParamAdd = new CheckParam();
-      checkParamAdd.setFkSystemId(gradingParam.getFkSystemId());
-      checkParamAdd.setFkExaminStatus("2");
-      checkParamAdd.setFkBusinessNode("1");
-      checkParamAdd.setInstanceName(systemResult.getSystemName());
-      checkParamAdd.setInitiator(userName);
-      checkParamAdd.setPrevExecutor(userName);
-      checkParamAdd.setExecuteTime(new Date());
-      checkServiceImpl.addCheck(checkParamAdd);
+//      CheckParam checkParamAdd = new CheckParam();
+//      checkParamAdd.setFkSystemId(gradingParam.getFkSystemId());
+//      checkParamAdd.setFkExaminStatus("2");
+//      checkParamAdd.setFkBusinessNode("1");
+//      checkParamAdd.setInstanceName(systemResult.getSystemName());
+//      checkParamAdd.setInitiator(userName);
+//      checkParamAdd.setPrevExecutor(userName);
+//      checkParamAdd.setExecuteTime(new Date());
+//      checkServiceImpl.addCheck(checkParamAdd);
+      
+      //发起审核流程
+      workFlowApiServiceImpl.initStart("定级", "2", gradingParam.getFkSystemId());
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
@@ -508,14 +521,18 @@ public class GradingServiceImpl implements GradingService{
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
       
-      //修改审核状态
-      CheckParam checkParam = new CheckParam();
-      checkParam.setFkSystemId(gradingParam.getFkSystemId());
-      checkParam.setFkExaminStatus("2");
-      checkParam.setFkBusinessNode("3");
-      checkParam.setPrevExecutor(userName);
-      checkParam.setExecuteTime(new Date());
-      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//      //修改审核状态
+//      CheckParam checkParam = new CheckParam();
+//      checkParam.setFkSystemId(gradingParam.getFkSystemId());
+//      checkParam.setFkExaminStatus("2");
+//      checkParam.setFkBusinessNode("3");
+//      checkParam.setPrevExecutor(userName);
+//      checkParam.setExecuteTime(new Date());
+//      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      
+      //发起审核流程
+      workFlowApiServiceImpl.initStart("申请变更", "2", gradingParam.getFkSystemId());
+      
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("2");

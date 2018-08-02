@@ -146,10 +146,6 @@
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../../../}"></script>
 <script src="../../static/js/public/getdata.js" th:attr="src=@{/js/public/getdata.js}"></script>
 <script src="../../static/js/public/permitParam.js" th:attr="src=@{/js/public/permitParam.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-  var systemId = [[${systemId}]];
-  var companyId = [[${companyId}]];
-</script>
 
 <script async src="../../static/compnents/public/smcc_header/smcc_header.js" th:attr="src=@{/compnents/public/smcc_header/smcc_header.js}"></script>
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
@@ -168,5 +164,9 @@
 <script async src="../../static/js/private/viewDetails.js" th:attr="src=@{/js/private/viewDetails.js}"></script>
 <!--鱼骨图-->
 <script async src="../../static/compnents/private/fishbone/fishbone.js" th:attr="src=@{/compnents/private/fishbone/fishbone.js}"></script>
-
+<script type="text/javascript" th:inline="javascript">
+  var systemId = [[${systemId}]];
+  var companyId = [[${companyId}]];
+  var examineStatus = [[${examineStatus}]];
+</script>
 </html>

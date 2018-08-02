@@ -9,8 +9,6 @@
 */
 package com.sinopec.smcc.cpro.home.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +43,7 @@ public class HomeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/homeRecordStatistics", method = RequestMethod.POST)
-  public ResultApi uploadFile(HttpServletRequest request,HomeParam hParam) throws BusinessException{
+  public ResultApi uploadFile(HomeParam hParam) throws BusinessException{
     // 调用service实体，获得
     PageInfo<HomeResult> page = this.homeService.homeRecordStatisticsList(hParam);
     // 通过resultApi实体组成返回参数
@@ -61,7 +59,7 @@ public class HomeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/homeScoreStatistics", method = RequestMethod.POST)
-  public ResultApi homeScoreStatistics(HttpServletRequest request,HomeParam hParam) throws BusinessException{
+  public ResultApi homeScoreStatistics(HomeParam hParam) throws BusinessException{
     // 调用service实体，获得
     PageInfo<HomeResult> page = this.homeService.homeScoreStatisticsList(hParam);
     // 通过resultApi实体组成返回参数

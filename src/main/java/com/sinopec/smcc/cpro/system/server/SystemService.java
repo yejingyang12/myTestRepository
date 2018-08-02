@@ -11,12 +11,15 @@ package com.sinopec.smcc.cpro.system.server;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -149,4 +152,23 @@ public interface SystemService {
    * @return
    */
   SystemResult querySystemInformationBySystemId(SystemParam systemParam);
+  
+  /**
+   * @Descrption 通过系统ID查询审核列表系统信息
+   * @author dongxu
+   * @date 2018年7月31日下午5:37:00
+   * @param systemParam
+   * @return
+   */
+  SystemResult querySystemByCheck(SystemParam systemParam);
+  
+  /**
+   * @Descrption 
+   * @author Aran
+   * @date 2018年7月31日下午9:43:41
+   * @param systemEchoParam
+   * @return
+   */
+  List<SystemEchoResult> querySystemInfoEchoList(SystemEchoParam systemEchoParam);
+  
 }

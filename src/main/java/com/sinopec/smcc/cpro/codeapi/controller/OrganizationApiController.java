@@ -10,8 +10,6 @@ package com.sinopec.smcc.cpro.codeapi.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,7 +55,7 @@ public class OrganizationApiController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value="/queryOrganizationApi", method = RequestMethod.POST)
-  public ResultApi queryOrganizationApi(HttpServletRequest request, 
+  public ResultApi queryOrganizationApi( 
       @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{
     
     List<OrganizationApiCascaderResult> organizationApiResult = 
@@ -80,7 +78,7 @@ public class OrganizationApiController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value="/queryOrganizationForKeyOrganizationCode", method = RequestMethod.POST)
-  public ResultApi queryOrganizationForKeyOrganizationCode(HttpServletRequest request, 
+  public ResultApi queryOrganizationForKeyOrganizationCode( 
       @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{
     List<OrganizationApi> organizationApi = 
         this.organizationApiServiceImpl.queryOrgForKeyOrganizationCode(organizationApiParam);
@@ -102,7 +100,7 @@ public class OrganizationApiController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value="/queryOrganizationForKeyOrganizationName", method = RequestMethod.POST)
-  public ResultApi queryOrganizationForKeyOrganizationName(HttpServletRequest request, 
+  public ResultApi queryOrganizationForKeyOrganizationName( 
       @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{
     List<OrganizationApi> organizationApi = 
         this.organizationApiServiceImpl.queryOrgForKeyOrganizationName(organizationApiParam);

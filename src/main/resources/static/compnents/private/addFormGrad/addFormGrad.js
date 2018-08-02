@@ -1,4 +1,9 @@
 var data={
+	pickerOptions0: {
+	      disabledDate(time) {
+	        return time.getTime() < Date.now() - 8.64e7;
+	      }
+	},
     check : false,
     jurisdictionType:0,
 		systemName:"",

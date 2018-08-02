@@ -40,7 +40,34 @@ public class CheckListResult {
   private String recordReportName;
   private String fkInfoSysTypeCon;
   private String companyId;
+  private String taskId;
+  private String businessId;
   
+  
+  /**
+   * @return the taskId
+   */
+  public String getTaskId() {
+    return taskId;
+  }
+  /**
+   * @param taskId the taskId to set
+   */
+  public void setTaskId(String taskId) {
+    this.taskId = taskId;
+  }
+  /**
+   * @return the businessId
+   */
+  public String getBusinessId() {
+    return businessId;
+  }
+  /**
+   * @param businessId the businessId to set
+   */
+  public void setBusinessId(String businessId) {
+    this.businessId = businessId;
+  }
   public String getCheckId() {
     return checkId;
   }

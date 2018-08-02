@@ -10,12 +10,14 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccConsts;
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
+import com.sinopec.smcc.base.log.RequestLog;
 
 /**
  * 项目名称:smcc-cpro
@@ -30,7 +32,7 @@ import com.sinopec.smcc.base.consts.SmccConsts;
 @EnableAspectJAutoProxy(exposeProxy = true)
 @EnableFeignClients("com.sinopec.smcc")
 @MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
-@ComponentScan(value = "com.sinopec.smcc")
+//@ComponentScan(value = "com.sinopec.smcc")
 @Controller
 public class ClassProtectionApplication {
 	
@@ -39,6 +41,7 @@ public class ClassProtectionApplication {
 	}
 
 	@RequestMapping("/")
+	@RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
 	public String mainPage() {
 		return "views/index";
 	}

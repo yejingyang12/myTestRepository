@@ -10,8 +10,6 @@ package com.sinopec.smcc.cpro.codeapi.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +54,7 @@ public class SystemApiController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value="/querySystemApi", method = RequestMethod.POST)
-  public ResultApi querySystemApi(HttpServletRequest request, 
+  public ResultApi querySystemApi( 
       @RequestBody SystemApiParam systemApiParam) throws BusinessException{
     
     List<SystemApiResult> systemApiResult = 

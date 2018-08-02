@@ -30,8 +30,11 @@ public class SystemListResult {
 	private String systemName;
 	private String sysBusDescription;
 	private String sysBusSituationType;
+	private String fkSystemType;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date whenInvestmentUse;
+	private String standardizedCode;
+	private String executiveOffice;
 	
   private int pageSize = 10;// pageSize ，每一页显示多少
   private int currentPage = 1;// 当前页数
@@ -152,5 +155,23 @@ public class SystemListResult {
   
   public String toString(){
     return JSON.toJSONString(this);
+  }
+  public String getFkSystemType() {
+    return fkSystemType;
+  }
+  public void setFkSystemType(String fkSystemType) {
+    this.fkSystemType = fkSystemType;
+  }
+  public String getStandardizedCode() {
+    return standardizedCode;
+  }
+  public void setStandardizedCode(String standardizedCode) {
+    this.standardizedCode = standardizedCode;
+  }
+  public String getExecutiveOffice() {
+    return executiveOffice;
+  }
+  public void setExecutiveOffice(String executiveOffice) {
+    this.executiveOffice = executiveOffice;
   }
 }

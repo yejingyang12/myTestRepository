@@ -80,6 +80,8 @@ public class ExcelUtils {
       return openHSSFWorkbook(filePath,sheetName);
     case "xlsx":
       return openXSSFWorkbook(filePath,sheetName);
+    case "xlsm":
+      return openXSSFWorkbook(filePath,sheetName);
     default:
       throw new IOException("file is not a excel format!");
     }
@@ -776,6 +778,9 @@ public class ExcelUtils {
         row = hssfSheet.getRow(i);
         if (row!=null) {
           cells = row.getLastCellNum();
+          if(cells<0){
+          	continue;
+          }
           datas = new String[cells];
           for (int j = 0; j < cells; j++) {
             cell = row.getCell(j);
@@ -866,6 +871,9 @@ public class ExcelUtils {
         row = xssfSheet.getRow(i);
         if (row!=null) {
           cells = row.getLastCellNum();
+          if(cells < 0){
+            continue;
+          }
           datas = new String[cells];
           for (int j = 0; j < cells; j++) {
             cell = row.getCell(j);

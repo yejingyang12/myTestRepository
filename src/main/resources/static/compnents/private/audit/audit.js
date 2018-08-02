@@ -11,7 +11,7 @@
 	  	currentPage: 1,
 	  	field: null,
 	  	sort: null, 
-	  	handlingState: null, //办理状态
+	  	handlingState: 1, //办理状态
 	  	role: null,//角色
 		},
 		jurisdictionType: null,
@@ -72,6 +72,11 @@
         	},
         	queryCheckListSuccess: function(_self, responseData){
         		_self.tableData = responseData;
+//         		_self.tableData.totalPages = responseData.data.totalPage;
+//        		_self.tableData.pagesize = responseData.data.pageSize;
+//        		_self.tableData.currentPage = responseData.data.currPage;
+//        		_self.tableData.totalPages = responseData.data.totalPage;
+//        		_self.tableData.result = responseData.data;
         	},
         	//点击待办、已办、全部
         	changeHandlingState: function(handlingState){
@@ -105,7 +110,7 @@
 						//定级：1
           	//撤销备案：2
           	//定级信息变更：3
-						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus="+examinStatus;
+						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus="+examinStatus+"&businessId="+businessId+"&taskId="+taskId;
           },
           
           //专家评审意见和备案证明下载

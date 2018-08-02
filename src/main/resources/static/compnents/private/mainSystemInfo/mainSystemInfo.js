@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/29.
  */
 var data1={
+	dialogShow:2,
     activeName: 'first',
     inputs:null,
     tr:null,
@@ -38,6 +39,18 @@ var data1={
           return data1;
         },
         methods:{
+        	//点击“模板导出”显示弹窗
+           systemInfoExport:function(){
+         	   this.dialogShow=1;  
+         	   bus.$emit("dialog",this.dialogShow); 
+            },
+        	 closes:function () {
+               	this.$refs['systemForm.formData'].resetFields();
+                 var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+                 evaluationAlert.style.display="none";
+                 $(".inquiry").css("display","none");
+                 $(".dialogShaw").css("display","none");
+               },
         //上一页下一页点击事件
           clickPage: function (page) {
             if (page <= 0) {
@@ -60,17 +73,6 @@ var data1={
               this.systemForm.queryData.currentPage = a;
               this.getSystemListInfoMethod(this,this.systemForm.queryData);
             }
-          },
-          //显示批量导入弹窗
-          systemInfoImprot:function(){
-          	$("#dialog").css("display","block");
-          },
-          closes:function () {
-//          	this.$refs['ruleForm'].resetFields();
-            var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
-            evaluationAlert.style.display="none";
-            $(".inquiry").css("display","none");
-            $(".dialogShaw").css("display","none");
           },
           checkboxAllMethod:function(){
             if($("#checkboxAll1").is(':checked')){

@@ -117,12 +117,13 @@ var data = {
          },
          // 获取成功
          getCompanyListInfoSuccessMethod : function(_self, responseData) {
-            _self.companyForm.formData = responseData.data;
-            _self.companyForm.totalPages = responseData.totalPages;
-            _self.companyForm.pagesize = responseData.pagesize;
-            _self.companyForm.currentPage = responseData.currentPage;
-            _self.companyForm.total = responseData.total;
-            _self.companyForm.result = responseData;
+            _self.companyForm.formData = responseData.data.list;
+            _self.companyForm.totalPages = responseData.data.totalPage;
+            _self.companyForm.pagesize = responseData.data.pageSize;
+            _self.companyForm.currentPage = responseData.data.currPage;
+            _self.companyForm.total = responseData.data.totalCount;
+            _self.companyForm.result = responseData.data;
+            
             /*var ids = [];
             for(var i=0;i<_self.companyForm.formData.length;i++){
             	var checked = false;
@@ -139,7 +140,11 @@ var data = {
             
          },
          handleClick:function(id){
-        		 window.location.href = "/page/changeUnitInformationPage?companyId="+id;      
+        	 if(this.headquarters){
+        		 window.location.href = "/page/changeUnitInformationPage?jurisdiction=headquarters&companyId="+id;
+        	 }else{
+        		 window.location.href = "/page/changeUnitInformationPage?companyId="+id;
+        	 }
          },
          newCompanyInfoMethod:function(){
         	 if(this.headquarters){

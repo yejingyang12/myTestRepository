@@ -41,6 +41,9 @@
     <result column="sysBusDescription" property="sysBusDescription" jdbcType="VARCHAR" />
     <result column="whenInvestmentUse" property="whenInvestmentUse" jdbcType="TIMESTAMP" />
     <result column="sysBusSituationType" property="sysBusSituationType" jdbcType="VARCHAR" />
+        <result column="fkSystemType" property="fkSystemType" jdbcType="VARCHAR" />
+    <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
+    <result column="executiveOfficeName" property="executiveOffice" jdbcType="VARCHAR" />
 	</resultMap>
   <resultMap id="SystemTemplateListResult" type="com.sinopec.smcc.cpro.system.entity.SystemTemplateListResult">
     <id column="pkId" property="systemId" jdbcType="VARCHAR" />
@@ -1628,6 +1631,12 @@
     		  AND system.systemName LIKE #{systemName,jdbcType=VARCHAR}
     	  ]]>
   		</if>
+  	  <if test="systemName != null and systemName != ''">
+        <bind name="systemName" value="'%' + systemName + '%'" />
+        <![CDATA[
+          OR system.standardizedCode LIKE #{systemName,jdbcType=VARCHAR}
+        ]]>
+      </if>
     </where>
 	</select>
   
@@ -3520,4 +3529,36 @@
     WHERE system.pkId = #{systemId,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectSystemByCheck" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+    SELECT
+      sys.pkId AS systemId,
+      sys.systemName,
+      com.pkId AS companyId,
+      expertReview.pkId AS expertReviewId,
+      expertReview.attachName AS expertReviewName,
+      recordReport.pkId AS recordReportId,
+      recordReport.attachName AS recordReportName,
+      sys.fkInfoSysTypeCon
+    FROM
+      t_cpro_system sys
+	    LEFT JOIN t_cpro_company com ON com.companyCode = sys.fkCompanyCode
+	    LEFT JOIN t_cpro_attach expertReview ON sys.pkId = expertReview.fkSystemId AND expertReview.fkAttachType = 'expertReview'
+	    LEFT JOIN t_cpro_attach recordReport ON sys.pkId = recordReport.fkSystemId AND recordReport.fkAttachType = 'recordReport'
+    WHERE
+      sys.pkId = #{systemId,jdbcType=VARCHAR}
+  </select>
+  
+    <!-- 根据系统名称和标准化代码查询系统信息 -->
+  <select id="selectSystemBySystemNameAndStandardizedCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+  	SELECT
+      system.pkId AS systemId,
+      system.systemName,
+      system.standardizedCode
+    FROM t_cpro_system system
+    WHERE system.systemName = #{systemName,jdbcType=VARCHAR}
+    AND system.standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
+    AND system.deleteStatus = 1
+    AND system.gradingStatus = 1
+    LIMIT 0,1
+  </select>
 </mapper>

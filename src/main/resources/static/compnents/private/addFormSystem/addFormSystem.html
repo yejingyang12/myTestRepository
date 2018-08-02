@@ -51,7 +51,10 @@
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3 hintBox" v-if="formData.fkInfoSysTypeCon!==''">
-                          <i class="fl">!</i><span v-if="formData.fkInfoSysTypeCon==1">企业自建</span><span v-if="formData.fkInfoSysTypeCon==2">总部统建，部署在企业</span><span v-else>总部自建，部署在总部 </span>
+                          <i class="fl">!</i>
+                          <span v-if="formData.fkInfoSysTypeCon==1">企业自建</span>
+                          <span v-else-if="formData.fkInfoSysTypeCon==2">总部统建，部署在企业</span>
+                          <span v-else>总部自建，部署在总部 </span>
                         </div>
                     </li>
                     <li class="row" v-show="systemInfo">
@@ -94,13 +97,30 @@
 	                                      <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
 	                                  </el-form-item>
 	                                  <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
-	                                  <button  v-if="formData.addSystemSub.length != i+1" type="button" class="btn btn-default P-btn-del" style="background-color:red;color:#FFFFFF;display:none":id="gernerateId(i)" @click="delSonSystem(i)">删除</button>
+	                                  <button  v-if="formData.addSystemSub.length != i+1"
+			                                   type="button" class="btn btn-default P-btn-del" 
+			                                   style="background-color:red;color:#FFFFFF;display:none"
+			                                   :id="gernerateId(i)" 
+			                                   @click="deleteSys">删除</button>
+			                          <!-- 删除弹窗 -->
+                                       <div class="dialogShaw">
+					                       <div class="inquiry">
+				                                <p>是否删除</p>
+				                                <div class="inquiryBtn">
+				                                    <button type="button" class="btn btn-success fl" @click="delSonSystem(i)">确定</button>
+				                                    <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+				                                </div>
+					                        </div>
+                                       </div>         
 	                               </div>
+	                               
 	                            </li>
                             </div>
-                            <li class="btn btn-success sysSun" @click="addSys($event)" id="add" v-show="addSub">添加子系统</li>
+                            <li style="padding:6px 2px;" class="btn btn-success sysSun" @click="addSys($event)" id="add" v-show="addSub">添加子系统</li>
                             <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
-                            <li class="btn btn-default P-btn-sysSun" style="background-color:red;color:#FFFFFF;"  v-show="true" @click="delSonSystemLast()">删除</li>
+                            <li class="btn btn-default P-btn-sysSun" 
+                            style="background-color:red;color:#FFFFFF;"  
+                            v-show="true" @click="deleteSys">删除</li>
                         </ul>
                     </li>
                     
@@ -289,7 +309,7 @@
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="何时投入使用：" prop="whenInvestmentUse" class="P-addsystem">
-                                <el-date-picker id="whenInvestmentUseinput" class="col-md-6 col-sm-3 useData" v-model="formData.whenInvestmentUse" type="date"></el-date-picker>
+                                <el-date-picker  :picker-options="pickerOptions0" id="whenInvestmentUseinput" class="col-md-6 col-sm-3 useData" v-model="formData.whenInvestmentUse" type="date"></el-date-picker>
                             </el-form-item>
                         </div>
                     </li>

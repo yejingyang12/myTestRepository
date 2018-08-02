@@ -5,6 +5,7 @@
     <id column="pkId" property="gradingId"/>
     <result column="fkSystemId" property="fkSystemId"/>
     <result column="systemName" property="systemName"/>
+    <result column="standardizedCode" property="standardizedCode"/>
     <result column="fkBizSPRankDegree" property="fkBizSPRankDegree"/>
     <result column="fkBizSPRankLevel" property="fkBizSPRankLevel"/>
     <result column="fkBizSystemDegree" property="fkBizSystemDegree"/>
@@ -364,6 +365,7 @@
 		AND expertReview.fkSyssonId = sco.pkId
 		AND expertReview.fkAttachType = 'expertReview'
     WHERE sco.fkSystemId = #{fkSystemId}
+    AND sco.deleteStatus = 1
     LIMIT 0,1
   </select>
   
@@ -400,5 +402,25 @@
       LEFT JOIN t_cpro_attach AS attachExpertReview
       ON score.fkSystemId = attachExpertReview.fkSystemId
     WHERE score.fkSystemId = #{fkSystemId}
+  </select>
+  
+  <!-- 根据SystemIds查询定级信息列表 -->
+  <select id="selectGradingBySystemIds" parameterType="com.sinopec.smcc.cpro.grading.entity.GradingParam" resultMap="GradingListResult">
+  	SELECT
+			sco.pkId AS gradingId,
+			sco.fkSystemId,
+			sys.systemName,
+			sys.standardizedCode
+		FROM
+			t_cpro_score sco
+		LEFT JOIN t_cpro_system sys ON sco.fkSystemId = sys.pkId
+		WHERE sys.deleteStatus = 1 AND sco.deleteStatus = 1
+		AND sco.fkSystemId IN 
+		<foreach collection="fkSystemIds" item="item" index="index" open="(" separator="," close=")">
+      <![CDATA[
+        #{item}
+      ]]>
+    </foreach>
+    
   </select>
 </mapper>

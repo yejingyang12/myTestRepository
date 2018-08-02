@@ -39,7 +39,10 @@
                         </td>   
                         <td>
                             <!--<div>-->
-                            <input type="number" class="form-control pull-left tdWith"   v-model="formData.systemKeyProducts[index].nUseProbability" @change="productChange(formData.systemKeyProducts[index].fkNationalIsProducts,[index],2)">
+                            <input type="number" class="form-control pull-left tdWith"   
+                                   v-model="formData.systemKeyProducts[index].nUseProbability"
+                                   @change="productChange(formData.systemKeyProducts[index].fkNationalIsProducts,[index],2)"
+                                   onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();">
                             
                             <!--<span class="sticNum">0</span>-->
                             <i class="addNum" @click="addNum($event,index)"></i>

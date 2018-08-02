@@ -58,7 +58,7 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/querySystemLevelDiagram", method = RequestMethod.POST)
-  public ResultApi querySystemLevelDiagram(HttpServletRequest request, 
+  public ResultApi querySystemLevelDiagram( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     DiagramResult diagramResult = this.diagramServiceImpl.querySystemLevelDiagram(diagramParam);
@@ -80,7 +80,7 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/querySystemLevelBySystemType", method = RequestMethod.POST)
-  public ResultApi querySystemLevelBySystemType(HttpServletRequest request, 
+  public ResultApi querySystemLevelBySystemType( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     DiagramResult diagramResult = this.diagramServiceImpl.
@@ -103,7 +103,7 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryRecordCompanyTop10", method = RequestMethod.POST)
-  public ResultApi queryRecordCompanyTop10(HttpServletRequest request, 
+  public ResultApi queryRecordCompanyTop10( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
@@ -126,7 +126,7 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryAcceptCompanyTop10", method = RequestMethod.POST)
-  public ResultApi queryAcceptCompanyTop10(HttpServletRequest request, 
+  public ResultApi queryAcceptCompanyTop10( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
@@ -149,7 +149,7 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
-  public ResultApi querySystemTrendByYear(HttpServletRequest request, 
+  public ResultApi querySystemTrendByYear(HttpServletRequest request,
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.

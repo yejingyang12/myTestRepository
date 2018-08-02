@@ -76,7 +76,9 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     //获得用户信息
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
     List<AuthorizationDTO> jsonMenu = this.ubsTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
-    
+//    JSONArray json = JSONArray.fromObject(jsonMenu); 
+//    String str = json.toString();//将json对象转换为字符串
+//    System.out.println(str);
 //    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsFeignTemplate.
 //        getDataAuthByUserIdAfterChange(userDTO.getUserId()+""); 
 //    System.out.println(dataAuthByUserIdAfterChange);
@@ -84,6 +86,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();
     List<String> permssionsList = new ArrayList<String>();
+    
     for (AuthorizationDTO authorizationDTO : jsonMenu) {
       //增加权限许可
       if (authorizationDTO.getPermissionList() != null) {

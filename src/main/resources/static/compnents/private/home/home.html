@@ -6,15 +6,15 @@
     style="padding:15px;border: 1px solid #cecece;background:#fff; width: 80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 1s2;">
    		<p class="clearfix cut">
           <span class="fl revokeTitle">申请变更</span>
-          <span @click="closes" class="fr revokeTitle" style="margin-right: 15px;margin-bottom: 15px;">X</span>
+          <span @click="closes" class="fr revokeTitle" style="margin-right: 15px;margin-bottom: 15px;cursor: pointer;">X</span>
         </p>
             <div>
-                <div class="row" style="margin:0">
+                <div class="row" style="margin:15px 0">
                     <div class="col-md-12">
                     
                     	  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 								<el-form-item label="变更事项：" prop="region">
-								    <el-select v-model="ruleForm.region" id="scoreCheckResult" filterable placeholder="请选择">
+								    <el-select clearable v-model="ruleForm.region" id="scoreCheckResult" filterable placeholder="请选择">
 								     <el-option
                                               v-for="item in changeMatters"
                                              :key="item.systemCode" 
@@ -38,9 +38,9 @@
 								 </div>
 		   <p class="h-p">
             <el-form-item>
-              <el-button class="btn btn-default" @click="closes" style="width: 123px!important;">取消</el-button>
-							<el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
-						</el-form-item>  
+              <el-button class="btn btn-default" @click="closes">取消</el-button>
+			  <el-button type="primary" @click="submitForm('ruleForm')"style="background:#3d95df;">确认</el-button>
+			</el-form-item>  
 			</p>     
                     
   </el-form> 
@@ -58,7 +58,7 @@
             </span>
             <span class="float-ri" style="color:#333;" onclick="">共享资料库</span>
             <span @click="helpCenter" openHelp="open" class="float-ri" style="color:#333;cursor:pointer;">帮助中心
-                <slot name="arrowHelp" id="arrowHelp"></slot>
+                <i id="arrowHelp" class="el-icon-arrow-down" style="vertical-align: middle;margin-left:-4px;"></i> 
                 <i style="font-size: 12px; text-align: center; color: #c5c5c5;margin: 0 5px;">|</i>
            </span>
         </div>
@@ -171,13 +171,13 @@
                                 <div class="col-md-6">
                                     <div class="row" >
                                         <div class="col-md-3 h-system" style="margin-right:0;margin-left:0px;width: 82px; min-width: 75px;" >
-                                            系统名称:
+                                                                                                        系统名称:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:5;position:relative;">
                                             <!-- <span style="z-index:1;position: absolute;right:43px;top: 14%;color: #cecece" >|</span> -->
                                             <template >
-                                                <el-select v-model="value8" id="selectSystemName" filterable placeholder="请选择" >
-                                                    <el-option
+                                                <el-select clearable v-model="value8" id="selectSystemName" filterable placeholder="请选择" >
+                                                    <el-option 
                                                             v-for="item in system"
                                                             :key="item.systemId"
                                                             :label="item.systemName"
@@ -192,12 +192,12 @@
                                 <div class="col-md-6">
                                     <div class="row">
                                         <div class="col-md-3 h-line" style="min-width:76px;width:77px;padding-right:0; ">
-                                            所属单位:
+                                                                                                          所属单位:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative">
                                            <template>
-                                                <el-select v-model="value9" id="selectCompanyCode" filterable placeholder="请选择">
-                                                    <el-option
+                                                <el-select clearable v-model="value9" id="selectCompanyCode" filterable placeholder="请选择">
+                                                    <el-option 
                                                             v-for="item in company"
                                                             :key="item.companyCode"
                                                             :label="item.companyName"
@@ -254,18 +254,18 @@
                                 <!--申请时间end-->
                                 <!--查询 高级查询 清空 按钮-->
 			                   <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="..."> 
-			                       <button @click="search(1)" type="button" class="btn btn-default" style="width:70px">
+			                       <button @click="search(1)" type="button" class="btn btn-default" style="width:70px;margin-right:5px;">
 			                                                                      查询
 			                        </button>                       
 			                        <div class="btn-group" style="margin-left: 10">
-			                            <button type="button" class="btn h-btn-info dropdown-toggle downh"
+			                            <button type="button" class="hoverBlue btn h-btn-info dropdown-toggle downh"
 			                                    data-toggle="dropdown"
 			                                    aria-haspopup="true" aria-expanded="false" @click="searchclick">
 			                                                                                          高级查询  
 			                                <i class="el-icon-arrow-down"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
 			                            </button>
 			                        </div>
-			                        <button type="button" class="btn btn-default" style="width:70px" @click="empty()">
+			                        <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;" @click="empty()">
 			                                                                       清空
 			                         </button>  
 			                    </div>
@@ -288,7 +288,7 @@
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative"  >
                                                 <template>
-                                                    <el-select id="acceptancecompanyName" v-model="value12" filterable placeholder="请选择" style="width:95%;">
+                                                    <el-select clearable id="acceptancecompanyName" v-model="value12" filterable placeholder="请选择" style="width:95%;">
                                                         <el-option 
                                                                 v-for="item in recordCompany"
                                                                 :key="item.acceptCompany"
@@ -390,21 +390,12 @@
                                                                                                                             状态:
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative" style="width: 79%; padding-right: 0;">
-                                                <template>
-                                                    <!-- <el-select v-model="value10" id="evaluationCompanyName" filterable placeholder="请选择">
-                                                        <el-option
-                                                                v-for="item in examOrgCompany"
-                                                                :key="item.examOrg"
-                                                                :label="item.examOrg"
-                                                                :value="item.examOrg">
-                                                        </el-option>
-                                                    </el-select> -->
-                                                    <el-select v-model="value21"   filterable placeholder="请选择" >
-                                                        <el-option
-                                                                v-for="item in hStatus"
-                                                                 :key="item.value"
-																														     :label="item.label"
-																														     :value="item.value">
+                                                <template> 
+                                                    <el-select clearable v-model="value21"   filterable placeholder="请选择" >
+                                                        <el-option   v-for="item in hStatus"
+	                                                                 :key="item.value"
+																     :label="item.label"
+																     :value="item.value">
                                                         </el-option>
                                                     </el-select>
                                                 </template>
@@ -425,7 +416,7 @@
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative"  >
                                                  <template>
-                                                    <el-select v-model="value10" id="evaluationCompanyName" filterable placeholder="请选择" style="width:95%;">
+                                                    <el-select clearable v-model="value10" id="evaluationCompanyName" filterable placeholder="请选择" style="width:95%;">
                                                         <el-option
                                                                 v-for="item in examOrgCompany"
                                                                 :key="item.examOrg"
@@ -530,11 +521,11 @@
                                                 <template> 
                                                     <!--地区-->
                                                     <el-select v-model="value22" multiple filterable placeholder="请选择" class="b" >
-																										    <el-option class="c" 
-																										      v-for="item in msgProvince"
-																										      :key="item.systemCode"
-																										      :label="item.codeName"
-																										      :value="item.systemCode">
+													    <el-option class="c" 
+													      v-for="item in msgProvince"
+													      :key="item.systemCode"
+													      :label="item.codeName"
+													      :value="item.systemCode">
 													     <span class="a" style="float: left"><el-checkbox>{{item.codeName}}</el-checkbox></span>
                                                          </el-option>
 													 </el-select>
@@ -555,7 +546,7 @@
                     <input type="hidden" name="name" checked  id="plateType" />
                     <div class="checkbox checkbox-inline" v-for="(item,index) in msgPlate" v-if="item.codeName!='其它'">
                         <span class="pic">
-                        <input type="radio" name="name"
+                        <input type="radio" name="name"  
                                @click="transfer(item.codeName,$event)" 
                                value="index"
                                class="checkName1"
@@ -682,7 +673,7 @@
                     </el-checkbox-group> 
                 </div>
                 <!-- 地区 -->
-    <!--      <!-- 
+              <!-- 
                 <div class="form-group has-feedback">
                     <label class="col-md-1 control-label">地区：</label>
                     <el-checkbox-group v-model="systemProvince">
@@ -736,26 +727,33 @@
                     未进行</span>
             </div>
             <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
-            <p class="h-p" style="margin: 15px 0;">
-               <!--  <button type="button" class="h-btn btn btn-default" id="h-btn-add" @click="toAddCompanyInfoPagePage()">
-                     <slot name="xinzengdengbao"></slot>
-                </button> -->
-                <button v-show="newlyBuild"  class="h-btn btn h-btn-add" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;"> </button>
-                
-                <button v-show="templateExport" style="padding:5px;width:auto;" type="button" id="h-score-list2" class="btn btn-default h-borde-hover" @click="checkallexport()" hascheck="">
-                    定级模板导出
+            <p class="h-p" style="margin: 15px 0;"> 
+                <button v-show="newlyBuild"  class="h-btn btn h-btn-add" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;margin-bottom:2px;"> </button>
+           <!-- <button v-show="templateExport" style="padding:5px;width:auto;" type="button" id="h-score-list2" class="btn btn-default h-borde-hover" @click="checkallexport()" hascheck="" show="show">
+                                                     定级模板导出 </button>  --> 
+                <button  v-show="templateExport" 
+                         id="h-score-list2"
+                         @click="checkallexport()" 
+		                 hascheck="" show="show"
+                         type="button" class="selfButton">
+                                                                    定级模板导出
+                </button>     
+                <button v-show="templateImport"
+				        class="selfButton" id="h-score-list3" 
+				        onclick="fileEle.click()"> 
+				                     定级信息导入
+                    <input type="file" id="fileEle" class="hovergrey col-md-12 smt" style="margin-right:255px; display:none" formmethod="POST" value="上传文件" @change="importGarding">
+                </button>  
+               
+                <button v-show="maintain" type="button" class="hovergrey btn btn-default float-ri" style="margin-right: 10px;width:auto;"  @click="toMainCompanyInfoPage()">
+                                            维护单位系统信息</button>
+                <button v-show="auditManagement" type="button" class="btn float-ri hoverBlue"
+                        style="margin-right: 10px;background-color:#3d95df;color:#fff;width:auto;" @click="toAuditPage()">
+                                                  审核管理
                 </button>
-
-                <button v-show="templateImport" style="padding:5px;width:auto;" class="btn btn-default  h-borde-hover" id="h-score-list3" onclick="fileEle.click()" @mousedown="changeColor"> 定级信息导入
-                    <input type="file" id="fileEle" class="col-md-12 smt" style="margin-right:255px; display:none" formmethod="POST" value="上传文件" @change="getFile('#fileEle')">
-                </button>
-                <button v-show="maintain" type="button" class="btn btn-default float-ri" style="margin-right: 10px;padding:5px;width:auto;"  @click="toMainCompanyInfoPage()">
-                    维护单位系统信息</button>
-                <button v-show="auditManagement" type="button" class="btn  float-ri"
-                        style="margin-right: 10px;background-color: #1e91e2;color:#fff;width:auto;" @click="toAuditPage()">审核管理
-                </button>
-                <button v-show="oneKeyExportJurisdiction"  type="button" class="btn  float-ri"
-                        style="margin-right: 10px;background-color: #1e91e2;color:#fff;width:auto;" @click="oneKeyExport()">一键导出
+                <button v-show="oneKeyExportJurisdiction"  type="button" class="btn float-ri hoverBlue"
+                        style="margin-right: 10px;background-color:#3d95df;color:#fff;width:auto;" @click="oneKeyExport()">
+                                             一键导出
                 </button>
             </p>
             <div class="row" style="margin:0">
@@ -763,37 +761,27 @@
                     <div class="row table-responsive">
                         <table id="h-list-show" class="table table-bordered table-striped">
                             <tr class="tr-row rowOne">
-                                <th class="firstChecked"
-                                    style="min-width:34px;display:none;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
-                                    <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;"></th>
+                                <th class="firstChecked" v-show="checkBox== 'true' "
+                                    style="min-width:34px;display:block;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
+                                    <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;width:13px;"></th>
                                 <th style="min-width:47px">序号</th>
                                 <th>系统名称
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                    <slot name="paixujiantou"></slot>
+                                     <slot name="paixujiantou"></slot>
                                 </th>
                                 <th>所属单位
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                    <slot name="paixujiantou2"></slot>
-                                </th>
-                          <!--       <th>板块
-                                    <img src="../../static/images/home/paixujiantou.png" alt="">
-                                    <slot name="paixujiantou3"></slot>
-                                </th> -->
+                                     <slot name="paixujiantou2"></slot>
+                                </th> 
                                 <th>建设类型
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                    <slot name="paixujiantou4"></slot>
+                                     <slot name="paixujiantou4"></slot>
                                 </th>
                                 <th>等保级别
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                    <slot name="paixujiantou5"></slot>
+                                     <slot name="paixujiantou5"></slot>
                                 </th>
-                                <th style="max-width:75px">是否为互联网应用
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
-                                    <slot name="paixujiantou6"></slot>
+                                <th style="max-width:75px;min-width:60px;">是否为互联网应用
+                                     <slot name="paixujiantou6"></slot>
                                 </th>
                                 <th>定级状态</th>
-                               <!--  <th>审核状态</th> -->
-                                <th>备案状态</th>
+                                 <th>备案状态</th>
                                 <th>测评状态</th>
                                 <th>自查状态</th>
                                 <th style="width:5%;">专家评审意见</th>
@@ -805,11 +793,11 @@
                             </tr>
                             <tr class="tr-row" v-for="(pro,index) in result.data" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
                                 data-td="https://codeload.github.com/douban/douban-client/legacy.zip/master">
-                                <td class="firstChecked"
-                                    style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
-                                    <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
+                                <td class="firstChecked" v-show="checkBox== 'true' "
+                                    style="min-width:34px;display:block;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
+                                    <input class="checkName" type="checkbox" style="margin:4px 36%;width:13px;"></td>
                                 <td>{{index+1}}</td>
- 								                <td>
+ 								<td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
                                   <div v-if="pro.recordStatus != 4">
                                     <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
                                   </div>
@@ -925,7 +913,7 @@
                                 <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
                                     <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                     <a class="hide3" style="cursor:pointer;">  
-                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
+                                        <i id="h-dingji"  @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
                                           <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
                                            <!-- 首页表格的删除弹窗 -->
                                             <div class="dialogShaw">
@@ -945,8 +933,8 @@
                                 </td>
                                 <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">
                                     <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication">|</i>
-                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
+                                    <a  @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication&&pro.examineStatus!=2">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication&&pro.examineStatus!=2">|</i>
+                                    <a  id="beian" @click="toCompanyRecordPage(pro.examineStatus,pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
                                     <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 " v-show="paramEvaluation">|</i>
                                     <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramSelfExamination">自查</a>
                                 </td>
@@ -1001,6 +989,9 @@
     </div>
     <div class="startBox" id="startBoxDelete" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P>
+    </div>
+    <div class="startBox" id="startBoxExporting" style="display:none;width:300px;margin-left:-150px;">
+      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>正在导出，请耐心等待...</P>
     </div>
     <div class="startBox" id="startBoxExport" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>导出成功！</P>

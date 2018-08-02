@@ -12,21 +12,41 @@
         width:30%!important;
     } 
 .h-p .el-form-item .el-button--primary{
-	float:right;
-	width: 123px;
+	float:right; 
     height: 32px;
     vertical-align: middle;
     padding: 10px 20px;
-    border-radius: 4px;
+    border-radius:0px;
     color: #fff;
-    background-color: #409EFF;
-    border-color: #409EFF;
+    background:#3d95df!important;
+    border-color:#3d95df;
     margin-right:10px;
 }     
 .h-p .el-form-item .el-button--default{
 	 float:right;
-	 border-radius: 4px;
+	 border-radius: 0px;
      border-color: #cecece!important;
+}
+/* mainSystemInfoDialog */
+.ulList{
+    max-height: 500px;
+    overflow-y: auto;
+} 
+.mainSystemInfoDialogButton{
+	margin:20px;
+	margin-right:15px;
+}
+.dialogInput .el-input-group__append, .el-input-group__prepend{
+	background-color: #fff;
+    color: #909399;
+    vertical-align: middle;
+    display: table-cell;
+    position: relative;
+    border: none;
+    border-radius: 0px;
+    padding: 0px;
+    width: 1px;
+    white-space: nowrap;
 }
 
 

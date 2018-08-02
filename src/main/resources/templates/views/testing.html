@@ -25,6 +25,17 @@
     <link rel="stylesheet" href="../../static/css/private/evaluationAlert.css" th:attr="href=@{/css/private/evaluationAlert.css}">
 	<link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	
 <style>
+.el-message-box .el-message-box__btns .el-button{
+        background: rgb(61,149,223); 
+        padding: 10px;
+}  
+.el-message-box .el-message-box__btns .el-button span{ 
+        color:#fff; 
+} 
+.breadcrumb li{
+    margin-bottom:0px;
+}
+ .uploadSty button{top:0;}
         .mcAdd .addBaseBg,.mcAdd  .addSysBg{
             background-position: 0px -140px;
         }
@@ -81,9 +92,8 @@
     .h-padding{margin-top:-15px;}
     .container{
     	padding:0;
-    }
-    
-      .el-button {
+    } 
+  .el-button {
     color: #337ab7;
     border: none;
     display: inline-block;
@@ -129,7 +139,7 @@
   		display:none;
   }
 .hDiaTesting .uploadSty button {
-    background: #337ab7;
+    background:rgb(61,149,233);
 }        
 .hDiaTesting .evaluation .cut:after {
     margin-left: -15px;
@@ -207,8 +217,16 @@
 	padding:0;paddding-left:10px;
 	background:none
 }
-    </style>
-    </head>
+/* 时间空间加清空 */
+.timeClear .el-input__suffix .el-input__suffix-inner{
+	position:absolute;
+	right:0px;
+	top:-10px; 
+}
+.useData span i{display:block;}
+.el-icon-date:before{display:none;}
+</style>
+</head>
 <body class="h-body">
 <div id="app">
     <smcc-header>

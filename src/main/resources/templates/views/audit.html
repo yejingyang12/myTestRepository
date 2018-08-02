@@ -21,7 +21,31 @@
     <link rel="stylesheet" href="../../static/css/private/detailsNav.css" th:attr="href=@{/css/private/detailsNav.css}">
 
 </head>
-<style>
+<style> 
+.btn-default.focus, .btn-default:focus{    
+    color: unset;
+    background-color:unset !important;
+    border-color:unset;
+}
+.btn.focus, .btn:focus, .btn:hover{
+    color: unset;
+    background-color:unset !important;
+    border-color:unset;
+}
+.btn.focus, .btn:focus, .btn:hover{
+    color:unset;
+    text-decoration: none;
+}
+.el-input__suffix {
+    top: 7px;
+    height: 20px;
+    width: 1px;
+    background: rgb(206, 206, 206);
+    right: 26px;
+    transition: all .3s;
+}
+.el-select .el-input .el-select__caret{font-size: 22px;}
+.pane-record .el-button--text{display: none;}
 input:focus{outline:none!important;box-shadow:none}
 ::-ms-clear,::-ms-reveal{display:none;}
 .table-striped .liststatus span{
