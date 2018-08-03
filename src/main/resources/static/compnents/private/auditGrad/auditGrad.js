@@ -40,6 +40,8 @@
   		fkChangeMatter: null,
   		changeContent: null,
   		changeReason: null,
+  		businessId: null,
+  		taskId: null,
     },
     scoreCheckResultList:[
      {codeId: 1,codeName: '通过'},
@@ -306,6 +308,8 @@
         
         mounted: function() {
         	var _self=this;
+        	this.formData.taskId = taskId;
+          this.formData.businessId = businessId;
         	//审核人
         	_self.getPermitJurisdictionInfo(_self);
         	

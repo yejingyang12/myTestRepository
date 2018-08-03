@@ -58,7 +58,7 @@
           <li class="row P-record">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="备案时间：" prop="recordDate">
-                <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.recordDate" type="date"></el-date-picker>
+                <el-date-picker class="col-md-6 col-sm-3 useData" style="height:34px;overflow:hidden;" v-model="formData.recordDate" type="date"></el-date-picker>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
@@ -70,7 +70,7 @@
           <li class="row P-record">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="受理日期：" prop="acceptDate">
-                <el-date-picker class="col-md-6 col-sm-3 useData" v-model="formData.acceptDate" type="date"></el-date-picker>
+                <el-date-picker class="col-md-6 col-sm-3 useData" style="height:34px;overflow:hidden;" v-model="formData.acceptDate" type="date"></el-date-picker>
               </el-form-item>
             </div>
           </li>
@@ -85,7 +85,7 @@
                         <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
                       </li>
                     </ul>
-                    <el-button type="primary" size="small">上传</el-button>
+                    <el-button type="primary" size="small" style="bottom:22px">上传</el-button>
                   </div>
                   <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
                   <p>

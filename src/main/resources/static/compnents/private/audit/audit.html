@@ -181,12 +181,11 @@
                                         <!--执行时间-->
                                         <td>{{pro.executeTime}}</td>
                                         <!--业务节点-->
-                                     <!--    <td v-if="pro.fkBusinessNode == '1'">定级</td>
+                                        <td v-if="pro.fkBusinessNode == '1'">定级</td>
                                         <td v-else-if="pro.fkBusinessNode == '2'">撤销备案</td>
                                         <td v-else-if="pro.fkBusinessNode == '3'">定级信息变更</td>
-                                        <td v-else></td> -->
-                                        <td >{{pro.fkBusinessNode}}</td>
-                                        
+                                        <td v-else></td>
+                                    
                                         <!--是否有专家意见-->
                                         <td>{{pro.expertReviewName?'有':'无'}}</td>
                                         <!--专家意见下载-->

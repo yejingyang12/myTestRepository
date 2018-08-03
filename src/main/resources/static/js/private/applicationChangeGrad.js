@@ -75,7 +75,7 @@ window.onload = function () {
               data.formData.changeType = "1";
               if(data.jurisdictionType==1){
                 ajaxMethod(_self, 'post',
-                    'grading/saveGrading', true,
+                    'grading/submitGrading', true,
                     JSON.stringify(data.formData), 'json',
                     'application/json;charset=UTF-8',
                     _self.submitBtnSuccessMethod);

@@ -122,13 +122,19 @@ public class CheckServiceImpl implements CheckService {
             checkListResult.setCompanyId(systemResult.getCompanyId());
             checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
             checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
-            checkListResult.setInitiator(executeTaskData.getExecutorName());//发起人
+            checkListResult.setInitiator(executeTaskData.getExt002());//发起人
             checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
-            checkListResult.setFkBusinessNode(executeTaskData.getBusinessName());//业务节点
+            if(executeTaskData.getBusinessName().equals("定级")){
+              checkListResult.setFkBusinessNode("1");//业务节点
+            }else if(executeTaskData.getBusinessName().equals("撤销备案")){
+              checkListResult.setFkBusinessNode("2");//业务节点
+            }else{
+              checkListResult.setFkBusinessNode("3");//业务节点
+            }
             checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
             checkListResult.setRecordReportName(systemResult.getRecordReportName());
             checkListResult.setRecordReportId(systemResult.getRecordReportId());
-            checkListResult.setTaskId(executeTaskData.getBusinessId());
+            checkListResult.setTaskId(executeTaskData.getTaskId());
             checkListResult.setBusinessId(executeTaskData.getBusinessId());
             //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
             if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
@@ -182,13 +188,19 @@ public class CheckServiceImpl implements CheckService {
             checkListResult.setCompanyId(systemResult.getCompanyId());
             checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
             checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
-            checkListResult.setInitiator(executeTaskData.getExecutorName());//发起人
+            checkListResult.setInitiator(executeTaskData.getExt002());//发起人
             checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
-            checkListResult.setFkBusinessNode(executeTaskData.getBusinessName());
+            if(executeTaskData.getBusinessName().equals("定级")){
+              checkListResult.setFkBusinessNode("1");//业务节点
+            }else if(executeTaskData.getBusinessName().equals("撤销备案")){
+              checkListResult.setFkBusinessNode("2");//业务节点
+            }else{
+              checkListResult.setFkBusinessNode("3");//业务节点
+            }
             checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
             checkListResult.setRecordReportName(systemResult.getRecordReportName());
             checkListResult.setRecordReportId(systemResult.getRecordReportId());
-            checkListResult.setTaskId(executeTaskData.getBusinessId());
+            checkListResult.setTaskId(executeTaskData.getTaskId());
             checkListResult.setBusinessId(executeTaskData.getBusinessId());
             //executeResult : 1和-1 为待办状态，2 审批通过 3 审批未通过
             if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
