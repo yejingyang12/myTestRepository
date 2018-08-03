@@ -106,7 +106,7 @@
           },
           
           //审核
-          checkThisRow: function(fkBusinessNode,systemId,companyId,examinStatus){
+          checkThisRow: function(fkBusinessNode,systemId,companyId,examinStatus,businessId,taskId){
 						//定级：1
           	//撤销备案：2
           	//定级信息变更：3
