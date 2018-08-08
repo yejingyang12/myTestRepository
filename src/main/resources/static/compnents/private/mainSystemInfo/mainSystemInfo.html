@@ -1,44 +1,91 @@
 <div class="container h-padding" style="margin:0">
-    <div class="container h-table-border" style="background:#fff;padding: 15px;margin-top: -15px">
-        <div style="height: 50px;line-height: 50px;margin-top: -15px">
-            <i class="h-list-line" style="vertical-align:middle;"></i>
-            系统基本信息列表
-        </div>
-        <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
-        <div class="row" style="margin-top: 15px">
-            <div class="col-md-12">
-                <div class="col-md-3 h-system h-padding" 
-                     style="width: 60px;min-width: 58px;">
-                    系统名称:
-                </div>
-                <div class="col-md-3 h-col-md-9 h-padding pos-relative">
-                   <!--  <input type="text" class="h-form-control" 
+	<!-- 批量导入 -->
+	<div id="dialog"  class="evaluationAlert hDiaSelfCheck"
+		style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
+		<div class="evaluation"
+			style="padding:15px;border: 1px solid #cecece;background:#fff; width: 60%;  position: absolute;top: 30%;left: 20%;  z-index: 1s2;">
+			<p class="clearfix cut">
+				<span class="fl revokeTitle">批量导入</span> <span @click="closes1"
+					class="fr revokeTitle"
+					style="margin-right: 15px;margin-bottom: 15px;">X</span>
+			</p>
+			<span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项
+			</span>
+			<div>
+				<div class="row" style="margin:0;margin-top:60px;">
+					<el-form :model="systemForm" :rules="systemForm.rules"
+						ref="systemForm" label-width="100px" class="demo-ruleForm">
+					<div class="col-md-12 p-up">
+						<el-form-item label="上传附件：" prop="importSystemInfo">
+						<div class="clearfix sysText col-md-12 uploadBox">
+							<div class="uploadSty">
+								<ul class="fileList" id="fileList">
+									<li v-if="!(systemForm.importSystemInfo == null || systemForm.importSystemInfo =='')">
+										<div class="fl">{{systemForm.importSystemInfo}}</div> 
+										<i @click="fileDel(systemForm.importSystemPath)" class="el-icon-close fl"></i>
+									</li>
+								</ul>
+								<el-button type="primary" size="small"
+									style="bottom:26px;background: rgb(61,149,223);">选择文件</el-button>
+							</div>
+							<input type="file" value="" id="file" @change='onUpload'
+								ref="refOnUpload">
+							<p>
+								附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+							</p>
+						</div>
+						</el-form-item>
+					</div>
+					<div class="h-p" style="width: 100%;overflow:hidden;">
+						<el-button class="btn btn-default fr" @click="closes1">取消</el-button>
+						<el-button class="btn fr" type="primary"
+							style="background: rgb(61,149,223);color: #fff;"
+							@click="submitForm">确认</el-button>
+					</div>
+					</el-form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container h-table-border"
+		style="background:#fff;padding: 15px;margin-top: -15px">
+		<div style="height: 50px;line-height: 50px;margin-top: -15px">
+			<i class="h-list-line" style="vertical-align:middle;"></i> 系统基本信息列表
+		</div>
+		<div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+		<div class="row" style="margin-top: 15px">
+			<div class="col-md-12">
+				<div class="col-md-3 h-system h-padding"
+					style="width: 60px;min-width: 58px;">系统名称:</div>
+				<div class="col-md-3 h-col-md-9 h-padding pos-relative">
+					<!--  <input type="text" class="h-form-control" 
                            style="width: 74%" 
                            v-model="systemForm.queryData.systemName"/> -->
-                    <el-input   placeholder="请输入内容"
-								v-model="systemForm.queryData.systemName"
-								clearable
-								class="h-form-control" 
-								style="width:74%">
-					</el-input>
-                </div>
-                <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="...">
-                    <button type="button" @click="querySystemListInfoMethod()" class="btn btn-default" 
-                            style="padding:5px 20px;width:70px;margin-right:5px;background:#3d95df;color:#fff;">查询</button>
-                    <button type="button" class="btn btn-default" style="padding:5px 20px;width:70px;" @click="clearHeadle">   清空</button>
-                </div>
-            </div>
-        </div>
-        <!--</div>-->
-        <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+					<el-input placeholder="请输入内容"
+						v-model="systemForm.queryData.systemName" clearable
+						class="h-form-control" style="width:74%"> </el-input>
+				</div>
+				<div style="float: right" class=" btn-group btn-group-sm"
+					role="group" aria-label="...">
+					<button type="button" @click="querySystemListInfoMethod()"
+						class="btn btn-default"
+						style="padding:5px 20px;width:70px;margin-right:5px;background:#3d95df;color:#fff;">查询</button>
+					<button type="button" class="btn btn-default"
+						style="padding:5px 20px;width:70px;" @click="clearHeadle">
+						清空</button>
+				</div>
+			</div>
+		</div>
+		<!--</div>-->
+		<div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
 
-        <p class="h-p" style="margin: 15px 0;">
+		<p class="h-p" style="margin: 15px 0;">
             <button   class="h-btn btn h-btn-add" 
             id="h-btn-add"
              @click="newSystemInfoMethod()" 
             style="border: none;"> </button>
             
-            <button type="button" class="btn btn-default float-ri" style="margin-right: 10px">  批量导入</button>
+            <button type="button" class="btn btn-default float-ri" @click="systemInfoImprot" style="margin-right: 10px">  批量导入</button>
             <button type="button" 
                     @click="systemInfoExport"
                     class="btn btn-default float-ri" 
@@ -47,14 +94,14 @@
             </button>
         </p>
 
-        <div class="row" style="margin:0">
+		<div class="row" style="margin:0">
             <div class="col-md-12">
                 <div class="row table-responsive">
                     <table id="h-list-show" class="table table-bordered table-striped">
-                        <tr class="tr-row rowOne">
-                            <th class="firstChecked"
+                        <tr class="tr-row rowOneSysInfo">
+                            <!-- <th class="firstChecked"
                                 style="width:4%;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
-                                <input class="checkName frist" type="checkbox" id="checkboxAll1" @click="checkboxAllMethod()"  style=" margin: 4px 36%;"></th>
+                                <input class="checkName frist" type="checkbox" id="checkboxAll1" @click="checkboxAllMethod()"  style=" margin: 4px 36%;"></th> -->
                             <th style="min-width:30px">序号</th>
                             <th>系统名称
                                 <slot name="paixujiantou"></slot>
@@ -127,7 +174,8 @@
           </div>
         </div>
     </div>
+    <div class="startBox" id="startBoxTest" style="display:none;">
+      <i class="el-icon-circle-check"  style="color:#5DAE51;"></i><P>导入成功!</P>
+    </div>
     <mainSystemInfoDialog></mainSystemInfoDialog>
 </div>
-
-

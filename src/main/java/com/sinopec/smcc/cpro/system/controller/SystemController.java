@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
@@ -32,6 +33,7 @@ import com.sinopec.smcc.base.log.RequestLog;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.base.result.RetResult;
 import com.sinopec.smcc.base.result.RetResultUtil;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
@@ -185,11 +187,12 @@ public class SystemController {
    */
   @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.POST)
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  //@RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public ResultApi exportExcelForSystemTemplate(HttpServletRequest request, 
-      SystemParam systemParam) throws FileNotFoundException, IOException{
-    this.systemServiceImpl.exportExcelForSystemTemplate(systemParam);
+      @RequestBody SystemParam systemParam) throws BusinessException{
+    AttachResult attachResult = this.systemServiceImpl.exportExcelForSystemTemplate(systemParam);
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(attachResult);
     return result;
   }
   
@@ -203,13 +206,20 @@ public class SystemController {
    * @throws IOException
    * @throws BusinessException
    */
-  @RequestMapping(value = "/importForSystemTemplate", method = RequestMethod.GET)
+  @RequestMapping(value = "/importForSystemTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi importForSystemTemplate(HttpServletRequest request) 
+  public ResultApi importForSystemTemplate(HttpServletRequest request,@RequestParam("strFilePath")String strFilePath) 
       throws IOException, BusinessException{
-    this.systemServiceImpl.importForSystemTemplate();
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+  	String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    Boolean IsImprotInfo=this.systemServiceImpl.importForSystemTemplate(userName,strFilePath);
+    ResultApi result=null;
+    if(IsImprotInfo){
+    	result = new ResultApi(EnumResult.SUCCESS);
+    }else{
+    	result = new ResultApi(EnumResult.ERROR);
+    }
+    
     return result;
   }
   

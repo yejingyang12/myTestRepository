@@ -18,6 +18,9 @@
         system.pkId AS systemId, 
         system.systemName, 
         system.fkSystemIsMerge,
+        system.fkChangeMatter,
+        system.changeReason,
+        system.changeContent,
         company.companyName, 
         company.fkPlateType AS plateType, 
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
@@ -318,12 +321,16 @@
       <!-- 审核状态  待审核-->
 	    <if test="fkExaminStatus != null and fkExaminStatus == 1">
 	        <![CDATA[
-	          AND (examine.fkExaminStatus = 1 
-	          OR  examine.fkExaminStatus = 2 )
+	          AND examine.fkExaminStatus = 1 
+	        ]]>
+	    </if>
+	    <if test="fkExaminStatus != null and fkExaminStatus == 2">
+	        <![CDATA[
+	          AND examine.fkExaminStatus = 2 
 	        ]]>
 	    </if>
 	    <!-- 审核状态 已审核-->
-      <if test="fkExaminStatus != null and fkExaminStatus == 2">
+      <if test="fkExaminStatus != null and fkExaminStatus == 5">
           <![CDATA[
             AND examine.fkExaminStatus = 5
           ]]>
@@ -331,8 +338,12 @@
       <!-- 审核状态 审核未通过-->
       <if test="fkExaminStatus != null and fkExaminStatus == 3">
           <![CDATA[
-             AND (examine.fkExaminStatus = 3 
-            OR  examine.fkExaminStatus = 4 )
+             AND examine.fkExaminStatus = 3 
+          ]]>
+      </if>
+      <if test="fkExaminStatus != null and fkExaminStatus == 4">
+          <![CDATA[
+             AND examine.fkExaminStatus = 4 
           ]]>
       </if>
       <!-- 备案状态 -->
@@ -374,6 +385,17 @@
           ]]>
         </foreach>
       </if>
+      <if test="plTypeArray != null and plTypeArray.length > 0">
+         <![CDATA[
+           AND company.fkPlateType IN  
+         ]]>
+         <foreach collection="plTypeArray" item="item" index="index" open="(" separator="," close=")">
+           <![CDATA[
+             #{item}
+           ]]>
+         </foreach>
+       </if>
+        
       <if test="subordinateProvincesArray != null and subordinateProvincesArray.length > 0">
           <![CDATA[
           AND company.fkSubordinatePro IN  

@@ -48,11 +48,13 @@ public class SystemApiServiceImpl implements SystemApiService{
       throws BusinessException {
     List<SystemApiResult> systemApiResultList = new ArrayList<SystemApiResult>();
     SystemInfoList systemInfoList = null;
+    
     try {
-      if(StringUtils.isNotBlank(systemApiParam.getCompanyCode())){
-//        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(
-//            systemApiParam.getCompanyCode()), SystemInfoList.class);
-        systemInfoList = JSON.parseObject(systemApiClient.querySystemList("10010037"), SystemInfoList.class);
+      if(StringUtils.isNotBlank(systemApiParam.getCompanyCode())
+          &&(!systemApiParam.getCompanyCode().equals("null"))){
+        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(
+            systemApiParam.getCompanyCode()), SystemInfoList.class);
+//        systemInfoList = JSON.parseObject(systemApiClient.querySystemList("10010037"), SystemInfoList.class);
       }else{
         systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
       }
@@ -60,7 +62,9 @@ public class SystemApiServiceImpl implements SystemApiService{
       e.printStackTrace();
       return systemApiResultList;
     }
-    List<SystemListResult> systemList = systemMapper.selectAllBySystemParam(new SystemParam());
+    SystemParam systemParam = new SystemParam();
+    systemParam.setFkCompanyCode(systemApiParam.getCompanyCode());
+    List<SystemListResult> systemList = systemMapper.selectAllBySystemParam(systemParam);
     
     if (systemList!=null&&systemList.size()>0) {
       if (systemInfoList!=null&&systemInfoList.getData()!=null&&systemInfoList.getData().size()>0) {
@@ -69,11 +73,9 @@ public class SystemApiServiceImpl implements SystemApiService{
         outermost:
         for (int i = 0; i < systemInfoListSize; i++) {
           SystemInfo systemInfo = systemInfoList.getData().get(i);
-//          if(!systemApiParam.getCompanyCode().equals("null")){
-//            if(systemApiParam.getCompanyCode().equals(systemInfo.getCuCode())){
-//              continue;
-//            }
-//          }
+          if(systemInfo.getSystemallname().equals("null")){
+            continue;
+          }
           if("".equals(systemInfo.getSystemallname())||systemInfo.getSystemallname()==null){
             continue;
           }

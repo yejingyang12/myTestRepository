@@ -20,5 +20,5 @@ package com.sinopec.smcc.cpro.codeapi.constant;
 public class WorkFlowConsts {
 
   //工作流流程分类编码--等级保护审批流程
-  public static final String CATEGORY_CODE_CPRO  = "test_cpro";
+  public static final String CATEGORY_CODE_CPRO  = "cpro";
 }

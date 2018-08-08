@@ -142,15 +142,15 @@ var data1={
 						$(e.currentTarget).nextAll().children('i').next('span').css('background-color','#cecece');
 						$(e.currentTarget).nextAll().children('i').css('background-position','');
 						if($(e.currentTarget).index() == 2){
-							$('.comitBtm').show();
+							//$('.comitBtm').show();
 							if (this.formData.recordsId!=null && this.formData.recordsId!="" && typeof(this.formData.recordsId)!= undefined) {
 								bus.$emit("changeLi",true);
 							}else{
-								bus.$emit("changeLi",false);
+								bus.$emit("changeLi","record");
 							}
 						}else{
 							bus.$emit("changeLi",false);
-							$('.comitBtm').hide();
+							//$('.comitBtm').hide();
 						}
 						//改div 显示和隐藏
 						$(".recordPro>div").eq($(e.currentTarget).index()).css("display","block").siblings("div").css("display","none");
@@ -167,7 +167,8 @@ var data1={
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){
+          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -180,11 +181,12 @@ var data1={
 						ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 					},
 					onUploadSuccessMethod: function(_self,responseData){
-						this.$refs.refOnUpload.value = null;
+//						this.$refs.refOnUpload.value = null;
 						_self.formData.recordReportName=responseData.data.attachName;
 						_self.formData.recordReportPath=responseData.data.uploadUrl;
 						/*var fileHtml='<li><div class="fl"  @click="fileDownload("\'+responseData.data.uploadUrl+\'")" >'+responseData.data.attachName+'</div><i @click="fileDel("'+responseData.data.uploadUrl+'")" class="el-icon-close fl"></i></li>'
 						$("#fileList").html(fileHtml);*/
+						this.$refs.recordReportName.clearValidate();
 					},
 					fileDel:function(uploadUrl,attachName,fileId){
 						this.formData.recordReportName='';
@@ -282,6 +284,18 @@ var data1={
           	window.location.href=originUrl+"/fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
           },
 					
+          //清除验证提示信息
+          changeData: function(clearData){
+          	if(clearData == 'recordCode'){
+          		this.$refs.recordCode.clearValidate();
+          	}
+          	if(clearData == 'recordCompany'){
+          		this.$refs.recordCompany.clearValidate();
+          	}
+          	if(clearData == 'acceptCompany'){
+          		this.$refs.acceptCompany.clearValidate();
+          	}
+          }
 				},
 				created: function() {
 					this.formData.fkSystemId=systemId;
@@ -297,6 +311,11 @@ var data1={
 					bus.$on("revokeRecord",function(meg){
             if(meg!=null){
             	_self.revokeRecord(_self);
+            }
+          });
+					bus.$on("showComitBtm",function(meg){
+            if(meg!=null){
+            	$('.comitBtm').show();
             }
           });
 				}

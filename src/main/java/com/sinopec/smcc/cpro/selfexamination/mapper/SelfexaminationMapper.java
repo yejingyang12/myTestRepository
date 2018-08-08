@@ -64,4 +64,15 @@ public interface SelfexaminationMapper {
    */
   void updateSelfexaminationDeleteStatusBySelfexaminationId(
       SelfexaminationParam selfexaminationParam) throws BusinessException;
+  
+  /**
+   * @Descrption 通过系统ID查询 按自查时间排序 查询一条
+   * @author dongxu
+   * @date 2018年8月6日下午2:41:04
+   * @param selfexaminationParam
+   * @return
+   * @throws BusinessException
+   */
+  SelfexaminationResult selectSingleBySystemId(SelfexaminationParam selfexaminationParam) 
+      throws BusinessException;
 }

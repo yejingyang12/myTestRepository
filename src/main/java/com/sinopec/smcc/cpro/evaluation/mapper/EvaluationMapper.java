@@ -86,4 +86,13 @@ public interface EvaluationMapper {
    * @return
    */
   List<EvaluationListResult> selectAllByEvaluationSystemId(EvaluationParam companyParam);
+  
+  /**
+   * @Descrption 通过系统ID查询测评数据按创建时间排序查询一条
+   * @author dongxu
+   * @date 2018年7月12日下午2:52:13
+   * @param companyParam
+   * @return
+   */
+  EvaluationListResult selectAllByEvaluationSystemIdOrderBy(EvaluationParam companyParam);
 }

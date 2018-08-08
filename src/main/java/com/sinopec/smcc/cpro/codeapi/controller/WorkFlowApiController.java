@@ -22,7 +22,6 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.result.ResultApi;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.depends.ubs.util.UbsFeignTemplate;
 
 /**

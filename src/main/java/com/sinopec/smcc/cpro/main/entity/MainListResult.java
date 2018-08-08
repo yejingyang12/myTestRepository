@@ -47,8 +47,48 @@ public class MainListResult {
   private Date recordCreateTime;
   private String recordCode;
   private String acceptCompany;
+  private String fkChangeMatter;
+  private String changeReason;
+  private String changeContent;
+  
 
   
+  /**
+   * @return the fkChangeMatter
+   */
+  public String getFkChangeMatter() {
+    return fkChangeMatter;
+  }
+  /**
+   * @param fkChangeMatter the fkChangeMatter to set
+   */
+  public void setFkChangeMatter(String fkChangeMatter) {
+    this.fkChangeMatter = fkChangeMatter;
+  }
+  /**
+   * @return the changeReason
+   */
+  public String getChangeReason() {
+    return changeReason;
+  }
+  /**
+   * @param changeReason the changeReason to set
+   */
+  public void setChangeReason(String changeReason) {
+    this.changeReason = changeReason;
+  }
+  /**
+   * @return the changeContent
+   */
+  public String getChangeContent() {
+    return changeContent;
+  }
+  /**
+   * @param changeContent the changeContent to set
+   */
+  public void setChangeContent(String changeContent) {
+    this.changeContent = changeContent;
+  }
   /**
    * @return the recordCode
    */

@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.system.util;
 
 import com.sinopec.smcc.cpro.system.constant.SystemConstant;
+import com.sinopec.smcc.cpro.tools.DateUtils;
 
 /**
  * @Title SystemInfoUtil.java
@@ -34,5 +35,16 @@ public class SystemInfoUtil {
     }else {
     }
     return field;
+  }
+  /**
+   * @Descrption smcc编码规则CPRO+【YYYYMMDDHHMMSSSSS】+【合并非合并区分（0/1）】 0：非合并系统 1：合并系统
+   * @author Aran
+   * @date 2018年8月3日下午4:37:14
+   * @param strNumber
+   * @return
+   */
+  public static String getSmccId(String strNumber) {
+    String strId = "CPRO"+DateUtils.getDate("YYYYMMDDHHMMSSSSS")+strNumber;
+    return strId;
   }
 }

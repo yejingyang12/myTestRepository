@@ -3,10 +3,13 @@
  */
 var bus = new Vue();
 var detailsData={
+	materialView:false,
 	revokeRecordShow: false,
 	activeName: 'record',
 	systemName: '',
-	examineStatus:''
+	examineStatus:'',
+	submitShowLabel: '备案',
+	submitShow: '',
 };
 (function () {
 	Vue.component('detailsNav',function (resolve,reject) {
@@ -18,7 +21,11 @@ var detailsData={
 				},
 				methods:{
 					handleClick: function(tab, event) {
-						console.log(tab, event);
+						//console.log(tab.label, event);
+						this.submitShowLabel = tab.label;
+						if(this.submitShowLabel == "备案"){
+							bus.$emit("showComitBtm","comitBtm");
+						}
 					},
 					submitRecord:function (){
 						bus.$emit("submitRecord","formData");
@@ -46,18 +53,29 @@ var detailsData={
 				//获取系统信息
           this.getSystem(this);
           this.examineStatus= examineStatus;
+          this.submitShowLabel= '备案';
+          this.submitShow= true;
 				},
 				mounted: function() {
 					var _self=this;
 					bus.$on("changeLi",function(meg){
-						if(_self.revokeRecordShow){
-							if(meg!=null){
+						if(meg!=null){
+							if(meg == "record"){
+								_self.revokeRecordShow = false;
+								_self.submitShow = true;
+							}else{
 								_self.revokeRecordShow = meg;
+								_self.submitShow = meg;
 							}
 						}
           });
 					bus.$on("showRevokeRecord",function(meg){
             _self.revokeRecordShow = meg;
+          });
+					bus.$on('materialView',function(meg){
+            if(meg!=null){
+            	_self.materialView = meg;
+            }
           });
 				}
 			})

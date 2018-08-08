@@ -92,3 +92,7 @@ li{
     color:#3d95df;
     cursor: pointer;
 }
+/*备案4上传*/
+.uploadSty .fileList,.sysText.col-md-12.uploadBox p {
+    float: left;
+}

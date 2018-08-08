@@ -1,8 +1,8 @@
 <div id="main" class="inner">
   <p class="recordTitle">{{systemName}}</p>
   <div class="recBtn">
-    <button class="btn btn-success btnBack comitBtm fl" type="button" @click="submitRecord('formData')">提交</button>
-    <button class="btn btn-danger btnBack fl" v-show="revokeRecordShow&&examineStatus!=2" type="submit" @click="revokeRecord">撤销备案</button>
+	<button class="btn btn-success btnBack fl" v-show="submitShow&&submitShowLabel=='备案'" type="button" @click="submitRecord('formData')">提交</button>
+    <button class="btn btn-danger btnBack fl" v-show="revokeRecordShow&&examineStatus!=2&&submitShowLabel=='备案'" type="submit" @click="revokeRecord">撤销备案</button>
     <button class="btn btn-default btnBack fl" type="button" @click="backRecord">返回</button>
   </div>
   <template>
@@ -16,7 +16,7 @@
       <el-tab-pane label="定级信息（备案表三）" name="grad">
         <view-details-grad></view-details-grad>
       </el-tab-pane>
-      <el-tab-pane label="提交材料情况（备案表四）" name="material">
+      <el-tab-pane label="提交材料情况（备案表四）" v-if="materialView" name="material">
         <view-details-material></view-details-material>
       </el-tab-pane>
       <el-tab-pane label="自查" name="examination">

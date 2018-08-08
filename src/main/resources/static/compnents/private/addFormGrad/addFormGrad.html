@@ -244,7 +244,7 @@
                 </li>
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="定级时间：" prop="rankTime">
+                        <el-form-item label="定级时间：" prop="rankTime" onclick="return false">
                             <el-date-picker :picker-options="pickerOptions0" class="col-md-6 col-sm-3 liPadding useData" id="rankTime" v-model="formData.rankTime" type="date"></el-date-picker>
                         </el-form-item>
                     </div>
@@ -347,7 +347,7 @@
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="填表时间：" prop="fillDate">
+                        <el-form-item label="填表时间：" prop="fillDate" onclick="return false">
                             <el-date-picker :picker-options="pickerOptions0" class="col-md-6 col-sm-3 liPadding useData"  id="fillDate" v-model="formData.fillDate" type="date" ></el-date-picker>
                         </el-form-item>
                     </div>

@@ -27,6 +27,7 @@ import com.alibaba.fastjson.JSON;
 public class SystemParam {
 	
 	private String systemId;
+	private String[] systemIds;
   private String interconnectionSit;
   private String fkFatherSystemId;
   private String standardizedCode;
@@ -42,6 +43,7 @@ public class SystemParam {
   private String executiveDireCon;
   private Integer fkChangeMatter;
   private String systemName;
+  private String fatherSystemName;
   private Integer deleteStatus;
   private Integer fkSystemType;
   private Integer appIsInternet;
@@ -61,12 +63,13 @@ public class SystemParam {
   private Integer fkInfoSysTypeCon;
   private String npNetworkProperties;
   private Integer evaluationStatus;
-  private String executiveDireConTel;
+	private String executiveDireConTel;
   private String npCoverageRange;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String sysBusSituationType;
   private String companyId;
   private String companyName;
+  private String fatherCompanyName;
   
   private List<SystemKeyProducts> systemKeyProducts;
   private List<SystemUseServices> systemUseServices;
@@ -154,12 +157,31 @@ public class SystemParam {
     
   }
   
+  public String getFatherSystemName() {
+		return fatherSystemName;
+	}
+	public void setFatherSystemName(String fatherSystemName) {
+		this.fatherSystemName = fatherSystemName;
+	}
+  
   public String getChangeType() {
     return changeType;
   }
   public void setChangeType(String changeType) {
     this.changeType = changeType;
   }
+	public String[] getSystemIds() {
+		return systemIds;
+	}
+	public void setSystemIds(String[] systemIds) {
+		this.systemIds = systemIds;
+	}
+	public String getFatherCompanyName() {
+		return fatherCompanyName;
+	}
+	public void setFatherCompanyName(String fatherCompanyName) {
+		this.fatherCompanyName = fatherCompanyName;
+	}
 
   /**
    * @return the fkComCode
@@ -297,8 +319,6 @@ public class SystemParam {
   public String getSystemId() {
     return systemId;
   }
-
-
   /**
    * @param systemId the systemId to set
    */

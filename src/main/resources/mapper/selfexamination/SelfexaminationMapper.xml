@@ -232,4 +232,32 @@
 		WHERE
 			pkId = #{selfexaminationId}
   </update>
+  
+  <select id="selectSingleBySystemId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationResult">
+    SELECT 
+      self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
+      self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
+      self.createUserName,self.createTime,self.updateTime,
+      examinationReport.pkId AS examinationReportId,
+      examinationReport.attachName AS examinationReportName,
+      examinationRectificationReport.pkId AS examinationRectificationReportId,
+      examinationRectificationReport.attachName AS examinationRectificationReportName
+    FROM t_cpro_self_inspection AS self
+    LEFT JOIN t_cpro_attach examinationReport
+      ON self.fkSystemId = examinationReport.fkSystemId
+      AND self.pkId = examinationReport.fkSyssonId
+      AND examinationReport.fkAttachType = 'examinationReport'
+    LEFT JOIN t_cpro_attach examinationRectificationReport
+      ON self.fkSystemId = examinationRectificationReport.fkSystemId
+      AND self.pkId = examinationRectificationReport.fkSyssonId 
+      AND examinationRectificationReport.fkAttachType = 'examinationRectificationReport'
+    <where>
+      <![CDATA[
+        AND self.fkSystemId = #{fkSystemId}
+        AND self.deleteStatus = 1
+      ]]>
+    </where>
+    ORDER BY self.inspectionDate DESC
+    LIMIT 0,1
+  </select>
 </mapper>

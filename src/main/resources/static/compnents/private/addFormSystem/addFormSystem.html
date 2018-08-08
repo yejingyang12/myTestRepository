@@ -101,13 +101,13 @@
 			                                   type="button" class="btn btn-default P-btn-del" 
 			                                   style="background-color:red;color:#FFFFFF;display:none"
 			                                   :id="gernerateId(i)" 
-			                                   @click="deleteSys">删除</button>
+			                                   @click="deleteSys(1,i)">删除</button>
 			                          <!-- 删除弹窗 -->
-                                       <div class="dialogShaw">
-					                       <div class="inquiry">
+                                       <div class="dialogShaw shawLast2">
+					                       <div class="inquiry delLast2">
 				                                <p>是否删除</p>
 				                                <div class="inquiryBtn">
-				                                    <button type="button" class="btn btn-success fl" @click="delSonSystem(i)">确定</button>
+				                                    <button type="button" class="btn btn-success fl" @click="delSonSystem()">确定</button>
 				                                    <button type="button" class="btn btn-default fr" @click="closes">取消</button>
 				                                </div>
 					                        </div>
@@ -120,7 +120,18 @@
                             <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
                             <li class="btn btn-default P-btn-sysSun" 
                             style="background-color:red;color:#FFFFFF;"  
-                            v-show="true" @click="deleteSys">删除</li>
+                            v-show="true" @click="deleteSys(2)">删除</li>
+                            
+                               <!-- 删除弹窗 -->
+                                       <div class="dialogShaw shawLast">
+                                 <div class="inquiry delLast">
+                                        <p>是否删除</p>
+                                        <div class="inquiryBtn">
+                                            <button type="button" class="btn btn-success fl" @click="delSonSystemLast()">确定</button>
+                                            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+                                        </div>
+                                  </div>
+                                       </div>         
                         </ul>
                     </li>
                     
@@ -260,10 +271,10 @@
                             <el-form-item label="网络性质：" prop="npNetworkProperties">
                                 <div class="col-lg-11 col-sm-3 baseMes1" name="sysNetwork" id="sysNetwork">
                                     <input type="hidden" name="npNetworkProperties" id="npNetworkProperties" v-model="formData.npNetworkProperties">
-                                    <div v-for="item in sysServiceObject">
+                                    <div v-for="item in sysNetwork">
                                         <div v-if="item.codeName==='其它'">
                                             <div class="inputLineHeight" @click="getNetworkClass($event)" id="sysNetwork1">
-                                                其它： <input type="text" class="col-lg-8 baseMesIn" id="networkProperties" name="networkProperties" @change="getNetwork()">
+                                             	其它： <input type="text" class="col-lg-8 baseMesIn" id="networkProperties" name="networkProperties" @change="getNetwork()">
                                             </div>
                                         </div>
                                         <div v-else>

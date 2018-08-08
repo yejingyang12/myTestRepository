@@ -11,11 +11,8 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,8 +20,6 @@ import org.springframework.stereotype.Service;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.AppExtendsData;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
-import com.pcitc.ssc.dps.inte.workflow.AppRunState;
-import com.pcitc.ssc.dps.inte.workflow.AppTaskOpinionData;
 import com.pcitc.ssc.dps.inte.workflow.AppWorkflowData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
@@ -35,7 +30,6 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
@@ -104,6 +98,31 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       appExtendsData.setExt002(userDTO.getUserName());
       startContext.setExtendsData(appExtendsData);
       appCallResult = dpsTemplate.initStart(startContext);
+      
+      
+//      // 当前人待办信息 获取业务id集合
+//    List<ExecuteContext> executeContextList = new ArrayList<ExecuteContext>();
+//    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(String.valueOf(userDTO.getUserId()), "");
+//    final List<ExecuteTaskData> executeTaskList = appPagedTODOTask.getExecuteTaskList();
+//    final Map<String, ExecuteTaskData> resultMap = new HashMap<String, ExecuteTaskData>();
+//    if (CollectionUtils.isNotEmpty(executeTaskList)) {
+//      for (final ExecuteTaskData executeTaskData : executeTaskList) {
+//        resultMap.put(executeTaskData.getBusinessId(), executeTaskData);
+//        ExecuteContext executeContext = new ExecuteContext();
+//        executeContext.setExecutorId(String.valueOf(userDTO.getUserId()));
+//        executeContext.setAppId("SMCC");
+//        executeContext.setExecutorName(userDTO.getUserName());
+//        executeContext.setTaskId(executeTaskData.getTaskId());
+//        executeContext.setExecuteDate(new Date());
+//        executeContextList.add(executeContext);
+//      }
+//    }
+//    String a= "";
+    
+    
+    
+//    AppCallResult appCallResult1 = dpsTemplate.approveCompleteBatch(executeContextList);
+//    String b = "";
     } catch (Exception e) {
       e.printStackTrace();
     }

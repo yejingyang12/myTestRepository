@@ -198,13 +198,14 @@ var data = {
          clearHeadle:function(){
            this.companyForm.queryData.companyName = '';
            this.companyForm.queryData.ldContactName = '';
+           this.getCompanyListInfoMethod(this,{});
          },
          //单位信息列表排序
          listsort: function () {
            var imgArrow = data.imgList;
            var flagOne = 1;
-           // console.log(data.result.data);
-           for (var i = 0; i < imgArrow.length; i++) {
+           console.log(data.companyForm.result);
+            for (var i = 0; i < imgArrow.length; i++) {
              imgArrow[i].myindex = i;
              imgArrow[i].onclick = function () {
                flagOne *= -1;
@@ -212,17 +213,17 @@ var data = {
                // console.log( data.result.data[0].systemName);
                switch (this.myindex){
                  case 0://单位名称
-                   data.companyForm.result.data.sort(function (a, b) {
+                   data.companyForm.result.list.sort(function (a, b) {
                      return (a.companyName.localeCompare(b.companyName)) * flagOne
                    });
                    break;
                  case 1://单位类型
-                   data.companyForm.result.data.sort(function (a, b) {
+                   data.companyForm.result.list.sort(function (a, b) {
                      return (a.fkCompanyType.localeCompare(b.fkCompanyType)) * flagOne
                    });
                    break;
                  case 2://责任部门负责人
-                   data.companyForm.result.data.sort(function (a, b) {
+                   data.companyForm.result.list.sort(function (a, b) {
                      return (a.ldContactName.localeCompare(b.ldContactName)) * flagOne
                    });
                    break;

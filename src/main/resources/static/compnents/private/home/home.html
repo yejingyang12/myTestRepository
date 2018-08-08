@@ -519,14 +519,14 @@
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative" id="q" style="width: 79%; padding-right: 0;">
                                                 <template> 
-                                                    <!--地区-->
-                                                    <el-select v-model="value22" multiple filterable placeholder="请选择" class="b" >
+                                                   <!--地区-->
+                                                    <el-select v-model="value22" multiple filterable placeholder="请选择" @remove-tag="deleteTag" class="b" >
 													    <el-option class="c" 
 													      v-for="item in msgProvince"
 													      :key="item.systemCode"
 													      :label="item.codeName"
 													      :value="item.systemCode">
-													     <span class="a" style="float: left"><el-checkbox>{{item.codeName}}</el-checkbox></span>
+													     <span class="a" style="float: left"><el-checkbox v-model = "item.showflag">{{item.codeName}}</el-checkbox></span>
                                                          </el-option>
 													 </el-select>
                                                 </template> 
@@ -543,17 +543,20 @@
                     <label class="col-md-1 control-label text-right"  style="min-width:104px;margin-right:0;margin-left:0; width: 107px;padding:0;">
                     	所属板块:
                     </label> 
-                    <input type="hidden" name="name" checked  id="plateType" />
+                    <el-checkbox-group v-model="checkTest">
+                      <el-checkbox v-for="item in msgPlate" v-if="item.codeName!='其它'" :label="item.codeName" :key="item.codeName">{{item.codeName}}</el-checkbox>
+                    </el-checkbox-group> 
+                    <!-- <input type="hidden" name="name" checked  id="plateType" />
                     <div class="checkbox checkbox-inline" v-for="(item,index) in msgPlate" v-if="item.codeName!='其它'">
                         <span class="pic">
-                        <input type="radio" name="name"  
-                               @click="transfer(item.codeName,$event)" 
+                        <input type="checkbox" name="name"
+                               @click="transfer(item.codeName,$event,index)"
                                value="index"
                                class="checkName1"
                                id="transfer"/>
                          </span>      
                         <label for="state3">{{item.codeName}}</label>
-                    </div>  
+                    </div>   -->
                 </div>
                 <!-- 状态 -->
                 <!--                 
@@ -899,7 +902,7 @@
                                                         <a @click="downloadList3(pro.systemId)" v-if="pro.fkSpRanklevel != null && pro.fkSpRanklevel != ''"> 
                                                            <el-dropdown-item class="list">表3</el-dropdown-item> 
                                                         </a>
-                                                        <a @click="downloadList4(pro.systemId)" v-if="pro.fkSpRanklevel >=303 && pro.gradingStatus!==1 && pro.recordStatus != 4"> 
+                                                        <a @click="downloadList4(pro.systemId)" v-if="pro.fkSpRanklevel >=303  && pro.recordStatus != 4"> 
                                                            <el-dropdown-item class="list" >表4</el-dropdown-item>
                                                         </a>
                                                     </el-dropdown-menu>
@@ -911,32 +914,40 @@
                                 </td>
                                 <!-- &lt;!&ndash;操作&ndash;&gt; -->
                                 <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
-                                    <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a class="hide3" style="cursor:pointer;">  
+                                  <div v-for="companyCodeJ in nameList">
+                                    <div v-if="companyCodeJ==pro.companyCode">
+                                      <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
+                                      <a class="hide3" style="cursor:pointer;">  
                                         <i id="h-dingji"  @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
-                                          <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
-                                           <!-- 首页表格的删除弹窗 -->
-                                            <div class="dialogShaw">
-	                                              <div class="startBox" v-show="deleteDialog">
-	                                              		<div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
-												        <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
-												  </div>
-												   <div class="inquiry">
-												        <p>是否删除</p>
-												        <div class="inquiryBtn">
-												            <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
-												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-												        </div>
-												    </div>
-											 </div> 
-                                    </a>
+                                        <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
+                                        <!-- 首页表格的删除弹窗 -->
+                                        <div class="dialogShaw">
+                                          <div class="startBox" v-show="deleteDialog">
+                                            <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
+                                            <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
+                                          </div>
+                                          <div class="inquiry">
+                                            <p>是否删除</p>
+                                            <div class="inquiryBtn">
+                                              <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
+                                              <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+                                            </div>
+                                         </div>
+                                       </div> 
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
                                 <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">
-                                    <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a  @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication&&pro.examineStatus!=2">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication&&pro.examineStatus!=2">|</i>
-                                    <a  id="beian" @click="toCompanyRecordPage(pro.examineStatus,pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
-                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 " v-show="paramEvaluation">|</i>
-                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramSelfExamination">自查</a>
+                                   <div v-for="companyCodeJ in nameList">
+                                    <div v-if="companyCodeJ==pro.companyCode">
+                                      <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
+                                      <a  @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication&&pro.examineStatus!=2">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication&&pro.examineStatus!=2">|</i>
+                                      <a  id="beian" @click="toCompanyRecordPage(pro.examineStatus,pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
+                                      <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 " v-show="paramEvaluation">|</i>
+                                      <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramSelfExamination">自查</a>
+                                    </div>
+                                  </div>
                                 </td>
                                 <td style="color:#1e91e2;" v-else>
                                 </td>

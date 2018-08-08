@@ -39,6 +39,10 @@ window.onload = function () {
           // 成功
           preBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+          },
+          //返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
           }
         },
         mounted : function() {

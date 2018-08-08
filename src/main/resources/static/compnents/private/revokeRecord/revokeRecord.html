@@ -14,7 +14,7 @@
           </el-form-item>
         </li>
         <li class="row P-record">
-          <el-form-item label="撤销证明：" prop="revokeAttachName">
+          <el-form-item label="撤销证明：" prop="revokeAttachName" ref='revokeAttachName'>
             <div class=" col-md-9 uploadBox" style="width:90%">
               <div class="uploadSty">
                 <ul class="fileList" id="fileList">
@@ -31,7 +31,7 @@
           </el-form-item>
         </li>
         <li class="row P-record">
-          <el-form-item label="撤销原因：" prop="revokereason">
+          <el-form-item label="撤销原因：" prop="revokereason" ref='revokereason'>
             <div class="mcTextArea col-md-11 col-sm-3" @click="text" style="width:90%;">
               <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.revokereason"></textarea>
               <span class='textAll'><span id="textNum">0</span>/200</span>

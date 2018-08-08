@@ -65,7 +65,7 @@ var data={
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
-                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
@@ -78,7 +78,7 @@ var data={
                     ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
                   },
                   onUploadSuccessMethod: function(_self,responseData){
-                  	this.$refs.refOnUpload.value = null;
+//                  	this.$refs.refOnUpload.value = null;
                   	var topologyDescription = {fileId: '',attachName: '',uploadUrl: ''};
                   	topologyDescription.attachName = responseData.data.attachName;
                   	topologyDescription.uploadUrl = responseData.data.uploadUrl;
@@ -127,7 +127,7 @@ var data={
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
-                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
@@ -140,7 +140,7 @@ var data={
                     ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
                   },
                   onUploadSuccessMethod2: function(_self,responseData){
-                  	this.$refs.refOnUpload2.value = null;
+//                  	this.$refs.refOnUpload2.value = null;
                   	var organizationManagement = {fileId: '',attachName: '',uploadUrl: ''};
                   	organizationManagement.attachName = responseData.data.attachName;
                   	organizationManagement.uploadUrl = responseData.data.uploadUrl;
@@ -187,7 +187,7 @@ var data={
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
-                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
@@ -200,7 +200,7 @@ var data={
                     ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod3);
                   },
                   onUploadSuccessMethod3: function(_self,responseData){
-                  	this.$refs.refOnUpload3.value = null;
+//                  	this.$refs.refOnUpload3.value = null;
                   	var implementationPlan = {fileId: '',attachName: '',uploadUrl: ''};
                   	implementationPlan.attachName = responseData.data.attachName;
                   	implementationPlan.uploadUrl = responseData.data.uploadUrl;
@@ -246,7 +246,7 @@ var data={
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
-                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
@@ -259,7 +259,7 @@ var data={
                     ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
                   },
                   onUploadSuccessMethod4: function(_self,responseData){
-                  	this.$refs.refOnUpload4.value = null;
+//                  	this.$refs.refOnUpload4.value = null;
                   	var licenseCertificate = {fileId: '',attachName: '',uploadUrl: ''};
                   	licenseCertificate.attachName = responseData.data.attachName;
                   	licenseCertificate.uploadUrl = responseData.data.uploadUrl;

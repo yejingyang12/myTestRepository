@@ -14,6 +14,7 @@
     		sysServiceSitScope:"",//服务范围
     		sysServiceSitObject:"",//服务对象
     		npCoverageRange:"",//覆盖范围
+    		npNetworkProperties:"",//网络性质
     		interconnectionSit:"",//系统互联情况
     		systemKeyProducts :[],//关键产品使用情况
     		systemUseServices :[],//系统采用服务情况	
@@ -84,6 +85,9 @@
                   			}
                   			if(! this.isEmpty(systemResult.data.npCoverageRange)){
                   				this.npCoverageRange = systemResult.data.npCoverageRange;
+                  			}
+                  			if(! this.isEmpty(systemResult.data.npNetworkProperties)){
+                  				this.npNetworkProperties = systemResult.data.npNetworkProperties;
                   			}
                   			if(! this.isEmpty(systemResult.data.interconnectionSit)){
                   				this.interconnectionSit = systemResult.data.interconnectionSit;

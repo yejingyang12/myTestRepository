@@ -31,6 +31,7 @@ public class SystemDetailsResult {
   private String constructionTypeName;
   private String combinedName;
   private String systemName;
+  private String fatherSystemName;
   private Integer appIsInternet;
   private String standardizedCode;
   private String gradeRecordSysName;
@@ -42,6 +43,7 @@ public class SystemDetailsResult {
   private String npNetworkProperties;
   private String interconnectionSit;
   private String companyName;
+  private String fatherCompanyName;
   private String executiveOfficeName;
   private String executiveDireCon;
   private String executiveDireConTel;
@@ -68,6 +70,18 @@ public class SystemDetailsResult {
    */
   public void setSystemUseServices(List<SystemUseResult> systemUseServices) {
     this.systemUseServices = systemUseServices;
+  }
+  public String getFatherSystemName() {
+    return fatherSystemName;
+  }
+  public void setFatherSystemName(String fatherSystemName) {
+    this.fatherSystemName = fatherSystemName;
+  }
+  public String getFatherCompanyName() {
+    return fatherCompanyName;
+  }
+  public void setFatherCompanyName(String fatherCompanyName) {
+    this.fatherCompanyName = fatherCompanyName;
   }
   /**
    * @return the systemKeyProducts

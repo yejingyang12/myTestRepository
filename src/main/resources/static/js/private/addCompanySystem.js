@@ -73,7 +73,7 @@ window.onload = function () {
           saveSystemInfo:function (formName){
           	this.closeDialog();
           	data.check=false;
-            bus.$emit('addPreSystemName',formName);
+            bus.$emit('mainSaveSystem',formName);
           },
           cleanSystemInfo:function (){
           	this.closeDialog();
@@ -284,6 +284,24 @@ window.onload = function () {
                     JSON.stringify(data.formData), 'json',
                     'application/json;charset=UTF-8',
                     _self.nextBtnSuccessMethod);
+              }
+            }
+          });
+          bus.$on('mainSaveSystemAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              if(systemId!=''&&systemId!=null){
+                ajaxMethod(_self, 'post',
+                    'system/editSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.saveSystemInfoSuccessMethod);
+              }else{
+                ajaxMethod(_self, 'post',
+                    'system/saveSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.saveSystemInfoSuccessMethod);
               }
             }
           });

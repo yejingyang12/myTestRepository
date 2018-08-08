@@ -27,4 +27,5 @@ public class MainConstant {
   
   
   public final static String GRADING_TEMP_NAME = "gradingTemp.xlsm";//定级模板名
+  public final static String SYSTEM_TEMP_NAME = "systemExportTemp.xls";//系统导出模板名
 }

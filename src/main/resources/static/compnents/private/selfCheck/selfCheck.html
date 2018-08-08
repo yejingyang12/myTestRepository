@@ -1,7 +1,8 @@
 <!--自查-->
 <div>
 <!--弹出框-->
-    <div id="dialog" class="evaluationAlert hDiaSelfCheck" style=" display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
+    <div id="dialog" class="evaluationAlert hDiaSelfCheck" 
+    style=" display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
         <div class="evaluation" style="height: 560px;margin-top:-245px;">
             <span class="closes" @click="closes()"></span>
             <p class="clearfix cut">
@@ -59,7 +60,7 @@
                     </li>
                     <li class="row P-selfCheck">
                         <div class="col-md-12 report" style="padding-left: 15px;">
-                            <el-form-item label="自查报告：" prop="examinationReportName">
+                            <el-form-item label="自查报告：" prop="examinationReportName" ref='examinationReportName'>
                                 <div class="clearfix sysText col-md-9 uploadBox">
                                     <div class="uploadSty">
                                         <ul class="fileList" id="fileList">
@@ -107,7 +108,7 @@
                     </li>
                     <li class="row P-selfCheck">
                         <div class="col-md-12 report" style="padding-left: 15px;">
-                            <el-form-item label="整改报告：" prop="examinationRectificationReportName">
+                            <el-form-item label="整改报告：" prop="examinationRectificationReportName" ref='examinationRectificationReportName'>
                                 <div class="clearfix sysText col-md-9 uploadBox">
                                     <div class="uploadSty">
                                         <ul class="fileList" id="fileList2">

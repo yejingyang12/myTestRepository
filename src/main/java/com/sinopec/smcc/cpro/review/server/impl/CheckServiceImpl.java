@@ -24,7 +24,7 @@ import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
-import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
@@ -104,7 +104,8 @@ public class CheckServiceImpl implements CheckService {
     int appPagedTODOTaskPageNum = 0;
     //获取待办列表
     if(checkParam.getHandlingState() == 1){
-      final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,checkParam.getCurrentPage(), "");
+      final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,
+          checkParam.getCurrentPage(), WorkFlowConsts.CATEGORY_CODE_CPRO);
       appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
       if((appPagedTODOTask.getExecuteTaskList())!=null){
@@ -170,7 +171,8 @@ public class CheckServiceImpl implements CheckService {
     
     //获取已办列表
     if(checkParam.getHandlingState() == 2){
-      final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,checkParam.getCurrentPage(), "");
+      final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
+          checkParam.getCurrentPage(), WorkFlowConsts.CATEGORY_CODE_CPRO);
       appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTaskHaveDone.getPageIndex();
       if((appPagedTODOTaskHaveDone.getExecuteTaskList())!=null){

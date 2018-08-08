@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
@@ -99,10 +100,9 @@ public interface SystemService {
    * @author hanxin
    * @date 2018年6月5日上午10:03:30
    * @param systemParam
-   * @throws IOException 
-   * @throws FileNotFoundException 
+   * @throws BusinessException 
    */
-  void exportExcelForSystemTemplate(SystemParam systemParam) throws FileNotFoundException, IOException;
+  AttachResult exportExcelForSystemTemplate(SystemParam systemParam) throws BusinessException;
 
   /**
    * @Descrption
@@ -111,7 +111,7 @@ public interface SystemService {
    * @throws IOException 
    * @throws BusinessException 
    */
-  void importForSystemTemplate() throws IOException, BusinessException;
+  boolean importForSystemTemplate(String userName,String strFilePath) throws IOException, BusinessException;
 
 
   /**
@@ -152,7 +152,7 @@ public interface SystemService {
    * @return
    */
   SystemResult querySystemInformationBySystemId(SystemParam systemParam);
-  
+
   /**
    * @Descrption 通过系统ID查询审核列表系统信息
    * @author dongxu
@@ -171,4 +171,12 @@ public interface SystemService {
    */
   List<SystemEchoResult> querySystemInfoEchoList(SystemEchoParam systemEchoParam);
   
+  /**
+   * @Descrption 通过systemCode查询系统信息
+   * @author dongxu
+   * @date 2018年8月6日下午7:33:06
+   * @param systemParam
+   * @return
+   */
+  SystemResult querySystemBysystemCode(SystemParam systemParam);
 }

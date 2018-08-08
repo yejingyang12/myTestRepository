@@ -22,7 +22,6 @@ import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.file.server.FileService;
-import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;

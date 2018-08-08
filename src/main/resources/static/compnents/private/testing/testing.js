@@ -126,9 +126,12 @@
         },
         methods:{
         	changeStatus : function(){
-        		if(this.editData.fkExamStatus == 1){
+        		if(this.editData.fkExamStatus == 1){//未测评
           		this.rules.fkExamResult[0].required = false;
           		this.rules.examReportName[0].required = false;
+          		this.rules.fkRectificationReu[0].required = false;
+          		this.rules.rectificationDate[0].required = false;
+          		this.rules.rectificationReportName[0].required = false;
           	}else{
           		this.rules.fkExamResult[0].required = true;
           		this.rules.examReportName[0].required = true;
@@ -320,7 +323,7 @@
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -333,9 +336,10 @@
 						ajaxUploadMethod(this, 'POST','/fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 					},
 					onUploadSuccessMethod: function(_self,responseData){
-						this.$refs.refOnUpload.value = null;
+//						this.$refs.refOnUpload.value = null;
 						_self.editData.examReportName=responseData.data.attachName;
 						_self.editData.examReportPath=responseData.data.uploadUrl;
+						this.$refs.examReportName.clearValidate();
 					},
 					onUpload2: function(e){
 						var fileSize = e.target.files[0].size;//文件大小（字节）
@@ -349,7 +353,7 @@
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -362,9 +366,10 @@
 						ajaxUploadMethod(this, 'POST','/fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 					},
 					onUploadSuccessMethod2: function(_self,responseData){
-						this.$refs.refOnUpload2.value = null;
+//						this.$refs.refOnUpload2.value = null;
 						_self.editData.rectificationReportName=responseData.data.attachName;
 						_self.editData.rectificationReportPath=responseData.data.uploadUrl;
+						this.$refs.rectificationReportName.clearValidate();
 					},
 					fileDel:function(path,deleteFileType){
 						if(deleteFileType == 1){
@@ -399,12 +404,13 @@
 					},
 					
 		       //排序
-          listsort: function () {
+          listsort1: function () {
             var imgArrow = this.imgList;
             var flagOne = 1;
             for (var i = 0; i < imgArrow.length; i++) {
               imgArrow[i].myindex = i;
               imgArrow[i].onclick = function () {
+              	console.log('testing')
                 flagOne *= -1;
                 //对每个数组也就是对应表格的每一列进行排序
                 switch (this.myindex){
@@ -465,10 +471,10 @@
            } 
         },
         mounted: function() {
-        	var rowOne=document.getElementsByClassName('rowOne')[0];
+        	var rowOne=document.getElementsByClassName('rowOne1')[0];
           var imgList=rowOne.getElementsByTagName('img');
           this.imgList = imgList;
-          this.listsort();
+          this.listsort1();
           //点击返回按钮 发送请求
           bus.$on("gradReturn",function(meg){
             if(meg!=null){

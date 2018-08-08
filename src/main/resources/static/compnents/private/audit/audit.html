@@ -124,6 +124,7 @@
                         </button> -->
                         <button type="button" class="audit-btn"
                                 style="color:#fff;background-color:#3d95df" @click="changeHandlingState(1)">待办
+                                <div v-if="tableData.total > 0" style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">{{tableData.total}}</div>
                         </button>
                         <button type="button" class="audit-btn"
                                 style="color:#333;background-color:#fff" @click="changeHandlingState(2)">已办

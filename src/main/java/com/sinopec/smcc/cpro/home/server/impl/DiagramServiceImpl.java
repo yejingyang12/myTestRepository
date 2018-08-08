@@ -75,8 +75,8 @@ public class DiagramServiceImpl implements DiagramService {
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
-      return null;
+    if(organizationApiResult==null){
+      return list;
     }else{
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
@@ -118,8 +118,8 @@ public class DiagramServiceImpl implements DiagramService {
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    if(organizationApiResult==null || organizationApiResult.getCodeList().size() == 0){
-      return null;
+    if(organizationApiResult==null){
+      return list;
     }else{
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
@@ -165,8 +165,8 @@ public class DiagramServiceImpl implements DiagramService {
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    if(organizationApiResult==null || organizationApiResult.getCodeList().size() == 0){
-      return null;
+    if(organizationApiResult==null){
+      return list;
     }else{
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {

@@ -11,7 +11,6 @@ package com.sinopec.smcc.cpro.codeapi.server;
 
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 
 /**
  * @Title WorkFlowApiService.java

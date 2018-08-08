@@ -94,28 +94,16 @@ public class EvaluationServiceImpl implements EvaluationService {
 	@Transactional
 	public String saveEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
+	  //修改测评状态
+	  if(evaluationParam.getFkExamStatus() == 2){
+	    MainParam mainParam = new MainParam();
+	    mainParam.setEvaluationStatus("3");
+	    mainParam.setSystemId(evaluationParam.getFkSystemId());
+	    mainServiceImpl.editSystemStatusBySystemId(mainParam);
+	  }
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId())) {
 			evaluationParam.setEvaluationId(Utils.getUuidFor32());
 			evaluationParam.setCreateTime(new Date());
-		  //修改测评状态为已完成
-			MainParam mainParam = new MainParam();
-			List<EvaluationListResult> evaluationListResult = 
-			    evaluationMapper.selectAllByEvaluationSystemId(evaluationParam);
-			if(evaluationParam.getFkExamStatus() == 1){
-			  mainParam.setEvaluationStatus("1");
-			  if(!ObjectUtils.isEmpty(evaluationListResult)){
-	        for(EvaluationListResult evalResult : evaluationListResult){
-	          if(evalResult.getFkExamStatus() == 2){
-	            mainParam.setEvaluationStatus("3");
-	            break;
-	          }
-	        }
-	      }
-			}else{
-			  mainParam.setEvaluationStatus("3");
-			}
-      mainParam.setSystemId(evaluationParam.getFkSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
 			try {
 			  /*if (StringUtils.isNotBlank(evaluationParam.getExamReportPath())) {
 			    AttachParam evaluationPresentation = new AttachParam();
@@ -254,6 +242,15 @@ public class EvaluationServiceImpl implements EvaluationService {
 		evaluationParam.setDeleteStatus(1);
 		List<EvaluationListResult> evaluationListResultList =
 		    this.evaluationMapper.selectAllByEvaluationParam(evaluationParam);
+
+    AttachParam attachParam = new AttachParam();
+    attachParam.setSystemId(evaluationParam.getFkSystemId());
+    attachParam.setSyssonId(evaluationParam.getEvaluationId());
+    attachParam.setAttachType("evaluationPresentation");
+    this.fileServiceImpl.deleteFile(attachParam);
+    attachParam.setAttachType("rectificationReport");
+    this.fileServiceImpl.deleteFile(attachParam);
+    
 		if(ObjectUtils.isEmpty(evaluationListResultList)){
 		  //修改测评状态状态为未进行
       MainParam mainParam = new MainParam();

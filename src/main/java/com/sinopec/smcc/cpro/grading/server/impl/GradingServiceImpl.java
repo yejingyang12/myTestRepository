@@ -137,6 +137,12 @@ public class GradingServiceImpl implements GradingService{
         directorOpinion.setAttachName(gradingParam.getDirectorOpinionName());
         this.fileServiceImpl.addFile(directorOpinion);
       }
+      
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setSystemId(gradingParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       
       if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
@@ -253,7 +259,7 @@ public class GradingServiceImpl implements GradingService{
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(gradingParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -429,7 +435,7 @@ public class GradingServiceImpl implements GradingService{
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(gradingParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);

@@ -275,6 +275,13 @@
               getCompanyInfoSuccessMethod: function(_self,data){
                 if(data.data!=null){
                   _self.formData = data.data;
+                  debugger
+                  if(data.data.postalCode=='0'){
+                  	_self.formData.postalCode='';
+                  }
+                  if(data.data.administrativeNum=='0'){
+                  	_self.formData.administrativeNum='';
+                  }
                   if(data.data.fkAffiliation!=''){
                     var array = $('#baseMes1').find('div').map(function (index, ele) {
                       if(ele.innerHTML==data.data.fkAffiliation){
@@ -563,6 +570,8 @@
               }
               bus.$on("selectedOptions",function(meg){
                 if(meg!=null){
+                	//清空验证
+                	_self.$refs['formData'].resetFields();
                   // 获取单位回显
                   _self.transmitParam = meg;
                   _self.getCompanyInfoMethod(_self,meg[1]);

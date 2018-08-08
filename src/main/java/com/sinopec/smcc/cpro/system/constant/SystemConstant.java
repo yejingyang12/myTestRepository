@@ -22,6 +22,7 @@ public class SystemConstant {
 		
 	public final static String TABLE_FIELD_SYSTEM_CREATE_TIME = "CREATE_TIME";
 	public final static String EXCEL_FILE_PATH = "file/systemTemp.xlsm";
+	public final static String EXCEL_FILE_IMPORT_PATH = "file/uploadTemp/";
   //public final static String EXCEL_FILE_PATH = "/file/template/excel/systemTemp.xlsm";//excel生成路径
 	//public final static String EXCEL_FILE_PATH = "C://Users/hasee/Desktop/模板文件/systemTemp.xls";//excel生成路径
 }

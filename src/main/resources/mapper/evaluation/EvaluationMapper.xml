@@ -324,4 +324,42 @@
       ]]>
     </where>
   </select>
+  
+  <select id="selectAllByEvaluationSystemIdOrderBy" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam" resultMap="selectAllResultMap">
+    <![CDATA[
+      SELECT 
+        cproEvaluation.pkId AS evaluationId,
+        cproEvaluation.fkSystemId,
+        cproEvaluation.examName AS examName,
+        cproEvaluation.examTime AS examTime,
+        cproEvaluation.examYear AS examYear,
+        cproEvaluation.examOrg AS examOrg,
+        cproAttach.pkId AS examReport,
+        cproAttach.attachName AS examReportName,
+        cproEvaluation.fkExamStatus AS fkExamStatus,
+        cproEvaluation.fkExamResult AS fkExamResult,
+        cproEvaluation.fkRectificationReu AS fkRectificationReu,
+        rectificationDate AS rectificationDate,
+        cproAttachRectification.pkId AS rectificationReport,
+        cproAttachRectification.attachName AS rectificationReportName
+      FROM t_cpro_evaluation AS cproEvaluation
+      LEFT JOIN t_cpro_system AS cproSystem ON cproSystem.pkId = cproEvaluation.fkSystemId
+      LEFT JOIN  t_cpro_attach AS cproAttach 
+        ON cproAttach.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttach.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttach.fkAttachType = 'evaluationPresentation'
+      LEFT JOIN  t_cpro_attach AS cproAttachRectification 
+        ON cproAttachRectification.fkSyssonId = cproEvaluation.pkId 
+        AND cproAttachRectification.fkSystemId = cproEvaluation.fkSystemId 
+        AND cproAttachRectification.fkAttachType = 'rectificationReport' 
+    ]]>
+    <where>
+      <![CDATA[
+        cproEvaluation.deleteStatus = 1
+        AND cproEvaluation.fkSystemId = #{fkSystemId}
+      ]]>
+    </where>
+    ORDER BY cproEvaluation.examTime DESC
+    LIMIT 0,1
+  </select>
 </mapper>

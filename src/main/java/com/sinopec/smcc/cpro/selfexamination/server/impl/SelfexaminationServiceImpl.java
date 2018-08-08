@@ -236,6 +236,14 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
     this.selfexaminationMapper.
       updateSelfexaminationDeleteStatusBySelfexaminationId(selfexaminationParam);
     
+    AttachParam attachParam = new AttachParam();
+    attachParam.setSystemId(selfexaminationParam.getFkSystemId());
+    attachParam.setSyssonId(selfexaminationParam.getSelfexaminationId());
+    attachParam.setAttachType("examinationReport");
+    this.fileServiceImpl.deleteFile(attachParam);
+    attachParam.setAttachType("examinationRectificationReport");
+    this.fileServiceImpl.deleteFile(attachParam);
+    
     List<SelfexaminationListResult> selfexaminationListResultList = 
         this.selfexaminationMapper.selectAllBySelfexaminationParam(selfexaminationParam);
     if(ObjectUtils.isEmpty(selfexaminationListResultList)){

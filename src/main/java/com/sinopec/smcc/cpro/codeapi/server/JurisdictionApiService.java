@@ -20,6 +20,8 @@ import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
  */
 public interface JurisdictionApiService {
 
+  JurisdictionDataResult queryDataJurisdictionApi1();
+  
   /**
    * @Descrption
    * @author eric

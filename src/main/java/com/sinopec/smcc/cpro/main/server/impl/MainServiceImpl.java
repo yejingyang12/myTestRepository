@@ -34,7 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jacob.com.Dispatch;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
@@ -42,6 +41,9 @@ import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
+import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
+import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
+import com.sinopec.smcc.cpro.evaluation.mapper.EvaluationMapper;
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
@@ -64,9 +66,13 @@ import com.sinopec.smcc.cpro.node.server.impl.NodeServiceImpl;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
+import com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.entity.SystemSubResult;
 import com.sinopec.smcc.cpro.system.entity.SystemUseResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
@@ -125,6 +131,10 @@ public class MainServiceImpl implements MainService{
   private NodeServiceImpl nodeServiceImpl;
   @Autowired
   private GradingMapper gradingMapper;
+  @Autowired
+  private EvaluationMapper evaluationMapper;
+  @Autowired
+  private SelfexaminationMapper selfexaminationMapper;
   
   
   /**
@@ -232,32 +242,32 @@ public class MainServiceImpl implements MainService{
     List<CellBean> cellList = new ArrayList<CellBean>();
     
     // 装载第一行为表头
-//    cellList.add(ExcelUtils.getExportCelBean("定级备案信息系统名称"));
-//    cellList.add(ExcelUtils.getExportCelBean("合并定级包含的信息系统名称"));
-//    cellList.add(ExcelUtils.getExportCelBean("单位名称"));
-//    cellList.add(ExcelUtils.getExportCelBean("等保级别"));
-//    cellList.add(ExcelUtils.getExportCelBean("定级备案状态"));
-//    cellList.add(ExcelUtils.getExportCelBean("定级时间"));
-//    cellList.add(ExcelUtils.getExportCelBean("备案时间"));
-//    cellList.add(ExcelUtils.getExportCelBean("备案编号"));
-//    cellList.add(ExcelUtils.getExportCelBean("受理备案单位"));
-//    cellList.add(ExcelUtils.getExportCelBean("变更记录"));
-//    cellList.add(ExcelUtils.getExportCelBean("测评时间"));
-//    cellList.add(ExcelUtils.getExportCelBean("测评结果"));
-//    cellList.add(ExcelUtils.getExportCelBean("自查时间"));
-//    cellList.add(ExcelUtils.getExportCelBean("自查结果"));
-    
-    cellList.add(ExcelUtils.getExportCelBean("系统名称"));
-    cellList.add(ExcelUtils.getExportCelBean("所属单位"));
-    cellList.add(ExcelUtils.getExportCelBean("板块"));
-    cellList.add(ExcelUtils.getExportCelBean("建设类型"));
+    cellList.add(ExcelUtils.getExportCelBean("定级备案信息系统名称"));
+    cellList.add(ExcelUtils.getExportCelBean("合并定级包含的信息系统名称"));
+    cellList.add(ExcelUtils.getExportCelBean("单位名称"));
     cellList.add(ExcelUtils.getExportCelBean("等保级别"));
-    cellList.add(ExcelUtils.getExportCelBean("是否为互联网应用"));
-    cellList.add(ExcelUtils.getExportCelBean("定级状态"));
-    cellList.add(ExcelUtils.getExportCelBean("审核状态"));
-    cellList.add(ExcelUtils.getExportCelBean("备案状态"));
-    cellList.add(ExcelUtils.getExportCelBean("测评状态"));
-    cellList.add(ExcelUtils.getExportCelBean("自查状态"));
+    cellList.add(ExcelUtils.getExportCelBean("定级备案状态"));
+    cellList.add(ExcelUtils.getExportCelBean("定级时间"));
+    cellList.add(ExcelUtils.getExportCelBean("备案时间"));
+    cellList.add(ExcelUtils.getExportCelBean("备案编号"));
+    cellList.add(ExcelUtils.getExportCelBean("受理备案单位"));
+    cellList.add(ExcelUtils.getExportCelBean("变更记录"));
+    cellList.add(ExcelUtils.getExportCelBean("测评时间"));
+    cellList.add(ExcelUtils.getExportCelBean("测评结果"));
+    cellList.add(ExcelUtils.getExportCelBean("自查时间"));
+    cellList.add(ExcelUtils.getExportCelBean("自查结果"));
+    
+//    cellList.add(ExcelUtils.getExportCelBean("系统名称"));
+//    cellList.add(ExcelUtils.getExportCelBean("所属单位"));
+//    cellList.add(ExcelUtils.getExportCelBean("板块"));
+//    cellList.add(ExcelUtils.getExportCelBean("建设类型"));
+//    cellList.add(ExcelUtils.getExportCelBean("等保级别"));
+//    cellList.add(ExcelUtils.getExportCelBean("是否为互联网应用"));
+//    cellList.add(ExcelUtils.getExportCelBean("定级状态"));
+//    cellList.add(ExcelUtils.getExportCelBean("审核状态"));
+//    cellList.add(ExcelUtils.getExportCelBean("备案状态"));
+//    cellList.add(ExcelUtils.getExportCelBean("测评状态"));
+//    cellList.add(ExcelUtils.getExportCelBean("自查状态"));
     
     dataList.add(cellList);
 
@@ -270,102 +280,32 @@ public class MainServiceImpl implements MainService{
     if(mainListResultList != null && mainListResultList.size() > 0){
       for (MainListResult mainResult : mainListResultList) {
         cellList = new ArrayList<CellBean>();
-//        //系统名称
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
-//        //如果是合并系统
-//        if(mainResult.getFkSystemIsMerge() == 1){
-//          //查询子表信息
-//          SystemParam systemParam = new SystemParam();
-//          systemParam.setSystemId(mainResult.getSystemId());
-//          List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
-//          if(!ObjectUtils.isEmpty(subSystemList)){
-//            StringBuffer sb = new StringBuffer ();
-//            for(SystemSubResult systemSubResult : subSystemList){
-//               sb.append(systemSubResult.getSystemName()+"、");
-//            }
-//            String str  = sb.toString();
-//            //合并定级包含的信息系统名称
-//            cellList.add(ExcelUtils.getExportCelBean(str.substring(0,str.length() - 1)));
-//          }else{
-//            cellList.add(ExcelUtils.getExportCelBean(""));
-//          }
-//        }else{
-//          cellList.add(ExcelUtils.getExportCelBean(""));
-//        }
-//        //单位名称
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
-//        //等保级别
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSprankLevel()));
-//        //备案状态
-//        if(mainResult.getRecordStatus() == 1){
-//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
-//        }else if(mainResult.getRecordStatus() == 2){
-//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
-//        }else if(mainResult.getRecordStatus() == 3){
-//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
-//        }else{
-//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
-//        }
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        //定级时间
-//        if(mainResult.getScoreCreateTime() != null){
-//          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(mainResult.getScoreCreateTime())));
-//        }else{
-//          cellList.add(ExcelUtils.getExportCelBean(""));
-//        }
-//        //备案时间
-//        if(mainResult.getRecordCreateTime() != null){
-//          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(mainResult.getRecordCreateTime())));
-//        }else{
-//          cellList.add(ExcelUtils.getExportCelBean(""));
-//        }
-//        //单位编码
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCode()));
-//        //受理备案单位
-//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getAcceptCompany()));
-//        //变更记录
-//        cellList.add(ExcelUtils.getExportCelBean(""));
-//        //测评时间
-//        cellList.add(ExcelUtils.getExportCelBean(""));
-//        //测评结果
-//        cellList.add(ExcelUtils.getExportCelBean(""));
-//        //自查时间
-//        cellList.add(ExcelUtils.getExportCelBean(""));
-//        //自查结果
-//        cellList.add(ExcelUtils.getExportCelBean(""));
-        
-        
-        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));  
+        //系统名称
+        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
+        //如果是合并系统
+        if(mainResult.getFkSystemIsMerge() == 1){
+          //查询子表信息
+          SystemParam systemParam = new SystemParam();
+          systemParam.setSystemId(mainResult.getSystemId());
+          List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
+          if(!ObjectUtils.isEmpty(subSystemList)){
+            StringBuffer sb = new StringBuffer ();
+            for(SystemSubResult systemSubResult : subSystemList){
+               sb.append(systemSubResult.getSystemName()+"、");
+            }
+            String str  = sb.toString();
+            //合并定级包含的信息系统名称
+            cellList.add(ExcelUtils.getExportCelBean(str.substring(0,str.length() - 1)));
+          }else{
+            cellList.add(ExcelUtils.getExportCelBean(""));
+          }
+        }else{
+          cellList.add(ExcelUtils.getExportCelBean(""));
+        }
+        //单位名称
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
-        cellList.add(ExcelUtils.getExportCelBean(mainResult.getPlateType()));
-        cellList.add(ExcelUtils.getExportCelBean(mainResult.getInfoSysTypeConstruction()));
+        //等保级别
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getSprankLevel()));
-        //是否为互联网应用
-        if(mainResult.getAppIsInternet() == 1){
-          cellList.add(ExcelUtils.getExportCelBean("是"));
-        }else{
-          cellList.add(ExcelUtils.getExportCelBean("否"));
-        }
-        //定级状态
-        if(mainResult.getGradingStatus() == 1){
-          cellList.add(ExcelUtils.getExportCelBean("未进行"));
-        }else if(mainResult.getGradingStatus() == 2){
-          cellList.add(ExcelUtils.getExportCelBean("进行中"));
-        }else if(mainResult.getGradingStatus() == 3){
-          cellList.add(ExcelUtils.getExportCelBean("已完成"));
-        }else{
-          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
-        }
-        //审核状态
-        if(mainResult.getExamineStatus() == 1){
-          cellList.add(ExcelUtils.getExportCelBean("未进行"));
-        }else if(mainResult.getExamineStatus() == 2){
-          cellList.add(ExcelUtils.getExportCelBean("进行中"));
-        }else if(mainResult.getExamineStatus() == 3){
-          cellList.add(ExcelUtils.getExportCelBean("已完成"));
-        }else{
-          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
-        }
         //备案状态
         if(mainResult.getRecordStatus() == 1){
           cellList.add(ExcelUtils.getExportCelBean("未进行"));
@@ -376,26 +316,148 @@ public class MainServiceImpl implements MainService{
         }else{
           cellList.add(ExcelUtils.getExportCelBean("已撤销"));
         }
-        //测评状态
-        if(mainResult.getEvaluationStatus() == 1){
-          cellList.add(ExcelUtils.getExportCelBean("未进行"));
-        }else if(mainResult.getEvaluationStatus() == 2){
-          cellList.add(ExcelUtils.getExportCelBean("进行中"));
-        }else if(mainResult.getEvaluationStatus() == 3){
-          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //定级时间
+        if(mainResult.getScoreCreateTime() != null){
+          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(mainResult.getScoreCreateTime())));
         }else{
-          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+          cellList.add(ExcelUtils.getExportCelBean(""));
         }
-        //自查状态
-        if(mainResult.getExaminationStatus() == 1){
-          cellList.add(ExcelUtils.getExportCelBean("未进行"));
-        }else if(mainResult.getExaminationStatus() == 2){
-          cellList.add(ExcelUtils.getExportCelBean("进行中"));
-        }else if(mainResult.getExaminationStatus() == 3){
-          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+        //备案时间
+        if(mainResult.getRecordCreateTime() != null){
+          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(mainResult.getRecordCreateTime())));
         }else{
-          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+          cellList.add(ExcelUtils.getExportCelBean(""));
         }
+        //单位编码
+        cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCode()));
+        //受理备案单位
+        cellList.add(ExcelUtils.getExportCelBean(mainResult.getAcceptCompany()));
+        //变更记录
+        String changeMatter = "";
+        if(StringUtils.isNotBlank(mainResult.getFkChangeMatter())){
+          switch (mainResult.getFkChangeMatter()) {
+            case "1":
+              changeMatter = "系统合并";
+              break;
+            case "2":
+              changeMatter = "级别降低";
+              break;
+            case "3":
+              changeMatter = "级别升高";
+              break;
+            case "5":
+              changeMatter = "其他";
+              break;
+            default:
+              break;
+          }
+          cellList.add(ExcelUtils.getExportCelBean("变更事项:"+changeMatter+",变更内容:"+
+          mainResult.getChangeContent()+",变更原因:"+mainResult.getChangeReason()));
+        }else{
+          cellList.add(ExcelUtils.getExportCelBean(""));
+        }
+        //测评时间 和 测评结果
+        EvaluationParam evaluationParam = new EvaluationParam();
+        evaluationParam.setFkSystemId(mainResult.getSystemId());
+        EvaluationListResult evaluationListResult = 
+            evaluationMapper.selectAllByEvaluationSystemIdOrderBy(evaluationParam);
+        if(evaluationListResult != null){
+          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(
+              evaluationListResult.getExamTime())));
+          if(evaluationListResult.getFkExamResult() == 1){
+            cellList.add(ExcelUtils.getExportCelBean("符合"));
+          }else if(evaluationListResult.getFkExamResult()  == 2){
+            cellList.add(ExcelUtils.getExportCelBean("基本符合"));
+          }else{
+            cellList.add(ExcelUtils.getExportCelBean("不符合"));
+          }
+        }else{
+          cellList.add(ExcelUtils.getExportCelBean(""));
+          cellList.add(ExcelUtils.getExportCelBean(""));
+        }
+        SelfexaminationParam selfexaminationParam = new SelfexaminationParam();
+        selfexaminationParam.setFkSystemId(mainResult.getSystemId());
+        SelfexaminationResult selfexaminationResult = 
+            selfexaminationMapper.selectSingleBySystemId(selfexaminationParam);
+        if(selfexaminationResult != null){
+          cellList.add(ExcelUtils.getExportCelBean(simpleDateFormat.format(
+              selfexaminationResult.getInspectionDate())));
+          if(selfexaminationResult.getFkInspectionReu() == 1){
+            cellList.add(ExcelUtils.getExportCelBean("符合"));
+          }else if(selfexaminationResult.getFkInspectionReu() == 2){
+            cellList.add(ExcelUtils.getExportCelBean("基本符合"));
+          }else{
+            cellList.add(ExcelUtils.getExportCelBean("不符合"));
+          }
+        }else{
+          //自查时间
+          cellList.add(ExcelUtils.getExportCelBean(""));
+          //自查结果
+          cellList.add(ExcelUtils.getExportCelBean(""));
+        }
+//        //系统名称
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getPlateType()));
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getInfoSysTypeConstruction()));
+//        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSprankLevel()));
+//        //是否为互联网应用
+//        if(mainResult.getAppIsInternet() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("是"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("否"));
+//        }
+//        //定级状态
+//        if(mainResult.getGradingStatus() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
+//        }else if(mainResult.getGradingStatus() == 2){
+//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
+//        }else if(mainResult.getGradingStatus() == 3){
+//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+//        }
+//        //审核状态
+//        if(mainResult.getExamineStatus() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
+//        }else if(mainResult.getExamineStatus() == 2){
+//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
+//        }else if(mainResult.getExamineStatus() == 3){
+//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+//        }
+//        //备案状态
+//        if(mainResult.getRecordStatus() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
+//        }else if(mainResult.getRecordStatus() == 2){
+//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
+//        }else if(mainResult.getRecordStatus() == 3){
+//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+//        }
+//        //测评状态
+//        if(mainResult.getEvaluationStatus() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
+//        }else if(mainResult.getEvaluationStatus() == 2){
+//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
+//        }else if(mainResult.getEvaluationStatus() == 3){
+//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+//        }
+//        //自查状态
+//        if(mainResult.getExaminationStatus() == 1){
+//          cellList.add(ExcelUtils.getExportCelBean("未进行"));
+//        }else if(mainResult.getExaminationStatus() == 2){
+//          cellList.add(ExcelUtils.getExportCelBean("进行中"));
+//        }else if(mainResult.getExaminationStatus() == 3){
+//          cellList.add(ExcelUtils.getExportCelBean("已完成"));
+//        }else{
+//          cellList.add(ExcelUtils.getExportCelBean("已撤销"));
+//        }
         
         dataList.add(cellList);
       }
@@ -2574,19 +2636,34 @@ public class MainServiceImpl implements MainService{
     //状态为待审核，查询审核状态为：
     //1：待企业安全员管理审核；
     //2：待总部安全管理员审核；
-    if(mainParam.getStatus() == 5){
+    /*if(mainParam.getStatus() == 5){
+      mainParam.setFkExaminStatus(1);
+    }*/
+    if(mainParam.getStatus() == 15){
       mainParam.setFkExaminStatus(1);
     }
-    //状态为已审核，查询审核状态为归档
-    if(mainParam.getStatus() == 6){
+    if(mainParam.getStatus() == 16){
       mainParam.setFkExaminStatus(2);
     }
+    
+    //状态为已审核，查询审核状态为归档
+    if(mainParam.getStatus() == 6){
+      mainParam.setFkExaminStatus(5);
+    }
+    
     //状态为审核未通过，查询审核状态为
     //3：企业安全员管理审核未通过；
     //4：总部安全管理员审核未通过；
-    if(mainParam.getStatus() == 7){
+    /*if(mainParam.getStatus() == 7){
+      mainParam.setFkExaminStatus(3);
+    }*/
+    if(mainParam.getStatus() == 17){
       mainParam.setFkExaminStatus(3);
     }
+    if(mainParam.getStatus() == 18){
+      mainParam.setFkExaminStatus(4);
+    }
+    
     if(mainParam.getStatus() == 8){
       mainParam.setSystemCodeType("25");
       mainParam.setRecordStatus("1");
@@ -2647,7 +2724,9 @@ public class MainServiceImpl implements MainService{
     //读取导入文件
     List<String[]> dataList = new ArrayList<String[]>();
     try {
-      dataList.addAll(ExcelUtils.read(allfilePath.toString(), "sheet1"));
+      dataList.addAll(
+          ExcelUtils.read(
+              allfilePath.toString(), "sheet1"));
     } catch (Exception e) {
       e.printStackTrace();
       dataList = new ArrayList<String[]>();
@@ -2935,10 +3014,11 @@ public class MainServiceImpl implements MainService{
     //获得相应图表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
     //权限
+    //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    if(organizationApiResult==null || organizationApiResult.getCodeList().size() ==0){
-      return null;
+    if(organizationApiResult==null){
+      return list;
     }else{
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {

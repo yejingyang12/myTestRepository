@@ -45,13 +45,13 @@
         <ul class="clearfix dataForm">
           <li class="row P-record">
             <div class="col-lg-6 col-sm-3">
-              <el-form-item label="备案编号：" prop="recordCode">
-                <input type="text" placeholder="请输入" name="recordCode" id="recordCode" v-model="formData.recordCode" >
+              <el-form-item label="备案编号：" prop="recordCode" ref= 'recordCode'>
+                <input type="text" placeholder="请输入" name="recordCode" id="recordCode" v-model="formData.recordCode" @change="changeData('recordCode')">
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
-              <el-form-item label="备案单位：" prop="recordCompany">
-                <input type="text" placeholder="请输入" name="recordCompany" id="recordCompany" v-model="formData.recordCompany">
+              <el-form-item label="备案单位：" prop="recordCompany" ref= 'recordCompany'>
+                <input type="text" placeholder="请输入" name="recordCompany" id="recordCompany" v-model="formData.recordCompany" @change="changeData('recordCompany')">
               </el-form-item>
             </div>
           </li>
@@ -62,8 +62,8 @@
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
-              <el-form-item label="受理备案单位：" prop="acceptCompany">
-                <input type="text" placeholder="请输入" name="acceptCompany" id="acceptCompany" v-model="formData.acceptCompany">
+              <el-form-item label="受理备案单位：" prop="acceptCompany" ref= 'acceptCompany'>
+                <input type="text" placeholder="请输入" name="acceptCompany" id="acceptCompany" v-model="formData.acceptCompany" @change="changeData('acceptCompany')">
               </el-form-item>
             </div>
           </li>
@@ -76,7 +76,7 @@
           </li>
           <li class="row lastFile P-record">
             <div class="col-md-12">
-              <el-form-item label="信息系统安全等级保护备案证明：" prop="recordReportName">
+              <el-form-item label="信息系统安全等级保护备案证明：" prop="recordReportName" ref= 'recordReportName'>
                 <div class="clearfix sysText col-md-9 uploadBox">
                   <div class="uploadSty">
                     <ul class="fileList" id="fileList">

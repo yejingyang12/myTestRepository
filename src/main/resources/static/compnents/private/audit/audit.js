@@ -150,6 +150,8 @@
             this.formData.fkBusinessNode = null;
             this.formData.fkExaminStatus = null;
             //this.formData.handlingState = null;
+            this.getPermitJurisdictionInfo(this);
+          	this.queryCheckList(this);
           },
           auditDetails:function (systemId,companyId) {
             window.location.href=originUrl+"/page/auditDetailsPage?systemId="+systemId+"&companyId="+companyId;

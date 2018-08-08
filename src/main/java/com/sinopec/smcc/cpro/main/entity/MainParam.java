@@ -79,6 +79,7 @@ public class MainParam {
   private Date recordsBeginTime;
   private Integer systemType;
   private String[] sprankLevelArray;
+  private String[] plTypeArray;
   private String[] subordinateProvincesArray;
   private Long gradingBeginTimeStamp;//定级开始时间戳
   private Long gradingEndTimeStamp;//定级结束时间戳
@@ -95,7 +96,14 @@ public class MainParam {
   
 
   
-  /**
+  
+  public String[] getPlTypeArray() {
+		return plTypeArray;
+	}
+	public void setPlTypeArray(String[] plTypeArray) {
+		this.plTypeArray = plTypeArray;
+	}
+	/**
    * @return the subordinateProvincesArray
    */
   public String[] getSubordinateProvincesArray() {

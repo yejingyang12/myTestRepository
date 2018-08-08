@@ -24,6 +24,7 @@ import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
+import com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemKeyResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -109,6 +110,14 @@ public interface SystemMapper {
    * @param systemParam
    */
   void updateSystemStatusBySystemId(SystemParam systemParam);
+  
+  /**
+   * @author changmingyong
+   * @date 2018年8月5日下午20:06:20
+   * @param codeName1
+   * @return
+   */
+  String selectSystemByComCode(String codeName);
 
   /**
    * @Descrption
@@ -383,4 +392,22 @@ public interface SystemMapper {
    * @param systemParam
    */
   SystemResult selectSystemBySystemNameAndStandardizedCode(SystemParam systemParam);
+  
+  /**
+   * @Descrption  根据条件获取系统全部信息列表（主要用systemIds）
+   * @author yejingyang
+   * @date 2018年8月2日上午10:02:35
+   * @param systemParam
+   * @return
+   */
+  List<SystemAllInfoResult> selectSystemAllInfoBySystemParam(SystemParam systemParam);
+  
+  /**
+   * @Descrption 通过systemCode查询系统信息
+   * @author dongxu
+   * @date 2018年8月6日下午7:28:25
+   * @param systemParam
+   * @return
+   */
+  SystemResult selectSystemBysystemCode(SystemParam systemParam);
 }

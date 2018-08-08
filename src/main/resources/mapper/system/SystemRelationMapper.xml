@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.system.mapper.SystemRelationMapper">
+  <resultMap id="BaseResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemRelationResult">
+  	<id column="pkId" property="systemRelationId" jdbcType="VARCHAR" />
+    <result column="fkSystemId" property="systemId" jdbcType="TIMESTAMP" />
+    <result column="systemName" property="systemName" jdbcType="VARCHAR" />
+    <result column="systemSmccCode" property="systemSmccCode" jdbcType="VARCHAR" />
+    <result column="standardizedName" property="standardizedName" jdbcType="VARCHAR" />
+    <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
+    <result column="systemIsMerge" property="systemIsMerge" jdbcType="INTEGER" />
+    <result column="systemSource" property="systemSource" jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <select id="querySystemRelationInfo" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam" resultMap="BaseResultMap">
+    SELECT
+    	relation.pkId,
+    	relation.fkSystemId,
+    	relation.fkCompanyCode,
+    	relation.systemName,
+    	relation.systemSmccCode,
+    	relation.standardizedName,
+    	relation.standardizedCode,
+    	relation.systemIsMerge,
+    	relation.systemSource
+    FROM
+      t_cpro_system_relation AS relation
+      LEFT JOIN t_cpro_company AS company 
+      ON relation.fkCompanyCode = company.companyCode
+    <where>
+    	 relation.deleteStatus=1 AND company.deleteStatus=1
+      <if test="companyList != null">
+        <![CDATA[
+          AND company.companyCode IN  
+        ]]>
+        <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="plateList != null">
+        <![CDATA[
+          AND company.fkPlateType IN  
+        ]]>
+        <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+  		<if test="systemSmccCode != null and systemSmccCode != ''">
+    	  <![CDATA[
+    		  AND relation.systemSmccCode = #{systemSmccCode,jdbcType=VARCHAR}
+    	  ]]>
+  		</if>
+  	  <if test="standardizedCode != null and standardizedCode != ''">
+        <![CDATA[
+          AND relation.standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
+        ]]>
+      </if>
+    </where>
+	</select>
+	<resultMap id="SystemRelationResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemRelationResult">
+    <id column="systemRelationId" property="systemRelationId"/>
+    <result column="fkSystemId" property="systemId"/>
+    <result column="systemName" property="systemName"/>
+    <result column="systemSmccCode" property="systemSmccCode"/>
+    <result column="standardizedName" property="standardizedName"/>
+    <result column="standardizedCode" property="standardizedCode"/>
+    <result column="systemIsMerge" property="systemIsMerge"/>
+    <result column="systemSource" property="systemSource"/>
+  </resultMap>
+  
+  <!-- 批量添加系统关联表信息 -->
+  <insert id="insertBatchSystemPelation" parameterType="java.util.List">
+  	INSERT INTO t_cpro_system_relation (
+			pkId,fkSystemId,fkCompanyCode,systemName,systemSmccCode,
+			standardizedName,standardizedCode,systemIsMerge,systemSource,deleteStatus,
+			createUserName,createTime,updateTime,remark
+		) VALUES
+		<foreach collection="list" item="item" index="index" separator=",">
+      (
+  		<trim suffixOverrides="," >
+			  <![CDATA[
+			        #{item.systemRelationId},
+			  ]]>
+	  		<choose>
+			    <when test="item.fkSystemId != null">
+			      <![CDATA[
+			        #{item.fkSystemId},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.fkCompanyCode != null ">
+			      <![CDATA[
+			        #{item.fkCompanyCode},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.systemName != null ">
+			      <![CDATA[
+			        #{item.systemName},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.systemSmccCode != null ">
+			      <![CDATA[
+			        #{item.systemSmccCode},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.standardizedName != null ">
+			      <![CDATA[
+			        #{item.standardizedName},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.standardizedCode != null">
+			      <![CDATA[
+			        #{item.standardizedCode},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.systemIsMerge != null">
+			      <![CDATA[
+			        #{item.systemIsMerge},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.systemSource != null">
+			      <![CDATA[
+			        #{item.systemSource},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.deleteStatus != null">
+			      <![CDATA[
+			        #{item.deleteStatus},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.createUserName != null">
+			      <![CDATA[
+			        #{item.createUserName},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.createTime != null">
+			      <![CDATA[
+			        #{item.createTime},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.updateTime != null">
+			      <![CDATA[
+			        #{item.updateTime},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.remark != null">
+			      <![CDATA[
+			        #{item.remark},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+  	  </trim>
+      )
+  	</foreach>
+  </insert>
+  
+  <!-- 根据systemId和standardizedName修改系统关联表信息 -->
+  <update id="updateSystemRelationBySystemIdAndStandardizedName" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam">
+    UPDATE t_cpro_system_relation 
+    SET systemIsMerge = #{systemIsMerge},systemName = #{systemName}
+    WHERE fkSystemId = #{systemRelationParam.fkSystemId}
+    AND standardizedName = #{systemRelationParam.standardizedName}
+  </update>
+  
+  <!-- 根据systemId获取系统下所有未删除的关联信息列表 -->
+  <select id="selectSystemRelationListBySystemId" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam" resultMap="SystemRelationResultMap">
+  	SELECT
+			relation.pkId AS systemRelationId,
+			relation.fkSystemId AS systemId,
+			relation.systemName,
+			relation.systemSmccCode,
+			relation.standardizedName,
+			relation.standardizedCode,
+			relation.systemIsMerge,
+			relation.systemSource
+		FROM
+			t_cpro_system_relation relation
+		WHERE
+			relation.fkSystemId = #{fkSystemId}
+		AND relation.deleteStatus = 1
+  </select>
+</mapper>

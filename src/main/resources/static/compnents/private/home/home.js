@@ -15,16 +15,16 @@
       }, {
         value: '4',
         label: '未审核'
-      }, {
+      }/*, {
         value: '5',
         label: '待审核'
-      },{
+      }*/,{
         value: '6',
         label: '已审核'
-      },{
+      }/*,{
         value: '7',
         label: '审核未通过'
-      },{
+      }*/,{
         value: '8',
         label: '未备案'
       },{
@@ -45,6 +45,18 @@
       },{
         value: '14',
         label: '已自查'
+      },{
+        value: '15',
+        label: '待企业业务审核'
+      },{
+        value: '16',
+        label: '待总部安全审核'
+      },{
+        value: '17',
+        label: '企业业务审核未通过'
+      },{
+        value: '18',
+        label: '总部安全审核未通过'
       }],
 /*	  hStatus:["未定级","预定级","已定级","未审核","待审核","已审核","审核未通过","未备案","已备案","撤销备案","未测评","已测评","未自查","已自查"],
 */    paramGrading:false,
@@ -150,6 +162,7 @@
     value21: '',
     value22: '',
     systemLevel:[],
+    checkTest:[],
     systemProvince:[],
     changeMattersSystemId :'',
     
@@ -190,7 +203,8 @@
     templateExport:false,
     newlyBuild:false,
     headquarters:false,
-    enterprise:false
+    enterprise:false,
+    nameList:[]
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/home/home.html').then(function (res) {
@@ -205,12 +219,15 @@
           // 获取单位名称
           this.getCompanyName(this);
           
-           var url="main/queryMainList";
-           var _self=this;
-           //	 列表请求数据
-           ajaxMethod(_self, "post", url, false ,"{}", "json", 'application/json;charset=UTF-8', _self.listSuccess);
+          this.createdList();
         },
         methods: { 
+        	createdList:function(){
+        		var url="main/queryMainList";
+            var _self=this;
+            //	 列表请求数据
+            ajaxMethod(_self, "post", url, false ,"{}", "json", 'application/json;charset=UTF-8', _self.listSuccess);
+        	},
         	 submitForm:function(formName) {
 			      this.$refs[formName].validate(function(valid){
 			          if (valid) {
@@ -222,7 +239,13 @@
 			        });
 			      this.saveChangeMattersMethod(); 
 			      },
-			     
+			    deleteTag:function(val){
+            for(var i=0;i<this.msgProvince.length;i++){
+                     if(this.msgProvince[i].systemCode == val){
+                         this.msgProvince[i].showflag = false;
+                     }
+                 }
+           },
         	text:function(){
              $('#textArea').on("keyup",function(){
                  $('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
@@ -239,10 +262,11 @@
                  }
              })
           },
-        	transfer:function(value,e){
+        	transfer:function(value,e,index){
         		$("#plateType").val(value);
-        		$(".pic").css("background-image","url(../../images/home/square.png)")
-        		$(e.target).parent(".pic").css("background-image","url(../../images/home/square-true.png)");
+        		$(e.target).parent(".pic").toggleClass("pic2");
+        		/*$(".pic").css("background-image","url(../../images/home/square.png)")
+        		$(e.target).parent(".pic").css("background-image","url(../../images/home/square-true.png)");*/
         	},
         	transferLevel:function(value){
         		var systemLevel = $("input[type='checkbox'][name='systemLevel']").is(':checked');
@@ -278,6 +302,7 @@
         		this.value21 = '';
         		this.value22 = [];
         		this.systemLevel = [];
+        		this.checkTest=[];
         		this.systemProvince = [];
         		$(".pic").css("background-image","url(../../images/home/square.png)")
         		$(".checkName1").attr("checked",false);       		
@@ -285,7 +310,8 @@
         		$("#systemCodeLevel").val("");
         		$(".checkName3").attr("checked",false);
         		$("#systemCodeProvince").val("");
-        		$(".checkName4").attr("checked",false); 
+        		$(".checkName4").attr("checked",false);
+        		this.createdList();
         	},
           //ajax请求成功的方法
           listSuccess: function (_self, dataList) {
@@ -315,7 +341,7 @@
             var rankTimeEnd = $("#rankTimeEnd").val();
             var inspectionDateBegin = $("#inspectionDateBegin").val();
             var inspectionDateEnd = $("#inspectionDateEnd").val();
-            var plateType = $("#plateType").val();
+            var plateType =  this.checkTest;
             var systemCodeLevel = this.systemLevel;
 //            var systemCodeProvince = this.systemProvince;
             var customFiltering = $("#customFiltering").val();
@@ -336,7 +362,7 @@
               "rankTimeEnd": rankTimeEnd,//定级结束时间
               "inspectionDateBegin": inspectionDateBegin,//自查开始时间
               "inspectionDateEnd": inspectionDateEnd,//自查结束时间
-              "plateType": plateType,//所属板块
+              "plTypeArray": plateType,//所属板块
               "status":this.value21,//状态
               "sprankLevelArray": systemCodeLevel,//等保级别
               "subordinateProvincesArray": this.value22,//地区
@@ -467,6 +493,9 @@
           // 获取省份成功
           getProvinceSuccessMethod : function(_self, responseData) {
               _self.msgProvince = responseData.data;
+              for(var i=0;i<responseData.data.length;i++){
+                  responseData.data[i].showflag = false
+              }
           },
           //跳转到定级页面
           toAuditGradPage : function(systemId,companyId) {
@@ -1102,22 +1131,23 @@
                       return (a.companyName.localeCompare(b.companyName)) * flagOne
                     });
                     break;
-                  case 2://板块
+                /*  case 3://板块
                     data.result.data.sort(function (a, b) {
+                    	debugger
                       return (a.plateType.localeCompare(b.plateType)) * flagOne
                     });
-                    break;
-                  case 3://建设类型
+                    break;*/
+                  case 2://建设类型
                     data.result.data.sort(function (a, b) {
                       return (a.infoSysTypeConstruction.localeCompare(b.infoSysTypeConstruction)) * flagOne
                     });
                     break;
-                  case 4://等保级别
+                  case 3://等保级别
                     data.result.data.sort(function (a, b) {
                       return (a.fkSpRanklevel - b.fkSpRanklevel) * flagOne
                     });
                     break;
-                  case 5://是否未互联网应用
+                  case 4://是否未互联网应用
                     data.result.data.sort(function (a, b) {
                       return (a.appIsInternet - b.appIsInternet) * flagOne
                     });
@@ -1154,7 +1184,9 @@
             _self.paramRecord = false;
             _self.paramSelfExamination = false;
             _self.paramApplication = false;
-            
+            _self.nameList = response.data.nameList;
+//            _self.nameList.push(10010001);
+//            console.log(_self.nameList[_self.nameList.length-1])
             for (var i = 0; i < response.data.permssions.length; i++) {
               var permssions = response.data.permssions[i];
               

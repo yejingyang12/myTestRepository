@@ -70,18 +70,24 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
   private static Map<String, String> COMPANY_NAME_MAP;
   private static Map<String, String> PLATE_NAME_MAP;
 
+  /**
+   * 废弃
+   */
   @Override
-  public JurisdictionDataResult queryDataJurisdictionApi() {
+  public JurisdictionDataResult queryDataJurisdictionApi1() {
     JurisdictionDataResult jurisdictionDataResult = new JurisdictionDataResult();
     //获得用户信息
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
-    List<AuthorizationDTO> jsonMenu = this.ubsTemplate.getDataAuthByUserId(userDTO.getUserId()+"");
+    List<AuthorizationDTO> jsonMenu = this.ubsTemplate.
+        getDataAuthByUserIdAfterChange(userDTO.getUserId()+"");
 //    JSONArray json = JSONArray.fromObject(jsonMenu); 
 //    String str = json.toString();//将json对象转换为字符串
 //    System.out.println(str);
-//    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsFeignTemplate.
+//    List<AuthorizationDTO> dataAuthByUserIdAfterChange = this.ubsTemplate.
 //        getDataAuthByUserIdAfterChange(userDTO.getUserId()+""); 
-//    System.out.println(dataAuthByUserIdAfterChange);
+//    JSONArray json1 = JSONArray.fromObject(dataAuthByUserIdAfterChange); 
+//    String str1 = json1.toString();//将json对象转换为字符串
+//    System.out.println(str1);
     
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();
@@ -154,6 +160,62 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     }
     jurisdictionDataResult.setPermssions(permssionsList);
     jurisdictionDataResult.setCodeList(codeList);
+    return jurisdictionDataResult;
+  }
+  
+  @Override
+  public JurisdictionDataResult queryDataJurisdictionApi() {
+    JurisdictionDataResult jurisdictionDataResult = new JurisdictionDataResult();
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    List<AuthorizationDTO> jsonMenu = this.ubsTemplate.
+        getDataAuthByUserIdAfterChange(userDTO.getUserId()+"");
+//    JSONArray json = JSONArray.fromObject(jsonMenu); 
+//    String str = json.toString();//将json对象转换为字符串
+//    System.out.println(str);
+    
+    List<String> codeList = new ArrayList<String>();
+    List<String> nameList = new ArrayList<String>();
+    List<String> permssionsList = new ArrayList<String>();
+    boolean booValue = false;
+    for (AuthorizationDTO authorizationDTO : jsonMenu) {
+      //增加权限许可
+      if (authorizationDTO.getPermissionList() != null) {
+        List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
+        for (PermissionDTO permissionDTO : permissionDTOList) {
+          permssionsList.add(permissionDTO.getPermcode());
+          booValue = true;
+        }
+      }
+      //通过等号切分
+      String[] rules = authorizationDTO.getRule().split("or");
+      if (rules.length>0) {
+        for (int i=0;i<rules.length;i++) {
+          
+          String[] orgInfo = rules[i].trim().split("=");
+          if(orgInfo.length<=1){
+            continue;
+          }
+          String orgCode = orgInfo[1].replace("'", "");
+          if (orgCode.trim().length()>8) {
+            orgCode = orgCode.trim().substring(0, 8);
+          }else {
+            orgCode = orgCode.trim();
+          }
+          codeList.add(orgCode);
+          if(booValue){
+            nameList.add(orgCode);
+          }
+        }
+        jurisdictionDataResult.setResultType("3");
+      }else{
+        jurisdictionDataResult.setResultType("0");
+      }
+      booValue = false;
+    }
+    jurisdictionDataResult.setPermssions(permssionsList);
+    jurisdictionDataResult.setCodeList(codeList);
+    jurisdictionDataResult.setNameList(nameList);
     return jurisdictionDataResult;
   }
 

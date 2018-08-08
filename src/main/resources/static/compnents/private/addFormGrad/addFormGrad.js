@@ -145,6 +145,7 @@ var data={
                     getExpertClass:function(e,param){
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                       this.formData.expertView = param;
+                      this.rules.expertReviewName[0].required = false;
                     },
                     btnBoolen:function(e,param){
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -193,7 +194,8 @@ var data={
                     		return;
                     	}
                     	var fileFormat = e.target.value.split(".");//文件后缀
-                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                    		this.$alert('不接受此文件类型！', '信息提示', {
+                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip' ){
+                    		this.$alert('不接受此文件类型！', '信息提示', {
                           confirmButtonText: '确定',
                           callback: function callback(action) {
                           }
@@ -206,7 +208,7 @@ var data={
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
                     },
                     onUploadSuccessMethod: function(_self,responseData){
-                    	this.$refs.refOnUpload.value = null;
+//                    	this.$refs.refOnUpload.value = null;
                       this.formData.directorOpinionName=responseData.data.attachName;
                       this.formData.directorOpinionPath=responseData.data.uploadUrl;
                       var fileHtml='<li><div class="fl updwon1">'+responseData.data.attachName+'</div><i class="el-icon-close fl del1"></i></li>'
@@ -235,7 +237,7 @@ var data={
                     		return;
                     	}
                     	var fileFormat = e.target.value.split(".");//文件后缀
-                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){
+                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){
                     		this.$alert('不接受此文件类型！', '信息提示', {
                           confirmButtonText: '确定',
                           callback: function callback(action) {
@@ -249,7 +251,7 @@ var data={
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod1);
                     },
                     onUploadSuccessMethod1: function(_self,responseData){
-                    	this.$refs.refOnUpload1.value = null;
+//                    	this.$refs.refOnUpload1.value = null;
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
                       
@@ -278,7 +280,7 @@ var data={
                     		return;
                     	}
                     	var fileFormat = e.target.value.split(".");//文件后缀
-                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                    		this.$alert('不接受此文件类型！', '信息提示', {
+                    	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                    		this.$alert('不接受此文件类型！', '信息提示', {
                           confirmButtonText: '确定',
                           callback: function callback(action) {
                           }
@@ -291,7 +293,7 @@ var data={
                       ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
                     },
                     onUploadSuccessMethod2: function(_self,responseData){
-                    	this.$refs.refOnUpload2.value = null;
+//                    	this.$refs.refOnUpload2.value = null;
                       this.formData.expertReviewName=responseData.data.attachName;
                       this.formData.expertReviewPath=responseData.data.uploadUrl;
                       var fileHtml='<li><div class="fl updwon3">'+responseData.data.attachName+'</div><i class="el-icon-close fl del3"></i></li>'

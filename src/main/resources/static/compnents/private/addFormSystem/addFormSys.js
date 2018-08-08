@@ -11,6 +11,7 @@ var  data={
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
     check:false,
+    delIndex:0,
     paramNan:true,
 		systemNameSon1:[true],
 		systemNameSon12:[false],
@@ -304,11 +305,20 @@ var  data={
                 },
                 methods:{ 
                 	 closes:function () { 
-                         $(".dialogShaw").css("display","none");
+                         $(".shawLast2").css("display","none");
+                         $(".shawLast").css("display","none");
                 	 },
-                	 deleteSys:function(){
-                		$(".inquiry").css("display","block");
-                        $(".dialogShaw").css("display","block");
+                	 deleteSys:function(type,delIndex){
+                		 if(type == 1){
+                			 $(".delLast2").css("display","block");
+                       $(".shawLast2").css("display","block");
+                		 }else{
+                			 $(".delLast").css("display","block");
+                       $(".shawLast").css("display","block");
+                		 }
+                		 if(delIndex != null){
+                			 this.delIndex = delIndex;
+                		 }
                 	},
                 	delSonSystemLast:function(){  
                 	  if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
@@ -332,11 +342,13 @@ var  data={
                   	this.formData.systemCodeSon="1";
                   	this.formData.stars="1";
                   	this.formData.aa = '1';
+                  	this.closes();
                 	},
                 	delCount: function (index){
                 		return "count_" +index;
                 	},
-                	delSonSystem:function(index){
+                	delSonSystem:function(){
+                		var index = this.delIndex;
                 		this.systemInfo2[this.formData.addSystemSub.length-1] = false;
                 		this.formData.addSystemSub.splice(index,1);
                 		$("#count_"+index+1).remove();
@@ -776,14 +788,15 @@ var  data={
                     	}
                   		if(isNan){
                   			this.formData.aa = '1';
+                  			this.$refs.formData.validateField('aa');
                   		}
                   		if(val-1 <2){
                   			this.formData.checkCount = '';
                   			this.promptCount=true;
-                  			this.$refs.formData.validateField('checkCount');
                   		}else{
                   			this.promptCount=false;
                   			this.formData.checkCount = '1';
+                  			this.$refs.formData.validateField('checkCount');
                   		}
                     },
                     getGetSystemMethod:function(_self,systemId){
@@ -1260,6 +1273,25 @@ var  data={
                       	i++;
                         if (valid) {
                           bus.$emit('changeNextSystemAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('mainSaveSystem',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                      	var i=0;
+                      	console.log(valid+"+"+i)
+                      	i++;
+                        if (valid) {
+                          bus.$emit('mainSaveSystemAjax',"add");
                         } else {
                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',

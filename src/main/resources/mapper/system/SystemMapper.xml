@@ -41,7 +41,7 @@
     <result column="sysBusDescription" property="sysBusDescription" jdbcType="VARCHAR" />
     <result column="whenInvestmentUse" property="whenInvestmentUse" jdbcType="TIMESTAMP" />
     <result column="sysBusSituationType" property="sysBusSituationType" jdbcType="VARCHAR" />
-        <result column="fkSystemType" property="fkSystemType" jdbcType="VARCHAR" />
+    <result column="fkSystemType" property="fkSystemType" jdbcType="VARCHAR" />
     <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
     <result column="executiveOfficeName" property="executiveOffice" jdbcType="VARCHAR" />
 	</resultMap>
@@ -112,7 +112,13 @@
     FROM t_cpro_system system 
     WHERE pkId = #{systemId}
   </select>
-  
+  <select id="selectSystemByComCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultType="String">
+	SELECT
+      company.companyCode
+    FROM t_cpro_company AS company
+    WHERE 
+      company.companyName=#{codeName}
+  </select>
   <select id="selectAllByEvaluation" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam" resultMap="selectEvaluationMap">
     SELECT
       pkId,
@@ -1472,6 +1478,7 @@
 	</select>
 	
   <resultMap id="BaseSubResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemSubResult">
+    <id column="pkId" property="systemId" jdbcType="VARCHAR" />
     <result column="systemName" property="systemName" jdbcType="VARCHAR" />
     <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
   </resultMap>
@@ -1599,7 +1606,10 @@
       system.systemName,
       system.sysBusSituationType,
       system.sysBusDescription,
-      system.whenInvestmentUse
+      system.fkSystemType,
+      system.standardizedCode,
+      system.whenInvestmentUse,
+      system.executiveOfficeName
       FROM t_cpro_system AS system
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
@@ -1635,6 +1645,11 @@
         <bind name="systemName" value="'%' + systemName + '%'" />
         <![CDATA[
           OR system.standardizedCode LIKE #{systemName,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="fkCompanyCode != null and fkCompanyCode != ''">
+        <![CDATA[
+          AND system.fkCompanyCode = #{fkCompanyCode,jdbcType=VARCHAR}
         ]]>
       </if>
     </where>
@@ -1700,7 +1715,7 @@
       npCoverageRange,updateTime,sysBusSituationType,
       sysServiceSitObject,sysServiceSitScope,fkCompanyCode,
       recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeCon,
-      npNetworkProperties,evaluationStatus,companyName)VALUES
+      npNetworkProperties,evaluationStatus,companyName,fatherSystemName,fatherCompanyName)VALUES
       <foreach collection="list" item="item" index="index" separator=",">
         (
           <trim suffixOverrides="," >
@@ -2119,6 +2134,30 @@
               <when test="item.companyName != null ">
                 <![CDATA[
                   #{item.companyName,jdbcType=VARCHAR},
+                ]]>
+              </when>
+              <otherwise>
+                <![CDATA[
+                  DEFAULT,
+                ]]>
+              </otherwise>
+            </choose>
+            <choose>
+              <when test="item.fatherSystemName != null ">
+                <![CDATA[
+                  #{item.fatherSystemName,jdbcType=VARCHAR},
+                ]]>
+              </when>
+              <otherwise>
+                <![CDATA[
+                  DEFAULT,
+                ]]>
+              </otherwise>
+            </choose>
+            <choose>
+              <when test="item.fatherCompanyName != null ">
+                <![CDATA[
+                  #{item.fatherCompanyName,jdbcType=VARCHAR},
                 ]]>
               </when>
               <otherwise>
@@ -3459,6 +3498,16 @@
             deleteStatus = #{deleteStatus,jdbcType=TINYINT},
           ]]>
         </if>
+         <if test="fatherSystemName != null ">
+          <![CDATA[
+            fatherSystemName = #{fatherSystemName,jdbcType=VARCHAR},
+          ]]>
+        </if>
+        <if test="fatherCompanyName != null ">
+          <![CDATA[
+            fatherCompanyName = #{fatherCompanyName,jdbcType=VARCHAR},
+          ]]>
+        </if>
       </set>
       <where>
           pkId = #{systemId,jdbcType=VARCHAR}
@@ -3560,5 +3609,221 @@
     AND system.deleteStatus = 1
     AND system.gradingStatus = 1
     LIMIT 0,1
+  </select>
+  
+  <!-- 一次查询，多条sql，按条件查出系统对应所有信息 -->
+  <resultMap id="SystemAllInfoResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult">
+  	<id column="systemId" property="systemId"/>
+    <result column="fkInfoSysTypeCon" property="fkInfoSysTypeCon"/>
+    <result column="fkSystemIsMerge" property="fkSystemIsMerge"/>
+    <result column="fkSystemType" property="fkSystemType"/>
+    <result column="fkFatherSystemId" property="fkFatherSystemId"/>
+    <result column="fkCompanyCode" property="fkCompanyCode"/>
+    <result property="fkChangeMatter" column="fkChangeMatter"/>
+    <result column="companyName" property="companyName"/>
+    <result column="fatherCompanyName" property="fatherCompanyName"/>
+    <result column="systemName" property="systemName"/>
+    <result column="fatherSystemName" property="fatherSystemName"/>
+    <result column="standardizedCode" property="standardizedCode"/>
+    <result column="gradeRecordSysName" property="gradeRecordSysName"/>
+    <result column="appIsInternet" property="appIsInternet"/>
+    <result column="sysBusSituationType" property="sysBusSituationType"/>
+    <result column="sysBusDescription" property="sysBusDescription"/>
+    <result column="sysServiceSitScope" property="sysServiceSitScope"/>
+    <result column="sysServiceSitObject" property="sysServiceSitObject"/>
+    <result column="npCoverageRange" property="npCoverageRange"/>
+    <result column="npNetworkProperties" property="npNetworkProperties"/>
+    <result column="interconnectionSit" property="interconnectionSit"/>
+    <result column="whenInvestmentUse" property="whenInvestmentUse"/>
+    <result column="executiveOfficeName" property="executiveOfficeName"/>
+    <result column="subIsSystem" property="subIsSystem"/>
+    <result column="executiveDireCon" property="executiveDireCon"/>
+    <result column="executiveDireConTel" property="executiveDireConTel"/>
+    <result column="gradingStatus" property="gradingStatus"/>
+    <result column="examineStatus" property="examineStatus"/>
+    <result column="recordStatus" property="recordStatus"/>
+    <result column="evaluationStatus" property="evaluationStatus"/>
+    <result column="examinationStatus" property="examinationStatus"/>
+    <result property="changeReason" column="changeReason" />
+    <result property="changeContent" column="changeContent" />
+    
+    <collection property="systemUseServicesList" column="systemId" 
+    						javaType="ArrayList" ofType="com.sinopec.smcc.cpro.system.entity.SystemUseServices" select="getSystemUseServicesList"/>
+    
+    <collection property="systemKeyProductsList" column="systemId" 
+    						javaType="ArrayList" ofType="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts" select="getSystemKeyProductsList"/>
+    
+    <collection property="systemSubResultList" column="systemId" 
+    						javaType="ArrayList" ofType="com.sinopec.smcc.cpro.system.entity.SystemSubResult" select="getSystemSubResultList"/>
+  </resultMap>
+  <!-- 系统采用服务情况对象map -->
+  <resultMap id="SystemUseServicesMap" type="com.sinopec.smcc.cpro.system.entity.SystemUseServices">
+    <id column="systemUseServicesId" property="systemUseServicesId"/>
+    <result column="fkResponsibleType" property="fkResponsibleType"/>
+    <result column="fkProductsType" property="fkProductsType"/>
+    <result column="createTime" property="createTime"/>
+    <result column="deleteStatus" property="deleteStatus"/>
+    <result column="serviceIsUse" property="serviceIsUse"/>
+    <result column="otherName" property="otherName"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+  </resultMap>
+  <!-- 关键产品使用情况对象map -->
+  <resultMap id="SystemKeyResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemKeyProducts">
+    <id column="systemKeyProductsId" property="systemKeyProductsId"/>
+    <result column="fkExaminStatus" property="fkExaminStatus"/>
+    <result column="createTime" property="createTime"/>
+    <result column="deleteStatus" property="deleteStatus"/>
+    <result column="productsNumber" property="productsNumber"/>
+    <result column="nUseProbability" property="nUseProbability"/>
+    <result column="otherName" property="otherName"/>
+    <result column="fkNationalIsProducts" property="fkNationalIsProducts"/>
+    <result column="fkSystemId" property="fkSystemId"/>
+  </resultMap>
+  <!-- 子系统列表对象map -->
+  <resultMap id="SystemSubResultMap" type="com.sinopec.smcc.cpro.system.entity.SystemSubResult">
+    <id column="systemSubId" property="systemId"/>
+    <result column="systemSubName" property="systemName"/>
+    <result column="standardizedSubCode" property="standardizedCode"/>
+  </resultMap>
+  
+  <!-- 一次查询，多条sql，获取系统信息列表 -->
+  <select id="selectSystemAllInfoBySystemParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="SystemAllInfoResultMap">
+  	SELECT
+			system.pkId AS systemId,
+			system.fkInfoSysTypeCon,
+			system.fkSystemIsMerge,
+			system.fkSystemType,
+			system.fkFatherSystemId,
+			system.fkCompanyCode,
+			system.fkChangeMatter,
+			system.companyName,
+			system.fatherCompanyName,
+			system.systemName,
+			system.fatherSystemName,
+			system.standardizedCode,
+			system.gradeRecordSysName,
+			system.appIsInternet,
+			system.sysBusSituationType,
+			system.sysBusDescription,
+			system.sysServiceSitScope,
+			system.sysServiceSitObject,
+			system.npCoverageRange,
+			system.npNetworkProperties,
+			system.interconnectionSit,
+			system.whenInvestmentUse,
+			system.executiveOfficeName,
+			system.subIsSystem,
+			system.executiveDireCon,
+			system.executiveDireConTel,
+			system.gradingStatus,
+			system.examineStatus,
+			system.recordStatus,
+			system.evaluationStatus,
+			system.examinationStatus,
+			system.changeReason,
+			system.changeContent,
+			system.deleteStatus,
+			system.createUserName,
+			system.createTime,
+			system.updateTime,
+			system.remark
+		FROM
+			t_cpro_system system
+		WHERE system.deleteStatus = 1 
+		AND	system.pkId IN 
+		<foreach collection="systemIds" item="item" index="index" open="(" separator="," close=")">
+      <![CDATA[
+        #{item}
+      ]]>
+    </foreach>
+  </select>
+  <!-- 系统采用服务情况 -->
+  <select id="getSystemUseServicesList" parameterType="java.lang.String" resultMap="SystemUseServicesMap">
+  	SELECT
+			systemUseServices.pkId AS systemUseServicesId,
+			systemUseServices.fkResponsibleType,
+			systemUseServices.fkProductsType,
+			systemUseServices.fkSystemId,
+			systemUseServices.serviceIsUse,
+			systemUseServices.otherName,
+			systemUseServices.deleteStatus,
+			systemUseServices.createTime
+		FROM
+			t_cpro_system_use_services systemUseServices
+		WHERE systemUseServices.fkSystemId = #{systemId}
+  </select>
+  <!-- 关键产品使用情况 -->
+  <select id="getSystemKeyProductsList" parameterType="java.lang.String" resultMap="SystemKeyResultMap">
+  	SELECT
+			systemKeyProducts.pkId AS systemKeyProductsId,
+			systemKeyProducts.fkSystemId,
+			systemKeyProducts.fkNationalIsProducts,
+			systemKeyProducts.fkExaminStatus,
+			systemKeyProducts.productsNumber,
+			systemKeyProducts.nUseProbability,
+			systemKeyProducts.otherName,
+			systemKeyProducts.deleteStatus,
+			systemKeyProducts.createTime
+		FROM
+			t_cpro_system_key_products systemKeyProducts
+		WHERE systemKeyProducts.fkSystemId = #{systemId}
+  </select>
+  <select id="getSystemSubResultList" parameterType="java.lang.String" resultMap="SystemSubResultMap">
+  	SELECT
+			systemSub.pkId AS systemSubId,
+			systemSub.systemName AS systemSubName,
+			systemSub.standardizedCode AS standardizedSubCode
+		FROM
+			t_cpro_system systemSub
+		WHERE systemSub.deleteStatus = 1 
+		AND systemSub.fkFatherSystemId = #{systemId}
+  </select>
+  
+  <select id="selectSystemBysystemCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+    SELECT
+      system.pkId AS systemId,
+      system.fkInfoSysTypeCon,
+      system.fkSystemIsMerge,
+      system.fkSystemType,
+      system.fkFatherSystemId,
+      system.fkCompanyCode,
+      system.fkChangeMatter,
+      system.companyName,
+      system.fatherCompanyName,
+      system.systemName,
+      system.fatherSystemName,
+      system.standardizedCode,
+      system.gradeRecordSysName,
+      system.appIsInternet,
+      system.sysBusSituationType,
+      system.sysBusDescription,
+      system.sysServiceSitScope,
+      system.sysServiceSitObject,
+      system.npCoverageRange,
+      system.npNetworkProperties,
+      system.interconnectionSit,
+      system.whenInvestmentUse,
+      system.executiveOfficeName,
+      system.subIsSystem,
+      system.executiveDireCon,
+      system.executiveDireConTel,
+      system.gradingStatus,
+      system.examineStatus,
+      system.recordStatus,
+      system.evaluationStatus,
+      system.examinationStatus,
+      system.changeReason,
+      system.changeContent,
+      system.deleteStatus,
+      system.createUserName,
+      system.createTime,
+      system.updateTime,
+      system.remark
+    FROM
+      t_cpro_system system
+    WHERE 
+      system.deleteStatus = 1 
+    AND 
+      system.standardizedCode = #{standardizedCode}
   </select>
 </mapper>

@@ -76,7 +76,24 @@ public class SystemResult {
   private String recordReportName;
   private String recordReportId;
   
+  private String fatherSystemName;
+  private String fatherCompanyName;
   
+  public String getFatherSystemName() {
+    return fatherSystemName;
+  }
+  public void setFatherSystemName(String fatherSystemName) {
+    this.fatherSystemName = fatherSystemName;
+  }
+  
+  public String getFatherCompanyName() {
+    return fatherCompanyName;
+  }
+  public void setFatherCompanyName(String fatherCompanyName) {
+    this.fatherCompanyName = fatherCompanyName;
+  }
+
+
   /**
    * @return the expertReviewName
    */

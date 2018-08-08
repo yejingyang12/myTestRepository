@@ -174,7 +174,12 @@
         <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
       </li>
     </smcc-breadcrumb>
-    <tab-main-company-info></tab-main-company-info>
+    <tab-main-company-info>
+     	<!--排序图标-->
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
+        <img src="../../static/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
+    </tab-main-company-info>
 </div>
 </body>
 <!--插件-->

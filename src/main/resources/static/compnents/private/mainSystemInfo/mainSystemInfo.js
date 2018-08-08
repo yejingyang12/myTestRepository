@@ -2,11 +2,15 @@
  * Created by timha on 2018/5/29.
  */
 var data1={
-	dialogShow:2,
+	  dialogShow:2,
+	  showImprot:2,
     activeName: 'first',
     inputs:null,
     tr:null,
+    systemForm:"1",
     systemForm:{
+    	importSystemInfo:'',
+      importSystemPath:'',
       pagesize:'',
       currentPage:'',
       total:'',
@@ -16,7 +20,7 @@ var data1={
         systemName:'',
         sysBusDescription:'',
         sysBusSituationType:'',
-        whenInvestmentUse:'',
+        whenInvestmentUse:'', 
       },
       queryData:{
         systemName:'',
@@ -24,10 +28,14 @@ var data1={
       },
       txt:'',
       systemIds:[],
-    	rowOne:null,//列表表头第一行的tr
+      rowOneSysInfo:null,//列表表头第一行的tr
 	    imgList:null,//列表表头第一行的排序箭头
 	    result:{},
-    }
+	    rules:{
+	    	importSystemInfo:[{required: true, message: '请选择导入文件', trigger: 'change'}],
+	    }
+    },
+    
   };
 (function () {
   
@@ -39,19 +47,91 @@ var data1={
           return data1;
         },
         methods:{
-        	//点击“模板导出”显示弹窗
-           systemInfoExport:function(){
+         //显示批量导入弹窗
+          systemInfoImprot:function(){
+          	this.showImprot=1;
+          	$("#dialog").css("display","block");
+          },
+          submitForm:function() {
+			      this.$refs['systemForm'].validate(function(valid){
+			          if (valid) {
+			          } else {
+			            console.log('error submit!!');
+			            return false;
+			          }
+			        });
+			      var uploadData = new FormData(); 
+						uploadData.append('strFilePath', this.systemForm.importSystemPath);
+          	ajaxUploadMethod(this, 'POST','system/importForSystemTemplate', true,uploadData, 'json',this.importForSystemSuccess);
+			    },
+			    importForSystemSuccess:function(_self,responseData){
+			    	debugger
+			    	if(responseData.msg=='成功'){
+			    		$("#startBoxTest").show().delay(2000).fadeOut();
+			    	}else{
+			    		_self.$alert('<center><strong>导入失败！</strong></center>', '提示', {
+                dangerouslyUseHTMLString: true
+                });
+			    	}
+			    	_self.getSystemListInfoMethod(_self,{});
+		    		_self.closes1();
+			    },
+			    //文件上传
+          onUpload: function(e){
+          	var fileSize = e.target.files[0].size;//文件大小（字节）
+          	var fimeMax = 1048576 *30;
+          	if(fileSize > fimeMax){
+          		this.$alert('文件不能大于30M！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+          	var fileFormat = e.target.value.split(".");//文件后缀
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+                confirmButtonText: '确定',
+                callback: function callback(action) {
+                }
+              });
+          		return;
+          	}
+            var uploadData = new FormData(); 
+            uploadData.append('file', e.target.files[0]);
+            uploadData.append('type', 'test');
+            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+          }, 
+          //回显上传文件
+          onUploadSuccessMethod: function(_self,responseData){
+          	this.$refs.refOnUpload.value = null;
+          	_self.systemForm.importSystemInfo = responseData.data.attachName;
+          	_self.systemForm.importSystemPath = responseData.data.uploadUrl;
+          },
+          fileDel:function(path){
+						var _self = this;
+						_self.systemForm.importSystemInfo = '';
+						_self.systemForm.importSystemPath = '';
+          },
+          closes1:function () {
+          	this.$refs['systemForm'].resetFields();
+            var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+            evaluationAlert.style.display="none";
+            $(".inquiry").css("display","none");
+            $(".dialogShaw").css("display","none");
+          },
+         //点击“模板导出”显示弹窗
+          systemInfoExport:function(){
          	   this.dialogShow=1;  
          	   bus.$emit("dialog",this.dialogShow); 
-            },
-        	 closes:function () {
+          },
+        	closes:function () {
                	this.$refs['systemForm.formData'].resetFields();
                  var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
                  evaluationAlert.style.display="none";
                  $(".inquiry").css("display","none");
                  $(".dialogShaw").css("display","none");
-               },
-        //上一页下一页点击事件
+          },
+         //上一页下一页点击事件
           clickPage: function (page) {
             if (page <= 0) {
               //alert("当前页面已经是第一页")
@@ -118,6 +198,7 @@ var data1={
           //清空
           clearHeadle:function(){
             this.systemForm.queryData.systemName = '';
+            this.getSystemListInfoMethod(this,{});
           },
 
           jinyong:function(){
@@ -145,8 +226,8 @@ var data1={
             _self.systemForm.result = responseData;
          },
          //系统信息列表排序
-         listsort: function () {
-           var imgArrow = data.imgList;
+         listsortInfo: function () {
+           var imgArrow = data1.imgList;
            var flagOne = 1;
            // console.log(data.result.data);
            for (var i = 0; i < imgArrow.length; i++) {
@@ -187,14 +268,14 @@ var data1={
         mounted: function() {
           var tr=document.getElementsByTagName('tr');
           var inputs=document.getElementsByClassName('checkName');
-          data.tr=tr;
-          data.inputs=inputs;
-           this.jinyong()
-           //表格排序需要获取的元素
-          var rowOne=document.getElementsByClassName('rowOne')[0];
-          var imgList=rowOne.getElementsByTagName('img');
-          data.imgList=imgList;
-        	this.listsort();
+          data1.tr=tr;
+          data1.inputs=inputs;
+          this.jinyong()
+          //表格排序需要获取的元素
+          var rowOneSysInfo=document.getElementsByClassName('rowOneSysInfo')[0];
+          var imgList=rowOneSysInfo.getElementsByTagName('img');
+          data1.imgList=imgList;
+        	this.listsortInfo();
         }
       })
     })

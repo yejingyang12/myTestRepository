@@ -43,8 +43,9 @@ var revokeRecordData={
 				},
 				methods : {
 					closesDir: function() {
-						$('.wrap').addClass('cover');
 						this.formData.revokereason = '';
+						this.fileDel(this.formData.recordReportPath,this.formData.recordReportName,this.formData.recordReportId);
+						$('.wrap').addClass('cover');
 					},
 					onUpload: function(e){
 						var fileSize = e.target.files[0].size;//文件大小（字节）
@@ -58,7 +59,7 @@ var revokeRecordData={
           		return;
           	}
           	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){          		this.$alert('不接受此文件类型！', '信息提示', {
+          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
                 confirmButtonText: '确定',
                 callback: function callback(action) {
                 }
@@ -71,9 +72,10 @@ var revokeRecordData={
 						ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 					},
 					onUploadSuccessMethod: function(_self,responseData){
-						this.$refs.refOnUpload.value = null;
+//						this.$refs.refOnUpload.value = null;
 						_self.formData.revokeAttachName=responseData.data.attachName;
 						_self.formData.revokeAttachPath=responseData.data.uploadUrl;
+						_self.$refs.revokeAttachName.clearValidate();
 						/*var fileHtml='<li><div class="fl"  @click="fileDownload("\'+responseData.data.uploadUrl+\'")" >'+responseData.data.attachName+'</div><i @click="fileDel("'+responseData.data.uploadUrl+'")" class="el-icon-close fl"></i></li>'
 						$("#fileList").html(fileHtml);*/
 					},
@@ -156,6 +158,7 @@ var revokeRecordData={
 					closes:function () {
             $("#revokeRecordDialogShaw").css("display","none");
             $("#revokeRecordInquiry").css("display","none");
+            this.$refs['formData'].resetFields();
           },
 					text : function() {
 						$('#textArea').on("keyup", function() {
@@ -164,7 +167,8 @@ var revokeRecordData={
 								$('#textNum').text(200);//长度大于200时0处显示的也只是200
 								$('#textArea').val($('#textArea').val().substring(0, 200));//长度大于100时截取钱100个字符
 							}
-						})
+						});
+						this.$refs.revokereason.clearValidate();
 					},
 					getPermitJurisdictionInfo: function(_self){
             ajaxMethod(_self,"post",
@@ -188,7 +192,7 @@ var revokeRecordData={
                 break;
               }
             }
-          }
+          },
 				},
 				created : function() {
 					this.formData.fkSystemId = systemId;

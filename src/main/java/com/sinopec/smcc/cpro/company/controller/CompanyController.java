@@ -81,13 +81,12 @@ public class CompanyController {
   @RequestMapping(value = "/saveCompany", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @ResponseBody
-  public ResultApi saveCompany(HttpServletRequest request,
+  public RetResult<String> saveCompany(HttpServletRequest request,
       @RequestBody CompanyParam companyParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String companyId = this.companyServiceImpl.saveCompany(userName, companyParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(companyId);
-    return result;
+    
+    return RetResultUtil.ok(companyId);
   }
 
   /**
@@ -101,12 +100,11 @@ public class CompanyController {
   @RequestMapping(value = "/deleteCompany", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @ResponseBody
-  public ResultApi deleteCompany(
+  public RetResult<List<CompanyListResult>> deleteCompany(
       @RequestBody CompanyParam companyParam) throws BusinessException {
     List<CompanyListResult> companys = this.companyServiceImpl.delelteCompany(companyParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(companys);
-    return result;
+    
+    return RetResultUtil.ok(companys);
   }
   
   /**

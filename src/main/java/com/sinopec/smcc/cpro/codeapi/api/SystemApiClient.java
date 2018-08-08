@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-@FeignClient(url = "${cpro.api.url}", name = "secp-api-service")
+@FeignClient(url = "${cpro.api.url}", name = "cpro-api-service")
 public interface SystemApiClient {
 	@RequestMapping(value = "/restful/SystemInfo/findSystemInfoBySpOrgNumber", method = RequestMethod.GET)
 	String querySystemList(@RequestParam("spOrgNumber") String spOrgNumber);
@@ -17,6 +17,6 @@ public interface SystemApiClient {
    * @date 2018年7月25日下午6:24:29
    * @return
    */
-  @RequestMapping(value = "/restful/SystemInfo/findSystemInfo", method = RequestMethod.GET)
+  @RequestMapping(value = "/restful/SystemInfo/querySystemInfoList", method = RequestMethod.GET)
   String querySystemList();
 }
