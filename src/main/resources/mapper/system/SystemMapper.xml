@@ -3595,6 +3595,7 @@
 	    LEFT JOIN t_cpro_attach recordReport ON sys.pkId = recordReport.fkSystemId AND recordReport.fkAttachType = 'recordReport'
     WHERE
       sys.pkId = #{systemId,jdbcType=VARCHAR}
+    LIMIT 0,1
   </select>
   
     <!-- 根据系统名称和标准化代码查询系统信息 -->
