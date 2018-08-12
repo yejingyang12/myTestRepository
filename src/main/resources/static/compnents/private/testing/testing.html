@@ -11,9 +11,8 @@
             </p>
             <el-form action="" :model="editData" :rules="rules" ref="editData" label-width="140px">
                 <ul class="clearfix">
-                    <li class="row">
-                        <div style="margin-left: 15px; width: 10%;">测评</div>
-                    </li>
+                    <li style="margin-top:20px;">测评</li>
+                        <!-- <div style="margin-left: 15px; width: 10%;">测评</div> -->
                     <li class="row P-selfCheck">
                         <div class="col-md-6">
                             <el-form-item label="测评项目名称：" prop="examName">
@@ -225,7 +224,7 @@
                                 <th>整改报告</th>
                                 <th>操作</th>
                             </tr>
-                            <tr class="tr-row" v-for="(testItem,index) in result.data">
+                            <tr class="tr-row" v-for="(testItem,index) in result">
                                 <td>{{index+1}}</td>
                                 <td>{{testItem.examName}}</td>
                                 <td>{{testItem.examTime == '1970-01-01'?'':testItem.examTime}}</td>

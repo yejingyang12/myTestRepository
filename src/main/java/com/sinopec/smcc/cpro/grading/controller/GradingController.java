@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
@@ -66,13 +66,12 @@ public class GradingController {
   @RequestMapping(value = "/queryDetailsGrading", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryDetailsGrading(HttpServletRequest request, 
+  public RetResult<GradingListResult> queryDetailsGrading(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
     GradingListResult gradingListResult = 
         this.gradingServiceImpl.queryDetailsGrading(gradingParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(gradingListResult);
-    return result;
+
+    return RetResultUtil.ok(gradingListResult);
   }
   
   /**
@@ -88,12 +87,11 @@ public class GradingController {
   @RequestMapping(value = "/queryEditGrading", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditGrading(HttpServletRequest request,
+  public RetResult<GradingListResult> queryEditGrading(HttpServletRequest request,
       @RequestBody GradingParam gradingParam) throws BusinessException{
     GradingListResult gradingListResult = this.gradingServiceImpl.queryEditGrading(gradingParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(gradingListResult);
-    return result;
+
+    return RetResultUtil.ok(gradingListResult);
   }
   
   /**
@@ -108,13 +106,12 @@ public class GradingController {
   @RequestMapping(value = "/saveGrading", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveGrading(HttpServletRequest request, @RequestBody GradingParam gradingParam)
+  public RetResult<String> saveGrading(HttpServletRequest request, @RequestBody GradingParam gradingParam)
       throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String gradingId = this.gradingServiceImpl.saveGrading(userName,gradingParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(gradingId);
-    return result;
+
+    return RetResultUtil.ok(gradingId);
   }
   
   /**
@@ -129,13 +126,12 @@ public class GradingController {
   @RequestMapping(value = "/submitGrading", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi submitGrading(HttpServletRequest request, 
+  public RetResult<String> submitGrading(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String gradingId = this.gradingServiceImpl.submitGrading(userName, gradingParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(gradingId);
-    return result;
+
+    return RetResultUtil.ok(gradingId);
   }
   
   /**
@@ -150,13 +146,12 @@ public class GradingController {
   @RequestMapping(value = "/submitGradingForHeadquarters", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi submitGradingForHeadquarters(HttpServletRequest request, 
+  public RetResult<String> submitGradingForHeadquarters(HttpServletRequest request, 
       @RequestBody GradingParam gradingParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String gradingId = this.gradingServiceImpl.submitGradingForHeadquarters(userName, gradingParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(gradingId);
-    return result;
+
+    return RetResultUtil.ok(gradingId);
   }
   
   /**
@@ -172,13 +167,12 @@ public class GradingController {
   @RequestMapping(value = "/querySystemMaterials", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi querySystemMaterials(HttpServletRequest request,
+  public RetResult<SystemMaterialsResult> querySystemMaterials(HttpServletRequest request,
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     SystemMaterialsResult systemMaterialsResult = 
         this.systemMaterialsServiceImpl.querySystemMaterials(systemMaterialsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemMaterialsResult);
-    return result;
+
+    return RetResultUtil.ok(systemMaterialsResult);
   }
   
   /**
@@ -194,13 +188,12 @@ public class GradingController {
   @RequestMapping(value = "/queryEditSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditSystemMaterials(HttpServletRequest request,
+  public RetResult<SystemMaterialsResult> queryEditSystemMaterials(HttpServletRequest request,
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     SystemMaterialsResult systemMaterialsResult = 
         this.systemMaterialsServiceImpl.queryEditSystemMaterials(systemMaterialsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemMaterialsResult);
-    return result;
+
+    return RetResultUtil.ok(systemMaterialsResult);
   }
   
   /**
@@ -215,13 +208,12 @@ public class GradingController {
   @RequestMapping(value = "/queryEditSystemMaterialsInfo", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditSystemMaterialsInfo(HttpServletRequest request,
+  public RetResult<SystemMaterialsBeanResult> queryEditSystemMaterialsInfo(HttpServletRequest request,
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     SystemMaterialsBeanResult systemMaterialsBeanResult = 
         this.systemMaterialsServiceImpl.queryEditSystemMaterialsInfo(systemMaterialsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemMaterialsBeanResult);
-    return result;
+
+    return RetResultUtil.ok(systemMaterialsBeanResult);
   }
 
   /**
@@ -236,14 +228,13 @@ public class GradingController {
   @RequestMapping(value = "/saveSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveSystemMaterials(HttpServletRequest request, 
+  public RetResult<String> saveSystemMaterials(HttpServletRequest request, 
       @RequestBody SystemMaterialsParam systemMaterialsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
         saveSystemMaterials(userName,systemMaterialsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+
+    return RetResultUtil.ok(fkSystemId);
   }
   /**
    * 保存材料信息
@@ -258,14 +249,13 @@ public class GradingController {
   @RequestMapping(value = "/saveSystemMaterialsInfo", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveSystemMaterialsInfo(HttpServletRequest request, 
+  public RetResult<String> saveSystemMaterialsInfo(HttpServletRequest request, 
       @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
         saveSystemMaterialsInfo(userName,systemMaterialsBeanParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+
+    return RetResultUtil.ok(fkSystemId);
   }
   
   /**
@@ -280,14 +270,13 @@ public class GradingController {
   @RequestMapping(value = "/submitSystemMaterials", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi submitSystemMaterials(HttpServletRequest request, 
+  public RetResult<String> submitSystemMaterials(HttpServletRequest request, 
       @RequestBody  SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
         submitSystemMaterials(userName, systemMaterialsBeanParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+
+    return RetResultUtil.ok(fkSystemId);
   }
   
   /**
@@ -302,13 +291,12 @@ public class GradingController {
   @RequestMapping(value = "/submitSystemMaterialsForHeadquarters", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi submitSystemMaterialsForHeadquarters(HttpServletRequest request, 
+  public RetResult<String> submitSystemMaterialsForHeadquarters(HttpServletRequest request, 
       @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.systemMaterialsServiceImpl.
         submitSystemMaterialsForHeadquarters(userName,systemMaterialsBeanParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+
+    return RetResultUtil.ok(fkSystemId);
   }
 }

@@ -65,7 +65,6 @@ var data1={
           	ajaxUploadMethod(this, 'POST','system/importForSystemTemplate', true,uploadData, 'json',this.importForSystemSuccess);
 			    },
 			    importForSystemSuccess:function(_self,responseData){
-			    	debugger
 			    	if(responseData.msg=='成功'){
 			    		$("#startBoxTest").show().delay(2000).fadeOut();
 			    	}else{
@@ -218,12 +217,12 @@ var data1={
          },
          // 获取成功
          getSystemListInfoSuccessMethod : function(_self, responseData) {
-            _self.systemForm.formData = responseData.data;
-            _self.systemForm.totalPages = responseData.totalPages;
-            _self.systemForm.pagesize = responseData.pagesize;
-            _self.systemForm.currentPage = responseData.currentPage;
-            _self.systemForm.total = responseData.total;
-            _self.systemForm.result = responseData;
+           _self.systemForm.formData = responseData.data.list;
+           _self.systemForm.totalPages = responseData.data.totalPage;
+           _self.systemForm.pagesize = responseData.data.pageSize;
+           _self.systemForm.currentPage = responseData.data.currPage;
+           _self.systemForm.total = responseData.data.totalCount;
+           _self.systemForm.result = responseData.data;
          },
          //系统信息列表排序
          listsortInfo: function () {
@@ -238,22 +237,22 @@ var data1={
                // console.log( data.result.data[0].systemName);
                switch (this.myindex){
                  case 0://系统名称
-                   data1.systemForm.result.data.sort(function (a, b) {
+                   data1.systemForm.result.list.sort(function (a, b) {
                      return (a.systemName.localeCompare(b.systemName)) * flagOne
                    });
                    break;
                  case 1://业务类型
-                   data1.systemForm.result.data.sort(function (a, b) {
+                   data1.systemForm.result.list.sort(function (a, b) {
                      return (a.sysBusDescription.localeCompare(b.sysBusDescription)) * flagOne
                    });
                    break;
                  case 2://业务描述
-                   data1.systemForm.result.data.sort(function (a, b) {
+                   data1.systemForm.result.list.sort(function (a, b) {
                      return (a.sysBusSituationType.localeCompare(b.sysBusSituationType)) * flagOne
                    });
                    break;
                  case 3://投入使用时间
-                   data1.systemForm.result.data.sort(function (a, b) {
+                   data1.systemForm.result.list.sort(function (a, b) {
                   	 return (new Date(a.whenInvestmentUse.split('-').join('/')).getTime()-new Date(b.whenInvestmentUse.split('-').join('/')).getTime()) * flagOne
                    });
                    break;

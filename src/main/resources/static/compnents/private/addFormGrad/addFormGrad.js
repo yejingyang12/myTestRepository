@@ -6,11 +6,12 @@ var data={
 	},
     check : false,
     jurisdictionType:0,
-		systemName:"",
 		submitCheck:false,
+		systemName:"",
         formData:{
           gradingId:'',
           fkSystemId:'',
+      		gradeRecordSysName:'',
           fkBizSPRankDegree:'',
           fkBizSPRankLevel:'',
           fkBizSystemDegree:'',
@@ -87,7 +88,7 @@ var data={
               {required: true, message: '请选择定级时间', trigger: 'blur' },
           ],
           competentIsExisting:[  //是否有主管部门
-              {required: true, message: '请选择是否有主管部门', trigger: 'blur' },
+              {required: true, message: '请选择是否有主管部门', trigger: 'change' },
           ],
           competentName:[  //主管部门名称
               {required: false, message: '请输入主管部门名称', trigger: 'blur' },
@@ -103,7 +104,7 @@ var data={
               {required: false, message: '请上传上级主管部门审批意见', trigger: 'blur' },
           ],
           gradingReportName:[  //定级报告
-              {required: true, message: '请上传定级报告', trigger: 'blur' },
+              {required: true, message: '请上传定级报告', trigger: 'change' },
           ],
           expertReviewName:[  //专家评审情况
               {required: true, message: '请上传专家评审附件', trigger: 'blur' },
@@ -1246,7 +1247,7 @@ var data={
                         this.getSystemSuccess);
                     } ,
                     getSystemSuccess : function(_self,result){
-                    	this.formData.systemName = result.data.systemName;
+                    	this.formData.systemName = result.systemName;
                     },
                     getPermitJurisdictionInfo: function(_self){
                       ajaxMethod(_self,"post",

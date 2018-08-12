@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsListResult;
@@ -62,13 +62,13 @@ public class RecordsController {
   @RequestMapping(value = "/saveRecords", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveRecords(HttpServletRequest request,
+  public RetResult<String> saveRecords(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.recordsServiceImpl.saveRecords(userName, recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(fkSystemId);
+    return RetResultUtil.ok(fkSystemId);
   }
   
   /**
@@ -83,13 +83,13 @@ public class RecordsController {
   @RequestMapping(value = "/queryRecords", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRecords(
+  public RetResult<RecordsResult> queryRecords(
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsResult recordsResult = 
         this.recordsServiceImpl.queryRecordsByFkSystemId(recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(recordsResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(recordsResult);
+    return RetResultUtil.ok(recordsResult);
   }
   
   /**
@@ -104,12 +104,12 @@ public class RecordsController {
   @RequestMapping(value = "/saveRevokeRecordsInfo", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveRevokeRecordsInfo(HttpServletRequest request,
+  public RetResult<Void> saveRevokeRecordsInfo(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     this.recordsServiceImpl.saveRevokeRecordsInfo(userName, recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
   /**
    * @Descrption 总部系统点击撤销备案，填写信息后保存
@@ -123,12 +123,12 @@ public class RecordsController {
   @RequestMapping(value = "/saveHeadRevokeRecordsInfo", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveHeadRevokeRecordsInfo(HttpServletRequest request,
+  public RetResult<Void> saveHeadRevokeRecordsInfo(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     this.recordsServiceImpl.saveHeadRevokeRecordsInfo(userName, recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
   
   /**
@@ -143,13 +143,13 @@ public class RecordsController {
   @RequestMapping(value = "/queryRevokeRecords", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRevokeRecords(HttpServletRequest request,
+  public RetResult<RevokeRecordsResult> queryRevokeRecords(HttpServletRequest request,
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RevokeRecordsResult revokeRecordsResult = this.recordsServiceImpl.
         queryRevokeRecords(recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(revokeRecordsResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(revokeRecordsResult);
+    return RetResultUtil.ok(revokeRecordsResult);
   }
   
   /**
@@ -164,11 +164,11 @@ public class RecordsController {
   @RequestMapping(value = "/editRecordsForStatus", method = RequestMethod.POST)
   @ResponseBody 
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi editRecordsStatus(
+  public RetResult<Void> editRecordsStatus(
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     this.recordsServiceImpl.editRecordsForStatus(recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
   
   /**
@@ -183,13 +183,13 @@ public class RecordsController {
   @RequestMapping(value = "/queryRecordsDetail", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRecordsDetail(
+  public RetResult<RecordsDetailResult> queryRecordsDetail(
       @RequestBody RecordsParam recordsParam) throws BusinessException{
     RecordsDetailResult recordsDetailResult = 
         this.recordsServiceImpl.queryRecordsDetail(recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(recordsDetailResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(recordsDetailResult);
+    return RetResultUtil.ok(recordsDetailResult);
   }
   
   /**
@@ -204,13 +204,13 @@ public class RecordsController {
   @RequestMapping(value = "/queryRecordCompany", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryRecordCompany(
+  public RetResult<List<RecordsListResult>> queryRecordCompany(
       @RequestBody RecordsParam recordsParam) throws BusinessException {
     List<RecordsListResult> recordsListResultList = 
         this.recordsServiceImpl.queryRecordCompany(recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(recordsListResultList);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(recordsListResultList);
+    return RetResultUtil.ok(recordsListResultList);
   }
 }
   

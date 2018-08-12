@@ -30,7 +30,7 @@ import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.PageUtil;
 import com.sinopec.smcc.base.result.RetResult;
 import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
@@ -73,23 +73,24 @@ public class SystemController {
   @RequestMapping(value="/querySystemList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi querySystemList(HttpServletRequest request,
+  public RetResult<PageUtil> querySystemList(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     //调用service实体获得方法，CompanyListResult填写返回的参数
     PageInfo<SystemListResult> page = this.systemServiceImpl.querySystemList(systemParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    //当前页码
-    result.setCurrentPage(page.getPageNum());
-    //每页数据数量
-    result.setPagesize(page.getPageSize());
-    //总页数
-    result.setTotalPages(page.getPages());
-    //总条数
-    result.setTotal(page.getTotal());
-    //响应的数据
-    result.setData(page.getList());
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    //当前页码
+//    result.setCurrentPage(page.getPageNum());
+//    //每页数据数量
+//    result.setPagesize(page.getPageSize());
+//    //总页数
+//    result.setTotalPages(page.getPages());
+//    //总条数
+//    result.setTotal(page.getTotal());
+//    //响应的数据
+//    result.setData(page.getList());
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
   /**
    * 
@@ -103,13 +104,13 @@ public class SystemController {
   @RequestMapping(value="/saveSystem", method =  RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveSystem(HttpServletRequest request, @RequestBody SystemParam systemParam) 
+  public RetResult<String> saveSystem(HttpServletRequest request, @RequestBody SystemParam systemParam) 
       throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String systemId = this.systemServiceImpl.saveSystem(userName, systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemId);
+    return RetResultUtil.ok(systemId);
   }
 	
   /**
@@ -124,12 +125,12 @@ public class SystemController {
   @RequestMapping(value = "/queryDetailsSystem", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryDetailsSystem(HttpServletRequest request,
+  public RetResult<SystemResult> queryDetailsSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryDetailsSystem(systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemResult);
+    return RetResultUtil.ok(systemResult);
   }
   
   /**
@@ -145,13 +146,13 @@ public class SystemController {
   @RequestMapping(value = "/editSystem", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi editSystem(HttpServletRequest request,
+  public RetResult<String> editSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String systemResult = this.systemServiceImpl.editSystem(userName,systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemResult);
+    return RetResultUtil.ok(systemResult);
   }
   
   /**
@@ -167,12 +168,12 @@ public class SystemController {
   @RequestMapping(value = "/queryEditSystem", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditDetailsSystem(HttpServletRequest request,
+  public RetResult<SystemResult> queryEditDetailsSystem(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.queryEditSystem(systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemResult);
+    return RetResultUtil.ok(systemResult);
   }
   /**
    * 
@@ -187,13 +188,12 @@ public class SystemController {
    */
   @RequestMapping(value = "/exportExcelForSystemTemplate", method = RequestMethod.POST)
   @ResponseBody
-  //@RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi exportExcelForSystemTemplate(HttpServletRequest request, 
-      @RequestBody SystemParam systemParam) throws BusinessException{
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<AttachResult> exportExcelForSystemTemplate(HttpServletRequest request, 
+      @RequestBody  SystemParam systemParam) throws FileNotFoundException, IOException{
     AttachResult attachResult = this.systemServiceImpl.exportExcelForSystemTemplate(systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok(attachResult);
   }
   
   /**
@@ -209,18 +209,18 @@ public class SystemController {
   @RequestMapping(value = "/importForSystemTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi importForSystemTemplate(HttpServletRequest request,@RequestParam("strFilePath")String strFilePath) 
+  public RetResult<EnumResult> importForSystemTemplate(HttpServletRequest request,@RequestParam("strFilePath")String strFilePath) 
       throws IOException, BusinessException{
-  	String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
+    String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     Boolean IsImprotInfo=this.systemServiceImpl.importForSystemTemplate(userName,strFilePath);
-    ResultApi result=null;
+//    ResultApi result=null;
     if(IsImprotInfo){
-    	result = new ResultApi(EnumResult.SUCCESS);
+      return RetResultUtil.ok(EnumResult.SUCCESS);
+//      result = new ResultApi(EnumResult.SUCCESS);
     }else{
-    	result = new ResultApi(EnumResult.ERROR);
+//      result = new ResultApi(EnumResult.ERROR);
+      return RetResultUtil.error(EnumResult.ERROR);
     }
-    
-    return result;
   }
   
   /**
@@ -237,11 +237,11 @@ public class SystemController {
   @RequestMapping(value = "/exportUploadSystemInfo", method = RequestMethod.GET)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi exportUploadSystemInfo(HttpServletRequest request
+  public RetResult<Void> exportUploadSystemInfo(HttpServletRequest request
       ,HttpServletResponse response, String strFilePath) throws BusinessException{
     this.systemServiceImpl.exportUploadSystemInfo(request,response,strFilePath);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   } 
   
   /**
@@ -257,12 +257,12 @@ public class SystemController {
   @RequestMapping(value = "/queryGradingEditAudit", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryGradingEditAudit(HttpServletRequest request,
+  public RetResult<SystemGradingChangeResult> queryGradingEditAudit(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemGradingChangeResult systemResult = this.systemServiceImpl.queryGradingEditAudit(systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemResult);
+    return RetResultUtil.ok(systemResult);
   }
   
   /**
@@ -277,12 +277,12 @@ public class SystemController {
   @RequestMapping(value = "/querySystemInformationBySystemId", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi querySystemInformationBySystemId(HttpServletRequest request,
+  public RetResult<SystemResult> querySystemInformationBySystemId(HttpServletRequest request,
       @RequestBody SystemParam systemParam) throws BusinessException{
     SystemResult systemResult = this.systemServiceImpl.querySystemInformationBySystemId(systemParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemResult);
+    return RetResultUtil.ok(systemResult);
   }
   
   

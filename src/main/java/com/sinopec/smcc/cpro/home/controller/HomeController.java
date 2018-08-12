@@ -19,9 +19,10 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.home.entity.HomeParam;
 import com.sinopec.smcc.cpro.home.entity.HomeResult;
 import com.sinopec.smcc.cpro.home.server.HomeService;
@@ -43,33 +44,24 @@ public class HomeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/homeRecordStatistics", method = RequestMethod.POST)
-  public ResultApi uploadFile(HomeParam hParam) throws BusinessException{
+  public RetResult<PageUtil> uploadFile(HomeParam hParam) throws BusinessException{
     // 调用service实体，获得
     PageInfo<HomeResult> page = this.homeService.homeRecordStatisticsList(hParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setCurrentPage(page.getPageNum());
-    result.setPagesize(page.getPageSize());
-    result.setData(page.getList());
-    result.setTotal(page.getTotal());
-    result.setTotalPages(page.getPages());
-    return result;
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
   
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/homeScoreStatistics", method = RequestMethod.POST)
-  public ResultApi homeScoreStatistics(HomeParam hParam) throws BusinessException{
+  public RetResult<PageUtil> homeScoreStatistics(HomeParam hParam) throws BusinessException{
     // 调用service实体，获得
     PageInfo<HomeResult> page = this.homeService.homeScoreStatisticsList(hParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setCurrentPage(page.getPageNum());
-    result.setPagesize(page.getPageSize());
-    result.setData(page.getList());
-    result.setTotal(page.getTotal());
-    result.setTotalPages(page.getPages());
-    return result;
+
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
 
 }

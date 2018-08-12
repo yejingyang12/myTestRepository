@@ -23,9 +23,10 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
@@ -52,24 +53,25 @@ public class CheckController {
   @RequestMapping(value = "/queryCheckList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryCheckList(HttpRequest request,@RequestBody CheckParam checkParam) 
+  public RetResult<PageUtil> queryCheckList(HttpRequest request,@RequestBody CheckParam checkParam) 
       throws BusinessException {
     // 调用service实体获得方法，CheckListResult填写返回的参数
     PageInfo<CheckListResult> pageInfo = this.checkServiceImpl.queryCheckList(checkParam);
     // 通过resultApi实体组成返回参数
-    ResultApi resultApi = new ResultApi(EnumResult.SUCCESS);
-    // 当前页码
-    resultApi.setCurrentPage(pageInfo.getPageNum());
-    // 每页数据数量
-    resultApi.setPagesize(pageInfo.getPageSize());
-    // 总页数
-    resultApi.setTotalPages(pageInfo.getPages());
-    // 总条数
-    resultApi.setTotal(pageInfo.getTotal());
-    // 响应的数据
-    resultApi.setData(pageInfo.getList());
+//    ResultApi resultApi = new ResultApi(EnumResult.SUCCESS);
+//    // 当前页码
+//    resultApi.setCurrentPage(pageInfo.getPageNum());
+//    // 每页数据数量
+//    resultApi.setPagesize(pageInfo.getPageSize());
+//    // 总页数
+//    resultApi.setTotalPages(pageInfo.getPages());
+//    // 总条数
+//    resultApi.setTotal(pageInfo.getTotal());
+//    // 响应的数据
+//    resultApi.setData(pageInfo.getList());
     
-    return resultApi;
+    PageUtil pageUtil = new PageUtil(pageInfo);
+    return RetResultUtil.ok(pageUtil);
   }
   
   /**
@@ -84,13 +86,13 @@ public class CheckController {
   @RequestMapping(value = "/saveGradCheck", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveGradCheck(HttpServletRequest request,
+  public RetResult<String> saveGradCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.checkServiceImpl.saveGradCheck(userName, checkParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(fkSystemId);
+    return RetResultUtil.ok(fkSystemId);
   }
   /**
    * @Descrption  总部管理员定级审核
@@ -104,13 +106,13 @@ public class CheckController {
   @RequestMapping(value = "/saveHeadGradCheck", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveHeadGradCheck(HttpServletRequest request,
+  public RetResult<String> saveHeadGradCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.checkServiceImpl.saveHeadGradCheck(userName, checkParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(fkSystemId);
+    return RetResultUtil.ok(fkSystemId);
   }
   
   /**
@@ -125,13 +127,13 @@ public class CheckController {
   @RequestMapping(value = "/saveGradChangeCheck", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveGradChangeCheck(HttpServletRequest request,
+  public RetResult<String> saveGradChangeCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.checkServiceImpl.saveGradChangeCheck(userName, checkParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(fkSystemId);
+    return RetResultUtil.ok(fkSystemId);
   }
   /**
    * @Descrption  总部管理员定级变更审核
@@ -145,13 +147,13 @@ public class CheckController {
   @RequestMapping(value = "/saveHeadGradChangeCheck", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveHeadGradChangeCheck(HttpServletRequest request,
+  public RetResult<String> saveHeadGradChangeCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.checkServiceImpl.saveHeadGradChangeCheck(userName, checkParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(fkSystemId);
+    return RetResultUtil.ok(fkSystemId);
   }
   
   /**
@@ -166,12 +168,12 @@ public class CheckController {
   @RequestMapping(value = "/saveCancelRecordsCheck", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveCancelRecordsCheck(HttpServletRequest request,
+  public RetResult<String> saveCancelRecordsCheck(HttpServletRequest request,
       @RequestBody CheckParam checkParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String fkSystemId = this.checkServiceImpl.saveCancelRecordsCheck(userName, checkParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(fkSystemId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(fkSystemId);
+    return RetResultUtil.ok(fkSystemId);
   }
 }

@@ -108,6 +108,22 @@
         	this.querySelfCheckList(this);
         },
         methods:{
+        	changeStatus : function(){
+        		if(this.editParam.fkInspectionStatus == 1){
+        			this.rules.fkInspectionReu[0].required = false;
+          		this.rules.examinationReportName[0].required = false;
+          		this.rules.fkRectificationReu[0].required = false;
+          		this.rules.rectificationDate[0].required = false;
+          		this.rules.examinationRectificationReportName[0].required = false;
+        		}else{
+        			this.rules.fkInspectionReu[0].required = true;
+          		this.rules.examinationReportName[0].required = true;
+          		this.rules.fkRectificationReu[0].required = true;
+          		this.rules.rectificationDate[0].required = true;
+          		this.rules.examinationRectificationReportName[0].required = true;
+        		}
+        	},
+        	
         	//获取系统名称
         	querySystemName: function(_self) {
         		var querySystemNameParam = {systemId:systemId,};
@@ -129,9 +145,11 @@
                 _self.querySelfCheckListSuccessMethod);
           },
           querySelfCheckListSuccessMethod: function(_self,data){
-          	_self.result = data;
-          	_self.queryParam.pageSize = data.pagesize;
-          	_self.queryParam.currentPage = data.currentPage;
+          	_self.result = data.data.list;
+          	_self.result.totalPages = data.data.totalPage;
+          	_self.result.pagesize = data.data.pageSize;
+          	_self.result.currentPage = data.data.currPage;
+          	_self.result.total = data.data.totalCount;
           },
           //上一页下一页点击事件
           clickPage: function(page) {
@@ -210,7 +228,7 @@
           saveSelfexaminationSuccess: function(_self, responseData){
           	$("#startBoxSelf").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+//              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
             }, 2300);
           	_self.querySelfCheckList(_self);
           	//点击确定后关闭弹窗
@@ -221,6 +239,8 @@
           	this.$refs['editParam'].resetFields();
             var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
             evaluationAlert.style.display="none";
+          	$(".inquiry").css("display","none");
+         	 	$(".dialogShaw").css("display","none");
           },
           cleanEditParam: function (_self) {
           	_self.editParam={
@@ -347,7 +367,6 @@
 					
 		       //排序
           listsort: function () {
-          	debugger
             var imgArrow = this.imgList;
             var flagOne = 1;
             for (var i = 0; i < imgArrow.length; i++) {

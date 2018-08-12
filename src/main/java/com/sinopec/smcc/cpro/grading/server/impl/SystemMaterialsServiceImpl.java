@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.file.server.FileService;
@@ -66,6 +67,8 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
   private MainService mainServiceImpl;
   @Autowired
   private SystemMapper systemMapperImpl;
+  @Autowired
+  private WorkFlowApiService workFlowApiServiceImpl;
   
   /**
    * 获取提交材料信息
@@ -585,12 +588,12 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
         
-        //修改审核状态
-        CheckParam checkParam = new CheckParam();
-        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        checkParam.setFkExaminStatus("1");
-        checkParam.setFkBusinessNode("3");
-        checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//        //修改审核状态
+//        CheckParam checkParam = new CheckParam();
+//        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        checkParam.setFkExaminStatus("1");
+//        checkParam.setFkBusinessNode("3");
+//        checkServiceImpl.editCheckStatusBySystemId(checkParam);
         //修改审核,定级状态为进行中
         MainParam mainParam = new MainParam();
         mainParam.setGradingStatus("2");
@@ -633,31 +636,24 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         }
         
         //创建审核记录
-        SystemParam systemParam = new SystemParam();
-        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
-        CheckParam checkParam = new CheckParam();
-        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        //查询审核详情通过systemID
-        CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
-        if(checkResult != null){
-          checkParam.setCheckId(checkResult.getCheckId());
-          checkServiceImpl.deleteCheckByCheckId(checkParam);
-        }
-        CheckParam checkParamAdd = new CheckParam();
-        checkParamAdd.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        checkParamAdd.setFkExaminStatus("1");
-        checkParamAdd.setFkBusinessNode("1");
-        checkParamAdd.setInstanceName(systemResult.getSystemName());
-        checkParamAdd.setInitiator(userName);
-        checkParamAdd.setPrevExecutor(userName);
-        checkParamAdd.setExecuteTime(new Date());
-        checkServiceImpl.addCheck(checkParamAdd);
+//        SystemParam systemParam = new SystemParam();
+//        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+//        CheckParam checkParam = new CheckParam();
+//        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        //查询审核详情通过systemID
+//        CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
+//        if(checkResult != null){
+//          checkParam.setCheckId(checkResult.getCheckId());
+//          checkServiceImpl.deleteCheckByCheckId(checkParam);
+//        }
+        //发起审核流程
+        workFlowApiServiceImpl.initStart("定级", "1", systemMaterialsBeanParam.getFkSystemId());
       }
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -672,6 +668,9 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperationOpinion("");
         nodeParam.setOperator(userName);
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+        
+        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId());
+
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
         }else{
@@ -891,12 +890,13 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
         
-        //修改审核状态
-        CheckParam checkParam = new CheckParam();
-        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        checkParam.setFkExaminStatus("2");
-        checkParam.setFkBusinessNode("3");
-        checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//        //修改审核状态
+//        CheckParam checkParam = new CheckParam();
+//        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        checkParam.setFkExaminStatus("2");
+//        checkParam.setFkBusinessNode("3");
+//        checkServiceImpl.editCheckStatusBySystemId(checkParam);
+
         //修改审核,定级状态为进行中
         MainParam mainParam = new MainParam();
         mainParam.setGradingStatus("2");
@@ -939,31 +939,33 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         }
         
       }
-      //创建审核记录
-      SystemParam systemParam = new SystemParam();
-      systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
-      CheckParam checkParam = new CheckParam();
-      checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-      //查询审核详情通过systemID
-      CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
-      if(checkResult != null){
-        checkParam.setCheckId(checkResult.getCheckId());
-        checkServiceImpl.deleteCheckByCheckId(checkParam);
-      }
-      CheckParam checkParamAdd = new CheckParam();
-      checkParamAdd.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-      checkParamAdd.setFkExaminStatus("2");
-      checkParamAdd.setFkBusinessNode("1");
-      checkParamAdd.setInstanceName(systemResult.getSystemName());
-      checkParamAdd.setInitiator(userName);
-      checkParamAdd.setPrevExecutor(userName);
-      checkParamAdd.setExecuteTime(new Date());
-      checkServiceImpl.addCheck(checkParamAdd);
+//      //创建审核记录
+//      SystemParam systemParam = new SystemParam();
+//      systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+//      CheckParam checkParam = new CheckParam();
+//      checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//      //查询审核详情通过systemID
+//      CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
+//      if(checkResult != null){
+//        checkParam.setCheckId(checkResult.getCheckId());
+//        checkServiceImpl.deleteCheckByCheckId(checkParam);
+//      }
+//      CheckParam checkParamAdd = new CheckParam();
+//      checkParamAdd.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//      checkParamAdd.setFkExaminStatus("2");
+//      checkParamAdd.setFkBusinessNode("1");
+//      checkParamAdd.setInstanceName(systemResult.getSystemName());
+//      checkParamAdd.setInitiator(userName);
+//      checkParamAdd.setPrevExecutor(userName);
+//      checkParamAdd.setExecuteTime(new Date());
+//      checkServiceImpl.addCheck(checkParamAdd);
+      workFlowApiServiceImpl.initStart("定级", "2", systemMaterialsBeanParam.getFkSystemId());
+
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -978,6 +980,9 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperationOpinion("");
         nodeParam.setOperator(userName);
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+        
+        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId());
+
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
         }else{

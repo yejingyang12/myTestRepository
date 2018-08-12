@@ -3,6 +3,7 @@
  */
 (function () {
   var data={
+  		materialView:false,
   		systemName:'',
   		activeName: 'evaluation'
   };
@@ -35,6 +36,11 @@
         },
         mounted: function() {
           // this.selectChange()
+        	bus.$on('materialView',function(meg){
+            if(meg!=null){
+            	_self.materialView = meg;
+            }
+          });
         }
       })
     })

@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.entity.DiagramResult;
@@ -58,14 +58,13 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/querySystemLevelDiagram", method = RequestMethod.POST)
-  public ResultApi querySystemLevelDiagram( 
+  public RetResult<DiagramResult> querySystemLevelDiagram( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     DiagramResult diagramResult = this.diagramServiceImpl.querySystemLevelDiagram(diagramParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(diagramResult);
-    return result;
+
+    return RetResultUtil.ok(diagramResult);
   }
   
   /**
@@ -80,15 +79,14 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/querySystemLevelBySystemType", method = RequestMethod.POST)
-  public ResultApi querySystemLevelBySystemType( 
+  public RetResult<DiagramResult> querySystemLevelBySystemType( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     DiagramResult diagramResult = this.diagramServiceImpl.
         querySystemLevelBySystemType(diagramParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(diagramResult);
-    return result;
+
+    return RetResultUtil.ok(diagramResult);
   }
   
   /**
@@ -103,15 +101,14 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryRecordCompanyTop10", method = RequestMethod.POST)
-  public ResultApi queryRecordCompanyTop10( 
+  public RetResult<List<DiagramListResult>> queryRecordCompanyTop10( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
         queryRecordCompanyTop10(diagramParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(diagramListResult);
-    return result;
+
+    return RetResultUtil.ok(diagramListResult);
   }
   
   /**
@@ -126,15 +123,14 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryAcceptCompanyTop10", method = RequestMethod.POST)
-  public ResultApi queryAcceptCompanyTop10( 
+  public RetResult<List<DiagramListResult>> queryAcceptCompanyTop10( 
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
         queryAcceptCompanyTop10(diagramParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(diagramListResult);
-    return result;
+
+    return RetResultUtil.ok(diagramListResult);
   }
   
   /**
@@ -149,14 +145,13 @@ public class DiagramController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
-  public ResultApi querySystemTrendByYear(HttpServletRequest request,
+  public RetResult<List<DiagramListResult>> querySystemTrendByYear(HttpServletRequest request,
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     // 调用service实体，获得
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
         querySystemTrendByYear(request,diagramParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(diagramListResult);
-    return result;
+
+    return RetResultUtil.ok(diagramListResult);
   }
 }

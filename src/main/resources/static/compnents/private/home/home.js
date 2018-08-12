@@ -314,9 +314,15 @@
         		this.createdList();
         	},
           //ajax请求成功的方法
-          listSuccess: function (_self, dataList) {
-            data.result = dataList;
-          },
+          listSuccess: function (_self, responseData) {
+//            data.result = dataList;  
+            _self.result = responseData.data.list;
+          	_self.result.totalPages = responseData.data.totalPage;
+          	_self.result.pagesize = responseData.data.pageSize;
+          	_self.result.currentPage = responseData.data.currPage;
+          	_self.result.total = responseData.data.totalCount;
+//          	_self.result.result = responseData.data;
+          },   
           //上一页下一页点击事件
           clickPage: function (page) {
             if (page <= 0) {
@@ -1056,7 +1062,7 @@
 
           //定级模版导出按钮
           checkallexport:function(){ 
-          	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl=/excel/gradingTemp.xlsm&attachName=定级模板.xlsm";
+          	window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl=/excel/gradingTemp.xlsm&attachName=定级模板.xlsm");
         	  /*var flag= document.getElementById("h-score-list2");
         	  if (flag.getAttribute('show')){
         		  $("#h-score-list2").css({"background":"rgb(61, 149, 223)","color":"#fff","border":"1px solid rgb(61, 149, 223)"});//定级模版导出按钮变蓝色 
@@ -1121,13 +1127,12 @@
                 // console.log( data.result.data[0].systemName);
                 switch (this.myindex){
                   case 0://系统名称排序
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.systemName.localeCompare(b.systemName)) * flagOne
                     });
-                    console.log( data.result.data[0].systemName);
                     break;
                   case 1://所属单位
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.companyName.localeCompare(b.companyName)) * flagOne
                     });
                     break;
@@ -1138,23 +1143,22 @@
                     });
                     break;*/
                   case 2://建设类型
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.infoSysTypeConstruction.localeCompare(b.infoSysTypeConstruction)) * flagOne
                     });
                     break;
                   case 3://等保级别
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.fkSpRanklevel - b.fkSpRanklevel) * flagOne
                     });
                     break;
                   case 4://是否未互联网应用
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.appIsInternet - b.appIsInternet) * flagOne
                     });
                     break;
 
                 }
-                console.log( data.result.data[0].systemName);
               };
 
             }
@@ -1185,8 +1189,8 @@
             _self.paramSelfExamination = false;
             _self.paramApplication = false;
             _self.nameList = response.data.nameList;
-//            _self.nameList.push(10010001);
-//            console.log(_self.nameList[_self.nameList.length-1])
+//          _self.nameList.push(10010001);
+//           console.log(_self.nameList[_self.nameList.length-1])
             for (var i = 0; i < response.data.permssions.length; i++) {
               var permssions = response.data.permssions[i];
               

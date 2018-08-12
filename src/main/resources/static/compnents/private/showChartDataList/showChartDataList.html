@@ -124,7 +124,7 @@
                                 <th style="white-space: nowrap;width:7%;">备案表下载</th>
                                 <th>操作</th>
                             </tr>
-                            <tr class="tr-row" v-for="(pro,index) in result.data" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
+                            <tr class="tr-row" v-for="(pro,index) in result" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
                                 data-td="https://codeload.github.com/douban/douban-client/legacy.zip/master">
                                 <td class="firstChecked"
                                     style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">

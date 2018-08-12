@@ -62,8 +62,11 @@
                   			_self.querySelfexaminationListSuccess);
                   },
                   querySelfexaminationListSuccess :function (_self,responseData) {
-                  	_self.selfList = responseData.data;
-                  	_self.result = responseData;
+                  	_self.selfList = responseData.data.list;
+                  	_self.result.currentPage = responseData.data.currPage;
+                  	_self.result.pagesize = responseData.data.pageSize;
+                  	_self.result.total = responseData.data.totalCount;
+                  	_self.result.totalPages = responseData.data.totalPage;
                   	_self.resultBy = responseData;
                   },    
                   //分页跳转

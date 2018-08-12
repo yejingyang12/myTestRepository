@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
@@ -55,12 +55,11 @@ public class NodeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryNodeList", method = RequestMethod.POST)
-  public ResultApi queryNodeList(
+  public RetResult<List<NodeResult>> queryNodeList(
       @RequestBody NodeParam nodeParam) throws BusinessException{
     List<NodeResult> page = this.nodeServiceImpl.queryNodeList(nodeParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(page);
-    return result;
+
+    return RetResultUtil.ok(page);
   }
 }

@@ -33,7 +33,6 @@ import com.sinopec.smcc.cpro.records.entity.RecordsResult;
 import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
 import com.sinopec.smcc.cpro.records.mapper.RecordsMapper;
 import com.sinopec.smcc.cpro.records.server.RecordsService;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;

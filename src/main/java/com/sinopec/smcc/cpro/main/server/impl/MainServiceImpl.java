@@ -1097,10 +1097,10 @@ public class MainServiceImpl implements MainService{
     SystemResult systemResult = systemServiceImpl.queryDetailsSystem(systemParam);
     if(systemResult != null){
       //系统名称
-      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
-        dataMap.put("systemName", systemResult.getGradeRecordSysName());
-      }else if(StringUtils.isNotBlank(systemResult.getSystemName())){
+      if(StringUtils.isNotBlank(systemResult.getSystemName())){
         dataMap.put("systemName", systemResult.getSystemName());
+      }else if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
+        dataMap.put("systemName", systemResult.getGradeRecordSysName());
       }else{
         dataMap.put("systemName", "");
       }
@@ -2637,7 +2637,7 @@ public class MainServiceImpl implements MainService{
     //1：待企业安全员管理审核；
     //2：待总部安全管理员审核；
     /*if(mainParam.getStatus() == 5){
-      mainParam.setFkExaminStatus(1);
+    mainParam.setFkExaminStatus(1);
     }*/
     if(mainParam.getStatus() == 15){
       mainParam.setFkExaminStatus(1);
@@ -2735,12 +2735,12 @@ public class MainServiceImpl implements MainService{
     if(dataList.size()<1){
       throw new BusinessException(EnumResult.UNKONW_ERROR);
     }
-    for (String[] strings : dataList) {
+/*    for (String[] strings : dataList) {
       for (int i = 0; i < strings.length; i++) {
         System.out.print("第"+i+"="+strings[i]+" ");
       }
       System.out.println();
-    }
+    }*/
     //获取系统信息用于核对信息
     SystemParam systemParam = new SystemParam();
     //如果第一行数据不足4个，即导入模板错误
@@ -3013,6 +3013,19 @@ public class MainServiceImpl implements MainService{
   public List<MainListResult> queryGradingStatistics(MainParam mainParam) throws BusinessException {
     //获得相应图表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
+    if((mainParam.getGradingBeginTime() == null || "".equals(mainParam.getGradingBeginTime()))
+       && (mainParam.getGradingEndTime() == null || "".equals(mainParam.getGradingEndTime()))
+        ){
+      Date beginTime = null;
+      try {
+        beginTime = DateUtils.getDate("yyyy-MM-dd HH:mm:SS", "1970-01-01 00:00:00");
+        mainParam.setGradingBeginTime(beginTime);
+        Date endTime = DateUtils.getDate();
+        mainParam.setGradingEndTime(endTime);
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    }
     //权限
     //权限
     JurisdictionDataResult organizationApiResult = 

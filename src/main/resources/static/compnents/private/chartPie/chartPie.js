@@ -182,10 +182,8 @@
                });  
           }
              bus.$on("pie",function(val1,val3){ 
-            	 console.log(val1,val3);
             	 data.val1=val1;
             	 data.val3=val3; 
-            	 console.log(data.val1,data.val3);
              });
              var that=this; 
           data.myChart.on('click', function (params) {  
@@ -216,7 +214,7 @@
               if(that.val1){
                 gradingBeginTimeStamp = that.val1.getTime();//时间戳
               }  
-              gradingEndTimeStamp = new Date("1970/01/01").getTime();
+              gradingEndTimeStamp = new Date().getTime();
               if(that.val3){
             	  gradingEndTimeStamp = that.val3.getTime();//时间戳
               }

@@ -23,9 +23,10 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationResult;
@@ -62,19 +63,21 @@ public class EvaluationController {
   @RequestMapping(value = "/queryEvaluationList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEvaluationList(
+  public RetResult<PageUtil> queryEvaluationList(
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     //调用service实体，获得测评列表数据
     PageInfo<EvaluationListResult> page = 
         this.evaluationServiceImpl.queryEvaluationList(evaluationParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setCurrentPage(page.getPageNum());
-    result.setPagesize(page.getPageSize());
-    result.setData(page.getList());
-    result.setTotal(page.getTotal());
-    result.setTotalPages(page.getPages());
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setCurrentPage(page.getPageNum());
+//    result.setPagesize(page.getPageSize());
+//    result.setData(page.getList());
+//    result.setTotal(page.getTotal());
+//    result.setTotalPages(page.getPages());
+    
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
 
   /**
@@ -89,14 +92,14 @@ public class EvaluationController {
   @RequestMapping(value = "/queryEditEvaluation", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditEvaluation(
+  public RetResult<EvaluationResult> queryEditEvaluation(
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     EvaluationResult evaluationResult = 
         this.evaluationServiceImpl.queryEditEvaluation(evaluationParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(evaluationResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(evaluationResult);
+    return RetResultUtil.ok(evaluationResult);
   }
 
   /**
@@ -111,14 +114,14 @@ public class EvaluationController {
   @RequestMapping(value = "/saveEvaluation", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi saveEvaluation(HttpServletRequest request,
+  public RetResult<String> saveEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String strId = this.evaluationServiceImpl.saveEvaluation(userName, evaluationParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(strId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(strId);
+    return RetResultUtil.ok(strId);
   }
 
   /**
@@ -133,14 +136,14 @@ public class EvaluationController {
   @RequestMapping(value = "/deleteEvaluation", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi deleteEvaluation(HttpServletRequest request,
+  public RetResult<Void> deleteEvaluation(HttpServletRequest request,
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     // 调用service实体，获得
     this.evaluationServiceImpl.deleteEvaluation(userName, evaluationParam);
     // 通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
   
   /**
@@ -154,13 +157,13 @@ public class EvaluationController {
   @RequestMapping(value = "/queryDetailsEvaluation", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryDetailsEvaluation( 
+  public RetResult<EvaluationResult> queryDetailsEvaluation( 
       @RequestBody EvaluationParam evaluationParam) throws BusinessException {
     EvaluationResult evaluationResult = 
         this.evaluationServiceImpl.queryDetailsEvaluation(evaluationParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(evaluationResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(evaluationResult);
+    return RetResultUtil.ok(evaluationResult);
   }
   
   /**
@@ -175,12 +178,12 @@ public class EvaluationController {
   @RequestMapping(value = "/queryExamOrgCompany", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryExamOrgCompany(
+  public RetResult<List<EvaluationListResult>> queryExamOrgCompany(
       @RequestBody RecordsParam recordsParam) throws BusinessException {
     List<EvaluationListResult> evaluationListResultList = 
         this.evaluationServiceImpl.queryExamOrgCompany(recordsParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(evaluationListResultList);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(evaluationListResultList);
+    return RetResultUtil.ok(evaluationListResultList);
   }
 }

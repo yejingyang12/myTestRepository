@@ -471,12 +471,16 @@
       <!-- 定级时间 -->
       <if test="gradingBeginTime != null ">
         <![CDATA[
-         AND score.rankTime >= #{gradingBeginTime}
+          AND score.rankTime >= #{gradingBeginTime}
         ]]>
       </if>
       <if test="gradingEndTime != null ">
         <![CDATA[
           AND score.rankTime <= #{gradingEndTime}
+					AND score.deleteStatus =1
+					AND system.deleteStatus =1
+					AND system.recordStatus !=4
+					AND company.deleteStatus =1
         ]]>
       </if>
     </where>

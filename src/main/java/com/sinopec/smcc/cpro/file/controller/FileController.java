@@ -23,9 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.file.server.FileService;
@@ -58,24 +58,24 @@ public class FileController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-  public ResultApi uploadFile(HttpServletRequest request,
+  public RetResult<AttachResult> uploadFile(HttpServletRequest request,
       @RequestParam("file") MultipartFile file) throws BusinessException{
     AttachResult attachResult = this.fileService.uploadFile(request, file);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(attachResult);
+    return RetResultUtil.ok(attachResult);
   }
   
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/deleteFile", method = RequestMethod.POST)
-  public ResultApi deleteFile( 
+  public RetResult<Void> deleteFile( 
       @RequestBody AttachParam attachParam) throws BusinessException{
     this.fileService.deleteFile(attachParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
   
   /**
@@ -95,11 +95,11 @@ public class FileController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/downloadFile", method = RequestMethod.GET)
-  public ResultApi downloadFile(HttpServletRequest request, HttpServletResponse response, 
+  public RetResult<Void> downloadFile(HttpServletRequest request, HttpServletResponse response, 
       AttachParam attachParam) throws BusinessException{
     this.fileService.downloadFile(request, response, attachParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
 }

@@ -27,7 +27,7 @@
                   <el-option  label="未自查" value="1"></el-option>
                   <el-option  label="已自查" value="2"></el-option>
 								</el-select> -->
-								    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change"  filterable placeholder="请选择" >
+								    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change" @change="changeStatus()"  filterable placeholder="请选择" >
                          <el-option
 	                          v-for="item in inspectionStatus"
 	                          :key="item.value"
@@ -185,7 +185,7 @@
 		                            <th>整改报告</th>
 		                            <th>操作</th>
 		                        </tr>
-		                        <tr class="tr-row" v-for="(pro,index) in result.data">
+		                        <tr class="tr-row" v-for="(pro,index) in result">
 		                            <td>{{index+1}}</td>
 		                            <!--系统名称-->
 		                            <td>{{pro.systemName}}</td>

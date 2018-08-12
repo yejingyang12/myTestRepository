@@ -1,5 +1,7 @@
 (function () {
   var data = {
+  	total:"",
+  	count:0,
   	//查询条件数据
 		formData: {
 			instanceName: null,
@@ -71,17 +73,22 @@
         				'application/json;charset=UTF-8', _self.queryCheckListSuccess);
         	},
         	queryCheckListSuccess: function(_self, responseData){
-        		_self.tableData = responseData;
-//         		_self.tableData.totalPages = responseData.data.totalPage;
-//        		_self.tableData.pagesize = responseData.data.pageSize;
-//        		_self.tableData.currentPage = responseData.data.currPage;
-//        		_self.tableData.totalPages = responseData.data.totalPage;
-//        		_self.tableData.result = responseData.data;
+        		_self.tableData = responseData.data.list;
+         		_self.tableData.totalPages = responseData.data.totalPage;
+        		_self.tableData.pagesize = responseData.data.pageSize;
+        		_self.tableData.currentPage = responseData.data.currPage;
+        		_self.tableData.total = responseData.data.totalCount;
+        		_self.tableData.result = responseData.data;
+        		if(this.count == 0){
+        			this.total = responseData.total;
+        			this.count = 1;
+        		}
         	},
         	//点击待办、已办、全部
         	changeHandlingState: function(handlingState){
         		var _self = this;
         		_self.formData.handlingState = handlingState;
+        		this.formData.currentPage = 1;
         		_self.queryCheckList(_self);
         	},
           //上一页下一页点击事件
@@ -107,7 +114,7 @@
           
           //审核
           checkThisRow: function(fkBusinessNode,systemId,companyId,examinStatus,businessId,taskId){
-						//定级：1
+			//定级：1
           	//撤销备案：2
           	//定级信息变更：3
 						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus="+examinStatus+"&businessId="+businessId+"&taskId="+taskId;

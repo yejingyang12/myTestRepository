@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeListResult;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.entity.SystemGradingInfoOneResult;
@@ -63,15 +63,15 @@ public class SystemCodeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value="/querySystemCodeForKeySystemCode", method = RequestMethod.POST)
-  public ResultApi querySystemCodeForKeySystemCode(HttpServletRequest request, 
+  public RetResult<List<SystemCodeListResult>> querySystemCodeForKeySystemCode(HttpServletRequest request, 
       @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
     
     List<SystemCodeListResult> systemCodeResultList = 
         this.systemCodeServiceImpl.querySystemCodeForKeySystemCode(systemCodeParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemCodeResultList);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemCodeResultList);
+    return RetResultUtil.ok(systemCodeResultList);
   }
   
   /**
@@ -92,15 +92,15 @@ public class SystemCodeController {
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value="/querySystemCodeForKeyCodeName", method = RequestMethod.POST)
-  public ResultApi querySystemCodeForKeyCodeName(HttpServletRequest request, 
+  public RetResult<List<SystemCodeListResult>> querySystemCodeForKeyCodeName(HttpServletRequest request, 
       @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
     
     List<SystemCodeListResult> systemCodeResultList = 
         this.systemCodeServiceImpl.querySystemCodeForKeyCodeName(systemCodeParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemCodeResultList);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(systemCodeResultList);
+    return RetResultUtil.ok(systemCodeResultList);
   }
   
   /**
@@ -116,12 +116,12 @@ public class SystemCodeController {
   @RequestMapping(value = "/queryGradingInfoList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryGradingInfoList(HttpServletRequest request,
+  public RetResult<List<SystemGradingInfoOneResult>> queryGradingInfoList(HttpServletRequest request,
       @RequestBody SystemCodeParam systemCodeParam) throws BusinessException{
     List<SystemGradingInfoOneResult> SystemGradingInfoResultList = this.systemCodeServiceImpl.
         queryGradingInfoList(systemCodeParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(SystemGradingInfoResultList);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(SystemGradingInfoResultList);
+    return RetResultUtil.ok(SystemGradingInfoResultList);
   }
 }

@@ -22,9 +22,10 @@ import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
 import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
@@ -59,17 +60,18 @@ public class SelfexaminationController {
   @RequestMapping(value = "/querySelfexaminationList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi querySelfexaminationList(HttpServletRequest request, 
+  public RetResult<PageUtil> querySelfexaminationList(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     PageInfo<SelfexaminationListResult> page = this.selfexaminationServiceImpl.
         querySelfexaminationList(selfexaminationParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setCurrentPage(page.getPageNum());
-    result.setPagesize(page.getPageSize());
-    result.setTotalPages(page.getPages());
-    result.setTotal(page.getTotal());
-    result.setData(page.getList());
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setCurrentPage(page.getPageNum());
+//    result.setPagesize(page.getPageSize());
+//    result.setTotalPages(page.getPages());
+//    result.setTotal(page.getTotal());
+//    result.setData(page.getList());
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
   
   /**
@@ -84,14 +86,14 @@ public class SelfexaminationController {
   @RequestMapping(value = "/saveSelfexamination", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  ResultApi saveSelfexamination(HttpServletRequest request, 
+  RetResult<String> saveSelfexamination(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     String pkId = this.selfexaminationServiceImpl.
         saveSelfexamination(userName, selfexaminationParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(pkId);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(pkId);
+    return RetResultUtil.ok(pkId);
   }
   
   /**
@@ -106,13 +108,13 @@ public class SelfexaminationController {
   @RequestMapping(value = "/queryEditSelfexamination", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryEditSelfexamination(HttpServletRequest request, 
+  public RetResult<SelfexaminationResult> queryEditSelfexamination(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     SelfexaminationResult selfexaminationResult = this.selfexaminationServiceImpl.
         queryEditSelfexamination(selfexaminationParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(selfexaminationResult);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+//    result.setData(selfexaminationResult);
+    return RetResultUtil.ok(selfexaminationResult);
   }
   
   /**
@@ -127,12 +129,12 @@ public class SelfexaminationController {
   @RequestMapping(value = "/deleteSelfexaminationBySelfexaminationId", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi deleteSelfexaminationBySelfexaminationId(HttpServletRequest request, 
+  public RetResult<Void> deleteSelfexaminationBySelfexaminationId(HttpServletRequest request, 
       @RequestBody SelfexaminationParam selfexaminationParam) throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     this.selfexaminationServiceImpl.
       deleteSelfexaminationBySelfexaminationId(userName, selfexaminationParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+//    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    return RetResultUtil.ok();
   }
 }

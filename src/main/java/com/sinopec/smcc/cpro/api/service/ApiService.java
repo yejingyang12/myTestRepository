@@ -11,10 +11,12 @@ package com.sinopec.smcc.cpro.api.service;
 
 import java.util.List;
 
+import com.github.pagehelper.PageInfo;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
+import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationParam;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
@@ -39,7 +41,7 @@ public interface ApiService {
    * @return
    * @throws BusinessException
    */
-  List<CheckListResult> getStayHandle(String userId) throws BusinessException;
+  PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams) throws BusinessException;
   
   /**
    * @Descrption 批量审批

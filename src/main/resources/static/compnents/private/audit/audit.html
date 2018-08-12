@@ -124,7 +124,7 @@
                         </button> -->
                         <button type="button" class="audit-btn"
                                 style="color:#fff;background-color:#3d95df" @click="changeHandlingState(1)">待办
-                                <div v-if="tableData.total > 0" style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">{{tableData.total}}</div>
+                                <div v-if="total > 0 " style="display:inline-block;width:18px;height:18px;border-radius:50%;background-color:#fd9832;color: #fff">{{total}}</div>
                         </button>
                         <button type="button" class="audit-btn"
                                 style="color:#333;background-color:#fff" @click="changeHandlingState(2)">已办
@@ -164,7 +164,7 @@
                                         <th>状态</th>
                                         <th>操作</th>
                                     </tr>
-                                    <tr v-for="(pro,index) in tableData.data">
+                                    <tr v-for="(pro,index) in tableData">
                                         <td>{{index+1}}</td>
                                         <!--实例名称-->
                                         <td>
@@ -182,11 +182,11 @@
                                         <!--执行时间-->
                                         <td>{{pro.executeTime}}</td>
                                         <!--业务节点-->
-                                        <td v-if="pro.fkBusinessNode == '1'">定级</td>
+                                     	<td v-if="pro.fkBusinessNode == '1'">定级</td>
                                         <td v-else-if="pro.fkBusinessNode == '2'">撤销备案</td>
                                         <td v-else-if="pro.fkBusinessNode == '3'">定级信息变更</td>
                                         <td v-else></td>
-                                    
+                                        
                                         <!--是否有专家意见-->
                                         <td>{{pro.expertReviewName?'有':'无'}}</td>
                                         <!--专家意见下载-->
@@ -216,7 +216,7 @@
                                         </td>
                                         <!--操作-->
                                         <td style="color:#1e91e2;">
-                                          <div v-if="(pro.fkExaminStatus=='2' && jurisdictionType==2) || (pro.fkExaminStatus=='1' && jurisdictionType==1)">
+                                          <div v-if="((pro.fkExaminStatus=='2' && jurisdictionType==2) || (pro.fkExaminStatus=='1' && jurisdictionType==1)) && pro.fkSystemId != null">
                                             <a  style="cursor: pointer;"  @click="checkThisRow(pro.fkBusinessNode,pro.fkSystemId,pro.companyId,pro.fkExaminStatus,pro.businessId,pro.taskId)">审核</a>
                                           </div>                                  
                                        </td>

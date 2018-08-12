@@ -34,8 +34,6 @@ import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.server.CheckService;
-import com.sinopec.smcc.cpro.system.entity.SystemParam;
-import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
 
@@ -221,7 +219,7 @@ public class GradingServiceImpl implements GradingService{
    * 企业提交定级信息修改定级状态
    */
   @Override
-  @Transactional
+  //@Transactional
   public String submitGrading(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.ERROR);
@@ -231,10 +229,10 @@ public class GradingServiceImpl implements GradingService{
       gradingParam.setGradingId(Utils.getUuidFor32());
       gradingParam.setCreateUserName(userName);
 
-      //创建审核记录
-      SystemParam systemParam = new SystemParam();
-      systemParam.setSystemId(gradingParam.getFkSystemId());
-      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+//      //创建审核记录
+//      SystemParam systemParam = new SystemParam();
+//      systemParam.setSystemId(gradingParam.getFkSystemId());
+//      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
       
       CheckParam checkParam = new CheckParam();
       checkParam.setFkSystemId(gradingParam.getFkSystemId());
@@ -378,6 +376,16 @@ public class GradingServiceImpl implements GradingService{
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
       NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+      
+      //发起审核流程
+      workFlowApiServiceImpl.initStart("定级", "1", gradingParam.getFkSystemId());
+      
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(gradingParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
       if (nodeResult == null) {
         this.nodeServiceImpl.addNodeInfo(nodeParam);
       }else{
@@ -386,8 +394,8 @@ public class GradingServiceImpl implements GradingService{
       }
     }
     
-    //修改系统定级状态
-    this.gradingMapper.updateGradingStatus(gradingParam);
+//    //修改系统定级状态
+//    this.gradingMapper.updateGradingStatus(gradingParam);
     //修改或添加信息
     this.gradingMapper.insertGrading(gradingParam);
     return gradingParam.getFkSystemId();
@@ -397,7 +405,6 @@ public class GradingServiceImpl implements GradingService{
    * 总部提交定级信息修改定级状态
    */
   @Override
-  @Transactional
   public String submitGradingForHeadquarters(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.ERROR);
@@ -407,10 +414,10 @@ public class GradingServiceImpl implements GradingService{
       gradingParam.setGradingId(Utils.getUuidFor32());
       gradingParam.setCreateUserName(userName);
 
-      //创建审核记录
-      SystemParam systemParam = new SystemParam();
-      systemParam.setSystemId(gradingParam.getFkSystemId());
-      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+//      //创建审核记录
+//      SystemParam systemParam = new SystemParam();
+//      systemParam.setSystemId(gradingParam.getFkSystemId());
+//      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
       
       CheckParam checkParam = new CheckParam();
       checkParam.setFkSystemId(gradingParam.getFkSystemId());
@@ -553,6 +560,15 @@ public class GradingServiceImpl implements GradingService{
       nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
+      
+      //发起审核流程
+      workFlowApiServiceImpl.initStart("定级", "2", gradingParam.getFkSystemId());
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(gradingParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
       NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
       if (nodeResult == null) {
         this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -561,9 +577,8 @@ public class GradingServiceImpl implements GradingService{
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
     }
-    
-    //修改系统定级状态
-    this.gradingMapper.updateGradingStatus(gradingParam);
+//    //修改系统定级状态
+//    this.gradingMapper.updateGradingStatus(gradingParam);
     //修改或添加信息
     this.gradingMapper.insertGrading(gradingParam);
     return gradingParam.getFkSystemId();

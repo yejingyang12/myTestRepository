@@ -189,6 +189,7 @@ window.onload = function () {
           bus.$on('addPreSystemAjax',function(meg){
             data.formData.fkComCode = 2;
             if(meg!=null){
+            	debugger
               data.formData.changeType = "2";
               if(systemId!=''&&systemId!=null){
                 ajaxMethod(_self, 'post',

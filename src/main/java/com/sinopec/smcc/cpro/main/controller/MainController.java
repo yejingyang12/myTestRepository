@@ -28,10 +28,11 @@ import com.sinopec.smcc.base.annotation.LoginUser;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.interceptor.User;
 import com.sinopec.smcc.base.log.RequestLog;
-import com.sinopec.smcc.base.result.ResultApi;
+import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.base.result.RetResult;
+import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.main.entity.MainListResult;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
@@ -67,24 +68,14 @@ public class MainController {
   @RequestMapping(value = "/queryMainList", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryMainList(
+  public RetResult<PageUtil> queryMainList(
       @RequestBody MainParam mainParam) throws BusinessException{
     //调用service实体，获得
     PageInfo<MainListResult> page = this.mainServiceImpl.queryMainList(mainParam);
     //通过resultApi实体组成返回参数
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    //当前页码
-    result.setCurrentPage(page.getPageNum());
-    //每页数据数量
-    result.setPagesize(page.getPageSize());
-    //总页数
-    result.setTotalPages(page.getPages());
-    //总条数
-    result.setTotal(page.getTotal());
-    //响应的数据
-    result.setData(page.getList());
-    
-    return result;
+
+    PageUtil pageUtil = new PageUtil(page);
+    return RetResultUtil.ok(pageUtil);
   }
   
   /**
@@ -99,10 +90,10 @@ public class MainController {
   @RequestMapping(value = "/deleteMainBySystemId", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi deleteMainBySystemId(@RequestBody MainParam mainParam) throws BusinessException{
+  public RetResult<Void> deleteMainBySystemId(@RequestBody MainParam mainParam) throws BusinessException{
     this.mainServiceImpl.deleteMainBySystemId(mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+
+    return RetResultUtil.ok();
   }
   
   /**
@@ -116,11 +107,10 @@ public class MainController {
   @RequestMapping(value = "/exportExcelForMain", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi exportExcelForMain(HttpServletRequest request) throws BusinessException{
+  public RetResult<String> exportExcelForMain(HttpServletRequest request) throws BusinessException{
     String filePath = this.mainServiceImpl.exportExcelForMain(request);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(filePath);
-    return result;
+
+    return RetResultUtil.ok(filePath);
   }
   
   /**
@@ -134,11 +124,11 @@ public class MainController {
   @RequestMapping(value = "/exportUploadApplicationInfo", method = RequestMethod.GET)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi exportUploadApplicationInfo(HttpServletRequest request
+  public RetResult<Void> exportUploadApplicationInfo(HttpServletRequest request
       ,HttpServletResponse response,@RequestBody String strFilePath) throws BusinessException{
     this.mainServiceImpl.exportUploadApplicationInfo(request,response,strFilePath);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+
+    return RetResultUtil.ok();
   }
   
   /**
@@ -153,13 +143,12 @@ public class MainController {
   @RequestMapping(value = "/exportExcelForGradeTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi exportExcelForGradeTemplate(HttpServletRequest request,
+  public RetResult<AttachResult> exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,@RequestBody MainParam mainParam) throws BusinessException{
     AttachResult attachResult = this.mainServiceImpl.
         exportExcelForGradeTemplate(request, response,mainParam.getSystemIds());
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(attachResult);
-    return result;
+
+    return RetResultUtil.ok(attachResult);
   }
   
   /**
@@ -175,12 +164,11 @@ public class MainController {
   @RequestMapping(value = "/tableCompany", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi tableCompany(HttpServletRequest request,
+  public RetResult<Object> tableCompany(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap= this.mainServiceImpl.tableCompany(request,mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(resultMap.get("url"));
-    return result;
+
+    return RetResultUtil.ok(resultMap.get("url"));
   }
   
   /**
@@ -196,12 +184,11 @@ public class MainController {
   @RequestMapping(value = "/tableSystem", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi tableSystem(HttpServletRequest request,
+  public RetResult<Object> tableSystem(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap = this.mainServiceImpl.tableSystem(request,mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(resultMap.get("url"));
-    return result;
+
+    return RetResultUtil.ok(resultMap.get("url"));
   }
   
   /**
@@ -216,12 +203,11 @@ public class MainController {
   @RequestMapping(value = "/tableGrading", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi tableGrading(HttpServletRequest request,
+  public RetResult<Object> tableGrading(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap = this.mainServiceImpl.tableGrading(request,mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(resultMap.get("url"));
-    return result;
+
+    return RetResultUtil.ok(resultMap.get("url"));
   }
   
   /**
@@ -236,12 +222,11 @@ public class MainController {
   @RequestMapping(value = "/tableAttach", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi tableAttach(HttpServletRequest request,
+  public RetResult<Object> tableAttach(HttpServletRequest request,
       @RequestBody MainParam mainParam) throws BusinessException {
     Map<String,Object> resultMap = this.mainServiceImpl.tableAttach(request,mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(resultMap.get("url"));
-    return result;
+
+    return RetResultUtil.ok(resultMap.get("url"));
   }
   
   /**
@@ -256,12 +241,11 @@ public class MainController {
   @RequestMapping(value = "/oneButtonDownloading", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
+  public RetResult<String> oneButtonDownloading(HttpServletRequest request,HttpServletResponse response,
       @RequestBody MainParam mainParam) throws BusinessException {
     String filePath = this.mainServiceImpl.oneButtonDownloading(request,response,mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(filePath);
-    return result;
+
+    return RetResultUtil.ok(filePath);
   }
   
   /**
@@ -277,13 +261,12 @@ public class MainController {
   @RequestMapping(value = "/querySystemName", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi querySystemName(HttpServletRequest request
+  public RetResult<List<MainListResult>> querySystemName(HttpServletRequest request
       ,@RequestBody MainParam mainParam) 
       throws BusinessException {
     List<MainListResult> mainList = this.mainServiceImpl.querySystemName(mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(mainList);
-    return result;
+
+    return RetResultUtil.ok(mainList);
   }
   
   /**
@@ -298,12 +281,12 @@ public class MainController {
   @RequestMapping(value = "/importExcelForGradeTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi importExcelForGradeTemplate(HttpServletRequest request,
+  public RetResult<Void> importExcelForGradeTemplate(HttpServletRequest request,
       @RequestParam("file") MultipartFile file) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
     this.mainServiceImpl.importExcelForGradeTemplate(request, file, userName);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    return result;
+
+    return RetResultUtil.ok();
   }
   
   /**
@@ -318,13 +301,12 @@ public class MainController {
   @RequestMapping(value = "/queryApplicationChange", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi queryApplicationChange(HttpServletRequest request,
+  public RetResult<String> queryApplicationChange(HttpServletRequest request,
       @RequestBody MainParam mainParam) 
       throws BusinessException {
     String systemId = this.mainServiceImpl.queryApplicationChange(mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(systemId);
-    return result;
+
+    return RetResultUtil.ok(systemId);
   }
   
   /**
@@ -339,13 +321,12 @@ public class MainController {
   @RequestMapping(value = "/queryGradingStatistics", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi gradingStatistics(@RequestBody MainParam mainParam) 
+  public RetResult<List<MainListResult>> gradingStatistics(@RequestBody MainParam mainParam) 
       throws BusinessException {
     List<MainListResult> gradingStatisticsResult = 
         this.mainServiceImpl.queryGradingStatistics(mainParam);
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(gradingStatisticsResult);
-    return result;
+    System.out.println(gradingStatisticsResult);
+    return RetResultUtil.ok(gradingStatisticsResult);
   }
   
   /**
@@ -359,11 +340,10 @@ public class MainController {
   @RequestMapping(value = "/getUserInfo", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi getUserInfo(@LoginUser User loginUser,HttpServletRequest request) 
+  public RetResult<User> getUserInfo(@LoginUser User loginUser,HttpServletRequest request) 
       throws BusinessException {
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(loginUser);
-    return result;
+
+    return RetResultUtil.ok(loginUser);
   }
   
   /**
@@ -377,14 +357,13 @@ public class MainController {
   @RequestMapping(value = "/logout", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi logout(HttpServletRequest request) 
+  public RetResult<String> logout(HttpServletRequest request) 
       throws BusinessException {
     request.getSession().invalidate(); 
     
     String strValue = 
         this.mainServiceImpl.logout();
-    ResultApi result = new ResultApi(EnumResult.SUCCESS);
-    result.setData(strValue);
-    return result;
+
+    return RetResultUtil.ok(strValue);
   }
 }

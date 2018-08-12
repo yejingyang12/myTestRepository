@@ -64,8 +64,15 @@
                   			_self.queryEvaluationListSuccess);
                   },
                   queryEvaluationListSuccess :function (_self,responseData) {
-                  	_self.evaluList = responseData.data;
+                  	_self.evaluList = responseData.data.list;
                   	_self.result = responseData;
+                  	
+                  	_self.result.totalPages = responseData.data.totalPage;
+                  	_self.result.pagesize = responseData.data.pageSize;
+                  	_self.result.currentPage = responseData.data.currPage;
+                  	_self.result.total = responseData.data.totalCount;
+
+                  	
                   },
                 //分页跳转
                   hpageNum:function(_this){
@@ -95,37 +102,37 @@
                         // console.log( data.result.data[0].systemName);
                         switch (this.myindex){
                           case 0://项目测评名称
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                               return (a.examName.localeCompare(b.examName)) * flagOne
                             });
                             break;
                           case 1://测评时间
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                             	return (new Date(a.examTime.split('-').join('/')).getTime()-new Date(b.examTime.split('-').join('/')).getTime()) * flagOne
                             });
                             break;
                           case 2://测评机构
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                               return (a.examOrg.localeCompare(b.examOrg)) * flagOne
                             });
                             break;
                           case 3://测评状态
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                               return (a.fkExamStatus - b.fkExamStatus) * flagOne
                             });
                             break;
                           case 4://测评结果
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                               return (a.fkExamResult - b.fkExamResult) * flagOne
                             });
                             break;
                           case 5://整改结果
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                               return (a.fkRectificationReu - b.fkRectificationReu) * flagOne
                             });
                             break;
                           case 6://整改时间
-                            data.result.data.sort(function (a, b) {
+                            data.result.data.list.sort(function (a, b) {
                             	return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
                             });
                             break;

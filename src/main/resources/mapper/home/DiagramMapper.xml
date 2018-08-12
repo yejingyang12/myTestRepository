@@ -41,6 +41,9 @@
 			LEFT JOIN t_cpro_score sce ON sce.fkSystemId = sys.pkId
 		]]>
 		<where>
+			<![CDATA[
+				sys.pkId IN (SELECT DISTINCT fkSystemId FROM t_cpro_score) AND sys.deleteStatus = 1 AND sce.deleteStatus = 1
+      ]]>
 			<choose>
 				<when test="systemType == 1">
 					<![CDATA[

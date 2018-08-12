@@ -207,7 +207,7 @@ public class CompanyServiceImpl implements CompanyService {
           }
         }
         //数量不对时，不删除
-        if (newCompanyIds.length != 0 && newCompanyIdsI != newCompanyIds.length - 1) {
+        if (newCompanyIds.length != 0 && newCompanyIdsI != newCompanyIds.length) {
           companyParam.setCompanyIds(null);
           failedDeleteList = null;
         }else{

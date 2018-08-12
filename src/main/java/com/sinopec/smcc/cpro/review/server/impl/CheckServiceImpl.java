@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
@@ -105,7 +106,7 @@ public class CheckServiceImpl implements CheckService {
     //获取待办列表
     if(checkParam.getHandlingState() == 1){
       final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,
-          checkParam.getCurrentPage(), "");
+          checkParam.getCurrentPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
       appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
       if((appPagedTODOTask.getExecuteTaskList())!=null){
@@ -116,55 +117,56 @@ public class CheckServiceImpl implements CheckService {
           SystemParam systemParam = new SystemParam();
           systemParam.setSystemId(systemId);
           SystemResult systemResult = systemServiceImpl.querySystemByCheck(systemParam);
+          CheckListResult checkListResult = new CheckListResult();
           if(systemResult != null){
-            CheckListResult checkListResult = new CheckListResult();
             checkListResult.setInstanceName(systemResult.getSystemName());
             checkListResult.setFkSystemId(systemResult.getSystemId());
             checkListResult.setCompanyId(systemResult.getCompanyId());
             checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
-            checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
-            checkListResult.setInitiator(executeTaskData.getExt002());//发起人
-            checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
-            if(executeTaskData.getBusinessName().equals("定级")){
-              checkListResult.setFkBusinessNode("1");//业务节点
-            }else if(executeTaskData.getBusinessName().equals("撤销备案")){
-              checkListResult.setFkBusinessNode("2");//业务节点
-            }else{
-              checkListResult.setFkBusinessNode("3");//业务节点
-            }
             checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
             checkListResult.setRecordReportName(systemResult.getRecordReportName());
             checkListResult.setRecordReportId(systemResult.getRecordReportId());
-            checkListResult.setTaskId(executeTaskData.getTaskId());
-            checkListResult.setBusinessId(executeTaskData.getBusinessId());
-            //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
-            if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
-              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-                //待企业待企业安全员管理审核
-                checkListResult.setFkExaminStatus("1");
-              }else{
-                //待总部安全管理员审核
-                checkListResult.setFkExaminStatus("2");
-              }
-            }else if(executeTaskData.getExecuteResult() == 2){
-              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-                //如果企业安全员已通过，则该状态为待总部安全管理员审核
-                checkListResult.setFkExaminStatus("2");
-              }else{
-                //归档
-                checkListResult.setFkExaminStatus("5");
-              }
-            }else if(executeTaskData.getExecuteResult() == 3){
-              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-                //如果企业主联络员未通过 状态为  企业安全员管理审核未通过
-                checkListResult.setFkExaminStatus("3");
-              }else{
-                //如果总部未通过  则状态为 总部安全管理员审核未通过
-                checkListResult.setFkExaminStatus("4");
-              }
-            }
-            list.add(checkListResult);
           }
+          checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
+          checkListResult.setInitiator(executeTaskData.getExt002());//发起人
+          checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
+          if(executeTaskData.getBusinessName().equals("定级")){
+            checkListResult.setFkBusinessNode("1");//业务节点
+          }else if(executeTaskData.getBusinessName().equals("撤销备案")){
+            checkListResult.setFkBusinessNode("2");//业务节点
+          }else{
+            checkListResult.setFkBusinessNode("3");//业务节点
+          }
+          
+          checkListResult.setTaskId(executeTaskData.getTaskId());
+          checkListResult.setBusinessId(executeTaskData.getBusinessId());
+          //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
+          if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+              //待企业待企业安全员管理审核
+              checkListResult.setFkExaminStatus("1");
+            }else{
+              //待总部安全管理员审核
+              checkListResult.setFkExaminStatus("2");
+            }
+          }else if(executeTaskData.getExecuteResult() == 2){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+              //如果企业安全员已通过，则该状态为待总部安全管理员审核
+              checkListResult.setFkExaminStatus("2");
+            }else{
+              //归档
+              checkListResult.setFkExaminStatus("5");
+            }
+          }else if(executeTaskData.getExecuteResult() == 3){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+              //如果企业主联络员未通过 状态为  企业安全员管理审核未通过
+              checkListResult.setFkExaminStatus("3");
+            }else{
+              //如果总部未通过  则状态为 总部安全管理员审核未通过
+              checkListResult.setFkExaminStatus("4");
+            }
+          }
+          list.add(checkListResult);
         }
       }
     }
@@ -183,55 +185,56 @@ public class CheckServiceImpl implements CheckService {
           SystemParam systemParam = new SystemParam();
           systemParam.setSystemId(systemId);
           SystemResult systemResult = systemServiceImpl.querySystemByCheck(systemParam);
+          CheckListResult checkListResult = new CheckListResult();
           if(systemResult != null){
-            CheckListResult checkListResult = new CheckListResult();
             checkListResult.setInstanceName(systemResult.getSystemName());
             checkListResult.setFkSystemId(systemResult.getSystemId());
             checkListResult.setCompanyId(systemResult.getCompanyId());
             checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
-            checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
-            checkListResult.setInitiator(executeTaskData.getExt002());//发起人
-            checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
-            if(executeTaskData.getBusinessName().equals("定级")){
-              checkListResult.setFkBusinessNode("1");//业务节点
-            }else if(executeTaskData.getBusinessName().equals("撤销备案")){
-              checkListResult.setFkBusinessNode("2");//业务节点
-            }else{
-              checkListResult.setFkBusinessNode("3");//业务节点
-            }
             checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
             checkListResult.setRecordReportName(systemResult.getRecordReportName());
             checkListResult.setRecordReportId(systemResult.getRecordReportId());
-            checkListResult.setTaskId(executeTaskData.getTaskId());
-            checkListResult.setBusinessId(executeTaskData.getBusinessId());
-            //executeResult : 1和-1 为待办状态，2 审批通过 3 审批未通过
-            if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
-              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-                //待企业待企业安全员管理审核
-                checkListResult.setFkExaminStatus("1");
-              }else{
-                //待总部安全管理员审核
-                checkListResult.setFkExaminStatus("2");
-              }
-            }else if(executeTaskData.getExecuteResult() == 2){
-              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-                //如果企业安全员已通过，则该状态为待总部安全管理员审核
-                checkListResult.setFkExaminStatus("2");
-              }else{
-                //归档
-                checkListResult.setFkExaminStatus("5");
-              }
-            }else if(executeTaskData.getExecuteResult() == 3){
-              if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-                //如果企业主联络员未通过 状态为  企业安全员管理审核未通过
-                checkListResult.setFkExaminStatus("3");
-              }else{
-                //如果总部未通过  则状态为 总部安全管理员审核未通过
-                checkListResult.setFkExaminStatus("4");
-              }
-            }
-            list.add(checkListResult);
           }
+          checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
+          checkListResult.setInitiator(executeTaskData.getExt002());//发起人
+          checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
+          if(executeTaskData.getBusinessName().equals("定级")){
+            checkListResult.setFkBusinessNode("1");//业务节点
+          }else if(executeTaskData.getBusinessName().equals("撤销备案")){
+            checkListResult.setFkBusinessNode("2");//业务节点
+          }else{
+            checkListResult.setFkBusinessNode("3");//业务节点
+          }
+          
+          checkListResult.setTaskId(executeTaskData.getTaskId());
+          checkListResult.setBusinessId(executeTaskData.getBusinessId());
+          //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
+          if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+              //待企业待企业安全员管理审核
+              checkListResult.setFkExaminStatus("1");
+            }else{
+              //待总部安全管理员审核
+              checkListResult.setFkExaminStatus("2");
+            }
+          }else if(executeTaskData.getExecuteResult() == 2){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+              //如果企业安全员已通过，则该状态为待总部安全管理员审核
+              checkListResult.setFkExaminStatus("2");
+            }else{
+              //归档
+              checkListResult.setFkExaminStatus("5");
+            }
+          }else if(executeTaskData.getExecuteResult() == 3){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+              //如果企业主联络员未通过 状态为  企业安全员管理审核未通过
+              checkListResult.setFkExaminStatus("3");
+            }else{
+              //如果总部未通过  则状态为 总部安全管理员审核未通过
+              checkListResult.setFkExaminStatus("4");
+            }
+          }
+          list.add(checkListResult);
         }
       }
     }
@@ -279,6 +282,11 @@ public class CheckServiceImpl implements CheckService {
       pageInfo.setPages(1);
     }
     pageInfo.setPageNum(appPagedTODOTaskPageNum);
+    if(ObjectUtils.isEmpty(list)){
+      pageInfo.setPageSize(0);
+    }else{
+      pageInfo.setPageSize(10);
+    }
     return pageInfo;
   }
   
@@ -298,7 +306,7 @@ public class CheckServiceImpl implements CheckService {
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("定级审核");
+    nodeParam.setOperation("企业业务审核");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
     if (checkParam.getScoreCheckResult() == 1) {
     //通过定级审核
@@ -357,7 +365,7 @@ public class CheckServiceImpl implements CheckService {
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("定级审核");
+    nodeParam.setOperation("总部业务审核");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
     if (checkParam.getScoreCheckResult() == 1) {
       //通过定级审核
@@ -424,7 +432,7 @@ public class CheckServiceImpl implements CheckService {
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("变更审核");
+    nodeParam.setOperation("企业业务审核");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
@@ -491,7 +499,7 @@ public class CheckServiceImpl implements CheckService {
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("变更审核");
+    nodeParam.setOperation("总部业务审核");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
@@ -555,7 +563,7 @@ public class CheckServiceImpl implements CheckService {
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("撤销备案审核");
+    nodeParam.setOperation("企业业务审核");
     nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
     if (checkParam.getCancelRecordsResult() ==1 ) {
       nodeParam.setOperationResult("通过");

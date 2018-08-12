@@ -184,7 +184,11 @@
           },
           //ajax请求成功的方法
           listSuccess: function (_self, dataList) {
-            data.result = dataList;
+            data.result = dataList.data.list;
+          	data.result.totalPages = dataList.data.totalPage;
+          	data.result.pagesize = dataList.data.pageSize;
+          	data.result.currentPage = dataList.data.currPage;
+          	data.result.total = dataList.data.totalCount;
           },
           //上一页下一页点击事件
           clickPage: function (page) {
@@ -251,7 +255,7 @@
         	 var url="main/queryMainList";
              //	 列表请求数据
              ajaxMethod(_self, "post", url, false ,JSON.stringify(_self.queryParam), "json", 'application/json;charset=UTF-8', _self.listSuccess);
-          },
+         },
           //跳转到定级页面
           toAuditGradPage : function(systemId,companyId) {
           	window.location.href="/page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId;
@@ -416,32 +420,32 @@
                 // //对每个数组也就是对应表格的每一列进行排序
                 switch (this.myindex){
                   case 0://系统名称排序
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.systemName.localeCompare(b.systemName)) * flagOne
                     });
                     break;
                   case 1://所属单位
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.companyName.localeCompare(b.companyName)) * flagOne
                     });
                     break;
                   case 2://板块
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.plateType.localeCompare(b.plateType)) * flagOne
                     });
                     break;
                   case 3://建设类型
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.infoSysTypeConstruction.localeCompare(b.infoSysTypeConstruction)) * flagOne
                     });
                     break;
                   case 4://等保级别
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.fkSpRanklevel - b.fkSpRanklevel) * flagOne
                     });
                     break;
                   case 5://是否未互联网应用
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.appIsInternet - b.appIsInternet) * flagOne
                     });
                     break;

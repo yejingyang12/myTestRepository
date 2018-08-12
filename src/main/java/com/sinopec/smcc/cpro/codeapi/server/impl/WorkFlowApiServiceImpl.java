@@ -160,7 +160,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   public void reviewNotThrough(String businessId) throws BusinessException {
     //获得用户信息
     UserDTO userDTO = userApiServiceImpl.getUserInfo();
-    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(String.valueOf(userDTO.getUserId()),"");
+    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(String.valueOf(userDTO.getUserId()),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){
       List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
       String taskid=null;

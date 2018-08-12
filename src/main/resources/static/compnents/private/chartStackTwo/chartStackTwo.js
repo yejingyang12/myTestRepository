@@ -185,7 +185,6 @@
               this.getRecordsCompanyNumSuccess);
           } ,
           getRecordsCompanyNumSuccess : function(_self,result){
-        	  console.log(result);
           	this.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];

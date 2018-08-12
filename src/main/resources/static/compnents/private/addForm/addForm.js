@@ -275,7 +275,6 @@
               getCompanyInfoSuccessMethod: function(_self,data){
                 if(data.data!=null){
                   _self.formData = data.data;
-                  debugger
                   if(data.data.postalCode=='0'){
                   	_self.formData.postalCode='';
                   }

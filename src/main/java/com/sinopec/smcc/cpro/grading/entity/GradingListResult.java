@@ -59,9 +59,18 @@ public class GradingListResult {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
+  private String gradeRecordSysName;
   
   
-  /**
+  
+  
+  public String getGradeRecordSysName() {
+		return gradeRecordSysName;
+	}
+	public void setGradeRecordSysName(String gradeRecordSysName) {
+		this.gradeRecordSysName = gradeRecordSysName;
+	}
+	/**
    * @return the deleteStatus
    */
   public Integer getDeleteStatus() {

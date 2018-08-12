@@ -300,6 +300,7 @@
 			sco.pkId AS gradingId,
 			sco.fkSystemId,
 			sys.systemName,
+			sys.gradeRecordSysName,
 			sco.fkBizSPRankDegree,
 			sco.fkBizSPRankLevel,
 			sco.fkBizSystemDegree,

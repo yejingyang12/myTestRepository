@@ -5,6 +5,7 @@ var data={
         gradingId:'',
         fkSystemId:'',
         fkBizSPRankDegree:'',
+        gradeRecordSysName:'',
         fkBizSPRankLevel:'',
         fkBizSystemDegree:'',
         fkBizSystemLevel:'',
@@ -52,6 +53,9 @@ var data={
                       	if(! this.isEmpty(responseData.data.competentName)){
                       		 this.formData.competentName = responseData.data.competentName;
                   			}
+                      	if(! this.isEmpty(responseData.data.gradeRecordSysName)){
+                     		 this.formData.gradeRecordSysName = responseData.data.gradeRecordSysName;
+                      	}
                       	if(! this.isEmpty(responseData.data.competentView)){
                       		this.formData.competentView = responseData.data.competentView;
                       	}

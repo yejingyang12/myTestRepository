@@ -183,8 +183,10 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
       if (authorizationDTO.getPermissionList() != null) {
         List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
         for (PermissionDTO permissionDTO : permissionDTOList) {
+          if(permissionDTO.getPermcode().equals("0102010107")){
+            booValue = true;
+          }
           permssionsList.add(permissionDTO.getPermcode());
-          booValue = true;
         }
       }
       //通过等号切分
@@ -203,7 +205,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
             orgCode = orgCode.trim();
           }
           codeList.add(orgCode);
-          if(booValue){
+          if(!booValue){
             nameList.add(orgCode);
           }
         }

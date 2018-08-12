@@ -9,7 +9,6 @@
 */
 package com.sinopec.smcc.cpro.system.server;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
+import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;

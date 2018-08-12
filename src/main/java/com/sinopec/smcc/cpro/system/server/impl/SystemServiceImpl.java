@@ -10,11 +10,9 @@
 package com.sinopec.smcc.cpro.system.server.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -28,9 +26,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.DVConstraint;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFComment;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFDataValidation;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Name;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.CellRangeAddressList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,11 +61,19 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.api.SystemApiClient;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApi;
+import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiParam;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList.SystemInfo;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.OrganizationApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
+import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
+import com.sinopec.smcc.cpro.file.mapper.AttachMapper;
+import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
+import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
@@ -76,9 +103,7 @@ import com.sinopec.smcc.cpro.system.mapper.SystemUseServicesMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.system.util.SystemInfoUtil;
 import com.sinopec.smcc.cpro.tools.DateUtils;
-import com.sinopec.smcc.cpro.tools.JacobExcelTool;
 import com.sinopec.smcc.cpro.tools.Utils;
-import com.sinopec.smcc.cpro.tools.excel.ExcelCopy;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
@@ -112,6 +137,12 @@ public class SystemServiceImpl implements SystemService {
   private SystemApiClient systemApiClient;
   @Autowired
   private SystemRelationMapper systemRelationMapper;
+  @Autowired
+  private GradingService gradingServiceImpl;
+  @Autowired
+  private AttachMapper attachMapper;
+  @Autowired
+  private OrganizationApiService organizationApiServiceImpl;
 	
 	/**
    * 响应系统列表数据
@@ -184,17 +215,17 @@ public class SystemServiceImpl implements SystemService {
   public String saveSystem(String userName, SystemParam systemParam) 
       throws BusinessException {
     //获得用户信息
-    UserDTO userDTO = userApiServiceImpl.getUserInfo();
-    String fkCompanyCode = "";
-    String[] orgCodes = userDTO.getOrgCode().split(",");
-    for (String strCode : orgCodes) {
-      if (strCode.trim().length()>8) {
-        fkCompanyCode = strCode.trim().substring(0, 8);
-      }else {
-        fkCompanyCode = strCode.trim();
-      }
-      break;
-    }
+//    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+//    String fkCompanyCode = "";
+//    String[] orgCodes = userDTO.getOrgCode().split(",");
+//    for (String strCode : orgCodes) {
+//      if (strCode.trim().length()>8) {
+//        fkCompanyCode = strCode.trim().substring(0, 8);
+//      }else {
+//        fkCompanyCode = strCode.trim();
+//      }
+//      break;
+//    }
     
     List<SystemKeyProducts> keyList = systemParam.getSystemKeyProducts();
     List<SystemParam> systemCode = systemParam.getAddSystemSub();
@@ -218,13 +249,13 @@ public class SystemServiceImpl implements SystemService {
     }
     systemParam.setRecordStatus(1);
     systemParam.setGradingStatus(1);
-    systemParam.setFkChangeMatter(5);
-    systemParam.setAppIsInternet(2);
+    systemParam.setFkChangeMatter(0);
+//    systemParam.setAppIsInternet(2);
     systemParam.setCreateTime(new Date());
     systemParam.setEvaluationStatus(1);
-    if(systemParam.getFkComCode() == 2){
-      systemParam.setFkCompanyCode(fkCompanyCode);
-    }
+//    if(systemParam.getFkComCode() == 2){
+//      systemParam.setFkCompanyCode(fkCompanyCode);
+//    }
     subSystemList.add(systemParam);
     
     //不是合并系统
@@ -453,14 +484,73 @@ public class SystemServiceImpl implements SystemService {
 	      systemTempParam.setSystemId(systemSubParam.getSystemId());
 	      systemParamAddList.add(systemTempParam);
 	      for(SystemParam systemParamSon : systemParam.getAddSystemSub()){
-	        //如果已有子系统与新提交的子系统Code相同，则sonBoo为true，不进行删除
+	        //如果已有子系统与新提交的子系统Code相同，则sonBoo为true
 	        if(systemParamSon.getStandardizedCode().equals(systemSubParam.getStandardizedCode())){
 	          sonBoo = true;
 	          break;
 	        }
 	      }
+	      //如果不相同则将该系统修改为 不合并系统 并去除fkFatherSystemId
 	      if(!sonBoo){
-	        systemTempParam.setDeleteStatus(2);
+	        List<SystemParam> systemDelete = new ArrayList<SystemParam>();
+	        SystemParam systemParamDel = new SystemParam();
+	        systemParamDel.setSystemId(systemSubParam.getSystemId());
+	        systemParamDel.setFkFatherSystemId("");
+	        systemParamDel.setFkSystemType(1);
+	        systemDelete.add(systemParamDel);
+	        systemMapper.updateSubStat(systemDelete);
+	        
+	        //创建子系统定级信息
+	        GradingParam gradingParam = new GradingParam();
+	        gradingParam.setFkSystemId(systemParam.getSystemId());
+	        GradingListResult gradingListResult = gradingServiceImpl.queryDetailsGrading(gradingParam);
+	        if(gradingListResult != null){
+	          GradingParam gradingParamSon = new GradingParam();
+	          gradingParamSon.setFkSystemId(systemSubParam.getSystemId());
+	          gradingParamSon.setFkBizSPRankDegree(gradingListResult.getFkBizSPRankDegree());
+	          gradingParamSon.setFkBizSPRankLevel(gradingListResult.getFkBizSPRankLevel());
+	          gradingParamSon.setFkBizSystemDegree(gradingListResult.getFkBizSystemDegree());
+	          gradingParamSon.setFkBizSystemLevel(gradingListResult.getFkBizSystemLevel());
+	          gradingParamSon.setFkSpRanklevel(gradingListResult.getFkSpRanklevel());
+	          gradingParamSon.setExpertView(gradingListResult.getExpertView());
+	          gradingParamSon.setRankExplainDesc(gradingListResult.getRankExplainDesc());
+	          gradingParamSon.setRankTime(gradingListResult.getRankTime());
+	          gradingParamSon.setCompetentIsExisting(gradingListResult.getCompetentIsExisting());
+	          if(gradingListResult.getCompetentIsExisting() == 1){
+	            gradingParamSon.setCompetentName(gradingListResult.getCompetentName());
+	            gradingParamSon.setCompetentView(gradingListResult.getCompetentView());
+	          }
+	          if(StringUtils.isNotBlank(gradingListResult.getFiller())){
+	            gradingParamSon.setFiller(gradingListResult.getFiller());
+	          }
+  	        if(gradingListResult.getFillDate() != null){
+  	          gradingParamSon.setFillDate(gradingListResult.getFillDate());
+  	        }
+  	        //  定级报告
+  	        if(StringUtils.isNotBlank(gradingListResult.getGradingReportId())){
+  	          AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(gradingListResult.getGradingReportId());
+              AttachResult attachResult = attachMapper.selectSingleAttachByFileId(attachParam);
+              gradingParamSon.setGradingReportPath(attachResult.getUploadUrl());
+              gradingParamSon.setGradingReportName(attachResult.getAttachName());
+  	        }
+  	        //专家评审报告
+  	        if(StringUtils.isNotBlank(gradingListResult.getExpertReviewId())){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(gradingListResult.getExpertReviewId());
+              AttachResult attachResult = attachMapper.selectSingleAttachByFileId(attachParam);
+              gradingParamSon.setGradingReportPath(attachResult.getUploadUrl());
+              gradingParamSon.setGradingReportName(attachResult.getAttachName());
+            }
+  	        //上级主管部门审批意见
+            if(StringUtils.isNotBlank(gradingListResult.getExpertReviewId())){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(gradingListResult.getExpertReviewId());
+              AttachResult attachResult = attachMapper.selectSingleAttachByFileId(attachParam);
+              gradingParamSon.setGradingReportPath(attachResult.getUploadUrl());
+              gradingParamSon.setGradingReportName(attachResult.getAttachName());
+            }
+	        }
 	      }
 	      this.systemMapper.updateSystemEdit(systemTempParam);
       }
@@ -997,10 +1087,1500 @@ public class SystemServiceImpl implements SystemService {
         selectSystemAllInfoBySystemParam(systemParam);
     
     
-    String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
+    /*String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
     //String tempName = MainConstant.SYSTEM_TEMP_NAME;//系统模板导出名
-    String tempName = "systemExportTempCopy.xls";//系统模板导出名
-    JacobExcelTool tool = new JacobExcelTool();
+    String tempName = "systemExportTempCopy.xls";//系统模板导出名 
+*/    
+    //显示的导出表的标题
+    String title = "信息系统模版(黄色为必选项)";
+    //导出表的列名
+    String[] rowName = new String[]{"序号","系统名称","系统编号","等保备案系统名称","所属单位名称",
+        "何时投入使用","主管处室名称","主管联系人","联系人电话","系统是否为分系统",
+        "上级系统名称","业务类型","是否有此业务类型","业务描述","服务范围",
+        "服务范围所跨地区个数或其他","服务对象","其他","覆盖范围","是否有此覆盖范围值",
+        "网络性质","其他","系统互联情况","是否有此系统互联情况值","产品类型",
+        "数量","使用情况","使用国产品率","服务类型","是否有此服务类型",
+        "服务责任方类型"};
+    //合并列名
+    String[] rowName2 = new String[]{
+        "","系统基本信息","系统承载业务情况","系统服务情况","系统网络平台",
+        "系统互联情况","关键产品使用情况","系统采用服务情况"};
+    
+    //有要导出的对象时
+    if(systemAllInfoResultList != null && systemAllInfoResultList.size() > 0){
+      try {
+        HSSFWorkbook workbook = new HSSFWorkbook();// 创建工作薄
+        HSSFSheet sheet = workbook.createSheet("信息系统模版");// 创建工作表
+        
+        sheet.protectSheet("system");
+        HSSFSheet hidden = workbook.createSheet("hidden");
+        HSSFSheet hidden2 = workbook.createSheet("hidden2");
+        // 数据源sheet页不显示
+        workbook.setSheetHidden(1, true);
+        workbook.setSheetHidden(2, true);
+        
+        // 产生表格标题行
+        HSSFRow rowm = sheet.createRow(0);
+        HSSFCell cellTitle = rowm.createCell(0);
+        
+        // sheet样式定义【getColumnTopStyle()/getStyle()均为自定义方法 - 在下面 - 可扩展】
+        HSSFCellStyle columnTopStyle = this.getColumnTopStyle(workbook);// 获取列头样式对象
+        
+        HSSFCellStyle style = this.getStyle(workbook);// 单元格样式对象
+        HSSFCellStyle style2 = this.getStyleWarn(workbook);// 警告单元格样式对象
+        HSSFCellStyle style3 = this.getStyleTimeWarn(workbook);// 时间警告单元格样式对象
+        HSSFCellStyle style4 = this.getStyleWarn25(workbook);// 25列警告单元格样式对象
+        HSSFCellStyle style5 = this.getStyleWarn27(workbook);// 27列警告单元格样式对象
+        
+        // 合并列
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, (rowName.length - 1)));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 1, 10));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 11, 13));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 14, 17));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 18, 21));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 22, 23));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 24, 27));
+        sheet.addMergedRegion(new CellRangeAddress(2, 2, 28, 30));
+        
+        // 冻结单元格区域
+        sheet.createFreezePane(4, 4);
+        
+        // 合并行
+        for (int j = 0; j < systemAllInfoResultList.size(); j++) {
+          for (int i = 0; i < rowName.length; i++) {
+            if (i == 11 || i == 12 || i == 24 || i == 25 || i == 26 || i == 27) {
+              sheet.addMergedRegion(new CellRangeAddress(9 + j * 8, 11 + j * 8, i, i));
+            } else if (i == 18 || i == 19) {
+              sheet.addMergedRegion(new CellRangeAddress(7 + j * 8, 11 + j * 8, i, i));
+            } else if (i == 22 || i == 23) {
+              sheet.addMergedRegion(new CellRangeAddress(7 + j * 8, 11 + j * 8, i, i));
+            } else if (i == 28 || i == 29 || i == 30) {
+              //sheet.addMergedRegion(new CellRangeAddress(11 + j * 8, 11 + j * 8, i, i));
+            } else {
+              sheet.addMergedRegion(new CellRangeAddress(4 + j * 8, 11 + j * 8, i, i));
+            }
+          }
+        }
+        
+        Name namedCell = workbook.createName();
+        Name namedCell2 = workbook.createName();
+        // 下拉列
+        for (int j = 0; j < systemAllInfoResultList.size(); j++) {
+          for (int i = 0; i < rowName.length; i++) {
+            CellRangeAddressList regions = null;
+            DVConstraint constraint = null;
+            if (i == 9) {
+              //  是否分为系统
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "是", "否" });// 生成下拉框内容
+            } else if (i == 4) {
+              // 生成下拉框内容(所属单位名称)
+              /*if(this.getUnitInfoList() != null && this.getUnitInfoList().length>0){
+                regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+                constraint = DVConstraint.createExplicitListConstraint(this.getUnitInfoList());
+              }*/
+              if(this.getUnitInfoList() != null && this.getUnitInfoList().length>0){
+                regions = new CellRangeAddressList(4 + j * 8, 8 + j * 8, i, i); // 创建所要下拉的区域
+                constraint = this.getUnitNameList(workbook, hidden2, this.getUnitInfoList(), namedCell2);// 生成下拉框内容
+              }
+            } else if (i == 10) {
+              //  上级系统名称
+              if(this.getUpSystemList() != null && this.getUpSystemList().length>0){
+                regions = new CellRangeAddressList(4 + j * 8, 8 + j * 8, i, i); // 创建所要下拉的区域
+                constraint = this.getDownList(workbook, hidden, this.getUpSystemList(), namedCell);// 生成下拉框内容
+              }
+            } else if (i == 12) {
+              //  是否有此业务类型
+              regions = new CellRangeAddressList(4 + j * 8, 8 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "是", "否" });// 生成下拉框内容
+            } else if (i == 14) {
+              //  服务范围
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "全国", "全省（区、市）", "跨省（区、市）", "跨地（市、区）", "地（市、区）内 ", "其他" });// 生成下拉框内容
+            } else if (i == 16) {
+              //  服务对象
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "单位内部人员 ", "社会公众人员", "两者均包括" });// 生成下拉框内容
+            } else if (i == 19) {
+              //  是否有此覆盖范围值
+              regions = new CellRangeAddressList(4 + j * 8, 6 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "是", "否" });// 生成下拉框内容
+            } else if (i == 20) {
+              //  网络性质
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "业务专网", "互联网" });// 生成下拉框内容
+            } else if (i == 23) {
+              //  是否有此系统互联情况
+              regions = new CellRangeAddressList(4 + j * 8, 6 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "是", "否" });// 生成下拉框内容
+            } else if (i == 26) {
+              //  使用情况
+              regions = new CellRangeAddressList(4 + j * 8, 9 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "全部使用", "全部未使用", "部分使用" });// 生成下拉框内容
+            } else if (i == 29) {
+              //  是否有此服务类型
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "是", "否" });// 生成下拉框内容
+            } else if (i == 30) {
+              //  服务责任方类型
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "本行业（单位）", "国内其他服务商", "国外服务商" });// 生成下拉框内容
+            }
+            
+            if (regions != null && constraint != null) {
+              HSSFDataValidation data_validation = new HSSFDataValidation(regions, constraint);// 绑定下拉框和作用区域
+              sheet.addValidationData(data_validation);// 对sheet页生效
+            }
+          }
+        }
+
+        cellTitle.setCellStyle(columnTopStyle);
+        cellTitle.setCellValue(title);
+        
+        int columnNum = rowName.length; // 定义所需列数
+        HSSFRow rowRowName = sheet.createRow(3);// 在索引2的位置创建行(最顶端的行开始的第二行)
+
+        // 将列头设置到sheet的单元格中
+        for (int n = 0; n < columnNum; n++) {
+          HSSFCell cellRowName = rowRowName.createCell(n);// 创建列头对应个数的单元格
+          //cellRowName.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+          HSSFRichTextString text = new HSSFRichTextString(rowName[n]);
+          cellRowName.setCellValue(text);// 设置列头单元格的值
+          cellRowName.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        }
+
+        HSSFRow rowRowName2 = sheet.createRow(2);
+
+        HSSFCell cellRowName = rowRowName2.createCell(0);// 创建列头对应个数的单元格
+        //cellRowName.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text = new HSSFRichTextString(rowName2[0]);
+        cellRowName.setCellValue(text);// 设置列头单元格的值
+        cellRowName.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+        HSSFCell cellRowName2 = rowRowName2.createCell(1);// 创建列头对应个数的单元格
+        //cellRowName2.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text2 = new HSSFRichTextString(rowName2[1]);
+        cellRowName2.setCellValue(text2);// 设置列头单元格的值
+        cellRowName2.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        for (int k = 2; k < 11; k++) {
+          HSSFCell cellRow = rowRowName2.createCell(k);
+          cellRow.setCellStyle(columnTopStyle);
+        }
+
+        HSSFCell cellRowName3 = rowRowName2.createCell(11);// 创建列头对应个数的单元格
+        //cellRowName3.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text3 = new HSSFRichTextString(rowName2[2]);
+        cellRowName3.setCellValue(text3);// 设置列头单元格的值
+        cellRowName3.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        for (int k = 12; k < 14; k++) {
+          HSSFCell cellRow = rowRowName2.createCell(k);
+          cellRow.setCellStyle(columnTopStyle);
+        }
+
+        HSSFCell cellRowName4 = rowRowName2.createCell(14);// 创建列头对应个数的单元格
+        //cellRowName4.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text4 = new HSSFRichTextString(rowName2[3]);
+        cellRowName4.setCellValue(text4);// 设置列头单元格的值
+        cellRowName4.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        for (int k = 15; k < 18; k++) {
+          HSSFCell cellRow = rowRowName2.createCell(k);
+          cellRow.setCellStyle(columnTopStyle);
+        }
+
+        HSSFCell cellRowName5 = rowRowName2.createCell(18);// 创建列头对应个数的单元格
+        //cellRowName5.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text5 = new HSSFRichTextString(rowName2[4]);
+        cellRowName5.setCellValue(text5);// 设置列头单元格的值
+        cellRowName5.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        for (int k = 19; k < 22; k++) {
+          HSSFCell cellRow = rowRowName2.createCell(k);
+          cellRow.setCellStyle(columnTopStyle);
+        }
+
+        HSSFCell cellRowName6 = rowRowName2.createCell(22);// 创建列头对应个数的单元格
+        //cellRowName6.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text6 = new HSSFRichTextString(rowName2[5]);
+        cellRowName6.setCellValue(text6);// 设置列头单元格的值
+        cellRowName6.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        HSSFCell cellRowC = rowRowName2.createCell(23);
+        cellRowC.setCellStyle(columnTopStyle);
+
+        HSSFCell cellRowName7 = rowRowName2.createCell(24);// 创建列头对应个数的单元格
+        //cellRowName7.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text7 = new HSSFRichTextString(rowName2[6]);
+        cellRowName7.setCellValue(text7);// 设置列头单元格的值
+        cellRowName7.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        for (int k = 25; k < 28; k++) {
+          HSSFCell cellRow = rowRowName2.createCell(k);
+          cellRow.setCellStyle(columnTopStyle);
+        }
+
+        HSSFCell cellRowName8 = rowRowName2.createCell(28);// 创建列头对应个数的单元格
+        //cellRowName8.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text8 = new HSSFRichTextString(rowName2[7]);
+        cellRowName8.setCellValue(text8);// 设置列头单元格的值
+        cellRowName8.setCellStyle(columnTopStyle);// 设置列头单元格样式
+        for (int k = 29; k < 31; k++) {
+          HSSFCell cellRow = rowRowName2.createCell(k);
+          cellRow.setCellStyle(columnTopStyle);
+        }
+
+        // 将查询出的数据设置到sheet对应的单元格中
+        for (int i = 0; i < systemAllInfoResultList.size(); i++) {
+          SystemAllInfoResult systemInfo = systemAllInfoResultList.get(i);// 遍历每个对象
+          //获取关键产品
+          List<SystemKeyProducts> systemKeyProductsList = systemInfo.getSystemKeyProductsList();
+          //获取采用服务
+          List<SystemUseServices> systemUseServicesList = systemInfo.getSystemUseServicesList();
+          //获取子系统
+          //List<SystemSubResult> systemSubResultList = systemAllInfoResult.getSystemSubResultList();
+          
+          HSSFRow row = sheet.createRow(i * 8 + 4);// 创建所需的行数
+          HSSFRow row3 = sheet.createRow(i * 8 + 5);
+          HSSFRow row4 = sheet.createRow(i * 8 + 6);
+          HSSFRow row5 = sheet.createRow(i * 8 + 7);
+          HSSFRow row6 = sheet.createRow(i * 8 + 8);
+          HSSFRow row7 = sheet.createRow(i * 8 + 9);
+          HSSFRow row8 = sheet.createRow(i * 8 + 10);
+          HSSFRow row9 = sheet.createRow(i * 8 + 11);
+          
+          for (int j = 0; j < 31; j++) {
+            HSSFCell cell = null;// 设置单元格的数据类型
+            if (j == 0) {
+            //序号
+              cell = row.createCell(j);
+              cell.setCellValue(i + 1);
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 1) {
+            //系统名称
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getSystemName());
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 2) {
+            //系统标准化代码
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getStandardizedCode());
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 3) {
+            //等保备案名称
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getGradeRecordSysName());
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 4) {
+            //所属单位名称
+              cell = row.createCell(j);
+              // 设置格式
+              cell.setCellStyle(style2);
+              cell.setCellValue(systemInfo.getCompanyName());
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 5) {
+            //何时投入使用
+              cell = row.createCell(j);
+              HSSFPatriarch p = sheet.createDrawingPatriarch();// 创建绘图对象
+              //TODO:放入时间
+              // 获得批注对象（(int dx1, int dy1, int dx2, int dy2, short
+              // col1, int row1, short col2, int
+              // row2)前四个参数是坐标点,后四个参数是编辑和显示批注时的大小）
+              HSSFComment comment = p.createComment(
+                  new HSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
+              comment.setString(new HSSFRichTextString("请输入格式为：20XX-XX-XX"));
+              cell.setCellComment(comment);// 将批注添加都单元格对象中
+              Date whenInvestmentUse = systemInfo.getWhenInvestmentUse();
+              if (whenInvestmentUse != null) {
+                String strWhenInvestmentUse = DateUtils.getDate("yyyy-MM-dd", whenInvestmentUse);
+                cell.setCellValue(strWhenInvestmentUse);
+              }
+              cell.setCellStyle(style3);
+
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style3);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style3);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style3);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style3);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style3);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style3);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style3);
+            } else if(j == 6){
+            //主管处室名称
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getExecutiveOfficeName());
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if(j == 7){
+            //主管联系人
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getExecutiveDireCon());
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if(j == 8){
+            //联系人电话
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getExecutiveDireConTel());
+              cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(columnTopStyle);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(columnTopStyle);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(columnTopStyle);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 9) {
+            //系统是否为分系统
+              String strSubIsSystem = "";
+              if(systemInfo.getSubIsSystem() == 1){
+                strSubIsSystem = "是";
+              }else if(systemInfo.getSubIsSystem() == 2){
+                strSubIsSystem = "否";
+              }
+              cell = row.createCell(j);
+              cell.setCellValue(strSubIsSystem);
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 10) {
+            //上级系统名称
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getFatherSystemName());
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 11) {//业务类型
+              HSSFCell cell2a = row.createCell(j);// 设置单元格的数据类型
+              cell2a.setCellValue("生产作业");// 设置单元格的值
+              cell2a.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3a = row3.createCell(j);// 设置单元格的数据类型
+              cell3a.setCellValue("指挥调度");// 设置单元格的值
+              cell3a.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell4a = row4.createCell(j);// 设置单元格的数据类型
+              cell4a.setCellValue("管理控制");// 设置单元格的值
+              cell4a.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell5a = row5.createCell(j);// 设置单元格的数据类型
+              cell5a.setCellValue("内部办公");// 设置单元格的值
+              cell5a.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell6a = row6.createCell(j);// 设置单元格的数据类型
+              cell6a.setCellValue("公众服务");// 设置单元格的值
+              cell6a.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell7a = row7.createCell(j);// 设置单元格的数据类型
+              cell7a.setCellValue("其他");// 设置单元格的值
+              cell7a.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 12) {
+            //是否有此业务类型
+              boolean flag = true;
+              String strSysBusSituationType = systemInfo.getSysBusSituationType();
+              cell = row.createCell(j);
+              if("生产作业".equals(strSysBusSituationType)){
+                cell.setCellValue("是");
+                flag = false;
+              }else{
+                cell.setCellValue("否");
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              if("指挥调度".equals(strSysBusSituationType)){
+                cell3.setCellValue("是");
+                flag = false;
+              }else{
+                cell3.setCellValue("否");
+              }
+              cell3.setCellStyle(style2);
+              
+              HSSFCell cell4 = row4.createCell(j);
+              if("管理控制".equals(strSysBusSituationType)){
+                cell4.setCellValue("是");
+                flag = false;
+              }else{
+                cell4.setCellValue("否");
+              }
+              cell4.setCellStyle(style2);
+              
+              HSSFCell cell5 = row5.createCell(j);
+              if("内部办公".equals(strSysBusSituationType)){
+                cell5.setCellValue("是");
+                flag = false;
+              }else{
+                cell5.setCellValue("否");
+              }
+              cell5.setCellStyle(style2);
+              
+              HSSFCell cell6 = row6.createCell(j);
+              if("公众服务".equals(strSysBusSituationType)){
+                cell6.setCellValue("是");
+                flag = false;
+              }else{
+                cell6.setCellValue("否");
+              }
+              cell6.setCellStyle(style2);
+              
+              HSSFCell cell7 = row7.createCell(j);
+              if (flag) {
+                cell7.setCellValue(strSysBusSituationType);
+              }
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 13) {
+            //业务描述
+              cell = row.createCell(j);
+              cell.setCellValue(systemInfo.getSysBusDescription());
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 14) {
+            //服务范围
+              String strSysServiceSitScope = systemInfo.getSysServiceSitScope()==null
+                  ?"":systemInfo.getSysServiceSitScope();
+              String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");
+              cell = row.createCell(j);
+              if((strSysServiceSitScopes.length != 2 
+                  && !"全国".equals(strSysServiceSitScopes[0])
+                  && !"全省（区、市）".equals(strSysServiceSitScopes[0])
+                  && !"地（区、市）".equals(strSysServiceSitScopes[0]))
+                  ||(strSysServiceSitScopes.length == 2 
+                  && !StringUtils.isNumeric(strSysServiceSitScopes[1]))){
+                cell.setCellValue("其他");
+              }else{
+                cell.setCellValue(strSysServiceSitScopes[0]);
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 15) {
+            //服务范围所跨地区个数或其他
+              String strSysServiceSitScope = systemInfo.getSysServiceSitScope()==null
+                  ?"":systemInfo.getSysServiceSitScope();
+              //分割时用"^"字符来分割，但在split方法中要用"\\^"来充当"^"来使用
+              String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");
+              cell = row.createCell(j);
+              if((strSysServiceSitScopes.length != 2 
+                  && !"全国".equals(strSysServiceSitScopes[0])
+                  && !"全省（区、市）".equals(strSysServiceSitScopes[0])
+                  && !"地（区、市）".equals(strSysServiceSitScopes[0]))
+                  ||(strSysServiceSitScopes.length == 2 
+                  && !StringUtils.isNumeric(strSysServiceSitScopes[1]))){
+                cell.setCellValue(strSysServiceSitScope);
+              }else{
+                if (strSysServiceSitScopes.length == 2 
+                    && StringUtils.isNumeric(strSysServiceSitScopes[1])) {
+                  cell.setCellValue(strSysServiceSitScopes[1]);
+                }else{
+                  cell.setCellValue("");
+                }
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 16) {
+            //服务对象
+              String strSysServiceSitObject = systemInfo.getSysServiceSitObject();
+              cell = row.createCell(j);
+              if("单位内部人员".equals(strSysServiceSitObject) 
+                  || "社会公众人员".equals(strSysServiceSitObject) 
+                  || "两者均包括".equals(strSysServiceSitObject)){
+                cell.setCellValue(strSysServiceSitObject);
+              }/*else{
+                cell.setCellValue("其他");
+              }*/
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 17) {
+            //服务对象其他
+              String strSysServiceSitObject = systemInfo.getSysServiceSitObject();
+              cell = row.createCell(j);
+              if("单位内部人员".equals(strSysServiceSitObject) 
+                  || "社会公众人员".equals(strSysServiceSitObject) 
+                  || "两者均包括".equals(strSysServiceSitObject)){
+                //cell.setCellValue("");
+              }else{
+                cell.setCellValue(strSysServiceSitObject);
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 18) {//
+              HSSFCell cell2b = row.createCell(j);// 设置单元格的数据类型
+              cell2b.setCellValue("局域网");// 设置单元格的值
+              cell2b.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3b = row3.createCell(j);// 设置单元格的数据类型
+              cell3b.setCellValue("城域网");// 设置单元格的值
+              cell3b.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell4b = row4.createCell(j);// 设置单元格的数据类型
+              cell4b.setCellValue("广域网");// 设置单元格的值
+              cell4b.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell5b = row5.createCell(j);// 设置单元格的数据类型
+              cell5b.setCellValue("其他");// 设置单元格的值
+              cell5b.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 19) {
+            //是否有此覆盖范围
+              boolean flag = true;
+              String strNpCoverageRange = systemInfo.getNpCoverageRange();
+              cell = row.createCell(j);
+              if("局域网".equals(strNpCoverageRange)){
+                cell.setCellValue("是");
+                flag = false;
+              }else{
+                cell.setCellValue("否");
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              if("城域网".equals(strNpCoverageRange)){
+                cell3.setCellValue("是");
+                flag = false;
+              }else{
+                cell3.setCellValue("否");
+              }
+              cell3.setCellStyle(style2);
+              
+              HSSFCell cell4 = row4.createCell(j);
+              if("广域网".equals(strNpCoverageRange)){
+                cell4.setCellValue("是");
+                flag = false;
+              }else{
+                cell4.setCellValue("否");
+              }
+              cell4.setCellStyle(style2);
+              
+              HSSFCell cell5 = row5.createCell(j);
+              if (flag) {
+                cell5.setCellValue(strNpCoverageRange);
+              }else{
+                //cell5.setCellValue("");
+              }
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 20) {
+            //网络性质
+              String strNpNetworkProperties = systemInfo.getNpNetworkProperties();
+              cell = row.createCell(j);
+              if("业务专网".equals(strNpNetworkProperties) || "互联网".equals(strNpNetworkProperties)){
+                cell.setCellValue(strNpNetworkProperties);
+              }else{
+                //cell.setCellValue("");
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 21) {
+            //网络性质其他
+              String strNpNetworkProperties = systemInfo.getNpNetworkProperties();
+              cell = row.createCell(j);
+              if("业务专网".equals(strNpNetworkProperties) || "互联网".equals(strNpNetworkProperties)){
+                //cell.setCellValue(strNpNetworkProperties);
+              }else{
+                cell.setCellValue(strNpNetworkProperties);
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 22) {
+              HSSFCell cell2c = row.createCell(j);// 设置单元格的数据类型
+              cell2c.setCellValue("与其他行业系统连接 ");// 设置单元格的值
+              cell2c.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3c = row3.createCell(j);// 设置单元格的数据类型
+              cell3c.setCellValue("与本行业其他单位系统连接");// 设置单元格的值
+              cell3c.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell4c = row4.createCell(j);// 设置单元格的数据类型
+              cell4c.setCellValue("与本单位其他系统连接");// 设置单元格的值
+              cell4c.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell5c = row5.createCell(j);// 设置单元格的数据类型
+              cell5c.setCellValue("其他");// 设置单元格的值
+              cell5c.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(columnTopStyle);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(columnTopStyle);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 23) {
+            //系统互联情况
+              boolean flag = true;
+              String strInterconnectionSit = systemInfo.getInterconnectionSit();
+              cell = row.createCell(j);
+              if ("与其他行业系统连接".equals(strInterconnectionSit)) {
+                cell.setCellValue("是");
+                flag = false;
+              }else{
+                cell.setCellValue("否");
+              }
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              if ("与本行业其他单位系统连接".equals(strInterconnectionSit)) {
+                cell3.setCellValue("是");
+                flag = false;
+              }else{
+                cell3.setCellValue("否");
+              }
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              if ("与本单位其他系统连接".equals(strInterconnectionSit)) {
+                cell4.setCellValue("是");
+                flag = false;
+              }else{
+                cell4.setCellValue("否");
+              }
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              if (flag) {
+                cell5.setCellValue(strInterconnectionSit);
+              }
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+            } else if (j == 24) {
+              HSSFCell cell2d = row.createCell(j);// 设置单元格的数据类型
+              cell2d.setCellValue("安全专用产品");// 设置单元格的值
+              cell2d.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3d = row3.createCell(j);// 设置单元格的数据类型
+              cell3d.setCellValue("网络产品");// 设置单元格的值
+              cell3d.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell4d = row4.createCell(j);// 设置单元格的数据类型
+              cell4d.setCellValue("操作系统");// 设置单元格的值
+              cell4d.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell5d = row5.createCell(j);// 设置单元格的数据类型
+              cell5d.setCellValue("数据库");// 设置单元格的值
+              cell5d.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell6d = row6.createCell(j);// 设置单元格的数据类型
+              cell6d.setCellValue("服务器");// 设置单元格的值
+              cell6d.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell7d = row7.createCell(j);// 设置单元格的数据类型
+
+              HSSFPatriarch p = sheet.createDrawingPatriarch();// 创建绘图对象
+              // 获得批注对象（(int dx1, int dy1, int dx2, int dy2, short
+              // col1, int row1, short col2, int
+              // row2)前四个参数是坐标点,后四个参数是编辑和显示批注时的大小）
+              HSSFComment comment = p
+                  .createComment(new HSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
+              comment.setString(new HSSFRichTextString("请输入其他产品类型"));
+              cell7d.setCellComment(comment);// 将批注添加都单元格对象中
+              
+              //其他的关键产品名放入数据
+              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+                if(systemKeyProductsTemp.getFkExaminStatus() == 6){
+                  if(systemKeyProductsTemp.getOtherName() != null){
+                    cell7d.setCellValue(systemKeyProductsTemp.getOtherName());
+                  }
+                }
+              }
+              cell7d.setCellStyle(style);// 设置列头单元格样式
+              
+              //数据验证
+              HSSFDataValidation validate = setValidate((short) (i * 8 + 9),  
+                          (short) j, (short) (i * 8 + 9), (short) j, 20);  
+                  // 设定规则  
+                  sheet.addValidationData(validate); 
+
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(columnTopStyle);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(columnTopStyle);
+            } else if (j == 25) {
+            //数量  
+              HSSFCell cell2d = row.createCell(j);// 设置单元格的数据类型
+              cell2d.setCellStyle(style4);// 设置列头单元格样式
+
+              HSSFCell cell3d = row3.createCell(j);// 设置单元格的数据类型
+              cell3d.setCellStyle(style4);// 设置列头单元格样式
+
+              HSSFCell cell4d = row4.createCell(j);// 设置单元格的数据类型
+              cell4d.setCellStyle(style4);// 设置列头单元格样式
+
+              HSSFCell cell5d = row5.createCell(j);// 设置单元格的数据类型
+              cell5d.setCellStyle(style4);// 设置列头单元格样式
+
+              HSSFCell cell6d = row6.createCell(j);// 设置单元格的数据类型
+              cell6d.setCellStyle(style4);// 设置列头单元格样式
+
+              HSSFCell cell7d = row7.createCell(j);// 设置单元格的数据类型
+              cell7d.setCellStyle(style4);// 设置列头单元格样式
+
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style4);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style4);
+              //放入数量
+              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+                switch (systemKeyProductsTemp.getFkExaminStatus()) {
+                case 1:
+                  if(systemKeyProductsTemp.getProductsNumber() != null){
+                    cell2d.setCellValue(systemKeyProductsTemp.getProductsNumber());
+                  }
+                  break;
+                case 2:
+                  if(systemKeyProductsTemp.getProductsNumber() != null){
+                    cell3d.setCellValue(systemKeyProductsTemp.getProductsNumber());
+                  }
+                  break;
+                case 3:
+                  if(systemKeyProductsTemp.getProductsNumber() != null){
+                    cell4d.setCellValue(systemKeyProductsTemp.getProductsNumber());
+                  }
+                  break;
+                case 4:
+                  if(systemKeyProductsTemp.getProductsNumber() != null){
+                    cell5d.setCellValue(systemKeyProductsTemp.getProductsNumber());
+                  }
+                  break;
+                case 5:
+                  if(systemKeyProductsTemp.getProductsNumber() != null){
+                    cell6d.setCellValue(systemKeyProductsTemp.getProductsNumber());
+                  }
+                  break;
+                case 6:
+                  if(systemKeyProductsTemp.getProductsNumber() != null){
+                    cell7d.setCellValue(systemKeyProductsTemp.getProductsNumber());
+                  }
+                  break;
+                default:
+                  break;
+                }
+              }
+            } else if (j == 26) {
+            //使用情况
+              cell = row.createCell(j);
+              cell.setCellStyle(style2);
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
+              //放入使用情况
+              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+                Integer fkNationalIsProducts = systemKeyProductsTemp.getFkNationalIsProducts();
+                String strFkNationalIsProducts = null;
+                if(fkNationalIsProducts == 1){
+                  strFkNationalIsProducts = "全部使用";
+                }else if(fkNationalIsProducts == 2){
+                  strFkNationalIsProducts = "全部未使用";
+                }else if(fkNationalIsProducts == 3){
+                  strFkNationalIsProducts = "部分使用";
+                }
+                switch (systemKeyProductsTemp.getFkExaminStatus()) {
+                case 1:
+                  if(strFkNationalIsProducts != null){
+                    cell.setCellValue(strFkNationalIsProducts);
+                  }
+                  break;
+                case 2:
+                  if(strFkNationalIsProducts != null){
+                    cell3.setCellValue(strFkNationalIsProducts);
+                  }
+                  break;
+                case 3:
+                  if(strFkNationalIsProducts != null){
+                    cell4.setCellValue(strFkNationalIsProducts);
+                  }
+                  break;
+                case 4:
+                  if(strFkNationalIsProducts != null){
+                    cell5.setCellValue(strFkNationalIsProducts);
+                  }
+                  break;
+                case 5:
+                  if(strFkNationalIsProducts != null){
+                    cell6.setCellValue(strFkNationalIsProducts);
+                  }
+                  break;
+                case 6:
+                  if(strFkNationalIsProducts != null){
+                    cell7.setCellValue(strFkNationalIsProducts);
+                  }
+                  break;
+                default:
+                  break;
+                }
+              }
+            } else if (j == 27) {
+            //国产品使用率
+              HSSFCell cell2d = row.createCell(j);// 设置单元格的数据类型
+              cell2d.setCellStyle(style5);// 设置列头单元格样式
+
+              HSSFCell cell3d = row3.createCell(j);// 设置单元格的数据类型
+              cell3d.setCellStyle(style5);// 设置列头单元格样式
+
+              HSSFCell cell4d = row4.createCell(j);// 设置单元格的数据类型
+              cell4d.setCellStyle(style5);// 设置列头单元格样式
+
+              HSSFCell cell5d = row5.createCell(j);// 设置单元格的数据类型
+              cell5d.setCellStyle(style5);// 设置列头单元格样式
+
+              HSSFCell cell6d = row6.createCell(j);// 设置单元格的数据类型
+              cell6d.setCellStyle(style5);// 设置列头单元格样式
+
+              HSSFCell cell7d = row7.createCell(j);// 设置单元格的数据类型
+              cell7d.setCellStyle(style5);// 设置列头单元格样式
+
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style5);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style5);
+              //放入国产品使用率
+              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+                double nUseProbability = (systemKeyProductsTemp.getnUseProbability()==null
+                    ?0:systemKeyProductsTemp.getnUseProbability())/100.0;
+                Integer fkNationalIsProducts = systemKeyProductsTemp.getFkNationalIsProducts();
+                String strFkNationalIsProducts = null;
+                if(fkNationalIsProducts == 1){
+                  strFkNationalIsProducts = "全部使用";
+                }else if(fkNationalIsProducts == 2){
+                  strFkNationalIsProducts = "全部未使用";
+                }else if(fkNationalIsProducts == 3){
+                  strFkNationalIsProducts = "部分使用";
+                }
+                switch (systemKeyProductsTemp.getFkExaminStatus()) {
+                case 1:
+                  if (strFkNationalIsProducts != null) {
+                    cell2d.setCellValue(nUseProbability);
+                  }
+                  break;
+                case 2:
+                  if (strFkNationalIsProducts != null) {
+                    cell3d.setCellValue(nUseProbability);
+                  }
+                  break;
+                case 3:
+                  if (strFkNationalIsProducts != null) {
+                    cell4d.setCellValue(nUseProbability);
+                  }
+                  break;
+                case 4:
+                  if (strFkNationalIsProducts != null) {
+                    cell5d.setCellValue(nUseProbability);
+                  }
+                  break;
+                case 5:
+                  if (strFkNationalIsProducts != null) {
+                    cell6d.setCellValue(nUseProbability);
+                  }
+                  break;
+                case 6:
+                  if (strFkNationalIsProducts != null) {
+                    cell7d.setCellValue(nUseProbability);
+                  }
+                  break;
+                default:
+                  break;
+                }
+              }
+            } else if (j == 28) {
+              HSSFCell cell2e = row.createCell(j);// 设置单元格的数据类型
+              cell2e.setCellValue("等级测评");// 设置单元格的值
+              cell2e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell3e = row3.createCell(j);// 设置单元格的数据类型
+              cell3e.setCellValue("风险评估");// 设置单元格的值
+              cell3e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell4e = row4.createCell(j);// 设置单元格的数据类型
+              cell4e.setCellValue("灾难恢复");// 设置单元格的值
+              cell4e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell5e = row5.createCell(j);// 设置单元格的数据类型
+              cell5e.setCellValue("应急响应");// 设置单元格的值
+              cell5e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell6e = row6.createCell(j);// 设置单元格的数据类型
+              cell6e.setCellValue("系统集成");// 设置单元格的值
+              cell6e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell7e = row7.createCell(j);// 设置单元格的数据类型
+              cell7e.setCellValue("安全咨询");// 设置单元格的值
+              cell7e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell8e = row8.createCell(j);// 设置单元格的数据类型
+              cell8e.setCellValue("安全培训");// 设置单元格的值
+              cell8e.setCellStyle(columnTopStyle);// 设置列头单元格样式
+
+              HSSFCell cell9e = row9.createCell(j);// 设置单元格的数据类型
+
+              HSSFPatriarch p = sheet.createDrawingPatriarch();// 创建绘图对象
+              // 获得批注对象（(int dx1, int dy1, int dx2, int dy2, short
+              // col1, int row1, short col2, int
+              // row2)前四个参数是坐标点,后四个参数是编辑和显示批注时的大小）
+              HSSFComment comment = p
+                  .createComment(new HSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
+              comment.setString(new HSSFRichTextString("请输入其他服务类型"));
+              cell9e.setCellComment(comment);// 将批注添加都单元格对象中
+              //放入其他的使用服务
+              for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
+                if (systemUseServicesTemp.getFkProductsType() == 8) {
+                  if (systemUseServicesTemp.getOtherName() != null) {
+                    cell9e.setCellValue(systemUseServicesTemp.getOtherName());
+                  }
+                }
+              }
+              cell9e.setCellStyle(style);// 设置列头单元格样式
+              
+              //数据验证
+              HSSFDataValidation validate = setValidate((short) (i * 8 + 11),  
+                          (short) j, (short) (i * 8 + 11), (short) j, 20);  
+                  // 设定规则  
+                  sheet.addValidationData(validate); 
+            } else if(j == 29) {
+            //是否有此服务类型
+              cell = row.createCell(j);
+              cell.setCellStyle(style);
+
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style);
+
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style);
+
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style);
+
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style);
+
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style);
+
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style);
+
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style);
+              
+              //系统采用服务情况 是否有此服务类型
+              for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
+                //服务类型
+                Integer fkProductsType = systemUseServicesTemp.getFkProductsType()==null
+                    ?0:systemUseServicesTemp.getFkProductsType();
+                //是否采用
+                Integer serviceIsUse = systemUseServicesTemp.getServiceIsUse();
+                String strServiceIsUse = null;
+                if(serviceIsUse == 1){
+                  strServiceIsUse = "是";
+                }else if(serviceIsUse == 2){
+                  strServiceIsUse = "否";
+                }
+                switch (fkProductsType) {
+                case 1:
+                  if(strServiceIsUse != null){
+                    cell.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 2:
+                  if(strServiceIsUse != null){
+                    cell3.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 3:
+                  if(strServiceIsUse != null){
+                    cell4.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 4:
+                  if(strServiceIsUse != null){
+                    cell5.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 5:
+                  if(strServiceIsUse != null){
+                    cell6.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 6:
+                  if(strServiceIsUse != null){
+                    cell7.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 7:
+                  if(strServiceIsUse != null){
+                    cell8.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                case 8:
+                  if(strServiceIsUse != null){
+                    cell9.setCellValue(strServiceIsUse);
+                  }
+                  break;
+                default:
+                  break;
+                }
+              }//系统采用服务情况end
+              //数据验证
+              HSSFDataValidation validate = setValidate((short) (i * 8 + 4),  
+                          (short) j, (short) (i * 8 + 11), (short) j, 30);  
+                  // 设定规则  
+                  sheet.addValidationData(validate);
+            } else if(j == 30) {
+            //服务责任方类型
+              cell = row.createCell(j);
+              cell.setCellStyle(style);
+
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style);
+
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style);
+
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style);
+
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style);
+
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style);
+
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style);
+
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style);
+              
+              //系统采用服务情况 服务责任方类型
+              for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
+                //服务类型
+                Integer fkProductsType = systemUseServicesTemp.getFkProductsType()==null
+                    ?0:systemUseServicesTemp.getFkProductsType();
+                //服务责任方类型
+                String fkResponsibleType = systemUseServicesTemp.getFkResponsibleType();
+                String strFkResponsibleType = null;
+                if("1".equals(fkResponsibleType)){
+                  strFkResponsibleType = "本行业（单位）";
+                }else if("2".equals(fkResponsibleType)){
+                  strFkResponsibleType = "国内其他服务商";
+                }else if("3".equals(fkResponsibleType)){
+                  strFkResponsibleType = "国外服务商";
+                }
+                switch (fkProductsType) {
+                case 1:
+                  if(strFkResponsibleType != null){
+                    cell.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 2:
+                  if(strFkResponsibleType != null){
+                    cell3.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 3:
+                  if(strFkResponsibleType != null){
+                    cell4.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 4:
+                  if(strFkResponsibleType != null){
+                    cell5.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 5:
+                  if(strFkResponsibleType != null){
+                    cell6.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 6:
+                  if(strFkResponsibleType != null){
+                    cell7.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 7:
+                  if(strFkResponsibleType != null){
+                    cell8.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                case 8:
+                  if(strFkResponsibleType != null){
+                    cell9.setCellValue(strFkResponsibleType);
+                  }
+                  break;
+                default:
+                  break;
+                }
+              }//系统采用服务情况end
+            }
+            
+          }
+        }
+
+        // 让列宽随着导出的列长自动适应
+        for (int colNum = 0; colNum < columnNum; colNum++) {
+          int columnWidth = sheet.getColumnWidth(colNum) / 256;
+          for (int rowNum = 0; rowNum < sheet.getLastRowNum(); rowNum++) {
+            HSSFRow currentRow;
+            // 当前行未被使用过
+            if (sheet.getRow(rowNum) == null) {
+              currentRow = sheet.createRow(rowNum);
+            } else {
+              currentRow = sheet.getRow(rowNum);
+            }
+            if (currentRow.getCell(colNum) != null) {
+              HSSFCell currentCell = currentRow.getCell(colNum);
+              if (currentCell.getCellTypeEnum() == CellType.STRING) {
+                int length = currentCell.getStringCellValue().getBytes().length;
+                if (columnWidth < length) {
+                  columnWidth = length;
+                }
+              }
+            }
+          }
+          if (colNum == 0) {
+            sheet.setColumnWidth(colNum, 8 * 256);
+          } else if (colNum == 1) {
+            sheet.setColumnWidth(colNum, 15 * 256);
+          } else if (colNum == 3) {
+            sheet.setColumnWidth(colNum, 25 * 256);
+          } else {
+            sheet.setColumnWidth(colNum, (columnWidth + 4) * 256);
+          }
+        }
+        
+        
+        if (workbook != null) {
+          try {
+            /*SimpleDateFormat sdm = new SimpleDateFormat("yyyyMMdd");
+            String fileName = "信息系统导入模版-" + sdm.format(new Date()) + ".xls";
+            response.setContentType("APPLICATION/OCTET-STREAM");
+            
+            response.reset();
+            String agent = request.getHeader("User-Agent");
+            boolean isMSIE = (agent != null && agent.toLowerCase().matches(".*(msie\\s|trident.*rv:)([\\w.]+).*"));
+            if (isMSIE) {
+              response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF8") + "\"");
+            } else {
+              response.setHeader("Content-Disposition", "attachment; filename=\"" + new String((fileName).getBytes(), "ISO8859-1") + "\"");
+            }
+            
+            
+            OutputStream out = response.getOutputStream();*/
+            
+            String temporaryCopyPath = MainConstant.TEMPORARY_FILE_PATH;
+            String exportUrl = "systemExportTemp"+"_"+DateUtils.getMilliseconds()+".xls";
+            String exportName = "系统导出模板"+".xls";
+            String newFile = temporaryCopyPath + exportUrl;
+            File exportFile = new File(newFile);
+            String exportAbsolutePath = exportFile.getAbsolutePath();
+            OutputStream out = new FileOutputStream(new File(exportAbsolutePath));
+            workbook.write(out);
+            out.flush();
+            out.close();
+            
+            attachResult = new AttachResult();
+            attachResult.setUploadUrl(exportUrl);
+            attachResult.setAttachName(exportName);
+          } catch (Exception e) {
+            /*logger.error(e);
+            throw new Exception(getText("ExportExcelException"), e);*/
+            e.printStackTrace();
+            attachResult = null;
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+        attachResult = null;
+      }
+    }
+    return attachResult;
+    
+    /*JacobExcelTool tool = new JacobExcelTool();
+    InputStream is = null;
+    OutputStream os = null;
+    HSSFWorkbook wb = null;
     try {
       
       //获取模板文件
@@ -1016,7 +2596,7 @@ public class SystemServiceImpl implements SystemService {
       String newFile = temporaryCopyPath + exportUrl;
       File exportFile = new File(newFile);
       String exportAbsolutePath = exportFile.getAbsolutePath();
-      /*FileInputStream ins = new FileInputStream(tempFile);
+      FileInputStream ins = new FileInputStream(tempFile);
       FileOutputStream out = new FileOutputStream(exportFile);
       byte[] b = new byte[1024];
       int count=0;
@@ -1024,12 +2604,12 @@ public class SystemServiceImpl implements SystemService {
         out.write(b, 0, count);
       }
       ins.close();
-      out.close();*/
+      out.close();
       
       //复制系统格式
-      InputStream is = new FileInputStream(tempAbsolutePath);
-      OutputStream os = new FileOutputStream(new File(exportAbsolutePath));
-      HSSFWorkbook wb = new HSSFWorkbook(is);
+      is = new FileInputStream(tempAbsolutePath);
+      os = new FileOutputStream(new File(exportAbsolutePath));
+      wb = new HSSFWorkbook(is);
       HSSFSheet sheet = wb.getSheetAt(0);
       for (int i = 1; i < systemAllInfoResultList.size(); i++) {
         ExcelCopy.copySelfRows(5, 12, 4+8*i, sheet);
@@ -1129,7 +2709,7 @@ public class SystemServiceImpl implements SystemService {
         //系统服务情况—服务范围
         String strSysServiceSitScope = systemAllInfoResult.getSysServiceSitScope()==null
             ?"":systemAllInfoResult.getSysServiceSitScope();
-        String[] strSysServiceSitScopes = strSysServiceSitScope.split("^");
+        String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");
         if((strSysServiceSitScopes.length != 2 
               && !"全国".equals(strSysServiceSitScopes[0])
               && !"全省（区、市）".equals(strSysServiceSitScopes[0])
@@ -1340,10 +2920,23 @@ public class SystemServiceImpl implements SystemService {
       attachResult.setAttachName(exportName);
       return attachResult;
     } catch (Exception e) {
-      // TODO: handle exception
       attachResult = null;
       return attachResult;
-    }
+    } finally {
+      try {
+        if (wb != null) {
+          wb.close();
+        }
+        if (os != null) {
+          os.close();
+        }
+        if (is != null) {
+          is.close();
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }*/
     /*for (int i = 0; i < systemTemPlate.size(); i++) {
         //系统名称
         tool.setValue(tool.getCurrentSheet(), "B"+(5+8*i), "value",systemTemPlate.get(i).getSystemName());
@@ -1789,334 +3382,716 @@ public class SystemServiceImpl implements SystemService {
 //    } 
   }
   /**
-	 * 系统批量导入
-	 * 
-	 * @throws IOException
-	 * @throws BusinessException
-	 */
-	@Override
-	public boolean importForSystemTemplate(String userName, String strFilePath)
-			throws IOException, BusinessException {
-		List<SystemTemplateListResult> systemCode = systemMapper.selectSystemCode();
+   * @Descrption  数据长度的验证
+   * @author yejingyang
+   * @date 2018年8月9日下午7:07:10
+   * @param beginRow
+   * @param beginCol
+   * @param endRow
+   * @param endCol
+   * @param length
+   * @return
+   */
+  private HSSFDataValidation setValidate(short beginRow,  
+          short beginCol, short endRow, short endCol, Integer length) {  
+      DVConstraint constraint = DVConstraint.createNumericConstraint(  
+              DVConstraint.ValidationType.TEXT_LENGTH,  
+              DVConstraint.OperatorType.BETWEEN, "1", length.toString());  
+      // 设定在哪个单元格生效  
+      CellRangeAddressList regions = new CellRangeAddressList(beginRow,  
+          endRow, beginCol, endCol);  
+      // 创建规则对象  
+      HSSFDataValidation ret = new HSSFDataValidation(regions, constraint); 
+      ret.createErrorBox("错误", "请输入" + length + "以内的字符！");
+      return ret;
+  }
 
-		// 读取excel数据
-		List<String[]> dataList = null;
-		try {
-			dataList = ExcelUtils.read(SystemConstant.EXCEL_FILE_IMPORT_PATH+strFilePath, "信息系统模版");
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-		}
+  /**
+   * @Descrption  因下拉列表过大，所以如此解决
+   * @author yejingyang
+   * @date 2018年8月9日下午4:03:03
+   * @param workbook
+   * @param hidden
+   * @param datas
+   * @param namedCell
+   * @return
+   */
+  private DVConstraint getDownList(HSSFWorkbook workbook, HSSFSheet hidden, String[] datas,
+      Name namedCell) {
+    CellStyle style = workbook.createCellStyle();
+    // style.setDataFormat(HSSFDataFormat.getBuiltinFormat("0"));
+    
+    //style.setAlignment(CellStyle.ALIGN_CENTER);
+    style.setAlignment(HorizontalAlignment.CENTER);
+    //style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+    style.setVerticalAlignment(VerticalAlignment.CENTER);
+    
+    HSSFRow row = null;
+    HSSFCell cell = null;
+    for (int i = 0, length = datas.length; i < length; i++) {
+      row = hidden.createRow(i);
+      cell = row.createCell(0);
+      cell.setCellValue(datas[i]);
+    }
+    if(datas != null && datas.length>0){
+      namedCell.setNameName("hidden");
+      namedCell.setRefersToFormula("hidden!$A$1:$A$" + datas.length);
+    }
+    
+    DVConstraint constraint = DVConstraint.createFormulaListConstraint("hidden");
+    return constraint;
+  }
 
-		// 将excel取出的数据过滤后转成标准数据
-		List<SystemParam> sysListInfo = new ArrayList<SystemParam>();
+  /**
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年8月9日下午4:00:23
+   * @return
+   */
+  private String[] getUpSystemList() {
+    try {
+      /*List<InfosysSituation> list = infoSystemService.getgetInfoSystemExceptId(getLoginUser().getUserID(), null);
+      String[] array = new String[list.size()];
+      for (int i = 0; i < list.size(); i++) {
+        array[i] = list.get(i).getSystemName();
+      }
+      return array;*/
+      String[] array = new String[]{};
+      List<SystemListResult> list = this.systemMapper.selectAllBySystemParam(new SystemParam());
+      if (list != null && list.size() > 0) {
+        array = new String[list.size()];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = list.get(i).getSystemName();
+        }
+      }
+      return array;
+    } catch (Exception e) {
+      /*logger.error(e);
+      throw new Exception(getText("common.msg.server.error"), e);*/
+      return new String[]{};
+    }
+  }
 
-		int dataListSize = dataList.size();
-		if (dataListSize > 5000) {
-			throw new BusinessException(EnumResult.ERROR);
-		}
-		List<Map<String, String>> isService = new ArrayList<Map<String, String>>();
-		Map<String, String> isNan = new HashMap<String, String>();// 系统承载业务情况
-		List<Map<String, String>> isSysNetWork = new ArrayList<Map<String, String>>();
-		Map<String, String> sysNetWork = new HashMap<String, String>();// 系统网络平台
-		List<Map<String, String>> isSysNetSit = new ArrayList<Map<String, String>>();
-		Map<String, String> sysNetSit = new HashMap<String, String>();// 系统互联情况
-		List<List<String[]>> isProUseSitList = new ArrayList<List<String[]>>();
-		List<String[]> isProUseSit = new ArrayList<String[]>();// 产品使用情况
-		List<List<String[]>> isServiceTypeList = new ArrayList<List<String[]>>();
-		List<String[]> serviceType = new ArrayList<String[]>();// 系统服务情况
+  /**
+   * @Descrption  因单位列表下拉框过大
+   * @author yejingyang
+   * @date 2018年8月9日下午3:57:04
+   * @param workbook
+   * @param hidden
+   * @param datas
+   * @param namedCell
+   * @return
+   */
+  private DVConstraint getUnitNameList(HSSFWorkbook workbook, HSSFSheet hidden, 
+      String[] datas, Name namedCell) {
+    CellStyle style = workbook.createCellStyle();
+    // style.setDataFormat(HSSFDataFormat.getBuiltinFormat("0"));
+    //style.setAlignment(CellStyle.ALIGN_CENTER);
+    style.setAlignment(HorizontalAlignment.CENTER);
+    //style.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+    style.setVerticalAlignment(VerticalAlignment.CENTER);
+    HSSFRow row = null;
+    HSSFCell cell = null;
+    for (int i = 0, length = datas.length; i < length; i++) {
+      row = hidden.createRow(i);
+      cell = row.createCell(0);
+      cell.setCellValue(datas[i]);
+    }
+    if(datas != null && datas.length>0){
+      namedCell.setNameName("unitName");
+      namedCell.setRefersToFormula("hidden2!$A$1:$A$" + datas.length);
+    }
+    
+    DVConstraint constraint = DVConstraint.createFormulaListConstraint("unitName");
+    return constraint;
+  }
 
-		int countLeng = 0;
-		String[] strsList = new String[dataListSize - 3];
+  /**
+   * @Descrption  根据登录者id获取所属单位信息
+   * @author yejingyang
+   * @date 2018年8月9日下午3:27:57
+   * @return
+   */
+  private String[] getUnitInfoList() {
+    try {
+      //List<LpUnitInfo> list = unitInfoService.getRightUnitInfo(getLoginUser().getUserID());
+      //List<SnpViewNode> list = unitInfoService.getAllLeafViewNode();
+      /*paramSearchMap.put("userid", getLoginUser().getUserID());
+      paramSearchMap.put("orderCol", "");
+      paramSearchMap.put("isFilter", "yes");
+      pageManage.setRows(Integer.MAX_VALUE);
+      List<LpUnitInfo> list = unitInfoService.listUnitInfo(paramSearchMap, pageManage);
+      String[] array = new String[list.size()];
+      if(CharUtil.isNotEmpty(list) && list.size()>0){
+        for (int i = 0; i < list.size(); i++) {
+          array[i] = list.get(i).getUnitName();
+        }
+      }
+      return array;*/
+      List<OrganizationApi> organizationApi = this.organizationApiServiceImpl.
+          queryOrgForKeyOrganizationCode(new OrganizationApiParam());
+      String[] array = new String[]{};
+      if (organizationApi != null && organizationApi.size() > 0) {
+        array = new String[organizationApi.size()];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = organizationApi.get(i).getOrgName();
+        }
+      }
+      return array;
+    } catch (Exception e) {
+      return new String[]{};
+    }
+  }
 
-		// excel行号循环
-		for (int dataListTem = 3, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
-			strsList = dataList.get(dataListTem);
-			if (!strsList[11].isEmpty() && !strsList[11].equals("0")) {
-				isNan.put(strsList[11], strsList[12]);
-			}
-			if (!strsList[18].isEmpty() && !strsList[18].equals("0")) {
-				sysNetWork.put(strsList[18], strsList[19]);
-			}
-			if (!strsList[22].isEmpty() && !strsList[22].equals("0")) {
-				sysNetSit.put(strsList[22], strsList[23]);
-			}
-			if (!strsList[24].isEmpty() && !strsList[24].equals("0")) {
-				String[] proUseSit = new String[4];
-				proUseSit[0] = strsList[24];
-				proUseSit[1] = strsList[25];
-				proUseSit[2] = strsList[26];
-				proUseSit[3] = strsList[27];
-				isProUseSit.add(proUseSit);
-			}
-			if (!strsList[28].isEmpty() && !strsList[28].equals("0")) {
-				String[] serType = new String[3];
-				serType[0] = strsList[28];
-				serType[1] = strsList[29];
-				serType[2] = strsList[30];
-				serviceType.add(serType);
-			}
+  /**
+   * @Descrption  27列警告单元格样式对象
+   * @author yejingyang
+   * @date 2018年8月9日下午3:19:10
+   * @param workbook
+   * @return
+   */
+  @SuppressWarnings("deprecation")
+  private HSSFCellStyle getStyleWarn27(HSSFWorkbook workbook) {
+    // 设置字体
+    HSSFFont font = workbook.createFont();
+    font.setFontHeightInPoints((short) 11);// 设置字体大小
+    font.setBold(true);//weight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+    font.setFontName("Courier New");// 设置字体名称
+    // 设置样式
+    HSSFCellStyle style2 = workbook.createCellStyle();
+    //style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);// 设置底边框
+    style2.setBorderBottom(BorderStyle.THIN);// 设置底边框
+    style2.setBottomBorderColor(HSSFColor.BLACK.index);// 设置底边框颜色
+    //style2.setBorderLeft(HSSFCellStyle.BORDER_THIN); // 设置左边框;
+    style2.setBorderLeft(BorderStyle.THIN); // 设置左边框;
+    style2.setLeftBorderColor(HSSFColor.BLACK.index);// 设置左边框颜色;
+    //style2.setBorderRight(HSSFCellStyle.BORDER_THIN); // 设置右边框;
+    style2.setBorderRight(BorderStyle.THIN); // 设置右边框;
+    style2.setRightBorderColor(HSSFColor.BLACK.index); // 设置右边框颜色;
+    //style2.setBorderTop(HSSFColor.BLACK.index);// 设置顶边框;
+    style2.setBorderTop(BorderStyle.THIN);// 设置顶边框;
+    style2.setTopBorderColor(HSSFColor.BLACK.index); // 设置顶边框颜色;
+    style2.setFillForegroundColor(HSSFColor.YELLOW.index); // 设置单元格背景色;
+    //style2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND); // 设置单元格背景色;
+    style2.setFillPattern(FillPatternType.SOLID_FOREGROUND); // 设置单元格背景色;
+    style2.setFont(font);// 在样式用应用设置的字体;
+    style2.setWrapText(false); // 设置自动换行;
+    //style2.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 设置水平对齐的样式为居中对齐;
+    style2.setAlignment(HorizontalAlignment.CENTER);// 设置水平对齐的样式为居中对齐;
+    //style2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 设置垂直对齐的样式为居中对齐;
+    style2.setVerticalAlignment(VerticalAlignment.CENTER); // 设置垂直对齐的样式为居中对齐;
+    style2.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00%"));// 设置百分数样式
+    style2.setLocked(false);// 是否锁定
+    return style2;
+  }
 
-			if (dataCount % 8 == 0) {
-				isService.add(isNan);
-				isSysNetWork.add(sysNetWork);
-				isSysNetSit.add(sysNetSit);
-				isProUseSitList.add(isProUseSit);
-				isServiceTypeList.add(serviceType);
-				// 每8行一条数据的第一行
-				String[] topNum = dataList.get(countLeng * 8 + 3);
-				SystemParam system = new SystemParam();
-				// 验证是否新建重复
-				for (int j = 0; j < systemCode.size(); j++) {
-					if (topNum[2].equals(systemCode.get(j))) {
-						System.out.println(systemCode.get(j) + "_______________"
-								+ topNum[2]);
-						return false;
-					}
-				}
-				Map<String, String> map1 = isService.get(countLeng);
-				Map<String, String> map2 = isSysNetWork.get(countLeng);
-				Map<String, String> map3 = isSysNetSit.get(countLeng);
-				List<String[]> list1 = isProUseSitList.get(countLeng);
-				List<String[]> list2 = isServiceTypeList.get(countLeng);
-				// 添加数据
-				system.setSysBusSituationType(this.sheetUtil(map1));// 业务类型
-				system.setNpCoverageRange(this.sheetUtil(map2));// 覆盖范围
-				system.setInterconnectionSit(this.sheetUtil(map3));// 系统互联情况
+  /**
+   * @Descrption  25列警告单元格样式对象
+   * @author yejingyang
+   * @date 2018年8月9日下午3:18:25
+   * @param workbook
+   * @return
+   */
+  @SuppressWarnings("deprecation")
+  private HSSFCellStyle getStyleWarn25(HSSFWorkbook workbook) {
+    // 设置字体
+    HSSFFont font = workbook.createFont();
+    font.setFontHeightInPoints((short) 11);// 设置字体大小
+    font.setFontName("Courier New");// 设置字体名称
 
-				List<SystemKeyProducts> keyList = new ArrayList<SystemKeyProducts>();// 关键产品使用情况
-				if (list1 != null) {
-					for (int p = 0; p < list1.size(); p++) {
-						String[] proCount = list1.get(p);
-						SystemKeyProducts keyPro = new SystemKeyProducts();
-						if (!proCount[0].isEmpty() && !proCount[1].isEmpty()
-								&& !proCount[2].isEmpty() && !proCount[3].isEmpty()) {
-							keyPro.setFkSystemId(system.getSystemId());
-							switch (proCount[0]) {// 产品类型
-							case "安全专用产品":
-								keyPro.setFkExaminStatus(1);
-								break;
-							case "网络产品":
-								keyPro.setFkExaminStatus(2);
-								break;
-							case "操作系统":
-								keyPro.setFkExaminStatus(3);
-								break;
-							case "数据库":
-								keyPro.setFkExaminStatus(4);
-								break;
-							case "服务器":
-								keyPro.setFkExaminStatus(5);
-								break;
-							default:
-								keyPro.setFkExaminStatus(6);
-								keyPro.setOtherName(proCount[0]);// 其他情况
-								break;
-							}
-							keyPro.setProductsNumber(proCount[1]);// 数量
-							switch (proCount[2]) {// 使用情况
-							case "全部使用":
-								keyPro.setFkNationalIsProducts(1);
-								break;
-							case "全部未使用":
-								keyPro.setFkNationalIsProducts(2);
-								break;
-							default:
-								keyPro.setFkNationalIsProducts(3);
-								break;
-							}
-							keyPro.setnUseProbability(Integer.parseInt(proCount[3]));// 国产率
-							keyList.add(keyPro);
-						}
-					}
-					isProUseSit.clear();
-				}
-				system.setSystemKeyProducts(keyList);
-				List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
-				if (list2 != null) {
-					for (int s = 0; s < list2.size(); s++) {
-						String[] serCount = list2.get(s);
-						SystemUseServices SystemUseServicesBean = new SystemUseServices();
-						if (!serCount[0].isEmpty() && !serCount[1].isEmpty()
-								&& !serCount[2].isEmpty()) {
-							SystemUseServicesBean.setFkSystemId(system.getSystemId());
-							switch (serCount[0]) {// 服务类型
-							case "等级测评":
-								SystemUseServicesBean.setFkProductsType(1);
-								break;
-							case "风险评估":
-								SystemUseServicesBean.setFkProductsType(2);
-								break;
-							case "灾难恢复":
-								SystemUseServicesBean.setFkProductsType(3);
-								break;
-							case "应急响应":
-								SystemUseServicesBean.setFkProductsType(4);
-								break;
-							case "系统集成":
-								SystemUseServicesBean.setFkProductsType(5);
-								break;
-							case "安全咨询":
-								SystemUseServicesBean.setFkProductsType(6);
-								break;
-							case "安全培训":
-								SystemUseServicesBean.setFkProductsType(7);
-								break;
-							default:
-								SystemUseServicesBean.setServiceIsUse(8);
-								SystemUseServicesBean.setOtherName(serCount[0]);// 其他
-								break;
-							}
-							switch (serCount[1]) {// 是否采用
-							case "是":
-								SystemUseServicesBean.setServiceIsUse(1);
-								break;
-							case "否":
-								SystemUseServicesBean.setServiceIsUse(2);
-								break;
-							default:
-								SystemUseServicesBean.setServiceIsUse(2);
-								break;
-							}
-							switch (serCount[2]) {// 服务责任方类型
-							case "国外服务商":
-								SystemUseServicesBean.setFkResponsibleType("3");
-								break;
-							case "国内其他服务商":
-								SystemUseServicesBean.setFkResponsibleType("2");
-								break;
-							case "本行业（单位）":
-								SystemUseServicesBean.setFkResponsibleType("1");
-								break;
-							default:
-								SystemUseServicesBean.setFkResponsibleType("0");
-								break;
-							}
-							systemUseServicesList.add(SystemUseServicesBean);
-						}
-					}
-					serviceType.clear();
-				}
-				system.setSystemUseServices(systemUseServicesList);
-				system.setFkInfoSysTypeCon(1);// 信息系统建设类型
-				system.setFkSystemIsMerge(2);// 是否为合并系统
-				system.setFkSystemType(1);// 系统类型
-				system.setSystemName(topNum[1]);// 系统名称
-				system.setStandardizedCode(topNum[2]);// 标准化代码
-				system.setGradeRecordSysName(topNum[3]);// 等保备案系统名称
+    // 设置样式
+    HSSFCellStyle style2 = workbook.createCellStyle();
+    //style2.setBorderBottom(HSSFCellStyle.BORDER_THIN);// 设置底边框
+    style2.setBorderBottom(BorderStyle.THIN);// 设置底边框
+    style2.setBottomBorderColor(HSSFColor.BLACK.index);// 设置底边框颜色
+    //style2.setBorderLeft(HSSFCellStyle.BORDER_THIN); // 设置左边框;
+    style2.setBorderLeft(BorderStyle.THIN); // 设置左边框;
+    style2.setLeftBorderColor(HSSFColor.BLACK.index);// 设置左边框颜色;
+    //style2.setBorderRight(HSSFCellStyle.BORDER_THIN); // 设置右边框;
+    style2.setBorderRight(BorderStyle.THIN); // 设置右边框;
+    style2.setRightBorderColor(HSSFColor.BLACK.index); // 设置右边框颜色;
+    //style2.setBorderTop(HSSFCellStyle.BORDER_THIN);// 设置顶边框;
+    style2.setBorderTop(BorderStyle.THIN);// 设置顶边框;
+    style2.setTopBorderColor(HSSFColor.BLACK.index); // 设置顶边框颜色;
+    style2.setFillForegroundColor(HSSFColor.YELLOW.index); // 设置单元格背景色;
+    //style2.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND); // 设置单元格背景色;
+    style2.setFillPattern(FillPatternType.SOLID_FOREGROUND); // 设置单元格背景色;
+    style2.setFont(font);// 在样式用应用设置的字体;
+    style2.setWrapText(false); // 设置自动换行;
+    //style2.setAlignment(HSSFCellStyle.CENTER);// 设置水平对齐的样式为居中对齐;
+    style2.setAlignment(HorizontalAlignment.CENTER);// 设置水平对齐的样式为居中对齐;
+    //style2.setVerticalAlignment(HSSFCellStyle.CENTER); // 设置垂直对齐的样式为居中对齐;
+    style2.setVerticalAlignment(VerticalAlignment.CENTER); // 设置垂直对齐的样式为居中对齐;
+    style2.setLocked(false);
+    return style2;
+  }
 
-				if (StringUtils.isNotBlank(topNum[4])) {
-					system.setCompanyName(topNum[4]);// 所属单位名称
-					String comCode = this.systemMapper.selectSystemByComCode(system
-							.getCompanyName());
-					if (comCode != null) {
-						system.setFkComCode(2);
-						system.setFkCompanyCode(comCode);
-					} else {
-						system.setFkComCode(1);
-					}
+  /**
+   * @Descrption  时间警告单元格样式对象
+   * @author yejingyang
+   * @date 2018年8月9日下午3:14:06
+   * @param workbook
+   * @return
+   */
+  @SuppressWarnings("deprecation")
+  private HSSFCellStyle getStyleTimeWarn(HSSFWorkbook workbook) {
+    // 设置字体
+    HSSFFont font = workbook.createFont();
+    font.setFontHeightInPoints((short) 11);// 设置字体大小
+    font.setFontName("Courier New");// 设置字体名称
 
-				} else {
-					return false;
-				}
-				if (StringUtils.isNotBlank(topNum[5])) {
-					try {
-						system.setWhenInvestmentUse(new SimpleDateFormat(
-								"yyyy-MM-dd HH:mm:ss").parse(topNum[5]));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-				} else {
-					return false;
-				}
+    // 设置样式
+    HSSFCellStyle style2 = workbook.createCellStyle();
+    style2.setBorderBottom(BorderStyle.THIN);// 设置底边框
+    style2.setBottomBorderColor(HSSFColor.BLACK.index);// 设置底边框颜色
+    style2.setBorderLeft(BorderStyle.THIN); // 设置左边框;
+    style2.setLeftBorderColor(HSSFColor.BLACK.index);// 设置左边框颜色;
+    style2.setBorderRight(BorderStyle.THIN); // 设置右边框;
+    style2.setRightBorderColor(HSSFColor.BLACK.index); // 设置右边框颜色;
+    style2.setBorderTop(BorderStyle.THIN);// 设置顶边框;
+    style2.setTopBorderColor(HSSFColor.BLACK.index); // 设置顶边框颜色;
+    style2.setFillForegroundColor(HSSFColor.YELLOW.index); // 设置单元格背景色;
+    style2.setFillPattern(FillPatternType.SOLID_FOREGROUND); // 设置单元格背景色;
+    style2.setFont(font);// 在样式用应用设置的字体;
+    style2.setWrapText(false); // 设置自动换行;
+    style2.setAlignment(HorizontalAlignment.CENTER);// 设置水平对齐的样式为居中对齐;
+    style2.setVerticalAlignment(VerticalAlignment.CENTER); // 设置垂直对齐的样式为居中对齐;
+    style2.setLocked(false);
+    // 设置日期格式
+    HSSFDataFormat format = workbook.createDataFormat();
+    style2.setDataFormat(format.getFormat("yyyy-mm-dd"));
+    return style2;
+  }
 
-				system.setExecutiveOfficeName(topNum[6]);// 主管处室名称
-				system.setExecutiveDireCon(topNum[7]);// 主管联系人
-				system.setExecutiveDireConTel(topNum[8]);// 联系人电话
-				if (StringUtils.isNotBlank(topNum[9])) {
-					if (topNum[9].equals("是")) {// 系统是否为分系统
-						system.setSubIsSystem(1);
-					} else {
-						system.setSubIsSystem(2);
-					}
-				} else {
-					return false;
-				}
-				system.setFatherSystemName(topNum[10]);// 上级系统名称
-				if (StringUtils.isNotBlank(topNum[9])) {
-					system.setSysBusDescription(topNum[13]);// 业务描述
-				} else {
-					return false;
-				}
+  /**
+   * @Descrption  警告单元格样式对象
+   * @author yejingyang
+   * @date 2018年8月9日下午3:13:18
+   * @param workbook
+   * @return
+   */
+  @SuppressWarnings("deprecation")
+  private HSSFCellStyle getStyleWarn(HSSFWorkbook workbook) {
+    // 设置字体
+    HSSFFont font = workbook.createFont();
+    font.setFontHeightInPoints((short) 11);// 设置字体大小
+    font.setFontName("Courier New");// 设置字体名称
 
-				if (StringUtils.isNotBlank(topNum[14])) {
-					if (strsList[14].equals("其他")) {// 服务范围
-						system.setSysServiceSitScope(topNum[15]);
-					} else {
-						system.setSysServiceSitScope(topNum[14] + "^" + topNum[15]);
-					}
-				} else {
-					return false;
-				}
+    // 设置样式
+    HSSFCellStyle style2 = workbook.createCellStyle();
+    style2.setBorderBottom(BorderStyle.THIN);// 设置底边框
+    style2.setBottomBorderColor(HSSFColor.BLACK.index);// 设置底边框颜色
+    style2.setBorderLeft(BorderStyle.THIN); // 设置左边框;
+    style2.setLeftBorderColor(HSSFColor.BLACK.index);// 设置左边框颜色;
+    style2.setBorderRight(BorderStyle.THIN); // 设置右边框;
+    style2.setRightBorderColor(HSSFColor.BLACK.index); // 设置右边框颜色;
+    style2.setBorderTop(BorderStyle.THIN);// 设置顶边框;
+    style2.setTopBorderColor(HSSFColor.BLACK.index); // 设置顶边框颜色;
+    style2.setFillForegroundColor(HSSFColor.YELLOW.index); // 设置单元格背景色;
+    style2.setFillPattern(FillPatternType.SOLID_FOREGROUND); // 设置单元格背景色;
+    style2.setFont(font);// 在样式用应用设置的字体;
+    style2.setWrapText(false); // 设置自动换行;
+    style2.setAlignment(HorizontalAlignment.CENTER);// 设置水平对齐的样式为居中对齐;
+    style2.setVerticalAlignment(VerticalAlignment.CENTER); // 设置垂直对齐的样式为居中对齐;
+    style2.setLocked(false);
+    return style2;
+  }
 
-				if (StringUtils.isNotBlank(topNum[16])) {
-					if (topNum[16].equals("其他")) {// 服务对象
-						system.setSysServiceSitObject(topNum[17]);
-					} else {
-						system.setSysServiceSitObject(topNum[16]);
-					}
-				} else {
-					return false;
-				}
+  /**
+   * @Descrption  列数据信息单元格样式
+   * @author yejingyang
+   * @date 2018年8月9日下午3:11:29
+   * @param workbook
+   * @return
+   */
+  @SuppressWarnings("deprecation")
+  private HSSFCellStyle getStyle(HSSFWorkbook workbook) {
+    // 设置字体
+    HSSFFont font = workbook.createFont();
+    // font.setFontHeightInPoints((short)10); //设置字体大小
+    // font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD); //字体加粗
+    font.setFontName("Courier New");// 设置字体名字
 
-				if (StringUtils.isNotBlank(topNum[20])) {
-					if (strsList[20].equals("其他")) {// 网络性质
-						system.setNpNetworkProperties(topNum[21]);
-					} else {
-						system.setNpNetworkProperties(topNum[20]);
-					}
-				} else {
-					return false;
-				}
+    // 设置样式;
+    HSSFCellStyle style = workbook.createCellStyle();
+    style.setBorderBottom(BorderStyle.THIN);// 设置底边框;
+    style.setBottomBorderColor(HSSFColor.BLACK.index);// 设置底边框颜色;
+    style.setBorderLeft(BorderStyle.THIN);// 设置左边框;
+    style.setLeftBorderColor(HSSFColor.BLACK.index); // 设置左边框颜色;
+    style.setBorderRight(BorderStyle.THIN);// 设置右边框;
+    style.setRightBorderColor(HSSFColor.BLACK.index);// 设置右边框颜色;
+    style.setBorderTop(BorderStyle.THIN); // 设置顶边框;
+    style.setTopBorderColor(HSSFColor.BLACK.index);// 设置顶边框颜色;
+    style.setFont(font); // 在样式用应用设置的字体;
+    style.setWrapText(false);// 设置自动换行;
+    style.setAlignment(HorizontalAlignment.CENTER); // 设置水平对齐的样式为居中对齐;
+    style.setVerticalAlignment(VerticalAlignment.CENTER);// 设置垂直对齐的样式为居中对齐;
+    style.setLocked(false);
+    return style;
+  }
 
-				sysListInfo.add(system);
-				countLeng++;
-			}
-		}
+  /**
+   * @Descrption  获取列头样式对象
+   * @author yejingyang
+   * @date 2018年8月9日下午3:10:44
+   * @param workbook
+   * @return
+   */
+  @SuppressWarnings("deprecation")
+  private HSSFCellStyle getColumnTopStyle(HSSFWorkbook workbook) {
+    // 设置字体
+    HSSFFont font = workbook.createFont();
+    font.setFontHeightInPoints((short) 11);// 设置字体大小
+    font.setBold(true);//weight(HSSFFont.BOLDWEIGHT_BOLD);// 字体加粗
+    font.setFontName("Courier New");// 设置字体名称
 
-		// 处理数据
-		// 将数据放入数据库
-		if (sysListInfo.size() > 0) {
-			// 将数据放入数据库
-			for (SystemParam sys : sysListInfo) {
-				this.saveSystem(userName, sys);
-			}
-			return true;
-		} else {
-			return false;
-		}
-		
-	}
+    // 设置样式
+    HSSFCellStyle style = workbook.createCellStyle();
+    style.setBorderBottom(BorderStyle.THIN);// 设置底边框
+    style.setBottomBorderColor(HSSFColor.BLACK.index);// 设置底边框颜色
+    style.setBorderLeft(BorderStyle.THIN); // 设置左边框;
+    style.setLeftBorderColor(HSSFColor.BLACK.index);// 设置左边框颜色;
+    style.setBorderRight(BorderStyle.THIN); // 设置右边框;
+    style.setRightBorderColor(HSSFColor.BLACK.index); // 设置右边框颜色;
+    style.setBorderTop(BorderStyle.THIN);// 设置顶边框;
+    style.setTopBorderColor(HSSFColor.BLACK.index); // 设置顶边框颜色;
+    style.setFont(font);// 在样式用应用设置的字体;
+    style.setWrapText(false); // 设置自动换行;
+    style.setAlignment(HorizontalAlignment.CENTER);// 设置水平对齐的样式为居中对齐;
+    style.setVerticalAlignment(VerticalAlignment.CENTER); // 设置垂直对齐的样式为居中对齐;
+    style.setLocked(true);
+    return style;
+  }
 
-	/**
-	 * (其他)合并单元格
-	 */
-	public String sheetUtil(Map<String, String> map) {
-		for (String key : map.keySet()) {
-			if (!map.get(key).isEmpty()) {
-				if (StringUtils.isNotBlank(map.get("其他")) && map.get(key).equals("是")) {
-					throw new BusinessException("错误");
-				} else {
-					if (map.get(key).equals("是")) {
-						return key;
-					}
-					if (StringUtils.isNotBlank(map.get("其他"))) {
-						return map.get("其他");// 其他
-					}
-				}
-			}
-		}
-		throw new BusinessException("Map为空");
-	}
+  /**
+   * 系统批量导入
+   * 
+   * @throws IOException
+   * @throws BusinessException
+   */
+  @Override
+  public boolean importForSystemTemplate(String userName, String strFilePath)
+      throws IOException, BusinessException {
+    List<SystemTemplateListResult> systemCode = systemMapper.selectSystemCode();
+
+    // 读取excel数据
+    List<String[]> dataList = null;
+    try {
+      dataList = ExcelUtils.read(SystemConstant.EXCEL_FILE_IMPORT_PATH+strFilePath, "信息系统模版");
+    } catch (InvalidFormatException e) {
+      e.printStackTrace();
+    }
+
+    // 将excel取出的数据过滤后转成标准数据
+    List<SystemParam> sysListInfo = new ArrayList<SystemParam>();
+
+    int dataListSize = dataList.size();
+    if (dataListSize > 5000) {
+      throw new BusinessException(EnumResult.ERROR);
+    }
+    List<Map<String, String>> isService = new ArrayList<Map<String, String>>();
+    Map<String, String> isNan = new HashMap<String, String>();// 系统承载业务情况
+    List<Map<String, String>> isSysNetWork = new ArrayList<Map<String, String>>();
+    Map<String, String> sysNetWork = new HashMap<String, String>();// 系统网络平台
+    List<Map<String, String>> isSysNetSit = new ArrayList<Map<String, String>>();
+    Map<String, String> sysNetSit = new HashMap<String, String>();// 系统互联情况
+    List<List<String[]>> isProUseSitList = new ArrayList<List<String[]>>();
+    List<String[]> isProUseSit = new ArrayList<String[]>();// 产品使用情况
+    List<List<String[]>> isServiceTypeList = new ArrayList<List<String[]>>();
+    List<String[]> serviceType = new ArrayList<String[]>();// 系统服务情况
+
+    int countLeng = 0;
+    String[] strsList = new String[dataListSize - 3];
+
+    // excel行号循环
+    for (int dataListTem = 3, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
+      strsList = dataList.get(dataListTem);
+      if (!strsList[11].isEmpty() && !strsList[11].equals("0")) {
+        isNan.put(strsList[11], strsList[12]);
+      }
+      if (!strsList[18].isEmpty() && !strsList[18].equals("0")) {
+        sysNetWork.put(strsList[18], strsList[19]);
+      }
+      if (!strsList[22].isEmpty() && !strsList[22].equals("0")) {
+        sysNetSit.put(strsList[22], strsList[23]);
+      }
+      if (!strsList[24].isEmpty() && !strsList[24].equals("0")) {
+        String[] proUseSit = new String[4];
+        proUseSit[0] = strsList[24];
+        proUseSit[1] = strsList[25];
+        proUseSit[2] = strsList[26];
+        proUseSit[3] = strsList[27];
+        isProUseSit.add(proUseSit);
+      }
+      if (!strsList[28].isEmpty() && !strsList[28].equals("0")) {
+        String[] serType = new String[3];
+        serType[0] = strsList[28];
+        serType[1] = strsList[29];
+        serType[2] = strsList[30];
+        serviceType.add(serType);
+      }
+
+      if (dataCount % 8 == 0) {
+        isService.add(isNan);
+        isSysNetWork.add(sysNetWork);
+        isSysNetSit.add(sysNetSit);
+        isProUseSitList.add(isProUseSit);
+        isServiceTypeList.add(serviceType);
+        // 每8行一条数据的第一行
+        String[] topNum = dataList.get(countLeng * 8 + 3);
+        SystemParam system = new SystemParam();
+        // 验证是否新建重复
+        for (int j = 0; j < systemCode.size(); j++) {
+          if (topNum[2].equals(systemCode.get(j))) {
+            System.out.println(systemCode.get(j) + "_______________"
+                + topNum[2]);
+            return false;
+          }
+        }
+        Map<String, String> map1 = isService.get(countLeng);
+        Map<String, String> map2 = isSysNetWork.get(countLeng);
+        Map<String, String> map3 = isSysNetSit.get(countLeng);
+        List<String[]> list1 = isProUseSitList.get(countLeng);
+        List<String[]> list2 = isServiceTypeList.get(countLeng);
+        // 添加数据
+        system.setSysBusSituationType(this.sheetUtil(map1));// 业务类型
+        system.setNpCoverageRange(this.sheetUtil(map2));// 覆盖范围
+        system.setInterconnectionSit(this.sheetUtil(map3));// 系统互联情况
+
+        List<SystemKeyProducts> keyList = new ArrayList<SystemKeyProducts>();// 关键产品使用情况
+        if (list1 != null) {
+          for (int p = 0; p < list1.size(); p++) {
+            String[] proCount = list1.get(p);
+            SystemKeyProducts keyPro = new SystemKeyProducts();
+            if (!proCount[0].isEmpty() && !proCount[1].isEmpty()
+                && !proCount[2].isEmpty() && !proCount[3].isEmpty()) {
+              keyPro.setFkSystemId(system.getSystemId());
+              switch (proCount[0]) {// 产品类型
+              case "安全专用产品":
+                keyPro.setFkExaminStatus(1);
+                break;
+              case "网络产品":
+                keyPro.setFkExaminStatus(2);
+                break;
+              case "操作系统":
+                keyPro.setFkExaminStatus(3);
+                break;
+              case "数据库":
+                keyPro.setFkExaminStatus(4);
+                break;
+              case "服务器":
+                keyPro.setFkExaminStatus(5);
+                break;
+              default:
+                keyPro.setFkExaminStatus(6);
+                keyPro.setOtherName(proCount[0]);// 其他情况
+                break;
+              }
+              keyPro.setProductsNumber(proCount[1]);// 数量
+              switch (proCount[2]) {// 使用情况
+              case "全部使用":
+                keyPro.setFkNationalIsProducts(1);
+                break;
+              case "全部未使用":
+                keyPro.setFkNationalIsProducts(2);
+                break;
+              default:
+                keyPro.setFkNationalIsProducts(3);
+                break;
+              }
+              keyPro.setnUseProbability(Integer.parseInt(proCount[3]));// 国产率
+              keyList.add(keyPro);
+            }
+          }
+          isProUseSit.clear();
+        }
+        system.setSystemKeyProducts(keyList);
+        List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
+        if (list2 != null) {
+          for (int s = 0; s < list2.size(); s++) {
+            String[] serCount = list2.get(s);
+            SystemUseServices SystemUseServicesBean = new SystemUseServices();
+            if (!serCount[0].isEmpty() && !serCount[1].isEmpty()
+                && !serCount[2].isEmpty()) {
+              SystemUseServicesBean.setFkSystemId(system.getSystemId());
+              switch (serCount[0]) {// 服务类型
+              case "等级测评":
+                SystemUseServicesBean.setFkProductsType(1);
+                break;
+              case "风险评估":
+                SystemUseServicesBean.setFkProductsType(2);
+                break;
+              case "灾难恢复":
+                SystemUseServicesBean.setFkProductsType(3);
+                break;
+              case "应急响应":
+                SystemUseServicesBean.setFkProductsType(4);
+                break;
+              case "系统集成":
+                SystemUseServicesBean.setFkProductsType(5);
+                break;
+              case "安全咨询":
+                SystemUseServicesBean.setFkProductsType(6);
+                break;
+              case "安全培训":
+                SystemUseServicesBean.setFkProductsType(7);
+                break;
+              default:
+                SystemUseServicesBean.setServiceIsUse(8);
+                SystemUseServicesBean.setOtherName(serCount[0]);// 其他
+                break;
+              }
+              switch (serCount[1]) {// 是否采用
+              case "是":
+                SystemUseServicesBean.setServiceIsUse(1);
+                break;
+              case "否":
+                SystemUseServicesBean.setServiceIsUse(2);
+                break;
+              default:
+                SystemUseServicesBean.setServiceIsUse(2);
+                break;
+              }
+              switch (serCount[2]) {// 服务责任方类型
+              case "国外服务商":
+                SystemUseServicesBean.setFkResponsibleType("3");
+                break;
+              case "国内其他服务商":
+                SystemUseServicesBean.setFkResponsibleType("2");
+                break;
+              case "本行业（单位）":
+                SystemUseServicesBean.setFkResponsibleType("1");
+                break;
+              default:
+                SystemUseServicesBean.setFkResponsibleType("0");
+                break;
+              }
+              systemUseServicesList.add(SystemUseServicesBean);
+            }
+          }
+          serviceType.clear();
+        }
+        system.setSystemUseServices(systemUseServicesList);
+        system.setFkInfoSysTypeCon(1);// 信息系统建设类型
+        system.setFkSystemIsMerge(2);// 是否为合并系统
+        system.setFkSystemType(1);// 系统类型
+        system.setSystemName(topNum[1]);// 系统名称
+        system.setStandardizedCode(topNum[2]);// 标准化代码
+        system.setGradeRecordSysName(topNum[3]);// 等保备案系统名称
+
+        if (StringUtils.isNotBlank(topNum[4])) {
+          system.setCompanyName(topNum[4]);// 所属单位名称
+          String comCode = this.systemMapper.selectSystemByComCode(system
+              .getCompanyName());
+          if (comCode != null) {
+            system.setFkComCode(2);
+            system.setFkCompanyCode(comCode);
+          } else {
+            system.setFkComCode(1);
+          }
+
+        } else {
+          return false;
+        }
+        if (StringUtils.isNotBlank(topNum[5])) {
+          try {
+            system.setWhenInvestmentUse(new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss").parse(topNum[5]));
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }
+        } else {
+          return false;
+        }
+
+        system.setExecutiveOfficeName(topNum[6]);// 主管处室名称
+        system.setExecutiveDireCon(topNum[7]);// 主管联系人
+        system.setExecutiveDireConTel(topNum[8]);// 联系人电话
+        if (StringUtils.isNotBlank(topNum[9])) {
+          if (topNum[9].equals("是")) {// 系统是否为分系统
+            system.setSubIsSystem(1);
+          } else {
+            system.setSubIsSystem(2);
+          }
+        } else {
+          return false;
+        }
+        system.setFatherSystemName(topNum[10]);// 上级系统名称
+        if (StringUtils.isNotBlank(topNum[9])) {
+          system.setSysBusDescription(topNum[13]);// 业务描述
+        } else {
+          return false;
+        }
+
+        if (StringUtils.isNotBlank(topNum[14])) {
+          if (strsList[14].equals("其他")) {// 服务范围
+            system.setSysServiceSitScope(topNum[15]);
+          } else {
+            system.setSysServiceSitScope(topNum[14] + "^" + topNum[15]);
+          }
+        } else {
+          return false;
+        }
+
+        if (StringUtils.isNotBlank(topNum[16])) {
+          if (topNum[16].equals("其他")) {// 服务对象
+            system.setSysServiceSitObject(topNum[17]);
+          } else {
+            system.setSysServiceSitObject(topNum[16]);
+          }
+        } else {
+          return false;
+        }
+
+        if (StringUtils.isNotBlank(topNum[20])) {
+          if (strsList[20].equals("其他")) {// 网络性质
+            system.setNpNetworkProperties(topNum[21]);
+          } else {
+            system.setNpNetworkProperties(topNum[20]);
+          }
+        } else {
+          return false;
+        }
+
+        sysListInfo.add(system);
+        countLeng++;
+      }
+    }
+
+    // 处理数据
+    // 将数据放入数据库
+    if (sysListInfo.size() > 0) {
+      // 将数据放入数据库
+      for (SystemParam sys : sysListInfo) {
+        this.saveSystem(userName, sys);
+      }
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
+
+  /**
+   * (其他)合并单元格
+   */
+  public String sheetUtil(Map<String, String> map) {
+    for (String key : map.keySet()) {
+      if (!map.get(key).isEmpty()) {
+        if (StringUtils.isNotBlank(map.get("其他")) && map.get(key).equals("是")) {
+          throw new BusinessException("错误");
+        } else {
+          if (map.get(key).equals("是")) {
+            return key;
+          }
+          if (StringUtils.isNotBlank(map.get("其他"))) {
+            return map.get("其他");// 其他
+          }
+        }
+      }
+    }
+    throw new BusinessException("Map为空");
+  }
 
 
   /**
