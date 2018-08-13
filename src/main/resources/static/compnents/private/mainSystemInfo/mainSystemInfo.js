@@ -77,28 +77,31 @@ var data1={
 			    },
 			    //文件上传
           onUpload: function(e){
-          	var fileSize = e.target.files[0].size;//文件大小（字节）
-          	var fimeMax = 1048576 *30;
-          	if(fileSize > fimeMax){
-          		this.$alert('文件不能大于30M！', '信息提示', {
-                confirmButtonText: '确定',
-                callback: function callback(action) {
-                }
-              });
-          		return;
+          	var fileSize;
+          	if(e.target.files.length!=0){
+          		fileSize = e.target.files[0].size;//文件大小（字节）                 		
+	          	var fimeMax = 1048576 *30;
+	          	if(fileSize > fimeMax){
+	          		this.$alert('文件不能大于30M！', '信息提示', {
+	                confirmButtonText: '确定',
+	                callback: function callback(action) {
+	                }
+	              });
+	          		return;
+	          	}
+	          	var fileFormat = e.target.value.split(".");//文件后缀
+	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+	                confirmButtonText: '确定',
+	                callback: function callback(action) {
+	                }
+	              });
+	          		return;
+	          	}
+	            var uploadData = new FormData(); 
+	            uploadData.append('file', e.target.files[0]);
+	            uploadData.append('type', 'test');
+	            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
           	}
-          	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
-                confirmButtonText: '确定',
-                callback: function callback(action) {
-                }
-              });
-          		return;
-          	}
-            var uploadData = new FormData(); 
-            uploadData.append('file', e.target.files[0]);
-            uploadData.append('type', 'test');
-            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
           }, 
           //回显上传文件
           onUploadSuccessMethod: function(_self,responseData){

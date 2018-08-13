@@ -37,6 +37,7 @@
         mounted: function() {
           // this.selectChange()
         	bus.$on('materialView',function(meg){
+        		var _self = this;
             if(meg!=null){
             	_self.materialView = meg;
             }

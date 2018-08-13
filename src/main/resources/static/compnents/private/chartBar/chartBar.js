@@ -274,11 +274,12 @@
   	         console.log(gradingShapeType)*/
        	     gradingBeginTimeStamp = new Date("1970/01/01").getTime();
            if(_self.val1){
-             gradingBeginTimeStamp = _self.val1.getTime();//时间戳
+          	 //因为时间戳与json存到数据库中数据有8小时时差，所以查询的时候加8个小时的时间
+             gradingBeginTimeStamp = _self.val1.getTime()+8*60*60*1000;//时间戳
            }  
            gradingEndTimeStamp = new Date().getTime();
            if(_self.val3){
-         	  gradingEndTimeStamp = _self.val3.getTime();//时间戳
+         	  gradingEndTimeStamp = _self.val3.getTime()+8*60*60*1000;//时间戳
            }
            if(gradingShapeType = 'undefined' || gradingShapeType == null){
           	 gradingShapeType = ""

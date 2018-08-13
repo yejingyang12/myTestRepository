@@ -2,7 +2,6 @@
  * Created by timha on 2018/5/23.
  */
 window.onload = function () {
-
     var app = new Vue({
         el:"#app",
         data:function () {
@@ -10,7 +9,7 @@ window.onload = function () {
         },
         methods : {
           //返回
-          returnBtn:function() {
+          returnBtn :function() {
             window.location.href = originUrl+"page/indexPage";
           }
         },

@@ -127,7 +127,7 @@
         			begin = new Date(this.value1);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
         			end = new Date(this.value3);
-        			end=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
+        			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
         			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
         			bus.$emit("gradingStatisticsEnd",dataparmars);
         		}

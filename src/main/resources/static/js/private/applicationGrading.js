@@ -50,7 +50,6 @@ window.onload = function () {
             }
           });
           bus.$on('gradSubmitGradingAjax',function(meg){
-          	debugger
             if(meg!=null){
               data.formData.changeType = "2";
               if(data.jurisdictionType==1){

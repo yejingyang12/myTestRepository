@@ -44,6 +44,12 @@ public interface OrganizationApiService {
    */
   List<OrganizationApi> queryOrgForKeyOrganizationCode(
       OrganizationApiParam organizationApiParam) throws BusinessException ;
+  
+  /**
+   * 维护单位系统信息查询所属单位下拉列表
+   */
+  List<OrganizationApi> queryOrgUnitForKeyOrganizationCode(
+      OrganizationApiParam organizationApiParam) throws BusinessException ;
 
   /**
    * @Descrption

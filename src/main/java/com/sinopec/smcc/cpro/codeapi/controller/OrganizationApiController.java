@@ -109,4 +109,26 @@ public class OrganizationApiController {
     result.setData(organizationApi);
     return result;
   }
+  
+  /**
+   * @Descrption
+   * @author eric
+   * @date 2018年6月9日下午2:46:15
+   * @param request
+   * @param organizationApiParam
+   * @return list：返回数据中包含[{"orgCode": "0", "orgName": "单位名称0"}, {"orgCode": "1",  "orgName": "单位名称1"}]
+   * @throws BusinessException
+   */
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  @RequestMapping(value="/queryOrgUnitForKeyOrganizationCode", method = RequestMethod.POST)
+  public ResultApi queryOrgUnitForKeyOrganizationCode( 
+      @RequestBody OrganizationApiParam organizationApiParam) throws BusinessException{
+    List<OrganizationApi> organizationApi = 
+        this.organizationApiServiceImpl.queryOrgUnitForKeyOrganizationCode(organizationApiParam);
+    //通过resultApi实体组成返回参数
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(organizationApi);
+    return result;
+  }
 }

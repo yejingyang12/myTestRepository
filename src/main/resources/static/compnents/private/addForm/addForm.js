@@ -392,7 +392,7 @@
               //获取单位信息
               getCompanyMethod:function(_self){
                 ajaxMethod(_self, 'post',
-                    'organizationapi/queryOrganizationForKeyOrganizationCode', true,'{}', 'json',
+                    'organizationapi/queryOrgUnitForKeyOrganizationCode', true,'{}', 'json',
                     'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
               },
               getCompanySuccessMethod: function(_self,data){

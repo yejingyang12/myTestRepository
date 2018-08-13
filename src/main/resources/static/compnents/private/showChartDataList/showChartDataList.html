@@ -96,10 +96,10 @@
                                     <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou2"></slot>
                                 </th>
-                                <th>板块
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
+                                <!-- <th>板块
+                                    <img src="../../static/images/home/paixujiantou.png" alt="">
                                     <slot name="paixujiantou3"></slot>
-                                </th>
+                                </th> -->
                                 <th>建设类型
                                     <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou4"></slot>
@@ -113,7 +113,7 @@
                                     <slot name="paixujiantou6"></slot>
                                 </th>
                                 <th>定级状态</th>
-                                <th>审核状态</th>
+                               <!--  <th>审核状态</th> -->
                                 <th>备案状态</th>
                                 <th>测评状态</th>
                                 <th>自查状态</th>
@@ -137,7 +137,7 @@
                                   <div v-else  style="color:#bfbfbf">{{pro.systemName}}</div> -->
                                 </td>                              
                                 <td>{{pro.companyName}}</td>
-                                <td>{{pro.plateType}}</td>
+                                <!-- <td>{{pro.plateType}}</td> -->
                                 <td>{{pro.infoSysTypeConstruction}}</td>
                                 <td>
                                   <div v-if="pro.fkSpRanklevel==='301'">
@@ -170,11 +170,11 @@
                                 <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng"></td>
                                 <td v-if="pro.gradingStatus===4" class="h-moren h-chexiao"></td>
                                 <!-- &lt;!&ndash;审核状态&ndash;&gt; -->
-                                <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing"></td>
+                                <!-- <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing"></td>
                                 <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong"></td>
                                 <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"></td>
                                 <td v-if="pro.examineStatus==4" class="h-moren h-examine"></td>
-                                <td v-if="pro.examineStatus==5" class="h-moren h-chexiao"></td>
+                                <td v-if="pro.examineStatus==5" class="h-moren h-chexiao"></td> -->
                                 <!-- &lt;!&ndash;备案状态&ndash;&gt; -->
                                 <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"></td>
                                 <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong"></td>
@@ -243,36 +243,45 @@
                                  
                                 </td>
                                 <!-- &lt;!&ndash;操作&ndash;&gt; -->
-                                <td style="color:#1e91e2;" v-if="pro.gradingStatus==1 && pro.recordStatus != 4">
-                                    <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a class="hide3" style="cursor:pointer;">  
-                                        <i id="h-dingji" @click="toAuditGradPage(pro.systemId,pro.companyId)" >定级</i> <i style="color:#1e91e2 ">|</i>
-                                          <i @click="deleteClick(pro.systemId)" type="text" size="small">删除</i>
-                                           <!-- 首页表格的删除弹窗 -->
-                                            <div class="dialogShaw">
-	                                              <div class="startBox" v-show="deleteDialog">
-	                                              		<div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
-												        <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
-												  </div>
-												   <div class="inquiry">
-												        <p>是否删除</p>
-												        <div class="inquiryBtn">
-												            <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
-												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-												        </div>
-												    </div>
-											 </div> 
-                                    </a>
+                                <td style="color:#1e91e2;" v-if="(pro.gradingStatus==1 || pro.gradingStatus==2) && pro.recordStatus != 4">
+                                  <div v-for="companyCodeJ in nameList">
+                                    <div v-if="companyCodeJ==pro.companyCode">
+                                      <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
+                                      <a class="hide3" style="cursor:pointer;">  
+                                        <i id="h-dingji"  @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
+                                        <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
+                                        <!-- 首页表格的删除弹窗 -->
+                                        <div class="dialogShaw">
+                                          <div class="startBox" v-show="deleteDialog">
+                                            <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
+                                            <div v-show="deleteFailDialog"><i class="el-icon-circle-close" style="color:red;"></i><P>删除失败!</P></div>
+                                          </div>
+                                          <div class="inquiry">
+                                            <p>是否删除</p>
+                                            <div class="inquiryBtn">
+                                              <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
+                                              <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+                                            </div>
+                                         </div>
+                                       </div> 
+                                      </a>
+                                    </div>
+                                  </div>
                                 </td>
-                                <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.recordStatus != 4">
-                                    <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                    <a   @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer">申请变更</a> <i style="color:#1e91e2 ">|</i>
-                                    <a  id="beian" @click="toCompanyRecordPage(pro.systemId,pro.companyId)" style="cursor:pointer">备案</a><i style="color:#1e91e2 ">|</i>
-                                    <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer">测评</a><i style="color:#1e91e2 ">|</i>
-                                    <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" >自查</a>
+                                <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.gradingStatus!==2 && pro.recordStatus != 4">
+                                   <div v-for="companyCodeJ in nameList">
+                                    <div v-if="companyCodeJ==pro.companyCode">
+                                      <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
+                                      <a  @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication&&pro.examineStatus!=2">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication&&pro.examineStatus!=2">|</i>
+                                      <a  id="beian" @click="toCompanyRecordPage(pro.examineStatus,pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
+                                      <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 " v-show="paramEvaluation">|</i>
+                                      <a  @click="toSelfCheckPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramSelfExamination">自查</a>
+                                    </div>
+                                  </div>
                                 </td>
                                 <td style="color:#1e91e2;" v-else>
                                 </td>
+                            </tr>
                             </tr>
                         </table>
                     </div>

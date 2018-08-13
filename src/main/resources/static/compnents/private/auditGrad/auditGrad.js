@@ -25,8 +25,8 @@
     formData:{
     	fkSystemId: null,
     	//传入定级数据&&//获得申请变更的数据
-  		/*scoreCheckResult: null,
-  		scoreCheckReason: null,*/
+  		scoreCheckResult: null,
+  		scoreCheckReason: null,
   		fkrevokematter: null,
   		//传入撤销备案数据
   		cancelRecordsResult: null,
@@ -216,7 +216,8 @@
             }else if(_self.jurisdictionType==2){
               switch (fkBusinessNode) {
               case '1':
-                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
+                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult;
+              	_self.formData.scoreCheckReason = _self.ruleForm.scoreCheckReason;
                 ajaxMethod(_self,"post",
                    "checkController/saveHeadGradCheck",false,
                    JSON.stringify(this.formData),"json",

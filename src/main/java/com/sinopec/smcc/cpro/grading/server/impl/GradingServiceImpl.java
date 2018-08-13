@@ -219,7 +219,7 @@ public class GradingServiceImpl implements GradingService{
    * 企业提交定级信息修改定级状态
    */
   @Override
-  //@Transactional
+//  @Transactional
   public String submitGrading(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.ERROR);
@@ -229,7 +229,7 @@ public class GradingServiceImpl implements GradingService{
       gradingParam.setGradingId(Utils.getUuidFor32());
       gradingParam.setCreateUserName(userName);
 
-//      //创建审核记录
+      //创建审核记录
 //      SystemParam systemParam = new SystemParam();
 //      systemParam.setSystemId(gradingParam.getFkSystemId());
 //      SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
@@ -405,6 +405,7 @@ public class GradingServiceImpl implements GradingService{
    * 总部提交定级信息修改定级状态
    */
   @Override
+//  @Transactional
   public String submitGradingForHeadquarters(String userName,GradingParam gradingParam) throws BusinessException {
     if (StringUtils.isBlank(gradingParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.ERROR);
@@ -438,14 +439,14 @@ public class GradingServiceImpl implements GradingService{
 //      checkServiceImpl.addCheck(checkParamAdd);
       
       //发起审核流程
-      workFlowApiServiceImpl.initStart("定级", "2", gradingParam.getFkSystemId());
+//      workFlowApiServiceImpl.initStart("定级", "2", gradingParam.getFkSystemId());
       
-      //修改审核状态为进行中
-      MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("3");
-      mainParam.setExamineStatus("2");
-      mainParam.setSystemId(gradingParam.getFkSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//      //修改审核状态为进行中
+//      MainParam mainParam = new MainParam();
+//      mainParam.setGradingStatus("3");
+//      mainParam.setExamineStatus("2");
+//      mainParam.setSystemId(gradingParam.getFkSystemId());
+//      mainServiceImpl.editSystemStatusBySystemId(mainParam);
       if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
         //保存附件  定级报告
         AttachParam gradingReport = new AttachParam();
@@ -577,6 +578,7 @@ public class GradingServiceImpl implements GradingService{
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
     }
+    
 //    //修改系统定级状态
 //    this.gradingMapper.updateGradingStatus(gradingParam);
     //修改或添加信息

@@ -162,9 +162,78 @@
           },
           auditDetails:function (systemId,companyId) {
             window.location.href=originUrl+"/page/auditDetailsPage?systemId="+systemId+"&companyId="+companyId;
-          }
+          },
+          //排序
+          listsort: function () {
+            var imgArrow = this.imgList;
+            var flagOne = 1;
+            for (var i = 0; i < imgArrow.length; i++) {
+              imgArrow[i].myindex = i;
+              imgArrow[i].onclick = function () {
+                flagOne *= -1;
+                //对每个数组也就是对应表格的每一列进行排序
+                switch (this.myindex){
+                  case 0://流程实例名称
+                  	data.tableData.result.list.sort(function (a, b) {
+                  		if(a.instanceName==null || a.instanceName=='undefind'){
+                  			a.instanceName='';
+                  		}
+                  		if(b.instanceName==null || b.instanceName=='undefind'){
+                  			b.instanceName='';
+                  		}
+                      return (a.instanceName.localeCompare(b.instanceName)) * flagOne
+                    });
+                    break;
+                  case 1://建设类型
+                  	debugger
+                  	data.tableData.result.list.sort(function (a, b) {
+                      return (a.fkInfoSysTypeCon - b.fkInfoSysTypeCon) * flagOne
+                    });
+                    break;
+                  case 2://发起人
+                  	data.tableData.result.list.sort(function (a, b) {
+                  		if(a.initiator==null || a.initiator=='undefind'){
+                  			a.initiator='';
+                  		}
+                  		if(b.initiator==null || b.initiator=='undefind'){
+                  			b.initiator='';
+                  		}
+                      return (a.initiator.localeCompare(b.initiator)) * flagOne
+                    });
+                    break;
+                  case 3://上一步执行人
+                  	data.tableData.result.list.sort(function (a, b) {
+                      return (a.prevExecutor.localeCompare(b.prevExecutor)) * flagOne
+                    });
+                    break;
+                  case 4://执行时间
+                  	data.tableData.result.list.sort(function (a, b) {
+                      return (new Date(a.executeTime.split('-').join('/')).getTime()-new Date(b.executeTime.split('-').join('/')).getTime()) * flagOne
+                    });
+                    break;
+                  case 5://业务节点
+                  	data.tableData.result.list.sort(function (a, b) {
+                      return (a.fkBusinessNode - b.fkBusinessNode) * flagOne
+                    });
+                    break;
+                  case 6://是否有专家意见
+                  	data.tableData.result.list.sort(function (a, b) {
+                      return (a.expertReviewName.localeCompare(b.expertReviewName)) * flagOne
+                    });
+                    break;
+                }
+              };
+
+            }
+          },
         },
         mounted: function() {
+        	//排序img
+        	var rowOne=document.getElementsByClassName('rowOne')[0];
+          var imgList=rowOne.getElementsByTagName('img');
+          this.imgList = imgList;
+          this.listsort();
+        	
           var auditBtn=document.getElementsByClassName('audit-btn');
           data.auditBtn=auditBtn;
           this.changColor();

@@ -883,29 +883,32 @@
           },
           //定级信息导入
           importGarding: function(e){
-          	var fileSize = e.target.files[0].size;//文件大小（字节）
-          	var fimeMax = 1048576 *30;
-          	if(fileSize > fimeMax){
-          		this.$alert('文件不能大于30M！', '信息提示', {
-                confirmButtonText: '确定',
-                callback: function callback(action) {
-                }
-              });
-          		return;
+          	var fileSize;
+          	if(e.target.files.length!=0){
+          		fileSize = e.target.files[0].size;//文件大小（字节）                 		
+	          	var fimeMax = 1048576 *30;
+	          	if(fileSize > fimeMax){
+	          		this.$alert('文件不能大于30M！', '信息提示', {
+	                confirmButtonText: '确定',
+	                callback: function callback(action) {
+	                }
+	              });
+	          		return;
+	          	}
+	          	var fileFormat = e.target.value.split(".");//文件后缀
+	          	if(fileFormat[1] != 'xlsm' && fileFormat[1] != 'xlsx'){
+	          		this.$alert('不接受此文件类型！', '信息提示', {
+	              confirmButtonText: '确定',
+	              callback: function callback(action) {
+	              }
+	            });
+	        		return;
+	        	}
+						var importData = new FormData(); 
+						importData.append('file', e.target.files[0]);
+						importData.append('type', 'test');
+						ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
           	}
-          	var fileFormat = e.target.value.split(".");//文件后缀
-          	if(fileFormat[1] != 'xlsm' && fileFormat[1] != 'xlsx'){
-          		this.$alert('不接受此文件类型！', '信息提示', {
-              confirmButtonText: '确定',
-              callback: function callback(action) {
-              }
-            });
-        		return;
-        	}
-					var importData = new FormData(); 
-					importData.append('file', e.target.files[0]);
-					importData.append('type', 'test');
-					ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
           },
           //导入成功
           importGardingSuccessMethod: function(_self,responseData){

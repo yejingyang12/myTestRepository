@@ -3,7 +3,7 @@
  */
 var  data={
 		 pickerOptions0: {
-	          disabledDate(time) {
+	          disabledDate:function(time) {
 	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	        },
@@ -519,7 +519,7 @@ var  data={
                     this.$refs.formData.validateField('npCoverageRange');
                   },
                   getCoverage:function(){
-                    this.formData6.npCoverageRange = $("#coverageRange").val();
+                    this.formData.npCoverageRange = $("#coverageRange").val();
                     this.$refs.formData.validateField('npCoverageRange');
                   },
                   getNetworkClass:function(e){

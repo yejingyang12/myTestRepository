@@ -142,7 +142,8 @@
     templateExport:false,
     newlyBuild:false,
     headquarters:false,
-    enterprise:false
+    enterprise:false,
+    nameList:[]
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/showChartDataList/showChartDataList.html').then(function (res) {
@@ -472,6 +473,13 @@
                 'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
           },
           getPermitJurisdictionSuccess: function(_self,response){
+            _self.paramGrading = false;
+            _self.paramEvaluation = false;
+            _self.paramDelete = false;
+            _self.paramRecord = false;
+            _self.paramSelfExamination = false;
+            _self.paramApplication = false;
+          	_self.nameList = response.data.nameList;
             for (var i = 0; i < response.data.permssions.length; i++) {
               var permssions = response.data.permssions[i];
               
