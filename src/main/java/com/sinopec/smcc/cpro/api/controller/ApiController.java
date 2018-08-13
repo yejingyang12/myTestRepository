@@ -100,6 +100,7 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
+  @RequestMapping(value = "/getStayHandle", method = RequestMethod.POST)
   public RetResult<PageUtil> getStayHandle(@RequestBody UsmgParams usmgParams,
       @RequestParam("userId") String userId)throws BusinessException{
     // 调用service实体，获得
