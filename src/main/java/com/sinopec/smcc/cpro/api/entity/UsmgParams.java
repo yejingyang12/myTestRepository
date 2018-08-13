@@ -13,21 +13,7 @@ public class UsmgParams {
     private int pageSize=10;
     //当前页数
     private int currPage=1;
-    private String userId;
-    
-    
-	/**
-     * @return the userId
-     */
-    public String getUserId() {
-      return userId;
-    }
-    /**
-     * @param userId the userId to set
-     */
-    public void setUserId(String userId) {
-      this.userId = userId;
-    }
+
   public int getPageSize() {
 		return pageSize;
 	}
