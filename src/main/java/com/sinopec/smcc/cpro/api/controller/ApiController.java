@@ -84,7 +84,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getGradingInformation", method = RequestMethod.POST)
-  public RetResult<GradingApiResult> getGradingInformation(HttpServletRequest request,
+  public RetResult<GradingApiResult> getGradingInformation(
       @RequestParam("systemId") String systemId) throws BusinessException{
     // 调用service实体，获得
     GradingApiResult gradingApiResult = this.apiServiceImpl.getGradingInformation(systemId);
@@ -100,9 +100,9 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/getStayHandle", method = RequestMethod.GET)
-  public RetResult<PageUtil> getStayHandle(HttpServletRequest request,
-      UsmgParams usmgParams,String userId) throws BusinessException{
+  @RequestMapping(value = "/getStayHandle", method = RequestMethod.POST)
+  public RetResult<PageUtil> getStayHandle(UsmgParams usmgParams,String userId) 
+      throws BusinessException{
     // 调用service实体，获得
     PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,userId);
     PageUtil pageUtil = new PageUtil(pageInfo);
@@ -118,8 +118,8 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/batchApproval", method = RequestMethod.POST)
-  public RetResult<AppCallResult> batchApproval(HttpServletRequest request,
-      List<ExecuteContext> executeContextList) throws BusinessException{
+  public RetResult<AppCallResult> batchApproval(List<ExecuteContext> executeContextList) 
+      throws BusinessException{
     // 调用service实体，获得
     AppCallResult appCallResult = this.apiServiceImpl.batchApproval(executeContextList);
     return RetResultUtil.ok(appCallResult);
@@ -135,11 +135,11 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<List<SystemRelationResult>> getSystemRelationInfo(HttpServletRequest request,
+  public RetResult<List<SystemRelationResult>> getSystemRelationInfo(
       @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
     // 调用service实体，获得
-    List<SystemRelationResult> systemApiResult = this.apiServiceImpl.getSystemRelationInfo(systemRelationParam);
-    
+    List<SystemRelationResult> systemApiResult = 
+        this.apiServiceImpl.getSystemRelationInfo(systemRelationParam);
     return RetResultUtil.ok(systemApiResult);
   }
 }
