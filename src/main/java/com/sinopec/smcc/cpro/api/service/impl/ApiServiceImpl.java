@@ -91,12 +91,12 @@ public class ApiServiceImpl implements ApiService{
    * 通过userId获取待办列表
    */
   @Override
-  public PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams) throws BusinessException {
+  public PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams,String userId) throws BusinessException {
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     int appPagedTODOTaskTotal = 0;
     int appPagedTODOTaskPageNum = 0;
   //获取待办列表
-    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(usmgParams.getUserId(),10,
+    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(userId,10,
         usmgParams.getCurrPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
     appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();

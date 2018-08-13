@@ -41,7 +41,8 @@ public interface ApiService {
    * @return
    * @throws BusinessException
    */
-  PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams) throws BusinessException;
+  PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams,String userId) 
+      throws BusinessException;
   
   /**
    * @Descrption 批量审批

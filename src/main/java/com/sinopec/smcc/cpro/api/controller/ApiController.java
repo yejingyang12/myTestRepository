@@ -102,9 +102,9 @@ public class ApiController {
    */
   @RequestMapping(value = "/getStayHandle", method = RequestMethod.GET)
   public RetResult<PageUtil> getStayHandle(HttpServletRequest request,
-      UsmgParams usmgParams) throws BusinessException{
+      UsmgParams usmgParams,String userId) throws BusinessException{
     // 调用service实体，获得
-    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams);
+    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,userId);
     PageUtil pageUtil = new PageUtil(pageInfo);
     return RetResultUtil.ok(pageUtil);
   }
