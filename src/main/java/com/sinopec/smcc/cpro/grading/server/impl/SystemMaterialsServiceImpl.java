@@ -669,7 +669,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperator(userName);
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         
-        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId());
+//        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId());
 
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -981,7 +981,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperator(userName);
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         
-        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId());
+//        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId());
 
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);

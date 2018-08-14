@@ -25,6 +25,8 @@ window.onload = function () {
           
           cleanSystemInfo:function (){
           	this.closeDialog();
+            data.systemInfo=true,
+            data.systemSonInfo=false,
             data.formData={
                 systemId:"",
                 companyId:"",
@@ -163,6 +165,7 @@ window.onload = function () {
                 systemKeyOtherName:'',
               };
             $(".baseMes1").find(".btnColor").removeClass("btnColor");
+
           },
           returnSystemList:function (){
             window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=second";

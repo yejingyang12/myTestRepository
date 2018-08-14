@@ -27,6 +27,7 @@ import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascader;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiCascaderResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
@@ -38,7 +39,6 @@ import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.tools.Utils;
 
@@ -54,6 +54,8 @@ public class CompanyServiceImpl implements CompanyService {
   private MainService mainServiceImpl;
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
+  @Autowired
+  private WorkFlowApiService workFlowApiServiceImpl;
 
   /**
    * 响应单位列表数据
@@ -150,16 +152,27 @@ public class CompanyServiceImpl implements CompanyService {
       }
       
       //修改审核状态
-      CheckParam checkParam = new CheckParam();
-      checkParam.setFkSystemId(companyParam.getSystemId());
-      checkParam.setFkExaminStatus("1");
-      checkParam.setFkBusinessNode("3");
-      checkParam.setPrevExecutor(userName);
-      checkParam.setExecuteTime(new Date());
-      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//      CheckParam checkParam = new CheckParam();
+//      checkParam.setFkSystemId(companyParam.getSystemId());
+//      checkParam.setFkExaminStatus("1");
+//      checkParam.setFkBusinessNode("3");
+//      checkParam.setPrevExecutor(userName);
+//      checkParam.setExecuteTime(new Date());
+//      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+      if(companyParam.getJurisdiction() != null){
+        //1总部 2 企业
+        if(companyParam.getJurisdiction() == 1){
+          //发起审核流程
+          workFlowApiServiceImpl.initStart("申请变更", "2", companyParam.getSystemId());
+        }else{
+          //发起审核流程
+          workFlowApiServiceImpl.initStart("申请变更", "1", companyParam.getSystemId());
+        }
+      }
+      
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(companyParam.getSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);

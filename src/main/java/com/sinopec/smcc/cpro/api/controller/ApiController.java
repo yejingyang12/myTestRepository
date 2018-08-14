@@ -100,7 +100,6 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/getStayHandle", method = RequestMethod.POST)
   public RetResult<PageUtil> getStayHandle(@RequestBody UsmgParams usmgParams,
       @RequestParam("userId") String userId)throws BusinessException{
     // 调用service实体，获得
@@ -135,11 +134,12 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<List<SystemRelationResult>> getSystemRelationInfo(
+  public RetResult<PageUtil> getSystemRelationInfo(HttpServletRequest request,
       @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
     // 调用service实体，获得
-    List<SystemRelationResult> systemApiResult = 
-        this.apiServiceImpl.getSystemRelationInfo(systemRelationParam);
-    return RetResultUtil.ok(systemApiResult);
+    PageInfo<SystemRelationResult> systemApiResult = this.apiServiceImpl.
+        getSystemRelationInfo(systemRelationParam);
+    PageUtil pageUtil = new PageUtil(systemApiResult);
+    return RetResultUtil.ok(pageUtil);
   }
 }

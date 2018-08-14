@@ -167,17 +167,20 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-类型
           getGradingShapeType:function(){
-        	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);        
-        		if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
-        			var begin = new Date(this.gradingShapeBegin);
-        			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
-        			var end = new Date(this.gradingShapeEnd);
-        			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();
-        			if(this.gradingShapeType != null &&  this.gradingShapeType != 'undefined'){
-        				var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
-        				bus.$emit("gradingShapeEnd",dataparmars);        				
-        			}
-        		}
+        	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);     
+        	  if(this.gradingShapeType != null &&  this.gradingShapeType != 'undefined'){
+        	  	if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
+        	  		var begin = new Date(this.gradingShapeBegin);
+          			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
+          			var end = new Date(this.gradingShapeEnd);
+          			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();
+        	  	}else{
+        	  		var begin = new Date("1970-01-01").getTime();
+        	  		var end = new Date().getTime();
+        	  	}
+        	  	var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
+        	  	bus.$emit("gradingShapeEnd",dataparmars);        				
+        	  }
           },
           //备案单位数量Top10-开始时间
           getRecordDateBegin:function(){

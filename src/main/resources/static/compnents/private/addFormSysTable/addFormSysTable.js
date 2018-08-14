@@ -134,6 +134,20 @@
                     a:function(){
                       bus.$emit('aaa',"2");
                     },
+                    //选择无或者0时，是否使用国产品和使用率不用验证
+                    changeNumber: function(productsNumber){
+                    	if(productsNumber == "无"){
+                    		bus.$emit('changeNumber',"changeNumber");
+                    		//验证过就将验证消息清空
+                    		if(this.$refs.systemKeyFkNationalIsProducts){
+                    			this.$refs.systemKeyFkNationalIsProducts.clearValidate();
+                    		}
+                    		//this.$refs.systemKeyProducts.clearValidate();
+                    	}else{
+                    		bus.$emit('changeNumber',"");
+                    	}
+                    },
+                    
                     //是否使用国产品联动产品率
                     productChange:function(val,index,number){
                     	if(number==1){

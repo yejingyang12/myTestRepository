@@ -1304,6 +1304,19 @@ var  data={
                     }
                   });
                   
+                  bus.$on('changeNumber',function(meg){
+                    if(meg){
+                    	_self.rules.systemProServices[0].required = false;
+                    	_self.rules.systemKeyFkNationalIsProducts[0].required = false;
+                    	_self.rules.systemKeyNUseProbability[0].required = false;
+                    	//_self.$refs.formData.validate(function (valid) {});
+                    }else{
+                    	_self.rules.systemProServices[0].required = true;
+                    	_self.rules.systemKeyFkNationalIsProducts[0].required = true;
+                    	_self.rules.systemKeyNUseProbability[0].required = true;
+                    }
+                  });
+                  
 //                  bus.$on('aaa',function(meg){
 //                    if(meg!=null){
 //                      _self.$refs['formData'].validate(function (valid) {

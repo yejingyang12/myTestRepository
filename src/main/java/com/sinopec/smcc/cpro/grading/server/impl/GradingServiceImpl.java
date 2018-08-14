@@ -359,7 +359,7 @@ public class GradingServiceImpl implements GradingService{
 //      checkServiceImpl.editCheckStatusBySystemId(checkParam);
       
       //发起审核流程
-      workFlowApiServiceImpl.initStart("申请变更", "1", gradingParam.getFkSystemId());
+//      workFlowApiServiceImpl.initStart("申请变更", "1", gradingParam.getFkSystemId());
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
@@ -545,7 +545,7 @@ public class GradingServiceImpl implements GradingService{
 //      checkServiceImpl.editCheckStatusBySystemId(checkParam);
       
       //发起审核流程
-      workFlowApiServiceImpl.initStart("申请变更", "2", gradingParam.getFkSystemId());
+//      workFlowApiServiceImpl.initStart("申请变更", "。2", gradingParam.getFkSystemId());
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();

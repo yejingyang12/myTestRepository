@@ -187,7 +187,8 @@
             if(_self.jurisdictionType==1){
               switch (fkBusinessNode) {
               case '1':
-                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult
+                _self.formData.scoreCheckResult = _self.ruleForm.scoreCheckResult;
+                _self.formData.scoreCheckReason = _self.ruleForm.scoreCheckReason;
                 ajaxMethod(_self,"post",
                    "checkController/saveGradCheck",false,
                    JSON.stringify(this.formData),"json",

@@ -70,6 +70,11 @@ public class SystemResult {
   private Integer fkInfoSysTypeCon;
   private Integer fkSystemIsMerge;
   private Integer gradingStatus;
+  private Integer examineStatus;
+  private Integer recordStatus;
+  private Integer evaluationStatus;
+  private Integer examinationStatus;
+
   private String companyId;
   private String expertReviewName;
   private String expertReviewId;
@@ -94,6 +99,55 @@ public class SystemResult {
   }
 
 
+  
+  /**
+   * @return the examineStatus
+   */
+  public Integer getExamineStatus() {
+    return examineStatus;
+  }
+  /**
+   * @param examineStatus the examineStatus to set
+   */
+  public void setExamineStatus(Integer examineStatus) {
+    this.examineStatus = examineStatus;
+  }
+  /**
+   * @return the recordStatus
+   */
+  public Integer getRecordStatus() {
+    return recordStatus;
+  }
+  /**
+   * @param recordStatus the recordStatus to set
+   */
+  public void setRecordStatus(Integer recordStatus) {
+    this.recordStatus = recordStatus;
+  }
+  /**
+   * @return the evaluationStatus
+   */
+  public Integer getEvaluationStatus() {
+    return evaluationStatus;
+  }
+  /**
+   * @param evaluationStatus the evaluationStatus to set
+   */
+  public void setEvaluationStatus(Integer evaluationStatus) {
+    this.evaluationStatus = evaluationStatus;
+  }
+  /**
+   * @return the examinationStatus
+   */
+  public Integer getExaminationStatus() {
+    return examinationStatus;
+  }
+  /**
+   * @param examinationStatus the examinationStatus to set
+   */
+  public void setExaminationStatus(Integer examinationStatus) {
+    this.examinationStatus = examinationStatus;
+  }
   /**
    * @return the expertReviewName
    */

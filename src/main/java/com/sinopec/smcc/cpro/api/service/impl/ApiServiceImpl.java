@@ -12,10 +12,12 @@ package com.sinopec.smcc.cpro.api.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
@@ -28,6 +30,7 @@ import com.sinopec.smcc.cpro.api.service.ApiService;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
@@ -188,8 +191,19 @@ public class ApiServiceImpl implements ApiService{
   }
   
   @Override
-  public List<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam) 
+  public PageInfo<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam) 
       throws BusinessException {
+    
+    StringBuffer orderBy = new StringBuffer();
+    if (StringUtils.isNotBlank(systemRelationParam.getField())) {
+      orderBy.append(ConvertFiledUtil.sortField(systemRelationParam.getField()));
+      if (StringUtils.isNotBlank(systemRelationParam.getSort())) {
+        orderBy.append("").append(systemRelationParam.getSort());
+      }
+    } else {
+      // 默认排序
+      orderBy.append("relation.createTime DESC");
+    }
     
     List<SystemRelationResult> systemRelationResultList = new ArrayList<SystemRelationResult>();
     
@@ -198,8 +212,13 @@ public class ApiServiceImpl implements ApiService{
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
     
     if(organizationApiResult==null){
-      return systemRelationResultList;
+      return new PageInfo<>();
     }else{
+      
+      // 初始化分页拦截器
+      PageHelper.startPage(systemRelationParam.getCurrentPage(), systemRelationParam.getPageSize(),
+          orderBy.toString());
+      
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       
@@ -225,7 +244,8 @@ public class ApiServiceImpl implements ApiService{
         break;
       }
     }
-    
-    return systemRelationResultList;
+    // 装载列表数据
+    PageInfo<SystemRelationResult> pageInfo = new PageInfo<>(systemRelationResultList);
+    return pageInfo;
   }
 }

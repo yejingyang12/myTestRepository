@@ -149,13 +149,17 @@ public class FileServiceImpl implements FileService{
     }
     
     if (attachParam.getUploadUrl()!=null&&StringUtils.isNotBlank(attachParam.getUploadUrl())) {
+      String filePath = FileConstant.TEMPORARY_FILE_PATH+attachParam.getUploadUrl();
       try {
         FileOperateUtil.download(request, response, 
-            FileConstant.TEMPORARY_FILE_PATH+attachParam.getUploadUrl(), 
+            filePath, 
             attachParam.getAttachName(), "UTF-8", "ISO8859-1", 20480);
         return;
       } catch (IOException e) {
         throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }finally{
+        File file = new File(filePath);
+        FileOperateUtil.deleteFile(file);
       }
     }
     
@@ -176,6 +180,9 @@ public class FileServiceImpl implements FileService{
       } catch (IOException e) {
         e.printStackTrace();
         throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }finally{
+        File file = new File(filePath);
+        FileOperateUtil.deleteFile(file);
       }
     }
   }

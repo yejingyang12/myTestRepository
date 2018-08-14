@@ -185,7 +185,6 @@
                     });
                     break;
                   case 1://建设类型
-                  	debugger
                   	data.tableData.result.list.sort(function (a, b) {
                       return (a.fkInfoSysTypeCon - b.fkInfoSysTypeCon) * flagOne
                     });

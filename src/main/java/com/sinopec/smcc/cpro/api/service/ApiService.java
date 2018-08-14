@@ -61,6 +61,6 @@ public interface ApiService {
    * @param systemParam
    * @return
    */
-  List<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam)
+  PageInfo<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam)
       throws BusinessException ;
 }

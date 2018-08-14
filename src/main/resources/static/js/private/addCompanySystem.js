@@ -41,6 +41,7 @@ window.onload = function () {
             });
             window.location.href = originUrl+"page/indexPage";
           },
+
           //上一页
           preBtn:function(formName) {
             data.check = false;
@@ -48,13 +49,19 @@ window.onload = function () {
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
-            if(boo){
+          	if(data.headquarters){
+          		this.jurisdiction = "headquarters";
+          	}
+          	if(data.enterprise){
+          		this.jurisdiction = "";
+          	}
+          	if(boo){
               data.check = false;
-              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
             }else{
               $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {
-                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
               }, 2300);
             }
           },
@@ -251,6 +258,39 @@ window.onload = function () {
         },
         mounted : function() {
           var _self = this;
+          //功能权限
+          $.ajax({
+            type: "get",
+            url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+            async: true,
+            data: "",
+            dataType: "json",
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+            	//维护单位信息功能权限
+            	data.maintain = getJurisdictionMethod(response,'0102010106');
+            	//审核管理权限
+            	data.auditManagement = getJurisdictionMethod(response,'0102010105');
+            	//一键导出权限
+            	data.oneKeyExportJurisdiction = getJurisdictionMethod(response,'0102010104');
+            	//新建权限
+            	if(getJurisdictionMethod(response,'0102010101') == true || getJurisdictionMethod(response,'0102010108') ==true){
+            		data.newlyBuild = true;
+            	}
+            	//定级模板导入权限
+            	data.templateImport = getJurisdictionMethod(response,'0102010103');
+            	//定级模板导出权限
+            	data.templateExport = getJurisdictionMethod(response,'0102010102');	
+            	//总部新建
+            	data.headquarters = getJurisdictionMethod(response,'0102010101');
+            	//企业新建
+            	data.enterprise = getJurisdictionMethod(response,'0102010108');
+            },
+            error: function(err) {
+            }
+          });
           bus.$on('addPreSystemAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";

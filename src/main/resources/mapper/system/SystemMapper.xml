@@ -2773,36 +2773,38 @@
   <update id="updateSystemStatusBySystemId" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam">
     UPDATE t_cpro_system 
     SET
-    <if test="gradingStatus != null">
-      <![CDATA[
-        gradingStatus = #{gradingStatus,jdbcType=INTEGER}
-      ]]>
-    </if>
-    <if test="examineStatus != null">
-      <![CDATA[
-        examineStatus = #{examineStatus,jdbcType=INTEGER}
-      ]]>
-    </if>
-    <if test="companyName != null">
-      <![CDATA[
-        companyName = #{companyName,jdbcType=VARCHAR}
-      ]]>
-    </if>
-    <if test="recordStatus != null">
-      <![CDATA[
-        recordStatus = #{recordStatus,jdbcType=INTEGER}
-      ]]>
-    </if>
-    <if test="evaluationStatus != null">
-      <![CDATA[
-        evaluationStatus = #{evaluationStatus,jdbcType=INTEGER}
-      ]]>
-    </if>
-    <if test="examinationStatus != null">
-      <![CDATA[
-        examinationStatus = #{examinationStatus,jdbcType=INTEGER}
-      ]]>
-    </if>
+     <trim suffixOverrides="," >
+	    <if test="gradingStatus != null">
+	      <![CDATA[
+	        gradingStatus = #{gradingStatus,jdbcType=INTEGER},
+	      ]]>
+	    </if>
+	    <if test="examineStatus != null">
+	      <![CDATA[
+	        examineStatus = #{examineStatus,jdbcType=INTEGER},
+	      ]]>
+	    </if>
+	    <if test="companyName != null">
+	      <![CDATA[
+	        companyName = #{companyName,jdbcType=VARCHAR},
+	      ]]>
+	    </if>
+	    <if test="recordStatus != null">
+	      <![CDATA[
+	        recordStatus = #{recordStatus,jdbcType=INTEGER},
+	      ]]>
+	    </if>
+	    <if test="evaluationStatus != null">
+	      <![CDATA[
+	        evaluationStatus = #{evaluationStatus,jdbcType=INTEGER},
+	      ]]>
+	    </if>
+	    <if test="examinationStatus != null">
+	      <![CDATA[
+	        examinationStatus = #{examinationStatus,jdbcType=INTEGER},
+	      ]]>
+	    </if>
+    </trim>
     WHERE pkId = #{systemId}
   </update>
   
@@ -3573,6 +3575,10 @@
       system.whenInvestmentUse,
       system.systemName,
       system.gradingStatus,
+      system.examineStatus,
+      system.recordStatus,
+      system.evaluationStatus,
+      system.examinationStatus,
       system.subIsSystem
     FROM t_cpro_system system
     WHERE system.pkId = #{systemId,jdbcType=VARCHAR}

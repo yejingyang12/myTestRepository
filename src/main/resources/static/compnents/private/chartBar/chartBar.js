@@ -281,10 +281,10 @@
            if(_self.val3){
          	  gradingEndTimeStamp = _self.val3.getTime()+8*60*60*1000;//时间戳
            }
-           if(gradingShapeType = 'undefined' || gradingShapeType == null){
+           if(gradingShapeType == 'undefined' || gradingShapeType == null){
           	 gradingShapeType = ""
            }
-                window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
+           window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
  /*               window.location.href = "http://echarts.baidu.com/examples/editor.html";
 */           
           }) 

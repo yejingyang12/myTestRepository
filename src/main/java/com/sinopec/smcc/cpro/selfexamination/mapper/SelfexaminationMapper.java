@@ -75,4 +75,15 @@ public interface SelfexaminationMapper {
    */
   SelfexaminationResult selectSingleBySystemId(SelfexaminationParam selfexaminationParam) 
       throws BusinessException;
+  
+  /**
+   * @Descrption 通过systemId查询自查
+   * @author dongxu
+   * @date 2018年8月13日下午1:42:28
+   * @param selfexaminationParam
+   * @return
+   * @throws BusinessException
+   */
+  List<SelfexaminationListResult> selectSelfBySystemId(SelfexaminationParam selfexaminationParam)
+      throws BusinessException;
 }

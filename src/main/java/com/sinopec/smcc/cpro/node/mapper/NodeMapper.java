@@ -59,4 +59,13 @@ public interface NodeMapper {
    * @param nodeParam
    */
   void updateNodeByNodeId(NodeParam nodeParam);
+  
+  /**
+   * @Descrption 通过systemId查询所有节点
+   * @author dongxu
+   * @date 2018年8月13日下午4:20:57
+   * @param nodeParam
+   * @return
+   */
+  List<NodeResult> selectSingleNodeBySystemId(NodeParam nodeParam);
 }

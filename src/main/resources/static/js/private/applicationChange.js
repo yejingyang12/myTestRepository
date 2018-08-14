@@ -37,6 +37,30 @@ window.onload = function () {
           		data.formData.changeType = "1";
           	}
             data.formData.systemId = systemId;
+            $.ajax({
+              type: "get",
+              url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+              async: false,
+              data: "",
+              dataType: "json",
+              cache: false,
+              processData: false,
+              contentType: false,
+              success: function(response) {
+              	//总部新建
+              	var headquarters  = getJurisdictionMethod(response,'0102010101');
+              	//企业新建
+              	var enterprise = getJurisdictionMethod(response,'0102010108');
+              	if(headquarters){
+              		data.formData.jurisdiction = "1";
+              	}
+              	if(enterprise){
+              		data.formData.jurisdiction = "2";
+              	}
+              },
+              error: function(err) {
+              }
+            });
             ajaxMethod(_self, 'post',
                 'company/saveCompany', true,JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',_self.submitHandlerSuccessMethod);

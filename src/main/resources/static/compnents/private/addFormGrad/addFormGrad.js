@@ -107,7 +107,7 @@ var data={
               {required: true, message: '请上传定级报告', trigger: 'change' },
           ],
           expertReviewName:[  //专家评审情况
-              {required: true, message: '请上传专家评审附件', trigger: 'blur' },
+              {required: true, message: '请上传专家评审附件', trigger: 'change' },
           ],
           filler:[  //填表人
               {required: false, message: '请输入填表人', trigger: 'blur' },
@@ -144,9 +144,14 @@ var data={
                         this.formData.competentView = param;
                     },
                     getExpertClass:function(e,param){
-                      $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
+                    	$(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                       this.formData.expertView = param;
-                      this.rules.expertReviewName[0].required = false;
+                      if(e.currentTarget.innerText=='未审批'){
+                      	this.rules.expertReviewName[0].required = false;
+                      }else{
+                      	this.rules.expertReviewName[0].required = true;
+                      }
+                      
                     },
                     btnBoolen:function(e,param){
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -261,9 +266,9 @@ var data={
 //                    	this.$refs.refOnUpload1.value = null;
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
-                      
                       var fileHtml='<li><div class="fl updwon2">'+responseData.data.attachName+'</div><i class="el-icon-close fl del2"></i></li>'
                       $("#fileList1").html(fileHtml);
+                      this.$refs.gradingReportName.clearValidate();
                       $(".del2").click(function(){
                         $(this).parent("li").remove();
                         _self.fileDel(responseData.data.uploadUrl,1,responseData.data.attachName);
@@ -274,6 +279,7 @@ var data={
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });
+                      
                     },
                     onUpload2: function(e){
                     	var fileSize;
@@ -517,12 +523,12 @@ var data={
                         }
                       }
                       if(this.formData.fkSpRanklevel==301){
-                      	console.log('fkSpRanklevel=========='+this.formData.fkSpRanklevel);
                         this.expertType = true;
+                        this.formData.expertView = '';
                       }else{
-                      	console.log('fkSpRanklevel=========='+this.formData.fkSpRanklevel);
                         this.expertType = false;
                         this.formData.expertView = 1;
+                        $("#shenp").addClass('btnColor').siblings().removeClass("btnColor");
                       }
                     },
                     
@@ -694,9 +700,11 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
+                        this.formData.expertView = '';
                       }else{
                         this.expertType = false;
                         this.formData.expertView = 1;
+                        $("#shenp").addClass('btnColor').siblings().removeClass("btnColor");
                       }
                     },
                     fnCheckAll:function (index) {
@@ -824,9 +832,11 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
+                        this.formData.expertView = '';
                       }else{
                         this.expertType = false;
                         this.formData.expertView = 1;
+                        $("#shenp").addClass('btnColor').siblings().removeClass("btnColor");
                       }
                     },
                     checkAll:function (index) {
@@ -995,9 +1005,11 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
+                        this.formData.expertView = '';
                       }else{
                         this.expertType = false;
                         this.formData.expertView = 1;
+                        $("#shenp").addClass('btnColor').siblings().removeClass("btnColor");
                       }
                     },
                     // 获取安全等级信息
@@ -1098,7 +1110,6 @@ var data={
                             _self.fileDownload(responseData.data.expertReviewId,2);
                           });
                         }
-                        
                         if(_self.formData.competentIsExisting!=''){
                           var array = $('#baseMes1').find('div').map(function (index, ele) {
                             if(_self.formData.competentIsExisting==1&&ele.innerHTML=='是'){
@@ -1200,7 +1211,6 @@ var data={
                       }
                       
                       if(this.formData.fkSpRanklevel>=303){
-                      	console.log(11111);
                         this.nextBtn = true;
                         if(type!="new"&&type!="change"){
 	                        if(data1!=null){
@@ -1217,10 +1227,12 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
+                        this.formData.expertView = '';
                       }else{
                         if(parseInt(this.formData.fkSpRanklevel)>0){
                           this.expertType = false;
                           this.formData.expertView = 1;
+                          $("#shenp").addClass('btnColor').siblings().removeClass("btnColor");
                         }
                       }
                       

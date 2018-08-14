@@ -178,15 +178,12 @@ public class RecordsServiceImpl implements RecordsService{
     workFlowApiServiceImpl.initStart("撤销备案", "3", recordsParam.getFkSystemId());
     
 //    
-//    //修改系统状态
-//    MainParam mainParam = new MainParam();
-//    mainParam.setGradingStatus("4");
-//    mainParam.setRecordStatus("4");
-//    mainParam.setExamineStatus("5");
-//    mainParam.setEvaluationStatus("4");
-//    mainParam.setExaminationStatus("4");
-//    mainParam.setSystemId(recordsParam.getFkSystemId());
-//    mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    //修改系统状态
+    MainParam mainParam = new MainParam();
+    mainParam.setRecordStatus("2");
+    mainParam.setExamineStatus("2");
+    mainParam.setSystemId(recordsParam.getFkSystemId());
+    mainServiceImpl.editSystemStatusBySystemId(mainParam);
     recordsParam.setRecordsId(selectRecordsByFkSystemIdForRecordsDetail.getRecordsId());
     if (StringUtils.isNotBlank(recordsParam.getRevokeAttachPath())) {
       try {
@@ -203,15 +200,15 @@ public class RecordsServiceImpl implements RecordsService{
         //TODO: 保存文件出错
       }
     }
-//    
+    
 //    //添加节点状态信息
-//    NodeParam nodeParam = new NodeParam();
-//    nodeParam.setSystemId(recordsParam.getFkSystemId());
-//    nodeParam.setOperation("撤销备案");
-//    nodeParam.setOperationResult("已提交");
-//    nodeParam.setOperationOpinion("");
-//    nodeParam.setOperator(userName);
-//    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(recordsParam.getFkSystemId());
+    nodeParam.setOperation("撤销备案");
+    nodeParam.setOperationResult("已提交");
+    nodeParam.setOperationOpinion(recordsParam.getRevokereason());
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
   }
 
   /**
@@ -267,13 +264,13 @@ public class RecordsServiceImpl implements RecordsService{
     }
     
     //添加节点状态信息
-//    NodeParam nodeParam = new NodeParam();
-//    nodeParam.setSystemId(recordsParam.getFkSystemId());
-//    nodeParam.setOperation("撤销备案");
-//    nodeParam.setOperationResult("");
-//    nodeParam.setOperationOpinion("");
-//    nodeParam.setOperator(userName);
-//    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(recordsParam.getFkSystemId());
+    nodeParam.setOperation("撤销备案");
+    nodeParam.setOperationResult("");
+    nodeParam.setOperationOpinion("");
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
   }
   
   /**

@@ -74,6 +74,9 @@
   <select id="selectSingleAttachByFileId" parameterType="com.sinopec.smcc.cpro.file.entity.AttachParam" resultMap="MainListResult">
     SELECT
       mongoFileId,
+      fkAttachType AS attachType,
+      attachName AS attachName,
+      attachPath AS attachPath,
       attachName
     FROM t_cpro_attach AS attach
     <where>

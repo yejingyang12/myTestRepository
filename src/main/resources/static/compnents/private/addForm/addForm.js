@@ -29,7 +29,8 @@
         fkCompanyType:"",
         companyId:"",
         changeType:"",
-        systemId:""
+        systemId:"",
+        jurisdiction:""
       },
       msgName : [],// 单位名称
       msgProvince : [],// 所属省份

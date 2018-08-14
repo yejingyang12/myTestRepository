@@ -105,4 +105,17 @@
 			WHERE
 				pkId = #{nodeId}
   </update>
+    <select id="selectSingleNodeBySystemId" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam" resultMap="NodeResult">
+    SELECT
+      pkId,
+      fkSystemId,
+      operation,
+      operator,
+      operationResult,
+      operationOpinion,
+      createTime
+    FROM
+      t_cpro_node 
+    WHERE fkSystemId = #{systemId}
+  </select>
 </mapper>

@@ -53,6 +53,7 @@ import org.apache.poi.ss.util.CellRangeAddressList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -68,13 +69,36 @@ import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList.SystemInfo;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.OrganizationApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
+import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
+import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
+import com.sinopec.smcc.cpro.evaluation.mapper.EvaluationMapper;
+import com.sinopec.smcc.cpro.evaluation.server.EvaluationService;
+import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
+import com.sinopec.smcc.cpro.file.mapper.AttachMapper;
+import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
+import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;
+import com.sinopec.smcc.cpro.grading.server.GradingService;
+import com.sinopec.smcc.cpro.grading.server.SystemMaterialsService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
+import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
 import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.records.entity.RecordsParam;
+import com.sinopec.smcc.cpro.records.entity.RecordsResult;
+import com.sinopec.smcc.cpro.records.entity.RevokeRecordsResult;
+import com.sinopec.smcc.cpro.records.mapper.RecordsMapper;
+import com.sinopec.smcc.cpro.records.server.RecordsService;
 import com.sinopec.smcc.cpro.review.server.CheckService;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationListResult;
+import com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam;
+import com.sinopec.smcc.cpro.selfexamination.mapper.SelfexaminationMapper;
+import com.sinopec.smcc.cpro.selfexamination.server.SelfexaminationService;
 import com.sinopec.smcc.cpro.system.constant.SystemConstant;
 import com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
@@ -134,7 +158,27 @@ public class SystemServiceImpl implements SystemService {
   private SystemRelationMapper systemRelationMapper;
   @Autowired
   private OrganizationApiService organizationApiServiceImpl;
-	
+  @Autowired
+  private GradingService gradingServiceImpl;
+  @Autowired
+  private AttachMapper attachMapper;
+  @Autowired
+  private SystemMaterialsService systemMaterialsServiceImpl;
+  @Autowired
+  private RecordsService recordsServiceImpl;
+  @Autowired
+  private EvaluationMapper evaluationMapperImpl;
+  @Autowired
+  private EvaluationService evaluationServiceImpl;
+  @Autowired
+  private SelfexaminationMapper selfexaminationMapperImpl;
+  @Autowired
+  private SelfexaminationService selfexaminationServiceImpl;
+  @Autowired
+  private NodeMapper nodeMapperImpl;
+  @Autowired
+  private RecordsMapper recordsMapperImpl;
+  
 	/**
    * 响应系统列表数据
    */
@@ -443,49 +487,459 @@ public class SystemServiceImpl implements SystemService {
 	 * @throws BusinessException 
 	 */
 	@Override
-	@Transactional
   public String editSystem(String userName, SystemParam systemParam) throws BusinessException {
-	  
-//	  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
-//	  List<SystemResult> subUpdateSystemList = new ArrayList<SystemResult>();
-//	  List<SystemParam> addSubSystem = systemParam.getAddSystemSub();
-	  
-	  
-	  List<SystemParam> systemParamAddList = new ArrayList<SystemParam>();
-	  List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
-	  List<SystemKeyProducts> subSystemKeyProductsList = new ArrayList<SystemKeyProducts>();
-	  List<SystemUseServices> subUseList = systemParam.getSystemUseServices();
-	  List<SystemUseServices> subSystemUseServicesList = new ArrayList<SystemUseServices>();
-	  
-//	  SystemResult systemFather = this.systemMapper.selectSystem(systemParam);
-	  //添加新的关联表信息的list
-	  List<SystemRelationParam> systemRelationParamList = new ArrayList<SystemRelationParam>();
-	  
-	  //判断是否为合并系统
-	  if(systemParam.getFkSystemIsMerge()==1){
-	    //查询子表信息
-	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
-	    int sum = 0;//计数器
-	    //修改原子系统的信息
-	    for (SystemSubResult systemSubParam : subSystemList) {
-	      boolean sonBoo = false;
-	      SystemParam systemTempParam = new SystemParam();
-	      //修改系统关联表信息
-	      systemTempParam.addSystemParam(systemParam);
-	      systemTempParam.setSystemId(systemSubParam.getSystemId());
-	      systemParamAddList.add(systemTempParam);
-	      for(SystemParam systemParamSon : systemParam.getAddSystemSub()){
-	        //如果已有子系统与新提交的子系统Code相同，则sonBoo为true，不进行删除
-	        if(systemParamSon.getStandardizedCode().equals(systemSubParam.getStandardizedCode())){
-	          sonBoo = true;
-	          break;
-	        }
-	      }
-	      if(!sonBoo){
-	        systemTempParam.setDeleteStatus(2);
-	      }
-	      this.systemMapper.updateSystemEdit(systemTempParam);
+    
+//  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
+//  List<SystemResult> subUpdateSystemList = new ArrayList<SystemResult>();
+//  List<SystemParam> addSubSystem = systemParam.getAddSystemSub();
+  
+  
+  List<SystemParam> systemParamAddList = new ArrayList<SystemParam>();
+  List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
+  List<SystemKeyProducts> subSystemKeyProductsList = new ArrayList<SystemKeyProducts>();
+  List<SystemUseServices> subUseList = systemParam.getSystemUseServices();
+  List<SystemUseServices> subSystemUseServicesList = new ArrayList<SystemUseServices>();
+  
+  SystemResult systemFather = this.systemMapper.selectSystem(systemParam);
+  //添加新的关联表信息的list
+  List<SystemRelationParam> systemRelationParamList = new ArrayList<SystemRelationParam>();
+  
+  //判断是否为合并系统
+  if(systemParam.getFkSystemIsMerge()==1){
+    //查询子表信息
+    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
+    int sum = 0;//计数器
+    //修改原子系统的信息
+    for (SystemSubResult systemSubParam : subSystemList) {
+      boolean sonBoo = false;
+      SystemParam systemTempParam = new SystemParam();
+      //修改系统关联表信息
+      systemTempParam.addSystemParam(systemParam);
+      systemTempParam.setSystemId(systemSubParam.getSystemId());
+      systemParamAddList.add(systemTempParam);
+      for(SystemParam systemParamSon : systemParam.getAddSystemSub()){
+        //如果已有子系统与新提交的子系统Code相同，则sonBoo为true，不进行删除
+        if(systemParamSon.getStandardizedCode().equals(systemSubParam.getStandardizedCode())){
+          sonBoo = true;
+          break;
+        }
       }
+      if(!sonBoo){
+        //创建子系统定级信息
+        GradingParam gradingParam = new GradingParam();
+        gradingParam.setFkSystemId(systemParam.getSystemId());
+        GradingListResult gradingListResult = this.gradingServiceImpl.
+            queryDetailsGrading(gradingParam);
+        if(gradingListResult != null){
+          GradingParam gradingParamSon = new GradingParam();
+          gradingParamSon.setFkSystemId(systemSubParam.getSystemId());
+          gradingParamSon.setFkBizSPRankDegree(gradingListResult.getFkBizSPRankDegree());
+          gradingParamSon.setFkBizSPRankLevel(gradingListResult.getFkBizSPRankLevel());
+          gradingParamSon.setFkBizSystemDegree(gradingListResult.getFkBizSystemDegree());
+          gradingParamSon.setFkBizSystemLevel(gradingListResult.getFkBizSystemLevel());
+          gradingParamSon.setFkSpRanklevel(gradingListResult.getFkSpRanklevel());
+          gradingParamSon.setExpertView(gradingListResult.getExpertView());
+          gradingParamSon.setRankExplainDesc(gradingListResult.getRankExplainDesc());
+          gradingParamSon.setRankTime(gradingListResult.getRankTime());
+          gradingParamSon.setCompetentIsExisting(gradingListResult.getCompetentIsExisting());
+          if(gradingListResult.getCompetentIsExisting() == 1){
+            gradingParamSon.setCompetentName(gradingListResult.getCompetentName());
+            gradingParamSon.setCompetentView(gradingListResult.getCompetentView());
+          }
+          if(StringUtils.isNotBlank(gradingListResult.getFiller())){
+            gradingParamSon.setFiller(gradingListResult.getFiller());
+          }
+          if(gradingListResult.getFillDate() != null){
+            gradingParamSon.setFillDate(gradingListResult.getFillDate());
+          }
+          this.gradingServiceImpl.saveGrading(userName,gradingParamSon);
+          //查询定级ID
+          GradingParam grading = new GradingParam();
+          grading.setFkSystemId(systemSubParam.getSystemId());
+          GradingListResult gradingResu = gradingServiceImpl.queryDetailsGrading(grading);
+          //定级报告
+          if(StringUtils.isNotBlank(gradingListResult.getGradingReportId())){
+            AttachParam attachParam = new AttachParam();
+            attachParam.setFileId(gradingListResult.getGradingReportId());
+            AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+            //创建附件
+            AttachParam attach = new AttachParam();
+            attach.setSystemId(systemSubParam.getSystemId());
+            attach.setAttachName(attachResult.getAttachName());
+            attach.setMongoFileId(attachResult.getMongoFileId());
+            attach.setAttachType(attachResult.getAttachType());
+            attach.setSyssonId(gradingResu.getGradingId());
+            attach.setFileId(Utils.getUuidFor32());
+            attach.setCreateTime(new Date());
+            this.attachMapper.insertAttach(attach);
+          }
+          //专家评审报告
+          if(StringUtils.isNotBlank(gradingListResult.getExpertReviewId())){
+            AttachParam attachParam = new AttachParam();
+            attachParam.setFileId(gradingListResult.getExpertReviewId());
+            AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+            //创建附件
+            AttachParam attach = new AttachParam();
+            attach.setSystemId(systemSubParam.getSystemId());
+            attach.setAttachName(attachResult.getAttachName());
+            attach.setMongoFileId(attachResult.getMongoFileId());
+            attach.setAttachType(attachResult.getAttachType());
+            attach.setSyssonId(gradingResu.getGradingId());
+            attach.setFileId(Utils.getUuidFor32());
+            attach.setCreateTime(new Date());
+            this.attachMapper.insertAttach(attach);
+          }
+          //上级主管部门审批意见
+          if(StringUtils.isNotBlank(gradingListResult.getDirectorOpinionId())){
+            AttachParam attachParam = new AttachParam();
+            attachParam.setFileId(gradingListResult.getDirectorOpinionId());
+            AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+            //创建附件
+            AttachParam attach = new AttachParam();
+            attach.setSystemId(systemSubParam.getSystemId());
+            attach.setAttachName(attachResult.getAttachName());
+            attach.setMongoFileId(attachResult.getMongoFileId());
+            attach.setAttachType(attachResult.getAttachType());
+            attach.setSyssonId(gradingResu.getGradingId());
+            attach.setFileId(Utils.getUuidFor32());
+            attach.setCreateTime(new Date());
+            this.attachMapper.insertAttach(attach);
+          }
+        }
+        //创建子系统表4
+        SystemMaterialsParam systemMaterialsParam = new SystemMaterialsParam();
+        systemMaterialsParam.setFkSystemId(systemParam.getSystemId());
+        SystemMaterialsBeanResult systemMaterialsBeanResult = 
+            this.systemMaterialsServiceImpl.queryEditSystemMaterialsInfo(systemMaterialsParam);
+        if(systemMaterialsBeanResult != null){
+          SystemMaterialsBeanParam systemMaterialsBeanParam = new SystemMaterialsBeanParam();
+          systemMaterialsBeanParam.setFkSystemId(systemSubParam.getSystemId());
+          this.systemMaterialsServiceImpl.saveSystemMaterialsInfo(userName,
+              systemMaterialsBeanParam);
+          
+          SystemMaterialsParam systemMaterials = new SystemMaterialsParam();
+          systemMaterials.setFkSystemId(systemSubParam.getSystemId());
+          SystemMaterialsBeanResult systemMaterialsBean = 
+              this.systemMaterialsServiceImpl.queryEditSystemMaterialsInfo(systemMaterials);
+          
+          //系统拓扑结构及说明
+          if(!ObjectUtils.isEmpty(systemMaterialsBeanResult.getTopologyDescriptionList())){
+            for(AttachResult attachRen:systemMaterialsBeanResult.getTopologyDescriptionList()){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(attachRen.getFileId());
+              AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
+            }
+          }
+          //系统安全组织机构及管理制度
+          if(!ObjectUtils.isEmpty(systemMaterialsBeanResult.getOrganizationManagementList())){
+            for(AttachResult attachRen : systemMaterialsBeanResult.
+                getOrganizationManagementList()){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(attachRen.getFileId());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
+            }
+          }
+          //系统安全保护设施设计;实施方案或改建实施方案
+          if(!ObjectUtils.isEmpty(systemMaterialsBeanResult.getImplementationPlanList())){
+            for(AttachResult attachRen :systemMaterialsBeanResult.getImplementationPlanList()){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(attachRen.getFileId());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
+            }
+          }
+          //系统使用的安全产品清单及认证、销售许可证明
+          if(!ObjectUtils.isEmpty(systemMaterialsBeanResult.getLicenseCertificateList())){
+            for(AttachResult attachRen :systemMaterialsBeanResult.getLicenseCertificateList()){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(attachRen.getFileId());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
+            }
+          }
+        }
+        
+        //创建子备案信息
+        RecordsParam recordsParam = new RecordsParam();
+        recordsParam.setFkSystemId(systemParam.getSystemId());
+        RecordsResult recordsResult = this.recordsServiceImpl.queryRecordsByFkSystemId(
+            recordsParam);
+        String recordsId = "";
+        if(recordsResult != null){
+          RecordsParam records = new RecordsParam();
+          records.setFkSystemId(systemSubParam.getSystemId());
+          records.setRecordCode(recordsResult.getRecordCode());
+          records.setRecordCompany(recordsResult.getRecordCompany());
+          records.setRecordDate(recordsResult.getRecordDate());
+          records.setAcceptCompany(recordsResult.getAcceptCompany());
+          records.setAcceptDate(recordsResult.getAcceptDate());
+          records.setAcceptReason(recordsResult.getAcceptReason());
+          this.recordsServiceImpl.saveRecords(userName,records);
+          
+          RecordsParam record = new RecordsParam();
+          record.setFkSystemId(systemSubParam.getSystemId());
+          RecordsResult recordResult = this.recordsServiceImpl.queryRecordsByFkSystemId(record);
+          recordsId = recordResult.getRecordsId();
+          if(StringUtils.isNotBlank(recordsResult.getRecordReportId())){
+            AttachParam attachParam = new AttachParam();
+            attachParam.setFileId(recordsResult.getRecordReportId());
+            AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+            //创建附件
+            AttachParam attach = new AttachParam();
+            attach.setSystemId(systemSubParam.getSystemId());
+            attach.setAttachName(attachResult.getAttachName());
+            attach.setMongoFileId(attachResult.getMongoFileId());
+            attach.setAttachType(attachResult.getAttachType());
+            attach.setSyssonId(recordsId);
+            attach.setFileId(Utils.getUuidFor32());
+            attach.setCreateTime(new Date());
+            this.attachMapper.insertAttach(attach);
+            records.setRecordReportPath(recordsResult.getRecordReportId());
+          }
+        }
+        //创建子撤销备案信息
+        RecordsParam revokeParam = new RecordsParam();
+        revokeParam.setFkSystemId(systemParam.getSystemId());
+        RevokeRecordsResult revokeRecordsResult = 
+            recordsServiceImpl.queryRevokeRecords(revokeParam);
+        if(revokeRecordsResult != null) {
+          if(StringUtils.isNotBlank(recordsId)){
+            AttachParam attachParam = new AttachParam();
+            attachParam.setFileId(revokeRecordsResult.getRevokeRecordsId());
+            AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+            //创建附件
+            AttachParam attach = new AttachParam();
+            attach.setSystemId(systemSubParam.getSystemId());
+            attach.setAttachName(attachResult.getAttachName());
+            attach.setMongoFileId(attachResult.getMongoFileId());
+            attach.setAttachType(attachResult.getAttachType());
+            attach.setSyssonId(recordsId);
+            attach.setFileId(Utils.getUuidFor32());
+            attach.setCreateTime(new Date());
+            this.attachMapper.insertAttach(attach);
+          }
+          RecordsParam revoke = new RecordsParam();
+          revoke.setFkSystemId(systemSubParam.getSystemId());
+          revoke.setRevokereason(revokeRecordsResult.getRevokereason());
+          revoke.setFkrevokematter(Integer.parseInt(revokeRecordsResult.getFkrevokematter()));
+          this.recordsMapperImpl.updateRecordsBySystemIdForRevokeRecords(revoke);
+        }
+        //创建子测评信息
+        EvaluationParam evaluationParam = new EvaluationParam();
+        evaluationParam.setFkSystemId(systemParam.getSystemId());
+        List<EvaluationListResult> evaluationListResultList = 
+            this.evaluationMapperImpl.selectAllByEvaluationSystemId(evaluationParam);
+        if(!ObjectUtils.isEmpty(evaluationListResultList)){
+          for(EvaluationListResult evaluationListResult : evaluationListResultList){
+            EvaluationParam evaluation = new EvaluationParam();
+            evaluation.setFkSystemId(systemSubParam.getSystemId());
+            evaluation.setExamName(evaluationListResult.getExamName());
+            evaluation.setExamYear(evaluationListResult.getExamYear());
+            evaluation.setExamOrg(evaluationListResult.getExamOrg());
+            evaluation.setExamTime(evaluationListResult.getExamTime());
+            evaluation.setFkExamStatus(evaluationListResult.getFkExamStatus());
+            if(evaluationListResult.getFkExamResult() != null){
+              evaluation.setFkExamResult(evaluationListResult.getFkExamResult());
+            }
+            if(evaluationListResult.getFkRectificationReu() != null){
+              evaluation.setFkRectificationReu(evaluationListResult.getFkRectificationReu());
+            }
+            if(evaluationListResult.getRectificationDate() != null){
+              evaluation.setRectificationDate(evaluationListResult.getRectificationDate());
+            }
+            if(StringUtils.isNotBlank(evaluationListResult.getExamName())){
+              evaluation.setExamName(evaluationListResult.getExamName());
+            }
+            this.evaluationServiceImpl.saveEvaluation(userName,evaluation);
+            
+            EvaluationParam evaluationRen = new EvaluationParam();
+            evaluationParam.setFkSystemId(systemSubParam.getSystemId());
+            List<EvaluationListResult> evaluationRenList = 
+                this.evaluationMapperImpl.selectAllByEvaluationSystemId(evaluationRen);
+            for (EvaluationListResult evalRen : evaluationRenList) {
+              if(StringUtils.isNotBlank(evalRen.getExamReport())){
+                AttachParam attachParam = new AttachParam();
+                attachParam.setFileId(evalRen.getExamReport());
+                AttachResult attachResult = 
+                    this.attachMapper.selectSingleAttachByFileId(attachParam);
+                //创建附件
+                AttachParam attach = new AttachParam();
+                attach.setSystemId(systemSubParam.getSystemId());
+                attach.setAttachName(attachResult.getAttachName());
+                attach.setMongoFileId(attachResult.getMongoFileId());
+                attach.setAttachType(attachResult.getAttachType());
+                attach.setSyssonId(evalRen.getEvaluationId());
+                attach.setFileId(Utils.getUuidFor32());
+                attach.setCreateTime(new Date());
+                this.attachMapper.insertAttach(attach);
+              }
+              if(StringUtils.isNotBlank(evalRen.getRectificationReport())){
+                AttachParam attachParam = new AttachParam();
+                attachParam.setFileId(evalRen.getRectificationReport());
+                AttachResult attachResult = 
+                    this.attachMapper.selectSingleAttachByFileId(attachParam);
+                //创建附件
+                AttachParam attach = new AttachParam();
+                attach.setSystemId(systemSubParam.getSystemId());
+                attach.setAttachName(attachResult.getAttachName());
+                attach.setMongoFileId(attachResult.getMongoFileId());
+                attach.setAttachType(attachResult.getAttachType());
+                attach.setSyssonId(evalRen.getEvaluationId());
+                attach.setFileId(Utils.getUuidFor32());
+                attach.setCreateTime(new Date());
+                this.attachMapper.insertAttach(attach);
+              }
+            }
+          }
+        }
+        //创建子自查信息
+        SelfexaminationParam selfexaminationParam = new SelfexaminationParam();
+        selfexaminationParam.setFkSystemId(systemParam.getSystemId());
+        List<SelfexaminationListResult> selfexaminationListResultList = 
+            this.selfexaminationMapperImpl.selectSelfBySystemId(selfexaminationParam);
+        if(!ObjectUtils.isEmpty(selfexaminationListResultList)){
+          for(SelfexaminationListResult selfexaminationListResult: selfexaminationListResultList){
+            SelfexaminationParam selfexamination = new SelfexaminationParam();
+            selfexamination.setFkSystemId(systemSubParam.getSystemId());
+            selfexamination.setInspectionDate(selfexaminationListResult.getInspectionDate());
+            selfexamination.setFkInspectionStatus(
+                selfexaminationListResult.getFkInspectionStatus());
+            if(selfexaminationListResult.getFkInspectionStatus() != null){
+              selfexamination.setFkInspectionReu(
+                  selfexaminationListResult.getFkInspectionStatus());
+            }
+            if(selfexaminationListResult.getFkRectificationReu() != null){
+              selfexamination.setFkRectificationReu(
+                  selfexaminationListResult.getFkRectificationReu() );
+            }
+            if(selfexaminationListResult.getRectificationDate() != null){
+              selfexamination.setRectificationDate(
+                  selfexaminationListResult.getRectificationDate());
+            }
+            this.selfexaminationServiceImpl.saveSelfexamination(userName,selfexamination);
+            
+            SelfexaminationParam selfexaminationRtn = new SelfexaminationParam();
+            selfexaminationParam.setFkSystemId(systemSubParam.getSystemId());
+            List<SelfexaminationListResult> selfexaminationRtnList = 
+                this.selfexaminationMapperImpl.selectSelfBySystemId(selfexaminationRtn);
+            for (SelfexaminationListResult selfRtn : selfexaminationRtnList) {
+              if(StringUtils.isNotBlank(selfexaminationListResult.getExaminationReportId())){
+                AttachParam attachParam = new AttachParam();
+                attachParam.setFileId(selfRtn.getExaminationReportId());
+                AttachResult attachResult = 
+                    this.attachMapper.selectSingleAttachByFileId(attachParam);
+                //创建附件
+                AttachParam attach = new AttachParam();
+                attach.setSystemId(systemSubParam.getSystemId());
+                attach.setAttachName(attachResult.getAttachName());
+                attach.setMongoFileId(attachResult.getMongoFileId());
+                attach.setAttachType(attachResult.getAttachType());
+                attach.setSyssonId(selfRtn.getSelfexaminationId());
+                attach.setFileId(Utils.getUuidFor32());
+                attach.setCreateTime(new Date());
+                this.attachMapper.insertAttach(attach);
+              }
+              if(StringUtils.isNotBlank(
+                  selfexaminationListResult.getExaminationRectificationReportId())){
+                AttachParam attachParam = new AttachParam();
+                attachParam.setFileId(selfRtn.getExaminationRectificationReportId());
+                AttachResult attachResult = 
+                    this.attachMapper.selectSingleAttachByFileId(attachParam);
+                //创建附件
+                AttachParam attach = new AttachParam();
+                attach.setSystemId(systemSubParam.getSystemId());
+                attach.setAttachName(attachResult.getAttachName());
+                attach.setMongoFileId(attachResult.getMongoFileId());
+                attach.setAttachType(attachResult.getAttachType());
+                attach.setSyssonId(selfRtn.getSelfexaminationId());
+                attach.setFileId(Utils.getUuidFor32());
+                attach.setCreateTime(new Date());
+                this.attachMapper.insertAttach(attach);
+              }
+            }
+          }
+        }
+        //创建节点信息数据
+        NodeParam nodeParam = new NodeParam();
+        nodeParam.setSystemId(systemParam.getSystemId());
+        List<NodeResult> nodeResultList = this.nodeMapperImpl.selectSingleNodeBySystemId(
+            nodeParam);
+        if(!ObjectUtils.isEmpty(nodeResultList)){
+          for (NodeResult nodeResult : nodeResultList) {
+            //添加节点状态信息
+            NodeParam node = new NodeParam();
+            node.setSystemId(systemSubParam.getSystemId());
+            node.setOperation(nodeResult.getOperation());
+            node.setOperationResult(nodeResult.getOperationResult());
+            if(StringUtils.isNotBlank(nodeResult.getOperationOpinion())){
+              node.setOperationOpinion(nodeResult.getOperationOpinion());
+            }else{
+              node.setOperationOpinion("");
+            }
+            node.setOperator(userName);
+            this.nodeServiceImpl.addNodeInfo(node);
+          }
+        }
+        List<SystemParam> systemDelete = new ArrayList<SystemParam>();
+        SystemParam systemParamDel = new SystemParam();
+        systemParamDel.setSystemId(systemSubParam.getSystemId());
+        systemParamDel.setFkFatherSystemId("");
+        systemParamDel.setFkSystemType(1);
+        systemDelete.add(systemParamDel);
+        this.systemMapper.updateSubStat(systemDelete);
+        //修改状态
+        SystemParam systemParamUp= new SystemParam();
+        systemParamUp.setSystemId(systemSubParam.getSystemId());
+        systemParamUp.setGradingStatus(systemFather.getGradingStatus());
+        systemParamUp.setExamineStatus(3);
+        systemParamUp.setRecordStatus(systemFather.getRecordStatus());
+        systemParamUp.setEvaluationStatus(systemFather.getEvaluationStatus());
+        systemParamUp.setExaminationStatus(systemFather.getExaminationStatus());
+        this.systemMapper.updateSystemStatusBySystemId(systemParamUp);
+      }
+      this.systemMapper.updateSystemEdit(systemTempParam);
+    }
       
       //准备添加新子系统信息
       for (SystemSubResult systemSubParam : subSystemList) {
@@ -3482,7 +3936,6 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
-  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleWarn27(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -3524,7 +3977,6 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
-  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleWarn25(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -3565,7 +4017,6 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
-  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleTimeWarn(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -3602,7 +4053,6 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
-  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleWarn(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -3636,7 +4086,6 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
-  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyle(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -3669,7 +4118,6 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
-  @SuppressWarnings("deprecation")
   private HSSFCellStyle getColumnTopStyle(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
