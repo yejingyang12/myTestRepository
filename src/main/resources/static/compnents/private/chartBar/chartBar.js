@@ -127,6 +127,7 @@
           /*console.log(data.dom)*/
           var _self = this;
            if (data.option && typeof data.option === "object") {
+          	
           	 data.myChart.setOption(data.option, true);
           	 bus.$on("gradingShapeEnd",function(meg){
           	 ajaxMethod(_self, 'post',
@@ -160,6 +161,8 @@
             		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
             		 			dangerouslyUseHTMLString: true
             		 	  });
+            		 		_self.option.series[0].data = ([0,0,0,0,0]);
+            		 		data.myChart.setOption(data.option, true);
             		 } 
           	 	 });
           	 }); 
@@ -197,6 +200,8 @@
             				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
 	                     dangerouslyUseHTMLString: true
 	            		 	 });
+            				 _self.option.series[0].data = ([0,0,0,0,0]);
+            				 data.myChart.setOption(data.option, true);
             			 }
             		 }
             	 });
@@ -235,6 +240,8 @@
             			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
                      dangerouslyUseHTMLString: true
             			 });
+            			 _self.option.series[0].data = ([0,0,0,0,0]);
+            			 data.myChart.setOption(data.option, true);
             		 }
             	 });
              }); 

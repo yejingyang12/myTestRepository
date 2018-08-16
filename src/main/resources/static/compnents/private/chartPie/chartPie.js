@@ -152,6 +152,12 @@
 	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
 	  	                     dangerouslyUseHTMLString: true
 	  	            		 	 });
+	              				 _self.option.series[0].data[0].value = 0;
+	  	            			 _self.option.series[0].data[1].value = 0;
+	  	            			 _self.option.series[0].data[2].value = 0;
+	  	            			 _self.option.series[0].data[3].value = 0;
+	  	            			 _self.option.series[0].data[4].value = 0;
+	  	            			 data.myChart.setOption(data.option, true);
 	              			 }
 	            		 	} 
             	 	 });
@@ -177,6 +183,8 @@
               			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
 	                     dangerouslyUseHTMLString: true
               			 });
+              			 _self.option.series[0].data=[];
+              			 data.myChart.setOption(data.option, true);
               		 }
               	 	 });
                });  

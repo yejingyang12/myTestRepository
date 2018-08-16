@@ -52,10 +52,10 @@ window.onload = function () {
               	//企业新建
               	var enterprise = getJurisdictionMethod(response,'0102010108');
               	if(headquarters){
-              		data.formData.jurisdiction = "1";
+              		data.formData.jurisdictionDel = "1";
               	}
               	if(enterprise){
-              		data.formData.jurisdiction = "2";
+              		data.formData.jurisdictionDel = "2";
               	}
               },
               error: function(err) {

@@ -28,6 +28,7 @@ var  data={
         fkInfoSysTypeCon:"",
         fkSystemIsMerge:"",
         systemName:"",
+        fatherSystemName:"",
         standardizedCode:"",
         gradeRecordSysName:"",
         sysBusSituationType:"",
@@ -47,6 +48,7 @@ var  data={
         whenInvestmentUse:"",
         subIsSystem:"",
         companyName:"",
+        fatherCompanyName:"",
         fkComCode:"",
         changeType:"",
         stars:"1",
@@ -178,6 +180,7 @@ var  data={
       systemInfo:true,
       systemSonInfo:false,
       change:false,
+      BeSonSystem:false,
       sysProductType:[],
       //获取数量
       sysNumber:[],
@@ -187,6 +190,8 @@ var  data={
       sysServiceType:[],
       //获取服务责任方类型
       sysResponsible:[],
+      headquarters:false,
+      enterprise:false,
       rules:{
           fkInfoSysTypeCon:[  // 信息系统建设类型
               { required: true, message: '请选择系统建设类型', trigger: 'blur' },
@@ -195,8 +200,8 @@ var  data={
               { required: true, message: '请选择是否为合并系统', trigger: 'blur' },
           ],
           systemName:[  // 系统名称
-              { required: true, message: '请输入系统名称', trigger: 'change' },
-              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'change' },
+              { required: true, message: '请输入系统名称', trigger: 'blur' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
           ],
           systemNameSon:[  // 子系统名称
               { required: true, message: '请输入子系统名称', trigger: 'change' },
@@ -287,6 +292,12 @@ var  data={
           ],
           systemProServices:[
               { required: true, message: '填写国产品使用率有误', trigger: 'blur' }
+          ],
+          fatherSystemName:[
+              {required: false, message: '请选择父系统', trigger: 'change'}
+          ],
+          fatherCompanyName:[
+              {required: false, message: '请选择父系统所属单位', trigger: 'change'}
           ]
       }
     };
@@ -304,6 +315,15 @@ var  data={
 
                 },
                 methods:{ 
+                	 sysNameBlur:function () {
+                  	var sysName=$("#systemInfo1").val();
+                  	debugger
+                  	if(sysName!='' || sysName!=""){
+                  		this.$refs.systemName.clearValidate();
+                  	}else{
+                  		this.$refs.formData.validate("systemName");
+                  	}
+                   },
                 	 closes:function () { 
                          $(".shawLast2").css("display","none");
                          $(".shawLast").css("display","none");
@@ -427,8 +447,17 @@ var  data={
 //                        standardizedCode:""
 //                      }
                       ];
-                      this.formData.systemName = "";
-                      this.formData.standardizedCode = "";
+                			this.promptCount=false;
+                			this.formData.checkCount = '1';
+                			this.systemNameSon1 = [];
+                			this.systemNameSon12= [];
+                			Vue.set(this.systemNameSon12, 0, false);
+                			Vue.set(this.systemNameSon1, 0, true);
+                			this.formData.addSystemSubSon = [];
+                    	this.formData.systemNameSon="1";
+                    	this.formData.systemCodeSon="1";
+                    	this.formData.stars="1";
+                    	this.formData.aa = '1';
                     }
                     this.$refs.formData.validateField('fkSystemIsMerge');
                   },
@@ -559,6 +588,17 @@ var  data={
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.subIsSystem = param;
                     this.$refs.formData.validateField('subIsSystem');
+                     if(param == 1 || param == "1"){
+                    	this.BeSonSystem = true;
+                    	this.rules.fatherSystemName[0].required = true;
+                    	this.rules.fatherCompanyName[0].required = true;
+                    }else{
+                    	this.BeSonSystem = false;
+                    	this.rules.fatherSystemName[0].required = false;
+                    	this.rules.fatherCompanyName[0].required = false;
+                    	this.formData.fatherSystemName = "";
+                    	this.formData.fatherCompanyName = "";
+                    }
                   },
                   btnBoolen:function(e){
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -738,6 +778,7 @@ var  data={
                     setStandardizedCode:function(e,val){
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
+                  				
                   				if(e==this.sysName[i].systemName){
                   					if(val==1){
                   						this.formData.standardizedCode = this.sysName[i].systemCode;
@@ -760,7 +801,8 @@ var  data={
                       }
                   		if(this.formData.addSystemSubSon != null){
                         if(this.formData.addSystemSubSon.length >= val-1){
-                          this.formData.addSystemSubSon[val-2] = e;
+//                          this.formData.addSystemSubSon[val-2] = e;
+                          Vue.set(this.formData.addSystemSubSon, val-2, e);
                         }else{
                           this.formData.addSystemSubSon.push(e);
                         }
@@ -777,9 +819,10 @@ var  data={
                   			}
                   			if(count > 1){
                   				if(boo){
-                    				this.systemNameSon12[i] = false;
+//                    				this.systemNameSon12[i] = false;
+                    				Vue.set(this.systemNameSon12, i, false);
                     			}else{
-                    				this.systemNameSon12[i] = true;
+                    				Vue.set(this.systemNameSon12, i, true);
                     				this.formData.aa = '';
 	                    			this.$refs.formData.validateField('aa');
 	                    			isNan = false;
@@ -1198,6 +1241,25 @@ var  data={
 //                  this.getSystemExecutiveApi(this);
                 },
                 mounted: function() {
+                	//功能权限
+                  $.ajax({
+                    type: "get",
+                    url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+                    async: true,
+                    data: "",
+                    dataType: "json",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                    	//总部新建
+                    	data.headquarters = getJurisdictionMethod(response,'0102010101');
+                    	//企业新建
+                    	data.enterprise = getJurisdictionMethod(response,'0102010108');
+                    },
+                    error: function(err) {
+                    }
+                  });
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;
                   

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageInfo;
+import com.pcitc.ssc.dps.inte.workflow.AppTaskOpinionData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
@@ -198,6 +199,7 @@ public class CheckServiceImpl implements CheckService {
           checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
           checkListResult.setInitiator(executeTaskData.getExt002());//发起人
           checkListResult.setExecuteTime(executeTaskData.getSendDate());//执行时间
+          
           if(executeTaskData.getBusinessName().equals("定级")){
             checkListResult.setFkBusinessNode("1");//业务节点
           }else if(executeTaskData.getBusinessName().equals("撤销备案")){
@@ -219,8 +221,23 @@ public class CheckServiceImpl implements CheckService {
             }
           }else if(executeTaskData.getExecuteResult() == 2){
             if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-              //如果企业安全员已通过，则该状态为待总部安全管理员审核
-              checkListResult.setFkExaminStatus("2");
+              //获取审批历史
+              List<AppTaskOpinionData> appTaskOpinionDataList = 
+                  dpsTemplate.appOpinion(executeTaskData.getBusinessId());
+              if(!ObjectUtils.isEmpty(appTaskOpinionDataList) && appTaskOpinionDataList.size() >=2){
+                AppTaskOpinionData appTaskOpinionData = appTaskOpinionDataList.get(0);
+                if(appTaskOpinionData.getExecuteResult() == 2){
+                  //归档
+                  checkListResult.setFkExaminStatus("5");
+                }
+                if(appTaskOpinionData.getExecuteResult() == 3){
+                //如果总部未通过  则状态为 总部安全管理员审核未通过
+                  checkListResult.setFkExaminStatus("4");
+                }
+              }else{
+                //如果企业安全员已通过，则该状态为待总部安全管理员审核
+                checkListResult.setFkExaminStatus("2");
+              }
             }else{
               //归档
               checkListResult.setFkExaminStatus("5");

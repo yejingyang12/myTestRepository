@@ -17,6 +17,7 @@
     			"totalPages": 5,
     			"data": [],
     		},
+    		tishi:"",
         selfList:[],//自查List
         resultBy:{},
         rowOne:null,//列表表头第一行的tr
@@ -35,12 +36,15 @@
                 },
                 mounted: function() {
                   //表格排序需要获取的元素
-                  var rowOne=document.getElementsByClassName('rowOne')[0];
+                  var rowOne=document.getElementsByClassName('rowOneSelf')[0];
                   var imgList=rowOne.getElementsByTagName('img');
                   data.imgList=imgList;
                 	this.listsort();
                 },
                 methods:{
+                	xuanfu:function(data){
+                		this.tishi=data;
+                	},
                   download:function(fileId){
                   	window.location.href=originUrl+"fileHandle/downloadFile?fileId="+fileId;
                   },
@@ -67,7 +71,7 @@
                   	_self.result.pagesize = responseData.data.pageSize;
                   	_self.result.total = responseData.data.totalCount;
                   	_self.result.totalPages = responseData.data.totalPage;
-                  	_self.resultBy = responseData;
+                  	_self.resultBy = responseData.data;
                   },    
                   //分页跳转
                   hpageNum:function(_this){
@@ -96,32 +100,32 @@
                         //对每个数组也就是对应表格的每一列进行排序
                         switch (this.myindex){
                           case 0://系统名称
-                            data.resultBy.data.sort(function (a, b) {
-                              return (a.systemName.localeCompare(b.systemName)) * flagOne
+                            data.result.list.sort(function (a, b) {
+                              return (a.selfInspectionName.localeCompare(b.selfInspectionName)) * flagOne
                             });
                             break;
                           case 1://自查时间
-                            data.resultBy.data.sort(function (a, b) {
+                            data.resultBy.list.sort(function (a, b) {
                             	return (new Date(a.inspectionDate.split('-').join('/')).getTime()-new Date(b.inspectionDate.split('-').join('/')).getTime()) * flagOne
                             });
                             break;
                           case 2://自查状态
-                            data.resultBy.data.sort(function (a, b) {
+                            data.resultBy.list.sort(function (a, b) {
                               return (a.fkInspectionStatus - b.fkInspectionStatus) * flagOne
                             });
                             break;
                           case 3://自查结果
-                            data.resultBy.data.sort(function (a, b) {
+                            data.resultBy.list.sort(function (a, b) {
                               return (a.fkInspectionReu - b.fkInspectionReu) * flagOne
                             });
                             break;
                           case 4://整改结果
-                            data.resultBy.data.sort(function (a, b) {
+                            data.resultBy.list.sort(function (a, b) {
                               return (a.fkRectificationReu - b.fkRectificationReu) * flagOne
                             });
                             break;
                           case 5://整改时间
-                            data.resultBy.data.sort(function (a, b) {
+                            data.resultBy.list.sort(function (a, b) {
                               return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
                             });
                             break;

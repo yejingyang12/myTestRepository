@@ -230,14 +230,18 @@
                                 <td>{{testItem.examTime == '1970-01-01'?'':testItem.examTime}}</td>
                                 <td>{{testItem.examOrg}}</td>
                                 <td>
-                                    <a href="javascript:;" @click="downloadReport(testItem.examReport)">{{testItem.examReportName}}</a>
+	                                <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(testItem.examReportName)" :title="tishi">
+	                                    <a href="javascript:;" @click="downloadReport(testItem.examReport)">{{testItem.examReportName}}</a>
+	                                </div>
                                 </td>
                                 <td>{{testItem.fkExamStatus == 1?'未测评':(testItem.fkExamStatus == 2?'已测评':'')}}</td>
                                 <td>{{testItem.fkExamResult == 1?'符合':(testItem.fkExamResult == 2?'基本符合':(testItem.fkExamResult == 3?'不符合':''))}}</td>
                                 <td style=" vertical-align: middle; ">{{testItem.fkRectificationReu == 1?'已整改':(testItem.fkRectificationReu == 2?'未整改':'')}}</td>
                                 <td>{{testItem.rectificationDate == '1970-01-01'?'':testItem.rectificationDate}}</td>
                                 <td>
-                                    <a href="javascript:;" @click="downloadReport(testItem.rectificationReport)">{{testItem.rectificationReportName}}</a>
+	                                <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(testItem.rectificationReportName)" :title="tishi">
+	                                    <a href="javascript:;" @click="downloadReport(testItem.rectificationReport)">{{testItem.rectificationReportName}}</a>
+	                                </div>
                                 </td>
                                 <!--操作-->
                                 <td style="color:#1e91e2;">
@@ -247,12 +251,22 @@
                                       	<i @click="deleteClick(testItem.evaluationId)" type="text" size="small">删除</i>
                                            <!--  测评表格的删除弹窗 -->
                                             <div class="dialogShaw">
-												                       <div class="inquiry">
-									                                <p>是否删除</p>
+												                       <div class="inquiry" style="display:none" id="recordInquiry">
+									                                <div class="cenrerBox">
+																						        <i class="failIcon fl">!</i>
+																						        <div class="fl">
+																						          <p>是否删除</p>
+																						        </div>
+																						      </div>
+																						      <div class="inquiryBtn">
+																						          <button type="button" class="btn btn-success fl" @click="deleteEvaluation()">确定</button>
+																						          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+																						      </div>
+									                                <!-- <p>是否删除</p>
 									                                <div class="inquiryBtn">
 									                                    <button type="button" class="btn btn-success fl" @click="deleteEvaluation()">确定</button>
 									                                    <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-									                                </div>
+									                                </div> -->
 												                        </div>
                                             </div> 
                                         </a>

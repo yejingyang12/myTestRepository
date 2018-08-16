@@ -744,7 +744,8 @@ public class SystemServiceImpl implements SystemService {
         RevokeRecordsResult revokeRecordsResult = 
             recordsServiceImpl.queryRevokeRecords(revokeParam);
         if(revokeRecordsResult != null) {
-          if(StringUtils.isNotBlank(recordsId)){
+          if(StringUtils.isNotBlank(recordsId) && 
+              StringUtils.isNotBlank(revokeRecordsResult.getRevokeRecordsId())){
             AttachParam attachParam = new AttachParam();
             attachParam.setFileId(revokeRecordsResult.getRevokeRecordsId());
             AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
@@ -773,12 +774,14 @@ public class SystemServiceImpl implements SystemService {
         if(!ObjectUtils.isEmpty(evaluationListResultList)){
           for(EvaluationListResult evaluationListResult : evaluationListResultList){
             EvaluationParam evaluation = new EvaluationParam();
+            evaluation.setEvaluationId(Utils.getUuidFor32());
             evaluation.setFkSystemId(systemSubParam.getSystemId());
             evaluation.setExamName(evaluationListResult.getExamName());
             evaluation.setExamYear(evaluationListResult.getExamYear());
             evaluation.setExamOrg(evaluationListResult.getExamOrg());
             evaluation.setExamTime(evaluationListResult.getExamTime());
             evaluation.setFkExamStatus(evaluationListResult.getFkExamStatus());
+            evaluation.setCreateTime(evaluationListResult.getCreateTime());
             if(evaluationListResult.getFkExamResult() != null){
               evaluation.setFkExamResult(evaluationListResult.getFkExamResult());
             }
@@ -791,45 +794,39 @@ public class SystemServiceImpl implements SystemService {
             if(StringUtils.isNotBlank(evaluationListResult.getExamName())){
               evaluation.setExamName(evaluationListResult.getExamName());
             }
-            this.evaluationServiceImpl.saveEvaluation(userName,evaluation);
+            this.evaluationMapperImpl.saveEvaluationByEvaluationId(evaluation);
             
-            EvaluationParam evaluationRen = new EvaluationParam();
-            evaluationParam.setFkSystemId(systemSubParam.getSystemId());
-            List<EvaluationListResult> evaluationRenList = 
-                this.evaluationMapperImpl.selectAllByEvaluationSystemId(evaluationRen);
-            for (EvaluationListResult evalRen : evaluationRenList) {
-              if(StringUtils.isNotBlank(evalRen.getExamReport())){
-                AttachParam attachParam = new AttachParam();
-                attachParam.setFileId(evalRen.getExamReport());
-                AttachResult attachResult = 
-                    this.attachMapper.selectSingleAttachByFileId(attachParam);
-                //创建附件
-                AttachParam attach = new AttachParam();
-                attach.setSystemId(systemSubParam.getSystemId());
-                attach.setAttachName(attachResult.getAttachName());
-                attach.setMongoFileId(attachResult.getMongoFileId());
-                attach.setAttachType(attachResult.getAttachType());
-                attach.setSyssonId(evalRen.getEvaluationId());
-                attach.setFileId(Utils.getUuidFor32());
-                attach.setCreateTime(new Date());
-                this.attachMapper.insertAttach(attach);
-              }
-              if(StringUtils.isNotBlank(evalRen.getRectificationReport())){
-                AttachParam attachParam = new AttachParam();
-                attachParam.setFileId(evalRen.getRectificationReport());
-                AttachResult attachResult = 
-                    this.attachMapper.selectSingleAttachByFileId(attachParam);
-                //创建附件
-                AttachParam attach = new AttachParam();
-                attach.setSystemId(systemSubParam.getSystemId());
-                attach.setAttachName(attachResult.getAttachName());
-                attach.setMongoFileId(attachResult.getMongoFileId());
-                attach.setAttachType(attachResult.getAttachType());
-                attach.setSyssonId(evalRen.getEvaluationId());
-                attach.setFileId(Utils.getUuidFor32());
-                attach.setCreateTime(new Date());
-                this.attachMapper.insertAttach(attach);
-              }
+            if(StringUtils.isNotBlank(evaluationListResult.getExamReport())){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(evaluationListResult.getExamReport());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(evaluation.getEvaluationId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
+            }
+            if(StringUtils.isNotBlank(evaluationListResult.getRectificationReport())){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(evaluationListResult.getRectificationReport());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(evaluation.getEvaluationId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
             }
           }
         }
@@ -841,6 +838,10 @@ public class SystemServiceImpl implements SystemService {
         if(!ObjectUtils.isEmpty(selfexaminationListResultList)){
           for(SelfexaminationListResult selfexaminationListResult: selfexaminationListResultList){
             SelfexaminationParam selfexamination = new SelfexaminationParam();
+            selfexamination.setSelfexaminationId(Utils.getUuidFor32());
+            selfexamination.setCreateTime(selfexaminationListResult.getCreateTime());
+            selfexamination.setDeleteStatus(1);
+            selfexamination.setCreateUserName("admin");
             selfexamination.setFkSystemId(systemSubParam.getSystemId());
             selfexamination.setInspectionDate(selfexaminationListResult.getInspectionDate());
             selfexamination.setFkInspectionStatus(
@@ -857,46 +858,40 @@ public class SystemServiceImpl implements SystemService {
               selfexamination.setRectificationDate(
                   selfexaminationListResult.getRectificationDate());
             }
-            this.selfexaminationServiceImpl.saveSelfexamination(userName,selfexamination);
+            this.selfexaminationMapperImpl.insertOrUpdateSelfexamination(selfexamination);
             
-            SelfexaminationParam selfexaminationRtn = new SelfexaminationParam();
-            selfexaminationParam.setFkSystemId(systemSubParam.getSystemId());
-            List<SelfexaminationListResult> selfexaminationRtnList = 
-                this.selfexaminationMapperImpl.selectSelfBySystemId(selfexaminationRtn);
-            for (SelfexaminationListResult selfRtn : selfexaminationRtnList) {
-              if(StringUtils.isNotBlank(selfexaminationListResult.getExaminationReportId())){
-                AttachParam attachParam = new AttachParam();
-                attachParam.setFileId(selfRtn.getExaminationReportId());
-                AttachResult attachResult = 
-                    this.attachMapper.selectSingleAttachByFileId(attachParam);
-                //创建附件
-                AttachParam attach = new AttachParam();
-                attach.setSystemId(systemSubParam.getSystemId());
-                attach.setAttachName(attachResult.getAttachName());
-                attach.setMongoFileId(attachResult.getMongoFileId());
-                attach.setAttachType(attachResult.getAttachType());
-                attach.setSyssonId(selfRtn.getSelfexaminationId());
-                attach.setFileId(Utils.getUuidFor32());
-                attach.setCreateTime(new Date());
-                this.attachMapper.insertAttach(attach);
-              }
-              if(StringUtils.isNotBlank(
-                  selfexaminationListResult.getExaminationRectificationReportId())){
-                AttachParam attachParam = new AttachParam();
-                attachParam.setFileId(selfRtn.getExaminationRectificationReportId());
-                AttachResult attachResult = 
-                    this.attachMapper.selectSingleAttachByFileId(attachParam);
-                //创建附件
-                AttachParam attach = new AttachParam();
-                attach.setSystemId(systemSubParam.getSystemId());
-                attach.setAttachName(attachResult.getAttachName());
-                attach.setMongoFileId(attachResult.getMongoFileId());
-                attach.setAttachType(attachResult.getAttachType());
-                attach.setSyssonId(selfRtn.getSelfexaminationId());
-                attach.setFileId(Utils.getUuidFor32());
-                attach.setCreateTime(new Date());
-                this.attachMapper.insertAttach(attach);
-              }
+            if(StringUtils.isNotBlank(selfexaminationListResult.getExaminationReportId())){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(selfexaminationListResult.getExaminationReportId());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(selfexamination.getSelfexaminationId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
+            }
+            if(StringUtils.isNotBlank(
+                selfexaminationListResult.getExaminationRectificationReportId())){
+              AttachParam attachParam = new AttachParam();
+              attachParam.setFileId(selfexaminationListResult.getExaminationRectificationReportId());
+              AttachResult attachResult = 
+                  this.attachMapper.selectSingleAttachByFileId(attachParam);
+              //创建附件
+              AttachParam attach = new AttachParam();
+              attach.setSystemId(systemSubParam.getSystemId());
+              attach.setAttachName(attachResult.getAttachName());
+              attach.setMongoFileId(attachResult.getMongoFileId());
+              attach.setAttachType(attachResult.getAttachType());
+              attach.setSyssonId(selfexamination.getSelfexaminationId());
+              attach.setFileId(Utils.getUuidFor32());
+              attach.setCreateTime(new Date());
+              this.attachMapper.insertAttach(attach);
             }
           }
         }
@@ -4144,313 +4139,319 @@ public class SystemServiceImpl implements SystemService {
   }
 
   /**
-	 * 系统批量导入
-	 * 
-	 * @throws IOException
-	 * @throws BusinessException
-	 */
-	@Override
-	public boolean importForSystemTemplate(String userName, String strFilePath)
-			throws IOException, BusinessException {
-		List<SystemTemplateListResult> systemCode = systemMapper.selectSystemCode();
+   * 系统批量导入
+   * 
+   * @throws IOException
+   * @throws BusinessException
+   */
+  @Override
+  public boolean importForSystemTemplate(String userName, String strFilePath)
+      throws IOException, BusinessException {
+    List<SystemTemplateListResult> systemCode = systemMapper.selectSystemCode();
 
-		// 读取excel数据
-		List<String[]> dataList = null;
-		try {
-			dataList = ExcelUtils.read(SystemConstant.EXCEL_FILE_IMPORT_PATH+strFilePath, "信息系统模版");
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-		}
+    // 读取excel数据
+    List<String[]> dataList = null;
+    try {
+      dataList = ExcelUtils.read(SystemConstant.EXCEL_FILE_IMPORT_PATH+strFilePath, "信息系统模版");
+    } catch (InvalidFormatException e) {
+      e.printStackTrace();
+      return false;
+    }
 
-		// 将excel取出的数据过滤后转成标准数据
-		List<SystemParam> sysListInfo = new ArrayList<SystemParam>();
+    // 将excel取出的数据过滤后转成标准数据
+    List<SystemParam> sysListInfo = new ArrayList<SystemParam>();
 
-		int dataListSize = dataList.size();
-		if (dataListSize > 5000) {
-			throw new BusinessException(EnumResult.ERROR);
-		}
-		List<Map<String, String>> isService = new ArrayList<Map<String, String>>();
-		Map<String, String> isNan = new HashMap<String, String>();// 系统承载业务情况
-		List<Map<String, String>> isSysNetWork = new ArrayList<Map<String, String>>();
-		Map<String, String> sysNetWork = new HashMap<String, String>();// 系统网络平台
-		List<Map<String, String>> isSysNetSit = new ArrayList<Map<String, String>>();
-		Map<String, String> sysNetSit = new HashMap<String, String>();// 系统互联情况
-		List<List<String[]>> isProUseSitList = new ArrayList<List<String[]>>();
-		List<String[]> isProUseSit = new ArrayList<String[]>();// 产品使用情况
-		List<List<String[]>> isServiceTypeList = new ArrayList<List<String[]>>();
-		List<String[]> serviceType = new ArrayList<String[]>();// 系统服务情况
+    int dataListSize = dataList.size();
+    if (dataListSize > 5000) {
+      throw new BusinessException(EnumResult.ERROR);
+    }
+    List<Map<String, String>> isService = new ArrayList<Map<String, String>>();
+    Map<String, String> isNan = new HashMap<String, String>();// 系统承载业务情况
+    List<Map<String, String>> isSysNetWork = new ArrayList<Map<String, String>>();
+    Map<String, String> sysNetWork = new HashMap<String, String>();// 系统网络平台
+    List<Map<String, String>> isSysNetSit = new ArrayList<Map<String, String>>();
+    Map<String, String> sysNetSit = new HashMap<String, String>();// 系统互联情况
+    List<List<String[]>> isProUseSitList = new ArrayList<List<String[]>>();
+    List<String[]> isProUseSit = new ArrayList<String[]>();// 产品使用情况
+    List<List<String[]>> isServiceTypeList = new ArrayList<List<String[]>>();
+    List<String[]> serviceType = new ArrayList<String[]>();// 系统服务情况
 
-		int countLeng = 0;
-		String[] strsList = new String[dataListSize - 3];
+    int countLeng = 0;
+    String[] strsList = new String[dataListSize - 3];
+    
+    // excel行号循环
+    for (int dataListTem = 3, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
+      strsList = dataList.get(dataListTem);
+      if(strsList.length==31){
+        if (!strsList[11].isEmpty() && !strsList[11].equals("0")) {
+          isNan.put(strsList[11], strsList[12]);
+        }
+        if (!strsList[18].isEmpty() && !strsList[18].equals("0")) {
+          sysNetWork.put(strsList[18], strsList[19]);
+        }
+        if (!strsList[22].isEmpty() && !strsList[22].equals("0")) {
+          sysNetSit.put(strsList[22], strsList[23]);
+        }
+        if (!strsList[24].isEmpty() && !strsList[24].equals("0")) {
+          String[] proUseSit = new String[4];
+          proUseSit[0] = strsList[24];
+          proUseSit[1] = strsList[25];
+          proUseSit[2] = strsList[26];
+          proUseSit[3] = strsList[27];
+          isProUseSit.add(proUseSit);
+        }
+        if (!strsList[28].isEmpty() && !strsList[28].equals("0")) {
+          String[] serType = new String[3];
+          serType[0] = strsList[28];
+          serType[1] = strsList[29];
+          serType[2] = strsList[30];
+          serviceType.add(serType);
+        }
 
-		// excel行号循环
-		for (int dataListTem = 3, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
-			strsList = dataList.get(dataListTem);
-			if (!strsList[11].isEmpty() && !strsList[11].equals("0")) {
-				isNan.put(strsList[11], strsList[12]);
-			}
-			if (!strsList[18].isEmpty() && !strsList[18].equals("0")) {
-				sysNetWork.put(strsList[18], strsList[19]);
-			}
-			if (!strsList[22].isEmpty() && !strsList[22].equals("0")) {
-				sysNetSit.put(strsList[22], strsList[23]);
-			}
-			if (!strsList[24].isEmpty() && !strsList[24].equals("0")) {
-				String[] proUseSit = new String[4];
-				proUseSit[0] = strsList[24];
-				proUseSit[1] = strsList[25];
-				proUseSit[2] = strsList[26];
-				proUseSit[3] = strsList[27];
-				isProUseSit.add(proUseSit);
-			}
-			if (!strsList[28].isEmpty() && !strsList[28].equals("0")) {
-				String[] serType = new String[3];
-				serType[0] = strsList[28];
-				serType[1] = strsList[29];
-				serType[2] = strsList[30];
-				serviceType.add(serType);
-			}
+        if (dataCount % 8 == 0) {
+          isService.add(isNan);
+          isSysNetWork.add(sysNetWork);
+          isSysNetSit.add(sysNetSit);
+          isProUseSitList.add(isProUseSit);
+          isServiceTypeList.add(serviceType);
+          // 每8行一条数据的第一行
+          String[] topNum = dataList.get(countLeng * 8 + 3);
+          SystemParam system = new SystemParam();
+          // 验证是否新建重复
+          for (int j = 0; j < systemCode.size(); j++) {
+            if (topNum[2].equals(systemCode.get(j))) {
+              System.out.println(systemCode.get(j) + "_______________"
+                  + topNum[2]);
+              return false;
+            }
+          }
+          Map<String, String> map1 = isService.get(countLeng);
+          Map<String, String> map2 = isSysNetWork.get(countLeng);
+          Map<String, String> map3 = isSysNetSit.get(countLeng);
+          List<String[]> list1 = isProUseSitList.get(countLeng);
+          List<String[]> list2 = isServiceTypeList.get(countLeng);
+          // 添加数据
+          system.setSysBusSituationType(this.sheetUtil(map1));// 业务类型
+          system.setNpCoverageRange(this.sheetUtil(map2));// 覆盖范围
+          system.setInterconnectionSit(this.sheetUtil(map3));// 系统互联情况
 
-			if (dataCount % 8 == 0) {
-				isService.add(isNan);
-				isSysNetWork.add(sysNetWork);
-				isSysNetSit.add(sysNetSit);
-				isProUseSitList.add(isProUseSit);
-				isServiceTypeList.add(serviceType);
-				// 每8行一条数据的第一行
-				String[] topNum = dataList.get(countLeng * 8 + 3);
-				SystemParam system = new SystemParam();
-				// 验证是否新建重复
-				for (int j = 0; j < systemCode.size(); j++) {
-					if (topNum[2].equals(systemCode.get(j))) {
-						System.out.println(systemCode.get(j) + "_______________"
-								+ topNum[2]);
-						return false;
-					}
-				}
-				Map<String, String> map1 = isService.get(countLeng);
-				Map<String, String> map2 = isSysNetWork.get(countLeng);
-				Map<String, String> map3 = isSysNetSit.get(countLeng);
-				List<String[]> list1 = isProUseSitList.get(countLeng);
-				List<String[]> list2 = isServiceTypeList.get(countLeng);
-				// 添加数据
-				system.setSysBusSituationType(this.sheetUtil(map1));// 业务类型
-				system.setNpCoverageRange(this.sheetUtil(map2));// 覆盖范围
-				system.setInterconnectionSit(this.sheetUtil(map3));// 系统互联情况
+          List<SystemKeyProducts> keyList = new ArrayList<SystemKeyProducts>();// 关键产品使用情况
+          if (list1 != null) {
+            for (int p = 0; p < list1.size(); p++) {
+              String[] proCount = list1.get(p);
+              SystemKeyProducts keyPro = new SystemKeyProducts();
+              if (!proCount[0].isEmpty() && !proCount[1].isEmpty()
+                  && !proCount[2].isEmpty() && !proCount[3].isEmpty()) {
+                keyPro.setFkSystemId(system.getSystemId());
+                switch (proCount[0]) {// 产品类型
+                case "安全专用产品":
+                  keyPro.setFkExaminStatus(1);
+                  break;
+                case "网络产品":
+                  keyPro.setFkExaminStatus(2);
+                  break;
+                case "操作系统":
+                  keyPro.setFkExaminStatus(3);
+                  break;
+                case "数据库":
+                  keyPro.setFkExaminStatus(4);
+                  break;
+                case "服务器":
+                  keyPro.setFkExaminStatus(5);
+                  break;
+                default:
+                  keyPro.setFkExaminStatus(6);
+                  keyPro.setOtherName(proCount[0]);// 其他情况
+                  break;
+                }
+                keyPro.setProductsNumber(proCount[1]);// 数量
+                switch (proCount[2]) {// 使用情况
+                case "全部使用":
+                  keyPro.setFkNationalIsProducts(1);
+                  break;
+                case "全部未使用":
+                  keyPro.setFkNationalIsProducts(2);
+                  break;
+                default:
+                  keyPro.setFkNationalIsProducts(3);
+                  break;
+                }
+                keyPro.setnUseProbability(Integer.parseInt(proCount[3]));// 国产率
+                keyList.add(keyPro);
+              }
+            }
+            isProUseSit.clear();
+          }
+          system.setSystemKeyProducts(keyList);
+          List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
+          if (list2 != null) {
+            for (int s = 0; s < list2.size(); s++) {
+              String[] serCount = list2.get(s);
+              SystemUseServices SystemUseServicesBean = new SystemUseServices();
+              if (!serCount[0].isEmpty() && !serCount[1].isEmpty()
+                  && !serCount[2].isEmpty()) {
+                SystemUseServicesBean.setFkSystemId(system.getSystemId());
+                switch (serCount[0]) {// 服务类型
+                case "等级测评":
+                  SystemUseServicesBean.setFkProductsType(1);
+                  break;
+                case "风险评估":
+                  SystemUseServicesBean.setFkProductsType(2);
+                  break;
+                case "灾难恢复":
+                  SystemUseServicesBean.setFkProductsType(3);
+                  break;
+                case "应急响应":
+                  SystemUseServicesBean.setFkProductsType(4);
+                  break;
+                case "系统集成":
+                  SystemUseServicesBean.setFkProductsType(5);
+                  break;
+                case "安全咨询":
+                  SystemUseServicesBean.setFkProductsType(6);
+                  break;
+                case "安全培训":
+                  SystemUseServicesBean.setFkProductsType(7);
+                  break;
+                default:
+                  SystemUseServicesBean.setServiceIsUse(8);
+                  SystemUseServicesBean.setOtherName(serCount[0]);// 其他
+                  break;
+                }
+                switch (serCount[1]) {// 是否采用
+                case "是":
+                  SystemUseServicesBean.setServiceIsUse(1);
+                  break;
+                case "否":
+                  SystemUseServicesBean.setServiceIsUse(2);
+                  break;
+                default:
+                  SystemUseServicesBean.setServiceIsUse(2);
+                  break;
+                }
+                switch (serCount[2]) {// 服务责任方类型
+                case "国外服务商":
+                  SystemUseServicesBean.setFkResponsibleType("3");
+                  break;
+                case "国内其他服务商":
+                  SystemUseServicesBean.setFkResponsibleType("2");
+                  break;
+                case "本行业（单位）":
+                  SystemUseServicesBean.setFkResponsibleType("1");
+                  break;
+                default:
+                  SystemUseServicesBean.setFkResponsibleType("0");
+                  break;
+                }
+                systemUseServicesList.add(SystemUseServicesBean);
+              }
+            }
+            serviceType.clear();
+          }
+          system.setSystemUseServices(systemUseServicesList);
+          system.setFkInfoSysTypeCon(1);// 信息系统建设类型
+          system.setFkSystemIsMerge(2);// 是否为合并系统
+          system.setFkSystemType(1);// 系统类型
+          system.setSystemName(topNum[1]);// 系统名称
+          system.setStandardizedCode(topNum[2]);// 标准化代码
+          system.setGradeRecordSysName(topNum[3]);// 等保备案系统名称
 
-				List<SystemKeyProducts> keyList = new ArrayList<SystemKeyProducts>();// 关键产品使用情况
-				if (list1 != null) {
-					for (int p = 0; p < list1.size(); p++) {
-						String[] proCount = list1.get(p);
-						SystemKeyProducts keyPro = new SystemKeyProducts();
-						if (!proCount[0].isEmpty() && !proCount[1].isEmpty()
-								&& !proCount[2].isEmpty() && !proCount[3].isEmpty()) {
-							keyPro.setFkSystemId(system.getSystemId());
-							switch (proCount[0]) {// 产品类型
-							case "安全专用产品":
-								keyPro.setFkExaminStatus(1);
-								break;
-							case "网络产品":
-								keyPro.setFkExaminStatus(2);
-								break;
-							case "操作系统":
-								keyPro.setFkExaminStatus(3);
-								break;
-							case "数据库":
-								keyPro.setFkExaminStatus(4);
-								break;
-							case "服务器":
-								keyPro.setFkExaminStatus(5);
-								break;
-							default:
-								keyPro.setFkExaminStatus(6);
-								keyPro.setOtherName(proCount[0]);// 其他情况
-								break;
-							}
-							keyPro.setProductsNumber(proCount[1]);// 数量
-							switch (proCount[2]) {// 使用情况
-							case "全部使用":
-								keyPro.setFkNationalIsProducts(1);
-								break;
-							case "全部未使用":
-								keyPro.setFkNationalIsProducts(2);
-								break;
-							default:
-								keyPro.setFkNationalIsProducts(3);
-								break;
-							}
-							keyPro.setnUseProbability(Integer.parseInt(proCount[3]));// 国产率
-							keyList.add(keyPro);
-						}
-					}
-					isProUseSit.clear();
-				}
-				system.setSystemKeyProducts(keyList);
-				List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
-				if (list2 != null) {
-					for (int s = 0; s < list2.size(); s++) {
-						String[] serCount = list2.get(s);
-						SystemUseServices SystemUseServicesBean = new SystemUseServices();
-						if (!serCount[0].isEmpty() && !serCount[1].isEmpty()
-								&& !serCount[2].isEmpty()) {
-							SystemUseServicesBean.setFkSystemId(system.getSystemId());
-							switch (serCount[0]) {// 服务类型
-							case "等级测评":
-								SystemUseServicesBean.setFkProductsType(1);
-								break;
-							case "风险评估":
-								SystemUseServicesBean.setFkProductsType(2);
-								break;
-							case "灾难恢复":
-								SystemUseServicesBean.setFkProductsType(3);
-								break;
-							case "应急响应":
-								SystemUseServicesBean.setFkProductsType(4);
-								break;
-							case "系统集成":
-								SystemUseServicesBean.setFkProductsType(5);
-								break;
-							case "安全咨询":
-								SystemUseServicesBean.setFkProductsType(6);
-								break;
-							case "安全培训":
-								SystemUseServicesBean.setFkProductsType(7);
-								break;
-							default:
-								SystemUseServicesBean.setServiceIsUse(8);
-								SystemUseServicesBean.setOtherName(serCount[0]);// 其他
-								break;
-							}
-							switch (serCount[1]) {// 是否采用
-							case "是":
-								SystemUseServicesBean.setServiceIsUse(1);
-								break;
-							case "否":
-								SystemUseServicesBean.setServiceIsUse(2);
-								break;
-							default:
-								SystemUseServicesBean.setServiceIsUse(2);
-								break;
-							}
-							switch (serCount[2]) {// 服务责任方类型
-							case "国外服务商":
-								SystemUseServicesBean.setFkResponsibleType("3");
-								break;
-							case "国内其他服务商":
-								SystemUseServicesBean.setFkResponsibleType("2");
-								break;
-							case "本行业（单位）":
-								SystemUseServicesBean.setFkResponsibleType("1");
-								break;
-							default:
-								SystemUseServicesBean.setFkResponsibleType("0");
-								break;
-							}
-							systemUseServicesList.add(SystemUseServicesBean);
-						}
-					}
-					serviceType.clear();
-				}
-				system.setSystemUseServices(systemUseServicesList);
-				system.setFkInfoSysTypeCon(1);// 信息系统建设类型
-				system.setFkSystemIsMerge(2);// 是否为合并系统
-				system.setFkSystemType(1);// 系统类型
-				system.setSystemName(topNum[1]);// 系统名称
-				system.setStandardizedCode(topNum[2]);// 标准化代码
-				system.setGradeRecordSysName(topNum[3]);// 等保备案系统名称
+          if (StringUtils.isNotBlank(topNum[4])) {
+            system.setCompanyName(topNum[4]);// 所属单位名称
+            String comCode = this.systemMapper.selectSystemByComCode(system
+                .getCompanyName());
+            if (comCode != null || StringUtils.isNotBlank(comCode)) {
+              system.setFkComCode(2);
+              system.setFkCompanyCode(comCode);
+            } else {
+              return false;
+            }
 
-				if (StringUtils.isNotBlank(topNum[4])) {
-					system.setCompanyName(topNum[4]);// 所属单位名称
-					String comCode = this.systemMapper.selectSystemByComCode(system
-							.getCompanyName());
-					if (comCode != null || StringUtils.isNotBlank(comCode)) {
-						system.setFkComCode(2);
-						system.setFkCompanyCode(comCode);
-					} else {
-						return false;
-					}
+          } else {
+            return false;
+          }
+          if (StringUtils.isNotBlank(topNum[5])) {
+            try {
+              system.setWhenInvestmentUse(new SimpleDateFormat(
+                  "yyyy-MM-dd HH:mm:ss").parse(topNum[5]));
+            } catch (ParseException e) {
+              e.printStackTrace();
+            }
+          } else {
+            return false;
+          }
 
-				} else {
-					return false;
-				}
-				if (StringUtils.isNotBlank(topNum[5])) {
-					try {
-						system.setWhenInvestmentUse(new SimpleDateFormat(
-								"yyyy-MM-dd HH:mm:ss").parse(topNum[5]));
-					} catch (ParseException e) {
-						e.printStackTrace();
-					}
-				} else {
-					return false;
-				}
+          system.setExecutiveOfficeName(topNum[6]);// 主管处室名称
+          system.setExecutiveDireCon(topNum[7]);// 主管联系人
+          system.setExecutiveDireConTel(topNum[8]);// 联系人电话
+          if (StringUtils.isNotBlank(topNum[9])) {
+            if (topNum[9].equals("是")) {// 系统是否为分系统
+              system.setSubIsSystem(1);
+            } else {
+              system.setSubIsSystem(2);
+            }
+          } else {
+            return false;
+          }
+          system.setFatherSystemName(topNum[10]);// 上级系统名称
+          if (StringUtils.isNotBlank(topNum[9])) {
+            system.setSysBusDescription(topNum[13]);// 业务描述
+          } else {
+            return false;
+          }
 
-				system.setExecutiveOfficeName(topNum[6]);// 主管处室名称
-				system.setExecutiveDireCon(topNum[7]);// 主管联系人
-				system.setExecutiveDireConTel(topNum[8]);// 联系人电话
-				if (StringUtils.isNotBlank(topNum[9])) {
-					if (topNum[9].equals("是")) {// 系统是否为分系统
-						system.setSubIsSystem(1);
-					} else {
-						system.setSubIsSystem(2);
-					}
-				} else {
-					return false;
-				}
-				system.setFatherSystemName(topNum[10]);// 上级系统名称
-				if (StringUtils.isNotBlank(topNum[9])) {
-					system.setSysBusDescription(topNum[13]);// 业务描述
-				} else {
-					return false;
-				}
+          if (StringUtils.isNotBlank(topNum[14])) {
+            if (strsList[14].equals("其他")) {// 服务范围
+              system.setSysServiceSitScope(topNum[15]);
+            } else {
+              system.setSysServiceSitScope(topNum[14] + "^" + topNum[15]);
+            }
+          } else {
+            return false;
+          }
 
-				if (StringUtils.isNotBlank(topNum[14])) {
-					if (strsList[14].equals("其他")) {// 服务范围
-						system.setSysServiceSitScope(topNum[15]);
-					} else {
-						system.setSysServiceSitScope(topNum[14] + "^" + topNum[15]);
-					}
-				} else {
-					return false;
-				}
+          if (StringUtils.isNotBlank(topNum[16])) {
+            if (topNum[16].equals("其他")) {// 服务对象
+              system.setSysServiceSitObject(topNum[17]);
+            } else {
+              system.setSysServiceSitObject(topNum[16]);
+            }
+          } else {
+            return false;
+          }
 
-				if (StringUtils.isNotBlank(topNum[16])) {
-					if (topNum[16].equals("其他")) {// 服务对象
-						system.setSysServiceSitObject(topNum[17]);
-					} else {
-						system.setSysServiceSitObject(topNum[16]);
-					}
-				} else {
-					return false;
-				}
+          if (StringUtils.isNotBlank(topNum[20])) {
+            if (strsList[20].equals("其他")) {// 网络性质
+              system.setNpNetworkProperties(topNum[21]);
+            } else {
+              system.setNpNetworkProperties(topNum[20]);
+            }
+          } else {
+            return false;
+          }
 
-				if (StringUtils.isNotBlank(topNum[20])) {
-					if (strsList[20].equals("其他")) {// 网络性质
-						system.setNpNetworkProperties(topNum[21]);
-					} else {
-						system.setNpNetworkProperties(topNum[20]);
-					}
-				} else {
-					return false;
-				}
+          sysListInfo.add(system);
+          countLeng++;
+        }
+      }else{
+        return false;
+      }
+    }
 
-				sysListInfo.add(system);
-				countLeng++;
-			}
-		}
+    // 处理数据
+    // 将数据放入数据库
+    if (sysListInfo.size() > 0) {
+      // 将数据放入数据库
+      for (SystemParam sys : sysListInfo) {
+        this.saveSystem(userName, sys);
+      }
+      return true;
+    } else {
+      return false;
+    }
+    
+  }
 
-		// 处理数据
-		// 将数据放入数据库
-		if (sysListInfo.size() > 0) {
-			// 将数据放入数据库
-			for (SystemParam sys : sysListInfo) {
-				this.saveSystem(userName, sys);
-			}
-			return true;
-		} else {
-			return false;
-		}
-		
-	}
 
 	/**
 	 * (其他)合并单元格

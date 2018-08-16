@@ -8,6 +8,7 @@ var data1={
     inputs:null,
     tr:null,
     systemForm:"1",
+    tishi:"",
     systemForm:{
     	importSystemInfo:'',
       importSystemPath:'',
@@ -15,6 +16,7 @@ var data1={
       currentPage:'',
       total:'',
       totalPages:'',
+      time:'',
       formData:{
         systemId:'',
         systemName:'',
@@ -47,34 +49,43 @@ var data1={
           return data1;
         },
         methods:{
+        	xuanfu : function(data){
+        		this.tishi = data; 
+        	},
          //显示批量导入弹窗
           systemInfoImprot:function(){
           	this.showImprot=1;
           	$("#dialog").css("display","block");
           },
           submitForm:function() {
+          	var _self=this;
 			      this.$refs['systemForm'].validate(function(valid){
 			          if (valid) {
+			          	var uploadData = new FormData(); 
+									uploadData.append('strFilePath', _self.systemForm.importSystemPath);
+			          	ajaxUploadMethod(_self, 'POST','system/importForSystemTemplate', true,uploadData, 'json',_self.importForSystemSuccess);
 			          } else {
-			            console.log('error submit!!');
+			            _self.open5();
 			            return false;
 			          }
 			        });
-			      var uploadData = new FormData(); 
-						uploadData.append('strFilePath', this.systemForm.importSystemPath);
-          	ajaxUploadMethod(this, 'POST','system/importForSystemTemplate', true,uploadData, 'json',this.importForSystemSuccess);
 			    },
 			    importForSystemSuccess:function(_self,responseData){
 			    	if(responseData.msg=='成功'){
 			    		$("#startBoxTest").show().delay(2000).fadeOut();
 			    	}else{
-			    		_self.$alert('<center><strong>导入失败！</strong></center>', '提示', {
-                dangerouslyUseHTMLString: true
-                });
+			    		_self.$alert('<strong>导入失败！</strong>', '提示', {
+			          dangerouslyUseHTMLString: true
+			        });
 			    	}
 			    	_self.getSystemListInfoMethod(_self,{});
 		    		_self.closes1();
 			    },
+			    open5:function() {
+		        this.$alert('<strong>请填写信息</strong>', '提示', {
+		          dangerouslyUseHTMLString: true
+		        });
+			    },			    
 			    //文件上传
           onUpload: function(e){
           	var fileSize;
@@ -90,7 +101,7 @@ var data1={
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+	          	if(fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx' ){                  		this.$alert('不接受此文件类型！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
@@ -226,6 +237,12 @@ var data1={
            _self.systemForm.currentPage = responseData.data.currPage;
            _self.systemForm.total = responseData.data.totalCount;
            _self.systemForm.result = responseData.data;
+           for(var i=0;i<responseData.data.list.length;i++){
+          	 var array = responseData.data.list;
+          	 var timeString = array[i].whenInvestmentUse;
+          	 var time1 = timeString.split(" ");
+          	 _self.systemForm.time = time1[0];
+           }
          },
          //系统信息列表排序
          listsortInfo: function () {
@@ -278,6 +295,7 @@ var data1={
           var imgList=rowOneSysInfo.getElementsByTagName('img');
           data1.imgList=imgList;
         	this.listsortInfo();
+
         }
       })
     })

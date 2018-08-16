@@ -8,6 +8,7 @@
     change:false,
   	years:[],
   	yearType:'',
+		tishi:"",
   	systemName: null,
 		visible2: -1,
 		show:{
@@ -125,19 +126,16 @@
           return data;
         },
         methods:{
+        	xuanfu:function(data){
+        		this.tishi=data;
+        	},
         	changeStatus : function(){
         		if(this.editData.fkExamStatus == 1){//未测评
           		this.rules.fkExamResult[0].required = false;
           		this.rules.examReportName[0].required = false;
-          		this.rules.fkRectificationReu[0].required = false;
-          		this.rules.rectificationDate[0].required = false;
-          		this.rules.rectificationReportName[0].required = false;
           	}else{
           		this.rules.fkExamResult[0].required = true;
           		this.rules.examReportName[0].required = true;
-          		this.rules.fkRectificationReu[0].required = true;
-          		this.rules.rectificationDate[0].required = true;
-          		this.rules.rectificationReportName[0].required = true;
           	}
         	},
         	changeResult:function(){
@@ -333,7 +331,7 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
+	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip' && fileFormat[1] !='sep'){          		this.$alert('不接受此文件类型！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
@@ -366,7 +364,7 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
+	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }

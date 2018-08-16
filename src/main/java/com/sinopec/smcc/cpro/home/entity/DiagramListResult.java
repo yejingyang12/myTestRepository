@@ -35,7 +35,34 @@ public class DiagramListResult {
   private Integer level;
   private String companyName;
   
+  private String month;
+  private Integer mouthCount;
   
+  
+  /**
+   * @return the mouthCount
+   */
+  public Integer getMouthCount() {
+    return mouthCount;
+  }
+  /**
+   * @param mouthCount the mouthCount to set
+   */
+  public void setMouthCount(Integer mouthCount) {
+    this.mouthCount = mouthCount;
+  }
+  /**
+   * @return the month
+   */
+  public String getMonth() {
+    return month;
+  }
+  /**
+   * @param month the month to set
+   */
+  public void setMonth(String month) {
+    this.month = month;
+  }
   /**
    * @return the readyGradCount
    */

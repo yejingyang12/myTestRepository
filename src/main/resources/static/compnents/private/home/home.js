@@ -228,17 +228,22 @@
             //	 列表请求数据
             ajaxMethod(_self, "post", url, false ,"{}", "json", 'application/json;charset=UTF-8', _self.listSuccess);
         	},
-        	 submitForm:function(formName) {
+          submitForm:function(formName) {
+        		var _self=this;
 			      this.$refs[formName].validate(function(valid){
 			          if (valid) {
-			            /*alert('submit!');*/
+			          	_self.saveChangeMattersMethod(); 
 			          } else {
-			          /* console.log('error submit!!');*/
+			          	_self.open5();
 			            return false;
 			          }
 			        });
-			      this.saveChangeMattersMethod(); 
 			      },
+			    open5:function() {
+			        this.$alert('<strong>请填写信息</strong>', '提示', {
+			          dangerouslyUseHTMLString: true
+			        });
+			      }, 
 			    deleteTag:function(val){
             for(var i=0;i<this.msgProvince.length;i++){
                      if(this.msgProvince[i].systemCode == val){
@@ -1064,8 +1069,19 @@
           },
 
           //定级模版导出按钮
-          checkallexport:function(){ 
-          	window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl=/excel/gradingTemp.xlsm&attachName=定级模板.xlsm");
+         checkallexport:function(){ 
+          	//window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl=/excel/gradingTemp.xlsm&attachName=定级模板.xlsm");
+          	var systemIds = new Array();
+          	var exportData = {
+      				  "systemIds": systemIds,
+      				  //不加后台接收会报错
+      				  "systemId": ""
+      		  };
+          	ajaxMethod(this, 'post',
+      				  'main/exportExcelForGradeTemplate', true,
+      				  JSON.stringify(exportData), 'json',
+      				  'application/json;charset=UTF-8',
+      				  this.exportExcelForGradeTemplateSuccessMethod);
         	  /*var flag= document.getElementById("h-score-list2");
         	  if (flag.getAttribute('show')){
         		  $("#h-score-list2").css({"background":"rgb(61, 149, 223)","color":"#fff","border":"1px solid rgb(61, 149, 223)"});//定级模版导出按钮变蓝色 

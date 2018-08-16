@@ -15,48 +15,55 @@
                 <ul class="clearfix">
                     <li class="self"> 自查</li>
                     <li class="row P-selfCheck">
-                        <div class="col-md-6">
-							<el-form-item label="自查时间：" prop="inspectionDate">
-								<el-date-picker class="col-md-6 col-sm-3 useData" v-model="editParam.inspectionDate" type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
-							</el-form-item>
-                        </div>
-                        <div class="col-md-6">
-							<el-form-item label="自查状态：" prop="fkInspectionStatus">
-								<!-- <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionStatus" style="width: 80%;">
-                  <el-option  label="请选择" value="0"></el-option>
-                  <el-option  label="未自查" value="1"></el-option>
-                  <el-option  label="已自查" value="2"></el-option>
-								</el-select> -->
-								    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change" @change="changeStatus()"  filterable placeholder="请选择" >
-                         <el-option
-	                          v-for="item in inspectionStatus"
-	                          :key="item.value"
-	                          :label="item.label"
-	                          :value="item.value">
-                        </el-option>
-                    </el-select>
-							</el-form-item>
-                        </div>
+                      <div class="col-md-6">
+                          <el-form-item label="自查项目名称：" prop="selfInspectionName">
+                              <div class="col-md-8 col-sm-3" style="width: 80%;">
+                                  <el-input type="text" value="" v-model="editParam.selfInspectionName"></el-input>
+                              </div>
+                          </el-form-item>
+                      </div>
+                      <div class="col-md-6">
+												<el-form-item label="自查时间：" prop="inspectionDate">
+													<el-date-picker class="col-md-6 col-sm-3 useData" v-model="editParam.inspectionDate" type="date" placeholder="选择日期" style="width: 80%;"></el-date-picker>
+												</el-form-item>
+                      </div>
                     </li>
                     <li class="row P-selfCheck">
-                        <div class="col-md-6">
-                            <el-form-item label="自查结果：" prop="fkInspectionReu">
-                       <!--        <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionReu" style="width: 80%;">
-                                    <el-option  label="请选择" value="0"></el-option>
-                                    <el-option  label="符合" value="1"></el-option>
-                                    <el-option  label="基本符合" value="2"></el-option>
-                                    <el-option  label="不符合" value="3"></el-option>
-                                </el-select> -->
-                              <el-select v-model="editParam.fkInspectionReu" :disabled = "change"  filterable placeholder="请选择">
-                                   <el-option
-															      v-for="item in inspectionReu"
-															      :key="item.value"
-															      :label="item.label"
-															      :value="item.value">
-															    </el-option>
-                              </el-select>
-                            </el-form-item>
-                        </div>
+                      <div class="col-md-6">
+												<el-form-item label="自查状态：" prop="fkInspectionStatus">
+													<!-- <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionStatus" style="width: 80%;">
+					                  <el-option  label="请选择" value="0"></el-option>
+					                  <el-option  label="未自查" value="1"></el-option>
+					                  <el-option  label="已自查" value="2"></el-option>
+													</el-select> -->
+													    <el-select v-model="editParam.fkInspectionStatus" :disabled = "change" @change="changeStatus()"  filterable placeholder="请选择" >
+					                         <el-option
+						                          v-for="item in inspectionStatus"
+						                          :key="item.value"
+						                          :label="item.label"
+						                          :value="item.value">
+					                        </el-option>
+					                    </el-select>
+												</el-form-item>
+                      </div>
+                      <div class="col-md-6">
+                          <el-form-item label="自查结果：" prop="fkInspectionReu">
+                     <!--        <el-select class="col-md-6 col-sm-3" v-model="editParam.fkInspectionReu" style="width: 80%;">
+                                  <el-option  label="请选择" value="0"></el-option>
+                                  <el-option  label="符合" value="1"></el-option>
+                                  <el-option  label="基本符合" value="2"></el-option>
+                                  <el-option  label="不符合" value="3"></el-option>
+                              </el-select> -->
+                            <el-select v-model="editParam.fkInspectionReu" :disabled = "change"  filterable placeholder="请选择">
+                                 <el-option
+														      v-for="item in inspectionReu"
+														      :key="item.value"
+														      :label="item.label"
+														      :value="item.value">
+														    </el-option>
+                            </el-select>
+                          </el-form-item>
+                      </div>
                     </li>
                     <li class="row P-selfCheck">
                         <div class="col-md-12 report" style="padding-left: 15px;">
@@ -160,9 +167,9 @@
 		            <div class="col-md-12">
 		                <div class="row table-responsive">
 		                    <table id="h-list-show" class="table table-bordered table-striped">
-		                        <tr class="tr-row rowOne">
+		                        <tr class="tr-row rowOne2">
 		                            <th style="min-width:47px">序号</th>
-		                            <th>系统名称
+		                            <th>自查项目名称
 		                                <slot name="paixujiantou"></slot>
 		                            </th>
 		                            <th>自查时间
@@ -188,7 +195,7 @@
 		                        <tr class="tr-row" v-for="(pro,index) in result">
 		                            <td>{{index+1}}</td>
 		                            <!--系统名称-->
-		                            <td>{{pro.systemName}}</td>
+		                            <td>{{pro.selfInspectionName}}</td>
 		                            <!--自查时间-->
 		                            <td>{{pro.inspectionDate == '1970-01-01'?'':pro.inspectionDate}}</td>
 		                            <!--自查状态-->
@@ -197,7 +204,10 @@
 		                            <td>{{pro.fkInspectionReu == 1 ? '符合':(pro.fkInspectionReu == 2 ? '基本符合':(pro.fkInspectionReu==3 ? '不符合':''))}}</td>
 		                            <!--自查报告-->
 		                            <td>
-		                                <a href="javascript:;" @click="downloadReport(pro.examinationReportId)">{{pro.examinationReportName}}</a>
+		                            <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(pro.examinationReportName)" :title="tishi">
+		                            	<a href="javascript:;" @click="downloadReport(pro.examinationReportId)">{{pro.examinationReportName}}</a>
+		                            </div>
+		                                
 		                            </td>
 		                            <!--整改结果-->
 		                            <td style=" vertical-align: middle;">{{pro.fkRectificationReu == 1 ? '已整改':(pro.fkRectificationReu == 2 ? '未整改':'')}}</td>
@@ -205,7 +215,9 @@
 		                            <td>{{pro.rectificationDate == '1970-01-01'?'':pro.rectificationDate}}</td>
 		                            <!--整改报告-->
 		                            <td>
+		                            <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(pro.examinationRectificationReportName)" :title="tishi">
 		                                <a href="javascript:;" @click="downloadReport(pro.examinationRectificationReportId)">{{pro.examinationRectificationReportName}}</a>
+		                            </div>
 		                            </td>
 		                            <!--操作-->
 		                            <td style="color:#1e91e2;">
@@ -218,12 +230,22 @@
                                            <!--  测评表格的删除弹窗 -->
                                             <div class="dialogShaw">
 	                                               
-												   <div class="inquiry">
-												        <p>是否删除</p>
+												   <div class="inquiry" style="display:none" id="recordInquiry">
+												   		<div class="cenrerBox">
+												        <i class="failIcon fl">!</i>
+												        <div class="fl">
+												          <p>是否删除</p>
+												        </div>
+												      </div>
+												      <div class="inquiryBtn">
+												          <button type="button" class="btn btn-success fl" @click="deleteSelfexamination(pro.selfexaminationId)">确定</button>
+												          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+												      </div>
+												        <!-- <p>是否删除</p>
 												        <div class="inquiryBtn">
 												            <button type="button" class="btn btn-success fl" @click="deleteSelfexamination(pro.selfexaminationId)">确定</button>
 												            <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-												        </div>
+												        </div> -->
 												    </div>
 											 </div> 
 		                                </a>

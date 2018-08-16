@@ -13,6 +13,10 @@ window.onload = function () {
           saveBtn:function(formName) {
             bus.$emit('changeGradName',formName);
           },
+          //返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
+          },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
             $(".startBox").show().delay(2000).fadeOut();

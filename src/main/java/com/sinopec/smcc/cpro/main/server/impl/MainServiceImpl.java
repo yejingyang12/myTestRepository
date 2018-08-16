@@ -10,6 +10,7 @@ package com.sinopec.smcc.cpro.main.server.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -81,7 +82,6 @@ import com.sinopec.smcc.cpro.systemcode.entity.SystemCodeParam;
 import com.sinopec.smcc.cpro.systemcode.server.SystemCodeService;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.FileOperateUtil;
-import com.sinopec.smcc.cpro.tools.JacobExcelTool;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
 import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
@@ -154,7 +154,7 @@ public class MainServiceImpl implements MainService{
       }
     }else {
       //默认排序规则
-      orderBy.append("system.createTime DESC");
+//      orderBy.append("rcordSort DESC,system.createTime DESC");
     }
    
     //处理高级查询状态
@@ -242,6 +242,7 @@ public class MainServiceImpl implements MainService{
     List<CellBean> cellList = new ArrayList<CellBean>();
     
     // 装载第一行为表头
+    cellList.add(ExcelUtils.getExportCelBean("序号"));
     cellList.add(ExcelUtils.getExportCelBean("定级备案信息系统名称"));
     cellList.add(ExcelUtils.getExportCelBean("合并定级包含的信息系统名称"));
     cellList.add(ExcelUtils.getExportCelBean("单位名称"));
@@ -277,9 +278,13 @@ public class MainServiceImpl implements MainService{
     } catch (Exception e) {
       e.printStackTrace();
     }
+    int count = 1;
     if(mainListResultList != null && mainListResultList.size() > 0){
       for (MainListResult mainResult : mainListResultList) {
         cellList = new ArrayList<CellBean>();
+        //序号
+        cellList.add(ExcelUtils.getExportCelBean(count));
+        count++;
         //系统名称
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
         //如果是合并系统
@@ -514,7 +519,36 @@ public class MainServiceImpl implements MainService{
   @Override
   public AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException {
-    String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
+    String filePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/gradingTemp.xlsm";
+    String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds()+".xlsm";
+    String toFilePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/"+expName;
+    File fromFile = new File(filePath);
+    String fromFileAbsolutePath = fromFile.getAbsolutePath();
+    File toFile = new File(toFilePath);
+    String toFileAbsolutePath = toFile.getAbsolutePath();
+    FileInputStream ins;
+    try {
+      ins = new FileInputStream(fromFileAbsolutePath);
+      FileOutputStream out = new FileOutputStream(toFileAbsolutePath);
+      byte[] b = new byte[1024];
+      int count=0;
+      while((count=ins.read(b))!=-1){
+        out.write(b, 0, count);
+      }
+      ins.close();
+      out.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      return null;
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
+    AttachResult attachResult = new AttachResult();
+    attachResult.setUploadUrl("/excel/"+expName);
+    attachResult.setAttachName("定级模板.xlsm");
+    return attachResult;
+    /*String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
     String filePath = MainConstant.TEMPORARY_FILE_PATH;//文件生成路径
     String temporaryCopyPath = MainConstant.TEMPORARY_COPY_EXCEL_FILE_PATH;//复制模板文件（导出文件）路径
     String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds();
@@ -555,7 +589,7 @@ public class MainServiceImpl implements MainService{
         //将新生成的文件放入数组，便于打包使用
         srcfile.add(fileCopy);
       }
-      /*for (GradingListResult gradingListResult : gradingListResultList) {
+      for (GradingListResult gradingListResult : gradingListResultList) {
         //如果业务信息级别与宏名相同则选中
         if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
           if(gradingListResult.getFkBizSPRankLevel().equals("1")){
@@ -644,14 +678,14 @@ public class MainServiceImpl implements MainService{
         srcfile.add(fileCopy);
         ins.close();
         out.close();
-      }*/
+      }
       // 将复制后的excel压缩
       FileOperateUtil.createRar(response, filePath, srcfile, expName);
       //压缩后清除复制的excel
       FileOperateUtil.deleteAllFile(temporaryCopyPath);
       //下载压缩包
-      /*FileOperateUtil.download(request, response, 
-          filePath+expName+".rar", expName+".rar", "UTF-8", "ISO8859-1", 20480);*/
+      FileOperateUtil.download(request, response, 
+          filePath+expName+".rar", expName+".rar", "UTF-8", "ISO8859-1", 20480);
     }catch (Exception e){
       e.printStackTrace();
     }
@@ -659,7 +693,7 @@ public class MainServiceImpl implements MainService{
     AttachResult attachResult = new AttachResult();
     attachResult.setUploadUrl(expName+".rar");
     attachResult.setAttachName(expName+".rar");
-    return attachResult;
+    return attachResult;*/
   }
   
   /**

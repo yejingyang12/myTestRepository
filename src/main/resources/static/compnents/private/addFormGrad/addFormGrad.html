@@ -12,7 +12,7 @@
                     </el-form-item>
                 </li>
                 <li class="row">
-                    <el-form-item label="确定安全保护等级：" prop="fkSpRanklevel">
+                    <el-form-item label="确定安全保护等级：" prop="fkSpRanklevel" ref="fkSpRanklevel">
                         <div class="saveTable">
                             <ul class="clearfix">
                                 <li class="row saveTableRowLine saveTableRow">
@@ -22,7 +22,7 @@
                                 </li>
                                 <li class="row saveTableRow saveTableHeg" style="height:311px;">
                                     <div class="col-md-2 mcAddSysBuild" style="height:311px;">业务信息</div>
-                                    <ul class="col-md-10 saveTableLase" id="sysTable">
+                                    <ul class="col-md-10 saveTableLase" id="sysTable"  @change="onBlur">
                                         <li class="saveTableBorder">
                                             <div class="col-md-1">
                                                 <input type="radio" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(101)" id="101" value="101"  name="inform" class="inpChoose">
@@ -100,7 +100,7 @@
                                 </li>
                                 <li class="row saveTableRow saveTableHeg" style="height:311px;">
                                     <div class="col-md-2 mcAddSysBuild" style="height:311px;">系统信息</div>
-                                    <ul class="col-md-10 saveTableLase">
+                                    <ul class="col-md-10 saveTableLase"   @change="onBlur">
                                         <li class="saveTableBorder">
                                             <div class="col-md-1">
                                                 <input type="radio" id="201" v-model="formData.fkBizSystemLevel" @click="fnCheckAll(201)" value="201"  name="inorm" class="inpChoose">
@@ -244,12 +244,12 @@
                 </li>
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="定级时间：" prop="rankTime" onclick="return false">
+                        <el-form-item label="定级时间：" prop="rankTime" onclick="return false" ref="rankTime">
                             <el-date-picker :picker-options="pickerOptions0" class="col-md-6 col-sm-3 liPadding useData" id="rankTime" v-model="formData.rankTime" type="date"></el-date-picker>
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="是否有主管部门：" prop="competentIsExisting">
+                        <el-form-item label="是否有主管部门：" prop="competentIsExisting" ref="competentIsExisting">
                             <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes1">
                                 <input type="hidden"  v-model="formData.competentIsExisting">
                                 <div class="col-md-6" @click="btnBoolen($event,1)">是</div>
@@ -260,12 +260,12 @@
                 </li>
                 <li class="row liMargin" id="direHide1" style="display: none;">
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="主管部门名称：" prop="competentName">
-                            <input id="competentNameinput" type="text"  v-model="formData.competentName">
+                        <el-form-item label="主管部门名称：" prop="competentName" ref="competentName">
+                            <input id="competentNameinput" type="text"  v-model="formData.competentName"  @change="getCompetentNameSuccess">
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="主管部门审批定级情况：" prop="competentView">
+                        <el-form-item label="主管部门审批定级情况：" prop="competentView" ref="competentView">
                             <div class="col-md-6 col-sm-3 mcAddSysBuildChange text-center" id="baseMes2">
                                 <input type="hidden"  v-model="formData.competentView" >
                                 <div class="col-md-6" @click="getClass($event,1)">已审批</div>
@@ -275,7 +275,7 @@
                     </div>
                 </li>
                 <li class="row liMargin file material"  id="approval">
-                    <el-form-item label="上级主管部门审批意见：" prop="directorOpinionName" style="font-size:14px">
+                    <el-form-item label="上级主管部门审批意见：" prop="directorOpinionName" ref="directorOpinionName" style="font-size:14px">
                         <div class="clearfix sysText col-md-8">
                             <div class="uploadSty">
                                 <ul class="fileList" id="fileList">
@@ -289,7 +289,7 @@
                 </li>
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="定级报告：" prop="gradingReportName">
+                        <el-form-item label="定级报告：" prop="gradingReportName" ref="gradingReportName">
                             <div class="clearfix sysText">
                                 <div class="uploadSty P-uploadSty">
                                     <ul class="fileList" id="fileList1">
@@ -306,14 +306,16 @@
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="定级报告名称：" prop="gradingReportName">
-                            <input class="promptinput" type="text"  disabled id="fileName" v-model="formData.gradingReportName">
+                        <el-form-item label="定级报告名称：" prop="gradingReportName" ref="gradingReportName1">
+	                        <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:387px" @mouseover="xuanfu(formData.gradingReportName)" :title="tishi">
+	                            <input class="promptinput" type="text"  disabled id="fileName" v-model="formData.gradingReportName">
+	                        </div>
                         </el-form-item>
                     </div>
                 </li>
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="专家评审情况：" prop="expertView">
+                        <el-form-item label="专家评审情况：" prop="expertView" ref="expertView">
                             <div class="col-lg-6 col-md-6 formChange liPadding">
                                 <div role="group"  class="mcAddSysBuildChange text-center col-sm-3 col-md-6 p-mcAddSys" id="baseMes3" style="width:50% !important;">
                                     <input type="hidden"  v-model="formData.expertView">
@@ -335,8 +337,10 @@
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">
-                        <el-form-item label="评审附件名称：" prop="expertReviewName">
-                            <input class="promptinput" type="text" disabled id="fileRew" v-model="formData.expertReviewName">
+                        <el-form-item label="评审附件名称：" prop="expertReviewName" ref="expertReviewName">
+                        	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:387px" @mouseover="xuanfu(formData.expertReviewName)" :title="tishi">
+                            	<input class="promptinput" type="text" disabled id="fileRew" v-model="formData.expertReviewName">
+                        	</div>
                         </el-form-item>
                     </div>
                 </li>

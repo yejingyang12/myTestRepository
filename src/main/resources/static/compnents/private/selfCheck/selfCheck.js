@@ -5,6 +5,7 @@
   var data={
  		  change:false,
   		systemName: null,
+  		tishi:"",
   		show:{
   			visible2: -1,
   		},
@@ -17,6 +18,7 @@
     },
     editParam: {
     	"selfexaminationId": null,
+    	"selfInspectionName": null,
     	"fkSystemId": null,
     	"inspectionDate": null,
     	"fkInspectionStatus": null,
@@ -38,6 +40,10 @@
 	    "data": [],
 	  },
     rules:{
+    		selfInspectionName:[
+    		    {required: true, message: '请输入自查项目名称', trigger: 'blur' },
+            { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+    	  ],
         inspectionDate:[ //自查时间
             {required: true, message: '请输入自查时间', trigger: 'blur' },
         ],
@@ -109,21 +115,19 @@
         },
         methods:{
         	changeStatus : function(){
-        		if(this.editParam.fkInspectionStatus == 1){
-        			this.rules.fkInspectionReu[0].required = false;
-          		this.rules.examinationReportName[0].required = false;
-          		this.rules.fkRectificationReu[0].required = false;
-          		this.rules.rectificationDate[0].required = false;
-          		this.rules.examinationRectificationReportName[0].required = false;
-        		}else{
+        		if(this.editParam.fkInspectionStatus == 2){
         			this.rules.fkInspectionReu[0].required = true;
           		this.rules.examinationReportName[0].required = true;
-          		this.rules.fkRectificationReu[0].required = true;
-          		this.rules.rectificationDate[0].required = true;
-          		this.rules.examinationRectificationReportName[0].required = true;
+          		this.rules.inspectionDate[0].required = true;
+        		}else{
+          		this.rules.fkInspectionReu[0].required = false;
+          		this.rules.examinationReportName[0].required = false;
+          		this.rules.inspectionDate[0].required = false;
         		}
         	},
-        	
+        	xuanfu:function(data){
+        		this.tishi=data;
+        	},
         	//获取系统名称
         	querySystemName: function(_self) {
         		var querySystemNameParam = {systemId:systemId,};
@@ -291,7 +295,7 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
+	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
@@ -324,7 +328,7 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
+	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
@@ -372,7 +376,7 @@
 					},
 					
 		       //排序
-          listsort: function () {
+          listsort2: function () {
             var imgArrow = this.imgList;
             var flagOne = 1;
             for (var i = 0; i < imgArrow.length; i++) {
@@ -381,33 +385,33 @@
                 flagOne *= -1;
                 //对每个数组也就是对应表格的每一列进行排序
                 switch (this.myindex){
-                  case 0://系统名称
-                    data.result.data.sort(function (a, b) {
-                      return (a.systemName.localeCompare(b.systemName)) * flagOne
+                  case 0://自查项目名称
+                    data.result.sort(function (a, b) {
+                      return (a.selfInspectionName.localeCompare(b.selfInspectionName)) * flagOne
                     });
                     break;
                   case 1://自查时间
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (new Date(a.inspectionDate.split('-').join('/')).getTime()-new Date(b.inspectionDate.split('-').join('/')).getTime()) * flagOne
                     });
                     break;
                   case 2://自查状态
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.fkInspectionStatus - b.fkInspectionStatus) * flagOne
                     });
                     break;
                   case 3://自查结果
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.fkInspectionReu - b.fkInspectionReu) * flagOne
                     });
                     break;
                   case 4://整改结果
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (a.fkRectificationReu - b.fkRectificationReu) * flagOne
                     });
                     break;
                   case 5://整改时间
-                    data.result.data.sort(function (a, b) {
+                    data.result.sort(function (a, b) {
                       return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
                     });
                     break;
@@ -431,10 +435,10 @@
 
 
         mounted: function() {
-        	var rowOne=document.getElementsByClassName('rowOne')[0];
+        	var rowOne=document.getElementsByClassName('rowOne2')[0];
           var imgList=rowOne.getElementsByTagName('img');
           this.imgList = imgList;
-          this.listsort();
+          this.listsort2();
           //点击返回按钮 返回到首页
           bus.$on("gradReturn",function(meg){
             if(meg!=null){

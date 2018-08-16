@@ -42,8 +42,26 @@ public class EvaluationListResult {
   private String examReportName;
   private String rectificationReport;
   private String rectificationReportName;
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date createTime;
 
  
+  /**
+   * @return the createTime
+   */
+  public Date getCreateTime() {
+    return createTime;
+  }
+
+
+  /**
+   * @param createTime the createTime to set
+   */
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+
   /**
    * @return the evaluationId
    */

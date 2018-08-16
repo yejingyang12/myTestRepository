@@ -230,6 +230,11 @@ button:-moz-focusring,
     content: "";
     clear: both;
 }
+/*标签禁用样式*/
+.baseMesJY{
+	background-color:rgb(199, 202, 206);
+	color:rgb(83, 89, 101)
+}
 /*页面内容宽*/
 .inner{
     width: 1200px;

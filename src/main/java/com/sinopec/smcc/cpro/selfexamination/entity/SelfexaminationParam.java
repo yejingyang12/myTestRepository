@@ -65,6 +65,7 @@ public class SelfexaminationParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTimeEnd;
   private String remark;
+  private String selfInspectionName;
   
   private String examinationReportPath;
   private String examinationReportName;
@@ -277,6 +278,13 @@ public class SelfexaminationParam {
   }
   public void setRemark(String remark) {
     this.remark = remark;
+  }
+  
+  public String getSelfInspectionName() {
+    return selfInspectionName;
+  }
+  public void setSelfInspectionName(String selfInspectionName) {
+    this.selfInspectionName = selfInspectionName;
   }
   
   public String getExaminationReportPath() {

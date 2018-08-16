@@ -13,6 +13,10 @@ window.onload = function () {
           saveBtn:function(formName) {
             bus.$emit('changeMaterialFormName',formName);
           },
+          //返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
+          },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
             data.formData.systemMaterialsId = responseData.data;

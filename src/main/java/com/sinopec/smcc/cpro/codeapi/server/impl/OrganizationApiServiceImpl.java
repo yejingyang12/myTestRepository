@@ -11,6 +11,7 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -148,12 +149,22 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
     //判断总部数据开始
     if (organizationApiList!=null&&organizationApiList.size()>0) {
       for (OrganizationDTO organizationDTO : organizationApiList) {
-           if(!companyCodeList.contains(organizationDTO.getOrgCode())){
-            OrganizationApi organization= new OrganizationApi();
-            organization.setOrgCode(organizationDTO.getOrgCode());
-            organization.setOrgName(organizationDTO.getOrgName());
-            organizationList.add(organization);             
-           }
+         if(!companyCodeList.contains(organizationDTO.getOrgCode())){
+          OrganizationApi organization= new OrganizationApi();
+          organization.setOrgCode(organizationDTO.getOrgCode());
+          organization.setOrgName(organizationDTO.getOrgName());
+          if(StringUtils.isNotBlank(organizationDTO.getEmail())){
+            organization.setEmail(organizationDTO.getEmail());
+          }else{
+            organization.setEmail("");
+          }
+          if(StringUtils.isNoneBlank(organizationDTO.getAddress())){
+            organization.setAddress(organizationDTO.getAddress());
+          }else{
+            organization.setAddress("");
+          }
+          organizationList.add(organization);   
+         }
       }
     }
     return organizationList;

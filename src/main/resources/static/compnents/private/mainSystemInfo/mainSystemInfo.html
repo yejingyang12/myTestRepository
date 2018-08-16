@@ -31,7 +31,7 @@
 							<input type="file" value="" id="file" @change='onUpload'
 								ref="refOnUpload">
 							<p>
-								附件总量最大 <span class="xing">30M</span>，上传格式为：word、pdf、exl、zip、rar、sep
+								附件总量最大 <span class="xing">30M</span>，上传格式为：excel(xls、xlsx、xlsm)
 							</p>
 						</div>
 						</el-form-item>
@@ -125,9 +125,15 @@
                                 <input class="checkName ids" type="checkbox" style=" margin: 4px 36%;" @click="checkboxMethod($event,item.systemId)"></td> -->
                             <td>{{index+1}}</td>
                             <td>{{item.systemName}} </td>
-                            <td>{{item.sysBusDescription}}</td>
                             <td>{{item.sysBusSituationType}}</td>
-                            <td>{{item.whenInvestmentUse}}</td>
+                            <td><div style="
+																									width: 200px;
+																									white-space: nowrap;
+																									overflow: hidden;
+																									text-overflow:ellipsis;" 
+																									@mouseover="xuanfu(item.sysBusDescription)" :title="tishi">
+																									{{item.sysBusDescription}}</div></td>
+                            <td>{{systemForm.time}}</td>
                             <!--操作-->
                             <td style="color:#1e91e2;">
                                 <!--class="hide3"-->

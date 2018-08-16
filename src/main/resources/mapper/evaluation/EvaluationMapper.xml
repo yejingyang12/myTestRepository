@@ -298,6 +298,7 @@
         cproEvaluation.examTime AS examTime,
         cproEvaluation.examYear AS examYear,
         cproEvaluation.examOrg AS examOrg,
+        cproEvaluation.createTime,
         cproAttach.pkId AS examReport,
         cproAttach.attachName AS examReportName,
         cproEvaluation.fkExamStatus AS fkExamStatus,

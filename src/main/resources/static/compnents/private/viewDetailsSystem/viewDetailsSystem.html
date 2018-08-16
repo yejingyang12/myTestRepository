@@ -192,5 +192,15 @@
                 <span class="col-md-7 text-left">{{executiveDireConTel}}</span>
             </p>
         </li>
+        <li class="col-md-12" v-show="subIsSystem === 1">
+            <p class="col-md-6">
+                <span class="col-md-4 text-right">父系统名称：</span>
+                <span class="col-md-8 text-left">{{fatherSystemName}}</span>
+            </p>
+            <p class="col-md-6">
+                <span class="col-md-5 text-right">父系统所属单位：</span>
+                <span class="col-md-7 text-left">{{fatherCompanyName}}</span>
+            </p>
+        </li>
     </ul>
 </div>

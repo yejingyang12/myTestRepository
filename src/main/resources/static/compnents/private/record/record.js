@@ -10,9 +10,11 @@ var data1={
 		acceptDate: null,
 		acceptReason : null,
 		recordReportPath : null, 
-		recordReportName : null
+		recordReportName : null,
+		recordStatus : null
 	},
 //删除弹窗的
+	showTable4 : false,
   deleteDialog:false,
   deleteSuccessDialog:false,
 	deleteFailDialog:false,
@@ -95,10 +97,9 @@ var data1={
                 'application/json;charset=UTF-8',_self.getRecordSuccessMethod);
 					},
 					getRecordSuccessMethod:function(_self,responseData){
+						_self.formData = responseData.data;
 						if(responseData.data!=null){
-							_self.formData = responseData.data;
-							
-							
+							_self.formData = responseData.data;						
 							var index = -(2*100+8)+"px"+" -190px";
 							$(".process>li").eq(2).children('i').css('background-position',index);
 							$(".process>li").eq(2).prevAll().children('i').next('span').css('background-color','#3d95df');
@@ -128,7 +129,9 @@ var data1={
 									acceptDate: null,
 									acceptReason : null,
 									recordReportPath : null,
-									recordReportName : null
+									recordReportName : null,
+									recordStatus : null,
+									fkSpRanklevel : null
 								};
 							bus.$emit("changeLi",false);
 						}
@@ -169,7 +172,7 @@ var data1={
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){
+	          	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){
 	          		this.$alert('不接受此文件类型！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
@@ -321,6 +324,11 @@ var data1={
             	$('.comitBtm').show();
             }
           });
+					bus.$on('showMaterialView',function(meg){
+						 if(meg){
+							 _self.showTable4 = true;
+	            }
+					});
 				}
 			})
 		})

@@ -303,12 +303,40 @@
 	<!-- 系统等保管理阶段趋势 -->
 	<select id="selectSystemTrendByYear" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam" resultMap="DiagramListResult">
 		SELECT
-			MONTH(node.createTime) AS month,
+		  MONTH(node.createTime) AS mouthCount,
       SUM(IF(node.operation = '创建' or node.operation = '定级审核' ,1,0)) AS readyGradCount,
       SUM(IF(node.operation = '定级审核',1,0)) AS checkGradCount,
       SUM(IF(node.operation = '备案',1,0)) AS recordsCount,
       SUM(IF(node.operation = '添加测评',1,0)) AS evaluationCount,
-      SUM(IF(node.operation = '添加自查',1,0)) AS selfInspectionCount
+      SUM(IF(node.operation = '添加自查',1,0)) AS selfInspectionCount,
+     (
+			  CASE MONTH (node.createTime)
+			  WHEN 1 THEN
+			   '一月'
+			  WHEN 2 THEN
+			   '二月'
+			  WHEN 3 THEN
+			   '三月'
+			  WHEN 4 THEN
+			   '四月'
+			  WHEN 5 THEN
+			   '五月'
+			  WHEN 6 THEN
+			   '六月'
+			  WHEN 7 THEN
+			   '七月'
+			  WHEN 8 THEN
+			   '八月'
+			  WHEN 9 THEN
+			   '九月'
+			  WHEN 10 THEN
+			   '十月'
+			  WHEN 11 THEN
+			   '十一月'
+			  ELSE
+			   '十二月'
+			  END
+			) AS month
 		FROM
 			t_cpro_node node 
 		LEFT JOIN t_cpro_system AS system 

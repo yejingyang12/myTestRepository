@@ -24,6 +24,8 @@
     		subIsSystem:"",//系统是否为分系统
     		executiveDireCon:"",//主管联系人
     		executiveDireConTel:"",//主管联系人电话	
+    		fatherSystemName:"",//父系统名称
+    		fatherCompanyName:"",//父系统所属单位
     		addSystemSub:{},//子系统
     };
     Vue.component('viewDetailsSystem',function (resolve, reject) {
@@ -122,6 +124,12 @@
                   			if(! this.isEmpty(systemResult.data.appIsInternet)){
                   				this.appIsInternet = systemResult.data.appIsInternet;
                   				
+                  			}
+                  			if(! this.isEmpty(systemResult.data.fatherSystemName)){
+                  				this.fatherSystemName = systemResult.data.fatherSystemName;
+                  			}
+                  			if(! this.isEmpty(systemResult.data.fatherCompanyName)){
+                  				this.fatherCompanyName = systemResult.data.fatherCompanyName;
                   			}
                   			
                   		} 

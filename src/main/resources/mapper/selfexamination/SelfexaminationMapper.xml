@@ -22,6 +22,7 @@
 	  <result column="examinationRectificationReportId" property="examinationRectificationReportId" />
 	  <result column="examinationRectificationReportName" property="examinationRectificationReportName" />
 	  <result column="systemName" property="systemName" />
+	  <result column="selfInspectionName" property="selfInspectionName" />
 	</resultMap>
 	
 	<resultMap type="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationResult" id="SelfexaminationResult">
@@ -38,13 +39,14 @@
 	  <result column="examinationReportName" property="examinationReportName" />
 	  <result column="examinationRectificationReportId" property="examinationRectificationReportId" />
 	  <result column="examinationRectificationReportName" property="examinationRectificationReportName" />
+	  <result column="selfInspectionName" property="selfInspectionName" />
   </resultMap>
   <!-- 根据条件查询分页自查信息列表 -->
 	<select id="selectAllBySelfexaminationParam" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam" resultMap="SelfexaminationListResult">
 		SELECT 
 			self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
 			self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-			self.createUserName,self.createTime,self.updateTime,
+			self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
 			examinationReport.pkId AS examinationReportId,
 			examinationReport.attachName AS examinationReportName,
 			examinationRectificationReport.pkId AS examinationRectificationReportId,
@@ -85,7 +87,7 @@
 		INSERT into t_cpro_self_inspection(
 			pkId,fkSystemId,fkInspectionStatus,fkInspectionReu,
 			fkRectificationReu,inspectionDate,rectificationDate,deleteStatus,
-			createUserName,createTime,updateTime,remark
+			createUserName,createTime,updateTime,remark,selfInspectionName
 		) values(
 			<trim suffixOverrides="," >
 				<choose>
@@ -184,11 +186,22 @@
 						DEFAULT,
 					</otherwise>
 				</choose>
+				<choose>
+					<when test="selfInspectionName != null and selfInspectionName != ''">
+						#{selfInspectionName},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
 			</trim>
 		) ON DUPLICATE KEY UPDATE
 			fkInspectionStatus = #{fkInspectionStatus},
 			<if test="inspectionDate != null">
 				inspectionDate = #{inspectionDate},
+			</if>
+			<if test="selfInspectionName != null">
+				selfInspectionName = #{selfInspectionName},
 			</if>
 			<if test="rectificationDate != null">
 				rectificationDate = #{rectificationDate},
@@ -203,7 +216,7 @@
     SELECT 
       self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
       self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-      self.createUserName,self.createTime,self.updateTime,
+      self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
 			examinationReport.pkId AS examinationReportId,
 			examinationReport.attachName AS examinationReportName,
 			examinationRectificationReport.pkId AS examinationRectificationReportId,
@@ -237,7 +250,7 @@
     SELECT 
       self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
       self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-      self.createUserName,self.createTime,self.updateTime,
+      self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
       examinationReport.pkId AS examinationReportId,
       examinationReport.attachName AS examinationReportName,
       examinationRectificationReport.pkId AS examinationRectificationReportId,
@@ -265,7 +278,7 @@
     SELECT 
       self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
       self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-      self.createUserName,self.createTime,self.updateTime,
+      self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
       examinationReport.pkId AS examinationReportId,
       examinationReport.attachName AS examinationReportName,
       examinationRectificationReport.pkId AS examinationRectificationReportId,

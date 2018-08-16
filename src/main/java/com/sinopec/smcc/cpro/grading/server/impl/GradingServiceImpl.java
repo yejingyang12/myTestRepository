@@ -253,7 +253,7 @@ public class GradingServiceImpl implements GradingService{
 //      checkServiceImpl.addCheck(checkParamAdd);
       
       //发起审核流程
-      workFlowApiServiceImpl.initStart("定级", "1", gradingParam.getFkSystemId());
+//      workFlowApiServiceImpl.initStart("定级", "1", gradingParam.getFkSystemId());
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();

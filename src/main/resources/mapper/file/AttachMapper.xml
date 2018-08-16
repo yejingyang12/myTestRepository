@@ -51,22 +51,22 @@
     <where>
       <if test="fileId != null and fileId != ''">
         <![CDATA[
-          AND pkId = #{fileId,jdbcType=INTEGER}
+          AND pkId = #{fileId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND fkSystemId = #{systemId,jdbcType=INTEGER}
+          AND fkSystemId = #{systemId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="syssonId != null and syssonId != ''">
         <![CDATA[
-          AND fkSyssonId = #{syssonId,jdbcType=INTEGER}
+          AND fkSyssonId = #{syssonId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="attachType != null and attachType != ''">
         <![CDATA[
-          AND fkAttachType = #{attachType,jdbcType=INTEGER}
+          AND fkAttachType = #{attachType,jdbcType=VARCHAR}
         ]]>
       </if>
     </where>
@@ -82,22 +82,22 @@
     <where>
       <if test="fileId != null and fileId != ''">
         <![CDATA[
-          AND pkId = #{fileId,jdbcType=INTEGER}
+          AND pkId = #{fileId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND fkSystemId = #{systemId,jdbcType=INTEGER}
+          AND fkSystemId = #{systemId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="syssonId != null and syssonId != ''">
         <![CDATA[
-          AND fkSyssonId = #{syssonId,jdbcType=INTEGER}
+          AND fkSyssonId = #{syssonId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="attachType != null and attachType != ''">
         <![CDATA[
-          AND fkAttachType = #{attachType,jdbcType=INTEGER}
+          AND fkAttachType = #{attachType,jdbcType=VARCHAR}
         ]]>
       </if>
     </where>
@@ -109,22 +109,22 @@
     <where>
       <if test="fileId != null and fileId != ''">
         <![CDATA[
-          AND pkId = #{fileId,jdbcType=INTEGER}
+          AND pkId = #{fileId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND fkSystemId = #{systemId,jdbcType=INTEGER}
+          AND fkSystemId = #{systemId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="syssonId != null and syssonId != ''">
         <![CDATA[
-          AND fkSyssonId = #{syssonId,jdbcType=INTEGER}
+          AND fkSyssonId = #{syssonId,jdbcType=VARCHAR}
         ]]>
       </if>
       <if test="attachType != null and attachType != ''">
         <![CDATA[
-          AND fkAttachType = #{attachType,jdbcType=INTEGER}
+          AND fkAttachType = #{attachType,jdbcType=VARCHAR}
         ]]>
       </if>
     </where>

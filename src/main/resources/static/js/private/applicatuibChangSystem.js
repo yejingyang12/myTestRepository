@@ -37,6 +37,10 @@ window.onload = function () {
           nextBtn:function(formName) {
             bus.$emit('changeNextSystemName',formName);
           },
+          //返回
+          returnBtn:function() {
+            window.location.href = originUrl+"page/indexPage";
+          },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
             window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+responseData.data+"&fkCompanyCode="+companyCode;

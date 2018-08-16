@@ -134,7 +134,6 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-开始时间
         	getGradingShapeBegin:function(){
-        	
         		bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
         		//如果两个时间不是空，但
         		if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
@@ -252,6 +251,9 @@
           },
           //系统等保管理趋势 - 类型
           getYearType:function(){
+          	if(this.yearType==null||this.yearType=='undefind'||this.yearType==''){
+          		return;
+          	}
           	var dataparmars;
         		if(this.yearType != null){
         			var dataparmars = '{"year":"'+this.yearType+'","systemType":"'+this.statisticsType+'"}';

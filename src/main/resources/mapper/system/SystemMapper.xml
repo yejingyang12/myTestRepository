@@ -10,6 +10,7 @@
     <result column="subIsSystem" property="subIsSystem" jdbcType="INTEGER" />
     <result column="executiveDireCon" property="executiveDireCon" jdbcType="VARCHAR" />
     <result column="systemName" property="systemName" jdbcType="VARCHAR" />
+    <result column="fatherSystemName" property="fatherSystemName" jdbcType="VARCHAR" />
     <result column="gradeRecordSysName" property="gradeRecordSysName" jdbcType="VARCHAR" />
     <result column="executiveDireConTel" property="executiveDireConTel" jdbcType="VARCHAR" />
     <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
@@ -30,6 +31,7 @@
     <result column="npNetworkProperties" property="npNetworkProperties" jdbcType="VARCHAR" />
     <result column="interconnectionSit" property="interconnectionSit" jdbcType="VARCHAR" />
     <result column="company" property="companyName" jdbcType="VARCHAR" />
+    <result column="fatherCompanyName" property="fatherCompanyName" jdbcType="VARCHAR" />
     <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
     <result column="fkInfoSysTypeCon" property="fkInfoSysTypeCon" jdbcType="VARCHAR" />
     <result column="fkSystemIsMerge" property="fkSystemIsMerge" jdbcType="VARCHAR" />
@@ -1447,6 +1449,8 @@
       system.fkSystemIsMerge,
 			system.whenInvestmentUse,
 			system.systemName,
+			system.fatherSystemName,
+			system.fatherCompanyName,
 			system.standardizedCode,
 			system.gradeRecordSysName,
 			system.sysBusSituationType,
@@ -1577,6 +1581,8 @@
 			system.fkSystemIsMerge,
 			system.whenInvestmentUse,
 			system.systemName,
+			system.fatherSystemName,
+			system.fatherCompanyName,
 			system.standardizedCode,
 			system.gradeRecordSysName,
 			system.sysBusSituationType,

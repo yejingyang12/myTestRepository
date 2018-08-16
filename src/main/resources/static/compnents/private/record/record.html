@@ -34,8 +34,11 @@
                 所有备案表需要导出下载，并将备案表提交给相关公安部门，等待公安部门审核。点击下载备案 
       <a href="javascript:;" @click="downloadFile(1)">表1</a>，
       <a href="javascript:;" @click="downloadFile(2)">表2</a>，
-      <a href="javascript:;" @click="downloadFile(3)">表3</a>，
-      <a href="javascript:;" @click="downloadFile(4)">表4</a>
+      <a href="javascript:;" @click="downloadFile(3)">表3</a>
+<!--       <span  v-if="(formData.fkSpRanklevel >=303  && formData.recordStatus != 4) || showTable4"> -->
+			<span  v-if="showTable4">
+      	<a href="javascript:;" @click="downloadFile(4)">，表4</a>     
+      </span>
     </div>
     <div class="datasMain">
                 相关公安部门人员将会对递交的材料进行审核，查验，通过审核的备案会得到信息系统安全等级保护备案证明。

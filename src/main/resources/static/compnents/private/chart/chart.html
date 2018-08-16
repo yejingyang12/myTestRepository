@@ -185,8 +185,7 @@
                                     <p class="p2">不同等保管理状态下系统数量</p>
                                     <!--<span>|</span>-->
                                     <template>
-                                   
-                                        <el-select v-model="yearType" @change="getYearType()" filterable clearable placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
+                                        <el-select clearable v-model="yearType"  @change="getYearType()" filterable  placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
                                             <el-option
                                                     v-for="item in years"
                                                     :key="item.value"

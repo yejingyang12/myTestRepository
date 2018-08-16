@@ -243,6 +243,13 @@
 	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
 	  	                     dangerouslyUseHTMLString: true
 	  	            		 	 });
+	              				 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+	                			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+	                			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+	                			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+	                			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+	                			 _self.option.xAxis.data = [];
+	                			 data.myChart.setOption(data.option, true);
 	              			 }
 	            		 	} 
             	 	 });
@@ -275,6 +282,13 @@
               			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
 	                     dangerouslyUseHTMLString: true
               			 });
+              			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.xAxis.data = [];
+              			 data.myChart.setOption(data.option, true);
               		 }
               	 	 });
                });  

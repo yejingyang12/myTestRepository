@@ -159,9 +159,9 @@ public class CompanyServiceImpl implements CompanyService {
 //      checkParam.setPrevExecutor(userName);
 //      checkParam.setExecuteTime(new Date());
 //      checkServiceImpl.editCheckStatusBySystemId(checkParam);
-      if(companyParam.getJurisdiction() != null){
+      if(companyParam.getJurisdictionDel() != null){
         //1总部 2 企业
-        if(companyParam.getJurisdiction() == 1){
+        if(companyParam.getJurisdictionDel() == 1){
           //发起审核流程
           workFlowApiServiceImpl.initStart("申请变更", "2", companyParam.getSystemId());
         }else{

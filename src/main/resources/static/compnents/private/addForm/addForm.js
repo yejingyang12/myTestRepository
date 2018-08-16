@@ -30,7 +30,7 @@
         companyId:"",
         changeType:"",
         systemId:"",
-        jurisdiction:""
+        jurisdictionDel:""
       },
       msgName : [],// 单位名称
       msgProvince : [],// 所属省份
@@ -265,7 +265,7 @@
               //获取单位信息
               getCompanyInfoMethod:function(_self,meg){
                 ajaxMethod(_self, 'post',
-                    'company/queryCompanyByCode', true,'{"companyCode":"'+meg+'"}', 'json',
+                    'company/queryCompanyByCode', false,'{"companyCode":"'+meg+'"}', 'json',
                     'application/json;charset=UTF-8',_self.getCompanyInfoSuccessMethod);
               },
               getCompanyInfoByIdMethod:function(_self,meg){
@@ -440,6 +440,8 @@
                   for(var i=0;i<this.msgName.length;i++){
                     if(val==this.msgName[i].orgName){
                       this.formData.companyCode = this.msgName[i].orgCode;
+                      this.formData.compPrincipalEm = this.msgName[i].email;
+                      this.formData.companyAddress = this.msgName[i].address;
                     }
                   }
                 }
@@ -519,6 +521,8 @@
               			if(this.dtlCompanyCode == this.msgName[i].orgCode){
               				this.formData.companyCode = this.dtlCompanyCode;
               				this.formData.companyName=this.msgName[i].orgName;
+//              				this.formData.compPrincipalEm = this.msgName[i].email;
+//              				this.formData.companyAddress = this.msgName[i].address;
               				data.disabledInput=true;
               			}
               		}

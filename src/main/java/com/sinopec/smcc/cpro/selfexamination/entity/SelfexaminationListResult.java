@@ -40,6 +40,7 @@ public class SelfexaminationListResult {
   private Date createTime;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
+  private String selfInspectionName;
 
   private String examinationReportId;
   private String examinationReportName;
@@ -223,6 +224,12 @@ public class SelfexaminationListResult {
    */
   public void setUpdateTime(Date updateTime) {
     this.updateTime = updateTime;
+  }
+  public String getSelfInspectionName() {
+    return selfInspectionName;
+  }
+  public void setSelfInspectionName(String selfInspectionName) {
+    this.selfInspectionName = selfInspectionName;
   }
   public String getExaminationReportId() {
     return examinationReportId;

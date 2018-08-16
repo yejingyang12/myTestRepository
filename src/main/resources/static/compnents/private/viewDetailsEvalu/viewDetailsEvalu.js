@@ -17,6 +17,7 @@
   			"totalPages": 5,
   			"data": [],
   		},
+  		tishi:"",
       evaluList:[],//测评List
       result:{},
       rowOne:null,//列表表头第一行的tr
@@ -35,12 +36,15 @@
                 },
                 mounted: function() {
                 //表格排序需要获取的元素
-                  var rowOne=document.getElementsByClassName('rowOne')[0];
+                  var rowOne=document.getElementsByClassName('rowOneTesing')[0];
                   var imgList=rowOne.getElementsByTagName('img');
                   data.imgList=imgList;
                 	this.listsort();
                 },
                 methods:{
+                	xuanfu:function(data){
+                		this.tishi=data;
+                	},
                   download:function(fileId){
                   	window.location.href=originUrl+"fileHandle/downloadFile?fileId="+fileId;
                   },

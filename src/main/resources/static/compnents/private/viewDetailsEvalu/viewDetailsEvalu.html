@@ -3,7 +3,7 @@
         <span class="fl tianMsg">系统测评信息列表</span>
     </p>
     <table class="table table-bordered table-responsive table-striped">
-        <tr class="table-bordered rowOne" >
+        <tr class="table-bordered rowOneTesing" >
             <th>序号</th>
             <th>项目测评名称 <slot name="paixujiantou"></slot></th>
             <th>测评时间 <slot name="paixujiantou1"></slot></th>
@@ -20,7 +20,11 @@
             <td>{{item.examName}}</td>
             <td>{{item.examTime}}</td>
             <td>{{item.examOrg}}</td>
-            <td><a @click="download(item.examReport)"  style="cursor:pointer" >{{item.examReportName}}</a></td>
+            <td>
+            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(item.examReportName)" :title="tishi">
+            		<a @click="download(item.examReport)"  style="cursor:pointer" >{{item.examReportName}}</a>
+            	</div>
+            </td>
             <td v-if="item.fkExamStatus === 1">
                                            未测评
             </td>
@@ -46,7 +50,11 @@
             </td>
 
             <td>{{item.rectificationDate}}</td>
-            <td><a @click="download(item.rectificationReport)"  style="cursor:pointer" >{{item.rectificationReportName}}</a></td>
+            <td>
+            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(item.rectificationReportName)" :title="tishi">
+            		<a @click="download(item.rectificationReport)"  style="cursor:pointer" >{{item.rectificationReportName}}</a>
+            	</div>
+            </td>
         </tr>
     </table>
     <!--分页-->

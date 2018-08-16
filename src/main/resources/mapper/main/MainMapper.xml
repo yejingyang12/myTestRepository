@@ -41,6 +41,7 @@
         score.createTime AS scoreCreateTime,
         records.recordDate AS recordCreateTime,
         records.recordCode,
+        IF(system.recordStatus=4,1,2)AS rcordSort,
         records.acceptCompany
       FROM
         t_cpro_system AS system
@@ -62,11 +63,11 @@
       LEFT JOIN t_cpro_evaluation AS evaluation 
         ON system.pkId = evaluation.fkSystemId
         AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
-                                     WHERE eval.fkSystemId = system.pkId  LIMIT 1)
+                                     WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
         AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
-                                         WHERE inspec.fkSystemId =  system.pkId LIMIT 1)
+                                         WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_check AS examine 
         ON system.pkId = examine.fkSystemId
       LEFT JOIN t_cpro_attach AS gradingAttch 
@@ -464,7 +465,7 @@
         </if>
         <if test="gradingShapeType == 7 ">
           <![CDATA[
-            AND system.fkInfoSysTypeCon = 2
+            AND system.fkInfoSysTypeCon = 3
           ]]>
         </if>
       </if>
@@ -484,6 +485,9 @@
         ]]>
       </if>
     </where>
+     <![CDATA[
+       GROUP BY rcordSort DESC,system.createTime DESC
+    ]]>
   </select>
   <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
     UPDATE 
@@ -682,7 +686,7 @@
         </if>
         <if test="gradingShapeType == 7 ">
           <![CDATA[
-            AND system.fkInfoSysTypeCon = 2
+            AND system.fkInfoSysTypeCon = 3
           ]]>
         </if>
       </if>

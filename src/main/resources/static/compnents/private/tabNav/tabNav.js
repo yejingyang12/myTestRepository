@@ -16,6 +16,11 @@
         methods:{
           handleClick: function(tab, event) {
             console.log(tab, event);
+            if(tab.label!='审核'){
+            	bus.$emit('jurisdictionShow','1');
+            }else{
+            	bus.$emit('jurisdictionShow',null);
+            }
           },
           // 获取系统信息
           getSystem : function(_self) {

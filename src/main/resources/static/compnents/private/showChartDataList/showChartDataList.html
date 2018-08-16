@@ -89,11 +89,9 @@
                                     <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;"></th>
                                 <th style="min-width:47px">序号</th>
                                 <th>系统名称
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou"></slot>
                                 </th>
                                 <th>所属单位
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou2"></slot>
                                 </th>
                                 <!-- <th>板块
@@ -101,15 +99,12 @@
                                     <slot name="paixujiantou3"></slot>
                                 </th> -->
                                 <th>建设类型
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou4"></slot>
                                 </th>
                                 <th>等保级别
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou5"></slot>
                                 </th>
                                 <th style="max-width:75px">是否为互联网应用
-                                    <!--<img src="../../static/images/home/paixujiantou.png" alt="">-->
                                     <slot name="paixujiantou6"></slot>
                                 </th>
                                 <th>定级状态</th>
@@ -130,12 +125,12 @@
                                     style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
                                     <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
                                 <td>{{index+1}}</td>
- 								                <td>
-                                  <!-- <div v-if="pro.recordStatus != 4"> -->
+ 								                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                                  <div v-if="pro.recordStatus != 4">
                                     <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
-                                 <!--  </div>
-                                  <div v-else  style="color:#bfbfbf">{{pro.systemName}}</div> -->
-                                </td>                              
+                                  </div>
+                                  <div v-else> <a  style="cursor:pointer;color:#bfbfbf;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a></div>
+                                </td>
                                 <td>{{pro.companyName}}</td>
                                 <!-- <td>{{pro.plateType}}</td> -->
                                 <td>{{pro.infoSysTypeConstruction}}</td>
@@ -243,7 +238,7 @@
                                  
                                 </td>
                                 <!-- &lt;!&ndash;操作&ndash;&gt; -->
-                                <td style="color:#1e91e2;" v-if="(pro.gradingStatus==1 || pro.gradingStatus==2) && pro.recordStatus != 4">
+                                <td style="color:#1e91e2;" v-if="pro.examineStatus==1 && pro.recordStatus != 4">
                                   <div v-for="companyCodeJ in nameList">
                                     <div v-if="companyCodeJ==pro.companyCode">
                                       <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
@@ -268,8 +263,8 @@
                                     </div>
                                   </div>
                                 </td>
-                                <td style="color:#1e91e2;" v-else-if="pro.gradingStatus!==1 && pro.gradingStatus!==2 && pro.recordStatus != 4">
-                                   <div v-for="companyCodeJ in nameList">
+                                <td style="color:#1e91e2;" v-else-if="pro.examineStatus!=1  && pro.recordStatus != 4">
+                                  <div v-for="companyCodeJ in nameList">
                                     <div v-if="companyCodeJ==pro.companyCode">
                                       <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                       <a  @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication&&pro.examineStatus!=2">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication&&pro.examineStatus!=2">|</i>
@@ -281,7 +276,6 @@
                                 </td>
                                 <td style="color:#1e91e2;" v-else>
                                 </td>
-                            </tr>
                             </tr>
                         </table>
                     </div>

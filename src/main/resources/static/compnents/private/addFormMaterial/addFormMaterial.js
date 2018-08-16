@@ -67,7 +67,7 @@ var data={
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
-	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
 	                        confirmButtonText: '确定',
 	                        callback: function callback(action) {
 	                        }
@@ -81,7 +81,6 @@ var data={
                   	}
                   },
                   onUploadSuccessMethod: function(_self,responseData){
-//                  	this.$refs.refOnUpload.value = null;
                   	var topologyDescription = {fileId: '',attachName: '',uploadUrl: ''};
                   	topologyDescription.attachName = responseData.data.attachName;
                   	topologyDescription.uploadUrl = responseData.data.uploadUrl;
@@ -132,7 +131,7 @@ var data={
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
-	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
 	                        confirmButtonText: '确定',
 	                        callback: function callback(action) {
 	                        }
@@ -195,7 +194,7 @@ var data={
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
-	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
 	                        confirmButtonText: '确定',
 	                        callback: function callback(action) {
 	                        }
@@ -255,7 +254,7 @@ var data={
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
-                  	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
+                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }

@@ -115,6 +115,7 @@ var data={
                         }
                       }
                       bus.$emit('materialView',this.materialViewShow);
+                      bus.$emit("showMaterialView",this.materialViewShow);
                     },
                     // 获取安全按等级成功
                     submitGradeInfoSuccessMethod : function(_self, responseData) {

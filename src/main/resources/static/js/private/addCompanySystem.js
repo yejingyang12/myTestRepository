@@ -51,19 +51,27 @@ window.onload = function () {
           preBtnSuccessMethod : function(_self, responseData,boo) {
           	if(data.headquarters){
           		this.jurisdiction = "headquarters";
+            	if(boo){
+                data.check = false;
+                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
+              }else{
+                $(".startBox").show().delay(2000).fadeOut();
+                window.setTimeout(function () {
+                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
+                }, 2300);
+              }
           	}
           	if(data.enterprise){
-          		this.jurisdiction = "";
+            	if(boo){
+                data.check = false;
+                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+              }else{
+                $(".startBox").show().delay(2000).fadeOut();
+                window.setTimeout(function () {
+                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+                }, 2300);
+              }
           	}
-          	if(boo){
-              data.check = false;
-              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
-            }else{
-              $(".startBox").show().delay(2000).fadeOut();
-              window.setTimeout(function () {
-                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
-              }, 2300);
-            }
           },
           //下一页
           nextBtn:function(formName) {

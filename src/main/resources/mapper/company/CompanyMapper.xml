@@ -675,7 +675,9 @@
     SELECT
       companyName,
       companyCode,
-      fkPlateType
+      fkPlateType,
+      companyAddress,
+      postalCode
     FROM 
       t_cpro_company
     WHERE deleteStatus=1

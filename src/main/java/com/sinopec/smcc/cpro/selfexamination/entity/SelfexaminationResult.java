@@ -47,7 +47,7 @@ public class SelfexaminationResult {
   private Date updateTime;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private String remark;
-  
+  private String selfInspectionName;
   
   
   /**
@@ -109,6 +109,12 @@ public class SelfexaminationResult {
    */
   public void setRemark(String remark) {
     this.remark = remark;
+  }
+  public String getSelfInspectionName() {
+    return selfInspectionName;
+  }
+  public void setSelfInspectionName(String selfInspectionName) {
+    this.selfInspectionName = selfInspectionName;
   }
   public String getSelfexaminationId() {
     return selfexaminationId;

@@ -22,6 +22,34 @@ public class OrganizationApi {
 
   private String orgCode;
   private String orgName;
+  private String address;
+  private String email;
+  
+  
+  /**
+   * @return the address
+   */
+  public String getAddress() {
+    return address;
+  }
+  /**
+   * @param address the address to set
+   */
+  public void setAddress(String address) {
+    this.address = address;
+  }
+  /**
+   * @return the email
+   */
+  public String getEmail() {
+    return email;
+  }
+  /**
+   * @param email the email to set
+   */
+  public void setEmail(String email) {
+    this.email = email;
+  }
   public String getOrgCode() {
     return orgCode;
   }

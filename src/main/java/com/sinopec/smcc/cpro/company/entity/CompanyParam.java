@@ -66,21 +66,21 @@ public class CompanyParam {
   private List<String> companyList;
   private List<String> plateList;
   
-  private Integer jurisdiction;
+  private Integer jurisdictionDel;
   
   
   
   /**
-   * @return the jurisdiction
+   * @return the jurisdictionDel
    */
-  public Integer getJurisdiction() {
-    return jurisdiction;
+  public Integer getJurisdictionDel() {
+    return jurisdictionDel;
   }
   /**
-   * @param jurisdiction the jurisdiction to set
+   * @param jurisdictionDel the jurisdictionDel to set
    */
-  public void setJurisdiction(Integer jurisdiction) {
-    this.jurisdiction = jurisdiction;
+  public void setJurisdictionDel(Integer jurisdictionDel) {
+    this.jurisdictionDel = jurisdictionDel;
   }
   public List<String> getCompanyList() {
     return companyList;

@@ -49,6 +49,7 @@
                         data.nameReadonly = false;
                     },
                     handleChange:function(value) {
+                    	this.getCover();
                       if(this.selectedOptions.length>0){
                         $("#cover").removeClass('cover');
                         bus.$emit("selectedOptions",this.selectedOptions);

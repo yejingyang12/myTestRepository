@@ -22,7 +22,7 @@
                             </div>
                         </td>
                         <td class="tdSelect">
-                            <el-select v-model="formData.systemKeyProducts[index].productsNumber" filterable @change="changeNumber(formData.systemKeyProducts[index].productsNumber)">
+                            <el-select v-model="formData.systemKeyProducts[index].productsNumber" filterable @change="a()">
                                 <el-option v-for="number in sysNumber" :key="number.systemCode" :label="number.systemCode" :value="number.systemCode" ></el-option>
                             </el-select>
                         </td>
@@ -57,37 +57,37 @@
         </el-form-item>
         <div v-if="nUsePro[0]||(formData.systemKeyProducts[0].productsNumber !==''&&formData.systemKeyProducts[0].fkNationalIsProducts ===''&&formData.systemKeyProducts[0].nUseProbability ==='')||(formData.systemKeyProducts[0].productsNumber ===''&&formData.systemKeyProducts[0].fkNationalIsProducts !==''&&formData.systemKeyProducts[0].nUseProbability ==='')||(formData.systemKeyProducts[0].productsNumber !==''&&formData.systemKeyProducts[0].fkNationalIsProducts ===''&&formData.systemKeyProducts[0].nUseProbability !=='')||(formData.systemKeyProducts[0].productsNumber !==''&&formData.systemKeyProducts[0].fkNationalIsProducts !==''&&formData.systemKeyProducts[0].nUseProbability ==='')||(formData.systemKeyProducts[0].productsNumber ===''&&formData.systemKeyProducts[0].fkNationalIsProducts !==''&&formData.systemKeyProducts[0].nUseProbability !=='')">
           <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[0].productsNumber ===''"></el-form-item>
-          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[0].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
+          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[0].fkNationalIsProducts ===''"></el-form-item>
           <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[0].nUseProbability ==='' "></el-form-item>
           <el-form-item label="" prop="systemProServices" v-else-if="nUsePro[0]"></el-form-item>
         </div>
         <div v-else-if="nUsePro[1]||(formData.systemKeyProducts[1].productsNumber !==''&&formData.systemKeyProducts[1].fkNationalIsProducts ===''&&formData.systemKeyProducts[1].nUseProbability ==='')||(formData.systemKeyProducts[1].productsNumber ===''&&formData.systemKeyProducts[1].fkNationalIsProducts !==''&&formData.systemKeyProducts[1].nUseProbability ==='')||(formData.systemKeyProducts[1].productsNumber !==''&&formData.systemKeyProducts[1].fkNationalIsProducts ===''&&formData.systemKeyProducts[1].nUseProbability !=='')||(formData.systemKeyProducts[1].productsNumber !==''&&formData.systemKeyProducts[1].fkNationalIsProducts !==''&&formData.systemKeyProducts[1].nUseProbability ==='')||(formData.systemKeyProducts[1].productsNumber ===''&&formData.systemKeyProducts[1].fkNationalIsProducts !==''&&formData.systemKeyProducts[1].nUseProbability !=='')">
           <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[1].productsNumber ===''"></el-form-item>
-          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[1].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
+          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[1].fkNationalIsProducts ===''"></el-form-item>
           <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[1].nUseProbability ==='' "></el-form-item>
           <el-form-item label="" prop="systemProServices" v-else-if="nUsePro[1]"></el-form-item>
         </div>
         <div v-else-if="nUsePro[2]||(formData.systemKeyProducts[2].productsNumber !==''&&formData.systemKeyProducts[2].fkNationalIsProducts ===''&&formData.systemKeyProducts[2].nUseProbability ==='')||(formData.systemKeyProducts[2].productsNumber ===''&&formData.systemKeyProducts[2].fkNationalIsProducts !==''&&formData.systemKeyProducts[2].nUseProbability ==='')||(formData.systemKeyProducts[2].productsNumber !==''&&formData.systemKeyProducts[2].fkNationalIsProducts ===''&&formData.systemKeyProducts[2].nUseProbability !=='')||(formData.systemKeyProducts[2].productsNumber !==''&&formData.systemKeyProducts[2].fkNationalIsProducts !==''&&formData.systemKeyProducts[2].nUseProbability ==='')||(formData.systemKeyProducts[2].productsNumber ===''&&formData.systemKeyProducts[2].fkNationalIsProducts !==''&&formData.systemKeyProducts[2].nUseProbability !=='')">
           <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[2].productsNumber ===''"></el-form-item>
-          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[2].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
+          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[2].fkNationalIsProducts ===''"></el-form-item>
           <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[2].nUseProbability ==='' "></el-form-item>
           <el-form-item label="" prop="systemProServices" v-else-if="nUsePro[2]"></el-form-item>
         </div>
         <div v-else-if="nUsePro[3]||(formData.systemKeyProducts[3].productsNumber !==''&&formData.systemKeyProducts[3].fkNationalIsProducts ===''&&formData.systemKeyProducts[3].nUseProbability ==='')||(formData.systemKeyProducts[3].productsNumber ===''&&formData.systemKeyProducts[3].fkNationalIsProducts !==''&&formData.systemKeyProducts[3].nUseProbability ==='')||(formData.systemKeyProducts[3].productsNumber !==''&&formData.systemKeyProducts[3].fkNationalIsProducts ===''&&formData.systemKeyProducts[3].nUseProbability !=='')||(formData.systemKeyProducts[3].productsNumber !==''&&formData.systemKeyProducts[3].fkNationalIsProducts !==''&&formData.systemKeyProducts[3].nUseProbability ==='')||(formData.systemKeyProducts[3].productsNumber ===''&&formData.systemKeyProducts[3].fkNationalIsProducts !==''&&formData.systemKeyProducts[3].nUseProbability !=='')">
           <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[3].productsNumber ===''"></el-form-item>
-          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[3].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
+          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[3].fkNationalIsProducts ===''"></el-form-item>
           <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[3].nUseProbability ==='' "></el-form-item>
           <el-form-item label="" prop="systemProServices" v-else-if="nUsePro[3]"></el-form-item>
         </div>
         <div v-else-if="nUsePro[4]||(formData.systemKeyProducts[4].productsNumber !==''&&formData.systemKeyProducts[4].fkNationalIsProducts ===''&&formData.systemKeyProducts[4].nUseProbability ==='')||(formData.systemKeyProducts[4].productsNumber ===''&&formData.systemKeyProducts[4].fkNationalIsProducts !==''&&formData.systemKeyProducts[4].nUseProbability ==='')||(formData.systemKeyProducts[4].productsNumber !==''&&formData.systemKeyProducts[4].fkNationalIsProducts ===''&&formData.systemKeyProducts[4].nUseProbability !=='')||(formData.systemKeyProducts[4].productsNumber !==''&&formData.systemKeyProducts[4].fkNationalIsProducts !==''&&formData.systemKeyProducts[4].nUseProbability ==='')||(formData.systemKeyProducts[4].productsNumber ===''&&formData.systemKeyProducts[4].fkNationalIsProducts !==''&&formData.systemKeyProducts[4].nUseProbability !=='')">
           <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[4].productsNumber ===''"></el-form-item>
-          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[4].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
+          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[4].fkNationalIsProducts ===''"></el-form-item>
           <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[4].nUseProbability ==='' "></el-form-item>
           <el-form-item label="" prop="systemProServices" v-else-if="nUsePro[4]"></el-form-item>
         </div>
         <div v-else-if="nUsePro[5]||(formData.systemKeyProducts[5].productsNumber !==''&&formData.systemKeyProducts[5].fkNationalIsProducts ===''&&formData.systemKeyProducts[5].nUseProbability ==='')||(formData.systemKeyProducts[5].productsNumber ===''&&formData.systemKeyProducts[5].fkNationalIsProducts !==''&&formData.systemKeyProducts[5].nUseProbability ==='')||(formData.systemKeyProducts[5].productsNumber !==''&&formData.systemKeyProducts[5].fkNationalIsProducts ===''&&formData.systemKeyProducts[5].nUseProbability !=='')||(formData.systemKeyProducts[5].productsNumber !==''&&formData.systemKeyProducts[5].fkNationalIsProducts !==''&&formData.systemKeyProducts[5].nUseProbability ==='')||(formData.systemKeyProducts[5].productsNumber ===''&&formData.systemKeyProducts[5].fkNationalIsProducts !==''&&formData.systemKeyProducts[0].nUseProbability !=='')">
           <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[5].productsNumber ===''"></el-form-item>
-          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[5].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
+          <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[5].fkNationalIsProducts ===''"></el-form-item>
           <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[5].nUseProbability ==='' "></el-form-item>
           <el-form-item label="" prop="systemKeyOtherName" v-else-if="formData.systemKeyProducts[5].otherName ==='' "></el-form-item>
           <el-form-item label="" prop="systemProServices" v-else-if="nUsePro[5]"></el-form-item>
@@ -95,15 +95,15 @@
         <div v-else>
           <div v-if="formData.systemKeyProducts[5].otherName !==''||formData.systemKeyProducts[5].productsNumber !==''||formData.systemKeyProducts[5].fkNationalIsProducts !==''">
             <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[5].productsNumber ===''"></el-form-item>
-            <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[5].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
-            <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[5].nUseProbability ==='' "></el-form-item>
+            <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[5].fkNationalIsProducts ===''"></el-form-item>
+            <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[5].nUseProbability ===''"></el-form-item>
             <el-form-item label="" prop="systemKeyOtherName" v-else-if="formData.systemKeyProducts[5].otherName ==='' "></el-form-item>
           </div>
           <div v-else-if="formData.systemKeyProducts[0].productsNumber ===''&&formData.systemKeyProducts[1].productsNumber ===''&&formData.systemKeyProducts[2].productsNumber ===''&&formData.systemKeyProducts[3].productsNumber ===''&&formData.systemKeyProducts[4].productsNumber ===''&&formData.systemKeyProducts[5].productsNumber ===''">
             <el-form-item label="" prop="systemKeyProductsNumber" v-if="formData.systemKeyProducts[5].productsNumber ===''"></el-form-item>
-            <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[5].fkNationalIsProducts ===''" ref="systemKeyFkNationalIsProducts"></el-form-item>
-            <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[5].nUseProbability ==='' "></el-form-item>
-            <el-form-item label="" prop="systemKeyOtherName" v-else-if="formData.systemKeyProducts[5].otherName ==='' "></el-form-item>
+            <el-form-item label="" prop="systemKeyFkNationalIsProducts" v-else-if="formData.systemKeyProducts[5].fkNationalIsProducts ===''"></el-form-item>
+            <el-form-item label="" prop="systemKeyNUseProbability" v-else-if="formData.systemKeyProducts[5].nUseProbability ===''"></el-form-item>
+            <el-form-item label="" prop="systemKeyOtherName" v-else-if="formData.systemKeyProducts[5].otherName ===''"></el-form-item>
           </div>
         </div>
     </div>
