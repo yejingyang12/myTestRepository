@@ -144,6 +144,11 @@
     headquarters:false,
     enterprise:false,
     nameList:[]
+//    sprankLevel:"",
+//    gradingBeginTimeStamp : "",
+//    gradingEndTimeStamp : "",
+//    systemType : "",
+//    gradingShapeType : ""
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/showChartDataList/showChartDataList.html').then(function (res) {
@@ -153,7 +158,7 @@
           return data;
         },
         created: function() { 
-        	this.search();
+        	this.search(1);
         },
         methods: {
         	 submitForm:function(formName) {

@@ -8,11 +8,14 @@
  */
 package com.sinopec.smcc.cpro.main.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @Title MainParam.java
@@ -94,6 +97,108 @@ public class MainParam {
   private List<String> companyList;
   private List<String> plateList;
   
+  private String companyName;
+  private Integer[] statusArray;
+  
+  private List<Integer> gradingStatus1;//定级
+  private String gradingStatusType;
+  private List<Integer> fkExaminStatus1;//审核
+  private String fkExaminStatusType;
+  private List<Integer> recordStatus1;//备案
+  private String recordStatusType;
+  private List<Integer> evaluationStatus1;//测评
+  private String evaluationStatusType;
+  private List<Integer> examinationStatus1;//自查
+  private String examinationStatusType;
+  private List<Integer> examinStatus1;//待。。。审核
+  private String examinStatusType;
+  
+  public String getGradingStatusType() {
+    return gradingStatusType;
+  }
+  public void setGradingStatusType(String gradingStatusType) {
+    this.gradingStatusType = gradingStatusType;
+  }
+  public String getFkExaminStatusType() {
+    return fkExaminStatusType;
+  }
+  public void setFkExaminStatusType(String fkExaminStatusType) {
+    this.fkExaminStatusType = fkExaminStatusType;
+  }
+  public String getRecordStatusType() {
+    return recordStatusType;
+  }
+  public void setRecordStatusType(String recordStatusType) {
+    this.recordStatusType = recordStatusType;
+  }
+  public String getEvaluationStatusType() {
+    return evaluationStatusType;
+  }
+  public void setEvaluationStatusType(String evaluationStatusType) {
+    this.evaluationStatusType = evaluationStatusType;
+  }
+  public String getExaminationStatusType() {
+    return examinationStatusType;
+  }
+  public void setExaminationStatusType(String examinationStatusType) {
+    this.examinationStatusType = examinationStatusType;
+  }
+  public String getExaminStatusType() {
+    return examinStatusType;
+  }
+  public void setExaminStatusType(String examinStatusType) {
+    this.examinStatusType = examinStatusType;
+  }
+  public List<Integer> getGradingStatus1() {
+    return gradingStatus1;
+  }
+  public void setGradingStatus1(List<Integer> gradingStatus1) {
+    this.gradingStatus1 = gradingStatus1;
+  }
+  public List<Integer> getFkExaminStatus1() {
+    return fkExaminStatus1;
+  }
+  public void setFkExaminStatus1(List<Integer> fkExaminStatus1) {
+    this.fkExaminStatus1 = fkExaminStatus1;
+  }
+  public List<Integer> getRecordStatus1() {
+    return recordStatus1;
+  }
+  public void setRecordStatus1(List<Integer> recordStatus1) {
+    this.recordStatus1 = recordStatus1;
+  }
+  public List<Integer> getEvaluationStatus1() {
+    return evaluationStatus1;
+  }
+  public void setEvaluationStatus1(List<Integer> evaluationStatus1) {
+    this.evaluationStatus1 = evaluationStatus1;
+  }
+  public List<Integer> getExaminationStatus1() {
+    return examinationStatus1;
+  }
+  public void setExaminationStatus1(List<Integer> examinationStatus1) {
+    this.examinationStatus1 = examinationStatus1;
+  }
+  public List<Integer> getExaminStatus1() {
+    return examinStatus1;
+  }
+  public void setExaminStatus1(List<Integer> examinStatus1) {
+    this.examinStatus1 = examinStatus1;
+  }
+  public void setStatusArray(Integer[] statusArray) {
+    this.statusArray = statusArray;
+  }
+  public Integer[] getStatusArray() {
+    return statusArray;
+  }
+  
+  
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
+  }
+  public String getCompanyName() {
+    return companyName;
+  }
 
   
   
@@ -214,6 +319,7 @@ public class MainParam {
   /**
    * @return the gradingBeginTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getGradingBeginTime() {
     return gradingBeginTime;
   }
@@ -228,6 +334,7 @@ public class MainParam {
   /**
    * @return the gradingEndTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getGradingEndTime() {
     return gradingEndTime;
   }

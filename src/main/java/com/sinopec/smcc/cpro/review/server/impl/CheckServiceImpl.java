@@ -175,7 +175,7 @@ public class CheckServiceImpl implements CheckService {
     //获取已办列表
     if(checkParam.getHandlingState() == 2){
       final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
-          checkParam.getCurrentPage(), "");
+          checkParam.getCurrentPage(), "",WorkFlowConsts.CATEGORY_CODE_CPRO);
       appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTaskHaveDone.getPageIndex();
       if((appPagedTODOTaskHaveDone.getExecuteTaskList())!=null){
@@ -319,11 +319,11 @@ public class CheckServiceImpl implements CheckService {
     }
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
-    
+    checkParam.setUpdateUserName(userName);
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("企业业务审核");
+    nodeParam.setOperation("企业业务审核（定级）");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
     if (checkParam.getScoreCheckResult() == 1) {
     //通过定级审核
@@ -378,11 +378,11 @@ public class CheckServiceImpl implements CheckService {
     }
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
-    
+    checkParam.setUpdateUserName(userName);
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("总部业务审核");
+    nodeParam.setOperation("总部业务审核（定级）");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
     if (checkParam.getScoreCheckResult() == 1) {
       //通过定级审核
@@ -445,11 +445,11 @@ public class CheckServiceImpl implements CheckService {
     
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
-    
+    checkParam.setUpdateUserName(userName);
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("企业业务审核");
+    nodeParam.setOperation("企业业务审核（定级变更）");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
@@ -512,11 +512,11 @@ public class CheckServiceImpl implements CheckService {
     
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
-    
+    checkParam.setUpdateUserName(userName);
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("总部业务审核");
+    nodeParam.setOperation("总部业务审核（定级变更）");
     nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
     if (checkParam.getScoreCheckChangeResult() == 1) {
       nodeParam.setOperationResult("通过");
@@ -577,10 +577,12 @@ public class CheckServiceImpl implements CheckService {
     
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
+    checkParam.setUpdateUserName(userName);
+    
     //添加节点状态信息
     NodeParam nodeParam = new NodeParam();
     nodeParam.setSystemId(checkParam.getFkSystemId());
-    nodeParam.setOperation("企业业务审核");
+    nodeParam.setOperation("企业业务审核（撤销备案）");
     nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
     if (checkParam.getCancelRecordsResult() ==1 ) {
       nodeParam.setOperationResult("通过");

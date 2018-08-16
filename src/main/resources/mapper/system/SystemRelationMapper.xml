@@ -77,7 +77,7 @@
   	INSERT INTO t_cpro_system_relation (
 			pkId,fkSystemId,fkCompanyCode,systemName,systemSmccCode,
 			standardizedName,standardizedCode,systemIsMerge,systemSource,deleteStatus,
-			createUserName,createTime,updateTime,remark
+			createUserName,createTime,updateTime,remark,updateUserName
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
       (
@@ -233,6 +233,18 @@
 			    <when test="item.remark != null">
 			      <![CDATA[
 			        #{item.remark},
+			      ]]>
+			    </when>
+			    <otherwise>
+			      <![CDATA[
+			        DEFAULT,
+			      ]]>
+			    </otherwise>
+	  		</choose>
+	  		<choose>
+			    <when test="item.updateUserName != null">
+			      <![CDATA[
+			        #{item.updateUserName},
 			      ]]>
 			    </when>
 			    <otherwise>

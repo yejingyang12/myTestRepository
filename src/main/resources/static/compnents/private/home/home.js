@@ -7,7 +7,7 @@
         value: '1',
         label: '未定级'
       }, {
-        value: '选项2',
+        value: '2',
         label: '预定级'
       }, {
         value: '3',
@@ -251,6 +251,13 @@
                      }
                  }
            },
+ 			    deleteStatus:function(val){
+            for(var i=0;i<this.hStatus.length;i++){
+                     if(this.hStatus[i].value == val){
+                         this.hStatus[i].status = false;
+                     }
+                 }
+           },           
         	text:function(){
              $('#textArea').on("keyup",function(){
                  $('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
@@ -353,14 +360,18 @@
             var inspectionDateBegin = $("#inspectionDateBegin").val();
             var inspectionDateEnd = $("#inspectionDateEnd").val();
             var plateType =  this.checkTest;
+            var statusArray = this.value21;
             var systemCodeLevel = this.systemLevel;
 //            var systemCodeProvince = this.systemProvince;
             var customFiltering = $("#customFiltering").val();
+            this.value9 = $("#selectCompanyCode").val();
+            this.value12 = $("#acceptancecompanyName").val();
+            this.value10 = $("#evaluationCompanyName").val();
             var url = "main/queryMainList";
             var _self=this;
             var dataparmars = {
               "systemName": selectSystemName,//系统名称
-              "fkCompanyCode": this.value9,//所属单位
+              "companyName": this.value9,//所属单位
               "auditTimeBegin": applyTime,//申请开始时间
               "auditTimeEnd": applytimeend,//申请结束时间
               "acceptCompany": this.value12,//受理备案单位 
@@ -374,7 +385,7 @@
               "inspectionDateBegin": inspectionDateBegin,//自查开始时间
               "inspectionDateEnd": inspectionDateEnd,//自查结束时间
               "plTypeArray": plateType,//所属板块
-              "status":this.value21,//状态
+              "statusArray":statusArray,//状态
               "sprankLevelArray": systemCodeLevel,//等保级别
               "subordinateProvincesArray": this.value22,//地区
               "customFiltering": customFiltering,//自定义
@@ -1069,7 +1080,7 @@
           },
 
           //定级模版导出按钮
-         checkallexport:function(){ 
+          checkallexport:function(){ 
           	//window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl=/excel/gradingTemp.xlsm&attachName=定级模板.xlsm");
           	var systemIds = new Array();
           	var exportData = {

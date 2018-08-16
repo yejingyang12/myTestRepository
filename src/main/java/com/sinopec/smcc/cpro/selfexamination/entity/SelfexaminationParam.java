@@ -58,6 +58,7 @@ public class SelfexaminationParam {
   private Date createTimeBegin;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTimeEnd;
+  private String updateUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -252,6 +253,12 @@ public class SelfexaminationParam {
     this.createTimeEnd = createTimeEnd;
   }
 
+  public String getUpdateUserName() {
+    return updateUserName;
+  }
+  public void setUpdateUserName(String updateUserName) {
+    this.updateUserName = updateUserName;
+  }
   public Date getUpdateTime() {
     return updateTime;
   }

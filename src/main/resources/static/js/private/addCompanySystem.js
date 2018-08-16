@@ -49,15 +49,16 @@ window.onload = function () {
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
+          	var systemId = responseData.data;
           	if(data.headquarters){
-          		this.jurisdiction = "headquarters";
+          		this.jurisdiction = 'headquarters';
             	if(boo){
                 data.check = false;
                 window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
               }else{
                 $(".startBox").show().delay(2000).fadeOut();
                 window.setTimeout(function () {
-                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
+                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction+"&systemId="+systemId;
                 }, 2300);
               }
           	}
@@ -68,7 +69,7 @@ window.onload = function () {
               }else{
                 $(".startBox").show().delay(2000).fadeOut();
                 window.setTimeout(function () {
-                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&systemId="+systemId;
                 }, 2300);
               }
           	}

@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +65,7 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
-  @PostMapping(value = "/querySystemTrendByYear")
+  @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
   public RetResult<List<DiagramListResult>> querySystemTrendByYear(HttpServletRequest request,
       @RequestBody DiagramParam diagramParam) throws BusinessException{
     
@@ -74,7 +75,7 @@ public class ApiController {
     return RetResultUtil.ok(diagramListResult);
   }
   
-  /**
+  /** 
    * @Descrption 获取定级信息
    * @author dongxu
    * @date 2018年7月17日上午11:10:08
@@ -85,7 +86,7 @@ public class ApiController {
    */
   @RequestMapping(value = "/getGradingInformation", method = RequestMethod.POST)
   public RetResult<GradingApiResult> getGradingInformation(
-      @RequestParam("systemId") String systemId) throws BusinessException{
+      @RequestParam(value="systemId",required=true) String systemId) throws BusinessException{
     // 调用service实体，获得
     GradingApiResult gradingApiResult = this.apiServiceImpl.getGradingInformation(systemId);
     return RetResultUtil.ok(gradingApiResult);
@@ -100,6 +101,7 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
+  @RequestMapping(value = "/getStayListByUserId", method = RequestMethod.POST)
   public RetResult<PageUtil> getStayHandle(@RequestBody UsmgParams usmgParams,
       @RequestParam("userId") String userId)throws BusinessException{
     // 调用service实体，获得

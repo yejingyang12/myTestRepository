@@ -112,7 +112,7 @@
         createUserName,remark,ldContactName,rDepartment,compPrincipalEm,
         deleteStatus,ldContactPhone,administrativeNum,compPrincipalPhone,companyCode,
         compPrincipalPost,ldContactPost,updateTime,gpReportingComp,createTime,
-        companyAddress,ldContactWorkTel,compPrincipalName
+        companyAddress,ldContactWorkTel,compPrincipalName,updateUserName
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -442,6 +442,18 @@
             ]]>
           </otherwise>
         </choose>
+        <choose>
+          <when test="updateUserName != null and updateUserName != ''">
+            <![CDATA[
+              #{updateUserName},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
       </trim>				                					                
     )
     ON DUPLICATE KEY UPDATE
@@ -511,7 +523,10 @@
         </if>
         <if test="gpReportingComp != null and gpReportingComp !='' ">
       		gpReportingComp = #{gpReportingComp},
-        </if> 
+        </if>
+        <if test="updateUserName != null and updateUserName != ''">
+        	updateUserName = #{updateUserName},
+        </if>
       </trim>
   </insert> 
   <update id="updateCompanyByCompanyIds" parameterType="com.sinopec.smcc.cpro.company.entity.CompanyParam">

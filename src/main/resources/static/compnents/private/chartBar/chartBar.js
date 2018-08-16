@@ -279,17 +279,17 @@
   	         console.log(gradingEndTimeStamp )
   	         console.log(systemType)
   	         console.log(gradingShapeType)*/
-       	     gradingBeginTimeStamp = new Date("1970/01/01").getTime();
+       	     gradingBeginTimeStamp = new Date("1970-01-01 00:00:00").getTime();
            if(_self.val1){
           	 //因为时间戳与json存到数据库中数据有8小时时差，所以查询的时候加8个小时的时间
-             gradingBeginTimeStamp = _self.val1.getTime()+8*60*60*1000;//时间戳
+             gradingBeginTimeStamp = _self.val1.getTime();//时间戳
            }  
-           gradingEndTimeStamp = new Date().getTime();
+           gradingEndTimeStamp = new Date("9999-12-31 00:00:00").getTime();
            if(_self.val3){
-         	  gradingEndTimeStamp = _self.val3.getTime()+8*60*60*1000;//时间戳
+         	  gradingEndTimeStamp = _self.val3.getTime();//时间戳
            }
            if(gradingShapeType == 'undefined' || gradingShapeType == null){
-          	 gradingShapeType = ""
+          	 gradingShapeType = "";
            }
            window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
  /*               window.location.href = "http://echarts.baidu.com/examples/editor.html";

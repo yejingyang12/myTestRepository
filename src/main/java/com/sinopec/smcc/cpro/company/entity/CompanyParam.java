@@ -48,6 +48,7 @@ public class CompanyParam {
   private String gpReportingComp;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  private String updateUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String companyAddress;
@@ -81,6 +82,12 @@ public class CompanyParam {
    */
   public void setJurisdictionDel(Integer jurisdictionDel) {
     this.jurisdictionDel = jurisdictionDel;
+  }
+  public String getUpdateUserName() {
+    return updateUserName;
+  }
+  public void setUpdateUserName(String updateUserName) {
+    this.updateUserName = updateUserName;
   }
   public List<String> getCompanyList() {
     return companyList;

@@ -166,7 +166,7 @@
           },
           //不同等保级别系统在不同等保管理状态下详情-类型
           getGradingShapeType:function(){
-        	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);     
+        	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
         	  if(this.gradingShapeType != null &&  this.gradingShapeType != 'undefined'){
         	  	if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
         	  		var begin = new Date(this.gradingShapeBegin);
@@ -174,8 +174,8 @@
           			var end = new Date(this.gradingShapeEnd);
           			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();
         	  	}else{
-        	  		var begin = new Date("1970-01-01").getTime();
-        	  		var end = new Date().getTime();
+        	  		var begin = "1970-01-01";
+        	  		var end = "9999-12-31";
         	  	}
         	  	var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
         	  	bus.$emit("gradingShapeEnd",dataparmars);        				

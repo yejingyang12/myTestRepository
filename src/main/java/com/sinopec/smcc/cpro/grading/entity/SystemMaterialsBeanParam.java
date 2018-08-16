@@ -32,6 +32,7 @@ public class SystemMaterialsBeanParam {
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  private String updateUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
@@ -87,6 +88,12 @@ public class SystemMaterialsBeanParam {
   }
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+  public String getUpdateUserName() {
+    return updateUserName;
+  }
+  public void setUpdateUserName(String updateUserName) {
+    this.updateUserName = updateUserName;
   }
   public Date getUpdateTime() {
     return updateTime;

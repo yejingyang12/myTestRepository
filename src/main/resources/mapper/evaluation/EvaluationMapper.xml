@@ -120,7 +120,8 @@
       rectificationDate,
       createTime,
       createUserName,
-      deleteStatus
+      deleteStatus,
+      updateUserName
     )VALUES(
     <trim suffixOverrides=",">
       #{evaluationId},
@@ -206,6 +207,14 @@
           DEFAULT,
         </otherwise>
       </choose>
+      <choose>
+        <when test="updateUserName != null">
+          #{updateUserName},
+        </when>
+        <otherwise>
+          DEFAULT,
+        </otherwise>
+      </choose>
     </trim>
     ) ON DUPLICATE KEY UPDATE 
     <if test="examName != null">
@@ -225,6 +234,9 @@
     </if>
     <if test="rectificationDate != null">
 	    rectificationDate=#{rectificationDate},
+    </if>
+    <if test="updateUserName != null">
+	    updateUserName=#{updateUserName},
     </if>
     fkExamStatus=#{fkExamStatus},
     fkRectificationReu=#{fkRectificationReu}

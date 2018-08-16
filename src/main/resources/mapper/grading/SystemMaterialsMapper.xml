@@ -159,7 +159,7 @@
   <insert id="insertSystemMaterialsBean" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam">
   	INSERT INTO t_cpro_provide_system_material
       (
-        pkId,fkSystemId,deleteStatus,createUserName,createTime,updateTime,remark
+        pkId,fkSystemId,deleteStatus,createUserName,createTime,updateTime,remark,updateUserName
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -228,9 +228,24 @@
            ]]>
          </otherwise>
         </choose>
+        <choose>
+         <when test="updateUserName != null and updateUserName != ''">
+           <![CDATA[
+             #{updateUserName},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
      </trim>
      ) ON DUPLICATE KEY UPDATE
      pkId = #{systemMaterialsId},
+     <if test="updateUserName != null">
+     	updateUserName = #{updateUserName},
+     </if>
      fkSystemId = #{fkSystemId}
   </insert>
   

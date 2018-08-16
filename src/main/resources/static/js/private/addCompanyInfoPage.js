@@ -13,7 +13,11 @@ window.onload = function () {
             bus.$emit('formName',formName);
           },
           submitHandlerSuccessMethod: function(_self,returnData){
-            window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + returnData.data+"&companyCode="+data.formData.companyCode;
+          	if(systemId!='' && systemId!='undefind' && systemId!=null){
+          		window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + returnData.data+"&companyCode="+data.formData.companyCode+"&systemId="+systemId;
+          	}else{
+          		window.location.href = originUrl+"page/addCompanySystemPage?companyId=" + returnData.data+"&companyCode="+data.formData.companyCode;
+          	}
           },
           //返回
           returnBtn:function() {

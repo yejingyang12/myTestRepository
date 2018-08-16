@@ -19,6 +19,7 @@
     <result column="deleteStatus" property="deleteStatus"/>
     <result column="createUserName" property="createUserName"/>
     <result column="createTime" property="createTime"/>
+    <result column="updateUserName" property="updateUserName"/>
     <result column="updateTime" property="updateTime"/>
     <result column="remark" property="remark"/>
     <result column="expertReviewId" property="expertReviewId"/>
@@ -233,6 +234,11 @@
           examine.executeTime = #{executeTime},
       	]]>
       </if>
+      <if test="updateUserName != null">
+      	<![CDATA[
+          examine.updateUserName = #{updateUserName},
+      	]]>
+      </if>
     </set>
     <where>
     	<![CDATA[
@@ -296,6 +302,11 @@
           executeTime = #{executeTime}
         ]]>
       </if>
+      <if test="updateUserName != null">
+      	<![CDATA[
+          updateUserName = #{updateUserName},
+      	]]>
+      </if>
     </set>
     <where>
       <![CDATA[
@@ -310,7 +321,7 @@
       pkId,fkSystemId,fkExaminStatus,fkBusinessNode,instanceName,
       initiator,prevExecutor,executeTime,scoreCheckResult,scoreCheckReason,
       scoreCheckChangeResult,scoreCheckChangeReason,cancelRecordsResult,cancelRecordsReason,
-      deleteStatus,createUserName,createTime,updateTime,remark
+      deleteStatus,createUserName,createTime,updateTime,remark,updateUserName
       )VALUES(
         <trim suffixOverrides="," >
           <![CDATA[
@@ -532,6 +543,18 @@
               ]]>
             </otherwise>
           </choose>
+          <choose>
+            <when test="updateUserName != null and updateUserName != ''">
+              <![CDATA[
+                #{updateUserName},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
         </trim>
       )
        ON DUPLICATE KEY UPDATE
@@ -571,6 +594,9 @@
         </if>
         <if test="cancelRecordsReason != null and cancelRecordsReason !='' ">
           cancelRecordsReason = #{cancelRecordsReason},
+        </if>
+        <if test="updateUserName != null and updateUserName !='' ">
+          updateUserName = #{updateUserName},
         </if>
       </trim>
   </insert>

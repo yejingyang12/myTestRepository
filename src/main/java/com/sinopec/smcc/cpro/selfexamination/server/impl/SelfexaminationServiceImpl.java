@@ -84,6 +84,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
   @Override
   public String saveSelfexamination(String userName, 
       SelfexaminationParam selfexaminationParam) throws BusinessException {
+    selfexaminationParam.setUpdateUserName(userName);
     if(StringUtils.isBlank(selfexaminationParam.getSelfexaminationId())) {
       selfexaminationParam.setSelfexaminationId(Utils.getUuidFor32());
       selfexaminationParam.setCreateTime(new Date());

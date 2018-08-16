@@ -43,6 +43,7 @@ public class RecordsParam {
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  private String updateUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
@@ -277,6 +278,12 @@ public class RecordsParam {
    */
   public void setCreateTime(Date createTime) {
     this.createTime = createTime;
+  }
+  public String getUpdateUserName() {
+    return updateUserName;
+  }
+  public void setUpdateUserName(String updateUserName) {
+    this.updateUserName = updateUserName;
   }
   /**
    * @return the updateTime

@@ -109,7 +109,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     border-left:1px solid #cecece;
 }
 .useData span i{
-    display: block;
+    display: inline-block;
 }
 .el-icon-date:before{
 	display:none;

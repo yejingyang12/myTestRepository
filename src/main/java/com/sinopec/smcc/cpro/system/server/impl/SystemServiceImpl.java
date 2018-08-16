@@ -274,9 +274,10 @@ public class SystemServiceImpl implements SystemService {
     List<SystemRelationParam> systemRelationList = new ArrayList<SystemRelationParam>();
     //组装合并父系统
     systemParam.setSystemId(Utils.getUuidFor32());
+    systemParam.setUpdateUserName(userName);
     systemParam.setExamineStatus(1);
     systemParam.setExaminationStatus(1);
-    systemParam.setSubIsSystem(2);
+//   systemParam.setSubIsSystem(2);
     if (systemParam.getFkSystemIsMerge() == 1) {
       systemParam.setFkSystemType(2);
     }else if(systemParam.getFkSystemIsMerge() == 2){
@@ -307,6 +308,7 @@ public class SystemServiceImpl implements SystemService {
       systemRelationParam.setStandardizedCode(systemParam.getStandardizedCode());
       systemRelationParam.setCreateTime(new Date());
       systemRelationParam.setCreateUserName(userName);
+      systemRelationParam.setUpdateUserName(userName);
       systemRelationList.add(systemRelationParam);
     }
     
@@ -376,6 +378,7 @@ public class SystemServiceImpl implements SystemService {
           systemParamSub.setFkFatherSystemId(systemParam.getSystemId());
           systemParamSub.setCompanyName(systemParam.getCompanyName());
           systemParamSub.setFatherCompanyName(systemParam.getCompanyName());
+          systemParamSub.setUpdateUserName(userName);
           subSystemList.add(systemParamSub);
           
           //组装合并父系统的系统关联表信息
@@ -390,6 +393,7 @@ public class SystemServiceImpl implements SystemService {
           systemRelationParam.setStandardizedCode(systemParamSub.getStandardizedCode());
           systemRelationParam.setCreateTime(new Date());
           systemRelationParam.setCreateUserName(userName);
+          systemRelationParam.setUpdateUserName(userName);
           systemRelationList.add(systemRelationParam);
           
           //组装合并子系统的关键产品信息
@@ -501,6 +505,7 @@ public class SystemServiceImpl implements SystemService {
   List<SystemUseServices> subSystemUseServicesList = new ArrayList<SystemUseServices>();
   
   SystemResult systemFather = this.systemMapper.selectSystem(systemParam);
+  systemParam.setUpdateUserName(userName);
   //添加新的关联表信息的list
   List<SystemRelationParam> systemRelationParamList = new ArrayList<SystemRelationParam>();
   
@@ -516,6 +521,7 @@ public class SystemServiceImpl implements SystemService {
       //修改系统关联表信息
       systemTempParam.addSystemParam(systemParam);
       systemTempParam.setSystemId(systemSubParam.getSystemId());
+      systemTempParam.setUpdateUserName(userName);
       systemParamAddList.add(systemTempParam);
       for(SystemParam systemParamSon : systemParam.getAddSystemSub()){
         //如果已有子系统与新提交的子系统Code相同，则sonBoo为true，不进行删除
@@ -764,6 +770,7 @@ public class SystemServiceImpl implements SystemService {
           revoke.setFkSystemId(systemSubParam.getSystemId());
           revoke.setRevokereason(revokeRecordsResult.getRevokereason());
           revoke.setFkrevokematter(Integer.parseInt(revokeRecordsResult.getFkrevokematter()));
+          revoke.setUpdateUserName(userName);
           this.recordsMapperImpl.updateRecordsBySystemIdForRevokeRecords(revoke);
         }
         //创建子测评信息
@@ -794,6 +801,7 @@ public class SystemServiceImpl implements SystemService {
             if(StringUtils.isNotBlank(evaluationListResult.getExamName())){
               evaluation.setExamName(evaluationListResult.getExamName());
             }
+            evaluation.setUpdateUserName(userName);
             this.evaluationMapperImpl.saveEvaluationByEvaluationId(evaluation);
             
             if(StringUtils.isNotBlank(evaluationListResult.getExamReport())){
@@ -841,7 +849,8 @@ public class SystemServiceImpl implements SystemService {
             selfexamination.setSelfexaminationId(Utils.getUuidFor32());
             selfexamination.setCreateTime(selfexaminationListResult.getCreateTime());
             selfexamination.setDeleteStatus(1);
-            selfexamination.setCreateUserName("admin");
+            selfexamination.setCreateUserName(userName);
+            selfexamination.setUpdateUserName(userName);
             selfexamination.setFkSystemId(systemSubParam.getSystemId());
             selfexamination.setInspectionDate(selfexaminationListResult.getInspectionDate());
             selfexamination.setFkInspectionStatus(
@@ -921,6 +930,7 @@ public class SystemServiceImpl implements SystemService {
         systemParamDel.setSystemId(systemSubParam.getSystemId());
         systemParamDel.setFkFatherSystemId("");
         systemParamDel.setFkSystemType(1);
+        systemParamDel.setUpdateUserName(userName);
         systemDelete.add(systemParamDel);
         this.systemMapper.updateSubStat(systemDelete);
         //修改状态
@@ -931,30 +941,11 @@ public class SystemServiceImpl implements SystemService {
         systemParamUp.setRecordStatus(systemFather.getRecordStatus());
         systemParamUp.setEvaluationStatus(systemFather.getEvaluationStatus());
         systemParamUp.setExaminationStatus(systemFather.getExaminationStatus());
+        systemParamUp.setUpdateUserName(userName);
         this.systemMapper.updateSystemStatusBySystemId(systemParamUp);
       }
       this.systemMapper.updateSystemEdit(systemTempParam);
     }
-      
-      //准备添加新子系统信息
-      for (SystemSubResult systemSubParam : subSystemList) {
-        SystemParam systemTempParam = new SystemParam();
-        systemTempParam.addSystemParam(systemParam);
-        systemTempParam.setSystemId(systemSubParam.getSystemId());
-        //如果是新添加子系统
-        if(sum == 0){
-          if(systemParam.getAddSystemSub().size() > subSystemList.size()){
-            for (int i = systemParam.getAddSystemSub().size(); i >= 0; i--) {
-              if(i < subSystemList.size()){
-                systemParam.getAddSystemSub().remove(i);
-              }
-            }
-            this.saveSonSystem(systemParam);
-          }
-          sum = 1;
-        }
-        this.systemMapper.updateSystemEdit(systemTempParam);
-      }
 	    
 	    //获取系统所有已有的未删除的关联表信息
 	    SystemRelationParam querySystemRelationListParam = new SystemRelationParam();
@@ -1020,6 +1011,7 @@ public class SystemServiceImpl implements SystemService {
           systemRelationParam.setStandardizedCode(systemNewSonParam.getStandardizedCode());
           systemRelationParam.setCreateTime(new Date());
           systemRelationParam.setCreateUserName(userName);
+          systemRelationParam.setUpdateUserName(userName);
           systemRelationParamList.add(systemRelationParam);
         }
       }
@@ -1055,7 +1047,27 @@ public class SystemServiceImpl implements SystemService {
 	        subSystemUseServicesList.add(SystemUseServices);
 	      }
       }
-	    
+
+      
+      //准备添加新子系统信息
+      for (SystemSubResult systemSubParam : subSystemList) {
+        SystemParam systemTempParam = new SystemParam();
+        systemTempParam.addSystemParam(systemParam);
+        systemTempParam.setSystemId(systemSubParam.getSystemId());
+        //如果是新添加子系统
+        if(sum == 0){
+          if(systemParam.getAddSystemSub().size() > subSystemList.size()){
+            for (int i = systemParam.getAddSystemSub().size(); i >= 0; i--) {
+              if(i < subSystemList.size()){
+                systemParam.getAddSystemSub().remove(i);
+              }
+            }
+            this.saveSonSystem(systemParam);
+          }
+          sum = 1;
+        }
+        this.systemMapper.updateSystemEdit(systemTempParam);
+      }
 	  }else{
 	    //添加系统子表
       for (int key = 0; key < subKeyList.size(); key++) {
@@ -3931,6 +3943,7 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
+  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleWarn27(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -3972,6 +3985,7 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
+  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleWarn25(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -4012,6 +4026,7 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
+  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleTimeWarn(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -4048,6 +4063,7 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
+  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyleWarn(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -4081,6 +4097,7 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
+  @SuppressWarnings("deprecation")
   private HSSFCellStyle getStyle(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();
@@ -4113,6 +4130,7 @@ public class SystemServiceImpl implements SystemService {
    * @param workbook
    * @return
    */
+  @SuppressWarnings("deprecation")
   private HSSFCellStyle getColumnTopStyle(HSSFWorkbook workbook) {
     // 设置字体
     HSSFFont font = workbook.createFont();

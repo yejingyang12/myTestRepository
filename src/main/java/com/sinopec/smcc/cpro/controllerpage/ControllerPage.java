@@ -44,10 +44,11 @@ public class ControllerPage {
   @RequestMapping("/addCompanyInfoPage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String addCompanyInfoPagePage( Model model,
-      CompanyParam companyParam,@ModelAttribute("jurisdiction")String jurisdiction){
+      CompanyParam companyParam,@ModelAttribute("jurisdiction")String jurisdiction,@ModelAttribute("systemId")String systemId){
     model.addAttribute("companyId", companyParam.getCompanyId());
     model.addAttribute("companyCode", companyParam.getCompanyCode());
     model.addAttribute("jurisdiction",jurisdiction);
+    model.addAttribute("systemId",systemId);
     return "views/addCompanyInfoPage";
   }
   //新建系统信息填写

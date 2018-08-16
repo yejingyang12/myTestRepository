@@ -240,6 +240,13 @@
           AND records.recordDate >= #{customizedSearch,jdbcType=DATE}
         ]]>
       </if>
+      <!-- 所属单位 -->
+      <if test="companyName != null and companyName != ''">
+        <bind name="companyName" value="'%' + _parameter.companyName + '%'" />
+        <![CDATA[
+          AND company.companyName LIKE #{companyName,jdbcType=CHAR}
+        ]]>
+      </if>      
       <!-- 受理备案单位 -->
       <if test="acceptCompany != null and acceptCompany != ''">
         <bind name="acceptCompany" value="'%' + _parameter.acceptCompany + '%'" />
@@ -407,6 +414,76 @@
           ]]>
         </foreach>
       </if>
+           
+      <if test="gradingStatus1 !=null and gradingStatusType == '23'">
+<!-- 				<foreach collection="gradingStatus1" item="item" open="AND (" close=")" index="index" separator=",">
+					 system.gradingStatus = #{item}
+				</foreach> -->
+          <![CDATA[
+          AND system.gradingStatus IN  
+        ]]>
+        <foreach collection="gradingStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>
+      
+      <if test="fkExaminStatus1 !=null and fkExaminStatusType == '24'">
+          <![CDATA[
+          AND system.examineStatus IN  
+        ]]>
+        <foreach collection="fkExaminStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if> 
+      
+      <if test="recordStatus1 !=null and recordStatusType == '25'">
+          <![CDATA[
+          AND system.recordStatus IN  
+        ]]>
+        <foreach collection="recordStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>  
+      
+      <if test="evaluationStatus1 !=null and evaluationStatusType == '26'">
+          <![CDATA[
+          AND system.evaluationStatus IN  
+        ]]>
+        <foreach collection="evaluationStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>
+      
+      <if test="examinationStatus1 !=null and examinationStatusType == '27'">
+          <![CDATA[
+          AND system.examinationStatus IN  
+        ]]>
+        <foreach collection="examinationStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if> 
+      
+      <if test="examinStatus1 !=null and examinStatusType == '28'">
+          <![CDATA[
+          AND system.examineStatus IN  
+        ]]>
+        <foreach collection="examinStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>                          
+      
       <!-- 等级 -->
       <if test="sprankLevel != null and sprankLevel != ''">
       	<![CDATA[
@@ -486,7 +563,7 @@
       </if>
     </where>
      <![CDATA[
-       GROUP BY rcordSort DESC,system.createTime DESC
+       ORDER BY rcordSort DESC,system.createTime DESC
     ]]>
   </select>
   <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">

@@ -49,7 +49,7 @@
         pkId,fkSystemId,fkrevokematter,recordCode,recordCompany,
         recordDate,acceptCompany,acceptDate,acceptReason,revokereason,
         revokecontent,deleteStatus,createUserName,updateTime,createTime,
-        remark
+        remark,updateUserName
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -235,6 +235,18 @@
             ]]>
           </otherwise>
         </choose>
+        <choose>
+          <when test="updateUserName != null and updateUserName != ''">
+            <![CDATA[
+              #{updateUserName},
+            ]]>
+          </when>
+          <otherwise>
+            <![CDATA[
+              DEFAULT,
+            ]]>
+          </otherwise>
+        </choose>
       </trim>				                					                
     )
     ON DUPLICATE KEY UPDATE
@@ -253,6 +265,9 @@
       </if>
       <if test="acceptCompany != null and acceptCompany !='' ">
     		acceptCompany = #{acceptCompany},
+      </if>
+      <if test="updateUserName != null and updateUserName !='' ">
+    		updateUserName = #{updateUserName},
       </if>
     </trim>
   </insert> 
@@ -286,6 +301,9 @@
   <update id="updateRecordsBySystemIdForRevokeRecords" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam">
   	UPDATE t_cpro_records 
   	SET revokereason = #{revokereason},fkrevokematter = #{fkrevokematter} 
+  	<if test="">
+  		,updateUserName = #{updateUserName}
+  	</if>
     WHERE fkSystemId = #{fkSystemId} 
   </update>
   <!-- 获取撤销备案信息 -->

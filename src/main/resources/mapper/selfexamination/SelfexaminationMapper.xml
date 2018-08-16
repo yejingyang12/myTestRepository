@@ -87,7 +87,7 @@
 		INSERT into t_cpro_self_inspection(
 			pkId,fkSystemId,fkInspectionStatus,fkInspectionReu,
 			fkRectificationReu,inspectionDate,rectificationDate,deleteStatus,
-			createUserName,createTime,updateTime,remark,selfInspectionName
+			createUserName,createTime,updateTime,remark,selfInspectionName,updateUserName
 		) values(
 			<trim suffixOverrides="," >
 				<choose>
@@ -194,6 +194,14 @@
 						DEFAULT,
 					</otherwise>
 				</choose>
+				<choose>
+					<when test="updateUserName != null and updateUserName != ''">
+						#{updateUserName},
+					</when>
+					<otherwise>
+						DEFAULT,
+					</otherwise>
+				</choose>
 			</trim>
 		) ON DUPLICATE KEY UPDATE
 			fkInspectionStatus = #{fkInspectionStatus},
@@ -202,6 +210,9 @@
 			</if>
 			<if test="selfInspectionName != null">
 				selfInspectionName = #{selfInspectionName},
+			</if>
+			<if test="updateUserName != null">
+				updateUserName = #{updateUserName},
 			</if>
 			<if test="rectificationDate != null">
 				rectificationDate = #{rectificationDate},
@@ -242,6 +253,9 @@
   <update id="updateSelfexaminationDeleteStatusBySelfexaminationId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
   	UPDATE t_cpro_self_inspection
 		SET deleteStatus = 2
+		<if test="">
+			,updateUserName = #{updateUserName}
+		</if>
 		WHERE
 			pkId = #{selfexaminationId}
   </update>

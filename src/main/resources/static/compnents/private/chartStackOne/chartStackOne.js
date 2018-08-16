@@ -188,6 +188,7 @@
                   meg, 'json',
                  'application/json;charset=UTF-8',
                  function(_self,result){
+            		 	 
 	            		 if(result.data != null && result.data !=''){
 	            			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
@@ -228,7 +229,7 @@
                    function(_self,result){
               		 if(result.data != null && result.data !=''){
               			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[1].data=[0,0,0,0,0,0,d0,0,0,0];
               			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
@@ -251,14 +252,14 @@
               				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
   	                     dangerouslyUseHTMLString: true
   	            		 	 });
-              				 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
-                			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
-                			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
-                			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
-                			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
-                			 _self.option.xAxis.data = [];
-                			 data.myChart.setOption(data.option, true);
               			 }
+              			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+              			 _self.option.xAxis.data = [];
+              			 data.myChart.setOption(data.option, true);
               		 }
               	 });
                });  

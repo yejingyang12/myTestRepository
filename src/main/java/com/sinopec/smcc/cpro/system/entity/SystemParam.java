@@ -58,6 +58,7 @@ public class SystemParam {
   private String changeContent;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
+  private String updateUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private Integer fkInfoSysTypeCon;
@@ -105,6 +106,12 @@ public class SystemParam {
    */
   public void setTheLastStep(String theLastStep) {
     this.theLastStep = theLastStep;
+  }
+  public String getUpdateUserName() {
+    return updateUserName;
+  }
+  public void setUpdateUserName(String updateUserName) {
+    this.updateUserName = updateUserName;
   }
   public String getActiveName() {
     return activeName;

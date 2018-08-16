@@ -40,7 +40,8 @@
       (
         pkId,fkSystemId,fkBizSPRankDegree,fkBizSPRankLevel,fkBizSystemDegree,fkBizSystemLevel,
         fkSpRanklevel,expertView,rankExplainDesc,rankTime,competentIsExisting,competentName,
-        competentView,filler,fillDate,deleteStatus,createUserName,createTime,updateTime,remark
+        competentView,filler,fillDate,deleteStatus,createUserName,createTime,updateTime,remark,
+        updateUserName
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -265,6 +266,18 @@
            ]]>
          </otherwise>
         </choose>
+        <choose>
+         <when test="updateUserName != null and updateUserName != ''">
+           <![CDATA[
+             #{updateUserName},
+           ]]>
+         </when>
+         <otherwise>
+           <![CDATA[
+             DEFAULT,
+           ]]>
+         </otherwise>
+        </choose>
      </trim>
      ) ON DUPLICATE KEY UPDATE
      pkId = #{gradingId},
@@ -283,6 +296,9 @@
      </if>
      <if test="filler != null">
 	     filler = #{filler},
+     </if>
+     <if test="updateUserName != null">
+	     updateUserName = #{updateUserName},
      </if>
      <choose>
      	<when test="fillDate != null">

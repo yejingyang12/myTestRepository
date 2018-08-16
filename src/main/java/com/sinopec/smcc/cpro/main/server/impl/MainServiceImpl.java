@@ -154,11 +154,10 @@ public class MainServiceImpl implements MainService{
       }
     }else {
       //默认排序规则
-//      orderBy.append("rcordSort DESC,system.createTime DESC");
+//    orderBy.append("system.createTime DESC");
     }
-   
     //处理高级查询状态
-    if(mainParam.getStatus() != null){
+    if(mainParam.getStatusArray() != null){
       this.handleStatus(mainParam);
     }
     //获得相应列表数据
@@ -1130,13 +1129,16 @@ public class MainServiceImpl implements MainService{
     systemParam.setSystemId(mainParam.getSystemId());
     SystemResult systemResult = systemServiceImpl.queryDetailsSystem(systemParam);
     if(systemResult != null){
-      //系统名称
-      if(StringUtils.isNotBlank(systemResult.getSystemName())){
-        dataMap.put("systemName", systemResult.getSystemName());
-      }else if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
+      //系统名称  及表头系统名称
+      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
         dataMap.put("systemName", systemResult.getGradeRecordSysName());
+        dataMap.put("graRecSysName", systemResult.getGradeRecordSysName());
+      }else if(StringUtils.isNotBlank(systemResult.getSystemName())){
+        dataMap.put("systemName", systemResult.getSystemName());
+        dataMap.put("graRecSysName", systemResult.getSystemName());
       }else{
         dataMap.put("systemName", "");
+        dataMap.put("graRecSysName", "");
       }
       //系统编号
       if(StringUtils.isNotBlank(systemResult.getStandardizedCode())){
@@ -1240,7 +1242,7 @@ public class MainServiceImpl implements MainService{
       //网络性质
       String natType = "";
       if(StringUtils.isNotBlank(systemResult.getNpNetworkProperties())){
-        if(systemResult.getNpNetworkProperties().equals("局域网")){
+        if(systemResult.getNpNetworkProperties().equals("业务专网")){
           dataMap.put("nat1", "✓");
           natType = "nat1";
         }else if(systemResult.getNpNetworkProperties().equals("互联网")){
@@ -1796,7 +1798,7 @@ public class MainServiceImpl implements MainService{
       }
       //系统是否是分系统
       if(systemResult.getSubIsSystem() != null){
-        if(systemResult.getSubIsSystem().equals("1")){
+        if(systemResult.getSubIsSystem() == 1){
           dataMap.put("bra1", "✓");
           dataMap.put("bra2", "□");
         }else{
@@ -2071,6 +2073,20 @@ public class MainServiceImpl implements MainService{
     GradingParam gradingParam = new GradingParam();
     gradingParam.setFkSystemId(mainParam.getSystemId());
     GradingListResult gradingListResult = gradingServiceImpl.queryEditGrading(gradingParam);
+    //获取系统信息
+    SystemParam systemParam = new SystemParam();
+    systemParam.setSystemId(mainParam.getSystemId());
+    SystemResult systemResult = systemServiceImpl.queryDetailsSystem(systemParam);
+    if(systemResult != null){
+      //表头系统名称
+      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
+        dataMap.put("graRecSysName", systemResult.getGradeRecordSysName());
+      }else if(StringUtils.isNotBlank(systemResult.getSystemName())){
+        dataMap.put("graRecSysName", systemResult.getSystemName());
+      }else{
+        dataMap.put("graRecSysName", "");
+      }
+    }
     String selected = "";
     if(gradingListResult != null){
       //确定业务信息安全保护等级
@@ -2338,6 +2354,21 @@ public class MainServiceImpl implements MainService{
     attachMaterialsParam.setFkSystemId(mainParam.getSystemId());
     List<AttachMaterialsListResult> attachMaterialsListResultList 
       = attachMaterialsServiceImpl.queryEditAttach(attachMaterialsParam);
+    
+    //获取系统信息
+    SystemParam systemParam = new SystemParam();
+    systemParam.setSystemId(mainParam.getSystemId());
+    SystemResult systemResult = systemServiceImpl.queryDetailsSystem(systemParam);
+    if(systemResult != null){
+      //表头系统名称
+      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
+        dataMap.put("graRecSysName", systemResult.getGradeRecordSysName());
+      }else if(StringUtils.isNotBlank(systemResult.getSystemName())){
+        dataMap.put("graRecSysName", systemResult.getSystemName());
+      }else{
+        dataMap.put("graRecSysName", "");
+      }
+    }
     if(!ObjectUtils.isEmpty(attachMaterialsListResultList)){
       //计数器
       int topologyCount = 0;
@@ -2650,82 +2681,122 @@ public class MainServiceImpl implements MainService{
    */
   @Override
   public void handleStatus(MainParam mainParam) throws BusinessException {
-    if(mainParam.getStatus() == 1){
-      mainParam.setSystemCodeType("23");
-      mainParam.setGradingStatus("1");
-    }
-    if(mainParam.getStatus() == 2){
-      mainParam.setSystemCodeType("23");
-      mainParam.setGradingStatus("2");
-    }
-    if(mainParam.getStatus() == 3){
-      mainParam.setSystemCodeType("23");
-      mainParam.setGradingStatus("3");
-    }
-    //状态为未审核，则查询未定级
-    if(mainParam.getStatus() == 4 ){
-      mainParam.setSystemCodeType("23");
-      mainParam.setGradingStatus("1");
-    }
-    //状态为待审核，查询审核状态为：
-    //1：待企业安全员管理审核；
-    //2：待总部安全管理员审核；
-    /*if(mainParam.getStatus() == 5){
+    
+    List<Integer> gradingStatus = new ArrayList<Integer>();//定级
+    List<Integer> fkExaminStatus = new ArrayList<Integer>();//审核
+    List<Integer> recordStatus = new ArrayList<Integer>();//备案
+    List<Integer> evaluationStatus = new ArrayList<Integer>();//测评
+    List<Integer> examinationStatus = new ArrayList<Integer>();//自查
+    List<Integer> examinStatus = new ArrayList<Integer>();//待。。。审核
+    
+    Integer[] stsusArray = mainParam.getStatusArray();
+    for (int i = 0; i < stsusArray.length; i++) {
+      if(stsusArray[i] == 1){//未定级
+        mainParam.setGradingStatusType("23");
+//        mainParam.setGradingStatus("1");
+        gradingStatus.add(1);
+      }
+      if(stsusArray[i] == 2){//预定级
+        mainParam.setGradingStatusType("23");
+//        mainParam.setGradingStatus("2");
+        gradingStatus.add(2);
+        }
+      if(stsusArray[i] == 3){//已定级
+        mainParam.setGradingStatusType("23");
+//        mainParam.setGradingStatus("3");
+        gradingStatus.add(3);  
+      }
+      //审核
+      if(stsusArray[i] == 4 ){//未审核
+        mainParam.setFkExaminStatusType("24");
+//        mainParam.setFkExaminStatus(0);
+        fkExaminStatus.add(2);
+      }
+      if(stsusArray[i] == 6 ){//已审核
+        mainParam.setFkExaminStatusType("24");
+//        mainParam.setFkExaminStatus(3);
+        fkExaminStatus.add(3);
+      }
+      //备案
+      if(stsusArray[i] == 8){//未备案
+        mainParam.setRecordStatusType("25");
+//        mainParam.setRecordStatus("");
+        recordStatus.add(1);
+      }
+      if(stsusArray[i] == 9){//已备案
+        mainParam.setRecordStatusType("25");
+//        mainParam.setRecordStatus("");
+        recordStatus.add(3);
+      }
+      if(stsusArray[i] == 10){//撤销备案
+        mainParam.setRecordStatusType("25");
+//        mainParam.setRecordStatus("");
+        recordStatus.add(4);
+      }
+      
+      //测评
+      if(stsusArray[i] == 11){//未测评
+        mainParam.setEvaluationStatusType("26");
+//        mainParam.setEvaluationStatus("");
+        evaluationStatus.add(1);
+      }
+      if(stsusArray[i] == 12){//以测评
+        mainParam.setEvaluationStatusType("26");
+//      mainParam.setEvaluationStatus("");
+        evaluationStatus.add(3);
+      }
+      
+      //自查
+      if(stsusArray[i] == 13){
+        mainParam.setExaminationStatusType("27");
+//        mainParam.setExaminationStatus("1");
+        examinationStatus.add(1);
+      }
+      if(stsusArray[i] == 14){//以自查
+        mainParam.setExaminationStatusType("27");
+//      mainParam.setExaminationStatus("1");
+        examinationStatus.add(3);
+      }
+      //状态为待审核，查询审核状态为：
+      //1：待企业安全员管理审核；
+      //2：待总部安全管理员审核；
+      /*if(mainParam.getStatus() == 5){
     mainParam.setFkExaminStatus(1);
     }*/
-    if(mainParam.getStatus() == 15){
-      mainParam.setFkExaminStatus(1);
-    }
-    if(mainParam.getStatus() == 16){
-      mainParam.setFkExaminStatus(2);
-    }
-    
-    //状态为已审核，查询审核状态为归档
-    if(mainParam.getStatus() == 6){
-      mainParam.setFkExaminStatus(5);
-    }
-    
-    //状态为审核未通过，查询审核状态为
-    //3：企业安全员管理审核未通过；
-    //4：总部安全管理员审核未通过；
-    /*if(mainParam.getStatus() == 7){
+      if(stsusArray[i] == 15){//待企业业务审核
+        mainParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(1);
+        examinStatus.add(1);
+      }
+      if(stsusArray[i] == 16){//待总部安全审核
+        mainParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(2);
+        examinStatus.add(2);
+      }
+      
+      //状态为审核未通过，查询审核状态为
+      //3：企业安全员管理审核未通过；
+      //4：总部安全管理员审核未通过；
+      /*if(mainParam.getStatus() == 7){
       mainParam.setFkExaminStatus(3);
     }*/
-    if(mainParam.getStatus() == 17){
-      mainParam.setFkExaminStatus(3);
+      if(stsusArray[i] == 17){//企业业务审核未通过
+        mainParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(3);
+        examinStatus.add(3);
+      }
+      if(stsusArray[i] == 18){//总部安全审核未通过
+        mainParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(4);
+        examinStatus.add(4);
+      }
     }
-    if(mainParam.getStatus() == 18){
-      mainParam.setFkExaminStatus(4);
-    }
-    
-    if(mainParam.getStatus() == 8){
-      mainParam.setSystemCodeType("25");
-      mainParam.setRecordStatus("1");
-    }
-    if(mainParam.getStatus() == 9){
-      mainParam.setSystemCodeType("25");
-      mainParam.setRecordStatus("3");
-    }
-    if(mainParam.getStatus() == 10){
-      mainParam.setSystemCodeType("25");
-      mainParam.setRecordStatus("4");
-    }
-    if( mainParam.getStatus() == 11){
-      mainParam.setSystemCodeType("26");
-      mainParam.setEvaluationStatus("1");
-    }
-    if( mainParam.getStatus() == 12){
-      mainParam.setSystemCodeType("26");
-      mainParam.setEvaluationStatus("3");
-    }
-    if( mainParam.getStatus() == 13 || mainParam.getStatus() == 14){
-      mainParam.setSystemCodeType("27");
-      mainParam.setExaminationStatus("1");
-    }
-    if(mainParam.getStatus() == 14){
-      mainParam.setSystemCodeType("27");
-      mainParam.setExaminationStatus("3");
-    }
+    mainParam.setGradingStatus1(gradingStatus);
+    mainParam.setFkExaminStatus1(fkExaminStatus);
+    mainParam.setRecordStatus1(recordStatus);
+    mainParam.setEvaluationStatus1(evaluationStatus);
+    mainParam.setExaminationStatus1(examinationStatus);
+    mainParam.setExaminStatus1(examinStatus);
   }
 
   /**
@@ -3050,11 +3121,10 @@ public class MainServiceImpl implements MainService{
     if((mainParam.getGradingBeginTime() == null || "".equals(mainParam.getGradingBeginTime()))
        && (mainParam.getGradingEndTime() == null || "".equals(mainParam.getGradingEndTime()))
         ){
-      Date beginTime = null;
       try {
-        beginTime = DateUtils.getDate("yyyy-MM-dd HH:mm:SS", "1970-01-01 00:00:00");
+        Date beginTime = DateUtils.getDate("yyyy-MM-dd HH:mm:SS", "1970-01-01 00:00:00");
         mainParam.setGradingBeginTime(beginTime);
-        Date endTime = DateUtils.getDate();
+        Date endTime = DateUtils.getDate("yyyy-MM-dd HH:mm:SS", "9999-12-31 00:00:00");
         mainParam.setGradingEndTime(endTime);
       } catch (ParseException e) {
         e.printStackTrace();

@@ -393,6 +393,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
       throw new BusinessException(EnumResult.ERROR);
     }
     systemMaterialsBeanParam.setCreateTime(new Date());
+    systemMaterialsBeanParam.setUpdateUserName(userName);
     if (StringUtils.isBlank(systemMaterialsBeanParam.getSystemMaterialsId())) {
       systemMaterialsBeanParam.setSystemMaterialsId(Utils.getUuidFor32());
       
@@ -695,6 +696,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
       throw new BusinessException(EnumResult.ERROR);
     }
     systemMaterialsBeanParam.setCreateTime(new Date());
+    systemMaterialsBeanParam.setUpdateUserName(userName);
     if (StringUtils.isBlank(systemMaterialsBeanParam.getSystemMaterialsId())) {
       systemMaterialsBeanParam.setSystemMaterialsId(Utils.getUuidFor32());
       
@@ -1006,6 +1008,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
       throw new BusinessException(EnumResult.ERROR);
     }
     systemMaterialsBeanParam.setCreateTime(new Date());
+    systemMaterialsBeanParam.setUpdateUserName(userName);
     if (StringUtils.isBlank(systemMaterialsBeanParam.getSystemMaterialsId())) {
       systemMaterialsBeanParam.setSystemMaterialsId(Utils.getUuidFor32());
       

@@ -124,6 +124,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Transactional
   public String saveCompany(String userName,CompanyParam companyParam) 
       throws BusinessException {
+    companyParam.setUpdateUserName(userName);
     if (StringUtils.isBlank(companyParam.getCompanyId())) {
       String companyCode = this.companyMapper.selectCompanyByCompanyCode(companyParam.getCompanyCode());
       //判断单位编码是否被创建，如果已创建则抛出异常不进行添加或修改

@@ -176,14 +176,15 @@
                                         <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:5;position:relative;">
                                             <!-- <span style="z-index:1;position: absolute;right:43px;top: 14%;color: #cecece" >|</span> -->
                                             <template >
-                                                <el-select clearable v-model="value8" id="selectSystemName" filterable placeholder="请选择" >
+                                                <!-- <el-select clearable v-model="value8" id="selectSystemName" filterable placeholder="请选择" >
                                                     <el-option 
                                                             v-for="item in system"
                                                             :key="item.systemId"
                                                             :label="item.systemName"
                                                             :value="item.systemId">
                                                     </el-option>
-                                                </el-select>
+                                                </el-select> -->
+                                                <input type="text" placeholder="请输入系统名称" id="selectSystemName" v-model="value8" style="width:190px;height:34px" >
                                             </template>
                                         </div>
                                     </div>
@@ -196,14 +197,15 @@
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative">
                                            <template>
-                                                <el-select clearable v-model="value9" id="selectCompanyCode" filterable placeholder="请选择">
+                                                <!-- <el-select clearable v-model="value9" id="selectCompanyCode" filterable placeholder="请选择">
                                                     <el-option 
                                                             v-for="item in company"
                                                             :key="item.companyCode"
                                                             :label="item.companyName"
                                                             :value="item.companyCode">
                                                     </el-option>
-                                                </el-select>
+                                                </el-select> -->
+                                                <input type="text" placeholder="请输入所属单位" id="selectCompanyCode" v-model="value9" style="width:190px;height:34px" >
                                             </template>
                                         </div>
                                     </div>
@@ -288,14 +290,15 @@
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative"  >
                                                 <template>
-                                                    <el-select clearable id="acceptancecompanyName" v-model="value12" filterable placeholder="请选择" style="width:95%;">
+                                                    <!-- <el-select clearable id="acceptancecompanyName" v-model="value12" filterable placeholder="请选择" style="width:95%;">
                                                         <el-option 
                                                                 v-for="item in recordCompany"
                                                                 :key="item.acceptCompany"
                                                                 :label="item.acceptCompany"
                                                                 :value="item.acceptCompany">
                                                         </el-option>
-                                                    </el-select>
+                                                    </el-select> -->
+                                                    <input type="text" id="acceptancecompanyName" v-model="value12" placeholder="请输入受理备案单位" style="width:95%;">
                                                 </template>
                                             </div>
                                         </div>
@@ -391,13 +394,24 @@
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative" style="width: 79%; padding-right: 0;">
                                                 <template> 
-                                                    <el-select clearable v-model="value21"   filterable placeholder="请选择" >
+<!--                                                     <el-select clearable v-model="value21"   filterable placeholder="请选择" >
                                                         <el-option   v-for="item in hStatus"
 	                                                                 :key="item.value"
 																     :label="item.label"
 																     :value="item.value">
                                                         </el-option>
-                                                    </el-select>
+                                                    </el-select> -->
+                                                    
+                                                    <el-select v-model="value21" multiple filterable placeholder="请选择" @remove-tag="deleteStatus"  class="b" >
+													    <el-option class="c" 
+													      v-for="item in hStatus"
+													      :key="item.value"
+													      :label="item.label"
+													      :value="item.value">
+													     <span class="a" style="float: left"><el-checkbox v-model="item.status">{{item.label}}</el-checkbox></span>
+                                                         </el-option>
+													 </el-select>                                                                                                                                                                                                            
+                                                    
                                                 </template>
                                             </div>
                                         </div>
@@ -416,14 +430,15 @@
                                             </div>
                                             <div class="col-md-8 h-col-md-9 pos-relative"  >
                                                  <template>
-                                                    <el-select clearable v-model="value10" id="evaluationCompanyName" filterable placeholder="请选择" style="width:95%;">
+                                                    <!-- <el-select clearable v-model="value10" id="evaluationCompanyName" filterable placeholder="请选择" style="width:95%;">
                                                         <el-option
                                                                 v-for="item in examOrgCompany"
                                                                 :key="item.examOrg"
                                                                 :label="item.examOrg"
                                                                 :value="item.examOrg">
                                                         </el-option>
-                                                    </el-select>
+                                                    </el-select> -->
+                                                    <input type="text"  v-model="value10" id="evaluationCompanyName" placeholder="请输入测评单位" style="width:95%;" >
                                                 </template>
                                             </div>
                                         </div>

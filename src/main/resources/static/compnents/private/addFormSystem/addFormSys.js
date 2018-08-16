@@ -317,7 +317,6 @@ var  data={
                 methods:{ 
                 	 sysNameBlur:function () {
                   	var sysName=$("#systemInfo1").val();
-                  	debugger
                   	if(sysName!='' || sysName!=""){
                   		this.$refs.systemName.clearValidate();
                   	}else{
@@ -662,6 +661,7 @@ var  data={
                     // 获取系统信息成功
                     getSystemInfoSuccessMethod : function(_self, responseData) {
                       _self.sysName = responseData.data;
+                    	_self.systemId = responseData.data;
                     },
                     // 获取业务承受信息
                     getBearInfoMethod : function(_self) {

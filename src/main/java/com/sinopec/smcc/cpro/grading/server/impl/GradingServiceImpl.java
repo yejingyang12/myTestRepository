@@ -98,6 +98,7 @@ public class GradingServiceImpl implements GradingService{
       throw new BusinessException(EnumResult.ERROR);
     }
     gradingParam.setCreateTime(new Date());
+    gradingParam.setUpdateUserName(userName);
     //有则修改，无则添加
     if (StringUtils.isBlank(gradingParam.getGradingId())) {
       gradingParam.setGradingId(Utils.getUuidFor32());
@@ -225,6 +226,7 @@ public class GradingServiceImpl implements GradingService{
       throw new BusinessException(EnumResult.ERROR);
     }
     gradingParam.setCreateTime(new Date());
+    gradingParam.setUpdateUserName(userName);
     if(StringUtils.isBlank(gradingParam.getGradingId())) {
       gradingParam.setGradingId(Utils.getUuidFor32());
       gradingParam.setCreateUserName(userName);
@@ -411,6 +413,7 @@ public class GradingServiceImpl implements GradingService{
       throw new BusinessException(EnumResult.ERROR);
     }
     gradingParam.setCreateTime(new Date());
+    gradingParam.setUpdateUserName(userName);
     if(StringUtils.isBlank(gradingParam.getGradingId())) {
       gradingParam.setGradingId(Utils.getUuidFor32());
       gradingParam.setCreateUserName(userName);

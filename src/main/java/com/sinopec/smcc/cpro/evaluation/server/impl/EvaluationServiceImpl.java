@@ -101,6 +101,7 @@ public class EvaluationServiceImpl implements EvaluationService {
 	    mainParam.setSystemId(evaluationParam.getFkSystemId());
 	    mainServiceImpl.editSystemStatusBySystemId(mainParam);
 	  }
+	  evaluationParam.setUpdateUserName(userName);
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId())) {
 			evaluationParam.setEvaluationId(Utils.getUuidFor32());
 			evaluationParam.setCreateTime(new Date());

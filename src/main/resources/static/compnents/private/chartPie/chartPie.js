@@ -218,13 +218,13 @@
      	    /*  console.log(gradingBeginTimeStamp)
      	      console.log(gradingEndTimeStamp )
      	      console.log(systemType)*/
-     	      gradingBeginTimeStamp = new Date("1970/01/01").getTime();
+     	      gradingBeginTimeStamp = new Date("1970-01-01 00:00:00").getTime();
               if(that.val1){
-                gradingBeginTimeStamp = that.val1.getTime()+8*60*60*1000;//时间戳
+                gradingBeginTimeStamp = that.val1.getTime();//时间戳
               }  
-              gradingEndTimeStamp = new Date().getTime();
+              gradingEndTimeStamp = new Date("9999-12-31 00:00:00").getTime();
               if(that.val3){
-            	  gradingEndTimeStamp = that.val3.getTime()+8*60*60*1000;//时间戳
+            	  gradingEndTimeStamp = that.val3.getTime();//时间戳
               }
             window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
           /*  window.location.href = "http://echarts.baidu.com/examples/editor.html";*/

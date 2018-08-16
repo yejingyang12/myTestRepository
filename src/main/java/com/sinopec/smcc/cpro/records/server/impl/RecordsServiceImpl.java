@@ -78,6 +78,7 @@ public class RecordsServiceImpl implements RecordsService{
     }
     recordsParam.setFkrevokematter(5);
     recordsParam.setCreateTime(new Date());
+    recordsParam.setUpdateUserName(userName);
     if(StringUtils.isBlank(recordsParam.getRecordsId())) {
       
       recordsParam.setRecordsId(Utils.getUuidFor32());
@@ -162,6 +163,7 @@ public class RecordsServiceImpl implements RecordsService{
     if(StringUtils.isBlank(recordsParam.getFkSystemId())){
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
     }
+    recordsParam.setUpdateUserName(userName);
     this.recordsMapper.updateRecordsBySystemIdForRevokeRecords(recordsParam);
     RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
         selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
@@ -222,6 +224,7 @@ public class RecordsServiceImpl implements RecordsService{
     if(StringUtils.isBlank(recordsParam.getFkSystemId())){
       throw new BusinessException(EnumResult.LINKEDID_ERROR);
     }
+    recordsParam.setUpdateUserName(userName);
     this.recordsMapper.updateRecordsBySystemIdForRevokeRecords(recordsParam);
     RecordsDetailResult selectRecordsByFkSystemIdForRecordsDetail = this.recordsMapper.
         selectRecordsByFkSystemIdForRecordsDetail(recordsParam);
