@@ -1450,7 +1450,7 @@ public class MainServiceImpl implements MainService{
                 if(systemRes.getFkNationalIsProducts().equals("3")){
                   dataMap.put("nan15","✓");
                   dataMap.put("nan14","□");
-                  dataMap.put("nan15","□");
+                  dataMap.put("nan13","□");
                 }
               }else{
                   dataMap.put("nan13","□");
@@ -1523,7 +1523,7 @@ public class MainServiceImpl implements MainService{
                 gradeCount = 1;
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse() == 1){
                     dataMap.put("a1","✓");
                     dataMap.put("a2","□");
                   }else{
@@ -1555,7 +1555,7 @@ public class MainServiceImpl implements MainService{
                 riskCount = 1;
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse()==1){
                     dataMap.put("a3","✓");
                     dataMap.put("a4","□");
                   }else{
@@ -1619,7 +1619,7 @@ public class MainServiceImpl implements MainService{
                 emergencyCount = 1;
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse() ==1){
                     dataMap.put("a7","✓");
                     dataMap.put("a8","□");
                   }else{
@@ -1651,7 +1651,7 @@ public class MainServiceImpl implements MainService{
                 tntegrateCount = 1;
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse()==1){
                     dataMap.put("a9","✓");
                     dataMap.put("a10","□");
                   }else{
@@ -1683,7 +1683,7 @@ public class MainServiceImpl implements MainService{
                 consultationCount = 1;
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse()==1){
                     dataMap.put("a11","✓");
                     dataMap.put("a12","□");
                   }else{
@@ -1715,7 +1715,7 @@ public class MainServiceImpl implements MainService{
                 trainCount = 1;
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse()==1){
                     dataMap.put("a13","✓");
                     dataMap.put("a14","□");
                   }else{
@@ -1748,7 +1748,7 @@ public class MainServiceImpl implements MainService{
                 dataMap.put("a",systemRes.getOtherName());
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
-                  if(systemRes.getServiceIsUse().equals("1")){
+                  if(systemRes.getServiceIsUse() == 1){
                     dataMap.put("a15","✓");
                     dataMap.put("a16","□");
                   }else{
@@ -1801,6 +1801,16 @@ public class MainServiceImpl implements MainService{
         if(systemResult.getSubIsSystem() == 1){
           dataMap.put("bra1", "✓");
           dataMap.put("bra2", "□");
+          if(StringUtils.isNotBlank(systemResult.getFatherCompanyName())){
+            dataMap.put("companySystemName", systemResult.getFatherCompanyName());
+          }else{
+            dataMap.put("companySystemName", "");
+          }
+          if(StringUtils.isNotBlank(systemResult.getFatherSystemName())){
+            dataMap.put("superiorSystemName", systemResult.getFatherSystemName());
+          }else{
+            dataMap.put("superiorSystemName", "");
+          }
         }else{
           dataMap.put("bra2", "✓");
           dataMap.put("bra1", "□");
@@ -1808,9 +1818,9 @@ public class MainServiceImpl implements MainService{
       }else{
         dataMap.put("bra2", "□");
         dataMap.put("bra1", "□");
+        dataMap.put("superiorSystemName", "");
+        dataMap.put("companySystemName", "");
       }
-      dataMap.put("superiorSystemName", "");
-      dataMap.put("companySystemName", "");
       
       if(securityCount != 1){
         dataMap.put("nu1", "");

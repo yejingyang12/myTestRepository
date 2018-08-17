@@ -114,6 +114,10 @@ var data={
                           }
                         }
                       }
+                      //时间显示问题
+                      if(_self.formData.fillDate == '1970-01-01'){
+                      	_self.formData.fillDate = '';
+                      }
                       bus.$emit('materialView',this.materialViewShow);
                       bus.$emit("showMaterialView",this.materialViewShow);
                     },

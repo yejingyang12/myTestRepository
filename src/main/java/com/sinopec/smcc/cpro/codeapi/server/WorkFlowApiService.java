@@ -40,7 +40,7 @@ public interface WorkFlowApiService {
    * @param taskId 待办ID
    * @throws BusinessException
    */
-  void reviewPass(String taskId) throws BusinessException;
+  void reviewPass(String taskId,String userId,String userName) throws BusinessException;
   
   /**
    * @Descrption 审核未通过
@@ -49,5 +49,5 @@ public interface WorkFlowApiService {
    * @param businessId 业务ID
    * @throws BusinessException
    */
-  void reviewNotThrough(String businessId) throws BusinessException;
+  void reviewNotThrough(String businessId,String userId,String userName) throws BusinessException;
 }

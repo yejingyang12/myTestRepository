@@ -30,7 +30,7 @@ public class CheckParam {
   private String checkId;
   private String fkSystemId;
   private String fkExaminStatus;
-  private String fkBusinessNode;
+  private String fkBusinessNode;//业务节点1定级 2撤销备案 3申请变更
   private String instanceName;
   private String initiator;
   private String prevExecutor;
@@ -88,8 +88,22 @@ public class CheckParam {
   
   private String taskId;
   private String businessId;
-
+  private Integer result;//1通过2未通过
   
+  
+  
+  /**
+   * @return the result
+   */
+  public Integer getResult() {
+    return result;
+  }
+  /**
+   * @param result the result to set
+   */
+  public void setResult(Integer result) {
+    this.result = result;
+  }
   /**
    * @return the taskId
    */

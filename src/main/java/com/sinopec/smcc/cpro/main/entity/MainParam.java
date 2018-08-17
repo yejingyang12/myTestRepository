@@ -8,7 +8,6 @@
  */
 package com.sinopec.smcc.cpro.main.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

@@ -1168,8 +1168,10 @@ var data={
                         if(_self.formData.expertView!=''){
                           var array = $('#baseMes3').find('div').map(function (index, ele) {
                             if(_self.formData.expertView==1&&ele.innerHTML=='已审批'){
+                            	_self.rules.expertReviewName[0].required = true;
                               return ele;
                             }else if(_self.formData.expertView==2&&ele.innerHTML=='未审批'){
+                            	_self.rules.expertReviewName[0].required = false;
                               return ele;
                             }else{
                                return "";
@@ -1255,7 +1257,7 @@ var data={
                       }
                       if(this.formData.fkSpRanklevel==301){
                         this.expertType = true;
-                        this.formData.expertView = '';                        
+                        //this.formData.expertView = '';                        
                       }else{
                         if(parseInt(this.formData.fkSpRanklevel)>0){
                           this.expertType = false;
@@ -1488,7 +1490,7 @@ var data={
                    });
                    
                    bus.$on('gradGradingName',function(meg){
-                     if(meg!=null){
+                     if(meg){
                        _self.$refs[meg].validate(function (valid) {
                          if (valid) {
                            bus.$emit('gradGradingAjax',"add");

@@ -942,6 +942,8 @@ public class SystemServiceImpl implements SystemService {
         systemParamUp.setEvaluationStatus(systemFather.getEvaluationStatus());
         systemParamUp.setExaminationStatus(systemFather.getExaminationStatus());
         systemParamUp.setUpdateUserName(userName);
+        //拆分出来的不是合并系统
+        systemParamUp.setFkSystemIsMerge(2);
         this.systemMapper.updateSystemStatusBySystemId(systemParamUp);
       }
       this.systemMapper.updateSystemEdit(systemTempParam);

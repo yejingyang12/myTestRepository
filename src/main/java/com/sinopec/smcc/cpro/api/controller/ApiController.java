@@ -14,8 +14,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +27,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.result.PageUtil;
 import com.sinopec.smcc.base.result.RetResult;
 import com.sinopec.smcc.base.result.RetResultUtil;
+import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
 import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.api.service.ApiService;
@@ -105,7 +104,7 @@ public class ApiController {
   public RetResult<PageUtil> getStayHandle(@RequestBody UsmgParams usmgParams,
       @RequestParam("userId") String userId)throws BusinessException{
     // 调用service实体，获得
-    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,userId);
+    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,"3501561");
     PageUtil pageUtil = new PageUtil(pageInfo);
     return RetResultUtil.ok(pageUtil);
   }
@@ -119,11 +118,11 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/batchApproval", method = RequestMethod.POST)
-  public RetResult<AppCallResult> batchApproval(List<ExecuteContext> executeContextList) 
-      throws BusinessException{
+  public RetResult<Integer> batchApproval(@RequestBody 
+      BatchCheckHandleParam batchCheckHandleParam) throws BusinessException{
     // 调用service实体，获得
-    AppCallResult appCallResult = this.apiServiceImpl.batchApproval(executeContextList);
-    return RetResultUtil.ok(appCallResult);
+    Integer count = this.apiServiceImpl.batchApproval(batchCheckHandleParam);
+    return RetResultUtil.ok(count);
   }
   
   /**

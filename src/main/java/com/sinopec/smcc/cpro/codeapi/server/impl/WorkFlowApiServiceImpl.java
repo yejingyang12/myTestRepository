@@ -66,7 +66,8 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     AppCallResult appCallResult = new AppCallResult();
     try {
       // 获取流程模板信息
-      final List<AppWorkflowData> appWorkflowPublic = dpsTemplate.appWorkflowPublic(WorkFlowConsts.CATEGORY_CODE_CPRO);
+      final List<AppWorkflowData> appWorkflowPublic = 
+          dpsTemplate.appWorkflowPublic(WorkFlowConsts.CATEGORY_CODE_CPRO);
       final AppWorkflowData workFlowData = appWorkflowPublic.get(0);
       //获得用户信息
       UserDTO userDTO = userApiServiceImpl.getUserInfo();
@@ -140,14 +141,12 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
    * @throws BusinessException
    */
   @Override
-  public void reviewPass(String taskId) throws BusinessException {
-    //获得用户信息
-    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+  public void reviewPass(String taskId,String userId,String userName) throws BusinessException {
     //提交通过流程
     final ExecuteContext executeContext = new ExecuteContext();
     executeContext.setAppId(dpsConfig.getAppId());
-    executeContext.setExecutorId(String.valueOf(userDTO.getUserId()));
-    executeContext.setExecutorName(userDTO.getUserName());
+    executeContext.setExecutorId(userId);
+    executeContext.setExecutorName(userName);
     executeContext.setTaskId(taskId);
     executeContext.setExecuteDate(new Date());
     dpsTemplate.approveComplete(executeContext);
@@ -157,10 +156,10 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
    * 审核未通过
    */
   @Override
-  public void reviewNotThrough(String businessId) throws BusinessException {
-    //获得用户信息
-    UserDTO userDTO = userApiServiceImpl.getUserInfo();
-    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(String.valueOf(userDTO.getUserId()),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+  public void reviewNotThrough(String businessId,String userId,String userName) 
+      throws BusinessException {
+    final PagedList appPagedTODOTask = 
+        dpsTemplate.appPagedTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){
       List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
       String taskid=null;
@@ -169,8 +168,8 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
           taskid=executeTaskList.getTaskId();
           ExecuteContext executeContext=new ExecuteContext();
           executeContext.setAppId(SmccConsts.APPID);
-          executeContext.setExecutorId(String.valueOf(userDTO.getUserId()));
-          executeContext.setExecutorName(userDTO.getUserName());
+          executeContext.setExecutorId(userId);
+          executeContext.setExecutorName(userName);
           executeContext.setTaskId(taskid);
           executeContext.setExecuteDate(new Date());
           dpsTemplate.approveRevert(executeContext);

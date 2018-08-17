@@ -87,10 +87,7 @@
 	  examStatus: [{
     	value: '',
     	label: '请选择'
-    }, {
-    	value: 1,
-    	label: '未测评'
-    }, {
+    },{
     	value: 2,
     	label: '已测评'
     }],

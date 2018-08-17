@@ -235,6 +235,7 @@
       AND system.deleteStatus=1 
       AND system.fkSystemType != 3
       AND company.deleteStatus=1
+      AND score.deleteStatus=1 
       <if test="customizedSearch != null ">
         <![CDATA[
           AND records.recordDate >= #{customizedSearch,jdbcType=DATE}

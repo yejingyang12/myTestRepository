@@ -81,33 +81,48 @@ var data={
                   	}
                   },
                   onUploadSuccessMethod: function(_self,responseData){
+                  	var submitDescName=false;
                   	var topologyDescription = {fileId: '',attachName: '',uploadUrl: ''};
-                  	topologyDescription.attachName = responseData.data.attachName;
-                  	topologyDescription.uploadUrl = responseData.data.uploadUrl;
-                  	_self.formData.topologyDescriptionList.push(topologyDescription);
-                  	_self.setShowAttachName(_self);
-                    /*if(this.formData.topologyDescriptionName!=null&&this.formData.topologyDescriptionName!=''){
-                      this.formData.topologyDescriptionName=responseData.data.attachName;
-                      this.formData.topologyDescriptionPath=responseData.data.uploadUrl;
-                    }*/
-                  	
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
-                    $('#fileList').append(fileHtml);
-                    $(".del").click(function(){
-                    	var uploadUrl = $(this).parent("li").find("input").val();
-                    	uploadUrl = uploadUrl.split("&");
-                      var len = _self.formData.topologyDescriptionList.length;
-                      for(var i=0;i<len;i++){
-                      	if(_self.formData.topologyDescriptionList[i].uploadUrl == uploadUrl[0]){
-                      		_self.formData.topologyDescriptionList.splice(i,1);
-                      		$(this).parent("li").remove();
-                      		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
-                      		break;
-                      	}
-                      }
-                      _self.setShowAttachName(_self);
-                      /*_self.formData.topologyDescriptionName='';
-                      _self.formData.topologyDescriptionPath='';*/
+                  	if(_self.formData.topologyDescriptionList.length==0){
+                  		topologyDescription.attachName = responseData.data.attachName;
+                    	topologyDescription.uploadUrl = responseData.data.uploadUrl;
+                    	_self.formData.topologyDescriptionList.push(topologyDescription);
+                    	_self.setShowAttachName(_self);
+                   	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                   	 	$('#fileList').append(fileHtml);
+                  	}else{
+                  		for(var t=0;t<_self.formData.topologyDescriptionList.length;t++){
+              			  	if(_self.formData.topologyDescriptionList[t].attachName==responseData.data.attachName){
+              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+	           			          dangerouslyUseHTMLString: true
+	                  				});
+              			  		submitDescName = true ; 
+                  				break;
+                  			}
+                    	}
+                  		if(!submitDescName){
+                  			topologyDescription.attachName = responseData.data.attachName;
+                      	topologyDescription.uploadUrl = responseData.data.uploadUrl;
+                      	_self.formData.topologyDescriptionList.push(topologyDescription);
+                      	_self.setShowAttachName(_self);
+                     	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                     	 	$('#fileList').append(fileHtml);
+                  		}
+                  	}
+                  	$(".del").click(function(){
+                      	var uploadUrl = $(this).parent("li").find("input").val();
+                      	uploadUrl = uploadUrl.split("&");
+                        var len = _self.formData.topologyDescriptionList.length;
+                        for(var i=0;i<len;i++){
+                        	if(_self.formData.topologyDescriptionList[i].uploadUrl == uploadUrl[0]){
+                        		_self.formData.topologyDescriptionList.splice(i,1);
+                        		$(this).parent("li").remove();
+                        		_self.$refs.refOnUpload.value = null;
+                        		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
+                        		break;
+                        	}
+                        }
+                        _self.setShowAttachName(_self);
                     });
                     $(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
@@ -145,17 +160,34 @@ var data={
                   	}
                   },
                   onUploadSuccessMethod2: function(_self,responseData){
-//                  	this.$refs.refOnUpload2.value = null;
+                    var submitManagName=false;
                   	var organizationManagement = {fileId: '',attachName: '',uploadUrl: ''};
-                  	organizationManagement.attachName = responseData.data.attachName;
-                  	organizationManagement.uploadUrl = responseData.data.uploadUrl;
-                  	_self.formData.organizationManagementList.push(organizationManagement);
-                  	_self.setShowAttachName(_self);
-                  	/*this.formData.organizationManagementName=responseData.data.attachName;
-                    this.formData.organizationManagementPath=responseData.data.uploadUrl;*/
-                  	
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
-                    $('#fileList2').append(fileHtml);
+                    if(_self.formData.organizationManagementList.length==0){
+                    	organizationManagement.attachName = responseData.data.attachName;
+                    	organizationManagement.uploadUrl = responseData.data.uploadUrl;
+                    	_self.formData.organizationManagementList.push(organizationManagement);
+                    	_self.setShowAttachName(_self);
+                   	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                   	 	$('#fileList2').append(fileHtml);
+                  	}else{
+                  		for(var t=0;t<_self.formData.organizationManagementList.length;t++){
+              			  	if(_self.formData.organizationManagementList[t].attachName==responseData.data.attachName){
+              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+	           			          dangerouslyUseHTMLString: true
+	                  				});
+              			  		submitManagName = true ; 
+                  				break;
+                  			}
+                    	}
+                  		if(!submitManagName){
+                  			organizationManagement.attachName = responseData.data.attachName;
+                      	organizationManagement.uploadUrl = responseData.data.uploadUrl;
+                      	_self.formData.organizationManagementList.push(organizationManagement);
+                      	_self.setShowAttachName(_self);
+                     	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                     	 	$('#fileList2').append(fileHtml);
+                  		}
+                  	}
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
                     	uploadUrl = uploadUrl.split("&");
@@ -164,6 +196,7 @@ var data={
                       	if(_self.formData.organizationManagementList[i].uploadUrl == uploadUrl[0]){
                       		_self.formData.organizationManagementList.splice(i,1);
                       		$(this).parent("li").remove();
+                      		_self.$refs.refOnUpload2.value = null;
                       		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
@@ -208,16 +241,34 @@ var data={
                   	}
                   },
                   onUploadSuccessMethod3: function(_self,responseData){
-//                  	this.$refs.refOnUpload3.value = null;
+                    var submitPlanName=false;
                   	var implementationPlan = {fileId: '',attachName: '',uploadUrl: ''};
-                  	implementationPlan.attachName = responseData.data.attachName;
-                  	implementationPlan.uploadUrl = responseData.data.uploadUrl;
-                  	_self.formData.implementationPlanList.push(implementationPlan);
-                  	_self.setShowAttachName(_self);
-                    /*this.formData.implementationPlanName=responseData.data.attachName;
-                    this.formData.implementationPlanPath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
-                    $("#fileList3").append(fileHtml);
+                    if(_self.formData.implementationPlanList.length==0){
+                    	implementationPlan.attachName = responseData.data.attachName;
+                    	implementationPlan.uploadUrl = responseData.data.uploadUrl;
+                    	_self.formData.implementationPlanList.push(implementationPlan);
+                    	_self.setShowAttachName(_self);
+                   	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                   	 	$('#fileList3').append(fileHtml);
+                  	}else{
+                  		for(var t=0;t<_self.formData.implementationPlanList.length;t++){
+              			  	if(_self.formData.implementationPlanList[t].attachName==responseData.data.attachName){
+              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+	           			          dangerouslyUseHTMLString: true
+	                  				});
+              			  		submitPlanName = true ; 
+                  				break;
+                  			}
+                    	}
+                  		if(!submitPlanName){
+                  			implementationPlan.attachName = responseData.data.attachName;
+                      	implementationPlan.uploadUrl = responseData.data.uploadUrl;
+                      	_self.formData.implementationPlanList.push(implementationPlan);
+                      	_self.setShowAttachName(_self);
+                     	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                     	 	$('#fileList3').append(fileHtml);
+                  		}
+                  	}
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
                     	uploadUrl = uploadUrl.split("&");
@@ -226,6 +277,7 @@ var data={
                       	if(_self.formData.implementationPlanList[i].uploadUrl == uploadUrl[0]){
                       		_self.formData.implementationPlanList.splice(i,1);
                       		$(this).parent("li").remove();
+                      		_self.$refs.refOnUpload3.value = null;
                       		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
@@ -267,16 +319,34 @@ var data={
                     ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
                   },
                   onUploadSuccessMethod4: function(_self,responseData){
-//                  	this.$refs.refOnUpload4.value = null;
+                  	var submitCateName=false;
                   	var licenseCertificate = {fileId: '',attachName: '',uploadUrl: ''};
-                  	licenseCertificate.attachName = responseData.data.attachName;
-                  	licenseCertificate.uploadUrl = responseData.data.uploadUrl;
-                  	_self.formData.licenseCertificateList.push(licenseCertificate);
-                  	_self.setShowAttachName(_self);
-                    /*this.formData.licenseCertificateName=responseData.data.attachName;
-                    this.formData.licenseCertificatePath=responseData.data.uploadUrl;*/
-                    var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
-                    $("#fileList4").append(fileHtml);
+                  	if(_self.formData.licenseCertificateList.length==0){
+                  		licenseCertificate.attachName = responseData.data.attachName;
+                  		licenseCertificate.uploadUrl = responseData.data.uploadUrl;
+                    	_self.formData.licenseCertificateList.push(licenseCertificate);
+                    	_self.setShowAttachName(_self);
+                   	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                   	 	$('#fileList4').append(fileHtml);
+                  	}else{
+                  		for(var t=0;t<_self.formData.licenseCertificateList.length;t++){
+              			  	if(_self.formData.licenseCertificateList[t].attachName==responseData.data.attachName){
+              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+	           			          dangerouslyUseHTMLString: true
+	                  				});
+              			  		submitCateName = true ; 
+                  				break;
+                  			}
+                    	}
+                  		if(!submitCateName){
+                  			licenseCertificate.attachName = responseData.data.attachName;
+                    		licenseCertificate.uploadUrl = responseData.data.uploadUrl;
+                      	_self.formData.licenseCertificateList.push(licenseCertificate);
+                      	_self.setShowAttachName(_self);
+                     	 	var fileHtml='<li><input type="hidden" value="'+responseData.data.uploadUrl+'&'+responseData.data.attachName+'"/><div class="fl updwon">'+responseData.data.attachName+'</div><i class="el-icon-close fl del"></i></li>';
+                     	 	$('#fileList4').append(fileHtml);
+                  		}
+                  	}
                     $(".del").click(function(){
                     	var uploadUrl = $(this).parent("li").find("input").val();
                     	uploadUrl = uploadUrl.split("&");
@@ -285,6 +355,7 @@ var data={
                       	if(_self.formData.licenseCertificateList[i].uploadUrl == uploadUrl[0]){
                       		_self.formData.licenseCertificateList.splice(i,1);
                       		$(this).parent("li").remove();
+                      		_self.$refs.refOnUpload4.value = null;
                       		_self.fileDel(uploadUrl[0],1,uploadUrl[1]);
                       		break;
                       	}
@@ -414,6 +485,7 @@ var data={
                         	if(_self.formData.topologyDescriptionList[i].fileId == fileId){
                         		_self.formData.topologyDescriptionList.splice(i,1);
                         		$(this).parent("li").remove();
+                        		_self.$refs.refOnUpload.value = null;
                         		_self.fileDel(fileId,2);
                         		break;
                         	}
@@ -442,6 +514,7 @@ var data={
                         	if(_self.formData.organizationManagementList[i].fileId == fileId){
                         		_self.formData.organizationManagementList.splice(i,1);
                         		$(this).parent("li").remove();
+                        		_self.$refs.refOnUpload2.value = null;
                         		_self.fileDel(fileId,2);
                         		break;
                         	}
@@ -470,6 +543,7 @@ var data={
                         	if(_self.formData.implementationPlanList[i].fileId == fileId){
                         		_self.formData.implementationPlanList.splice(i,1);
                         		$(this).parent("li").remove();
+                        		_self.$refs.refOnUpload3.value = null;
                         		_self.fileDel(fileId,2);
                         		break;
                         	}
@@ -498,6 +572,7 @@ var data={
                         	if(_self.formData.licenseCertificateList[i].fileId == fileId){
                         		_self.formData.licenseCertificateList.splice(i,1);
                         		$(this).parent("li").remove();
+                        		_self.$refs.refOnUpload4.value = null;
                         		_self.fileDel(fileId,2);
                         		break;
                         	}

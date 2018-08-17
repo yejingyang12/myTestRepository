@@ -314,13 +314,13 @@ var  data={
                 watch:{
 
                 },
-                methods:{ 
-                	 sysNameBlur:function () {
+                methods:{
+                   sysNameBlur:function () {
                   	var sysName=$("#systemInfo1").val();
                   	if(sysName!='' || sysName!=""){
                   		this.$refs.systemName.clearValidate();
                   	}else{
-                  		this.$refs.formData.validate("systemName");
+                  		this.$refs.formData.validateField("systemName");
                   	}
                    },
                 	 closes:function () { 
@@ -349,28 +349,39 @@ var  data={
                   		this.formData.addSystemSub.splice(sonLength,1);
                 		}
                 		if(sonLength <2){
-                			this.formData.checkCount = '';
+                			this.formData.checkCount='';
                 			this.promptCount=true;
                 			this.$refs.formData.validateField('checkCount');
                 		}
-              			this.promptCount=false;
-              			this.formData.checkCount = '1';
               			this.systemNameSon1[sonLength] = false;
               			this.systemNameSon12[sonLength] = false;
                   	this.formData.systemNameSon="1";
                   	this.formData.systemCodeSon="1";
                   	this.formData.stars="1";
                   	this.formData.aa = '1';
+              			this.$refs.formData.validateField('aa');
                   	this.closes();
                 	},
                 	delCount: function (index){
                 		return "count_" +index;
+                	},
+                	allSysName: function (index){
+                		return "allSysCount_" +index;
+                	},
+                	allSysCode: function (index){
+                		return "allSysCode_" +index;
                 	},
                 	delSonSystem:function(){
                 		var index = this.delIndex;
                 		this.systemInfo2[this.formData.addSystemSub.length-1] = false;
                 		this.formData.addSystemSub.splice(index,1);
                 		$("#count_"+index+1).remove();
+                		
+                		for(var i=0;i<this.formData.addSystemSub.length;i++){
+                			$("#allSysCount_"+(i)).find("label").text('子系统'+(i+1)+'系统名称：');
+                			$("#allSysCode_"+(i)).find("label").text('子系统'+(i+1)+'标准化代码：');
+                		}
+                		
                 		if(this.formData.addSystemSub.length <2){
                 			this.formData.checkCount = '';
                 			this.promptCount=true;
@@ -384,6 +395,8 @@ var  data={
                   	this.formData.systemNameSon="1";
                   	this.formData.systemCodeSon="1";
                   	this.formData.stars="1";
+                  	this.formData.aa = '1';
+              			this.$refs.formData.validateField('aa');
                   	this.closes();
                 	},
                 	gernerateId: function (index){
@@ -446,7 +459,7 @@ var  data={
 //                        standardizedCode:""
 //                      }
                       ];
-                			this.promptCount=false;
+                      this.promptCount=false;
                 			this.formData.checkCount = '1';
                 			this.systemNameSon1 = [];
                 			this.systemNameSon12= [];
@@ -587,7 +600,7 @@ var  data={
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.subIsSystem = param;
                     this.$refs.formData.validateField('subIsSystem');
-                     if(param == 1 || param == "1"){
+                    if(param == 1 || param == "1"){
                     	this.BeSonSystem = true;
                     	this.rules.fatherSystemName[0].required = true;
                     	this.rules.fatherCompanyName[0].required = true;
@@ -654,14 +667,14 @@ var  data={
                     getSystemInfoMethod : function(_self) {
                       ajaxMethod(_self, 'post',
                           'systemapi/querySystemApi', true,
-                          '{"companyCode":"'+companyCode+'"}', 'json',
+                          '{"companyCode":"'+_self.formData.fkCompanyCode+'"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getSystemInfoSuccessMethod);
                     },
                     // 获取系统信息成功
                     getSystemInfoSuccessMethod : function(_self, responseData) {
                       _self.sysName = responseData.data;
-                    	_self.systemId = responseData.data;
+                      _self.systemId = responseData.data;
                     },
                     // 获取业务承受信息
                     getBearInfoMethod : function(_self) {
@@ -776,9 +789,9 @@ var  data={
                       }
                     },
                     setStandardizedCode:function(e,val){
+                    	debugger
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
-                  				
                   				if(e==this.sysName[i].systemName){
                   					if(val==1){
                   						this.formData.standardizedCode = this.sysName[i].systemCode;
@@ -819,7 +832,7 @@ var  data={
                   			}
                   			if(count > 1){
                   				if(boo){
-//                    				this.systemNameSon12[i] = false;
+//                    				this.systemNameSon12[i] = false;                  				
                     				Vue.set(this.systemNameSon12, i, false);
                     			}else{
                     				Vue.set(this.systemNameSon12, i, true);
@@ -1167,6 +1180,17 @@ var  data={
                         }).get();
                         $(array).addClass('btnColor')
                       }
+                      if(_self.formData.subIsSystem==1){
+                      	_self.BeSonSystem = true;
+                      	_self.rules.fatherSystemName[0].required = true;
+                      	_self.rules.fatherCompanyName[0].required = true;
+                      }else if(_self.formData.subIsSystem==2){
+                      	_self.BeSonSystem = false;
+                      	_self.rules.fatherSystemName[0].required = false;
+                      	_self.rules.fatherCompanyName[0].required = false;
+                      	_self.formData.fatherSystemName = "";
+                      	_self.formData.fatherCompanyName = "";
+                      }
                     },
                     headleArrayMethod:function(_self){
                     	for(var i=0;i<_self.nUsePro.length;i++){
@@ -1186,6 +1210,16 @@ var  data={
                         if(this.formData.companyName==this.msgName[i].companyName){
 //                          this.formData.companyName = this.msgName[i].companyName;
                           this.formData.fkCompanyCode = this.msgName[i].companyCode;
+                          this.paramNan = true;
+                        	this.rules.standardizedCode[0].required=true;
+                          this.systemInfo = true;
+                          this.systemSonInfo = false;
+                          this.formData.addSystemSub=[];
+                          this.formData.systemName = "";
+                          this.formData.standardizedCode = "";
+                          $("#mes1").removeClass("btnColor");
+                          $("#mes2").removeClass("btnColor");
+                          this.getSystemInfoMethod(this);
                           break;
                         }
                       }
@@ -1260,6 +1294,7 @@ var  data={
                     error: function(err) {
                     }
                   });
+                	
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;
                   

@@ -48,8 +48,8 @@
                             <el-form-item label="是否为合并系统：" prop="fkSystemIsMerge" class="P-addsystem">
                                 <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2">
                                     <input type="hidden" name="formData.fkSystemIsMerge" v-model="formData.fkSystemIsMerge">
-                                    <div class="baseMes" @click="getMergeClass($event,1)">是</div>
-                                    <div class="baseMes" @click="getMergeClass($event,2)">否</div>
+                                    <div class="baseMes" id="mes1" @click="getMergeClass($event,1)">是</div>
+                                    <div class="baseMes" id="mes2" @click="getMergeClass($event,2)">否</div>
                                 </div>
                             </el-form-item>
                         </div>
@@ -86,7 +86,7 @@
                             <div v-for="(addSys,i) in formData.addSystemSub" >
                               <li class="row" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)" :id="delCount(i)" >
                                 <div class="col-lg-6 col-md-6">
-                                    <el-form-item :label="formData.addSystemSub[[i]].label" prop="stars" class="P-addsystem" style="padding-left: 15px;">
+                                    <el-form-item :label="formData.addSystemSub[[i]].label" :id="allSysName(i)" prop="stars" class="P-addsystem" style="padding-left: 15px;">
                                         <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2[[i]]"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
                                             <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
                                         </el-select>
@@ -96,7 +96,7 @@
                                     <el-form-item label="" v-show="promptCount" prop="checkCount"  class="P-addsystem" style="padding-left: 15px;"></el-form-item>
 	                               </div>
 	                               <div class="col-lg-6 col-sm-3">
-	                                  <el-form-item :label="formData.addSystemSub[[i]].labelCode" prop="stars" class="P-addsystem" style="padding-left: 15px;">
+	                                  <el-form-item :label="formData.addSystemSub[[i]].labelCode" :id="allSysCode(i)" prop="stars" class="P-addsystem" style="padding-left: 15px;">
 	                                      <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
 	                                  </el-form-item>
 	                                  <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
@@ -108,11 +108,21 @@
 			                          <!-- 删除弹窗 -->
                                        <div class="dialogShaw shawLast2">
 					                       <div class="inquiry delLast2">
-				                                <p>是否删除</p>
+				                             <div class="cenrerBox">
+														        <i class="failIcon fl">!</i>
+														        <div class="fl">
+														          <p>是否删除</p>
+														        </div>
+														      </div>
+														      <div class="inquiryBtn">
+														          <button type="button" class="btn btn-success fl" @click="delSonSystem()">确定</button>
+														          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+														      </div>
+				                                <!-- <p>是否删除</p>
 				                                <div class="inquiryBtn">
 				                                    <button type="button" class="btn btn-success fl" @click="delSonSystem()">确定</button>
 				                                    <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-				                                </div>
+				                                </div> -->
 					                        </div>
                                        </div>         
 	                               </div>
@@ -121,18 +131,28 @@
                             </div>
                             <li style="padding:6px 2px;" class="btn btn-success sysSun" @click="addSys($event)" id="add" v-show="addSub">添加子系统</li>
                             <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
-                            <li class="btn btn-default P-btn-sysSun" 
+                            <li class="btn btn-default P-btn-sysSun" id="lastDel"
                             style="background-color:red;color:#FFFFFF;"  
-                            v-show="true" @click="deleteSys(2)">删除</li>
+                            @click="deleteSys(2)">删除</li>
                             
                                <!-- 删除弹窗 -->
                                        <div class="dialogShaw shawLast">
                                  <div class="inquiry delLast">
-                                        <p>是否删除</p>
+                                        <div class="cenrerBox">
+																	        <i class="failIcon fl">!</i>
+																	        <div class="fl">
+																	          <p>是否删除</p>
+																	        </div>
+																	      </div>
+																	      <div class="inquiryBtn">
+																	          <button type="button" class="btn btn-success fl" @click="delSonSystemLast()">确定</button>
+																	          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+																	      </div>
+                                        <!-- <p>是否删除</p>
                                         <div class="inquiryBtn">
                                             <button type="button" class="btn btn-success fl" @click="delSonSystemLast()">确定</button>
                                             <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-                                        </div>
+                                        </div> -->
                                   </div>
                                        </div>         
                         </ul>

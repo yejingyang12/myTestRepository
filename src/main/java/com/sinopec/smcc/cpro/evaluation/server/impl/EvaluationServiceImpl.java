@@ -234,7 +234,6 @@ public class EvaluationServiceImpl implements EvaluationService {
 	}
 
 	@Override
-	@Transactional
 	public void deleteEvaluation(String userName, EvaluationParam evaluationParam) 
 	    throws BusinessException{
 		if(StringUtils.isBlank(evaluationParam.getEvaluationId()))

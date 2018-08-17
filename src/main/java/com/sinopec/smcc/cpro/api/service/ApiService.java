@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
 import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
@@ -52,7 +53,7 @@ public interface ApiService {
    * @return
    * @throws BusinessException
    */
-  AppCallResult batchApproval(List<ExecuteContext> executeContextList) throws BusinessException;
+  Integer batchApproval(BatchCheckHandleParam batchCheckHandleParam) throws BusinessException;
   
   /**
    * @Descrption

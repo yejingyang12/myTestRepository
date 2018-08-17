@@ -67,7 +67,9 @@ public class NodeServiceImpl implements NodeService {
   public void addNodeInfo(NodeParam nodeParam) {
     
     nodeParam.setNodeId(Utils.getUuidFor32());
-    nodeParam.setCreateTime(DateUtils.getDate());
+    if(nodeParam.getCreateTime() == null){
+      nodeParam.setCreateTime(DateUtils.getDate());
+    }
     // 添加节点数据
     this.nodeMapper.insertBynodeParam(nodeParam);
   }

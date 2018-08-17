@@ -86,6 +86,7 @@ var revokeRecordData={
 					fileDel:function(uploadUrl,attachName,fileId){
 						this.formData.revokeAttachName='';
 						this.formData.revokeAttachPath='';
+						this.$refs.refOnUpload.value = null;
 						if(fileId != ''&&fileId!=null&&fileId!='undefined'){
 							this.fileDelete = fileId;
 						}
@@ -155,7 +156,7 @@ var revokeRecordData={
             $("#revokeRecordInquiry").css("display","none");
 						$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-            	window.location.href= originUrl + "page/indexPage"           
+            	window.location.href=   + "page/indexPage"           
             }, 2300);
 					},
 				  //关闭弹窗

@@ -2845,6 +2845,11 @@
 	        updateUserName = #{updateUserName,jdbcType=VARCHAR},
 	      ]]>
 	    </if>
+	    <if test="fkSystemIsMerge != null">
+	      <![CDATA[
+	        fkSystemIsMerge = #{fkSystemIsMerge,jdbcType=INTEGER},
+	      ]]>
+	    </if>
 	    <if test="gradingStatus != null">
 	      <![CDATA[
 	        gradingStatus = #{gradingStatus,jdbcType=INTEGER},
@@ -3389,18 +3394,20 @@
     ON a.systemCode = b.fkSpRanklevel GROUP BY codeName,b.fkSpRanklevel ORDER BY level ASC
   </select>
   
-  <update id="updateSubStat" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam">
-    UPDATE t_cpro_system SET
-      fkFatherSystemId = #{item.fkFatherSystemId,jdbcType=VARCHAR},
-      fkSystemType = #{item.fkSystemType,jdbcType=INTEGER},
-      updateUserName = #{item.updateUserName,jdbcType=VARCHAR}
-    WHERE pkId IN
-    <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
-        #{item.systemId}
+  <update id="updateSubStat" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" separator=",">
+	    UPDATE t_cpro_system SET
+	      fkFatherSystemId = #{item.fkFatherSystemId,jdbcType=VARCHAR},
+	      fkSystemType = #{item.fkSystemType,jdbcType=INTEGER}
+	      <if test="item.updateUserName != null">
+		      ,updateUserName = #{item.updateUserName,jdbcType=VARCHAR}
+	      </if>
+	    WHERE pkId = #{item.systemId}
     </foreach>
   </update>
   
   <update id="updateSystemSub" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" separator=",">
       UPDATE t_cpro_system SET
         fkInfoSysTypeCon = #{item.fkInfoSysTypeCon,jdbcType=INTEGER},
         fkSystemIsMerge = #{item.fkSystemIsMerge,jdbcType=TINYINT},
@@ -3423,14 +3430,12 @@
 	      <if test="item.updateUserName != null">
 	      	,updateUserName = #{item.updateUserName}
 	      </if>
-        WHERE pkId IN
-    <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
-        #{item.systemId}
+        WHERE pkId = #{item.systemId}
     </foreach>
   </update>
   
   <update id="updateSystem" parameterType="java.util.List">
-    <!--  <foreach collection="list" item="item" index="index" open="(" separator="," close=")">-->
+     <foreach collection="list" item="item" index="index" separator=",">
       UPDATE t_cpro_system SET
         fkInfoSysTypeCon = #{item.fkInfoSysTypeCon,jdbcType=INTEGER},
         fkSystemIsMerge = #{item.fkSystemIsMerge,jdbcType=TINYINT},
@@ -3455,15 +3460,13 @@
         <if test="item.updateUserName != null">
 	      	,updateUserName = #{item.updateUserName}
 	      </if>
-        WHERE pkId IN
-    <foreach collection="list" item="item" index="index" open="(" separator="," close=")"> 
-        #{item.systemId}
+        WHERE pkId = #{item.systemId}
     </foreach>
   </update>
   
   
   <update id="updateSystemInfo" parameterType="java.util.List">
-    <foreach collection="list" item="item" index="index" open="(" separator="," close=")"> 
+    <foreach collection="list" item="item" index="index" separator=","> 
       UPDATE t_cpro_system 
       SET
         fkInfoSysTypeCon = #{item.fkInfoSysTypeCon,jdbcType=INTEGER},

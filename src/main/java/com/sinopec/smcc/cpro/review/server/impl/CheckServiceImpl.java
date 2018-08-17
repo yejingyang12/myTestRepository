@@ -317,6 +317,8 @@ public class CheckServiceImpl implements CheckService {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);
@@ -338,7 +340,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       
       //审核通过
-      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态
@@ -352,7 +355,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
 
       //审核未通过
-      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
       
       //修改系统状态为
       MainParam mainParam = new MainParam();
@@ -376,6 +380,8 @@ public class CheckServiceImpl implements CheckService {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);
@@ -397,7 +403,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       
       //审核通过
-      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -418,7 +425,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
 
       //审核未通过
-      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -439,6 +447,8 @@ public class CheckServiceImpl implements CheckService {
   @Transactional
   public String saveGradChangeCheck(String userName, CheckParam checkParam)
       throws BusinessException {
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
@@ -464,7 +474,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       
       //审核通过
-      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),String.valueOf(userDTO.getUserId()),
+          userDTO.getUserName());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -485,7 +496,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
 
       //审核未通过
-      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -509,7 +521,8 @@ public class CheckServiceImpl implements CheckService {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
-    
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);
@@ -530,7 +543,8 @@ public class CheckServiceImpl implements CheckService {
 //      check.setScoreCheckReason(checkParam.getScoreCheckReason());
 //      editCheckStatusBySystemId(check);
       //审核通过
-      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
 
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -551,7 +565,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       
       //审核未通过
-      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -574,7 +589,8 @@ public class CheckServiceImpl implements CheckService {
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
-    
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);
@@ -597,7 +613,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       
       //审核通过
-      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId());
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
     
     //修改系统状态
     MainParam mainParam = new MainParam();
@@ -621,7 +638,8 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       
       //审核未通过
-      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId());
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
       
       //修改系统状态
       MainParam mainParam = new MainParam();

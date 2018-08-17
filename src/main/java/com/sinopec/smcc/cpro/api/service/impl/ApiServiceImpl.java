@@ -19,11 +19,10 @@ import org.springframework.util.ObjectUtils;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
-import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
+import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
 import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.api.service.ApiService;
@@ -34,13 +33,18 @@ import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
+import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
+import com.sinopec.smcc.cpro.review.entity.CheckParam;
+import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationParam;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemRelationMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
+import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
 
 /**
@@ -64,6 +68,14 @@ public class ApiServiceImpl implements ApiService{
   private SystemRelationMapper systemRelationMapper;
   @Autowired
   private JurisdictionApiService jurisdictionApiServiceImpl;
+  @Autowired
+  private DpsConfig dpsConfig;
+  @Autowired
+  private CheckService checkServiceImpl;
+  @Autowired
+  private NodeService nodeServiceImpl;
+  @Autowired
+  private MainService mainServiceImpl;
   
   /**
    * 获取定级信息
@@ -185,9 +197,49 @@ public class ApiServiceImpl implements ApiService{
    * 批量审批
    */
   @Override
-  public AppCallResult batchApproval(List<ExecuteContext> executeContextList)
+  public Integer batchApproval(BatchCheckHandleParam batchCheckHandleParam)
       throws BusinessException {
-    return dpsTemplate.approveCompleteBatch(executeContextList);
+    int count = 0;
+    if(!ObjectUtils.isEmpty(batchCheckHandleParam.getCheckList()) && 
+        StringUtils.isNotBlank(batchCheckHandleParam.getUserId())){
+      for(CheckParam checkParam : batchCheckHandleParam.getCheckList()){
+        if(StringUtils.isNotBlank(checkParam.getFkSystemId())){
+          //业务节点定级
+          if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
+              checkParam.getFkBusinessNode().equals("1")){
+            //1企业 2总部
+            if(checkParam.getRole().equals("1")){
+              checkServiceImpl.saveGradCheck(batchCheckHandleParam.getUserName(),checkParam);
+            }else{
+              checkServiceImpl.saveHeadGradCheck(batchCheckHandleParam.getUserName(),checkParam);
+            }
+            count++;
+          }
+          //业务节点撤销备案
+          if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
+              checkParam.getFkBusinessNode().equals("2")){
+            //1企业 2总部
+            if(checkParam.getRole().equals("1")){
+              checkServiceImpl.saveCancelRecordsCheck(batchCheckHandleParam.getUserName(),checkParam);
+            }
+            count++;
+          }
+          //业务节点申请变更
+          if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
+              checkParam.getFkBusinessNode().equals("3")){
+            //1企业 2总部
+            if(checkParam.getRole().equals("1")){
+              checkServiceImpl.saveGradChangeCheck(batchCheckHandleParam.getUserName(),checkParam);
+            }else{
+              checkServiceImpl.saveHeadGradChangeCheck(batchCheckHandleParam.getUserName(),
+                  checkParam);
+            }
+            count++;
+          }
+        }
+      }
+    }
+    return count;
   }
   
   @Override
