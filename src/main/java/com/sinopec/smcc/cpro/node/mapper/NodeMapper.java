@@ -68,4 +68,6 @@ public interface NodeMapper {
    * @return
    */
   List<NodeResult> selectSingleNodeBySystemId(NodeParam nodeParam);
+
+  NodeResult querySingleNode(NodeParam nodeParam);
 }

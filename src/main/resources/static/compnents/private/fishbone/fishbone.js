@@ -27,7 +27,11 @@
         "createTime": "2018-06-08 19:52:56.0"
       }
     ]
-  }
+  },
+  result1:{},
+  fkChangeContent:"",
+  fkChangeReason:"",
+  fkSysChangeMatter:""
   };
   Vue.component('fishbone',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/fishbone/fishbone.html').then(function (res) {
@@ -49,13 +53,53 @@
             data.result=dataList;
           },
           //鱼骨图弹窗：隐藏弹窗
-          closes:function () {
-            var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+          closes:function (msg) {
+          	if(msg == 1 || msg == "1"){
+          		var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
+          	}
+          	if(msg == 2 || msg == "2"){
+          		var evaluationAlert=document.getElementsByClassName("evaluationAlert")[1];
+          	}
             evaluationAlert.style.display="none";
           },
           //弹窗：显示弹窗
           showDialog:function(itemdata){
-            $("#dialog").css("display","block");
+          	var url = "node/queryNode";
+          	var _self=this;
+          	var dataparmars={
+          			"nodeId":itemdata
+          	};
+          	if(itemdata!=null){
+          		ajaxMethod(_self,"post",url,false,JSON.stringify(dataparmars),"json",'application/json;charset=UTF-8', _self.querySuccess)
+          	}
+          },
+          querySuccess:function(_self,responseData){
+          	data.result1=responseData.data;
+          	if(responseData.data.operation == '申请变更'){
+          		$("#dialog").css("display","block");
+          	}
+          	if(responseData.data.operation == '撤销备案'){
+          		this.queryRevokeRecordsInfo(responseData.data.systemId);
+          	}
+          },
+          //查询撤销备案
+          queryRevokeRecordsInfo:function(msg){
+          	var url = "records/queryRevokeRecords";
+          	var _self=this;
+          	var dataparmars={
+          			"fkSystemId":msg
+          	};
+          	if(msg!=null){
+          		ajaxMethod(_self,"post",url,false,JSON.stringify(dataparmars),"json",'application/json;charset=UTF-8', _self.queryRevokeRecordsInfoSuccess)
+          	}
+          },
+          queryRevokeRecordsInfoSuccess : function(_self,responseData){
+          	data.result1 = responseData.data;
+          	if(responseData.data.fkrevokematter == "4"){
+          		responseData.data.fkrevokematter = "撤销备案";
+          	}
+          	$("#dialog1").css("display","block");
+          	
           },
           //时间格式化
          formatDate:function (millinSeconds){

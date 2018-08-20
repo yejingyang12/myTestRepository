@@ -54,7 +54,7 @@
         ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
         AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
       LEFT JOIN t_cpro_score AS score 
-        ON system.pkid = score.fkSystemId
+        ON system.pkid = score.fkSystemId AND score.deleteStatus=1
       LEFT JOIN t_cpro_system_code AS systemCodeSprankLevel 
         ON score.fkSprankLevel = systemCodeSprankLevel.systemCode 
         AND systemCodeSprankLevel.fkCodeType = 11
@@ -235,7 +235,6 @@
       AND system.deleteStatus=1 
       AND system.fkSystemType != 3
       AND company.deleteStatus=1
-      AND score.deleteStatus=1 
       <if test="customizedSearch != null ">
         <![CDATA[
           AND records.recordDate >= #{customizedSearch,jdbcType=DATE}

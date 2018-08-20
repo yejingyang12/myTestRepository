@@ -30,7 +30,10 @@
         companyId:"",
         changeType:"",
         systemId:"",
-        jurisdictionDel:""
+        jurisdictionDel:"",
+        fkNodeChangeReason : "",
+        fkNodeChangeContent : "",
+        fkNodeSysChangeMatter : ""
       },
       msgName : [],// 单位名称
       msgProvince : [],// 所属省份
@@ -561,8 +564,10 @@
               _self.getCompanyMethod(_self);
               if(companyId!=''&&companyId!=null){
                 _self.getCompanyInfoByIdMethod(_self,companyId);
+                $("#cover").removeClass('cover');
               }else if(companyCode!=null){
                 _self.getCompanyInfoMethod(_self,companyCode);
+                $("#cover").removeClass('cover');
               }
               
               if(readonly=='update'){

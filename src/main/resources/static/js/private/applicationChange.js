@@ -61,6 +61,15 @@ window.onload = function () {
               error: function(err) {
               }
             });
+            if(fkChangeMatter){
+            	data.formData.fkNodeChangeReason = changeReason;
+            }
+            if(changeReason){
+            	data.formData.fkNodeChangeContent = changeContent;
+            }
+            if(changeContent){
+            	data.formData.fkNodeSysChangeMatter = fkChangeMatter+"";
+            }
             ajaxMethod(_self, 'post',
                 'company/saveCompany', true,JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',_self.submitHandlerSuccessMethod);

@@ -366,7 +366,7 @@ public class CheckServiceImpl implements CheckService {
 
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
-          String.valueOf(userDTO.getUserId()),userDTO.getUserName());
+          String.valueOf(userDTO.getUserId()),userName);
       
       //修改系统状态为
       MainParam mainParam = new MainParam();

@@ -70,6 +70,15 @@
                   queryEvaluationListSuccess :function (_self,responseData) {
                   	_self.evaluList = responseData.data.list;
                   	_self.result = responseData;
+                  	var evaluListLength = responseData.data.list.length;
+                  	for(var i=0;i<evaluListLength;i++){
+                  		if(_self.evaluList[i].rectificationDate == '1970-01-01'){
+                  			_self.evaluList[i].rectificationDate = "";
+                  		}
+                  		if(_self.evaluList[i].examTime == '1970-01-01'){
+                  			_self.evaluList[i].examTime = "";
+                  		}
+                  	}
                   	
                   	_self.result.totalPages = responseData.data.totalPage;
                   	_self.result.pagesize = responseData.data.pageSize;
