@@ -175,7 +175,7 @@ public class CheckServiceImpl implements CheckService {
     //获取已办列表
     if(checkParam.getHandlingState() == 2){
       final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
-          checkParam.getCurrentPage(), "",WorkFlowConsts.CATEGORY_CODE_CPRO);
+          checkParam.getCurrentPage(), "");
       appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTaskHaveDone.getPageIndex();
       if((appPagedTODOTaskHaveDone.getExecuteTaskList())!=null){

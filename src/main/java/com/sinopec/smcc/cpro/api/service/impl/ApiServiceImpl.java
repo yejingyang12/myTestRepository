@@ -238,6 +238,8 @@ public class ApiServiceImpl implements ApiService{
           }
         }
       }
+    }else{
+      return null;
     }
     return count;
   }

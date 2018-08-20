@@ -159,7 +159,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   public void reviewNotThrough(String businessId,String userId,String userName) 
       throws BusinessException {
     final PagedList appPagedTODOTask = 
-        dpsTemplate.appPagedTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+        dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){
       List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
       String taskid=null;

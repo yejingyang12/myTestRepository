@@ -1,10 +1,6 @@
 
 package com.sinopec.smcc.cpro;
 
-import com.sinopec.smcc.base.consts.RequestClientEnum;
-import com.sinopec.smcc.base.consts.SmccConsts;
-import com.sinopec.smcc.base.consts.SmccModuleEnum;
-import com.sinopec.smcc.base.log.RequestLog;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,10 +10,14 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.sinopec.smcc.base.consts.RequestClientEnum;
+import com.sinopec.smcc.base.consts.SmccConsts;
+import com.sinopec.smcc.base.consts.SmccModuleEnum;
+import com.sinopec.smcc.base.log.RequestLog;
 
 /**
  * 项目名称:smcc-cpro
@@ -28,11 +28,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * 修改时间:
  * 修改备注:
  */
-@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class,MailSenderAutoConfiguration.class})
-@ComponentScan(value = SmccConsts.BASH_PACKAGE)
-@MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class,MailSenderAutoConfiguration.class} ,scanBasePackages=SmccConsts.BASH_PACKAGE)
 @EnableAspectJAutoProxy(exposeProxy = true)
-@EnableFeignClients(SmccConsts.BASH_PACKAGE)
+@EnableFeignClients("com.sinopec.smcc")
+@MapperScan(SmccConsts.BASH_PACKAGE + ".**.mapper")
+//@ComponentScan(value = "com.sinopec.smcc")
 @Controller
 public class ClassProtectionApplication {
 	
