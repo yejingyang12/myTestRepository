@@ -110,7 +110,7 @@ public class ApiServiceImpl implements ApiService{
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     int appPagedTODOTaskTotal = 0;
     int appPagedTODOTaskPageNum = 0;
-  //获取待办列表
+    //获取待办列表
     final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(userId,10,
         usmgParams.getCurrPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
