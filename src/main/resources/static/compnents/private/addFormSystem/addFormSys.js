@@ -375,6 +375,7 @@ var  data={
                 		var index = this.delIndex;
                 		this.systemInfo2[this.formData.addSystemSub.length-1] = false;
                 		this.formData.addSystemSub.splice(index,1);
+                		this.formData.addSystemSubSon.splice(index,1);
                 		$("#count_"+index+1).remove();
                 		
                 		for(var i=0;i<this.formData.addSystemSub.length;i++){
@@ -789,7 +790,6 @@ var  data={
                       }
                     },
                     setStandardizedCode:function(e,val){
-                    	debugger
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
                   				if(e==this.sysName[i].systemName){
