@@ -443,8 +443,8 @@
                   for(var i=0;i<this.msgName.length;i++){
                     if(val==this.msgName[i].orgName){
                       this.formData.companyCode = this.msgName[i].orgCode;
-                      this.formData.compPrincipalEm = this.msgName[i].email;
                       this.formData.companyAddress = this.msgName[i].address;
+                      this.formData.postalCode = this.msgName[i].zipCode;
                     }
                   }
                 }
@@ -524,8 +524,8 @@
               			if(this.dtlCompanyCode == this.msgName[i].orgCode){
               				this.formData.companyCode = this.dtlCompanyCode;
               				this.formData.companyName=this.msgName[i].orgName;
-//              				this.formData.compPrincipalEm = this.msgName[i].email;
-//              				this.formData.companyAddress = this.msgName[i].address;
+              				this.formData.postalCode = this.msgName[i].zipCode;
+              				this.formData.companyAddress = this.msgName[i].address;
               				data.disabledInput=true;
               			}
               		}
