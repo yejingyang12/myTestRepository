@@ -34,6 +34,30 @@ public class NodeResult {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date createTime;
   
+  private String fkChangeReason;
+  private String fkChangeContent;
+  private String fkSysChangeMatter;
+  
+  
+  
+  public String getFkChangeReason() {
+    return fkChangeReason;
+  }
+  public void setFkChangeReason(String fkChangeReason) {
+    this.fkChangeReason = fkChangeReason;
+  }
+  public String getFkChangeContent() {
+    return fkChangeContent;
+  }
+  public void setFkChangeContent(String fkChangeContent) {
+    this.fkChangeContent = fkChangeContent;
+  }
+  public String getFkSysChangeMatter() {
+    return fkSysChangeMatter;
+  }
+  public void setFkSysChangeMatter(String fkSysChangeMatter) {
+    this.fkSysChangeMatter = fkSysChangeMatter;
+  }
   public String getNodeId() {
     return nodeId;
   }

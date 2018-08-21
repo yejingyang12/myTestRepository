@@ -71,4 +71,6 @@ public interface NodeService {
    * @param nodeParam
    */
   void editNodeInfo(NodeParam nodeParam);
+
+  NodeResult querySingleNode(NodeParam nodeParam);
 }

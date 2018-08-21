@@ -144,6 +144,16 @@ public class CompanyServiceImpl implements CompanyService {
       nodeParam.setOperationResult("已修改");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
+      if(companyParam.getFkNodeChangeContent()!=null){
+        nodeParam.setFkChangeContent(companyParam.getFkNodeChangeContent());
+      }
+      if(companyParam.getFkNodeChangeReason()!=null){
+        nodeParam.setFkChangeReason(companyParam.getFkNodeChangeReason());
+      }
+      if(companyParam.getFkNodeSysChangeMatter()!=null){
+        nodeParam.setFkSysChangeMatter(companyParam.getFkNodeSysChangeMatter());
+      }
+      
       NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
       if (nodeResult == null) {
         this.nodeServiceImpl.addNodeInfo(nodeParam);

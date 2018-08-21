@@ -79,13 +79,13 @@
       value: 3,
       label: '不符合'
     }],
-    inspectionStatus: [{
+    inspectionStatus: [/*{
     	value: '',
     	label: '请选择'
     }, {
     	value: 1,
     	label: '未自查'
-    }, {
+    }, */{
     	value: 2,
     	label: '已自查'
     }],

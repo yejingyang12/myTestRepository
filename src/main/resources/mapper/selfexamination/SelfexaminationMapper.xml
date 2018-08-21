@@ -253,7 +253,7 @@
   <update id="updateSelfexaminationDeleteStatusBySelfexaminationId" parameterType="com.sinopec.smcc.cpro.selfexamination.entity.SelfexaminationParam">
   	UPDATE t_cpro_self_inspection
 		SET deleteStatus = 2
-		<if test="">
+		<if test="updateUserName != null">
 			,updateUserName = #{updateUserName}
 		</if>
 		WHERE

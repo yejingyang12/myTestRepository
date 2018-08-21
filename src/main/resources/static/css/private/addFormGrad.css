@@ -32,9 +32,10 @@ input{
 .cut:after{
     content: "";
     display: block;
-    width: 1200px;
+    width: auto;
     height: 2px;
     background: #ededed;
+    margin-left:1px;
 }
 .mcAddTian .tianMsg:before{
     content: "";

@@ -83,8 +83,8 @@
                                     </el-form-item>
                                 </div>
                             </li>
-                            <div v-for="(addSys,i) in formData.addSystemSub" >
-                              <li class="row" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)" :id="delCount(i)" >
+                            <div v-for="(addSys,i) in formData.addSystemSub" v-on:mouseenter="dataDel(i)" v-on:mouseleave="hiddenDel(i)">
+                              <li class="row" :id="delCount(i)" >
                                 <div class="col-lg-6 col-md-6">
                                     <el-form-item :label="formData.addSystemSub[[i]].label" :id="allSysName(i)" prop="stars" class="P-addsystem" style="padding-left: 15px;">
                                         <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2[[i]]"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
@@ -106,7 +106,7 @@
 			                                   :id="gernerateId(i)" 
 			                                   @click="deleteSys(1,i)">删除</button>
 			                          <!-- 删除弹窗 -->
-                                       <div class="dialogShaw shawLast2">
+                                      <div class="dialogShaw shawLast2">
 					                       <div class="inquiry delLast2">
 				                             <div class="cenrerBox">
 														        <i class="failIcon fl">!</i>
@@ -126,28 +126,28 @@
 					                        </div>
                                        </div>         
 	                               </div>
-	                               
-	                            </li>
+	                           </li>
+	                           <div v-if="i==(formData.addSystemSub.length-1)">
+		                           <li style="padding:6px 2px;" class="btn btn-success sysSun" @click="addSysInfo($event)" id="add" v-show="addSub">添加子系统</li>
+		                           <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
+		                           <li class="btn btn-default P-btn-sysSun" id="lastDel"
+		                           style="background-color:red;color:#FFFFFF;display:none"  
+		                           @click="deleteSys(2)">删除</li>
+	                           </div>
                             </div>
-                            <li style="padding:6px 2px;" class="btn btn-success sysSun" @click="addSys($event)" id="add" v-show="addSub">添加子系统</li>
-                            <li class="btn btn-success sysSun" id="add2" v-show="!addSub">添加子系统</li>
-                            <li class="btn btn-default P-btn-sysSun" id="lastDel"
-                            style="background-color:red;color:#FFFFFF;"  
-                            @click="deleteSys(2)">删除</li>
-                            
-                               <!-- 删除弹窗 -->
-                                       <div class="dialogShaw shawLast">
-                                 <div class="inquiry delLast">
-                                        <div class="cenrerBox">
-																	        <i class="failIcon fl">!</i>
-																	        <div class="fl">
-																	          <p>是否删除</p>
-																	        </div>
-																	      </div>
-																	      <div class="inquiryBtn">
-																	          <button type="button" class="btn btn-success fl" @click="delSonSystemLast()">确定</button>
-																	          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
-																	      </div>
+                           <!-- 删除弹窗 -->
+                           <div class="dialogShaw shawLast">
+                             <div class="inquiry delLast">
+                               <div class="cenrerBox">
+								 <i class="failIcon fl">!</i>
+								   <div class="fl">
+									 <p>是否删除</p>
+									</div>
+						   			</div>
+						   <div class="inquiryBtn">
+					          <button type="button" class="btn btn-success fl" @click="delSonSystemLast()">确定</button>
+					          <button type="button" class="btn btn-default fr" @click="closes">取消</button>
+						   </div>
                                         <!-- <p>是否删除</p>
                                         <div class="inquiryBtn">
                                             <button type="button" class="btn btn-success fl" @click="delSonSystemLast()">确定</button>
@@ -157,7 +157,6 @@
                                        </div>         
                         </ul>
                     </li>
-                    
                     <li class="row">
                         <div class="col-lg-6 col-md-6">
                             <el-form-item label="等保备案系统名称：" prop="gradeRecordSysName" class="P-addsystem">
@@ -366,6 +365,23 @@
                             </el-form-item>
                         </div>
                     </li>
+                    <li class="row" v-show="BeSonSystem">
+                         <div class="col-lg-6 col-sm-3">
+                            <el-form-item label="上级系统名称：" prop="fatherSystemName" class="P-addsystem">
+                              <el-select v-model="formData.fatherSystemName" filterable placeholder="请选择上级系统名称" >
+                                  <el-option v-for="item in sysName" :key="item.systemName" :label="item.systemName" :value="item.systemName" ></el-option>
+                              </el-select>
+                            </el-form-item>
+                        </div>
+                        <div class="col-lg-6 col-sm-3"  >
+                            <el-form-item  prop="fatherCompanyName" class="P-addsystem">
+                            <label for="fatherCompanyName" class="el-form-item__label" style="width: auto;float:left;margin-left:-165px !important">上级系统所属单位名称：</label>
+                              <el-select  placeholder="请选择上级系统所属单位名称" class="formControl" v-model="formData.fatherCompanyName" filterable>
+                                <el-option v-for="item in msgName" :key="item.companyName" :label="item.companyName" :value="item.companyName"></el-option>
+                              </el-select>
+                            </el-form-item>
+                        </div>
+                    </li>
                     <li class="row">
                         <div class="col-lg-6 col-sm-3">
                         <!-- :disabled = "executiveDisabled" -->
@@ -376,22 +392,6 @@
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管联系人电话：" prop="executiveDireConTel" class="P-addsystem">
                               <el-input name="executiveDireConTel" id="executiveDireConTel" placeholder="请输入" v-model="formData.executiveDireConTel"></el-input>
-                            </el-form-item>
-                        </div>
-                    </li>
-                    <li class="row" v-show="BeSonSystem">
-                         <div class="col-lg-6 col-sm-3">
-                            <el-form-item label="父系统名称：" prop="fatherSystemName" class="P-addsystem">
-                              <el-select v-model="formData.fatherSystemName"  placeholder="请选择父系统名称" >
-                                  <el-option v-for="item in sysName" :key="item.systemName" :label="item.systemName" :value="item.systemName" ></el-option>
-                              </el-select>
-                            </el-form-item>
-                        </div>
-                        <div class="col-lg-6 col-sm-3">
-                            <el-form-item label="父系统所属单位：" prop="fatherCompanyName" class="P-addsystem">
-                              <el-select placeholder="请选择父系统所属单位" class="formControl" v-model="formData.fatherCompanyName">
-                                <el-option v-for="item in msgName" :key="item.companyName" :label="item.companyName" :value="item.companyName"></el-option>
-                              </el-select>
                             </el-form-item>
                         </div>
                     </li>

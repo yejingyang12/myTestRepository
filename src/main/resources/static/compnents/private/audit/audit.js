@@ -217,7 +217,19 @@
                     break;
                   case 6://是否有专家意见
                   	data.tableData.result.list.sort(function (a, b) {
-                      return (a.expertReviewName.localeCompare(b.expertReviewName)) * flagOne
+                  		var x = a.expertReviewName;
+                  		var y = b.expertReviewName;
+                  		if(x == null){
+                  			x = "无";
+                  		}else{
+                  			x = "有";
+                  		}
+                  		if(y == null){
+                  			y = "无";
+                  		}else{
+                  			y = "有";
+                  		}
+                      return (x.localeCompare(y)) * flagOne
                     });
                     break;
                 }

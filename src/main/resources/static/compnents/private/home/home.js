@@ -561,11 +561,16 @@
 					},
 					// 申请变更提交成功
 					saveChangeMattersSuccessMethod : function(_self, responseData) {
-						this.closes();
+					  	this.closes();
 					  //跳转到申请变更页面
 						var companyCode = $("#changeMattersCompanyCode").val();
 						var companyId = $("#changeMattersCompanyId").val();
-					  window.location.href="/page/applicationChangePage?systemId="+ responseData.data +"&fkCompanyCode="+companyCode+"&companyId="+companyId;
+						var changeReason = _self.ruleForm.desc;
+						var changeContent = _self.ruleForm.desc1;
+						var fkChangeMatter = _self.ruleForm.region;
+						this.closes();
+					  window.location.href="/page/applicationChangePage?systemId="+ responseData.data +"&fkCompanyCode="+companyCode+"&companyId="+companyId
+					  	+"&changeReason="+changeReason+"&changeContent="+changeContent+"&fkChangeMatter="+fkChangeMatter;
 					},
 				  //跳转到备案
           toCompanyRecordPage : function(examineStatus,systemId,companyId) {
@@ -1140,7 +1145,7 @@
           exportExcelForGradeTemplateSuccessMethod: function (_self,response) {
         		$("#startBoxExporting").css('display', 'none');
           	if(response.data){
-          		window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+response.data.uploadUrl+"&attachName="+response.data.attachName;
+          		window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl="+response.data.uploadUrl+"&attachName="+response.data.attachName);
           		$("#startBoxExport").show().delay(2000).fadeOut();
           	}
           },

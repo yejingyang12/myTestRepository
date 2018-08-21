@@ -90,7 +90,7 @@
 	             _self.dialogShow=2; 
 	             _self.formDialogData.systemIds=[];
 	             if(responseData.data){
-	            	 window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+responseData.data.uploadUrl+"&attachName="+responseData.data.attachName;
+	            	 window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl="+responseData.data.uploadUrl+"&attachName="+responseData.data.attachName);
 	             }
              }
         },

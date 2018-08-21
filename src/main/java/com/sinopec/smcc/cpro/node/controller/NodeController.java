@@ -62,4 +62,15 @@ public class NodeController {
 
     return RetResultUtil.ok(page);
   }
+  
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  @RequestMapping(value = "/queryNode", method = RequestMethod.POST)
+  public RetResult<NodeResult> queryNode(
+      @RequestBody NodeParam nodeParam) throws BusinessException{
+    NodeResult node = this.nodeServiceImpl.querySingleNode(nodeParam);
+    //通过resultApi实体组成返回参数
+
+    return RetResultUtil.ok(node);
+  }
 }

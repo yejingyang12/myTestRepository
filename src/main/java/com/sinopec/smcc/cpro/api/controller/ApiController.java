@@ -104,7 +104,7 @@ public class ApiController {
   public RetResult<PageUtil> getStayHandle(@RequestBody UsmgParams usmgParams,
       @RequestParam("userId") String userId)throws BusinessException{
     // 调用service实体，获得
-    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,"3501561");
+    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,userId);
     PageUtil pageUtil = new PageUtil(pageInfo);
     return RetResultUtil.ok(pageUtil);
   }

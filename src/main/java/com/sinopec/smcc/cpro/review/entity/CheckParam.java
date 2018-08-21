@@ -83,7 +83,6 @@ public class CheckParam {
   private String field;
   private String sort;
   private String userId;
-  private String userName;
   
   private List<String> companyList;
   private List<String> plateList;
@@ -105,19 +104,7 @@ public class CheckParam {
    */
   public void setUserId(String userId) {
     this.userId = userId;
-  }
-  /**
-   * @return the userName
-   */
-  public String getUserName() {
-    return userName;
-  }
-  /**
-   * @param userName the userName to set
-   */
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
+  } 
   /**
    * @return the result
    */
