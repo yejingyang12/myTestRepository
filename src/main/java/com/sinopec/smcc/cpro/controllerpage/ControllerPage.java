@@ -91,6 +91,9 @@ public class ControllerPage {
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     model.addAttribute("companyId", systemParam.getCompanyId());
     model.addAttribute("theLastStep", systemParam.getTheLastStep());
+    model.addAttribute("fkChangeMatter", systemParam.getFkChangeMatter());
+    model.addAttribute("changeReason", systemParam.getChangeReason());
+    model.addAttribute("changeContent", systemParam.getChangeContent());
     return "views/applicationChange";
   }
   //申请变更系统信息填写

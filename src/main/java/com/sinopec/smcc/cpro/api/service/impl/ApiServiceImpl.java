@@ -118,7 +118,7 @@ public class ApiServiceImpl implements ApiService{
     if((appPagedTODOTask.getExecuteTaskList())!=null){
       List<ExecuteTaskData> executeTaskDataList = appPagedTODOTask.getExecuteTaskList();      
       for(ExecuteTaskData executeTaskData : executeTaskDataList){
-        //获取扩展数据systemId
+        //获取扩展数据systemId  
         String systemId = executeTaskData.getExt001();
         SystemParam systemParam = new SystemParam();
         systemParam.setSystemId(systemId);
@@ -200,13 +200,13 @@ public class ApiServiceImpl implements ApiService{
   public Integer batchApproval(BatchCheckHandleParam batchCheckHandleParam)
       throws BusinessException {
     int count = 0;
-    if(!ObjectUtils.isEmpty(batchCheckHandleParam.getCheckList()) && 
-        StringUtils.isNotBlank(batchCheckHandleParam.getUserId())){
+    if(!ObjectUtils.isEmpty(batchCheckHandleParam.getCheckList())){
       for(CheckParam checkParam : batchCheckHandleParam.getCheckList()){
         if(StringUtils.isNotBlank(checkParam.getFkSystemId())){
           //业务节点定级
           if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
               checkParam.getFkBusinessNode().equals("1")){
+            checkParam.setScoreCheckReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
             if(checkParam.getRole().equals("1")){
               checkServiceImpl.saveGradCheck(batchCheckHandleParam.getUserName(),checkParam);
@@ -218,6 +218,7 @@ public class ApiServiceImpl implements ApiService{
           //业务节点撤销备案
           if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
               checkParam.getFkBusinessNode().equals("2")){
+            checkParam.setCancelRecordsReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
             if(checkParam.getRole().equals("1")){
               checkServiceImpl.saveCancelRecordsCheck(batchCheckHandleParam.getUserName(),checkParam);
@@ -227,6 +228,7 @@ public class ApiServiceImpl implements ApiService{
           //业务节点申请变更
           if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
               checkParam.getFkBusinessNode().equals("3")){
+            checkParam.setScoreCheckChangeReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
             if(checkParam.getRole().equals("1")){
               checkServiceImpl.saveGradChangeCheck(batchCheckHandleParam.getUserName(),checkParam);

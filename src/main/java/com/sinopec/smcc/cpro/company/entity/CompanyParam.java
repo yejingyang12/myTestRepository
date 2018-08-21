@@ -69,8 +69,29 @@ public class CompanyParam {
   
   private Integer jurisdictionDel;
   
+  private String fkNodeChangeReason;//原因
+  private String fkNodeChangeContent;//内容
+  private String fkNodeSysChangeMatter;//事项
   
   
+  public String getFkNodeChangeReason() {
+    return fkNodeChangeReason;
+  }
+  public void setFkNodeChangeReason(String fkNodeChangeReason) {
+    this.fkNodeChangeReason = fkNodeChangeReason;
+  }
+  public String getFkNodeChangeContent() {
+    return fkNodeChangeContent;
+  }
+  public void setFkNodeChangeContent(String fkNodeChangeContent) {
+    this.fkNodeChangeContent = fkNodeChangeContent;
+  }
+  public String getFkNodeSysChangeMatter() {
+    return fkNodeSysChangeMatter;
+  }
+  public void setFkNodeSysChangeMatter(String fkNodeSysChangeMatter) {
+    this.fkNodeSysChangeMatter = fkNodeSysChangeMatter;
+  }
   /**
    * @return the jurisdictionDel
    */

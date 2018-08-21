@@ -55,7 +55,7 @@ window.onload = function () {
             	if(boo){
                 data.check = false;
                 window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
-              }else{
+            	}else{
                 $(".startBox").show().delay(2000).fadeOut();
                 window.setTimeout(function () {
                   window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction+"&systemId="+systemId;

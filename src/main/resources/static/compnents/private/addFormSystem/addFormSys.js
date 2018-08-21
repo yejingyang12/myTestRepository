@@ -404,9 +404,17 @@ var  data={
                 		return "person_" +index
                 	},
                 	dataDel:function(i){
-                		$("#person_"+i).show();
+                		if(i==(this.formData.addSystemSub.length-1)){
+                			$("#lastDel").show();
+                			
+                		}else{
+                			$("#person_"+i).show();
+                		}
                 	},
                 	hiddenDel:function(i){
+                	    if(i==(this.formData.addSystemSub.length-1)){
+                			$("#lastDel").hide();
+                		}
                 		$("#person_"+i).hide();
                 	},
                 	systemSonNameDis: function (index){
@@ -623,7 +631,7 @@ var  data={
                           $("#trueSys").hide();
                       }
                   },
-                  addSys:function (e) {
+                  addSysInfo:function (e) {
                       if(this.formData.addSystemSub.length>=this.sysName.length){
                         this.addSub = false;
                       }else{
@@ -668,7 +676,7 @@ var  data={
                     getSystemInfoMethod : function(_self) {
                       ajaxMethod(_self, 'post',
                           'systemapi/querySystemApi', true,
-                          '{"companyCode":"'+_self.formData.fkCompanyCode+'"}', 'json',
+                          '{"companyCode":"'+companyCode+'"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getSystemInfoSuccessMethod);
                     },
@@ -790,6 +798,7 @@ var  data={
                       }
                     },
                     setStandardizedCode:function(e,val){
+
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
                   				if(e==this.sysName[i].systemName){
@@ -808,7 +817,6 @@ var  data={
                   				}
                   			}
                   		}
-                  		
                   		if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
                         return;
                       }
@@ -836,7 +844,7 @@ var  data={
                     				Vue.set(this.systemNameSon12, i, false);
                     			}else{
                     				Vue.set(this.systemNameSon12, i, true);
-                    				this.formData.aa = '';
+                    				this.formData.aa[i] = '';
 	                    			this.$refs.formData.validateField('aa');
 	                    			isNan = false;
                     			}

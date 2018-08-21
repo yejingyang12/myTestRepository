@@ -156,7 +156,7 @@ var revokeRecordData={
             $("#revokeRecordInquiry").css("display","none");
 						$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-            	window.location.href=   + "page/indexPage"           
+            	window.location.href= originUrl+"page/indexPage";           
             }, 2300);
 					},
 				  //关闭弹窗

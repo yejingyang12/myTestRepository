@@ -90,4 +90,9 @@ public class NodeServiceImpl implements NodeService {
     nodeParam.setCreateTime(DateUtils.getDate());
     this.nodeMapper.updateNodeByNodeId(nodeParam);
   }
+  @Override
+  public NodeResult querySingleNode(NodeParam nodeParam) {
+    NodeResult nodeResult= this.nodeMapper.querySingleNode(nodeParam);
+    return nodeResult;
+  }
 }

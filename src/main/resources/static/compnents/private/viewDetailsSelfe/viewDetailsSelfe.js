@@ -72,6 +72,15 @@
                   	_self.result.total = responseData.data.totalCount;
                   	_self.result.totalPages = responseData.data.totalPage;
                   	_self.resultBy = responseData.data;
+                  	var selfListLength = _self.selfList.length;
+                  	for(var i=0;i<selfListLength;i++){
+                  		if(_self.selfList[i].inspectionDate == '1970-01-01'){
+                  			_self.selfList[i].inspectionDate = "";
+                  		}
+                  		if(_self.selfList[i].rectificationDate == '1970-01-01'){
+                  			_self.selfList[i].rectificationDate = "";
+                  		}
+                  	}
                   },    
                   //分页跳转
                   hpageNum:function(_this){

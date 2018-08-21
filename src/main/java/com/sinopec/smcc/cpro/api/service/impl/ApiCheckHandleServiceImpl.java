@@ -93,7 +93,7 @@ public class ApiCheckHandleServiceImpl implements ApiCheckHandleService{
     if (checkList == null || checkList.size()==0) {
       return list;
     }
-    request.getSession().setAttribute("userId", batchCheckHandleParam.getUserId());
+//    request.getSession().setAttribute("userId", batchCheckHandleParam.getUserId());
     
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();

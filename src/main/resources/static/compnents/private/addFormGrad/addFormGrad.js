@@ -1298,8 +1298,8 @@ var data={
                         this.getSystemSuccess);
                     } ,
                     getSystemSuccess : function(_self,result){
-                    	this.formData.systemName = result.systemName;
-                    	this.formData.gradeRecordSysName = result.gradeRecordSysName;                    	
+                    	this.formData.systemName = result.data.systemName;
+                    	this.formData.gradeRecordSysName = result.data.gradeRecordSysName;                    	
                     },
                     getPermitJurisdictionInfo: function(_self){
                       ajaxMethod(_self,"post",

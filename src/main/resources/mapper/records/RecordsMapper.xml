@@ -301,7 +301,7 @@
   <update id="updateRecordsBySystemIdForRevokeRecords" parameterType="com.sinopec.smcc.cpro.records.entity.RecordsParam">
   	UPDATE t_cpro_records 
   	SET revokereason = #{revokereason},fkrevokematter = #{fkrevokematter} 
-  	<if test="">
+  	<if test="updateUserName != null">
   		,updateUserName = #{updateUserName}
   	</if>
     WHERE fkSystemId = #{fkSystemId} 
