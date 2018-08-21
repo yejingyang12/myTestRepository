@@ -188,7 +188,7 @@ function FnPostData(url, type) {
 	var that = this;
 	this.FnSetParam(param)
 	$.ajax({
-		url: origin + url,
+		url: originUrl + url,
 		type: "POST",
 		datType: "JSON",
 		contentType: "application/json;charset=utf-8",
@@ -207,7 +207,7 @@ function FnPostData(url, type) {
 function FnPostFile(url, formData, type) {
 	var that = this;
 	$.ajax({
-		url: origin + url,
+		url: originUrl + url,
 		type: 'POST',
 		cache: false,
 		data: formData,
