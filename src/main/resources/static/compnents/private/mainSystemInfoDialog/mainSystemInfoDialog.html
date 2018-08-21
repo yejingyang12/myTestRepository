@@ -14,7 +14,7 @@
 	        <el-row :gutter="15">
 			  <el-col :span="17">
 			  <div class="dialogInput" style="margin-bottom: 15px;width:220px;">
-				  <el-input placeholder="请输入关键字" v-model="formDialogData.searchSystem" clearable class="input-with-select">
+				  <el-input placeholder="请输入关键字" v-model="formDialogData.searchSystem" clearable class="input-with-select" @input="querySystemInfoEchoListMethod()">
 				     <el-button @click="querySystemInfoEchoListMethod()" slot="append" icon="el-icon-search"></el-button>
 				  </el-input>
 				</div> 

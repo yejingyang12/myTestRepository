@@ -93,13 +93,13 @@
  .bottom .centerline {
  	position: absolute;
     left: 0;
-    top:98px;  
+    top:136px;  
     margin-top:50px;
 }
    .bottom .over_time {
  	position: absolute;
     left: 0;
-    top:163px;  
+    top:210px;  
    /*  margin-top:50px; */
 }  
  .top  {
@@ -132,16 +132,16 @@
 .bottom .over_time {
   position: absolute;
   left: 0;
-  top:210px;  
+  top:210px !important;;  
 }
 .bottom  {
-     padding-top:1px;
+     padding-top:1px !important;
      position:relative;
 }  
  .bottom .centerline {
  	position: absolute;
     left: 0;
-    top:140px;  
+    top:140px !important;  
     margin-top:50px;
 }
 .beianline{

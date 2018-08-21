@@ -353,7 +353,7 @@ public class CompanyServiceImpl implements CompanyService {
         this.companyMapper.selectCompanyName(companyParam);
         break;
       case "3":
-        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyParam.setCompanyList(organizationApiResult.getPermitMap().get("0102010106"));
         companyListResultList =  
         this.companyMapper.selectCompanyName(companyParam);
         break;

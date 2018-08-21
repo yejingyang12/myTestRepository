@@ -20,7 +20,7 @@ window.onload = function () {
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
             data.formData.systemMaterialsId = responseData.data;
-            $(".startBox").show().delay(2000).fadeOut();
+            $(".save").show().delay(2000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
             }, 2300);
@@ -33,7 +33,8 @@ window.onload = function () {
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
             data.formData.systemMaterialsId = responseData.data;
-            $(".startBox").show().delay(2000).fadeOut();
+            //$(".startBox").show().delay(2000).fadeOut();
+            $(".submit").show().delay(2000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
             }, 2300);

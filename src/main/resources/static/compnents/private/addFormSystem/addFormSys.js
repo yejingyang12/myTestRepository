@@ -844,7 +844,7 @@ var  data={
                     				Vue.set(this.systemNameSon12, i, false);
                     			}else{
                     				Vue.set(this.systemNameSon12, i, true);
-                    				this.formData.aa[i] = '';
+                    				this.formData.aa = '';
 	                    			this.$refs.formData.validateField('aa');
 	                    			isNan = false;
                     			}
@@ -996,6 +996,7 @@ var  data={
                         this.systemSonInfo = true;
                         this.systemInfo = false;
                         $("#systemInfo1").attr("disabled","disabled");
+                        //下面的这句改过，会放开子系统的
 //                        this.systemInfo2 = true;
                         this.rules.standardizedCode[0].required=false;
                       }else{

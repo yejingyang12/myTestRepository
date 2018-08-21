@@ -1645,7 +1645,7 @@
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
     <where>
-    	 system.deleteStatus=1 AND company.deleteStatus=1
+    	 system.deleteStatus=1 AND company.deleteStatus=1 AND system.fkSystemType != 3
       <if test="companyList != null">
         <![CDATA[
           AND company.companyCode IN  

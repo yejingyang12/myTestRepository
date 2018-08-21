@@ -7,6 +7,7 @@
       paramSelfExamination:false,
       paramApplication:false,
       delSystemId:"",
+      showItem:5,
       
 		  ruleForm: {
 	          name: '',
@@ -159,6 +160,32 @@
         },
         created: function() { 
         	this.search(1);
+        },
+        computed:{
+        	totalPages:function(){
+        		var page = []; //显示页码
+                //用当前激活页面驱动页面显示的分别
+                if (this.result.currentPage < this.showItem) { //当前页小于最大页码数（showItem），区分总页数是否达到最大页码数
+                    //获取总页数和最大页码数较小的值
+                    var i = Math.min(this.result.totalPages, this.showItem);
+                    while (i) {
+                        //通过page的数组值显示页码
+                        page.unshift(i--);
+                    }
+                } else { //当前页面大于最大页码数（showItem）时，区分显示的页码规则
+                    var pagestart = this.result.currentPage - Math.floor(this.showItem / 2); //获取显示的页码第一位页码（默认当前页居中）
+                    var i = this.showItem; //用来显示多少（i）个页码
+                    if (pagestart > (this.result.totalPages - this.showItem)) { //第一个页码如果大于总页数减去展示的页码数，则当前页不能居中
+                        pagestart = (this.result.totalPages - this.showItem) + 1; //应该显示的第一个页码数
+                    }
+                    while (i--) {
+                        //通过page的数组值显示页码
+                        page.push(pagestart++);
+                    }
+                }
+                return page;
+            }
+        	
         },
         methods: {
         	 submitForm:function(formName) {

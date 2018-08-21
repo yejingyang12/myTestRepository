@@ -109,6 +109,8 @@ public class CheckServiceImpl implements CheckService {
     //获取待办列表
     if(checkParam.getHandlingState() == 1){
       Map<String,String> extMap = new HashMap<String,String>();
+      //版本号
+      extMap.put("ext003", WorkFlowConsts.CATEGORY_VERSION_NUM);
       //系统名称
       if(StringUtils.isNotBlank(checkParam.getInstanceName())){
         extMap.put("ext004", checkParam.getInstanceName());
@@ -202,6 +204,32 @@ public class CheckServiceImpl implements CheckService {
     //获取已办列表
     if(checkParam.getHandlingState() == 2){
       Map<String,String> extMap = new HashMap<String,String>();
+      //版本号
+      extMap.put("ext003", WorkFlowConsts.CATEGORY_VERSION_NUM);
+      //系统名称
+      if(StringUtils.isNotBlank(checkParam.getInstanceName())){
+        extMap.put("ext004", checkParam.getInstanceName());
+      }
+      //发起人
+      if(StringUtils.isNotBlank(checkParam.getInitiator())){
+        extMap.put("ext007", checkParam.getInitiator());
+      }
+      //建设类型
+      if(StringUtils.isNotBlank(checkParam.getFkInfoSysTypeCon())){
+        extMap.put("ext005", checkParam.getFkInfoSysTypeCon());
+      }
+      //业务节点
+      if(StringUtils.isNotBlank(checkParam.getFkBusinessNode())){
+        if(checkParam.getFkBusinessNode().equals("1")){
+          extMap.put("ext006", "定级");
+        }
+        if(checkParam.getFkBusinessNode().equals("2")){
+          extMap.put("ext006", "撤销备案");        
+        }
+        if(checkParam.getFkBusinessNode().equals("3")){
+          extMap.put("ext006", "申请变更");   
+        }
+      }
       final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
           checkParam.getCurrentPage(), "",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
       appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();

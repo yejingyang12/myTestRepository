@@ -177,15 +177,19 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();
     List<String> permssionsList = new ArrayList<String>();
-    boolean booValue = false;
+    Map<String,List<String>> permitMap = new HashMap<String,List<String>>();
     for (AuthorizationDTO authorizationDTO : jsonMenu) {
+      boolean booValue = false;
+      List<String> permitList = new ArrayList<String>();
       //增加权限许可
       if (authorizationDTO.getPermissionList() != null) {
         List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
         for (PermissionDTO permissionDTO : permissionDTOList) {
+          //查看权限
           if(permissionDTO.getPermcode().equals("0102010107")){
             booValue = true;
           }
+          permitList.add(permissionDTO.getPermcode());
           permssionsList.add(permissionDTO.getPermcode());
         }
       }
@@ -209,12 +213,34 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
             nameList.add(orgCode);
           }
         }
+        for (String strPermit : permitList) {
+          if(strPermit.equals("01020101")||strPermit.equals("01020102")
+              ||strPermit.equals("01020103")){
+            continue;
+          }
+          List<String> permit = new ArrayList<String>();
+          for (int i=0;i<rules.length;i++) {
+            
+            String[] orgInfo = rules[i].trim().split("=");
+            if(orgInfo.length<=1){
+              continue;
+            }
+            String orgCode = orgInfo[1].replace("'", "");
+            if (orgCode.trim().length()>8) {
+              orgCode = orgCode.trim().substring(0, 8);
+            }else {
+              orgCode = orgCode.trim();
+            }
+            permit.add(orgCode);
+          }
+          permitMap.put(strPermit, permit);
+        }
         jurisdictionDataResult.setResultType("3");
       }else{
         jurisdictionDataResult.setResultType("0");
       }
-      booValue = false;
     }
+    jurisdictionDataResult.setPermitMap(permitMap);
     jurisdictionDataResult.setPermssions(permssionsList);
     jurisdictionDataResult.setCodeList(codeList);
     jurisdictionDataResult.setNameList(nameList);

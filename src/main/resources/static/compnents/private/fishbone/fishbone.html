@@ -10,31 +10,31 @@
           <span class="fl revokeTitle" v-show="true">变更信息</span>
           <span @click="closes(1)" 
                 class="fr revokeTitle" 
-                style="margin-right: 15px;margin-bottom: 15px;">X</span>
+                style="margin-right: 15px;margin-bottom: 15px;cursor:pointer">X</span>
         </p>
          <div>
             <div class="col-md-12 clearPadding">
                         <!--变更事项--> 
-                            <div class="col-md-12 clearPadding h-system-fishbone">
-                                <span class="col-md-1 clearPadding "> 
+                            <div class="col-md-10 clearPadding h-system-fishbone">
+                                <span class="col-md-2 clearPadding "> 
                                                                                        变更事项：
                                 </span>
-                               <p class="col-md-10 clearPadding">{{result1.fkSysChangeMatter}}</p> 
+                               <p class="col-md-3 clearPadding">{{result1.fkSysChangeMatter}}</p> 
                              </div>
                       
                         <!--变更原因-->
-                        <div class="col-md-12 clearPadding h-system-fishbone">
-                                <span class="col-md-1 clearPadding "> 
+                        <div class="col-md-10 clearPadding h-system-fishbone">
+                                <span class="col-md-2 clearPadding "> 
                                                                                        变更原因：
                                 </span>
-                               <p class="col-md-10 clearPadding">{{result1.fkChangeReason}}</p> 
+                               <p class="col-md-3 clearPadding">{{result1.fkChangeReason}}</p> 
                              </div>
                         <!--变更内容-->
-                        <div class="col-md-12 clearPadding h-system-fishbone">
-                                <span class="col-md-1 clearPadding "> 
+                        <div class="col-md-10 clearPadding h-system-fishbone">
+                                <span class="col-md-2 clearPadding "> 
                                                                                        变更内容：
                                 </span>
-                               <p class="col-md-10 clearPadding">{{result1.fkChangeContent}}</p> 
+                               <p class="col-md-6 clearPadding">{{result1.fkChangeContent}}</p> 
                              </div>
                </div>
            </div>
@@ -97,6 +97,7 @@
                         <div class="thirs_div" v-if="pro.operationOpinion!=''">操作意见：{{pro.operationOpinion}}</div>
                     	<div class="thirs_div" v-else>操作意见：无</div>
                     </div>
+                    <!-- <div class="over_time">完成时间:{{pro.createTime}}</div> -->
                     <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div>
                 <div class="centerline">
                     <div class="cricle"></div>

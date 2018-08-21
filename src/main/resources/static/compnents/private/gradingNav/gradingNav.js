@@ -3,7 +3,8 @@
  */
 var data1 = {
 		activeName: 'third',
-    materialShow:false
+    materialShow:false,
+    materialInfoShow:false
 };
 (function () {
   Vue.component('gradingNav',function (resolve,reject) {
@@ -29,10 +30,22 @@ var data1 = {
           // 获取成功
           nextBtnSuccessMethod : function(_self, responseData) {
               window.location.href = originUrl+"page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId;
+          },
+          getSystemMaterialsInfo:function(systemId){
+          	var _self = this;
+              ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', true,
+                  '{"fkSystemId":"'+systemId+'"}', 'json',
+                  'application/json;charset=UTF-8',
+                  _self.getMaterialsInfoSuccessMethod);
+          },
+          getMaterialsInfoSuccessMethod:function(_self,responseData){
+          	if(responseData.data.systemMaterialsId != null){
+          		data1.materialInfoShow = true;
+          	}
           }
         },
         created: function() {
-        	
+        	this.getSystemMaterialsInfo(systemId);
         },
         mounted: function() {
           var _self = this;

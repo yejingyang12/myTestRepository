@@ -15,7 +15,8 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
-            $(".startBox").show().delay(2000).fadeOut();
+          	$(".save").show().delay(2000).fadeOut();
+            //$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
             }, 2300);
@@ -27,7 +28,8 @@ window.onload = function () {
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
-            $(".startBox").show().delay(2000).fadeOut();
+            //$(".startBox").show().delay(2000).fadeOut();
+          	$(".submit").show().delay(2000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
             }, 2300);
@@ -39,11 +41,15 @@ window.onload = function () {
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
+          	if(_self.formData.saveType == "1"){
+          		$(".save").show().delay(2000).fadeOut();
+          	}else if(_self.formData.saveType == "2"){
+          		$(".submit").show().delay(2000).fadeOut();
+          	}
             if(boo){
               data.check = false;
               window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId;
             }else{
-              $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {
                 window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
               }, 2300);

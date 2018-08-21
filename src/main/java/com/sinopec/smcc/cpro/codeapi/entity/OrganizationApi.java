@@ -23,7 +23,7 @@ public class OrganizationApi {
   private String orgCode;
   private String orgName;
   private String address;
-  private String email;
+  private String zipCode;
   
   
   /**
@@ -37,18 +37,6 @@ public class OrganizationApi {
    */
   public void setAddress(String address) {
     this.address = address;
-  }
-  /**
-   * @return the email
-   */
-  public String getEmail() {
-    return email;
-  }
-  /**
-   * @param email the email to set
-   */
-  public void setEmail(String email) {
-    this.email = email;
   }
   public String getOrgCode() {
     return orgCode;
@@ -65,5 +53,11 @@ public class OrganizationApi {
   
   public String toString(){
     return JSON.toJSONString(this);
+  }
+  public String getZipCode() {
+    return zipCode;
+  }
+  public void setZipCode(String zipCode) {
+    this.zipCode = zipCode;
   }
 }

@@ -1299,7 +1299,11 @@ var data={
                     } ,
                     getSystemSuccess : function(_self,result){
                     	this.formData.systemName = result.data.systemName;
-                    	this.formData.gradeRecordSysName = result.data.gradeRecordSysName;                    	
+                    	if(result.data.gradeRecordSysName==''||result.data.gradeRecordSysName==null||result.data.gradeRecordSysName=='undefind'){
+                    		this.formData.gradeRecordSysName = result.data.systemName;
+                    	}else{
+                    		this.formData.gradeRecordSysName = result.data.gradeRecordSysName;
+                    	}
                     },
                     getPermitJurisdictionInfo: function(_self){
                       ajaxMethod(_self,"post",

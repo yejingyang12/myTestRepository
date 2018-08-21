@@ -279,9 +279,15 @@
           changeScore : function(){
           	if(this.ruleForm.scoreCheckResult == 2){
           		this.rules.scoreCheckReason[0].required = true;
-          	}else{
-          		this.rules.scoreCheckReason[0].required = false;
-          		this.$refs.scoreCheckReason.clearValidate();
+          		if(this.ruleForm.scoreCheckReason == "通过"){
+          			this.ruleForm.scoreCheckReason = "";
+          		}
+          	}else if(this.ruleForm.scoreCheckResult == 1){
+          		/*this.rules.scoreCheckReason[0].required = false;
+          		this.$refs.scoreCheckReason.clearValidate();*/
+          		if(this.ruleForm.scoreCheckReason == ""){
+          			this.ruleForm.scoreCheckReason = "通过";
+          		}
           	}
           },
           //审核结构：显示输入内容的字数

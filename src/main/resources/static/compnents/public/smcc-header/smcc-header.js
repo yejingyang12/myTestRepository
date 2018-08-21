@@ -6,7 +6,7 @@ var emitdata = new Vue();
 				template: res,
 				data: function() {
 					return {
-						origin: origin,
+						origin: originUrl,
 						isShowSearchForm: false,
 						isShowSilder: false,
 						isShowToggle: false,

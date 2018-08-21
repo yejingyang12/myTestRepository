@@ -3,6 +3,8 @@
 	  a:1,
       checkBox:'false',
       arrowdown:true,
+      //每页显示条数
+      showItem:10,
 	  hStatus: [{
         value: '1',
         label: '未定级'
@@ -220,6 +222,32 @@
           this.getCompanyName(this);
           
           this.createdList();
+        },
+        computed:{
+        	totalPages:function(){
+        		var page = []; //显示页码
+                //用当前激活页面驱动页面显示的分别
+                if (this.result.currentPage < this.showItem) { //当前页小于最大页码数（showItem），区分总页数是否达到最大页码数
+                    //获取总页数和最大页码数较小的值
+                    var i = Math.min(this.result.totalPages, this.showItem);
+                    while (i) {
+                        //通过page的数组值显示页码
+                        page.unshift(i--);
+                    }
+                } else { //当前页面大于最大页码数（showItem）时，区分显示的页码规则
+                    var pagestart = this.result.currentPage - Math.floor(this.showItem / 2); //获取显示的页码第一位页码（默认当前页居中）
+                    var i = this.showItem; //用来显示多少（i）个页码
+                    if (pagestart > (this.result.totalPages - this.showItem)) { //第一个页码如果大于总页数减去展示的页码数，则当前页不能居中
+                        pagestart = (this.result.totalPages - this.showItem) + 1; //应该显示的第一个页码数
+                    }
+                    while (i--) {
+                        //通过page的数组值显示页码
+                        page.push(pagestart++);
+                    }
+                }
+                return page;
+            }
+        	
         },
         methods: { 
         	createdList:function(){
@@ -520,8 +548,9 @@
               }
           },
           //跳转到定级页面
-          toAuditGradPage : function(systemId,companyId) {
-          	window.location.href="/page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId;
+          toAuditGradPage : function(systemId,companyId,companyCode) {
+//          	window.location.href="/page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId;
+          	window.location.href="/page/addCompanyGradPage?systemId="+systemId+"&fkCompanyCode="+companyId+"&companyId="+companyId;
           },
           //申请变更弹窗
           toAuditChangePage : function(systemId,companyCode,companyId) {
@@ -561,7 +590,6 @@
 					},
 					// 申请变更提交成功
 					saveChangeMattersSuccessMethod : function(_self, responseData) {
-					  	this.closes();
 					  //跳转到申请变更页面
 						var companyCode = $("#changeMattersCompanyCode").val();
 						var companyId = $("#changeMattersCompanyId").val();
@@ -919,21 +947,24 @@
 	          	var fileFormat = e.target.value.split(".");//文件后缀
 	          	if(fileFormat[1] != 'xlsm' && fileFormat[1] != 'xlsx'){
 	          		this.$alert('不接受此文件类型！', '信息提示', {
-	              confirmButtonText: '确定',
-	              callback: function callback(action) {
-	              }
-	            });
-	        		return;
-	        	}
-						var importData = new FormData(); 
-						importData.append('file', e.target.files[0]);
-						importData.append('type', 'test');
-						ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
+		              confirmButtonText: '确定',
+		              callback: function callback(action) {
+		              }
+		            });
+		        		return;
+		        	}
+							var importData = new FormData(); 
+							importData.append('file', e.target.files[0]);
+							importData.append('type', 'test');
+							ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
+							//$("#startBoxImporting").css('display', 'block');
+	          	$("#startBoxImporting").show().delay(2000).fadeOut();
           	}
           },
           //导入成功
           importGardingSuccessMethod: function(_self,responseData){
-          	
+          	//$("#startBoxImporting").css('display', 'none');
+          	$("#startBoxImport").show().delay(2000).fadeOut();
           },
           
           //一键

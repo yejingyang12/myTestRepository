@@ -138,9 +138,11 @@ public class JurisdictionApiController {
   @ResponseBody
   @RequestMapping(value="/getCompanyCode", method = RequestMethod.POST)
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public ResultApi getCompanyCode(HttpServletRequest request) throws BusinessException{
-    String companyCode = 
-        this.jurisdictionApiServiceImpl.getCompanyCode();
+  public ResultApi getCompanyCode(@LoginUser User loginUser) throws BusinessException{
+    String companyCode = loginUser.getOrgCode();
+    if (companyCode.trim().length()>8) {
+      companyCode = companyCode.trim().substring(0, 8);
+    }
     //通过resultApi实体组成返回参数
     ResultApi result = new ResultApi(EnumResult.SUCCESS);
     result.setData(companyCode);

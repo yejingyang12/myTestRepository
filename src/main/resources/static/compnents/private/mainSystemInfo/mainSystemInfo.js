@@ -4,11 +4,13 @@
 var data1={
 	  dialogShow:2,
 	  showImprot:2,
+	  showItem:10,
     activeName: 'first',
     inputs:null,
     tr:null,
     systemForm:"1",
     tishi:"",
+    companyCode:"",
     systemForm:{
     	importSystemInfo:'',
       importSystemPath:'',
@@ -48,6 +50,32 @@ var data1={
         data:function () {
           return data1;
         },
+        computed:{
+        	totalPages:function(){
+        		var page = []; //显示页码
+                //用当前激活页面驱动页面显示的分别
+                if (this.systemForm.currentPage < this.showItem) { //当前页小于最大页码数（showItem），区分总页数是否达到最大页码数
+                    //获取总页数和最大页码数较小的值
+                    var i = Math.min(this.systemForm.totalPages, this.showItem);
+                    while (i) {
+                        //通过page的数组值显示页码
+                        page.unshift(i--);
+                    }
+                } else { //当前页面大于最大页码数（showItem）时，区分显示的页码规则
+                    var pagestart = this.systemForm.currentPage - Math.floor(this.showItem / 2); //获取显示的页码第一位页码（默认当前页居中）
+                    var i = this.showItem; //用来显示多少（i）个页码
+                    if (pagestart > (this.systemForm.totalPages - this.showItem)) { //第一个页码如果大于总页数减去展示的页码数，则当前页不能居中
+                        pagestart = (this.systemForm.totalPages - this.showItem) + 1; //应该显示的第一个页码数
+                    }
+                    while (i--) {
+                        //通过page的数组值显示页码
+                        page.push(pagestart++);
+                    }
+                }
+                return page;
+            }
+        	
+        },        
         methods:{
         	xuanfu : function(data){
         		this.tishi = data; 
@@ -206,7 +234,7 @@ var data1={
             window.location.href = "/page/changeSystemInformationPage?systemId="+id;
           },
           newSystemInfoMethod:function(){
-            window.location.href = "/page/newSystemInformationPage";
+            window.location.href = "/page/newSystemInformationPage?companyCode="+this.companyCode;
           },
           //清空
           clearHeadle:function(){
@@ -280,9 +308,22 @@ var data1={
              };
            }
          },
+         // 获取单位Code
+         getCompanyCode : function(_self) {
+           ajaxMethod(_self, 'post',
+               'jurisdiction/getCompanyCode', true,
+               '{}', 'json',
+               'application/json;charset=UTF-8',
+               _self.getCompanyCodeSuccessMethod);
+         },
+         // 获取单位Code成功
+         getCompanyCodeSuccessMethod : function(_self, responseData) {
+         		this.companyCode = responseData.data;
+         },
         },
         created: function() {
           this.getSystemListInfoMethod(this,{});
+          this.getCompanyCode(this);
         },
         mounted: function() {
           var tr=document.getElementsByTagName('tr');

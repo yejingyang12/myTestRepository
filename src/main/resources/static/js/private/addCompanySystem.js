@@ -56,10 +56,9 @@ window.onload = function () {
                 data.check = false;
                 window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
             	}else{
-                $(".startBox").show().delay(2000).fadeOut();
-                window.setTimeout(function () {
+                //$(".startBox").show().delay(2000).fadeOut();
                   window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction+"&systemId="+systemId;
-                }, 2300);
+
               }
           	}
           	if(data.enterprise){
@@ -67,10 +66,7 @@ window.onload = function () {
                 data.check = false;
                 window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
               }else{
-                $(".startBox").show().delay(2000).fadeOut();
-                window.setTimeout(function () {
                   window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&systemId="+systemId;
-                }, 2300);
               }
           	}
           },

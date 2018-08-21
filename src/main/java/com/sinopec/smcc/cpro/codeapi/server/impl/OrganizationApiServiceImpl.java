@@ -115,33 +115,13 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    //
-    List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
-  //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-    CompanyParam companyParam = new CompanyParam();
-    switch (organizationApiResult.getResultType()) {
     
-    case "0":
-      break;
-    case "1":
-      // 获得响应列表数据
-    companyListResultList = 
-        this.companyMapper.selectCompanyName(companyParam);
-      break;
-    case "2":
-      companyParam.setPlateList(organizationApiResult.getNameList());
-      companyListResultList =  
-      this.companyMapper.selectCompanyName(companyParam);
-      break;
-    case "3":
-      companyParam.setCompanyList(organizationApiResult.getCodeList());
-      companyListResultList =  
-      this.companyMapper.selectCompanyName(companyParam);
-      break;
+    List<CompanyListResult> companyListResultList  = new ArrayList<CompanyListResult>();
 
-    default:
-      break;
-    }
+    CompanyParam companyParam = new CompanyParam();
+    companyListResultList =  
+        this.companyMapper.selectCompanyName(companyParam);
+    
     List<String> companyCodeList = new ArrayList<String>();
     for(CompanyListResult companyListResult:companyListResultList){
       companyCodeList.add(companyListResult.getCompanyCode());
@@ -149,14 +129,19 @@ public class OrganizationApiServiceImpl implements OrganizationApiService{
     //判断总部数据开始
     if (organizationApiList!=null&&organizationApiList.size()>0) {
       for (OrganizationDTO organizationDTO : organizationApiList) {
+        //权限判断
+        if(!organizationApiResult.getPermitMap().get("0102010106").
+            contains(organizationDTO.getOrgCode())){
+          continue;
+        }
          if(!companyCodeList.contains(organizationDTO.getOrgCode())){
           OrganizationApi organization= new OrganizationApi();
           organization.setOrgCode(organizationDTO.getOrgCode());
           organization.setOrgName(organizationDTO.getOrgName());
-          if(StringUtils.isNotBlank(organizationDTO.getEmail())){
-            organization.setEmail(organizationDTO.getEmail());
+          if(StringUtils.isNotBlank(organizationDTO.getZipCode())){
+            organization.setZipCode(organizationDTO.getZipCode());
           }else{
-            organization.setEmail("");
+            organization.setZipCode("");
           }
           if(StringUtils.isNoneBlank(organizationDTO.getAddress())){
             organization.setAddress(organizationDTO.getAddress());

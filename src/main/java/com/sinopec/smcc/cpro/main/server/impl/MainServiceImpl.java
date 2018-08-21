@@ -2098,6 +2098,7 @@ public class MainServiceImpl implements MainService{
       }
     }
     String selected = "";
+    Map<String,Object> result = new HashMap<>();
     if(gradingListResult != null){
       //确定业务信息安全保护等级
       if(StringUtils.isNotBlank(gradingListResult.getFkBizSPRankLevel())){
@@ -2274,6 +2275,15 @@ public class MainServiceImpl implements MainService{
         dataMap.put("snu1", "✓");
       }else if(selected.equals("v2")){
         dataMap.put("v2", "✓");
+//      String bizSPRankDegree[] = gradingListResult.getFkBizSPRankDegree().split(",");
+//      for (int i = 0; i < bizSPRankDegree.length; i++) {
+//        if(!bizSPRankDegree[i].equals("")){
+//          if(bizSPRankDegree[i].equals("10202")){
+//            
+//          }
+//        }
+//      }
+
         dataMap.put("snu2", "✓");
         dataMap.put("snu3", "✓");
       }else if(selected.equals("v3")){
@@ -2317,6 +2327,22 @@ public class MainServiceImpl implements MainService{
           dataMap.put(selectTypeArray[i], "□");
         }
       }
+      String url = WordUtils.createWord(dataMap,"grading.ftl","定级信息");
+      String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+      String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+      //如果是IE浏览器，则用URLEncode解析  
+      FileOperateUtil fileOperateUtil = new FileOperateUtil();
+      if(fileOperateUtil.isMSBrowser(request)){  
+        try {
+          fileName = URLEncoder.encode(fileName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
+        }  
+      }
+      result.put("url", fileUrl+fileName);
+      result.put("tableGradingResult", dataMap);
+      result.put("randlevel", gradingListResult.getFkSpRanklevel());
+      return result;
     }else{
       dataMap.put("snu1", "□");dataMap.put("snu2", "□");dataMap.put("snu3", "□");
       dataMap.put("snu4", "□");dataMap.put("snu5", "□");dataMap.put("snu6", "□");
@@ -2334,23 +2360,8 @@ public class MainServiceImpl implements MainService{
       dataMap.put("approval", "□");dataMap.put("approva2", "□");dataMap.put("grading1", "□");
       dataMap.put("grading2", "□");dataMap.put("enc", "");dataMap.put("addTableName", "");
       dataMap.put("tableDate", "");
+      return null;
     }
-    Map<String,Object> result = new HashMap<>();
-    String url = WordUtils.createWord(dataMap,"grading.ftl","定级信息");
-    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
-    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
-    //如果是IE浏览器，则用URLEncode解析  
-    FileOperateUtil fileOperateUtil = new FileOperateUtil();
-    if(fileOperateUtil.isMSBrowser(request)){  
-      try {
-        fileName = URLEncoder.encode(fileName, "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }  
-    }
-    result.put("url", fileUrl+fileName);
-    result.put("tableGradingResult", dataMap);
-    return result;
   }
 
   /**
@@ -2379,6 +2390,7 @@ public class MainServiceImpl implements MainService{
         dataMap.put("graRecSysName", "");
       }
     }
+    Map<String,Object> result = new HashMap<>();
     if(!ObjectUtils.isEmpty(attachMaterialsListResultList)){
       //计数器
       int topologyCount = 0;
@@ -2481,6 +2493,21 @@ public class MainServiceImpl implements MainService{
           }
         }
       }
+      String url = WordUtils.createWord(dataMap,"attach.ftl","附件信息");
+      String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
+      String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+      //如果是IE浏览器，则用URLEncode解析  
+      FileOperateUtil fileOperateUtil = new FileOperateUtil();
+      if(fileOperateUtil.isMSBrowser(request)){  
+        try {
+          fileName = URLEncoder.encode(fileName, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+          e.printStackTrace();
+        }  
+      }
+      result.put("url", fileUrl+fileName);
+      result.put("tableAttachResult", dataMap);
+      return result;
     }else{
       dataMap.put("has1", "□");dataMap.put("has2", "□");dataMap.put("has3", "□");
       dataMap.put("has4", "□");dataMap.put("has5", "□");dataMap.put("has6", "□");
@@ -2489,23 +2516,8 @@ public class MainServiceImpl implements MainService{
       dataMap.put("has13", "□");dataMap.put("has14", "□");dataMap.put("name1", " ");
       dataMap.put("name2", " ");dataMap.put("name3", " ");dataMap.put("name4", " ");
       dataMap.put("name5", " ");dataMap.put("name6", " ");dataMap.put("name7", " ");
-    }
-    Map<String,Object> result = new HashMap<>();
-    String url = WordUtils.createWord(dataMap,"attach.ftl","附件信息");
-    String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
-    String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
-    //如果是IE浏览器，则用URLEncode解析  
-    FileOperateUtil fileOperateUtil = new FileOperateUtil();
-    if(fileOperateUtil.isMSBrowser(request)){  
-      try {
-        fileName = URLEncoder.encode(fileName, "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }  
-    }
-    result.put("url", fileUrl+fileName);
-    result.put("tableAttachResult", dataMap);
-    return result;
+      return null;
+    }   
   }
   
   /**
@@ -2591,7 +2603,15 @@ public class MainServiceImpl implements MainService{
     //表3 定级信息
     Map<String, Object> tableGradingFilePath = tableGrading(request,mainParam);
     //表4 附件信息
-    Map<String, Object> tableAttachFilePath = tableAttach(request,mainParam);
+    Map<String, Object> tableAttachFilePath = null;
+    //判断是否定级
+    if(tableGradingFilePath!=null){
+      //判断表3的等级
+      String randlevel = (String) tableGradingFilePath.get("randlevel");
+      if("303".equals(randlevel)||"304".equals(randlevel)||"305".equals(randlevel)){
+        tableAttachFilePath = tableAttach(request,mainParam);
+      }
+    }
     List<File> srcfile = new ArrayList<File>();// 文件list
     File companyFile = null;
     File systemFile = null;
@@ -2609,7 +2629,7 @@ public class MainServiceImpl implements MainService{
       gradingFile = new File(tableGradingFilePath.get("url").toString());
       srcfile.add(gradingFile);
     }
-    if(tableAttachFilePath != null){
+     if(tableAttachFilePath != null){
       attachFile = new File(tableAttachFilePath.get("url").toString());
       srcfile.add(attachFile);
     }

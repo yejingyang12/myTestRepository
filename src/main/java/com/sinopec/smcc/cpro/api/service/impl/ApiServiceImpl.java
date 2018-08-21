@@ -12,10 +12,15 @@ package com.sinopec.smcc.cpro.api.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -199,16 +204,25 @@ public class ApiServiceImpl implements ApiService{
   @Override
   public Integer batchApproval(BatchCheckHandleParam batchCheckHandleParam)
       throws BusinessException {
+    HttpServletRequest request = 
+        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+    HttpSession session = request.getSession();
     int count = 0;
     if(!ObjectUtils.isEmpty(batchCheckHandleParam.getCheckList())){
       for(CheckParam checkParam : batchCheckHandleParam.getCheckList()){
+        session.setAttribute("userId",checkParam.getUserId());
+        //权限
+        JurisdictionDataResult organizationApiResult = 
+            this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+        List<String> juri =  organizationApiResult.getPermssions();
+        boolean isJur = juri.contains("0102010101");
         if(StringUtils.isNotBlank(checkParam.getFkSystemId())){
           //业务节点定级
           if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 
               checkParam.getFkBusinessNode().equals("1")){
             checkParam.setScoreCheckReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
-            if(checkParam.getRole().equals("1")){
+            if(!isJur){
               checkServiceImpl.saveGradCheck(batchCheckHandleParam.getUserName(),checkParam);
             }else{
               checkServiceImpl.saveHeadGradCheck(batchCheckHandleParam.getUserName(),checkParam);
@@ -220,7 +234,7 @@ public class ApiServiceImpl implements ApiService{
               checkParam.getFkBusinessNode().equals("2")){
             checkParam.setCancelRecordsReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
-            if(checkParam.getRole().equals("1")){
+            if(!isJur){
               checkServiceImpl.saveCancelRecordsCheck(batchCheckHandleParam.getUserName(),checkParam);
             }
             count++;
@@ -230,7 +244,7 @@ public class ApiServiceImpl implements ApiService{
               checkParam.getFkBusinessNode().equals("3")){
             checkParam.setScoreCheckChangeReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
-            if(checkParam.getRole().equals("1")){
+            if(!isJur){
               checkServiceImpl.saveGradChangeCheck(batchCheckHandleParam.getUserName(),checkParam);
             }else{
               checkServiceImpl.saveHeadGradChangeCheck(batchCheckHandleParam.getUserName(),

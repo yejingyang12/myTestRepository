@@ -38,6 +38,22 @@ var data={
                 watch:{
                 },
                 methods:{
+	                	// 获取系统信息
+	                  getSystem : function(_self) {
+	                  	ajaxMethod(this, 'post',
+	                      'system/querySystemInformationBySystemId', true,
+	                      '{"systemId":"'+systemId+'"}', 'json',
+	                      'application/json;charset=UTF-8',
+	                      this.getSystemSuccess);
+	                  } ,
+	                  getSystemSuccess : function(_self,result){
+	                  	this.formData.systemName = result.data.systemName;
+	                  	if(result.data.gradeRecordSysName==''||result.data.gradeRecordSysName==null||result.data.gradeRecordSysName=='undefind'){
+	                  		this.formData.gradeRecordSysName = result.data.systemName;
+	                  	}else{
+	                  		this.formData.gradeRecordSysName = result.data.gradeRecordSysName;
+	                  	}
+	                  },
                     getGradeMethod: function(_self,id) {
                       ajaxMethod(_self, 'post','grading/queryEditGrading', true,
                       '{"fkSystemId":"'+systemId+'"}', 'json',
@@ -47,6 +63,7 @@ var data={
                     // 获取回显安全按等级成功
                     getGradeSuccessMethod : function(_self, responseData) {
                       if(responseData.data!=null){
+                      	_self.formData = responseData.data;
                       	if(! this.isEmpty(responseData.data.competentIsExisting)){
                       		this.formData.competentIsExisting = responseData.data.competentIsExisting;
                   			}
@@ -55,6 +72,8 @@ var data={
                   			}
                       	if(! this.isEmpty(responseData.data.gradeRecordSysName)){
                      		 this.formData.gradeRecordSysName = responseData.data.gradeRecordSysName;
+                      	}else{
+                      		this.formData.gradeRecordSysName = responseData.data.systemName;
                       	}
                       	if(! this.isEmpty(responseData.data.competentView)){
                       		this.formData.competentView = responseData.data.competentView;
@@ -89,7 +108,9 @@ var data={
                       	if(! this.isEmpty(responseData.data.systemName)){
                       		this.formData.systemName = responseData.data.systemName;
                       	}
-                        _self.formData = responseData.data;
+                      }else{
+                        //获取系统信息
+                        this.getSystem(this);
                       }
                       if(_self.formData.fkSpRanklevel<303 || _self.formData.fkSpRanklevel<'303'){
                     		this.materialViewShow = false;

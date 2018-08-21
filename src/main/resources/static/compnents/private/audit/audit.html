@@ -243,7 +243,7 @@
                                             <span aria-hidden="true">上一页</span>
                                         </a>
                                     </li>
-                                    <li v-for="n in tableData.totalPages==0?1:tableData.totalPages"
+                                    <li v-for="n in totalPages==0?1:totalPages"
                                         :class="[n==tableData.currentPage ? 'current' : '' ]">
                                         <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
                                     </li>

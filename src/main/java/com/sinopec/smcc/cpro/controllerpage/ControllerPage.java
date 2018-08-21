@@ -223,8 +223,8 @@ public class ControllerPage {
   //维护单位--新建系统信息
   @RequestMapping("/newSystemInformationPage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public String newSystemInformationPage( Model model){
-
+  public String newSystemInformationPage( Model model,CompanyParam companyParam){
+    model.addAttribute("companyCode",companyParam.getCompanyCode());
     return "views/newSystemInformation";
   }
   //维护单位--修改系统信息

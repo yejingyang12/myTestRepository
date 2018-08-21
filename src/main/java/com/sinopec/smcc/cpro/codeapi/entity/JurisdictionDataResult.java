@@ -9,6 +9,7 @@
 package com.sinopec.smcc.cpro.codeapi.entity;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
 
@@ -30,6 +31,7 @@ public class JurisdictionDataResult {
   private List<String> nameList;
   private String orgId;
   private List<String> permssions;
+  private Map<String,List<String>> permitMap;
   
   public String getResultType() {
     return resultType;
@@ -64,5 +66,11 @@ public class JurisdictionDataResult {
   
   public String toString(){
     return JSON.toJSONString(this);
+  }
+  public Map<String,List<String>> getPermitMap() {
+    return permitMap;
+  }
+  public void setPermitMap(Map<String,List<String>> permitMap) {
+    this.permitMap = permitMap;
   }
 }

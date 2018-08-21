@@ -252,13 +252,14 @@
           //系统等保管理趋势 - 类型
           getYearType:function(){
           	if(this.yearType==null||this.yearType=='undefind'||this.yearType==''){
+          		bus.$emit("yearEmptyType",this);
           		return;
           	}
           	var dataparmars;
-        		if(this.yearType != null){
+        		if(this.yearType != null&&this.yearType != ''&&this.yearType!='undefind'){
         			var dataparmars = '{"year":"'+this.yearType+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("yearType",dataparmars);
         		}
-        		bus.$emit("yearType",dataparmars);
           },
         },
         created: function() {

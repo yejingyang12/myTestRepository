@@ -164,7 +164,7 @@
                     <span aria-hidden="true">上一页</span>
                   </a>
                 </li>
-                <li v-for="n in systemForm.totalPages==0?1:systemForm.totalPages" :class="[n==systemForm.currentPage ? 'current' : '' ]">
+                <li v-for="n in totalPages==0?1:totalPages" :class="[n==systemForm.currentPage ? 'current' : '' ]">
                   <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
                 </li>
                 <li @click="clickPage(systemForm.currentPage+1)">
