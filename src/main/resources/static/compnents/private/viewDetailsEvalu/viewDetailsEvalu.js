@@ -73,7 +73,7 @@
                 		this.tishi=data;
                 	},
                   download:function(fileId){
-                  	window.location.href=originUrl+"fileHandle/downloadFile?fileId="+fileId;
+                  	window.location.href=originUrl+encodeURI("/fileHandle/downloadFile?fileId="+fileId);
                   },
                   listSuccess : function(_self,data){
                   },

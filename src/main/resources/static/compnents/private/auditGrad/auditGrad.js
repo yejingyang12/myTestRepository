@@ -247,7 +247,7 @@
             }
           },
           saveGradCheckSuccess: function(_self,response){
-        		window.location.href="/page/auditPage";
+        		window.location.href=originUrl+encodeURI("/page/auditPage");
           },
           getPermitJurisdictionInfo: function(_self){
             ajaxMethod(_self,"post",
@@ -283,8 +283,8 @@
           			this.ruleForm.scoreCheckReason = "";
           		}
           	}else if(this.ruleForm.scoreCheckResult == 1){
-          		/*this.rules.scoreCheckReason[0].required = false;
-          		this.$refs.scoreCheckReason.clearValidate();*/
+          		this.rules.scoreCheckReason[0].required = false;
+          		this.$refs.scoreCheckReason.clearValidate();
           		if(this.ruleForm.scoreCheckReason == ""){
           			this.ruleForm.scoreCheckReason = "通过";
           		}
@@ -310,7 +310,7 @@
           		fileId = null;
           	}
           	//下载路径
-          	window.location.href = originUrl + "fileHandle/downloadFile?attachName="+attachName+"&fileId="+fileId;
+          	window.location.href = originUrl+encodeURI("fileHandle/downloadFile?attachName="+attachName+"&fileId="+fileId);
           }
         },
         
@@ -330,7 +330,7 @@
           //点击返回按钮 返回到审核管理页面
           bus.$on("gradReturn",function(meg){
           	if(meg!=null){
-          		window.location.href=originUrl+"page/auditPage";
+          		window.location.href=originUrl+encodeURI("page/auditPage");
           	}
           })
         }

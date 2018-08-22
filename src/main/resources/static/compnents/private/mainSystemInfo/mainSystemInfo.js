@@ -231,10 +231,10 @@ var data1={
             this.getSystemListInfoMethod(this,this.systemForm.queryData);
           },
           handleClick:function(id){
-            window.location.href = "/page/changeSystemInformationPage?systemId="+id;
+            window.location.href = originUrl+encodeURI("/page/changeSystemInformationPage?systemId="+id);
           },
           newSystemInfoMethod:function(){
-            window.location.href = "/page/newSystemInformationPage?companyCode="+this.companyCode;
+            window.location.href = originUrl+encodeURI("/page/newSystemInformationPage?companyCode="+this.companyCode);
           },
           //清空
           clearHeadle:function(){

@@ -144,10 +144,10 @@ var data={
                     },
                     // 获取安全按等级成功
                     submitGradeInfoSuccessMethod : function(_self, responseData) {
-                      //window.location.href = "page/addCompanyMaterialPage?systemId=f7821c57865d4983b9db6f8db08efb3c";
+                      //window.location.href = originUrl+encodeURI("/page/addCompanyMaterialPage?systemId=f7821c57865d4983b9db6f8db08efb3c");
                     },
                     download: function (fileId) {
-                   	 	window.location.href=originUrl+"fileHandle/downloadFile?fileId="+fileId;
+                   	 	window.location.href=originUrl+encodeURI("/fileHandle/downloadFile?fileId="+fileId);
                     },
                     //判断字符是否为空的方法
                     isEmpty: function (obj){

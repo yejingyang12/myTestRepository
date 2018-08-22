@@ -200,8 +200,8 @@ var  data={
               { required: true, message: '请选择是否为合并系统', trigger: 'blur' },
           ],
           systemName:[  // 系统名称
-              { required: true, message: '请输入系统名称', trigger: 'blur' },
-              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+              { required: true, message: '请输入系统名称', trigger: 'change' },
+              { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'change' },
           ],
           systemNameSon:[  // 子系统名称
               { required: true, message: '请输入子系统名称', trigger: 'change' },
@@ -666,9 +666,9 @@ var  data={
                     // 获取系统信息成功
                     fnSaveSuccessMethod : function(_self, responseData) {
                       if(type=="change"){
-                        window.location.href = "applicationChangeGradPage?systemId="+responseData.data;
+                        window.location.href = originUrl+encodeURI("applicationChangeGradPage?systemId="+responseData.data);
                       }else{
-                        window.location.href = "addCompanyGradPage?systemId="+responseData.data;
+                        window.location.href = originUrl+encodeURI("addCompanyGradPage?systemId="+responseData.data);
                       }
                     },
 
@@ -798,7 +798,6 @@ var  data={
                       }
                     },
                     setStandardizedCode:function(e,val){
-
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
                   				if(e==this.sysName[i].systemName){
@@ -996,7 +995,7 @@ var  data={
                         this.systemSonInfo = true;
                         this.systemInfo = false;
                         $("#systemInfo1").attr("disabled","disabled");
-                        //下面的这句改过，会放开子系统的
+												//下面的这句改过，会放开子系统的
 //                        this.systemInfo2 = true;
                         this.rules.standardizedCode[0].required=false;
                       }else{

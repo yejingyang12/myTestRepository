@@ -302,85 +302,142 @@
 	</select>
 	<!-- 系统等保管理阶段趋势 -->
 	<select id="selectSystemTrendByYear" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam" resultMap="DiagramListResult">
-		SELECT
-		  MONTH(node.createTime) AS mouthCount,
-      SUM(IF(node.operation = '创建' or node.operationResult = '已创建' ,1,0)) AS readyGradCount,
-      SUM(IF(node.operation like '%定级%',1,0)) AS checkGradCount,
-      SUM(IF(node.operation = '备案',1,0)) AS recordsCount,
-      SUM(IF(node.operation = '添加测评',1,0)) AS evaluationCount,
-      SUM(IF(node.operation = '添加自查',1,0)) AS selfInspectionCount,
-     (
-			  CASE MONTH (node.createTime)
-			  WHEN 1 THEN
-			   '一月'
-			  WHEN 2 THEN
-			   '二月'
-			  WHEN 3 THEN
-			   '三月'
-			  WHEN 4 THEN
-			   '四月'
-			  WHEN 5 THEN
-			   '五月'
-			  WHEN 6 THEN
-			   '六月'
-			  WHEN 7 THEN
-			   '七月'
-			  WHEN 8 THEN
-			   '八月'
-			  WHEN 9 THEN
-			   '九月'
-			  WHEN 10 THEN
-			   '十月'
-			  WHEN 11 THEN
-			   '十一月'
-			  ELSE
-			   '十二月'
-			  END
-			) AS month
+		SELECT 
+			MONTH( system.createTime ) AS mouthCount,
+			SUM( IF ( system.gradingStatus = 2, 1, 0 ) ) AS readyGradCount,
+			SUM( IF ( system.examineStatus = 3, 1, 0 ) ) AS checkGradCount,
+			SUM( IF ( system.recordStatus = 3, 1, 0 ) ) AS recordsCount,
+			SUM( IF ( system.evaluationStatus = 3, 1, 0 ) ) AS evaluationCount,
+			SUM( IF ( system.examinationStatus = 3, 1, 0 ) ) AS selfInspectionCount,
+			(
+			CASE
+				MONTH ( system.createTime ) 
+				WHEN 1 THEN
+				'一月' 
+				WHEN 2 THEN
+				'二月' 
+				WHEN 3 THEN
+				'三月' 
+				WHEN 4 THEN
+				'四月' 
+				WHEN 5 THEN
+				'五月' 
+				WHEN 6 THEN
+				'六月' 
+				WHEN 7 THEN
+				'七月' 
+				WHEN 8 THEN
+				'八月' 
+				WHEN 9 THEN
+				'九月' 
+				WHEN 10 THEN
+				'十月' 
+				WHEN 11 THEN
+				'十一月' ELSE '十二月' 
+			END 
+			) AS MONTH
 		FROM
-			t_cpro_node node 
-		LEFT JOIN t_cpro_system AS system 
-		  ON system.pkId = node.fkSystemId
-		LEFT JOIN t_cpro_company com 
-		  ON com.companyCode = system.fkCompanyCode
+			t_cpro_system AS system
+			LEFT JOIN t_cpro_company AS company ON system.fkCompanyCode = company.companyCode
+			LEFT JOIN t_cpro_system_code AS systemCodeAppIsInternet ON system.appIsInternet = systemCodeAppIsInternet.systemCode 
+			AND systemCodeAppIsInternet.fkCodeType = 10
+			LEFT JOIN t_cpro_system_code AS systemCodeInfoSysTypeConstruction ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
+			AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
+			LEFT JOIN t_cpro_score AS score ON system.pkid = score.fkSystemId 
+			AND score.deleteStatus = 1
+			LEFT JOIN t_cpro_system_code AS systemCodeSprankLevel ON score.fkSprankLevel = systemCodeSprankLevel.systemCode 
+			AND systemCodeSprankLevel.fkCodeType = 11
+			LEFT JOIN t_cpro_records AS records ON system.pkId = records.fkSystemId
+			LEFT JOIN t_cpro_evaluation AS evaluation ON system.pkId = evaluation.fkSystemId 
+			AND evaluation.createTime = (
+			SELECT
+				MAX( eval.createTime ) 
+			FROM
+				t_cpro_evaluation eval 
+			WHERE
+				eval.fkSystemId = system.pkId 
+				AND eval.deleteStatus = 1 
+				LIMIT 1 
+			)
+			LEFT JOIN t_cpro_self_inspection AS selfInspection ON system.pkId = selfInspection.fkSystemId 
+			AND selfInspection.createTime = (
+			SELECT
+				MAX( inspec.createTime ) 
+			FROM
+				t_cpro_self_inspection inspec 
+			WHERE
+				inspec.fkSystemId = system.pkId 
+				AND inspec.deleteStatus = 1 
+				LIMIT 1 
+			)
+			LEFT JOIN t_cpro_check AS examine ON system.pkId = examine.fkSystemId
+			LEFT JOIN t_cpro_attach AS gradingAttch ON score.fkSystemId = gradingAttch.fkSystemId 
+			AND score.pkId = gradingAttch.fkSyssonId 
+			AND gradingAttch.fkAttachType = 'gradingReport'
+			LEFT JOIN t_cpro_attach AS checkAttch ON score.fkSystemId = checkAttch.fkSystemId 
+			AND score.pkId = checkAttch.fkSyssonId 
+			AND checkAttch.fkAttachType = 'expertReview'
+			LEFT JOIN t_cpro_attach AS evaluationAttch ON evaluation.fkSystemId = evaluationAttch.fkSystemId 
+			AND evaluation.pkId = evaluationAttch.fkSyssonId 
+			AND evaluationAttch.fkAttachType = 'evaluationPresentation'
+			LEFT JOIN t_cpro_attach AS selfAttch ON selfInspection.fkSystemId = selfAttch.fkSystemId 
+			AND selfInspection.pkId = selfAttch.fkSyssonId 
+			AND selfAttch.fkAttachType = 'examinationReport'
+			LEFT JOIN t_cpro_system_code AS gradingSystemCode ON system.gradingStatus = gradingSystemCode.systemCode 
+			AND gradingSystemCode.fkCodeType = 25
+			LEFT JOIN t_cpro_system_code AS examineSystemCode ON system.examineStatus = examineSystemCode.systemCode 
+			AND examineSystemCode.fkCodeType = 25
+			LEFT JOIN t_cpro_system_code AS recordSystemCode ON system.recordStatus = recordSystemCode.systemCode 
+			AND recordSystemCode.fkCodeType = 25
+			LEFT JOIN t_cpro_system_code AS evaluationSystemCode ON system.evaluationStatus = evaluationSystemCode.systemCode 
+			AND evaluationSystemCode.fkCodeType = 25
+			LEFT JOIN t_cpro_system_code AS examinationSystemCode ON system.examinationStatus = examinationSystemCode.systemCode 
+			AND examinationSystemCode.fkCodeType = 25 
 		<where>
-		   
-		   <if test="companyList != null">
+		  system.deleteStatus = 1 
+		  AND system.createTime!=''
+		  AND company.deleteStatus = 1 
+		  AND system.examineStatus!=5
+		  AND system.gradingStatus!=4
+		  AND system.recordStatus!=4
+		  AND system.evaluationStatus!=4
+		  AND system.examinationStatus!=4
+		<if test="companyList != null">
         <![CDATA[
-          AND com.companyCode IN  
+          AND company.companyCode IN  
         ]]>
         <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
           <![CDATA[
             #{item}
           ]]>
         </foreach>
-      </if>
-      <if test="plateList != null">
+      	</if>
+      	<if test="plateList != null">
         <![CDATA[
-          AND com.fkPlateType IN  
+          AND company.fkPlateType IN  
         ]]>
         <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
           <![CDATA[
             #{item}
           ]]>
         </foreach>
-      </if>
+      	</if>
 	    <if test="systemType != null and systemType == 1">
         <![CDATA[
            AND system.fkSystemType < 3
         ]]>
-      </if>
-      <if test="systemType != null and systemType == 2">
+      	</if>
+      	<if test="systemType != null and systemType == 2">
         <![CDATA[
            AND system.fkSystemType = 3
         ]]>
-      </if>
-		  <if test="year != null">
+      	</if>
+		<if test="year != null">
         <![CDATA[
-          AND YEAR(node.createTime) = #{year}
+          AND YEAR(system.createTime) = #{year}
         ]]>
-      </if>
+      	</if>
     </where>
-		GROUP BY MONTH(node.createTime)
+		GROUP BY MONTH(system.createTime)
 	</select>
 </mapper>

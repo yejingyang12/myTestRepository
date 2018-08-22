@@ -70,7 +70,7 @@
                   	}	
                   },
                   download:function(fileId){
-                  	window.location.href=originUrl+"fileHandle/downloadFile?fileId="+fileId;
+                  	window.location.href=originUrl+encodeURI("/fileHandle/downloadFile?fileId="+fileId);
                   },
                   //判断字符是否为空的方法
                   isEmpty: function (obj){

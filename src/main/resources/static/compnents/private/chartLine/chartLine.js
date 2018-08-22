@@ -152,11 +152,11 @@
           	if(result.data != null){
           		for(var i = 0; i < result.data.length; i++){
 //          			this.option.xAxis.data[result.data[i].mouthCount -1] = result.data[i].month;
-          			_self.option.series[0].data[result.data[i].mouthCount -1] = result.data[i].readyGradCount;
-          			_self.option.series[1].data[result.data[i].mouthCount -1] = result.data[i].checkGradCount;	
-          			_self.option.series[2].data[result.data[i].mouthCount -1] = result.data[i].recordsCount;	
-          			_self.option.series[3].data[result.data[i].mouthCount -1] = result.data[i].evaluationCount;	
-          			_self.option.series[4].data[result.data[i].mouthCount -1] = result.data[i].selfInspectionCount;	
+  	        		_self.option.series[0].data[result.data[i].mouthCount -1] = result.data[i].readyGradCount;
+  	        		_self.option.series[1].data[result.data[i].mouthCount -1] = result.data[i].checkGradCount;	
+  	        		_self.option.series[2].data[result.data[i].mouthCount -1] = result.data[i].recordsCount;	
+  	        		_self.option.series[3].data[result.data[i].mouthCount -1] = result.data[i].evaluationCount;	
+  	        		_self.option.series[4].data[result.data[i].mouthCount -1] = result.data[i].selfInspectionCount;	
   	        	}
           	}
 	        }
@@ -215,12 +215,7 @@
 	              			 }
 	              		 }
               	 });
-               });
-            	 bus.$on("yearEmptyType",function(msg){
-            		 _self.getSystemTrendByYear(_self);
-            		 //重绘
-            		 data.myChart.setOption(data.option, true);
-            	 });
+               }); 
              }
         }
       })

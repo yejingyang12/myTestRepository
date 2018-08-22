@@ -51,7 +51,10 @@ import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsListResult;
 import com.sinopec.smcc.cpro.grading.entity.AttachMaterialsParam;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanResult;
+import com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam;
 import com.sinopec.smcc.cpro.grading.mapper.GradingMapper;
+import com.sinopec.smcc.cpro.grading.mapper.SystemMaterialsMapper;
 import com.sinopec.smcc.cpro.grading.server.AttachMaterialsService;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
@@ -135,7 +138,8 @@ public class MainServiceImpl implements MainService{
   private EvaluationMapper evaluationMapper;
   @Autowired
   private SelfexaminationMapper selfexaminationMapper;
-  
+  @Autowired
+  private SystemMaterialsMapper systemMaterialsMapper;
   
   /**
    * 响应等保列表数据
@@ -712,16 +716,9 @@ public class MainServiceImpl implements MainService{
       }else{
         dataMap.put("companyName","");
       }
-      //所属省份
-      if(StringUtils.isNotBlank(companyResult.getFkSubordinatePro())){
-        SystemCodeParam systemCodeParam = new SystemCodeParam();
-        systemCodeParam.setCodeType("21");
-        systemCodeParam.setSystemCode(companyResult.getFkSubordinatePro());
-        List<SystemCodeListResult> systemCodeListResultList = 
-            systemCodeServiceImpl.querySystemCodeForKeySystemCode(systemCodeParam);
-        if(!ObjectUtils.isEmpty(systemCodeListResultList)){
-          dataMap.put("province", systemCodeListResultList.get(0).getCodeName());
-        }
+      //单位地址
+      if(StringUtils.isNotBlank(companyResult.getCompanyAddress())){
+        dataMap.put("province", companyResult.getCompanyAddress());
       }else{
         dataMap.put("province", "");
       }
@@ -1030,8 +1027,36 @@ public class MainServiceImpl implements MainService{
         }
       }
       //信息系统总数
-      List<MainListResult> mainListResultList = 
-          this.mainMapper.selectAllByMainParam(new MainParam());
+      
+      List<MainListResult> mainListResultList = new ArrayList<MainListResult>();
+    //权限
+      JurisdictionDataResult organizationApiResult = 
+          this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {
+      
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        mainListResultList = 
+            this.mainMapper.selectAllByMainParam(mainParam);
+        break;
+      case "2":
+        mainParam.setPlateList(organizationApiResult.getNameList());
+        mainListResultList =  
+            this.mainMapper.selectAllByMainParam(mainParam);
+        break;
+      case "3":
+        mainParam.setCompanyList(organizationApiResult.getCodeList());
+        mainListResultList =  
+            this.mainMapper.selectAllByMainParam(mainParam);
+        break;
+
+      default:
+        break;
+      }
+
       dataMap.put("sn", mainListResultList.size());
       //定级信息系统
       int twoLevel = 0;
@@ -1227,7 +1252,7 @@ public class MainServiceImpl implements MainService{
         if(systemResult.getNpCoverageRange().equals("局域网")){
           dataMap.put("cover1", "✓");
           coverType = "cover1";
-        }else if(systemResult.getNpCoverageRange().equals("城域网")){
+        }else if(systemResult.getNpCoverageRange().equals("地域网")){
           dataMap.put("cover2", "✓");
           coverType = "cover2";
         }else if(systemResult.getNpCoverageRange().equals("广域网")){
@@ -1783,8 +1808,8 @@ public class MainServiceImpl implements MainService{
  
      
       //等级测评单位名称
-      if(StringUtils.isNotBlank(systemResult.getStandardizedCode())){
-        dataMap.put("companyName", systemResult.getStandardizedCode());
+      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
+        dataMap.put("companyName", systemResult.getGradeRecordSysName());
       }else{
         dataMap.put("companyName","");
       }
@@ -1814,6 +1839,8 @@ public class MainServiceImpl implements MainService{
         }else{
           dataMap.put("bra2", "✓");
           dataMap.put("bra1", "□");
+          dataMap.put("superiorSystemName", "");
+          dataMap.put("companySystemName", "");
         } 
       }else{
         dataMap.put("bra2", "□");
@@ -1947,7 +1974,7 @@ public class MainServiceImpl implements MainService{
         if(!ranTypeArray[i].equals(ranType)){
           dataMap.put(ranTypeArray[i], "□");
         }else{
-          if(!ranTypeArray[i].equals("ran9")){
+          if(!ranTypeArray[i].equals("ran99")){
             dataMap.put("ran", "");
           }
           if(!ranTypeArray[i].equals("ran2")){
@@ -2234,6 +2261,9 @@ public class MainServiceImpl implements MainService{
       if(gradingListResult.getFillDate() != null){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
         String date = simpleDateFormat.format(gradingListResult.getFillDate());
+        if("1970年01月01日".equals(date)){
+          date = "";
+        }
         dataMap.put("tableDate", date);
       }else{
         dataMap.put("tableDate","");
@@ -2269,53 +2299,100 @@ public class MainServiceImpl implements MainService{
       dataMap.put("snb7", "□");
       dataMap.put("snb8", "□");
       dataMap.put("snb9", "□");
+      String bizSPRankDegree[] = gradingListResult.getFkBizSPRankDegree().split(",");
       //将业务信息选中的值替换为✓
       if(selected.equals("v1")){
         dataMap.put("v1", "✓");
         dataMap.put("snu1", "✓");
       }else if(selected.equals("v2")){
         dataMap.put("v2", "✓");
-//      String bizSPRankDegree[] = gradingListResult.getFkBizSPRankDegree().split(",");
-//      for (int i = 0; i < bizSPRankDegree.length; i++) {
-//        if(!bizSPRankDegree[i].equals("")){
-//          if(bizSPRankDegree[i].equals("10202")){
-//            
-//          }
-//        }
-//      }
-
-        dataMap.put("snu2", "✓");
-        dataMap.put("snu3", "✓");
+        for (int i = 0; i < bizSPRankDegree.length; i++) {
+          if(!bizSPRankDegree[i].equals("")){
+            if(bizSPRankDegree[i].equals("10201")){
+              dataMap.put("snu2", "✓");
+            }
+            if(bizSPRankDegree[i].equals("10202")){
+              dataMap.put("snu3", "✓");
+            }
+          }
+        }
       }else if(selected.equals("v3")){
         dataMap.put("v3", "✓");
-        dataMap.put("snu4", "✓");
-        dataMap.put("snu5", "✓");
-        dataMap.put("snu6", "✓");
+        for (int i = 0; i < bizSPRankDegree.length; i++) {
+          if(!bizSPRankDegree[i].equals("")){
+            if(bizSPRankDegree[i].equals("10301")){
+              dataMap.put("snu4", "✓");
+            }
+            if(bizSPRankDegree[i].equals("10302")){
+              dataMap.put("snu5", "✓");
+            }
+            if(bizSPRankDegree[i].equals("10303")){
+              dataMap.put("snu6", "✓");
+            }
+          }
+        }
+        
       }else if(selected.equals("v4")){
         dataMap.put("v4", "✓");
-        dataMap.put("snu7", "✓");
-        dataMap.put("snu8", "✓");
+        for (int i = 0; i < bizSPRankDegree.length; i++) {
+          if(!bizSPRankDegree[i].equals("")){
+            if(bizSPRankDegree[i].equals("10401")){
+              dataMap.put("snu7", "✓");
+            }
+            if(bizSPRankDegree[i].equals("10402")){
+              dataMap.put("snu8", "✓");
+            }
+          }
+        }
       }else{
         dataMap.put("v5", "✓");
         dataMap.put("snu9", "✓");
       }
+      
+      String bizSystemDegree[] = gradingListResult.getFkBizSystemDegree().split(",");
       //将系统服务信息选中的值替换为✓
       if(select.equals("s1")){
         dataMap.put("s1", "✓");
         dataMap.put("snb1", "✓");
       }else if(select.equals("s2")){
         dataMap.put("s2", "✓");
-        dataMap.put("snb2", "✓");
-        dataMap.put("snb3", "✓");
+        for (int i = 0; i < bizSystemDegree.length; i++) {
+          if(!bizSystemDegree[i].equals("")){
+            if(bizSystemDegree[i].equals("20101")){
+              dataMap.put("snb2", "✓");
+            }
+            if(bizSystemDegree[i].equals("20102")){
+              dataMap.put("snb3", "✓");
+            }
+          }
+        }
       }else if(select.equals("s3")){
         dataMap.put("s3", "✓");
-        dataMap.put("snb4", "✓");
-        dataMap.put("snb5", "✓");
-        dataMap.put("snb6", "✓");
+        for (int i = 0; i < bizSystemDegree.length; i++) {
+          if(!bizSystemDegree[i].equals("")){
+            if(bizSystemDegree[i].equals("20301")){
+              dataMap.put("snb4", "✓");
+            }
+            if(bizSystemDegree[i].equals("20302")){
+              dataMap.put("snb5", "✓");
+            }
+            if(bizSystemDegree[i].equals("20303")){
+              dataMap.put("snb6", "✓");
+            }
+          }
+        }
       }else if(select.equals("s4")){
         dataMap.put("s4", "✓");
-        dataMap.put("snb7", "✓");
-        dataMap.put("snb8", "✓");
+        for (int i = 0; i < bizSystemDegree.length; i++) {
+          if(!bizSystemDegree[i].equals("")){
+            if(bizSystemDegree[i].equals("20401")){
+              dataMap.put("snb7", "✓");
+            }
+            if(bizSystemDegree[i].equals("20402")){
+              dataMap.put("snb8", "✓");
+            }
+          }
+        }
       }else{
         dataMap.put("s5", "✓");
         dataMap.put("snb9", "✓");
@@ -2370,11 +2447,6 @@ public class MainServiceImpl implements MainService{
   @Override
   public Map<String,Object> tableAttach(HttpServletRequest request,MainParam mainParam) throws BusinessException {
     Map<String,Object> dataMap=new HashMap<String,Object>();
-    //查询系统信息
-    AttachMaterialsParam attachMaterialsParam = new AttachMaterialsParam();
-    attachMaterialsParam.setFkSystemId(mainParam.getSystemId());
-    List<AttachMaterialsListResult> attachMaterialsListResultList 
-      = attachMaterialsServiceImpl.queryEditAttach(attachMaterialsParam);
     
     //获取系统信息
     SystemParam systemParam = new SystemParam();
@@ -2390,109 +2462,119 @@ public class MainServiceImpl implements MainService{
         dataMap.put("graRecSysName", "");
       }
     }
-    Map<String,Object> result = new HashMap<>();
-    if(!ObjectUtils.isEmpty(attachMaterialsListResultList)){
-      //计数器
-      int topologyCount = 0;
-      int organizationCount = 0;
-      int implementationCount = 0;
-      int licenseCount = 0;
-      int evaluationCount = 0;
-      int expertCount = 0;
-      int directorCount = 0;
-      for(AttachMaterialsListResult attachMaterialsListResult : attachMaterialsListResultList){
-        //系统拓扑结构及说明
-        if(topologyCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("topologyDescription")){
-            dataMap.put("has1", "✓");
-            dataMap.put("has2", "□");
-            dataMap.put("name1", attachMaterialsListResult.getAttachName());
-            topologyCount = 1;
-          }else{
-            dataMap.put("has2", "✓");
-            dataMap.put("has1", "□");
-            dataMap.put("name1", " ");
-          }
-        }
-        //系统安全组织机构及管理制度
-        if(organizationCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("organizationManagement")){
-            dataMap.put("has3", "✓");
-            dataMap.put("has4", "□");
-            dataMap.put("name2", attachMaterialsListResult.getAttachName());
-            organizationCount = 1;
-          }else{
-            dataMap.put("has4", "✓");
-            dataMap.put("has3", "□");
-            dataMap.put("name2", " ");
-          }
-        }
-        //系统安全保护设施设计实施方案或改建实施方案
-        if(implementationCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("implementationPlan")){
-            dataMap.put("has5", "✓");
-            dataMap.put("has6", "□");
-            dataMap.put("name3", attachMaterialsListResult.getAttachName());
-            implementationCount = 1;
-          }else{
-            dataMap.put("has6", "✓");
-            dataMap.put("has5", "□");
-            dataMap.put("name3", " ");
-          }
-        }
-        //系统使用的安全产品清单及认证、销售许可证明
-        if(licenseCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("licenseCertificate")){
-            dataMap.put("has7", "✓");
-            dataMap.put("has8", "□");
-            dataMap.put("name4", attachMaterialsListResult.getAttachName());
-            licenseCount = 1;
-          }else{
-            dataMap.put("has8", "✓");
-            dataMap.put("has7", "□");
-            dataMap.put("name4", " ");
-          }
-        }
-        //系统等级测评报告
-        if(evaluationCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("evaluationPresentation")){
-            dataMap.put("has9", "✓");
-            dataMap.put("has10", "□");
-            dataMap.put("name5", attachMaterialsListResult.getAttachName());
-            evaluationCount = 1;
-          }else{
-            dataMap.put("has10", "✓");
-            dataMap.put("has9", "□");
-            dataMap.put("name5", " ");
-          }
-        }
-        //专家评审情况
-        if(expertCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("expertReview")){
-            dataMap.put("has11", "✓");
-            dataMap.put("has12", "□");
-            dataMap.put("name6", attachMaterialsListResult.getAttachName());
-            expertCount = 1;
-          }else{
-            dataMap.put("has12", "✓");
-            dataMap.put("has11", "□");
-            dataMap.put("name6", " ");
-          }
-        }
-        //上级主管部门审批意见
-        if(directorCount != 1){
-          if(attachMaterialsListResult.getFkAttachType().equals("directorOpinion")){
-            dataMap.put("has13", "✓");
-            dataMap.put("has14", "□");
-            dataMap.put("name7", attachMaterialsListResult.getAttachName());
-            directorCount = 1;
-          }else{
-            dataMap.put("has14", "✓");
-            dataMap.put("has13", "□");
-            dataMap.put("name7", " ");
-          }
-        }
+    
+    SystemMaterialsParam systemMaterialsParam = new SystemMaterialsParam();
+    systemMaterialsParam.setFkSystemId(mainParam.getSystemId());
+    
+    SystemMaterialsBeanResult systemMaterialsBeanResult = this.systemMaterialsMapper.
+        selectSystemMaterialsBeanResultBySystemId(systemMaterialsParam);
+    List<AttachResult> topologyDescriptionList = null;
+    topologyDescriptionList = systemMaterialsBeanResult.getTopologyDescriptionList();
+    String topologyDescriptionFileName = "";
+    if(topologyDescriptionList!=null){
+      for (AttachResult attachResult : topologyDescriptionList) {
+        topologyDescriptionFileName = topologyDescriptionFileName + "," + attachResult.getAttachName();
       }
+      topologyDescriptionFileName = topologyDescriptionFileName.substring(1, topologyDescriptionFileName.length());
+      dataMap.put("has1", "✓");
+      dataMap.put("has2", "□");
+      dataMap.put("name1", topologyDescriptionFileName);
+    }else{
+      dataMap.put("has2", "✓");
+      dataMap.put("has1", "□");
+      dataMap.put("name1", topologyDescriptionFileName);
+    }
+    
+    List<AttachResult> organizationManagementList = null;
+    String organizationManagementFileName = "";
+    organizationManagementList = systemMaterialsBeanResult.getOrganizationManagementList();
+    if(organizationManagementList!=null){
+      for (AttachResult attachResult : organizationManagementList) {
+        organizationManagementFileName = organizationManagementFileName +","+ attachResult.getAttachName();
+      }
+      organizationManagementFileName = organizationManagementFileName.substring(1, organizationManagementFileName.length());
+      dataMap.put("has3", "✓");
+      dataMap.put("has4", "□");
+      dataMap.put("name2", organizationManagementFileName);
+    }else {
+      dataMap.put("has4", "✓");
+      dataMap.put("has3", "□");
+      dataMap.put("name2", organizationManagementFileName);
+    }
+    
+    //系统安全保护设施设计;实施方案或改建实施方案
+    List<AttachResult> implementationPlanList = null;
+    implementationPlanList = systemMaterialsBeanResult.getImplementationPlanList();
+    String implementationPlanFileName = "";
+    if(implementationPlanList!=null){
+      for (AttachResult attachResult : implementationPlanList) {
+        implementationPlanFileName = implementationPlanFileName + "," +  attachResult.getAttachName();
+      }
+      implementationPlanFileName = implementationPlanFileName.substring(1, implementationPlanFileName.length());
+      dataMap.put("has5", "✓");
+      dataMap.put("has6", "□");
+      dataMap.put("name3", implementationPlanFileName);
+    }else{
+      dataMap.put("has6", "✓");
+      dataMap.put("has5", "□");
+      dataMap.put("name3", implementationPlanFileName);
+    }
+    
+    //系统使用的安全产品清单及认证、销售许可证明
+    List<AttachResult> licenseCertificateList = null;
+    licenseCertificateList = systemMaterialsBeanResult.getLicenseCertificateList();
+    String licenseCertificateFileName = "";
+    if(licenseCertificateList!=null){
+      for (AttachResult attachResult : licenseCertificateList) {
+        licenseCertificateFileName = licenseCertificateFileName + ","+ attachResult.getAttachName();
+      }
+      licenseCertificateFileName = licenseCertificateFileName.substring(1, licenseCertificateFileName.length());
+      dataMap.put("has7", "✓");
+      dataMap.put("has8", "□");
+      dataMap.put("name4", licenseCertificateFileName);
+    }else{
+      dataMap.put("has8", "✓");
+      dataMap.put("has7", "□");
+      dataMap.put("name4", licenseCertificateFileName);
+    }
+    
+    //测评报告
+    String evaluationPresentationName = systemMaterialsBeanResult.getEvaluationPresentationName();
+    if(!"".equals(evaluationPresentationName)&&evaluationPresentationName!=null){
+      dataMap.put("has9", "✓");
+      dataMap.put("has10", "□");
+      dataMap.put("name5", evaluationPresentationName);
+    }else{
+      dataMap.put("has10", "✓");
+      dataMap.put("has9", "□");
+      dataMap.put("name5", "");
+    }
+    
+  //专家评审
+    String expertReviewName = systemMaterialsBeanResult.getExpertReviewName();
+    if(!"".equals(expertReviewName)&&expertReviewName!=null){
+      dataMap.put("has11", "✓");
+      dataMap.put("has12", "□");
+      dataMap.put("name6", expertReviewName);
+    }else{
+      dataMap.put("has12", "✓");
+      dataMap.put("has11", "□");
+      dataMap.put("name6", "");
+    }
+    
+    //上级主管部门审批意见
+    String directorOpinionName = systemMaterialsBeanResult.getDirectorOpinionName();
+    if(!"".equals(directorOpinionName)&&directorOpinionName!=null){
+      dataMap.put("has13", "✓");
+      dataMap.put("has14", "□");
+      dataMap.put("name7", directorOpinionName);
+    }else{
+      dataMap.put("has14", "✓");
+      dataMap.put("has13", "□");
+      dataMap.put("name7", "");
+    }
+    
+      Map<String,Object> result = new HashMap<>();
       String url = WordUtils.createWord(dataMap,"attach.ftl","附件信息");
       String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
       String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
@@ -2508,16 +2590,6 @@ public class MainServiceImpl implements MainService{
       result.put("url", fileUrl+fileName);
       result.put("tableAttachResult", dataMap);
       return result;
-    }else{
-      dataMap.put("has1", "□");dataMap.put("has2", "□");dataMap.put("has3", "□");
-      dataMap.put("has4", "□");dataMap.put("has5", "□");dataMap.put("has6", "□");
-      dataMap.put("has7", "□");dataMap.put("has8", "□");dataMap.put("has9", "□");
-      dataMap.put("has10", "□");dataMap.put("has11", "□");dataMap.put("has12", "□");
-      dataMap.put("has13", "□");dataMap.put("has14", "□");dataMap.put("name1", " ");
-      dataMap.put("name2", " ");dataMap.put("name3", " ");dataMap.put("name4", " ");
-      dataMap.put("name5", " ");dataMap.put("name6", " ");dataMap.put("name7", " ");
-      return null;
-    }   
   }
   
   /**

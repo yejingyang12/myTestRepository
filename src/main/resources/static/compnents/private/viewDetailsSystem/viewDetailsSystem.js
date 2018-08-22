@@ -3,6 +3,7 @@
  */
 (function() {
     var data ={
+    		ceshi:'',
     		constructionTypeName:"",//系统信息建设类型
     		fkSystemIsMerge:"",//是否为合并系统的定级 
     		systemName:"",//系统名称
@@ -68,6 +69,7 @@
                   			}
                   			if(! this.isEmpty(systemResult.data.sysBusDescription)){
                   				 this.sysBusDescription = systemResult.data.sysBusDescription;
+                  				 this.ceshi=this.sysBusDescription;
                   			}
                   			if(! this.isEmpty(systemResult.data.sysServiceSitScope)){
                   				 var sysServiceSitScope = systemResult.data.sysServiceSitScope;

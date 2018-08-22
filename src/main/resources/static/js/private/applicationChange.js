@@ -20,7 +20,7 @@ window.onload = function () {
 //          }else{
 //            $(".startBox").show().delay(2000).fadeOut();
 //            window.setTimeout(function () {
-              window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" +companyCode+"&systemId="+systemId+"&companyId"+data.data;
+              window.location.href = originUrl+"page/applicatuibChangSystemPage?fkCompanyCode=" +companyCode+"&systemId="+systemId+"&companyId="+data.data;
 //            }, 2300);
 //          }
         },

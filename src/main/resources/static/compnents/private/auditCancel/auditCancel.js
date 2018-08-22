@@ -58,7 +58,7 @@
             		'application/json;charset=UTF-8', _self.saveCancelRecordsCheckSuccess);
         	},
         	saveCancelRecordsCheckSuccess: function(_self,response){
-        		window.location.href="/page/auditPage";
+        		window.location.href=originUrl+encodeURI("/page/auditPage");
           },
           
           //审核结果：对输入的内容进行字数显示
@@ -87,7 +87,7 @@
           bus.$on("gradReturn",function(meg){
             if(meg!=null){
               console.log(meg);
-              window.location.href="/page/auditPage";
+              window.location.href=originUrl+encodeURI("/page/auditPage");
             }
           })
         }

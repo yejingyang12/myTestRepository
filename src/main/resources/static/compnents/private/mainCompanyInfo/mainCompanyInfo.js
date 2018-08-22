@@ -168,16 +168,16 @@ var data = {
          },
          handleClick:function(id){
         	 if(this.headquarters){
-        		 window.location.href = "/page/changeUnitInformationPage?jurisdiction=headquarters&companyId="+id;
+        		 window.location.href = originUrl+encodeURI("/page/changeUnitInformationPage?jurisdiction=headquarters&companyId="+id);
         	 }else{
-        		 window.location.href = "/page/changeUnitInformationPage?companyId="+id;
+        		 window.location.href = originUrl+encodeURI("/page/changeUnitInformationPage?companyId="+id);
         	 }
          },
          newCompanyInfoMethod:function(){
         	 if(this.headquarters){
-        		 window.location.href = "/page/newUnitInformationPage?jurisdiction=headquarters";
+        		 window.location.href = originUrl+encodeURI("/page/newUnitInformationPage?jurisdiction=headquarters");
         	 }else{
-        		 window.location.href = "/page/newUnitInformationPage";
+        		 window.location.href = originUrl+encodeURI("/page/newUnitInformationPage");
         	 }
          },
          //点击 "取消" 关闭弹框

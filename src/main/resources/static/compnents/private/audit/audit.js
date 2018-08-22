@@ -144,12 +144,12 @@
 			//定级：1
           	//撤销备案：2
           	//定级信息变更：3
-						window.location.href=originUrl+"/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus="+examinStatus+"&businessId="+businessId+"&taskId="+taskId;
+						window.location.href=originUrl+encodeURI("/page/auditGradPage?systemId="+systemId+"&fkBusinessNode="+fkBusinessNode+"&companyId="+companyId+"&fkExaminStatus="+examinStatus+"&businessId="+businessId+"&taskId="+taskId);
           },
           
           //专家评审意见和备案证明下载
           auditDownLoad:function(fileId){
-          	window.location.href=originUrl+"fileHandle/downloadFile?fileId="+fileId;
+          	window.location.href=originUrl+encodeURI("fileHandle/downloadFile?fileId="+fileId);
           },
           
           /*点击全部 待办 已办 对应的样式*/
@@ -188,7 +188,7 @@
           	this.queryCheckList(this);
           },
           auditDetails:function (systemId,companyId) {
-            window.location.href=originUrl+"/page/auditDetailsPage?systemId="+systemId+"&companyId="+companyId;
+            window.location.href=originUrl+encodeURI("/page/auditDetailsPage?systemId="+systemId+"&companyId="+companyId);
           },
           //排序
           listsort: function () {
@@ -279,7 +279,7 @@
           //点击返回按钮 发送请求
           bus.$on("gradReturn",function(meg){
             if(meg!=null){
-            	window.location.href=originUrl+"/page/indexPage";
+            	window.location.href=originUrl+encodeURI("/page/indexPage");
             }
           });
         }

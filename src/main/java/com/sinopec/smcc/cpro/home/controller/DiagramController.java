@@ -63,7 +63,6 @@ public class DiagramController {
     // 调用service实体，获得
     DiagramResult diagramResult = this.diagramServiceImpl.querySystemLevelDiagram(diagramParam);
     // 通过resultApi实体组成返回参数
-
     return RetResultUtil.ok(diagramResult);
   }
   
@@ -151,7 +150,6 @@ public class DiagramController {
     List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
         querySystemTrendByYear(request,diagramParam);
     // 通过resultApi实体组成返回参数
-
     return RetResultUtil.ok(diagramListResult);
   }
 }

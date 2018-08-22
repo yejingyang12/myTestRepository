@@ -28,7 +28,7 @@ var revokeRecordData={
       ],
       revokereason:[//撤销原因
           {required: true, message: '请输入撤销原因', trigger: 'change' },
-          { min: 1, max: 60, message: '长度在 1 到 60个字符', trigger: 'blur' },
+          { min: 1, max: 60, message: '长度在 1 到 200个字符', trigger: 'blur' },
       ]
 	}
 };
@@ -62,17 +62,22 @@ var revokeRecordData={
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip' && fileFormat[1] !='sep'){          		this.$alert('不接受此文件类型！', '信息提示', {
-	                confirmButtonText: '确定',
-	                callback: function callback(action) {
-	                }
-	              });
-	          		return;
-	          	}
-							var uploadData = new FormData(); 
-							uploadData.append('file', e.target.files[0]);
-							uploadData.append('type', 'test');
-							ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+            	var fileFormatLength = fileFormat.length;
+            	if(fileFormatLength){
+            		var i = fileFormatLength - 1;
+            		if(fileFormat[i] != 'pdf' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip' && fileFormat[i] !='sep'){
+            			this.$alert('不接受此文件类型！', '信息提示', {
+	            			confirmButtonText: '确定',
+	            			callback: function callback(action) {
+	            			}
+	            		});
+	            		return;
+            		}
+            		var uploadData = new FormData(); 
+            		uploadData.append('file', e.target.files[0]);
+            		uploadData.append('type', 'test');
+            		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+            	}
           	}
 					},
 					onUploadSuccessMethod: function(_self,responseData){
@@ -116,14 +121,25 @@ var revokeRecordData={
           		fileId = null;
           	}
           	//下载路径
-          	window.location.href = originUrl + "fileHandle/downloadFile?uploadUrl="+uploadUrl+"&attachName="+attachName+"&fileId="+fileId;
+          	window.location.href = originUrl+encodeURI("/fileHandle/downloadFile?uploadUrl="+uploadUrl+"&attachName="+attachName+"&fileId="+fileId);
 					},
 					submitRevokeRecord: function(formData){
 						var _self = this;
 						_self.formData.fkSystemId=systemId;
 						_self.sureDelFile(_self);
+						revokereason = _self.formData.revokereason;
+						if(revokereason.length>=200){
+							revokereason = revokereason.substring(0,200);
+						}
+						_self.formData.revokereason = revokereason;
+						revokeAttachName = _self.formData.revokeAttachName;
+						revokeAttachPath = _self.formData.revokeAttachPath;
+						var msg = false;
+						if(revokereason.length<=200&&revokeAttachName!=null&&revokeAttachName!=''&&revokeAttachName!='undefind'&&revokeAttachPath!=null&&revokeAttachPath!=''&&revokeAttachPath!='undefind'){
+							msg = true;
+						}
 						_self.$refs[formData].validate(function (valid) {
-              if (valid) {
+              if (msg) {
                 if(revokeRecordData.paramHeadquarters){
                   ajaxMethod(_self, 'post',
                       'records/saveHeadRevokeRecordsInfo', true,JSON.stringify(_self.formData), 'json',
@@ -156,14 +172,14 @@ var revokeRecordData={
             $("#revokeRecordInquiry").css("display","none");
 						$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-            	window.location.href= originUrl+"page/indexPage";           
+            	window.location.href= originUrl+encodeURI("/page/indexPage");           
             }, 2300);
 					},
 				  //关闭弹窗
 					closes:function () {
             $("#revokeRecordDialogShaw").css("display","none");
             $("#revokeRecordInquiry").css("display","none");
-            this.$refs['formData'].resetFields();
+            //this.$refs['formData'].resetFields();
           },
 					text : function() {
 						$('#textArea').on("keyup", function() {

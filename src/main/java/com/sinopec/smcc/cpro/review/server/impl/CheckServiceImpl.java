@@ -136,7 +136,7 @@ public class CheckServiceImpl implements CheckService {
         }
       }
       final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,
-          checkParam.getCurrentPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+          checkParam.getCurrentPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
       appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
       if((appPagedTODOTask.getExecuteTaskList())!=null){
@@ -156,6 +156,13 @@ public class CheckServiceImpl implements CheckService {
             checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
             checkListResult.setRecordReportName(systemResult.getRecordReportName());
             checkListResult.setRecordReportId(systemResult.getRecordReportId());
+          }else{
+            if(StringUtils.isNotBlank(executeTaskData.getExt004())){
+              checkListResult.setInstanceName(executeTaskData.getExt004());
+            }
+            if(StringUtils.isNotBlank(executeTaskData.getExt005())){
+              checkListResult.setFkInfoSysTypeCon(executeTaskData.getExt005());
+            }
           }
           checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
           checkListResult.setInitiator(executeTaskData.getExt002());//发起人
@@ -231,7 +238,7 @@ public class CheckServiceImpl implements CheckService {
         }
       }
       final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
-          checkParam.getCurrentPage(), "");
+          checkParam.getCurrentPage(), "",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
       appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTaskHaveDone.getPageIndex();
       if((appPagedTODOTaskHaveDone.getExecuteTaskList())!=null){
@@ -251,6 +258,13 @@ public class CheckServiceImpl implements CheckService {
             checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
             checkListResult.setRecordReportName(systemResult.getRecordReportName());
             checkListResult.setRecordReportId(systemResult.getRecordReportId());
+          }else{
+            if(StringUtils.isNotBlank(executeTaskData.getExt004())){
+              checkListResult.setInstanceName(executeTaskData.getExt004());
+            }
+            if(StringUtils.isNotBlank(executeTaskData.getExt005())){
+              checkListResult.setFkInfoSysTypeCon(executeTaskData.getExt005());
+            }
           }
           checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
           checkListResult.setInitiator(executeTaskData.getExt002());//发起人
@@ -276,7 +290,8 @@ public class CheckServiceImpl implements CheckService {
               checkListResult.setFkExaminStatus("2");
             }
           }else if(executeTaskData.getExecuteResult() == 2){
-            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+            if(executeTaskData.getActivityName().equals("企业主联络员审批") && 
+                !executeTaskData.getBusinessName().equals("撤销备案")){
               //获取审批历史
               List<AppTaskOpinionData> appTaskOpinionDataList = 
                   dpsTemplate.appOpinion(executeTaskData.getBusinessId());

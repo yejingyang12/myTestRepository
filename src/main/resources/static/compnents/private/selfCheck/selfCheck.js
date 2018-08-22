@@ -232,7 +232,7 @@
           saveSelfexaminationSuccess: function(_self, responseData){
           	$("#startBoxSelf").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-//              window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+//              window.location.href = originUrl+encodeURI("/page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode);
             }, 2300);
           	_self.querySelfCheckList(_self);
           	//点击确定后关闭弹窗
@@ -295,17 +295,22 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
-	                confirmButtonText: '确定',
-	                callback: function callback(action) {
-	                }
-	              });
-	          		return;
-	          	}
-							var uploadData = new FormData(); 
-							uploadData.append('file', e.target.files[0]);
-							uploadData.append('type', 'test');
-							ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+            	var fileFormatLength = fileFormat.length;
+            	if(fileFormatLength){
+            		var i = fileFormatLength - 1;
+            		if(fileFormat[i] != 'pdf' && fileFormat[i] != 'sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+            			this.$alert('不接受此文件类型！', '信息提示', {
+	            			confirmButtonText: '确定',
+	            			callback: function callback(action) {
+	            			}
+	            		});
+	            		return;
+            		}
+            		var uploadData = new FormData(); 
+            		uploadData.append('file', e.target.files[0]);
+            		uploadData.append('type', 'test');
+            		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+            	}
           	}
 					},
 					onUploadSuccessMethod: function(_self,responseData){
@@ -328,17 +333,22 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'pdf' && fileFormat[1] != 'sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){          		this.$alert('不接受此文件类型！', '信息提示', {
-	                confirmButtonText: '确定',
-	                callback: function callback(action) {
-	                }
-	              });
-	          		return;
-	          	}
-							var uploadData = new FormData(); 
-							uploadData.append('file', e.target.files[0]);
-							uploadData.append('type', 'test');
-							ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
+            	var fileFormatLength = fileFormat.length;
+            	if(fileFormatLength){
+            		var i = fileFormatLength - 1;
+            		if(fileFormat[i] != 'pdf' && fileFormat[i] != 'sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+            			this.$alert('不接受此文件类型！', '信息提示', {
+	            			confirmButtonText: '确定',
+	            			callback: function callback(action) {
+	            			}
+	            		});
+	            		return;
+            		}
+            		var uploadData = new FormData(); 
+            		uploadData.append('file', e.target.files[0]);
+            		uploadData.append('type', 'test');
+            		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
+            	}
           	}
 					},
 					onUploadSuccessMethod2: function(_self,responseData){
@@ -372,7 +382,7 @@
           		fileId = '';
           	}
           	//下载路径
-          	window.location.href = originUrl + "fileHandle/downloadFile?uploadUrl="+uploadUrl+"&attachName="+attachName+"&fileId="+fileId;
+          	window.location.href = originUrl+encodeURI("/fileHandle/downloadFile?uploadUrl="+uploadUrl+"&attachName="+attachName+"&fileId="+fileId);
 					},
 					
 		       //排序
@@ -442,7 +452,7 @@
           //点击返回按钮 返回到首页
           bus.$on("gradReturn",function(meg){
             if(meg!=null){
-            	window.location.href = originUrl + "/page/indexPage";
+            	window.location.href = originUrl+encodeURI("/page/indexPage");
             }
           })
         }

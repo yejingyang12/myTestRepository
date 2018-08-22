@@ -67,17 +67,22 @@ var data={
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
-	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
-	                        confirmButtonText: '确定',
-	                        callback: function callback(action) {
-	                        }
-	                      });
-	                  		return;
+	                  	var fileFormatLength = fileFormat.length;
+	                  	if(fileFormatLength){
+	                  		var i = fileFormatLength - 1;
+	                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+	                  			this.$alert('不接受此文件类型！', '信息提示', {
+		                  			confirmButtonText: '确定',
+		                  			callback: function callback(action) {
+		                  			}
+		                  		});
+		                  		return;
+	                  		}
+	                  		var uploadData = new FormData(); 
+	                  		uploadData.append('file', e.target.files[0]);
+	                  		uploadData.append('type', 'test');
+	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 	                  	}
-	                    var uploadData = new FormData(); 
-	                    uploadData.append('file', e.target.files[0]);
-	                    uploadData.append('type', 'test');
-	                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
                   	}
                   },
                   onUploadSuccessMethod: function(_self,responseData){
@@ -146,17 +151,22 @@ var data={
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
-	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
-	                        confirmButtonText: '确定',
-	                        callback: function callback(action) {
-	                        }
-	                      });
-	                  		return;
+	                  	var fileFormatLength = fileFormat.length;
+	                  	if(fileFormatLength){
+	                  		var i = fileFormatLength - 1;
+	                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+	                  			this.$alert('不接受此文件类型！', '信息提示', {
+		                  			confirmButtonText: '确定',
+		                  			callback: function callback(action) {
+		                  			}
+		                  		});
+		                  		return;
+	                  		}
+	                  		var uploadData = new FormData(); 
+	                  		uploadData.append('file', e.target.files[0]);
+	                  		uploadData.append('type', 'test');
+	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 	                  	}
-	                    var uploadData = new FormData(); 
-	                    uploadData.append('file', e.target.files[0]);
-	                    uploadData.append('type', 'test');
-	                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
                   	}
                   },
                   onUploadSuccessMethod2: function(_self,responseData){
@@ -227,17 +237,22 @@ var data={
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
-	                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
-	                        confirmButtonText: '确定',
-	                        callback: function callback(action) {
-	                        }
-	                      });
-	                  		return;
+	                  	var fileFormatLength = fileFormat.length;
+	                  	if(fileFormatLength){
+	                  		var i = fileFormatLength - 1;
+	                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+	                  			this.$alert('不接受此文件类型！', '信息提示', {
+		                  			confirmButtonText: '确定',
+		                  			callback: function callback(action) {
+		                  			}
+		                  		});
+		                  		return;
+	                  		}
+	                  		var uploadData = new FormData(); 
+	                  		uploadData.append('file', e.target.files[0]);
+	                  		uploadData.append('type', 'test');
+	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod3);
 	                  	}
-	                    var uploadData = new FormData(); 
-	                    uploadData.append('file', e.target.files[0]);
-	                    uploadData.append('type', 'test');
-	                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod3);
                   	}
                   },
                   onUploadSuccessMethod3: function(_self,responseData){
@@ -306,17 +321,22 @@ var data={
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
-                  	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                  		this.$alert('不接受此文件类型！', '信息提示', {
-                        confirmButtonText: '确定',
-                        callback: function callback(action) {
-                        }
-                      });
-                  		return;
+                  	var fileFormatLength = fileFormat.length;
+                  	if(fileFormatLength){
+                  		var i = fileFormatLength - 1;
+                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+                  			this.$alert('不接受此文件类型！', '信息提示', {
+	                  			confirmButtonText: '确定',
+	                  			callback: function callback(action) {
+	                  			}
+	                  		});
+	                  		return;
+                  		}
+                  		var uploadData = new FormData(); 
+                  		uploadData.append('file', e.target.files[0]);
+                  		uploadData.append('type', 'test');
+                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
                   	}
-                    var uploadData = new FormData(); 
-                    uploadData.append('file', e.target.files[0]);
-                    uploadData.append('type', 'test');
-                    ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
                   },
                   onUploadSuccessMethod4: function(_self,responseData){
                   	var submitCateName=false;
@@ -392,10 +412,10 @@ var data={
                     
                     if(type=='1'){
                       //下载路径
-                      window.location.href = originUrl + "fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name;
+                      window.location.href = originUrl+encodeURI("fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name);
                     }else{
                       //下载路径
-                      window.location.href = originUrl + "fileHandle/downloadFile?fileId="+path;
+                      window.location.href = originUrl+encodeURI("fileHandle/downloadFile?fileId="+path);
                     }
                       
                   },
@@ -588,7 +608,7 @@ var data={
                     }
                   },
                   downloadFile:function(str) {
-                    window.location.href = originUrl + "fileHandle/downloadFile?fileId="+str;
+                    window.location.href = originUrl+encodeURI("fileHandle/downloadFile?fileId="+str);
                   },
                   submitGradeMaterialsInfo: function() {
                   	this.formData.changeType = "2";
@@ -601,7 +621,7 @@ var data={
                   },
                   // 获取材料信息成功
                   submitGradeMaterialsInfoSuccessMethod : function(_self, responseData) {
-                    //window.location.href = originUrl + "page/addCompanyMaterialPage?systemId=f7821c57865d4983b9db6f8db08efb3c";
+                    //window.location.href = originUrl+encodeURI("page/addCompanyMaterialPage?systemId=f7821c57865d4983b9db6f8db08efb3c");
                     
                      },
                   getPermitJurisdictionInfo: function(_self){

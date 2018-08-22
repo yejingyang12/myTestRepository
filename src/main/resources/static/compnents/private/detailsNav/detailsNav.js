@@ -35,7 +35,7 @@ var detailsData={
 //						bus.$emit("revokeRecord","1");
 					},
 					backRecord:function(){
-						window.location.href="/page/indexPage"
+						window.location.href=originUrl+encodeURI("/page/indexPage");
 					},
 					// 获取系统信息
           getSystem : function(_self) {

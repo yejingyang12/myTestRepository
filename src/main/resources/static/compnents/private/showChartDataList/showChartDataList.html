@@ -117,7 +117,7 @@
                                 <th>测评报告</th>
                                 <th>自查报告</th>
                                 <th style="white-space: nowrap;width:7%;">备案表下载</th>
-                                <th>操作</th>
+                                <!-- <th>操作</th> -->
                             </tr>
                             <tr class="tr-row" v-for="(pro,index) in result" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
                                 data-td="https://codeload.github.com/douban/douban-client/legacy.zip/master">
@@ -238,14 +238,12 @@
                                  
                                 </td>
                                 <!-- &lt;!&ndash;操作&ndash;&gt; -->
-                                <td style="color:#1e91e2;" v-if="pro.examineStatus==1 && pro.recordStatus != 4">
+<!--                                 <td style="color:#1e91e2;" v-if="pro.examineStatus==1 && pro.recordStatus != 4">
                                   <div v-for="companyCodeJ in nameList">
                                     <div v-if="companyCodeJ==pro.companyCode">
-                                      <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                       <a class="hide3" style="cursor:pointer;">  
                                         <i id="h-dingji"  @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
                                         <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
-                                        <!-- 首页表格的删除弹窗 -->
                                         <div class="dialogShaw">
                                           <div class="startBox" v-show="deleteDialog">
                                             <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>
@@ -257,8 +255,8 @@
                                               <button type="button" class="btn btn-success fl" @click="deleteClickSure()">确定</button>
                                               <button type="button" class="btn btn-default fr" @click="closes">取消</button>
                                             </div>
-                                         </div>
-                                       </div> 
+                                          </div>
+                                        </div> 
                                       </a>
                                     </div>
                                   </div>
@@ -266,7 +264,6 @@
                                 <td style="color:#1e91e2;" v-else-if="pro.examineStatus!=1  && pro.recordStatus != 4">
                                   <div v-for="companyCodeJ in nameList">
                                     <div v-if="companyCodeJ==pro.companyCode">
-                                      <!-- &lt;!&ndash;class="hide3"&ndash;&gt; -->
                                       <a  @click="toAuditChangePage(pro.systemId,pro.companyCode,pro.companyId)" style="cursor:pointer" v-show="paramApplication&&pro.examineStatus!=2">申请变更</a> <i style="color:#1e91e2 " v-show="paramApplication&&pro.examineStatus!=2">|</i>
                                       <a  id="beian" @click="toCompanyRecordPage(pro.examineStatus,pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramRecord">备案</a><i style="color:#1e91e2 " v-show="paramRecord">|</i>
                                       <a  @click="toTestingPage(pro.systemId,pro.companyId)" style="cursor:pointer" v-show="paramEvaluation">测评</a><i style="color:#1e91e2 " v-show="paramEvaluation">|</i>
@@ -274,7 +271,7 @@
                                     </div>
                                   </div>
                                 </td>
-                                <td style="color:#1e91e2;" v-else>
+                                <td style="color:#1e91e2;" v-else> -->
                                 </td>
                             </tr>
                         </table>

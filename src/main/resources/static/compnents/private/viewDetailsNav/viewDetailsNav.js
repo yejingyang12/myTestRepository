@@ -22,7 +22,7 @@
                         $('.wrap').removeClass('cover');
                     },
                     toIndexPage : function(){
-                    	window.location.href="/page/indexPage";
+                    	window.location.href=originUrl+encodeURI("/page/indexPage");
                     },
                     // 获取系统信息
                     getSystem : function(_self) {

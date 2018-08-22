@@ -1,5 +1,5 @@
 <div  class="wrap cover">
-  <div class="revokeBg"></div>
+  <div class="revokeBg">
   <div class="revoke">
     <span class="closes" @click="closesDir"></span>
     <p class="clearfix cuto">
@@ -46,7 +46,7 @@
       </p>
     </el-form>
   </div>
-      <!-- 首页表格的删除弹窗 -->
+</div>      <!-- 首页表格的删除弹窗 -->
   <div class="dialogShaw" id="revokeRecordDialogShaw" style="z-index: 150">
     <div class="startBox" v-show="deleteDialog">
       <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>

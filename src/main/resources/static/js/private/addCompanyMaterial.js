@@ -41,18 +41,18 @@ window.onload = function () {
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
-          	if(_self.formData.saveType == "1"){
-          		$(".save").show().delay(2000).fadeOut();
-          	}else if(_self.formData.saveType == "2"){
-          		$(".submit").show().delay(2000).fadeOut();
-          	}
             if(boo){
               data.check = false;
               window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId;
             }else{
-              window.setTimeout(function () {
+	            	if(_self.formData.saveType == "1"){
+	            		$(".save").show().delay(2000).fadeOut();
+	            	}else if(_self.formData.saveType == "2"){
+	            		$(".submit").show().delay(2000).fadeOut();
+	            	}
+//              window.setTimeout(function () {
                 window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
-              }, 2300);
+//              }, 2300);
             }
           },
           //返回

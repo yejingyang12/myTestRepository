@@ -169,8 +169,7 @@ public class DiagramServiceImpl implements DiagramService {
       return list;
     }else{
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      
+      switch (organizationApiResult.getResultType()) {  
       case "0":
         break;
       case "1":
@@ -188,7 +187,6 @@ public class DiagramServiceImpl implements DiagramService {
         list =  
             this.diagramMapper.selectSystemTrendByYear(diagramParam);
         break;
-
       default:
         break;
       }

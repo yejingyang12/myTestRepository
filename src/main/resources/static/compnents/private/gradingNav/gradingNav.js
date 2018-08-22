@@ -16,11 +16,11 @@ var data1 = {
         },
         methods:{
           returnBtn:function(){
-            window.location.href = originUrl+"page/indexPage";
+            window.location.href = originUrl+encodeURI("page/indexPage");
           },
           handleClick:function(tab, event) {
             if(this.activeName=='fourth'){
-              window.location.href = originUrl+"page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId;
+              window.location.href = originUrl+encodeURI("page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId);
             }
           },
           //下一页
@@ -29,7 +29,7 @@ var data1 = {
           },
           // 获取成功
           nextBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId;
+              window.location.href = originUrl+encodeURI("page/applicationGradingInfoPage?systemId="+systemId+"&companyId="+companyId);
           },
           getSystemMaterialsInfo:function(systemId){
           	var _self = this;

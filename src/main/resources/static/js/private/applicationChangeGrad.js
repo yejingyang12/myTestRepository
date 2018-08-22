@@ -45,19 +45,19 @@ window.onload = function () {
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
-          	if(_self.formData.saveType == "1"){
-          		$(".save").show().delay(2000).fadeOut();
-          	}else if(_self.formData.saveType == "2"){
-          		$(".submit").show().delay(2000).fadeOut();
-          	}
           	if(boo){
               data.check = false;
               window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId;
             }else{
               //$(".startBox").show().delay(2000).fadeOut();
-              window.setTimeout(function () {
+            	if(_self.formData.saveType == "1"){
+            		$(".save").show().delay(2000).fadeOut();
+            	}else if(_self.formData.saveType == "2"){
+            		$(".submit").show().delay(2000).fadeOut();
+            	}
+//              window.setTimeout(function () {
                 window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
-              }, 2300);
+//              }, 2300);
             }
           },
           //下一页

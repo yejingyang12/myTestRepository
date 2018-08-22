@@ -48,7 +48,7 @@
         				'application/json;charset=UTF-8', _self.saveGradChangeCheckSuccess);
         	},
         	saveGradChangeCheckSuccess: function(_self,responseData){
-            window.location.href="/page/auditPage";
+            window.location.href=originUrl+encodeURI("/page/auditPage");
         	},
         	
           text:function(){
@@ -73,7 +73,7 @@
         	//点击返回按钮 返回到审核页面
           bus.$on("gradReturn",function(meg){
           	if(meg!=null){
-          		window.location.href="/page/auditPage";
+          		window.location.href=originUrl+encodeURI("/page/auditPage");
           	}
           })
         }

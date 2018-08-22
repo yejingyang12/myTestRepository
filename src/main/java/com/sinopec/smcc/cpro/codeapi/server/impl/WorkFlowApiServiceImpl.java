@@ -36,7 +36,6 @@ import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
-import com.sinopec.smcc.depends.soap.SoapApiService;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
@@ -55,8 +54,6 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   private String appId;
   @Autowired
   private UserApiService userApiServiceImpl;
-  @Autowired
-  SoapApiService soapApiService;
   @Autowired
   private DpsConfig dpsConfig;
   @Autowired
@@ -114,8 +111,8 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       appExtendsData.setExt007(userDTO.getUserName());//发起人
       
       startContext.setExtendsData(appExtendsData);
-      appCallResult = dpsTemplate.initStart(startContext);
-      
+      dpsTemplate.initStart(startContext);
+
       // 当前人待办信息 获取业务id集合
 //    List<ExecuteContext> executeContextList = new ArrayList<ExecuteContext>();
 //    final PagedList appPagedTODOTask = dpsTemplate.appTODOTask(String.valueOf(userDTO.getUserId()),"","");
@@ -174,7 +171,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   public void reviewNotThrough(String businessId,String userId,String userName) 
       throws BusinessException {
     final PagedList appPagedTODOTask = 
-        dpsTemplate.appPagedTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+        dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){
       List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
       String taskid=null;

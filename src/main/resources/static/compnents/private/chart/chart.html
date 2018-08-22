@@ -180,11 +180,12 @@
                         <!--折线图-->
                         <div class="col-md-6 chart chart3 bingzhuangtu" >
                             <div style="height: 100px">
-                                <div class="pos-relative">
+                               <div class="pos-relative">
                                     <p class="p1">系统等保管理趋势 </p>
                                     <p class="p2">不同等保管理状态下系统数量</p>
                                     <!--<span>|</span>-->
                                     <template>
+                                    	<span style="position: relative;top: -55px;left: 360px;">年份:</span>	
                                         <el-select clearable v-model="yearType"  @change="getYearType()" filterable  placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
                                             <el-option
                                                     v-for="item in years"
@@ -193,7 +194,6 @@
                                                     :value="item.value">
                                             </el-option>
                                         </el-select>
-                                        
                                     </template>
                                 </div>
                             </div>

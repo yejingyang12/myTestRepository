@@ -13,12 +13,12 @@
         },
         methods:{
           returnBtn:function(){
-            window.location.href = originUrl+"page/indexPage";
+            window.location.href = originUrl+encodeURI("page/indexPage");
           },
           handleClick:function(tab, event) {
             
             if(this.activeName=='third'){
-              window.location.href = originUrl+"page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId;
+              window.location.href = originUrl+encodeURI("page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId);
             }
           }
         },

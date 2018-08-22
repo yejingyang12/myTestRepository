@@ -549,8 +549,8 @@
           },
           //跳转到定级页面
           toAuditGradPage : function(systemId,companyId,companyCode) {
-//          	window.location.href="/page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId;
-          	window.location.href="/page/addCompanyGradPage?systemId="+systemId+"&fkCompanyCode="+companyId+"&companyId="+companyId;
+//          	window.location.href=originUrl+encodeURI("/page/applicationGradingPage?systemId="+systemId+"&companyId="+companyId);
+          	window.location.href=originUrl+encodeURI("/page/addCompanyGradPage?systemId="+systemId+"&fkCompanyCode="+companyId+"&companyId="+companyId);
           },
           //申请变更弹窗
           toAuditChangePage : function(systemId,companyCode,companyId) {
@@ -559,7 +559,7 @@
           	$("#changeMattersCompanyId").val(companyId);
           	this.getChangeMattersMethod(this,systemId);
           	this.showDialog();          	
-/*          	window.location.href="/page/auditChangePage?systemId="+systemId;
+/*          	window.location.href=originUrl+encodeURI("/page/auditChangePage?systemId="+systemId);
 */          },
 					// 获取变更事项
 					getChangeMattersMethod : function(_self,systemId) {
@@ -597,39 +597,39 @@
 						var changeContent = _self.ruleForm.desc1;
 						var fkChangeMatter = _self.ruleForm.region;
 						this.closes();
-					  window.location.href="/page/applicationChangePage?systemId="+ responseData.data +"&fkCompanyCode="+companyCode+"&companyId="+companyId
-					  	+"&changeReason="+changeReason+"&changeContent="+changeContent+"&fkChangeMatter="+fkChangeMatter;
+					  window.location.href=originUrl+encodeURI("/page/applicationChangePage?systemId="+ responseData.data +"&fkCompanyCode="+companyCode+"&companyId="+companyId
+					  	+"&changeReason="+changeReason+"&changeContent="+changeContent+"&fkChangeMatter="+fkChangeMatter);
 					},
 				  //跳转到备案
           toCompanyRecordPage : function(examineStatus,systemId,companyId) {
-          	window.location.href="/page/companyRecordPage?systemId="+systemId+"&companyId=" + companyId+"&examineStatus="+examineStatus;
+          	window.location.href=originUrl+encodeURI("/page/companyRecordPage?systemId="+systemId+"&companyId=" + companyId+"&examineStatus="+examineStatus);
           },
           //跳转到自查
           toSelfCheckPage : function(systemId,companyId) {
-          	window.location.href="/page/selfCheckPage?systemId="+systemId+"&companyId=" + companyId;
+          	window.location.href=originUrl+encodeURI("/page/selfCheckPage?systemId="+systemId+"&companyId=" + companyId);
           },
           //跳转到测评
           toTestingPage : function(systemId,companyId) {
-          	window.location.href="/page/testingPage?systemId="+systemId+"&companyId=" + companyId;
+          	window.location.href=originUrl+encodeURI("/page/testingPage?systemId="+systemId+"&companyId=" + companyId);
           },
           //跳转到详情
           toDetailsPage : function(systemId,companyId){
-          	window.location.href="/page/viewDetailsPage?systemId="+systemId+"&companyId="+companyId;
+          	window.location.href=originUrl+encodeURI("/page/viewDetailsPage?systemId="+systemId+"&companyId="+companyId);
           },
           //审核管理
           toAuditPage : function() {
-          	window.location.href="/page/auditPage";
+          	window.location.href=originUrl+encodeURI("/page/auditPage");
           },
           //维护单位系统信息
           toMainCompanyInfoPage : function() {
-          	window.location.href="/page/mainCompanyInfoPage";
+          	window.location.href=originUrl+encodeURI("/page/mainCompanyInfoPage");
           },
           //新建登保申请
           toAddCompanyInfoPagePage : function() {
             if(data.headquarters){
-            	window.location.href="/page/addCompanyInfoPage?jurisdiction=headquarters";
+            	window.location.href=originUrl+encodeURI("/page/addCompanyInfoPage?jurisdiction=headquarters");
             }else{
-            	window.location.href="/page/addCompanyInfoPage";
+            	window.location.href=originUrl+encodeURI("/page/addCompanyInfoPage");
             }
           },
           //申请变更弹窗和删除按钮弹出窗：隐藏弹窗；
@@ -903,7 +903,7 @@
           },
           //附件下载
           downloadFile : function (fileId){
-          	window.location.href=originUrl+"/fileHandle/downloadFile?fileId="+fileId;
+          	window.location.href=originUrl+encodeURI("/fileHandle/downloadFile?fileId="+fileId);
           },
           //定级信息导入
           getFile: function (obj) {
@@ -977,14 +977,14 @@
                 _self.downloadSuccess);
           	$("#startBoxExport").show().delay(2000).fadeOut();
             window.setTimeout(function () {
-              //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+              //window.location.href = originUrl+encodeURI("page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode);
             }, 2300);
           },
           //下载成功回调
           downloadSuccess: function (_self,responseData) {
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
-         	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
+         	 	window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name);
           }, 
           /*首页"高级查询"下的复选框--所属板块：*/
           checkAllHeightSearch: function () {
@@ -1167,7 +1167,7 @@
         		  flag.setAttribute('show', 'show');
         		  $("#startBoxExport").show().delay(2000).fadeOut();
         		  window.setTimeout(function () {
-        			  //window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+        			  //window.location.href = originUrl+encodeURI("page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode);
         		  }, 2300);
         		  this.checkBox='false'; 
         	  };*/

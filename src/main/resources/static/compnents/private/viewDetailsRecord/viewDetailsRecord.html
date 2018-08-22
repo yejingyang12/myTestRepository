@@ -66,8 +66,8 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">信息系统安全等级保护备案证明：</span>
-                <a class="col-md-6 text-left"  style="cursor:pointer"
-                 @click="download(recordReportId)">{{recordReportName}}</a>
+                <a class="col-md-6 text-left"  style="cursor:pointer;color:blue;text-decoration:underline;"
+                 @click="download(recordReportId)"><u>{{recordReportName}}</u></a>
             </p>
         </li>
         <li class="col-md-12">
@@ -78,8 +78,8 @@
             <p class="col-md-6">
                 <span class="col-md-5 text-right">撤销证明：</span>
                
-                  <a class="col-md-6 text-left"  style="cursor:pointer"
-                   @click="download(revokeRecordsId)">{{revokeRecordsName}}</a>
+                  <a class="col-md-6 text-left"  style="cursor:pointer;color:blue;text-decoration:underline;"
+                   @click="download(revokeRecordsId)"><u>{{revokeRecordsName}}</u></a>
                 
             </p>
         </li>

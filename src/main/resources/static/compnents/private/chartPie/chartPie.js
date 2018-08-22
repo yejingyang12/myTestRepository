@@ -226,7 +226,7 @@
               if(that.val3){
             	  gradingEndTimeStamp = that.val3.getTime();//时间戳
               }
-            window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
+            window.location.href=originUrl+encodeURI("page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType);
           /*  window.location.href = "http://echarts.baidu.com/examples/editor.html";*/
          }) 
         },

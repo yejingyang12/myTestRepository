@@ -5,6 +5,7 @@ var data={
 	      }
 	},
     check : false,
+    dialogVisible: false,
     jurisdictionType:0,
 		submitCheck:false,
 		systemName:"",
@@ -151,6 +152,11 @@ var data={
                         })
                     },
                     getClass:function(e,param){
+                    	if(param=="1"){
+                    		$("#approval").show();
+                    	}else{
+                    		$("#approval").hide();
+                    	}
                         $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                         this.formData.competentView = param;
                         this.$refs.competentView.clearValidate();
@@ -169,7 +175,7 @@ var data={
                       $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                       if(e.target.innerHTML == '是'){
                         $("#direHide1").show();
-                        $("#approval").show();
+//                        $("#approval").show();
                         this.rules.competentName[0].required = true;
                         this.rules.competentName[1].min = 1;
                         this.rules.competentView[0].required = true;
@@ -213,26 +219,32 @@ var data={
                     		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	                    	var fimeMax = 1048576 *30;
 	                    	if(fileSize > fimeMax){
-	                    		this.$alert('文件不能大于30M！', '信息提示', {
+	                    		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                          confirmButtonText: '确定',
 	                          callback: function callback(action) {
 	                          }
-	                        });
+	                        });*/
+	                    		this.dialogVisible=true;
 	                    		return;
 	                    	}
 	                    	var fileFormat = e.target.value.split(".");//文件后缀
-	                    	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip' ){
-	                    		this.$alert('不接受此文件类型！', '信息提示', {
-	                          confirmButtonText: '确定',
-	                          callback: function callback(action) {
-	                          }
-	                        });
-	                    		return;
+	                    	var fileFormatLength = fileFormat.length;
+	                    	if(fileFormatLength){
+	                    		var i = fileFormatLength - 1;
+	                    		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip' ){
+	                    			/*this.$alert('不接受此文件类型！', '信息提示', {
+	                    				confirmButtonText: '确定',
+	                    				callback: function callback(action) {
+	                    				}
+	                    			});*/
+	                    			this.dialogVisible=true;
+	                    			return;
+	                    		}
+	                    		var uploadData = new FormData(); 
+	                    		uploadData.append('file', e.target.files[0]);
+	                    		uploadData.append('type', 'test');
+	                    		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 	                    	}
-	                      var uploadData = new FormData(); 
-	                      uploadData.append('file', e.target.files[0]);
-	                      uploadData.append('type', 'test');
-	                      ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
                     	}
                     },
                     onUploadSuccessMethod: function(_self,responseData){
@@ -260,26 +272,32 @@ var data={
                     		fileSize = e.target.files[0].size;//文件大小（字节）                 		
                     		var fimeMax = 1048576 *30;
 	                    	if(fileSize > fimeMax){
-	                    		this.$alert('文件不能大于30M！', '信息提示', {
+	                    		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                          confirmButtonText: '确定',
 	                          callback: function callback(action) {
 	                          }
-	                        });
+	                        });*/
+	                    		this.dialogVisible=true;
 	                    		return;
 	                    	}
 	                    	var fileFormat = e.target.value.split(".");//文件后缀
-	                    	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){
-	                    		this.$alert('不接受此文件类型！', '信息提示', {
-	                          confirmButtonText: '确定',
-	                          callback: function callback(action) {
-	                          }
-	                        });
-	                    		return;
+	                    	var fileFormatLength = fileFormat.length;
+	                    	if(fileFormatLength){
+	                    		var i = fileFormatLength - 1;
+	                    		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+	                    			/*this.$alert('不接受此文件类型！', '信息提示', {
+	                    				confirmButtonText: '确定',
+	                    				callback: function callback(action) {
+	                    				}
+	                    			});*/
+	                    			this.dialogVisible=true;
+	                    			return;
+	                    		}
+	                    		var uploadData = new FormData(); 
+	                    		uploadData.append('file', e.target.files[0]);
+	                    		uploadData.append('type', 'test');
+	                    		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod1);
 	                    	}
-	                    	var uploadData = new FormData(); 
-	                      uploadData.append('file', e.target.files[0]);
-	                      uploadData.append('type', 'test');
-	                      ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod1);
                     	}
 
                     },
@@ -309,25 +327,32 @@ var data={
                     		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	                    	var fimeMax = 1048576 *30;
 	                    	if(fileSize > fimeMax){
-	                    		this.$alert('文件不能大于30M！', '信息提示', {
+	                    		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                          confirmButtonText: '确定',
 	                          callback: function callback(action) {
 	                          }
-	                        });
+	                        });*/
+	                    		this.dialogVisible=true;
 	                    		return;
 	                    	}
 	                    	var fileFormat = e.target.value.split(".");//文件后缀
-	                    	if(fileFormat[1] != 'pdf' && fileFormat[1] !='sep' && fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx'  && fileFormat[1] != 'rar' && fileFormat[1] !='doc' && fileFormat[1] !='docx' && fileFormat[1] !='zip'){                    		this.$alert('不接受此文件类型！', '信息提示', {
-	                          confirmButtonText: '确定',
-	                          callback: function callback(action) {
-	                          }
-	                        });
-	                    		return;
+	                    	var fileFormatLength = fileFormat.length;
+	                    	if(fileFormatLength){
+	                    		var i = fileFormatLength - 1;
+	                    		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
+	                    			/*this.$alert('不接受此文件类型！', '信息提示', {
+		                    			confirmButtonText: '确定',
+		                    			callback: function callback(action) {
+		                    			}
+		                    		});*/
+	                    			this.dialogVisible=true;
+		                    		return;
+	                    		}
+	                    		var uploadData = new FormData(); 
+	                    		uploadData.append('file', e.target.files[0]);
+	                    		uploadData.append('type', 'test');
+	                    		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 	                    	}
-	                      var uploadData = new FormData(); 
-	                      uploadData.append('file', e.target.files[0]);
-	                      uploadData.append('type', 'test');
-	                      ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
                     	}
                     },
                     onUploadSuccessMethod2: function(_self,responseData){
@@ -365,10 +390,10 @@ var data={
                     fileDownload:function(path,type,name){
                       if(type=='1'){
                         //下载路径
-                        window.location.href = originUrl+"/fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name;
+                        window.location.href = originUrl+encodeURI("/fileHandle/downloadFile?uploadUrl="+path+"&attachName="+name);
                       }else{
                         //下载路径
-                        window.location.href = originUrl+ "/fileHandle/downloadFile?fileId="+path;
+                        window.location.href = originUrl+encodeURI("/fileHandle/downloadFile?fileId="+path);
                       }
                         
                     },
@@ -451,7 +476,7 @@ var data={
                         $("#10401").removeAttr("checked");
                         $("#10402").removeAttr("checked");
                         $("#10501").removeAttr("checked");
-                        this.formData.fkBizSPRankDegree ="10201,10201"; 
+                        this.formData.fkBizSPRankDegree ="10201,10202"; 
                         
                         break;
                       case 103:
@@ -581,9 +606,9 @@ var data={
                       case 102:
                         if($("#10201").is(':checked')||$("#10202").is(':checked')){
                           $("#102").prop("checked",true);
-                          if($("#10201").is(':checked')){
+                          if($("#10201").is(':checked') && $("#10202").is(':checked')==false){
                             this.formData.fkBizSPRankDegree ="10201"; 
-                          }else if($("#10202").is(':checked')){
+                          }else if($("#10202").is(':checked') && $("#10201").is(':checked')==false){
                             this.formData.fkBizSPRankDegree ="10202"; 
                           }else{
                             this.formData.fkBizSPRankDegree ="10201,10202"; 
@@ -610,8 +635,13 @@ var data={
                             this.formData.fkBizSPRankDegree ="10302"; 
                           }else if($("#10303").is(':checked')){
                             this.formData.fkBizSPRankDegree ="10303"; 
-                          }else{
-                            this.formData.fkBizSPRankDegree ="10301,10302,10303"; 
+                          }
+                          for(var i=10301;i<=10303;i++){
+                          	if(this.formData.fkBizSPRankDegree!=i){
+                          		if($("#"+i).is(':checked')){
+                          			this.formData.fkBizSPRankDegree +=","+i;
+                          		}
+                          	}
                           }
                         }else{
                           $("#103").removeAttr("checked");
@@ -628,9 +658,9 @@ var data={
                       case 104:
                         if($("#10401").is(':checked')||$("#10402").is(':checked')){
                           $("#104").prop("checked",true);
-                          if($("#10401").is(':checked')){
+                          if($("#10401").is(':checked') && $("#10402").is(':checked')==false){
                             this.formData.fkBizSPRankDegree ="10401"; 
-                          }else if($("#10402").is(':checked')){
+                          }else if($("#10402").is(':checked') && $("#10401").is(':checked')==false){
                             this.formData.fkBizSPRankDegree ="10402"; 
                           }else{
                             this.formData.fkBizSPRankDegree ="10401,10402"; 
@@ -889,9 +919,9 @@ var data={
                       case 202:
                         if($("#20201").is(':checked')||$("#20202").is(':checked')){
                           $("#202").prop("checked",true);
-                          if($("#20201").is(':checked')){
+                          if($("#20201").is(':checked') && $("#20202").is(':checked')==false){
                             this.formData.fkBizSystemDegree ="20201"; 
-                          }else if($("#20202").is(':checked')){
+                          }else if($("#20202").is(':checked') && $("#20201").is(':checked')==false){
                             this.formData.fkBizSystemDegree ="20202"; 
                           }else{
                             this.formData.fkBizSystemDegree ="20201,20202"; 
@@ -918,8 +948,14 @@ var data={
                             this.formData.fkBizSystemDegree ="20302"; 
                           }else if($("#20303").is(':checked')){
                             this.formData.fkBizSystemDegree ="20303"; 
-                          }else{
-                            this.formData.fkBizSystemDegree ="20301,20202,20303"; 
+                          }
+                          for(var i=1;i<=3;i++){
+                          	var ckAppend="2030"+i;
+                          	if(this.formData.fkBizSystemDegree!=ckAppend){
+                          		if($("#2030"+i).is(':checked')){
+                          			this.formData.fkBizSystemDegree +=",2030"+i;
+                          		}
+                          	}
                           }
                         }else{
                           $("#203").removeAttr("checked");
@@ -936,9 +972,9 @@ var data={
                       case 204:
                         if($("#20401").is(':checked')||$("#20402").is(':checked')){
                           $("#204").prop("checked",true);
-                          if($("#20401").is(':checked')){
+                          if($("#20401").is(':checked') && $("#20402").is(':checked')==false){
                             this.formData.fkBizSystemDegree ="20401"; 
-                          }else if($("#20402").is(':checked')){
+                          }else if($("#20402").is(':checked') && $("#20401").is(':checked')==false){
                             this.formData.fkBizSystemDegree ="20402"; 
                           }else{
                             this.formData.fkBizSystemDegree ="20401,20402"; 
@@ -1282,11 +1318,11 @@ var data={
                     // 获取安全按等级成功
                     submitGradeInfoSuccessMethod : function(_self, responseData) {
                       if(type=="change"){
-                        window.location.href = "applicationChangeMaterialPage?systemId="+systemId;
+                        window.location.href = originUrl+encodeURI("applicationChangeMaterialPage?systemId="+systemId);
                       }else if(type=="grading"){
-                        window.location.href = "applicationGradingInfoPage?systemId="+systemId;
+                        window.location.href = originUrl+encodeURI("applicationGradingInfoPage?systemId="+systemId);
                       }else{
-                        window.location.href = "addCompanyMaterialPage?systemId="+systemId;
+                        window.location.href = originUrl+encodeURI("addCompanyMaterialPage?systemId="+systemId);
                       }
                     },
                     // 获取系统信息
@@ -1330,12 +1366,12 @@ var data={
                     this.smccChecdArr[1].length = 2;
                     //安全等级信息
                     this.getProtectionGradeInfoMethod(this);
-                    //获取系统信息
-                    this.getSystem(this);
                     if(systemId!=null&&systemId!=''){
                       this.getGradeMethod(this,systemId);
                       this.formData.fkSystemId = systemId;
                     }
+                    //获取系统信息
+                    this.getSystem(this);
                     $("#direHide1").hide();
                     $("#approval").hide();
                     _self = this;

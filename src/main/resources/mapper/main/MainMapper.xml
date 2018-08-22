@@ -62,10 +62,12 @@
         ON system.pkId = records.fkSystemId
       LEFT JOIN t_cpro_evaluation AS evaluation 
         ON system.pkId = evaluation.fkSystemId
+        AND evaluation.deleteStatus = 1
         AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
                                      WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
+        AND selfInspection.deleteStatus = 1
         AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
                                          WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_check AS examine 

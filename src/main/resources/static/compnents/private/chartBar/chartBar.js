@@ -291,7 +291,7 @@
            if(gradingShapeType == 'undefined' || gradingShapeType == null){
           	 gradingShapeType = "";
            }
-           window.location.href=originUrl+"page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
+           window.location.href=originUrl+encodeURI("page/showChartDataListPage?sprankLevel="+sprankLevel+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType);
  /*               window.location.href = "http://echarts.baidu.com/examples/editor.html";
 */           
           }) 

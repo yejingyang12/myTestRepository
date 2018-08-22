@@ -63,7 +63,7 @@
                     <li class="row" v-show="systemInfo">
                       <div class="col-lg-6 col-md-6">
                           <el-form-item label="系统名称：" prop="systemName" class="P-addsystem">
-                              <el-select clearable  v-model="formData.systemName" :disabled = "change"  filterable placeholder="请选择" @change="setStandardizedCode(formData.systemName,1)">
+                              <el-select clearable v-model="formData.systemName" :disabled = "change"  filterable placeholder="请选择" @change="setStandardizedCode(formData.systemName,1)">
                                   <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
                               </el-select>
                           </el-form-item>
@@ -78,8 +78,8 @@
                         <ul class="clearfix trueSys" style="position: relative;">
                             <li class="row">
                                 <div class="col-lg-6 col-md-3">
-                                    <el-form-item label="系统名称：" prop="systemName" ref="systemName" class="P-addsystem" style="padding-left: 15px;">
-                                        <input type="text" placeholder="请输入" @blur="sysNameBlur()" v-model="formData.systemName" id="systemInfo1">
+                                    <el-form-item label="系统名称：" prop="systemName" class="P-addsystem" style="padding-left: 15px;">
+                                        <input type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1">
                                     </el-form-item>
                                 </div>
                             </li>

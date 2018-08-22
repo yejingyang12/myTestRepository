@@ -4,7 +4,8 @@
 (function () {
   var data={
   		systemName:'',
-  		activeName: 'record'
+  		activeName: 'record',
+  		materialView: false
   };
   Vue.component('tabNav',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/tabNav/tabNav.html').then(function(res){
@@ -32,12 +33,24 @@
           } ,
           getSystemSuccess : function(_self,result){
             this.systemName = result.data.systemName;
+          },
+          getSystemMaterialsInfo:function(systemId){
+          	var _self = this;
+              ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', true,
+                  '{"fkSystemId":"'+systemId+'"}', 'json',
+                  'application/json;charset=UTF-8',
+                  _self.getMaterialsInfoSuccessMethod);
+          },
+          getMaterialsInfoSuccessMethod:function(_self,responseData){
+          	if(responseData.data.systemMaterialsId != null){
+          		data.materialView = true;
+          	}
           }
         },
         created: function() {
           //获取系统信息
           this.getSystem(this);
-        	
+          this.getSystemMaterialsInfo(systemId);
         },
         mounted: function() {
           // this.selectChange()

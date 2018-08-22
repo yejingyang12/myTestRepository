@@ -48,7 +48,7 @@
               { required: true, message: '请选择单位名称', trigger: 'change' },
           ],
           companyCode: [
-              { required: true, message: '请输入单位编码', trigger: 'blur' }
+              { required: false, message: '请输入单位编码', trigger: 'change' }
           ],
           companyAddress: [
               { required: false, message: '请输入单位地址', trigger: 'blur' },
@@ -59,7 +59,7 @@
               { pattern: /^\d{6}$/, message: '邮政编码输入有误', trigger: 'blur'}
           ],
           fkSubordinatePro: [
-              { required: true, message: '请选择所属省份', trigger: 'blur' }
+              { required: true, message: '请选择所属省份', trigger: 'change' }
           ],
           administrativeNum: [
               { required: false, message: '请输入行政区划编码', trigger: 'blur' },
@@ -427,13 +427,13 @@
               submitHandlerSuccessMethod: function(_self,data){
 //                console.log(companyCode!=''&&companyCode!=null)
 //                if(type=='create'){
-//                  window.location.href = "addCompanySystemPage?companyId=" + data.data;
+//                  window.location.href = originUrl+encodeURI("addCompanySystemPage?companyId=" + data.data);
 //                }else if(type=='change'){
-//                  window.location.href = "applicatuibChangSystemPage?companyId=" + data.data+"&systemId=" + systemId;
+//                  window.location.href = originUrl+encodeURI("applicatuibChangSystemPage?companyId=" + data.data+"&systemId=" + systemId);
 //                }else if(type=='new'){
-//                  window.location.href = "mainCompanyInfoPage";
+//                  window.location.href = originUrl+encodeURI("mainCompanyInfoPage");
 //                }else if(type=='update'){
-//                  window.location.href = "mainCompanyInfoPage";
+//                  window.location.href = originUrl+encodeURI("mainCompanyInfoPage");
 //                }
               },
               
@@ -488,7 +488,7 @@
               	$(".baseMes1").find(".btnColor").removeClass("btnColor");
               },
               returnCompanyList: function(_self){
-              	window.location.href = originUrl + "page/mainCompanyInfoPage?activeName=first";
+              	window.location.href = originUrl+encodeURI("page/mainCompanyInfoPage?activeName=first");
               },
               // 获取单位Code
               getCompanyCode : function(_self) {

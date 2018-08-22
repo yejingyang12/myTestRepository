@@ -16,7 +16,7 @@
       <el-tab-pane label="定级信息（备案表三）" name="third">
         <view-details-grad></view-details-grad>
       </el-tab-pane>
-      <el-tab-pane label="提交材料情况（备案表四）" name="fourth">
+      <el-tab-pane label="提交材料情况（备案表四）" name="fourth" v-if="materialView">
         <view-details-material></view-details-material>
       </el-tab-pane>
       <el-tab-pane label="自查" name="examination">
