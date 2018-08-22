@@ -136,7 +136,7 @@ public class CheckServiceImpl implements CheckService {
         }
       }
       final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,
-          checkParam.getCurrentPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
+          checkParam.getCurrentPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
       appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
       if((appPagedTODOTask.getExecuteTaskList())!=null){
@@ -231,7 +231,7 @@ public class CheckServiceImpl implements CheckService {
         }
       }
       final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
-          checkParam.getCurrentPage(), "",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
+          checkParam.getCurrentPage(), "");
       appPagedTODOTaskTotal = appPagedTODOTaskHaveDone.getTotalCount();
       appPagedTODOTaskPageNum = appPagedTODOTaskHaveDone.getPageIndex();
       if((appPagedTODOTaskHaveDone.getExecuteTaskList())!=null){
