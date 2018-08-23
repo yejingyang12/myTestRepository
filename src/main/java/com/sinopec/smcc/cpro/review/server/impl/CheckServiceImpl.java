@@ -288,6 +288,14 @@ public class CheckServiceImpl implements CheckService {
             }else{
               //待总部安全管理员审核
               checkListResult.setFkExaminStatus("2");
+              List<AppTaskOpinionData> appTaskOpinionDataList = 
+                  dpsTemplate.appOpinion(executeTaskData.getBusinessId());
+              if(appTaskOpinionDataList.get(0) != null){
+                if(appTaskOpinionDataList.get(0).getExecuteResult() == 2){
+                  //归档
+                  checkListResult.setFkExaminStatus("5");
+                }
+              }
             }
           }else if(executeTaskData.getExecuteResult() == 2){
             if(executeTaskData.getActivityName().equals("企业主联络员审批") && 

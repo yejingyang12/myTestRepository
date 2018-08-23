@@ -103,7 +103,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       appExtendsData.setExt001(systemId);//系统ID
       appExtendsData.setExt002(userDTO.getUserName());//用户名称
       appExtendsData.setExt003(WorkFlowConsts.CATEGORY_VERSION_NUM);//版本号
-      if(appExtendsData != null){
+      if(systemResult != null){
         appExtendsData.setExt004(systemResult.getSystemName());//系统名称
         appExtendsData.setExt005(systemResult.getFkInfoSysTypeCon().toString());//建设类型
       }

@@ -25,6 +25,7 @@
               },
           },
           axisLabel: {
+        	  rotate:40,
               textStyle: {
                  color: '#000',
                  fontSize: 12
@@ -33,7 +34,7 @@
               formatter : function(params){
                   var newParamsName = "";
                   var paramsNameNumber = params.length;
-                  var provideNumber = 4; //每行显示文字个数
+                  var provideNumber = 6; //每行显示文字个数
                   var rowNumber = Math.ceil(paramsNameNumber / provideNumber);
                   if (paramsNameNumber > provideNumber) {
                       for (var p = 0; p < rowNumber; p++) {
@@ -206,11 +207,10 @@
   	    	        		 _self.option.series[4].data[i] = result.data[i].level5;
 	  	    	         }
 	  	    	        	 //重绘
+	  	    	         	$('#container-stack-one').css('display','block');
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
-	            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	                     dangerouslyUseHTMLString: true
-	            		 	 });
+	            		 		$('#container-stack-one').css('display','none');
 	            		 		_self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
@@ -229,7 +229,7 @@
                    function(_self,result){
               		 if(result.data != null && result.data !=''){
               			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.series[1].data=[0,0,0,0,0,0,d0,0,0,0];
+              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
@@ -245,14 +245,10 @@
   	    	        		 _self.option.series[4].data[i] = result.data[i].level5;
   	    	        	 }
   	    	        	 //重绘
+  	    	        	$('#container-stack-one').css('display','block');
   	    	        	 data.myChart.setOption(data.option, true);
               		 }else{
-              			 var json = JSON.parse(meg);
-              			 if(json.type == null || json.type == ''){
-              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-  	                     dangerouslyUseHTMLString: true
-  	            		 	 });
-              			 }
+              			$('#container-stack-one').css('display','none');
               			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];

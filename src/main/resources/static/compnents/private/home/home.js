@@ -964,7 +964,9 @@
           //导入成功
           importGardingSuccessMethod: function(_self,responseData){
           	//$("#startBoxImporting").css('display', 'none');
-          	$("#startBoxImport").show().delay(2000).fadeOut();
+          	if(responseData.data){
+          		$("#startBoxImport").show().delay(2000).fadeOut();
+          	}
           },
           
           //一键

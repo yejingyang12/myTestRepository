@@ -1,18 +1,14 @@
 var data = {
 		headquarters:false,
     check:false,
+    nameList:[],
     showItem:10,
     companyForm:{
       pagesize:'',
       currentPage:'',
       total:'',
       totalPages:'',
-      formData:[{
-        companyId:'',
-        companyName:'',
-        fkCompanyType:'',
-        ldContactName:''
-      }],
+      formData:'',
       queryData:{
         companyName:'',
         ldContactName:'',
@@ -87,8 +83,16 @@ var data = {
             }
           },
           checkboxAllMethod:function(e){
+            this.companyIds = [];
             if($("#checkboxAll").is(':checked')){
               $(".firstChecked input").prop("checked",true);
+              for(var i=0;i<this.companyForm.formData.length;i++){
+                for(var j=0;j<this.nameList.length;j++){
+                  if(this.nameList[j]==this.companyForm.formData[i].companyId){
+                    this.companyIds.push(this.companyForm.formData[i].companyId);
+                  }
+                }
+              }
             }else{
               $(".firstChecked input").removeAttr("checked");
             }
@@ -231,7 +235,6 @@ var data = {
          listsort: function () {
            var imgArrow = data.imgList;
            var flagOne = 1;
-           console.log(data.companyForm.result);
             for (var i = 0; i < imgArrow.length; i++) {
              imgArrow[i].myindex = i;
              imgArrow[i].onclick = function () {
@@ -258,9 +261,19 @@ var data = {
              };
            }
          },
+         getPermitJurisdictionInfo: function(_self){
+           ajaxMethod(_self,"post",
+               "jurisdiction/queryDataJurisdictionApi",false,
+               JSON.stringify(""),"json",
+               'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+         },
+         getPermitJurisdictionSuccess: function(_self,response){
+           _self.nameList = response.data.nameList;
+         }
         },
         created: function() {
           this.getCompanyListInfoMethod(this,{});
+          this.getPermitJurisdictionInfo(this);
           //功能权限
           $.ajax({
             type: "get",

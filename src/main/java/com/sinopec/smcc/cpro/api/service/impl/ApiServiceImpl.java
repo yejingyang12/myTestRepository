@@ -10,7 +10,9 @@
 package com.sinopec.smcc.cpro.api.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -115,9 +117,12 @@ public class ApiServiceImpl implements ApiService{
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     int appPagedTODOTaskTotal = 0;
     int appPagedTODOTaskPageNum = 0;
+    Map<String,String> extMap = new HashMap<String,String>();
+    //版本号
+    extMap.put("ext003", WorkFlowConsts.CATEGORY_VERSION_NUM);
     //获取待办列表
     final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(userId,10,
-        usmgParams.getCurrPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+        usmgParams.getCurrPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
     appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
     appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
     if((appPagedTODOTask.getExecuteTaskList())!=null){
@@ -137,6 +142,13 @@ public class ApiServiceImpl implements ApiService{
           checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
           checkListResult.setRecordReportName(systemResult.getRecordReportName());
           checkListResult.setRecordReportId(systemResult.getRecordReportId());
+        }else{
+          if(StringUtils.isNotBlank(executeTaskData.getExt004())){
+            checkListResult.setInstanceName(executeTaskData.getExt004());
+          }
+          if(StringUtils.isNotBlank(executeTaskData.getExt005())){
+            checkListResult.setFkInfoSysTypeCon(executeTaskData.getExt005());
+          }
         }
         checkListResult.setPrevExecutor(executeTaskData.getSendUserName());//上一步执行人
         checkListResult.setInitiator(executeTaskData.getExt002());//发起人
@@ -161,7 +173,8 @@ public class ApiServiceImpl implements ApiService{
             checkListResult.setFkExaminStatus("2");
           }
         }else if(executeTaskData.getExecuteResult() == 2){
-          if(executeTaskData.getActivityName().equals("企业主联络员审批")){
+          if(executeTaskData.getActivityName().equals("企业主联络员审批")&& 
+              !executeTaskData.getBusinessName().equals("撤销备案")){
             //如果企业安全员已通过，则该状态为待总部安全管理员审核
             checkListResult.setFkExaminStatus("2");
           }else{

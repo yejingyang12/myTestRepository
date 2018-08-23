@@ -1506,8 +1506,8 @@ public class SystemServiceImpl implements SystemService {
       try {
         HSSFWorkbook workbook = new HSSFWorkbook();// 创建工作薄
         HSSFSheet sheet = workbook.createSheet("信息系统模版");// 创建工作表
-        
-        sheet.protectSheet("system");
+        //是否保护模板
+        //sheet.protectSheet("system");
         HSSFSheet hidden = workbook.createSheet("hidden");
         HSSFSheet hidden2 = workbook.createSheet("hidden2");
         // 数据源sheet页不显示

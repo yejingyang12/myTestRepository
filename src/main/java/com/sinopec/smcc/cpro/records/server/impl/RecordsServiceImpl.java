@@ -182,7 +182,7 @@ public class RecordsServiceImpl implements RecordsService{
 //    
     //修改系统状态
     MainParam mainParam = new MainParam();
-    mainParam.setRecordStatus("2");
+    //mainParam.setRecordStatus("2");
     mainParam.setExamineStatus("2");
     mainParam.setSystemId(recordsParam.getFkSystemId());
     mainServiceImpl.editSystemStatusBySystemId(mainParam);

@@ -3,6 +3,7 @@
  */
 var data1={
 	  dialogShow:2,
+	  nameList:[],
 	  showImprot:2,
 	  showItem:10,
     activeName: 'first',
@@ -320,10 +321,20 @@ var data1={
          getCompanyCodeSuccessMethod : function(_self, responseData) {
          		this.companyCode = responseData.data;
          },
+         getPermitJurisdictionInfo: function(_self){
+           ajaxMethod(_self,"post",
+               "jurisdiction/queryDataJurisdictionApi",false,
+               JSON.stringify(""),"json",
+               'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
+         },
+         getPermitJurisdictionSuccess: function(_self,response){
+           _self.nameList = response.data.nameList;
+         }
         },
         created: function() {
           this.getSystemListInfoMethod(this,{});
           this.getCompanyCode(this);
+          this.getPermitJurisdictionInfo(this);
         },
         mounted: function() {
           var tr=document.getElementsByTagName('tr');

@@ -688,10 +688,14 @@
     LEFT JOIN t_cpro_company com 
       ON com.companyCode = system.fkCompanyCode
     <where>
-      score.deleteStatus =1
-      AND system.deleteStatus =1
-      AND system.recordStatus !=4
-      AND com.deleteStatus =1
+      	score.deleteStatus = 1 
+		AND system.deleteStatus = 1 
+		AND com.deleteStatus = 1 
+		AND system.examineStatus!=5
+		AND system.gradingStatus!=4
+		AND system.recordStatus!=4
+		AND system.evaluationStatus!=4
+		AND system.examinationStatus!=4
       <if test="companyList != null">
         <![CDATA[
           AND com.companyCode IN  
@@ -745,7 +749,7 @@
         </if>
         <if test="gradingShapeType == 3 ">
           <![CDATA[
-            AND system.evaluationStatus = 2
+            AND system.evaluationStatus = 3
           ]]>
         </if>
         <if test="gradingShapeType == 4 ">
@@ -755,19 +759,34 @@
         </if>
         <if test="gradingShapeType == 5 ">
           <![CDATA[
-            AND system.examinationStatus = 2
+            AND system.examinationStatus = 3
           ]]>
         </if>
-        <if test="gradingShapeType == 6 ">
-          <![CDATA[
-            AND system.fkInfoSysTypeCon = 1
-          ]]>
+        <if test="jurBind=='总部'">
+        	<if test="gradingShapeType == 6 ">
+	          <![CDATA[
+	            AND system.fkInfoSysTypeCon = 1
+	          ]]>
+	        </if>
+	        <if test="gradingShapeType == 7 ">
+	          <![CDATA[
+	            AND system.fkInfoSysTypeCon IN (2,3)
+	          ]]>
+	        </if>
         </if>
-        <if test="gradingShapeType == 7 ">
-          <![CDATA[
-            AND system.fkInfoSysTypeCon = 3
-          ]]>
+        <if test="jurBind=='企业'">
+        	<if test="gradingShapeType == 6 ">
+	          <![CDATA[
+	            AND system.fkInfoSysTypeCon = 1
+	          ]]>
+	        </if>
+	        <if test="gradingShapeType == 7 ">
+	          <![CDATA[
+	            AND system.fkInfoSysTypeCon = 2
+	          ]]>
+	        </if>
         </if>
+        
       </if>
     </where>
       GROUP BY

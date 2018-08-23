@@ -63,7 +63,7 @@
           ],
           administrativeNum: [
               { required: false, message: '请输入行政区划编码', trigger: 'blur' },
-              { pattern: /^\d{0,10}$/, message: '行政区划编码输入有误', trigger: 'blur'}
+              { pattern: /^\d{6}$/, message: '行政区划编码输入有误', trigger: 'blur'}
           ],
           compPrincipalName: [
               { required: false, message: '请输入单位负责人姓名', trigger: 'blur' },
@@ -94,7 +94,7 @@
           ldContactWorkTel: [
               { required: true, message: '请输入办公电话', trigger: 'blur' },
               { min: 7, max: 13, message: '长度在7 到 13个字符', trigger: 'blur' },
-              { pattern: /^([\d-+]*)$/, message: '办公电话输入有误', trigger: 'blur'}
+              { pattern: /^0\d{2,3}-\d{7,8}$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           ldContactPhone: [
               { required: true, message: '请输入移动电话', trigger: 'blur' },

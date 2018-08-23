@@ -148,7 +148,7 @@ public interface MainService {
    * @date 2018年6月12日下午3:59:04
    * @param mainParam
    */
-  void importExcelForGradeTemplate(HttpServletRequest request, 
+  String importExcelForGradeTemplate(HttpServletRequest request, 
       MultipartFile file, String userName) throws BusinessException;
 
   /**

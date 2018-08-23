@@ -1,4 +1,3 @@
-
 <div class="container h-padding" style="margin:15px;font-size: 14px;font-style: normal">
        <div class="container h-table-border inputPadding" style="background:#fff;padding: 15px">
             <div style="height: 50px;line-height: 50px;margin-top: -15px">
@@ -57,8 +56,11 @@
                                 </div>
                                 <div class="bingzhuangBox pos-relative" style="margin-top:5px;">
                                     <!--饼状图表-->
- 								   <div class="bingtubiao" style="height:400px;">
+                                   <div class="bingtubiao" style="height:400px;">
                                         <chart-pie :val1="value1"></chart-pie>
+                                          <div style="position:absolute;top:100px;width:250px;height:250px;z-index:1">
+                                                <img style="position:absolute;top:0;bottom:155px;left:60px;right:0;margin:auto;" src="../../images/nodata.png"> 
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,14 +108,17 @@
                                             <template>
                                                 <el-select v-model="gradingShapeType" @change="getGradingShapeType()" clearable filterable placeholder="请选择">
                                                       <el-option  v-for="item in shapeType"
-																  :key="item.value"
-																  :label="item.label"
-																  :value="item.value">
+                                                                  :key="item.value"
+                                                                  :label="item.label"
+                                                                  :value="item.value">
                                                     </el-option>
                                                 </el-select>
                                             </template>
                                             <div class="xiaoduitubiao" style="margin-left:-20px;"> 
                                                 <chart-bar></chart-bar>
+                                                 <div style="position:absolute;top:100px;width:200px;height:200px;z-index:1">
+                                                    <img style="position:absolute;top:0;bottom:120px;left:0;right:0;margin:auto;" src="../../images/nodata.png">    
+                                                 </div>
                                              </div>
                                         </div>
                                     </div>
@@ -158,22 +163,25 @@
                                              </div>
                                           </div>
                                          <p class="float-ri tubiaocon">
-                                             <span class="float-ri"><i class="sekuai sekuaiGreen5"></i> 五级</span>
-                                             <span class="float-ri"><i class="sekuai sekuaiGreen4"></i> 四级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen1"></i> 五级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen2"></i> 四级</span>
                                              <span class="float-ri"><i class="sekuai sekuaiGreen3"> </i> 三级</span>
-                                             <span class="float-ri"><i class="sekuai sekuaiGreen2"></i> 二级</span>
-                                             <span class="float-ri"><i class="sekuai sekuaiGreen1"></i> 一级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen4"></i> 二级</span>
+                                             <span class="float-ri"><i class="sekuai sekuaiGreen5"></i> 一级</span>
                                          </p>
                                      </div>
                              </div>
                              <div class="bingzhuangBox" style="width:750px;margin-left:-35px;">
                                <chart-stack-one></chart-stack-one>
+                                <div style="position:absolute;top:100px;width:250px;height:250px;z-index:1">
+                                        <img style="position:absolute;top:0;bottom:-50px;left:370px;right:0;margin:auto;" src="../../images/nodata.png">    
+                                </div>
                              </div>
                          </div>
                      </div>
                 </div>
             </div>
-          	<div class="h-bottom-line h-bottom-position" style="background: #ececec;width: 48.5%;margin:-25px -15px 0 -15px;"></div>
+            <div class="h-bottom-line h-bottom-position" style="background: #ececec;width: 48.5%;margin:-25px -15px 0 -15px;"></div>
             <div class="row" style="margin:0;height:450px; ">
                 <div class="col-md-12 paddind-0">
                     <div class="row">
@@ -185,8 +193,8 @@
                                     <p class="p2">不同等保管理状态下系统数量</p>
                                     <!--<span>|</span>-->
                                     <template>
-                                    	<span style="position: relative;top: -55px;left: 360px;">年份:</span>	
-                                        <el-select clearable v-model="yearType"  @change="getYearType()" filterable  placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
+                                        <span style="position: relative;top: -55px;left: 360px;">年份:</span> 
+                                        <el-select clearable v-model="yearType"  @change="getYearType()"  filterable  placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
                                             <el-option
                                                     v-for="item in years"
                                                     :key="item.value"
@@ -199,6 +207,9 @@
                             </div>
                             <div class="bingzhuangBox" style="height:300px;width:650px;">
                               <chart-line></chart-line>
+                              <div style="position:absolute;top:100px;width:250px;height:250px;z-index:1">
+                                      <img style="position:absolute;top:100px;bottom:0;left:250px;right:0;margin:auto;" src="../../images/nodata.png">  
+                              </div>
                             </div>
                         </div>
 
@@ -214,10 +225,10 @@
                                                 <div class="block">
                                                     <!--<span class="demonstration">默认</span>-->
                                                     <el-date-picker class="h-applyTime input"
-	                                                                   v-model="acceptRecordDateBegin"
-	                                                                   type="date"
-	                                                                   @blur="getAcceptRecordDateBegin()"
-	                                                                   placeholder="选择日期">
+                                                                       v-model="acceptRecordDateBegin"
+                                                                       type="date"
+                                                                       @blur="getAcceptRecordDateBegin()"
+                                                                       placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -238,21 +249,22 @@
                                         </div>
                                     </div>
                                     <p class="float-ri tubiaocon">
-                                        <span class="float-ri"><i class="sekuai sekuaiBlue5"></i> 五级</span>
-                                        <span class="float-ri"><i class="sekuai sekuaiBlue4"></i> 四级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue1"></i> 五级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue2"></i> 四级</span>
                                         <span class="float-ri"><i class="sekuai sekuaiBlue3"></i> 三级</span>
-                                        <span class="float-ri"><i class="sekuai sekuaiBlue2"></i> 二级</span>
-                                        <span class="float-ri"><i class="sekuai sekuaiBlue1"></i> 一级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue4"></i> 二级</span>
+                                        <span class="float-ri"><i class="sekuai sekuaiBlue5"></i> 一级</span>
                                     </p>
 
                                 </div>
                             </div>
                             <div class="bingzhuangBox" style="width:750px;margin-left:-35px;">
                               <chart-stack-two></chart-stack-two>
+                               <div style="position:absolute;top:100px;width:250px;height:250px;z-index:1">
+                                       <img style="position:absolute;top:0;bottom:0;left:370px;right:0;margin:auto;" src="../../images/nodata.png"> 
+                               </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>

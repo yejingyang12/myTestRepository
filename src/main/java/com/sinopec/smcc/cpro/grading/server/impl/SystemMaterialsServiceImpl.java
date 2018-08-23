@@ -939,7 +939,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
-        
+        workFlowApiServiceImpl.initStart("定级", "2", systemMaterialsBeanParam.getFkSystemId());
       }
 //      //创建审核记录
 //      SystemParam systemParam = new SystemParam();
@@ -962,7 +962,6 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
 //      checkParamAdd.setPrevExecutor(userName);
 //      checkParamAdd.setExecuteTime(new Date());
 //      checkServiceImpl.addCheck(checkParamAdd);
-      workFlowApiServiceImpl.initStart("定级", "2", systemMaterialsBeanParam.getFkSystemId());
 
       
       //修改审核状态为进行中

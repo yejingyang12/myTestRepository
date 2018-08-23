@@ -112,7 +112,16 @@ public class MainParam {
   private List<Integer> examinStatus1;//待。。。审核
   private String examinStatusType;
   
-  public String getGradingStatusType() {
+  private String jurBind;
+  
+  
+  public String getJurBind() {
+		return jurBind;
+	}
+	public void setJurBind(String jurBind) {
+		this.jurBind = jurBind;
+	}
+	public String getGradingStatusType() {
     return gradingStatusType;
   }
   public void setGradingStatusType(String gradingStatusType) {

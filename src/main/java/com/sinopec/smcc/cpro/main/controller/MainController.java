@@ -281,12 +281,12 @@ public class MainController {
   @RequestMapping(value = "/importExcelForGradeTemplate", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public RetResult<Void> importExcelForGradeTemplate(HttpServletRequest request,
+  public RetResult<String> importExcelForGradeTemplate(HttpServletRequest request,
       @RequestParam("file") MultipartFile file) throws BusinessException {
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
-    this.mainServiceImpl.importExcelForGradeTemplate(request, file, userName);
+    String gradingId = this.mainServiceImpl.importExcelForGradeTemplate(request, file, userName);
 
-    return RetResultUtil.ok();
+    return RetResultUtil.ok(gradingId);
   }
   
   /**

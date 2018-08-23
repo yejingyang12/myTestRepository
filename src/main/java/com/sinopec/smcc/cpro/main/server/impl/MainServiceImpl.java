@@ -827,20 +827,20 @@ public class MainServiceImpl implements MainService{
       String affType = "";
       if(StringUtils.isNotBlank(companyResult.getFkAffiliation())){
         if(companyResult.getFkAffiliation().equals(WordConstant.STR_CENTER)){
-          dataMap.put("aff1", "✓");
+          dataMap.put("aff1", "☑");
           affType = "aff1";
         }else if(companyResult.getFkAffiliation().equals(WordConstant.STR_PROVINCE)){
-          dataMap.put("aff2", "✓");
+          dataMap.put("aff2", "☑");
           affType = "aff2";
         }else if(companyResult.getFkAffiliation().equals(WordConstant.STR_CITY)){
-          dataMap.put("aff3", "✓");
+          dataMap.put("aff3", "☑");
           affType = "aff3";
         }
         else if(companyResult.getFkAffiliation().equals(WordConstant.STR_AREA)){
-          dataMap.put("aff4", "✓");
+          dataMap.put("aff4", "☑");
           affType = "aff4";
         }else{
-          dataMap.put("aff9", "✓");
+          dataMap.put("aff9", "☑");
           dataMap.put("aff", companyResult.getFkAffiliation());
           affType = "aff9";
         }
@@ -849,20 +849,20 @@ public class MainServiceImpl implements MainService{
       String companyType = "";
       if(StringUtils.isNotBlank(companyResult.getFkCompanyType())){
         if(companyResult.getFkCompanyType().equals(WordConstant.STR_PARTY)){
-          dataMap.put("type1", "✓");
+          dataMap.put("type1", "☑");
           companyType = "type1";
         }else if(companyResult.getFkCompanyType().equals(WordConstant.STR_GOVERNMENT)){
-          dataMap.put("type2", "✓");
+          dataMap.put("type2", "☑");
           companyType = "type2";
         }else if(companyResult.getFkCompanyType().equals(WordConstant.STR_CAUSE)){
-          dataMap.put("type3", "✓");
+          dataMap.put("type3", "☑");
           companyType = "type3";
         }
         else if(companyResult.getFkCompanyType().equals(WordConstant.STR_ENTERPRISE)){
-          dataMap.put("type4", "✓");
+          dataMap.put("type4", "☑");
           companyType = "type4";
         }else{
-          dataMap.put("type9", "✓");
+          dataMap.put("type9", "☑");
           dataMap.put("type", companyResult.getFkCompanyType());
           companyType = "type9";
         }
@@ -871,106 +871,106 @@ public class MainServiceImpl implements MainService{
       String indType = "";
       if(StringUtils.isNotBlank(companyResult.getFkIndustryCategory())){
         if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TELECOM)){
-          dataMap.put("ind11", "✓");
+          dataMap.put("ind11", "☑");
           indType = "ind11";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_RADIO)){
-          dataMap.put("ind12", "✓");
+          dataMap.put("ind12", "☑");
           indType = "ind12";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_INTERNET)){
-          dataMap.put("ind13", "✓");
+          dataMap.put("ind13", "☑");
           indType = "ind13";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_RAILWAY)){
-          dataMap.put("ind21", "✓");
+          dataMap.put("ind21", "☑");
           indType = "ind21";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_BANK)){
-          dataMap.put("ind22", "✓");
+          dataMap.put("ind22", "☑");
           indType = "ind22";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CUSTOMS)){
-          dataMap.put("ind23", "✓");
+          dataMap.put("ind23", "☑");
           indType = "ind23";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TAX)){
-          dataMap.put("ind24", "✓");
+          dataMap.put("ind24", "☑");
           indType = "ind24";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CIVIL)){
-          dataMap.put("ind25", "✓");
+          dataMap.put("ind25", "☑");
           indType = "ind25";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_POWER)){
-          dataMap.put("ind26", "✓");
+          dataMap.put("ind26", "☑");
           indType = "ind26";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SECURITIES)){
-          dataMap.put("ind27", "✓");
+          dataMap.put("ind27", "☑");
           indType = "ind27";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_INSURANCE)){
-          dataMap.put("ind28", "✓");
+          dataMap.put("ind28", "☑");
           indType = "ind28";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_NATIONAL)){
-          dataMap.put("ind31", "✓");
+          dataMap.put("ind31", "☑");
           indType = "ind31";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SECURITY)){
-          dataMap.put("ind32", "✓");
+          dataMap.put("ind32", "☑");
           indType = "ind32";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_PERSONNEL)){
-          dataMap.put("ind33", "✓");
+          dataMap.put("ind33", "☑");
           indType = "ind33";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_FINANCE)){
-          dataMap.put("ind34", "✓");
+          dataMap.put("ind34", "☑");
           indType = "ind34";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_AUDIT)){
-          dataMap.put("ind35", "✓");
+          dataMap.put("ind35", "☑");
           indType = "ind35";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TRADE)){
-          dataMap.put("ind36", "✓");
+          dataMap.put("ind36", "☑");
           indType = "ind36";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_RESOURCES)){
-          dataMap.put("ind37", "✓");
+          dataMap.put("ind37", "☑");
           indType = "ind37";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_ENERGY)){
-          dataMap.put("ind38", "✓");
+          dataMap.put("ind38", "☑");
           indType = "ind38";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_TRAFFIC)){
-          dataMap.put("ind39", "✓");
+          dataMap.put("ind39", "☑");
           indType = "ind39";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_STATISTICS)){
-          dataMap.put("ind40", "✓");
+          dataMap.put("ind40", "☑");
           indType = "ind40";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_BUSINESS)){
-          dataMap.put("ind41", "✓");
+          dataMap.put("ind41", "☑");
           indType = "ind41";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_POSTOFFICE)){
-          dataMap.put("ind42", "✓");
+          dataMap.put("ind42", "☑");
           indType = "ind42";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_EDUCATION)){
-          dataMap.put("ind43", "✓");
+          dataMap.put("ind43", "☑");
           indType = "ind43";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CULTURE)){
-          dataMap.put("ind44", "✓");
+          dataMap.put("ind44", "☑");
           indType = "ind44";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_HYGIENE)){
-          dataMap.put("ind45", "✓");
+          dataMap.put("ind45", "☑");
           indType = "ind45";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_AGRICULTURE)){
-          dataMap.put("ind46", "✓");
+          dataMap.put("ind46", "☑");
           indType = "ind46";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_CONSERVANCY)){
-          dataMap.put("ind47", "✓");
+          dataMap.put("ind47", "☑");
           indType = "ind47";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_INTERNATIONAL)){
-          dataMap.put("ind48", "✓");
+          dataMap.put("ind48", "☑");
           indType = "ind48";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_REFORM)){
-          dataMap.put("ind49", "✓");
+          dataMap.put("ind49", "☑");
           indType = "ind49";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SCIENCE)){
-          dataMap.put("ind50", "✓");
+          dataMap.put("ind50", "☑");
           indType = "ind50";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_PROPAGANDA)){
-          dataMap.put("ind51", "✓");
+          dataMap.put("ind51", "☑");
           indType = "ind51";
         }else if(companyResult.getFkIndustryCategory().equals(WordConstant.STR_SUPERVISE)){
-          dataMap.put("ind52", "✓");
+          dataMap.put("ind52", "☑");
           indType = "ind52";
         }else{
-          dataMap.put("ind99", "✓");
+          dataMap.put("ind99", "☑");
           indType = "ind99";
           dataMap.put("ind", companyResult.getFkIndustryCategory());
         }
@@ -1171,22 +1171,22 @@ public class MainServiceImpl implements MainService{
       String busType = "";
       if(StringUtils.isNotBlank(systemResult.getSysBusSituationType())){
         if(systemResult.getSysBusSituationType().equals("生产作业")){
-          dataMap.put("bus1", "✓");
+          dataMap.put("bus1", "☑");
           busType = "bus1";
         }else if(systemResult.getSysBusSituationType().equals("指挥调度")){
-          dataMap.put("bus2", "✓");
+          dataMap.put("bus2", "☑");
           busType = "bus2";
         }else if(systemResult.getSysBusSituationType().equals("管理控制")){
-          dataMap.put("bus3", "✓");
+          dataMap.put("bus3", "☑");
           busType = "bus3";
         }else if(systemResult.getSysBusSituationType().equals("内部办公")){
-          dataMap.put("bus4", "✓");
+          dataMap.put("bus4", "☑");
           busType = "bus4";
         }else if(systemResult.getSysBusSituationType().equals("公众服务")){
-          dataMap.put("bus5", "✓");
+          dataMap.put("bus5", "☑");
           busType = "bus5";
         }else{
-          dataMap.put("bus9", "✓");
+          dataMap.put("bus9", "☑");
           busType = "bus9";
           dataMap.put("bus", systemResult.getSysBusSituationType());
         }
@@ -1202,24 +1202,24 @@ public class MainServiceImpl implements MainService{
       String cope[] = systemResult.getSysServiceSitScope().split("\\^");
       if(StringUtils.isNotBlank(systemResult.getSysServiceSitScope())){
         if(systemResult.getSysServiceSitScope().equals("全国")){
-          dataMap.put("ran1", "✓");
+          dataMap.put("ran1", "☑");
           ranType = "ran1";
         }else if(cope[0].equals("跨省（区、市）跨个")){
-          dataMap.put("ran2", "✓");
+          dataMap.put("ran2", "☑");
           dataMap.put("rvl2", cope[1]);
           ranType = "ran2";
         }else if(systemResult.getSysServiceSitScope().equals("全省（区、市）")){
-          dataMap.put("ran3", "✓");
+          dataMap.put("ran3", "☑");
           ranType = "ran3";
         }else if(cope[0].equals("跨地（区、市）跨个")){
-          dataMap.put("ran4", "✓");
+          dataMap.put("ran4", "☑");
           dataMap.put("rvl4", cope[1]);
           ranType = "ran4";
         }else if(systemResult.getSysServiceSitScope().equals("地（市、区）内")){
-          dataMap.put("ran5", "✓");
+          dataMap.put("ran5", "☑");
           ranType = "ran5";
         }else{
-          dataMap.put("ran99", "✓");
+          dataMap.put("ran99", "☑");
           dataMap.put("ran", systemResult.getSysServiceSitScope());
           ranType = "ran99";
         }
@@ -1228,16 +1228,16 @@ public class MainServiceImpl implements MainService{
       String objType = "";
       if(StringUtils.isNotBlank(systemResult.getSysServiceSitObject())){
         if(systemResult.getSysServiceSitObject().equals("单位内部人员")){
-          dataMap.put("obj1", "✓");
+          dataMap.put("obj1", "☑");
           objType = "obj1";
         }else if(systemResult.getSysServiceSitObject().equals("社会公众人员")){
-          dataMap.put("obj2", "✓");
+          dataMap.put("obj2", "☑");
           objType = "obj2";
         }else if(systemResult.getSysServiceSitObject().equals("两者均包括")){
-          dataMap.put("obj3", "✓");
+          dataMap.put("obj3", "☑");
           objType = "obj3";
         }else{
-          dataMap.put("obj9", "✓");
+          dataMap.put("obj9", "☑");
           objType = "obj9";
           dataMap.put("obj", systemResult.getSysServiceSitObject());
         }
@@ -1246,16 +1246,16 @@ public class MainServiceImpl implements MainService{
       String coverType = "";
       if(StringUtils.isNotBlank(systemResult.getNpCoverageRange())){
         if(systemResult.getNpCoverageRange().equals("局域网")){
-          dataMap.put("cover1", "✓");
+          dataMap.put("cover1", "☑");
           coverType = "cover1";
         }else if(systemResult.getNpCoverageRange().equals("地域网")){
-          dataMap.put("cover2", "✓");
+          dataMap.put("cover2", "☑");
           coverType = "cover2";
         }else if(systemResult.getNpCoverageRange().equals("广域网")){
-          dataMap.put("cover3", "✓");
+          dataMap.put("cover3", "☑");
           coverType = "cover3";
         }else{
-          dataMap.put("cover9", "✓");
+          dataMap.put("cover9", "☑");
           coverType = "cover9";
           dataMap.put("cover", systemResult.getNpCoverageRange());
         }
@@ -1264,13 +1264,13 @@ public class MainServiceImpl implements MainService{
       String natType = "";
       if(StringUtils.isNotBlank(systemResult.getNpNetworkProperties())){
         if(systemResult.getNpNetworkProperties().equals("业务专网")){
-          dataMap.put("nat1", "✓");
+          dataMap.put("nat1", "☑");
           natType = "nat1";
         }else if(systemResult.getNpNetworkProperties().equals("互联网")){
-          dataMap.put("nat2", "✓");
+          dataMap.put("nat2", "☑");
           natType = "nat2";
         }else{
-          dataMap.put("nat9", "✓");
+          dataMap.put("nat9", "☑");
           natType = "nat9";
           dataMap.put("nat", systemResult.getNpNetworkProperties());
         }
@@ -1279,16 +1279,16 @@ public class MainServiceImpl implements MainService{
       String ionType = "";
       if(StringUtils.isNotBlank(systemResult.getInterconnectionSit())){
         if(systemResult.getInterconnectionSit().equals("与其他行业系统连接")){
-          dataMap.put("ion1", "✓");
+          dataMap.put("ion1", "☑");
           ionType = "ion1";
         }else if(systemResult.getInterconnectionSit().equals("与本行业其他单位系统连接")){
-          dataMap.put("ion2", "✓");
+          dataMap.put("ion2", "☑");
           ionType = "ion2";
         }else if(systemResult.getInterconnectionSit().equals("与本单位其他系统连接")){
-          dataMap.put("ion3", "✓");
+          dataMap.put("ion3", "☑");
           ionType = "ion3";
         }else{
-          dataMap.put("ion9", "✓");
+          dataMap.put("ion9", "☑");
           ionType = "ion9";
           dataMap.put("ion", systemResult.getInterconnectionSit());
         }
@@ -1315,17 +1315,17 @@ public class MainServiceImpl implements MainService{
               //是否使用国产品
               if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
-                  dataMap.put("nan1","✓");
+                  dataMap.put("nan1","☑");
                   dataMap.put("nan2","□");
                   dataMap.put("nan3","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("2")){
-                  dataMap.put("nan2","✓");
+                  dataMap.put("nan2","☑");
                   dataMap.put("nan1","□");
                   dataMap.put("nan3","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("3")){
-                  dataMap.put("nan3","✓");
+                  dataMap.put("nan3","☑");
                   dataMap.put("nan2","□");
                   dataMap.put("nan1","□");
                 }
@@ -1351,17 +1351,17 @@ public class MainServiceImpl implements MainService{
               //是否使用国产品
               if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
-                  dataMap.put("nan4","✓");
+                  dataMap.put("nan4","☑");
                   dataMap.put("nan5","□");
                   dataMap.put("nan6","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("2")){
-                  dataMap.put("nan5","✓");
+                  dataMap.put("nan5","☑");
                   dataMap.put("nan4","□");
                   dataMap.put("nan6","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("3")){
-                  dataMap.put("nan6","✓");
+                  dataMap.put("nan6","☑");
                   dataMap.put("nan5","□");
                   dataMap.put("nan4","□");
                 }
@@ -1387,17 +1387,17 @@ public class MainServiceImpl implements MainService{
               //是否使用国产品
               if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
-                  dataMap.put("nan7","✓");
+                  dataMap.put("nan7","☑");
                   dataMap.put("nan8","□");
                   dataMap.put("nan9","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("2")){
-                  dataMap.put("nan8","✓");
+                  dataMap.put("nan8","☑");
                   dataMap.put("nan7","□");
                   dataMap.put("nan9","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("3")){
-                  dataMap.put("nan9","✓");
+                  dataMap.put("nan9","☑");
                   dataMap.put("nan8","□");
                   dataMap.put("nan7","□");
                 }
@@ -1423,17 +1423,17 @@ public class MainServiceImpl implements MainService{
               //是否使用国产品
               if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
-                  dataMap.put("nan10","✓");
+                  dataMap.put("nan10","☑");
                   dataMap.put("nan11","□");
                   dataMap.put("nan12","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("2")){
-                  dataMap.put("nan11","✓");
+                  dataMap.put("nan11","☑");
                   dataMap.put("nan10","□");
                   dataMap.put("nan12","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("3")){
-                  dataMap.put("nan12","✓");
+                  dataMap.put("nan12","☑");
                   dataMap.put("nan11","□");
                   dataMap.put("nan10","□");
                 }
@@ -1459,17 +1459,17 @@ public class MainServiceImpl implements MainService{
               //是否使用国产品
               if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
-                  dataMap.put("nan13","✓");
+                  dataMap.put("nan13","☑");
                   dataMap.put("nan14","□");
                   dataMap.put("nan15","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("2")){
-                  dataMap.put("nan14","✓");
+                  dataMap.put("nan14","☑");
                   dataMap.put("nan13","□");
                   dataMap.put("nan15","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("3")){
-                  dataMap.put("nan15","✓");
+                  dataMap.put("nan15","☑");
                   dataMap.put("nan14","□");
                   dataMap.put("nan13","□");
                 }
@@ -1496,17 +1496,17 @@ public class MainServiceImpl implements MainService{
               //是否使用国产品
               if(StringUtils.isNotBlank(systemRes.getFkNationalIsProducts())){
                 if(systemRes.getFkNationalIsProducts().equals("1")){
-                  dataMap.put("nan16","✓");
+                  dataMap.put("nan16","☑");
                   dataMap.put("nan17","□");
                   dataMap.put("nan18","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("2")){
-                  dataMap.put("nan17","✓");
+                  dataMap.put("nan17","☑");
                   dataMap.put("nan16","□");
                   dataMap.put("nan18","□");
                 }
                 if(systemRes.getFkNationalIsProducts().equals("3")){
-                  dataMap.put("nan18","✓");
+                  dataMap.put("nan18","☑");
                   dataMap.put("nan17","□");
                   dataMap.put("nan16","□");
                 }
@@ -1545,25 +1545,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse() == 1){
-                    dataMap.put("a1","✓");
+                    dataMap.put("a1","☑");
                     dataMap.put("a2","□");
                   }else{
-                    dataMap.put("a2","✓");
+                    dataMap.put("a2","☑");
                     dataMap.put("a1","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b1","✓");
+                    dataMap.put("b1","☑");
                     dataMap.put("b2","□");
                     dataMap.put("b3","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b2","✓");
+                    dataMap.put("b2","☑");
                     dataMap.put("b1","□");
                     dataMap.put("b3","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b3","✓");
+                    dataMap.put("b3","☑");
                     dataMap.put("b2","□");
                     dataMap.put("b1","□");
                   }else{
@@ -1577,25 +1577,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse()==1){
-                    dataMap.put("a3","✓");
+                    dataMap.put("a3","☑");
                     dataMap.put("a4","□");
                   }else{
-                    dataMap.put("a4","✓");
+                    dataMap.put("a4","☑");
                     dataMap.put("a3","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b4","✓");
+                    dataMap.put("b4","☑");
                     dataMap.put("b5","□");
                     dataMap.put("b6","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b5","✓");
+                    dataMap.put("b5","☑");
                     dataMap.put("b4","□");
                     dataMap.put("b6","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b6","✓");
+                    dataMap.put("b6","☑");
                     dataMap.put("b5","□");
                     dataMap.put("b4","□");
                   }else{
@@ -1609,25 +1609,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse() == 1){
-                    dataMap.put("a5","✓");
+                    dataMap.put("a5","☑");
                     dataMap.put("a6","□");
                   }else{
-                    dataMap.put("a6","✓");
+                    dataMap.put("a6","☑");
                     dataMap.put("a5","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b7","✓");
+                    dataMap.put("b7","☑");
                     dataMap.put("b8","□");
                     dataMap.put("b9","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b8","✓");
+                    dataMap.put("b8","☑");
                     dataMap.put("b7","□");
                     dataMap.put("b9","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b9","✓");
+                    dataMap.put("b9","☑");
                     dataMap.put("b8","□");
                     dataMap.put("b7","□");
                   }else{
@@ -1641,25 +1641,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse() ==1){
-                    dataMap.put("a7","✓");
+                    dataMap.put("a7","☑");
                     dataMap.put("a8","□");
                   }else{
-                    dataMap.put("a8","✓");
+                    dataMap.put("a8","☑");
                     dataMap.put("a7","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b10","✓");
+                    dataMap.put("b10","☑");
                     dataMap.put("b11","□");
                     dataMap.put("b12","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b11","✓");
+                    dataMap.put("b11","☑");
                     dataMap.put("b10","□");
                     dataMap.put("b12","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b12","✓");
+                    dataMap.put("b12","☑");
                     dataMap.put("b11","□");
                     dataMap.put("b10","□");
                   }else{
@@ -1673,25 +1673,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse()==1){
-                    dataMap.put("a9","✓");
+                    dataMap.put("a9","☑");
                     dataMap.put("a10","□");
                   }else{
-                    dataMap.put("a10","✓");
+                    dataMap.put("a10","☑");
                     dataMap.put("a9","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b13","✓");
+                    dataMap.put("b13","☑");
                     dataMap.put("b15","□");
                     dataMap.put("b14","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b14","✓");
+                    dataMap.put("b14","☑");
                     dataMap.put("b13","□");
                     dataMap.put("b15","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b15","✓");
+                    dataMap.put("b15","☑");
                     dataMap.put("b14","□");
                     dataMap.put("b13","□");
                   }else{
@@ -1705,25 +1705,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse()==1){
-                    dataMap.put("a11","✓");
+                    dataMap.put("a11","☑");
                     dataMap.put("a12","□");
                   }else{
-                    dataMap.put("a12","✓");
+                    dataMap.put("a12","☑");
                     dataMap.put("a11","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b16","✓");
+                    dataMap.put("b16","☑");
                     dataMap.put("b17","□");
                     dataMap.put("b18","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b17","✓");
+                    dataMap.put("b17","☑");
                     dataMap.put("b18","□");
                     dataMap.put("b16","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b18","✓");
+                    dataMap.put("b18","☑");
                     dataMap.put("b17","□");
                     dataMap.put("b16","□");
                   }else{
@@ -1737,25 +1737,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse()==1){
-                    dataMap.put("a13","✓");
+                    dataMap.put("a13","☑");
                     dataMap.put("a14","□");
                   }else{
-                    dataMap.put("a14","✓");
+                    dataMap.put("a14","☑");
                     dataMap.put("a13","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b19","✓");
+                    dataMap.put("b19","☑");
                     dataMap.put("b20","□");
                     dataMap.put("b21","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b20","✓");
+                    dataMap.put("b20","☑");
                     dataMap.put("b19","□");
                     dataMap.put("b21","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b21","✓");
+                    dataMap.put("b21","☑");
                     dataMap.put("b20","□");
                     dataMap.put("b19","□");
                   }else{
@@ -1770,25 +1770,25 @@ public class MainServiceImpl implements MainService{
                 //是否采用
                 if(systemRes.getServiceIsUse() != null){
                   if(systemRes.getServiceIsUse() == 1){
-                    dataMap.put("a15","✓");
+                    dataMap.put("a15","☑");
                     dataMap.put("a16","□");
                   }else{
-                    dataMap.put("a16","✓");
+                    dataMap.put("a16","☑");
                     dataMap.put("a15","□");
                   }
                 }
                 //服务责任方类型
                 if(systemRes.getFkResponsibleType() != null){
                   if(systemRes.getFkResponsibleType() == 1){
-                    dataMap.put("b22","✓");
+                    dataMap.put("b22","☑");
                     dataMap.put("b23","□");
                     dataMap.put("b24","□");
                   }else if(systemRes.getFkResponsibleType() == 2){
-                    dataMap.put("b23","✓");
+                    dataMap.put("b23","☑");
                     dataMap.put("b22","□");
                     dataMap.put("b24","□");
                   }else if(systemRes.getFkResponsibleType() == 3){
-                    dataMap.put("b24","✓");
+                    dataMap.put("b24","☑");
                     dataMap.put("b23","□");
                     dataMap.put("b22","□");
                   }else{
@@ -1804,11 +1804,12 @@ public class MainServiceImpl implements MainService{
  
      
       //等级测评单位名称
-      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
-        dataMap.put("companyName", systemResult.getGradeRecordSysName());
-      }else{
-        dataMap.put("companyName","");
-      }
+//      if(StringUtils.isNotBlank(systemResult.getGradeRecordSysName())){
+//        dataMap.put("companyName", systemResult.getGradeRecordSysName());
+//      }else{
+//        dataMap.put("companyName","");
+//      }
+      dataMap.put("companyName","");
       //何时投入运行使用
       if(systemResult.getWhenInvestmentUse() != null){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日");
@@ -1820,7 +1821,7 @@ public class MainServiceImpl implements MainService{
       //系统是否是分系统
       if(systemResult.getSubIsSystem() != null){
         if(systemResult.getSubIsSystem() == 1){
-          dataMap.put("bra1", "✓");
+          dataMap.put("bra1", "☑");
           dataMap.put("bra2", "□");
           if(StringUtils.isNotBlank(systemResult.getFatherCompanyName())){
             dataMap.put("companySystemName", systemResult.getFatherCompanyName());
@@ -1833,7 +1834,7 @@ public class MainServiceImpl implements MainService{
             dataMap.put("superiorSystemName", "");
           }
         }else{
-          dataMap.put("bra2", "✓");
+          dataMap.put("bra2", "☑");
           dataMap.put("bra1", "□");
           dataMap.put("superiorSystemName", "");
           dataMap.put("companySystemName", "");
@@ -2164,23 +2165,23 @@ public class MainServiceImpl implements MainService{
       String selectType = "";
       if(StringUtils.isNotBlank(gradingListResult.getFkSpRanklevel())){
         if(gradingListResult.getFkSpRanklevel().equals("301")){
-          dataMap.put("c1", "✓");
+          dataMap.put("c1", "☑");
           selectType = "c1";
         }
         if(gradingListResult.getFkSpRanklevel().equals("302")){
-          dataMap.put("c2", "✓");
+          dataMap.put("c2", "☑");
           selectType = "c2";
         }
         if(gradingListResult.getFkSpRanklevel().equals("303")){
-          dataMap.put("c3", "✓");
+          dataMap.put("c3", "☑");
           selectType = "c3";
         }
         if(gradingListResult.getFkSpRanklevel().equals("304")){
-          dataMap.put("c4", "✓");
+          dataMap.put("c4", "☑");
           selectType = "c4";
         }
         if(gradingListResult.getFkSpRanklevel().equals("305")){
-          dataMap.put("c5", "✓");
+          dataMap.put("c5", "☑");
           selectType = "c5";
         }
       }
@@ -2195,10 +2196,10 @@ public class MainServiceImpl implements MainService{
       //专家评审情况
       if(gradingListResult.getExpertView() != null){
         if(gradingListResult.getExpertView() == 1){
-          dataMap.put("review1", "✓");
+          dataMap.put("review1", "☑");
           dataMap.put("review2", " □");
         }else{
-          dataMap.put("review2", "✓");
+          dataMap.put("review2", "☑");
           dataMap.put("review1", "□");
         }
       }else{
@@ -2209,22 +2210,22 @@ public class MainServiceImpl implements MainService{
       if(gradingListResult.getCompetentIsExisting() != null){
         //如果有主管部门则添加主管部门名称和主管部门审批定级情况则填入值，如没有主管部门名称和主管部门审批定级情况为空
         if(gradingListResult.getCompetentIsExisting() == 1){
-          dataMap.put("director1", "✓");
+          dataMap.put("director1", "☑");
           dataMap.put("director2", "□");
           if(StringUtils.isNotBlank(gradingListResult.getCompetentName())){
             dataMap.put("competentName", gradingListResult.getCompetentName());
           }
           if(gradingListResult.getCompetentView() != null){
             if(gradingListResult.getCompetentView() == 1){
-              dataMap.put("approval", "✓");
+              dataMap.put("approval", "☑");
               dataMap.put("approva2", "□");
             }else{
-              dataMap.put("approva2", "✓");
+              dataMap.put("approva2", "☑");
               dataMap.put("approval", "□");
             }
           }
         }else{
-          dataMap.put("director2", "✓");
+          dataMap.put("director2", "☑");
           dataMap.put("director1", "□");
           dataMap.put("competentName", " ");
           dataMap.put("approval", "□");
@@ -2239,11 +2240,11 @@ public class MainServiceImpl implements MainService{
       }
       //系统定级报告
       if(StringUtils.isNotBlank(gradingListResult.getGradingReportName())){
-        dataMap.put("grading1", "✓");
+        dataMap.put("grading1", "☑");
         dataMap.put("grading2", "□");
         dataMap.put("enc", gradingListResult.getGradingReportName());
       }else{
-        dataMap.put("grading2", "✓");
+        dataMap.put("grading2", "☑");
         dataMap.put("grading1", "□");
         dataMap.put("enc", "");
       }
@@ -2296,102 +2297,102 @@ public class MainServiceImpl implements MainService{
       dataMap.put("snb8", "□");
       dataMap.put("snb9", "□");
       String bizSPRankDegree[] = gradingListResult.getFkBizSPRankDegree().split(",");
-      //将业务信息选中的值替换为✓
+      //将业务信息选中的值替换为☑
       if(selected.equals("v1")){
-        dataMap.put("v1", "✓");
-        dataMap.put("snu1", "✓");
+        dataMap.put("v1", "☑");
+        dataMap.put("snu1", "☑");
       }else if(selected.equals("v2")){
-        dataMap.put("v2", "✓");
+        dataMap.put("v2", "☑");
         for (int i = 0; i < bizSPRankDegree.length; i++) {
           if(!bizSPRankDegree[i].equals("")){
             if(bizSPRankDegree[i].equals("10201")){
-              dataMap.put("snu2", "✓");
+              dataMap.put("snu2", "☑");
             }
             if(bizSPRankDegree[i].equals("10202")){
-              dataMap.put("snu3", "✓");
+              dataMap.put("snu3", "☑");
             }
           }
         }
       }else if(selected.equals("v3")){
-        dataMap.put("v3", "✓");
+        dataMap.put("v3", "☑");
         for (int i = 0; i < bizSPRankDegree.length; i++) {
           if(!bizSPRankDegree[i].equals("")){
             if(bizSPRankDegree[i].equals("10301")){
-              dataMap.put("snu4", "✓");
+              dataMap.put("snu4", "☑");
             }
             if(bizSPRankDegree[i].equals("10302")){
-              dataMap.put("snu5", "✓");
+              dataMap.put("snu5", "☑");
             }
             if(bizSPRankDegree[i].equals("10303")){
-              dataMap.put("snu6", "✓");
+              dataMap.put("snu6", "☑");
             }
           }
         }
         
       }else if(selected.equals("v4")){
-        dataMap.put("v4", "✓");
+        dataMap.put("v4", "☑");
         for (int i = 0; i < bizSPRankDegree.length; i++) {
           if(!bizSPRankDegree[i].equals("")){
             if(bizSPRankDegree[i].equals("10401")){
-              dataMap.put("snu7", "✓");
+              dataMap.put("snu7", "☑");
             }
             if(bizSPRankDegree[i].equals("10402")){
-              dataMap.put("snu8", "✓");
+              dataMap.put("snu8", "☑");
             }
           }
         }
       }else{
-        dataMap.put("v5", "✓");
-        dataMap.put("snu9", "✓");
+        dataMap.put("v5", "☑");
+        dataMap.put("snu9", "☑");
       }
       
       String bizSystemDegree[] = gradingListResult.getFkBizSystemDegree().split(",");
-      //将系统服务信息选中的值替换为✓
+      //将系统服务信息选中的值替换为☑
       if(select.equals("s1")){
-        dataMap.put("s1", "✓");
-        dataMap.put("snb1", "✓");
+        dataMap.put("s1", "☑");
+        dataMap.put("snb1", "☑");
       }else if(select.equals("s2")){
-        dataMap.put("s2", "✓");
+        dataMap.put("s2", "☑");
         for (int i = 0; i < bizSystemDegree.length; i++) {
           if(!bizSystemDegree[i].equals("")){
             if(bizSystemDegree[i].equals("20101")){
-              dataMap.put("snb2", "✓");
+              dataMap.put("snb2", "☑");
             }
             if(bizSystemDegree[i].equals("20102")){
-              dataMap.put("snb3", "✓");
+              dataMap.put("snb3", "☑");
             }
           }
         }
       }else if(select.equals("s3")){
-        dataMap.put("s3", "✓");
+        dataMap.put("s3", "☑");
         for (int i = 0; i < bizSystemDegree.length; i++) {
           if(!bizSystemDegree[i].equals("")){
             if(bizSystemDegree[i].equals("20301")){
-              dataMap.put("snb4", "✓");
+              dataMap.put("snb4", "☑");
             }
             if(bizSystemDegree[i].equals("20302")){
-              dataMap.put("snb5", "✓");
+              dataMap.put("snb5", "☑");
             }
             if(bizSystemDegree[i].equals("20303")){
-              dataMap.put("snb6", "✓");
+              dataMap.put("snb6", "☑");
             }
           }
         }
       }else if(select.equals("s4")){
-        dataMap.put("s4", "✓");
+        dataMap.put("s4", "☑");
         for (int i = 0; i < bizSystemDegree.length; i++) {
           if(!bizSystemDegree[i].equals("")){
             if(bizSystemDegree[i].equals("20401")){
-              dataMap.put("snb7", "✓");
+              dataMap.put("snb7", "☑");
             }
             if(bizSystemDegree[i].equals("20402")){
-              dataMap.put("snb8", "✓");
+              dataMap.put("snb8", "☑");
             }
           }
         }
       }else{
-        dataMap.put("s5", "✓");
-        dataMap.put("snb9", "✓");
+        dataMap.put("s5", "☑");
+        dataMap.put("snb9", "☑");
       }  
       //将业务类型未选中的值替换为空字符串
       String [] selectTypeArray = {"c1","c2","c3","c4","c5"};
@@ -2472,11 +2473,11 @@ public class MainServiceImpl implements MainService{
         topologyDescriptionFileName = topologyDescriptionFileName + "," + attachResult.getAttachName();
       }
       topologyDescriptionFileName = topologyDescriptionFileName.substring(1, topologyDescriptionFileName.length());
-      dataMap.put("has1", "✓");
+      dataMap.put("has1", "☑");
       dataMap.put("has2", "□");
       dataMap.put("name1", topologyDescriptionFileName);
     }else{
-      dataMap.put("has2", "✓");
+      dataMap.put("has2", "☑");
       dataMap.put("has1", "□");
       dataMap.put("name1", topologyDescriptionFileName);
     }
@@ -2489,11 +2490,11 @@ public class MainServiceImpl implements MainService{
         organizationManagementFileName = organizationManagementFileName +","+ attachResult.getAttachName();
       }
       organizationManagementFileName = organizationManagementFileName.substring(1, organizationManagementFileName.length());
-      dataMap.put("has3", "✓");
+      dataMap.put("has3", "☑");
       dataMap.put("has4", "□");
       dataMap.put("name2", organizationManagementFileName);
     }else {
-      dataMap.put("has4", "✓");
+      dataMap.put("has4", "☑");
       dataMap.put("has3", "□");
       dataMap.put("name2", organizationManagementFileName);
     }
@@ -2507,11 +2508,11 @@ public class MainServiceImpl implements MainService{
         implementationPlanFileName = implementationPlanFileName + "," +  attachResult.getAttachName();
       }
       implementationPlanFileName = implementationPlanFileName.substring(1, implementationPlanFileName.length());
-      dataMap.put("has5", "✓");
+      dataMap.put("has5", "☑");
       dataMap.put("has6", "□");
       dataMap.put("name3", implementationPlanFileName);
     }else{
-      dataMap.put("has6", "✓");
+      dataMap.put("has6", "☑");
       dataMap.put("has5", "□");
       dataMap.put("name3", implementationPlanFileName);
     }
@@ -2525,11 +2526,11 @@ public class MainServiceImpl implements MainService{
         licenseCertificateFileName = licenseCertificateFileName + ","+ attachResult.getAttachName();
       }
       licenseCertificateFileName = licenseCertificateFileName.substring(1, licenseCertificateFileName.length());
-      dataMap.put("has7", "✓");
+      dataMap.put("has7", "☑");
       dataMap.put("has8", "□");
       dataMap.put("name4", licenseCertificateFileName);
     }else{
-      dataMap.put("has8", "✓");
+      dataMap.put("has8", "☑");
       dataMap.put("has7", "□");
       dataMap.put("name4", licenseCertificateFileName);
     }
@@ -2537,11 +2538,11 @@ public class MainServiceImpl implements MainService{
     //测评报告
     String evaluationPresentationName = systemMaterialsBeanResult.getEvaluationPresentationName();
     if(!"".equals(evaluationPresentationName)&&evaluationPresentationName!=null){
-      dataMap.put("has9", "✓");
+      dataMap.put("has9", "☑");
       dataMap.put("has10", "□");
       dataMap.put("name5", evaluationPresentationName);
     }else{
-      dataMap.put("has10", "✓");
+      dataMap.put("has10", "☑");
       dataMap.put("has9", "□");
       dataMap.put("name5", "");
     }
@@ -2549,11 +2550,11 @@ public class MainServiceImpl implements MainService{
   //专家评审
     String expertReviewName = systemMaterialsBeanResult.getExpertReviewName();
     if(!"".equals(expertReviewName)&&expertReviewName!=null){
-      dataMap.put("has11", "✓");
+      dataMap.put("has11", "☑");
       dataMap.put("has12", "□");
       dataMap.put("name6", expertReviewName);
     }else{
-      dataMap.put("has12", "✓");
+      dataMap.put("has12", "☑");
       dataMap.put("has11", "□");
       dataMap.put("name6", "");
     }
@@ -2561,11 +2562,11 @@ public class MainServiceImpl implements MainService{
     //上级主管部门审批意见
     String directorOpinionName = systemMaterialsBeanResult.getDirectorOpinionName();
     if(!"".equals(directorOpinionName)&&directorOpinionName!=null){
-      dataMap.put("has13", "✓");
+      dataMap.put("has13", "☑");
       dataMap.put("has14", "□");
       dataMap.put("name7", directorOpinionName);
     }else{
-      dataMap.put("has14", "✓");
+      dataMap.put("has14", "☑");
       dataMap.put("has13", "□");
       dataMap.put("name7", "");
     }
@@ -2901,8 +2902,9 @@ public class MainServiceImpl implements MainService{
    * 定级模板导入
    */
   @Override
-  public void importExcelForGradeTemplate(HttpServletRequest request, 
+  public String importExcelForGradeTemplate(HttpServletRequest request, 
       MultipartFile file, String userName) throws BusinessException {
+    String gradingId = "";
     if (file==null|file.getSize()<=1) {
       throw new BusinessException(EnumResult.UNKONW_REQUEST_OBJ_ERROR);
     }
@@ -3183,6 +3185,8 @@ public class MainServiceImpl implements MainService{
       }
       //导入数据获取成功，准备保存定级信息
       this.gradingMapper.insertGrading(gradingParam);
+      gradingId = gradingParam.getGradingId();
+      return gradingId;
     }
   }
 
@@ -3229,9 +3233,18 @@ public class MainServiceImpl implements MainService{
       }
     }
     //权限
-    //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    List<String> orgStr = organizationApiResult.getPermssions();
+    String jurBind  = "";
+    //总部权限
+    if(orgStr.contains("0102010302")||orgStr.contains("0102010202")){
+    	jurBind="总部";
+    //企业权限  
+    }else if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
+    	jurBind="企业";
+    }
+    
     if(organizationApiResult==null){
       return list;
     }else{
@@ -3252,6 +3265,7 @@ public class MainServiceImpl implements MainService{
         break;
       case "3":
         mainParam.setCompanyList(organizationApiResult.getCodeList());
+        mainParam.setJurBind(jurBind);
         list =  
             this.mainMapper.selectGradingStatistics(mainParam);
         break;

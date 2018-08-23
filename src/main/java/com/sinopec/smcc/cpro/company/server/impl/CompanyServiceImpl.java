@@ -111,6 +111,7 @@ public class CompanyServiceImpl implements CompanyService {
       default:
         break;
       }
+      
       // 装载列表数据
       PageInfo<CompanyListResult> pageInfo = new PageInfo<>(companyListResultList);
       return pageInfo;

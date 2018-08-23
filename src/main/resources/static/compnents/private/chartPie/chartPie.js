@@ -145,13 +145,12 @@
 //		    	        		 _self.option.legend.data[i] = result.data[i].spRanklevelName;
 	  	    	         }
 	  	    	        	 //重绘
+		  	    	         $('#container-pie').css('display','block');
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
 	              			 var json = JSON.parse(meg);
 	              			 if(json.type == null || json.type == ''){
-	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	  	                     dangerouslyUseHTMLString: true
-	  	            		 	 });
+	              				 $('#container-pie').css('display','none');
 	              				 _self.option.series[0].data[0].value = 0;
 	  	            			 _self.option.series[0].data[1].value = 0;
 	  	            			 _self.option.series[0].data[2].value = 0;
@@ -178,11 +177,10 @@
   	    	        		 _self.option.legend.data[i] = result.data[i].spRanklevelName;
   	    	        	 }
   	    	        	 //重绘
+  	    	        	$('#container-pie').css('display','block');
   	    	        	 data.myChart.setOption(data.option, true);
               		 }else{
-              			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	                     dangerouslyUseHTMLString: true
-              			 });
+              			$('#container-pie').css('display','none');
               			 _self.option.series[0].data=[];
               			 data.myChart.setOption(data.option, true);
               		 }

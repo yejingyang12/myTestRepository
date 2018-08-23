@@ -68,7 +68,8 @@
       pkId AS companyId,
       companyName,
       fkCompanyType,
-      ldContactName
+      ldContactName,
+      companyCode
     FROM t_cpro_company
     WHERE deleteStatus = 1
       <if test="companyList != null">

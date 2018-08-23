@@ -136,10 +136,12 @@
                             <td>{{systemForm.time}}</td>
                             <!--操作-->
                             <td style="color:#1e91e2;">
-                                <!--class="hide3"-->
+                              <!--class="hide3"-->
+                              <div v-for="companyCodeJ in nameList" v-if="companyCodeJ==item.fkCompanyCode">
                                 <a class="hide3">
                                   <el-button @click="handleClick(item.systemId)" type="text" size="small">编辑</el-button>
                                 </a>
+                              </div>
                             </td>
                         </tr>
                     </table>

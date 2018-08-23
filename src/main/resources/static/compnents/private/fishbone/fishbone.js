@@ -29,6 +29,7 @@
     ]
   },
   result1:{},
+  option:'',
   fkChangeContent:"",
   fkChangeReason:"",
   fkSysChangeMatter:""

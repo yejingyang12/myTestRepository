@@ -170,15 +170,21 @@
 				rec.recordCompany  AS companyName
 			FROM
 				t_cpro_records rec
-      LEFT JOIN t_cpro_system sys 
-        ON rec.fkSystemId = sys.pkId
-      LEFT JOIN t_cpro_score sce 
-        ON sce.fkSystemId = sys.pkId
-      LEFT JOIN t_cpro_company com 
-        ON com.companyCode = sys.fkCompanyCode
+		        LEFT JOIN t_cpro_system sys 
+		        ON rec.fkSystemId = sys.pkId
+		        LEFT JOIN t_cpro_score sce 
+		        ON sce.fkSystemId = sys.pkId
+		        LEFT JOIN t_cpro_company com 
+		        ON com.companyCode = sys.fkCompanyCode
 		]]>
 		<where>
-		  rec.deleteStatus = 1
+		  sys.deleteStatus = 1 
+		  AND rec.deleteStatus = 1 
+		  AND sys.examineStatus != 5 
+		  AND sys.recordStatus = 3 
+		  AND sys.gradingStatus!=4
+		  AND sys.evaluationStatus!=4
+		  AND sys.examinationStatus!=4
 		  <if test="companyList != null">
         <![CDATA[
           AND com.companyCode IN  
@@ -244,15 +250,21 @@
 				rec.acceptCompany AS companyName
 			FROM
 				t_cpro_records rec
-      LEFT JOIN t_cpro_system sys 
-        ON rec.fkSystemId = sys.pkId
-      LEFT JOIN t_cpro_score sce 
-        ON sce.fkSystemId = sys.pkId
-      LEFT JOIN t_cpro_company com 
-        ON com.companyCode = sys.fkCompanyCode
+		        LEFT JOIN t_cpro_system sys 
+		        ON rec.fkSystemId = sys.pkId
+		        LEFT JOIN t_cpro_score sce 
+		        ON sce.fkSystemId = sys.pkId
+		        LEFT JOIN t_cpro_company com 
+		        ON com.companyCode = sys.fkCompanyCode
 		]]>
 		<where>
-		  rec.deleteStatus = 1
+		  sys.deleteStatus = 1 
+		  AND rec.deleteStatus = 1 
+		  AND sys.examineStatus != 5 
+		  AND sys.recordStatus = 3 
+		  AND sys.gradingStatus!=4
+		  AND sys.evaluationStatus!=4
+		  AND sys.examinationStatus!=4
 		  <if test="companyList != null">
         <![CDATA[
           AND com.companyCode IN  

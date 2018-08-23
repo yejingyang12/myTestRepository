@@ -94,7 +94,7 @@
 	                        </i> </div> 
                         <div class="second_div">操作人：{{pro.operator}}</div>
                         <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
-                        <div class="thirs_div" v-if="pro.operationOpinion!=''">操作意见：{{pro.operationOpinion}}</div>
+                        <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px" class="thirs_div" v-if="pro.operationOpinion!=''" :title="option" >操作意见：{{pro.operationOpinion}}</div>
                     	<div class="thirs_div" v-else>操作意见：无</div>
                     </div>
                     <!-- <div class="over_time">完成时间:{{pro.createTime}}</div> -->

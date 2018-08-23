@@ -46,6 +46,7 @@
     <result column="fkSystemType" property="fkSystemType" jdbcType="VARCHAR" />
     <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
     <result column="executiveOfficeName" property="executiveOffice" jdbcType="VARCHAR" />
+    <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
 	</resultMap>
   <resultMap id="SystemTemplateListResult" type="com.sinopec.smcc.cpro.system.entity.SystemTemplateListResult">
     <id column="pkId" property="systemId" jdbcType="VARCHAR" />
@@ -1640,7 +1641,8 @@
       system.fkSystemType,
       system.standardizedCode,
       system.whenInvestmentUse,
-      system.executiveOfficeName
+      system.executiveOfficeName,
+      system.fkCompanyCode
       FROM t_cpro_system AS system
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode

@@ -28,6 +28,7 @@
                     },
                 },
                 axisLabel: {
+                	rotate:50,
                     textStyle: {
                        color: '#000',
                        fontSize: 12
@@ -156,11 +157,10 @@
 				             }
 	    	        	 }
   	    	         //重绘
+	    	        $('#container-bar').css('display','block');
   	    	         data.myChart.setOption(data.option, true);
             		 }else{
-            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-            		 			dangerouslyUseHTMLString: true
-            		 	  });
+            		 		$('#container-bar').css('display','none');
             		 		_self.option.series[0].data = ([0,0,0,0,0]);
             		 		data.myChart.setOption(data.option, true);
             		 } 
@@ -193,13 +193,12 @@
 				             }
 	    	        	 }
 	    	        	 //重绘
+	    	        	 $('#container-bar').css('display','block');
 	    	        	 data.myChart.setOption(data.option, true);
             		 }else{
             			 var json = JSON.parse(meg);
             			 if(json.type == null || json.type == ''){
-            				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	                     dangerouslyUseHTMLString: true
-	            		 	 });
+            				 $('#container-bar').css('display','none');
             				 _self.option.series[0].data = ([0,0,0,0,0]);
             				 data.myChart.setOption(data.option, true);
             			 }
@@ -235,11 +234,10 @@
 				             }
 	    	        	 }
 	    	        	 //重绘
+	    	        	 $('#container-bar').css('display','block');
 	    	        	 data.myChart.setOption(data.option, true);
             		 }else{
-            			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-                     dangerouslyUseHTMLString: true
-            			 });
+            			 $('#container-bar').css('display','none');
             			 _self.option.series[0].data = ([0,0,0,0,0]);
             			 data.myChart.setOption(data.option, true);
             		 }

@@ -39,9 +39,9 @@ public class FileUploadConfig {
       @Value("31457280") String maxFileSize,
       @Value("31457280") String maxRequestSize) {
     MultipartConfigFactory factory = new MultipartConfigFactory();
-    // 单个文件最大maxFileSize
+    // ${multipart.maxFileSize}单个文件最大maxFileSize
     factory.setMaxFileSize(30*1024*1024);
-    // 设置总上传数据总大小maxRequestSize
+    // ${multipart.maxRequestSize}设置总上传数据总大小maxRequestSize
     factory.setMaxRequestSize(30*1024*1024);
     return factory.createMultipartConfig();
   }

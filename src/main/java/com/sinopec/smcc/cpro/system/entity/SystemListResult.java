@@ -35,6 +35,7 @@ public class SystemListResult {
 	private Date whenInvestmentUse;
 	private String standardizedCode;
 	private String executiveOffice;
+	private String fkCompanyCode;
 	
   private int pageSize = 10;// pageSize ，每一页显示多少
   private int currentPage = 1;// 当前页数
@@ -173,5 +174,11 @@ public class SystemListResult {
   }
   public void setExecutiveOffice(String executiveOffice) {
     this.executiveOffice = executiveOffice;
+  }
+  public String getFkCompanyCode() {
+    return fkCompanyCode;
+  }
+  public void setFkCompanyCode(String fkCompanyCode) {
+    this.fkCompanyCode = fkCompanyCode;
   }
 }

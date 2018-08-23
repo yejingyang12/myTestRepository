@@ -154,8 +154,13 @@ var data={
                     getClass:function(e,param){
                     	if(param=="1"){
                     		$("#approval").show();
+                    		this.rules.directorOpinionName[0].required = true;
                     	}else{
                     		$("#approval").hide();
+                    		this.rules.directorOpinionName[0].required = false;
+                    		this.$refs.directorOpinionName.clearValidate();
+                    		this.formData.directorOpinionName = "";
+                        this.formData.directorOpinionId = "";
                     	}
                         $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                         this.formData.competentView = param;
@@ -1111,35 +1116,43 @@ var data={
                         _self.formData = responseData.data;
                         if(_self.formData.competentIsExisting == '1'){
                           $("#direHide1").show();
-                          $("#approval").show();
-                          if(responseData.data.directorOpinionName!=''&&responseData.data.directorOpinionName!=null){
-                            var fileHtml='<li><div class="fl updwon1">'+responseData.data.directorOpinionName+'</div><i class="el-icon-close fl del1"></i></li>'
-                            $("#fileList").html(fileHtml);
-                            $(".del1").click(function(){
-                              $(this).parent("li").remove();
-                              _self.fileDel(responseData.data.directorOpinionId,2);
-                              _self.formData.directorOpinionName = '';
-                              _self.formData.directorOpinionId = '';
-                            });
-                            $(".updwon1").click(function(){
-                              //$(this).parent("li").remove();
-                              _self.fileDownload(responseData.data.directorOpinionId,2);
-                            });
-                          }
                           _self.rules.competentName[0].required = true;
                           _self.rules.competentName[1].min = 1;
                           _self.rules.competentView[0].required = true;
-                          _self.rules.directorOpinionName[0].required = true;
+                          //如果已审批，显示上级主管部门审批意见；并开启验证
+                          if(_self.formData.competentView == '1'){
+                          	$("#approval").show();
+                          	_self.rules.directorOpinionName[0].required = true;
+                          	if(responseData.data.directorOpinionName!=''&&responseData.data.directorOpinionName!=null){
+                          		var fileHtml='<li><div class="fl updwon1">'+responseData.data.directorOpinionName+'</div><i class="el-icon-close fl del1"></i></li>'
+                          		$("#fileList").html(fileHtml);
+                          		$(".del1").click(function(){
+                          			$(this).parent("li").remove();
+                          			_self.fileDel(responseData.data.directorOpinionId,2);
+                          			_self.formData.directorOpinionName = '';
+                          			_self.formData.directorOpinionId = '';
+                          		});
+                          		$(".updwon1").click(function(){
+                          			//$(this).parent("li").remove();
+                          			_self.fileDownload(responseData.data.directorOpinionId,2);
+                          		});
+                          	}
+                          }else{
+                          	$("#approval").hide();
+                            _self.formData.directorOpinionName = "";
+                            _self.formData.directorOpinionId = "";
+                            _self.rules.directorOpinionName[0].required = false;
+                          }
                         }else{
                           $("#direHide1").hide();
-                          $("#approval").hide();
                           _self.formData.competentName = "";
                           _self.formData.competentView = "";
-                          _self.formData.directorOpinionName = "";
-                          _self.formData.directorOpinionId = "";
                           _self.rules.competentName[0].required = false;
                           _self.rules.competentName[1].min = 0;
                           _self.rules.competentView[0].required = false;
+                          $("#approval").hide();
+                          _self.formData.directorOpinionName = "";
+                          _self.formData.directorOpinionId = "";
                           _self.rules.directorOpinionName[0].required = false;
                         }
                         
