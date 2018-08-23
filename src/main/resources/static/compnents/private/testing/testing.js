@@ -26,13 +26,13 @@
 		},
 		imgList: null,
 		result:{
-			"code": "0",
+			/*"code": "0",
 			"msg": "成功",
 			"pagesize": 1,
 			"currentPage": 1,
 			"total": 5,
 			"totalPages": 5,
-			"data": [],
+			"data": [],*/
 		},
 		editData:{
 			"evaluationId": null,

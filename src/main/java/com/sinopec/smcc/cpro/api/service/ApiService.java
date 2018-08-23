@@ -9,11 +9,7 @@
 */
 package com.sinopec.smcc.cpro.api.service;
 
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
-import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
-import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
