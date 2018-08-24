@@ -451,5 +451,6 @@
       	</if>
     </where>
 		GROUP BY MONTH(system.createTime)
+		HAVING readyGradCount!=0 AND checkGradCount!=0 AND recordsCount!=0 AND evaluationCount!=0 AND selfInspectionCount!=0
 	</select>
 </mapper>

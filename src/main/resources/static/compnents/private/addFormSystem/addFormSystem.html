@@ -377,7 +377,7 @@
                             <el-form-item  prop="fatherCompanyName" class="P-addsystem">
                             <label for="fatherCompanyName" class="el-form-item__label" style="width: auto;float:left;margin-left:-165px !important">上级系统所属单位名称：</label>
                               <el-select  placeholder="请选择上级系统所属单位名称" class="formControl" v-model="formData.fatherCompanyName" filterable>
-                                <el-option v-for="item in msgName" :key="item.companyName" :label="item.companyName" :value="item.companyName"></el-option>
+                                <el-option v-for="item in parentMsgName" :key="item.orgName" :label="item.orgName" :value="item.orgName"></el-option>
                               </el-select>
                             </el-form-item>
                         </div>

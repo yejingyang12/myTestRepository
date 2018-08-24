@@ -173,20 +173,20 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
 //    JSONArray json = JSONArray.fromObject(jsonMenu); 
 //    String str = json.toString();//将json对象转换为字符串
 //    System.out.println(str);
-    
+    boolean booValue = false;
     List<String> codeList = new ArrayList<String>();
     List<String> nameList = new ArrayList<String>();
     List<String> permssionsList = new ArrayList<String>();
     Map<String,List<String>> permitMap = new HashMap<String,List<String>>();
     for (AuthorizationDTO authorizationDTO : jsonMenu) {
-      boolean booValue = false;
+      
       List<String> permitList = new ArrayList<String>();
       //增加权限许可
       if (authorizationDTO.getPermissionList() != null) {
         List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
         for (PermissionDTO permissionDTO : permissionDTOList) {
           //查看权限
-          if(permissionDTO.getPermcode().equals("0102010107")){
+          if(permissionDTO.getPermcode().equals("0102010106")){
             booValue = true;
           }
           permitList.add(permissionDTO.getPermcode());
@@ -209,7 +209,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
             orgCode = orgCode.trim();
           }
           codeList.add(orgCode);
-          if(!booValue){
+          if(booValue){
             nameList.add(orgCode);
           }
         }
@@ -239,6 +239,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
       }else{
         jurisdictionDataResult.setResultType("0");
       }
+      booValue = false;
     }
     jurisdictionDataResult.setPermitMap(permitMap);
     jurisdictionDataResult.setPermssions(permssionsList);

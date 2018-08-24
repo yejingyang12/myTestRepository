@@ -1,5 +1,6 @@
 (function () {
   var data={
+  	stackOneShow:false,
     dom:null,
     myChart:null,
     option :null,
@@ -160,7 +161,7 @@
           	this.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
           	this.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
-          	if(result.data != null){
+          	if(result.data != null && result.data !=''){
           		for(var i = 0; i < result.data.length; i++){
   	        		this.option.xAxis.data[i] = result.data[i].companyName;
   	        		this.option.series[0].data[i] = result.data[i].level1;
@@ -169,6 +170,9 @@
   	        		this.option.series[3].data[i] = result.data[i].level4;	
   	        		this.option.series[4].data[i] = result.data[i].level5;	
   	        	}
+          		_self.stackOneShow=true;
+          	}else{
+          		_self.stackOneShow=false;
           	}
 	        }
         },
@@ -183,6 +187,11 @@
             var _self = this;
              if (data.option && typeof data.option === "object") {
             	 data.myChart.setOption(data.option, true);
+            	 if(_self.stackOneShow){
+            		 $('#container-stack-one').css('display','block');
+            	 }else{
+            		 $('#container-stack-one').css('display','none');
+            	 }
             	 bus.$on("recordEnd",function(meg){
             	 ajaxMethod(_self, 'post',
                  'diagram/queryRecordCompanyTop10', false,
@@ -210,13 +219,13 @@
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
 	            		 	 $('#container-stack-one').css('display','none');
-	            		 		_self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+	            		 		/*_self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.xAxis.data = [];
-	              			data.myChart.setOption(data.option, true);
+	              			data.myChart.setOption(data.option, true);*/
 	            		 	} 
             	 	 });
             	 }); 
@@ -248,13 +257,6 @@
   	    	        	 data.myChart.setOption(data.option, true);
               		 }else{
               			 $('#container-stack-one').css('display','none');
-              			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
-              			 _self.option.xAxis.data = [];
-              			 data.myChart.setOption(data.option, true);
               		 }
               	 });
                });  

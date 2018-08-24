@@ -81,9 +81,18 @@
         },
         methods:{
         	getStatisticsType:function(type){
-        		
         		if(type==1){
-        		$('.hoverTwo').css("color","#3d95df");
+        			this.value1='';
+        			this.value3='';
+        			this.gradingShapeBegin='';
+        			this.gradingShapeEnd='';
+        			this.gradingShapeType='';
+        			this.yearType='';
+        			this.recordDateBegin='';
+        			this.recordDateEnd='';
+        			this.acceptRecordDateBegin='';
+        			this.acceptRecordDateEnd='';
+        		  $('.hoverTwo').css("color","#3d95df");
           		$('.hoverTwo').css("border-bottom-style","solid");
           		$('.hoverOne').css("color","#333");
           		$('.hoverOne').css("border-bottom-style","none");
@@ -95,6 +104,16 @@
               bus.$emit("yearType",'{"systemType":"1","type":"1"}');
               this.statisticsType = 1;
         		}else{
+        			this.value1='';
+        			this.value3='';
+        			this.gradingShapeBegin='';
+        			this.gradingShapeType='';
+        			this.yearType='';
+        			this.gradingShapeEnd='';
+        			this.recordDateBegin='';
+        			this.recordDateEnd='';
+        			this.acceptRecordDateBegin='';
+        			this.acceptRecordDateEnd='';
         			$('.hoverOne').css("color","#3d95df");
               		$('.hoverOne').css("border-bottom-style","solid");
               		$('.hoverTwo').css("color","#333");

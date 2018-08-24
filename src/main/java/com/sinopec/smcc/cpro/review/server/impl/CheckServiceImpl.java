@@ -397,12 +397,7 @@ public class CheckServiceImpl implements CheckService {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     //获得用户信息
-    UserDTO userDTO = new UserDTO();
-    if(StringUtils.isNotBlank(checkParam.getUserId())){
-      userDTO.setUserId(Long.valueOf(checkParam.getUserId()));
-    }else{
-      userDTO = userApiServiceImpl.getUserInfo();
-    }
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
@@ -466,12 +461,8 @@ public class CheckServiceImpl implements CheckService {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     //获得用户信息
-    UserDTO userDTO = new UserDTO();
-    if(StringUtils.isNotBlank(checkParam.getUserId())){
-      userDTO.setUserId(Long.valueOf(checkParam.getUserId()));
-    }else{
-      userDTO = userApiServiceImpl.getUserInfo();
-    }
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);
@@ -538,12 +529,8 @@ public class CheckServiceImpl implements CheckService {
   public String saveGradChangeCheck(String userName, CheckParam checkParam)
       throws BusinessException {
     //获得用户信息
-    UserDTO userDTO = new UserDTO();
-    if(StringUtils.isNotBlank(checkParam.getUserId())){
-      userDTO.setUserId(Long.valueOf(checkParam.getUserId()));
-    }else{
-      userDTO = userApiServiceImpl.getUserInfo();
-    }
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
     if (StringUtils.isBlank(checkParam.getFkSystemId())) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
@@ -617,12 +604,8 @@ public class CheckServiceImpl implements CheckService {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     //获得用户信息
-    UserDTO userDTO = new UserDTO();
-    if(StringUtils.isNotBlank(checkParam.getUserId())){
-      userDTO.setUserId(Long.valueOf(checkParam.getUserId()));
-    }else{
-      userDTO = userApiServiceImpl.getUserInfo();
-    }
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);
@@ -690,12 +673,8 @@ public class CheckServiceImpl implements CheckService {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
     //获得用户信息
-    UserDTO userDTO = new UserDTO();
-    if(StringUtils.isNotBlank(checkParam.getUserId())){
-      userDTO.setUserId(Long.valueOf(checkParam.getUserId()));
-    }else{
-      userDTO = userApiServiceImpl.getUserInfo();
-    }
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
     checkParam.setPrevExecutor(userName);
     checkParam.setExecuteTime(new Date());
     checkParam.setUpdateUserName(userName);

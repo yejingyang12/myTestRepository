@@ -1,5 +1,6 @@
 (function () {
   var data={
+  	lineShow:false,
     dom:null,
     myChart:null,
     option :null,
@@ -149,7 +150,12 @@
               this.getSystemTrendByYearSuccess);
           } ,
           getSystemTrendByYearSuccess : function(_self,result){
-          	if(result.data != null){
+          	_self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+     		    _self.option.series[1].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+     		    _self.option.series[2].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+     		    _self.option.series[3].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+     		    _self.option.series[4].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          	if(result.data != null && result.data !=''){
           		for(var i = 0; i < result.data.length; i++){
 //          			this.option.xAxis.data[result.data[i].mouthCount -1] = result.data[i].month;
   	        		_self.option.series[0].data[result.data[i].mouthCount -1] = result.data[i].readyGradCount;
@@ -158,6 +164,9 @@
   	        		_self.option.series[3].data[result.data[i].mouthCount -1] = result.data[i].evaluationCount;	
   	        		_self.option.series[4].data[result.data[i].mouthCount -1] = result.data[i].selfInspectionCount;	
   	        	}
+          		_self.lineShow=true;
+          	}else{
+          		_self.lineShow=false;
           	}
 	        }
         },
@@ -172,17 +181,17 @@
             var _self = this;
              if (data.option && typeof data.option === "object") {
             	 data.myChart.setOption(data.option, true);
+            	 if(_self.lineShow){
+            		 $('#container-stack').css('display','block');
+            	 }else{
+            		 $('#container-stack').css('display','none');
+            	 }
             	 bus.$on("yearType",function(meg){
               	 ajaxMethod(_self, 'post',
                    'diagram/querySystemTrendByYear', false,
                     meg, 'json',
                    'application/json;charset=UTF-8',
                    function(_self,result){
-              		 	 _self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-              		   _self.option.series[1].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-              		   _self.option.series[2].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-              		   _self.option.series[3].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-              		   _self.option.series[4].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	              		 if(result.data != null && result.data !=''){
 	  	    	        	 for(var i = 0; i < result.data.length; i++){
 	  	    	        		 //赋值
@@ -201,16 +210,13 @@
 	  	    	        	 $('#container-stack').css('display','block');
 	  	    	        	 data.myChart.setOption(data.option, true);
 	              		 }else{
-	              			 var json = JSON.parse(meg);
-	              			 if(json.type == null || json.type == ''){
-	  	            		 	 $('#container-stack').css('display','none');
-	              				 _self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	              				 /*_self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	                		   _self.option.series[1].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	                		   _self.option.series[2].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	                		   _self.option.series[3].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	                		   _self.option.series[4].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	                		   data.myChart.setOption(data.option, true);
-	              			 }
+	                		   data.myChart.setOption(data.option, true);*/
+	              			 $('#container-stack').css('display','none');
 	              		 }
               	 });
                }); 

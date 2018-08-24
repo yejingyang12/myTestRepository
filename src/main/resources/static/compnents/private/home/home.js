@@ -419,6 +419,7 @@
               "customFiltering": customFiltering,//自定义
               "currentPage": page,
             };
+            console.log(JSON.stringify(dataparmars))
             ajaxMethod(_self, "post", url, false, JSON.stringify(dataparmars), "json", 'application/json;charset=UTF-8', _self.listSuccess);
           },
           

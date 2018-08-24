@@ -220,15 +220,15 @@ public class ApiServiceImpl implements ApiService{
     HttpServletRequest request = 
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
+    session.setAttribute("userId",batchCheckHandleParam.getUserId());
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    List<String> juri =  organizationApiResult.getPermssions();
+    boolean isJur = juri.contains("0102010101");
     int count = 0;
     if(!ObjectUtils.isEmpty(batchCheckHandleParam.getCheckList())){
       for(CheckParam checkParam : batchCheckHandleParam.getCheckList()){
-        session.setAttribute("userId",checkParam.getUserId());
-        //权限
-        JurisdictionDataResult organizationApiResult = 
-            this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-        List<String> juri =  organizationApiResult.getPermssions();
-        boolean isJur = juri.contains("0102010101");
         if(StringUtils.isNotBlank(checkParam.getFkSystemId())){
           //业务节点定级
           if(StringUtils.isNotBlank(checkParam.getFkBusinessNode()) && 

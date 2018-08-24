@@ -11,6 +11,9 @@ var emitdata = new Vue();
 						isShowSilder: false,
 						isShowToggle: false,
 						userToken:false,
+						sanjianIndex: 0,
+						userToken: false,
+                        selectIndex: 0,
 						isShowToggleTwo: [false, false, false],
 						isShowToggleTwoUl: [false, false, false],
 						HeaderData: null,
@@ -43,6 +46,9 @@ var emitdata = new Vue();
 					hideSilder: function() {
 						this.isShowSilder = false
 					},
+					signOutMethod: function() {
+					    window.location.href = originUrl + "SSO/GLO/Redirect";
+					},
 					FnShowToggle: function(data, ind) {
 						if(ind !== undefined) {
 							var arr = [];
@@ -68,9 +74,11 @@ var emitdata = new Vue();
 					FnSetParam: function(param) {
 						return param
 					},
-					signOutMethod:function(){
-            window.location.href = originUrl +"SSO/GLO/Redirect";
-          },
+					  moreSetupMenuRemove: function() {
+	                        this.userToken = false
+	                        this.isShowSearchForm = false
+	                    },
+				
 					FnHref: function() {
 
 					},

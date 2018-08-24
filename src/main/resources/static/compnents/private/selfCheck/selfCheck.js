@@ -434,6 +434,8 @@
           	if(this.editParam.fkRectificationReu==2){
           		this.rules.examinationRectificationReportName[0].required=false;
           		this.rules.rectificationDate[0].required=false;
+          		this.$refs.examinationRectificationReportName.clearValidate();
+          		this.$refs.rectificationDate.clearValidate();
           	}else{
           		this.rules.examinationRectificationReportName[0].required=true;
           		this.rules.rectificationDate[0].required=true;

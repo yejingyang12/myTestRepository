@@ -36,13 +36,13 @@ public class FileUploadConfig {
    */
   @Bean
   public MultipartConfigElement multipartConfigElement(
-      @Value("31457280") String maxFileSize,
-      @Value("31457280") String maxRequestSize) {
+      @Value("30MB") String maxFileSize,
+      @Value("30MB") String maxRequestSize) {
     MultipartConfigFactory factory = new MultipartConfigFactory();
-    // ${multipart.maxFileSize}单个文件最大maxFileSize
-    factory.setMaxFileSize(30*1024*1024);
-    // ${multipart.maxRequestSize}设置总上传数据总大小maxRequestSize
-    factory.setMaxRequestSize(30*1024*1024);
+    // ${multipart.maxFileSize}单个文件最大
+    factory.setMaxFileSize(maxFileSize);
+    // ${multipart.maxRequestSize}设置总上传数据总大小
+    factory.setMaxRequestSize(maxRequestSize);
     return factory.createMultipartConfig();
   }
 }

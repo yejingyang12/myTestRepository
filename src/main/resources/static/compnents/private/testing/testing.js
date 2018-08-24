@@ -139,6 +139,8 @@
         		if(this.editData.fkRectificationReu == 2){
           		this.rules.rectificationReportName[0].required = false;
           		this.rules.rectificationDate[0].required = false;
+          		this.$refs.rectificationReportName.clearValidate();
+          		this.$refs.rectificationDate.clearValidate();
           	}else{
           		this.rules.rectificationReportName[0].required = true ;
           		this.rules.rectificationDate[0].required = true;
@@ -388,7 +390,7 @@
 //						this.$refs.refOnUpload2.value = null;
 						_self.editData.rectificationReportName=responseData.data.attachName;
 						_self.editData.rectificationReportPath=responseData.data.uploadUrl;
-						this.$refs.rectificationReportName.clearValidate();
+						_self.$refs.rectificationReportName.clearValidate();
 					},
 					fileDel:function(path,deleteFileType){
 						if(deleteFileType == 1){

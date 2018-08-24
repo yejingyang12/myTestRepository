@@ -38,7 +38,7 @@ public class WordConstant {
   public static String STR_POWER = "电力";
   public static String STR_SECURITIES = "证券";
   public static String STR_INSURANCE = "保险";
-  public static String STR_NATIONAL  = "国防";
+  public static String STR_NATIONAL  = "国防科技工业";
   public static String STR_SECURITY = "公安";
   public static String STR_PERSONNEL  = "人事劳动和社会保障";
   public static String STR_FINANCE = "财政";

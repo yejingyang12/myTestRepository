@@ -103,7 +103,7 @@ public class CompanyServiceImpl implements CompanyService {
         this.companyMapper.selectAllByCompanyParam(companyParam);
         break;
       case "3":
-        companyParam.setCompanyList(organizationApiResult.getCodeList());
+        companyParam.setCompanyList(organizationApiResult.getNameList());
         companyListResultList =  
         this.companyMapper.selectAllByCompanyParam(companyParam);
         break;

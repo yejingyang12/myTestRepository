@@ -1,11 +1,24 @@
-.container {
-	min-width: 1366px;
-	overflow-y: hidden;
+body {
+	min-width: 1280px;
 	padding-bottom: 20px;
 }
 
-.form-control {
-	border-radius: 2px!important;
+.el-input--34{
+	height: 34px;
+	line-height: 34px;
+}
+
+.el-input--34 input{
+	border-radius: 2px;
+}
+
+.el-input--34 *{
+	height: 34px;
+	line-height: 34px;
+}
+
+.el-select-dropdown {
+	z-index: 12000!important;
 }
 
 [v-cloak] {
@@ -111,9 +124,20 @@ input::-webkit-input-placeholder {
 }
 
 
+/*单行输入框*/
+
+.smcc-inp-text {
+	width: 95%;
+	text-indent: 32px!important;
+	background: none;
+	border: none!important;
+	border-bottom: 1px solid #CECECE!important;
+}
+
+
 /*多标签 input 输入框*/
 
-.smcc-tags-filter{
+.smcc-tags-filter {
 	border: none!important;
 	border-bottom: 1px solid #dcdfe6!important;
 }
@@ -182,7 +206,6 @@ input::-webkit-input-placeholder {
 	box-sizing: border-box;
 	padding-left: 20px;
 	padding-right: 20px;
-	padding-top: 2px;
 	border: none;
 	background: none;
 	border: 1px solid #cecece;
@@ -195,6 +218,25 @@ input::-webkit-input-placeholder {
 
 
 /*icon按钮*/
+
+
+/*输入*/
+
+.smcc-text-icon {
+	display: inline-block;
+	border: none;
+	background: url(../../img/icon_test_inp_01.png) no-repeat;
+}
+
+
+/*放大*/
+
+.smcc-enlarge-icon {
+	display: inline-block;
+	border: none;
+	background: url(../../img/enlarge.png) no-repeat;
+}
+
 
 /*删除icon*/
 
@@ -291,6 +333,26 @@ input::-webkit-input-placeholder {
 	top: -1px;
 }
 
+.el-table--border {
+	border-color: #cecece!important;
+	border-bottom: 1px solid #cecece!important;
+}
+
+.smcc-ele-td,
+.smcc-ele-theader {
+	height: 36px!important;
+	padding: 0!important;
+	border-color: #cecece!important;
+}
+
+.smcc-ele-theader {
+	border-bottom-width: 2px!important;
+}
+
+.el-table__row--striped .smcc-ele-td{
+	background: #f9f9f9!important;
+}
+
 
 /*通用表格*/
 
@@ -310,7 +372,11 @@ input::-webkit-input-placeholder {
 }
 
 .smcc-theader {
-	box-shadow: 0px 1px 2px #ccc;
+	border-bottom: 2px solid #cecece;
+}
+
+.smcc-theader.bdr1 {
+	border-left: 1px solid #cecece;
 }
 
 .smcc-td:first-child {
@@ -495,12 +561,65 @@ textarea {
 	width: 100%;
 }
 
+
+/*面包屑*/
+
+.mlr {
+	margin: 0 15px;
+}
+
+.breadcrumbOuter {
+	height: 30px;
+}
+
+.breadcrumbOuter .breadcrumb {
+	height: 30px;
+}
+
+.breadcrumbOuter .breadcrumb li {
+	height: 30px;
+	float: left;
+	line-height: 30px;
+}
+
+
 /*Tab切换框 选中 与 划过*/
-.smcc-Tab:hover{
+
+
+/*背景色切换*/
+
+.smcc-Tab:hover {
 	background-color: #ecf4fc;
 	border: 1px solid #5b96e1;
 }
 
-.smcc-Tab.active{
+.smcc-Tab.active {
 	background-color: #d9e9fa;
+}
+
+
+/*下滑线切换*/
+
+.smcc-tab-line-group {
+	height: 100%;
+	padding: 0;
+	margin-top: -4px;
+	line-height: 60px;
+}
+
+.smcc-tab-line-slide {
+	text-align: center;
+	height: 100%;
+	cursor: pointer;
+	padding: 0 10px;
+}
+
+.smcc-tab-line-slide:hover {
+	color: #3d95df;
+}
+
+.smcc-tab-line-slide.active {
+	border-bottom: 4px solid #348fe2;
+	color: #3d95df;
+	height: 100%;
 }

@@ -31,12 +31,13 @@ label{
     width: 100%;
     height: 100%;
     background-color: #767676;
-    background: rgba(0,0,0,.3);
+     background: rgba(0,0,0,.3); 
     position: fixed;
     top:0;
     left:0;
     z-index: 14;
 }
+.revokeBg:
 .revokeTitle{
     line-height:60px;
     margin-left: 15px;

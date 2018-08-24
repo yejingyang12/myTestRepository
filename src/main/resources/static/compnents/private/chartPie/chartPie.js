@@ -1,5 +1,6 @@
 (function () {
   var data={
+  pieShow:false,
 	hSystemType:1,	  
     val1:"",
     val3:"",
@@ -67,12 +68,12 @@
               this.getGradingStatisticsSuccess);
           } ,
 	        getGradingStatisticsSuccess : function(_self,result){
-		         this.option.series[0].data[0].value = 0;
+	        	 this.option.series[0].data[0].value = 0;
 		         this.option.series[0].data[1].value = 0;
 		         this.option.series[0].data[2].value = 0;
 		         this.option.series[0].data[3].value = 0;
 		         this.option.series[0].data[4].value = 0;
-		         if(result.data != null){
+		         if(result.data != null && result.data !=''){
 		        	 for(var i = 0; i < result.data.length; i++){
 		        		 if(result.data[i].spRanklevelName == '一级'){
 		        			 this.option.series[0].data[0].value = result.data[i].spRanklevelCount;
@@ -93,6 +94,9 @@
 //		          	this.option.series[0].data[i].name = result.data[i].spRanklevelName;	
 //		          	this.option.legend.data[i] = result.data[i].spRanklevelName;
 		           }
+		        	 _self.pieShow=true;
+		         }else{
+		        	 _self.pieShow=false;
 		         }
 	        }
         },
@@ -107,6 +111,11 @@
             var _self = this;
              if (data.option && typeof data.option === "object") {
             	 data.myChart.setOption(data.option, true);
+            	 if(_self.pieShow){
+            		 $('#container-pie').css('display','block');
+            	 }else{
+            		 $('#container-pie').css('display','none');
+            	 }
             	 bus.$on("gradingStatisticsEnd",function(meg){ 
             		 var a=JSON.parse(meg) 
             		 _self.hSystemType=a.systemType;  
@@ -149,12 +158,12 @@
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
 	              			  $('#container-pie').css('display','none');
-	              			 _self.option.series[0].data[0].value = 0;
+	              			 /*_self.option.series[0].data[0].value = 0;
 	              			 _self.option.series[0].data[1].value = 0;
 	              			 _self.option.series[0].data[2].value = 0;
 	              			 _self.option.series[0].data[3].value = 0;
 	              			 _self.option.series[0].data[4].value = 0;
-	              			 data.myChart.setOption(data.option, true);
+	              			 data.myChart.setOption(data.option, true);*/
 	            		 	}
             	 	 });
             	 }); 
@@ -178,8 +187,8 @@
   	    	        	 data.myChart.setOption(data.option, true);
               		 }else{
               			  $('#container-pie').css('display','none');
-              			 _self.option.series[0].data=[];
-              			 data.myChart.setOption(data.option, true);
+              			 /*_self.option.series[0].data=[];
+              			 data.myChart.setOption(data.option, true);*/
               		 }
               	 	 });
                });  

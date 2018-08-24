@@ -87,11 +87,11 @@ var data = {
             if($("#checkboxAll").is(':checked')){
               $(".firstChecked input").prop("checked",true);
               for(var i=0;i<this.companyForm.formData.length;i++){
-                for(var j=0;j<this.nameList.length;j++){
-                  if(this.nameList[j]==this.companyForm.formData[i].companyId){
+//                for(var j=0;j<this.nameList.length;j++){
+//                  if(this.nameList[j]==this.companyForm.formData[i].companyId){
                     this.companyIds.push(this.companyForm.formData[i].companyId);
-                  }
-                }
+//                  }
+//                }
               }
             }else{
               $(".firstChecked input").removeAttr("checked");

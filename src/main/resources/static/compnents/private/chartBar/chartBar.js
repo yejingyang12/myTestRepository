@@ -1,5 +1,6 @@
 (function () {
   var data={
+  barShow:false,
 	hgradingShapeType:"",	  
 	hSystemType:1,
 	val1:"",
@@ -93,9 +94,9 @@
 	            'application/json;charset=UTF-8',
 	            this.getGradingShapeSuccess);
 	        } ,
-	        getGradingShapeSuccess : function(_self,result){	
-	        	this.option.series[0].data = ([0,0,0,0,0]);
-	        	if(result.data != null){
+	        getGradingShapeSuccess : function(_self,result){
+	        	 _self.option.series[0].data = ([0,0,0,0,0]);
+	        	if(result.data != null && result.data !=''){
 	        		for(var i = 0; i < result.data.length; i++){
 	        			if(result.data[i].spRanklevelName == '一级'){
 	        				this.option.series[0].data[0] = result.data[i].spRanklevelCount;
@@ -115,6 +116,9 @@
 //	        		this.option.series[0].data[i] = result.data[i].spRanklevelCount;
 //	          	this.option.xAxis[0].data[i] = result.data[i].spRanklevelName;	
 	        		}
+	        		_self.barShow=true;
+	        	}else{
+	        		_self.barShow=false;
 	        	}
 	        }
         },
@@ -128,6 +132,11 @@
           var _self = this;
            if (data.option && typeof data.option === "object") {
           	 data.myChart.setOption(data.option, true);
+          	 if(_self.barShow){
+          		 $('#container-bar').css('display','block');
+          	 }else{
+          		 $('#container-bar').css('display','none');
+          	 }
           	 bus.$on("gradingShapeEnd",function(meg){
           	 ajaxMethod(_self, 'post',
                'main/queryGradingStatistics', false,
@@ -158,9 +167,9 @@
   	    	         $('#container-bar').css('display','block');
   	    	         data.myChart.setOption(data.option, true);
             		 }else{
-            			 $('#container-bar').css('display','none');
-            		 		_self.option.series[0].data = ([0,0,0,0,0]);
-            		 		data.myChart.setOption(data.option, true);
+	          				$('#container-bar').css('display','none');
+	           		 		/*_self.option.series[0].data = ([0,0,0,0,0]);
+	           		 		data.myChart.setOption(data.option, true);*/
             		 } 
           	 	 });
           	 }); 
@@ -194,12 +203,9 @@
 	    	        	 $('#container-bar').css('display','block');
 	    	        	 data.myChart.setOption(data.option, true);
             		 }else{
-            			 var json = JSON.parse(meg);
-            			 if(json.type == null || json.type == ''){
-	            		 	 $('#container-bar').css('display','none');
-            				 _self.option.series[0].data = ([0,0,0,0,0]);
-            				 data.myChart.setOption(data.option, true);
-            			 }
+            		 	 $('#container-bar').css('display','none');
+          				 /*_self.option.series[0].data = ([0,0,0,0,0]);
+          				 data.myChart.setOption(data.option, true);*/
             		 }
             	 });
              }); 
@@ -236,8 +242,8 @@
 	    	        	 data.myChart.setOption(data.option, true);
             		 }else{
             			 $('#container-bar').css('display','none');
-            			 _self.option.series[0].data = ([0,0,0,0,0]);
-            			 data.myChart.setOption(data.option, true);
+            			/* _self.option.series[0].data = ([0,0,0,0,0]);
+            			 data.myChart.setOption(data.option, true);*/
             		 }
             	 });
              }); 

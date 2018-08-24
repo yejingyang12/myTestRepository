@@ -228,7 +228,7 @@ public class SystemServiceImpl implements SystemService {
             this.systemMapper.selectAllBySystemParam(systemParam);
         break;
       case "3":
-        systemParam.setCompanyList(organizationApiResult.getCodeList());
+        systemParam.setCompanyList(organizationApiResult.getNameList());
         systemListResultlist =  
             this.systemMapper.selectAllBySystemParam(systemParam);
         break;
@@ -4710,7 +4710,7 @@ public class SystemServiceImpl implements SystemService {
             this.systemMapper.selectAllBySystemParam(systemParam);
         break;
       case "3":
-        systemParam.setCompanyList(organizationApiResult.getCodeList());
+        systemParam.setCompanyList(organizationApiResult.getNameList());
         systemList =  
             this.systemMapper.selectAllBySystemParam(systemParam);
         break;

@@ -109,7 +109,7 @@ public class MainParam {
   private String evaluationStatusType;
   private List<Integer> examinationStatus1;//自查
   private String examinationStatusType;
-  private List<Integer> examinStatus1;//待。。。审核
+  private List<Integer> examinStatus1;//待审核
   private String examinStatusType;
   
   private String jurBind;

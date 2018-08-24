@@ -26,7 +26,7 @@
 
 body {
 	font-family: "Microsoft Yahei", Helvetica, Arial, sans-serif;
-	color: #3b3d3e;
+	color: #333;
 	background-color: #ededed;
 }
 
@@ -41,22 +41,27 @@ a:focus {
 }
 /*指针*/
 .pointer{
-	cursor: pointer;
+	cursor: pointer!important;
 }
 
 /*盒子模型*/
 
 .block {
-	display: block;
+	display: block!important;
 }
 
 .in-block {
-	display: inline-block;
+	display: inline-block!important;
 }
 
 .flex-box{
 	display: flex;
 	display: -ms-flexbox;
+}
+
+.flex-column{
+	flex-direction: column;
+	-ms-flex-direction: column;
 }
 
 .float-left {
@@ -114,9 +119,7 @@ a:focus {
 .text-right {
 	text-align: right;
 }
-.text-left {
-	text-align: left;
-}
+
 .text-center {
 	text-align: center;
 }
@@ -265,6 +268,16 @@ a:focus {
 	position: static;
 }
 
+/*表扬*/
+
+.text-5dae51{
+	color: #5dae51;
+}
+
+.text-ce {
+	color: #cecece;
+}
+
 .text-dark {
 	color: #000;
 }
@@ -297,7 +310,7 @@ a.text-light-red {
 
 .text-blue,
 a.text-blue {
-	color: #006666;
+	color: #3d95df;
 }
 
 .text-highlight-blue,
@@ -386,6 +399,7 @@ a.text-gray {
 
 .wf {
 	width: 100%!important;
+	box-sizing: border-box;
 }
 
 .hf {
@@ -631,12 +645,14 @@ a.text-gray {
 
 .pt0 {
 	padding-top: 0 !important;
-	;
 }
 
 .pb0 {
 	padding-bottom: 0 !important;
 	;
+}
+.mt-10{
+	margin-top:-10px;
 }
 
 .mlf3 {
@@ -752,12 +768,16 @@ a.text-gray {
 	margin-left: 20px;
 }
 
+.ml30 {
+	margin-left: 30px;
+}
+
 .mr3 {
 	margin-right: 3px;
 }
 
 .mr5 {
-	margin-right: 5px;
+	margin-right: 5px!important;
 }
 
 .mr10 {
@@ -934,3 +954,55 @@ a.text-gray {
 
 
 /*# sourcremappingURL=common.css.map */
+/*表格状态的色块 */
+.sekuai{
+    font-weight: bold;
+    font-size: 14px;
+    color: #fff;
+    padding: 2px 6px;
+    border-width: 1px;
+    border-style: solid;
+}
+/*蓝色 */
+.daifankui{
+	background:#3d95df;
+	border-color:#3d95df;
+}
+/*绿色 */
+.yichuangjian{
+	background:#5dae51;
+	border-color:#5dae51;
+}
+/* 橙色 */
+.daishenpi{  
+	background: #fd9732;
+	border-color: #fd9732;
+}
+
+.daishenhe{  
+	background: #FFC285;
+	border-color: #FFC285;
+}
+/*灰色 */
+.yifankui{
+	background:#DECE97;
+	border-color:#DECE97;
+}
+/*灰色 */
+.guidang{
+	background: #EDEDED;
+	border-color:#EDEDED;
+}
+.h-outer{
+	background:#fff;
+	margin:0 15px;
+}
+
+.decoration{
+	border-bottom: 4px solid #3d95df; 
+    height: 48px!important;
+    padding: 0 10px;
+}
+
+
+

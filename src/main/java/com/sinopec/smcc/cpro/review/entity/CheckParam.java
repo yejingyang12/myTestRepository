@@ -82,7 +82,6 @@ public class CheckParam {
   private int currentPage;
   private String field;
   private String sort;
-  private String userId;
   
   private List<String> companyList;
   private List<String> plateList;
@@ -93,18 +92,7 @@ public class CheckParam {
   
   
   
-  /**
-   * @return the userId
-   */
-  public String getUserId() {
-    return userId;
-  }
-  /**
-   * @param userId the userId to set
-   */
-  public void setUserId(String userId) {
-    this.userId = userId;
-  } 
+
   /**
    * @return the result
    */

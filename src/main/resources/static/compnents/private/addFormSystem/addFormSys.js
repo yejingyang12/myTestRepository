@@ -174,6 +174,7 @@ var  data={
       sysNetwork:[],//网络性质
       sysIntercon:[],//系统互联情况
       msgName : [],//所属单位名称
+      parentMsgName : [],//上级系统所属单位名称
       sysSubsystem:[],//系统是否为分系统
       sysIs:[],
       num : 2, //定义一个变量
@@ -797,6 +798,17 @@ var  data={
                         }
                       }
                     },
+                    //获取上级系统所属单位信息
+                    getParentCompanyMethod:function(_self){
+                      ajaxMethod(_self, 'post',
+                          'organizationapi/queryOrganizationForKeyOrganizationName', true,'{}', 'json',
+                          'application/json;charset=UTF-8',_self.getParentCompanySuccessMethod);
+                    },
+                    //获取上级系统所属单位信息
+                    getParentCompanySuccessMethod:function(_self,responseData){
+                      _self.parentMsgName = responseData.data;
+                      
+                    },
                     setStandardizedCode:function(e,val){
                   		if(e!=null){
                   			for(var i=0;i<this.sysName.length;i++){
@@ -1279,6 +1291,8 @@ var  data={
                   this.getInterconnectionMethod(this);
                   //获取单位信息
                   this.getCompanyMethod(this);
+                  //获取上级系统所属单位信息
+                  this.getParentCompanyMethod(this);
                   //获取系统主管处室
 //                  this.getSystemExecutiveApi(this);
                 },

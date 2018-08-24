@@ -56,7 +56,6 @@ public class FileController {
    * @throws BusinessException
    */
   @ResponseBody
-  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
   public RetResult<AttachResult> uploadFile(HttpServletRequest request,
       @RequestParam("file") MultipartFile file) throws BusinessException{

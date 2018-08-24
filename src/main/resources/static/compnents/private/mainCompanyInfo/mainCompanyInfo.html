@@ -70,9 +70,9 @@
                         </tr>
                         <tr class="tr-row" v-for="(item,index) in companyForm.formData">
                             <td class="firstChecked" style="min-width:34px;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
-                              <div v-for="companyCodeJ in nameList" v-if="companyCodeJ==item.companyCode">
+                              <!-- <div v-for="companyCodeJ in nameList" v-if="companyCodeJ==item.companyCode"> -->
                                 <input class="checkName ids" type="checkbox" style="margin: 4px 36%;" @click="checkboxMethod($event,item.companyId)"/>
-                              </div>
+                              <!-- </div> -->
                             </td>
                             <td>{{index+1}}</td>
                             <td>{{item.companyName}}</td>
@@ -80,29 +80,27 @@
                             <td>{{item.ldContactName}}</td>
                             <!--操作-->
                             <td style="color:#1e91e2;">
-                                <!--class="hide3"-->
-                                <div v-for="companyCodeJ in nameList">
-                                  <a class="hide3" v-if="companyCodeJ==item.companyCode">
-                                    <el-button @click="handleClick(item.companyId)" type="text" size="small">编辑</el-button>
-                                    <i style="color:#1e91e2 ">|</i>
-                                    <el-button @click="deleteClickDialog(item.companyId)" type="text" size="small">删除</el-button>
-                                           <!--  测评表格的删除弹窗 -->
-                                    <div class="dialogShaw">
-                                       <div class="inquiry inquiryDelete">
-                                            <div class="cenrerBox">
-                                                <i class="failIcon fl">!</i>
-                                                <div class="fl">
-                                                    <p>是否删除</p>
-                                                </div>
-                                            </div>
-                                            <div class="inquiryBtn">
-                                                <button type="button" class="btn btn-success" @click="deleteClick()">确定</button>
-                                                <button type="button" class="btn btn-default" @click="closes">取消</button>
+                              <!--class="hide3"-->
+                              <a class="hide3">
+                                <el-button @click="handleClick(item.companyId)" type="text" size="small">编辑</el-button>
+                                <i style="color:#1e91e2 ">|</i>
+                                <el-button @click="deleteClickDialog(item.companyId)" type="text" size="small">删除</el-button>
+                                       <!--  测评表格的删除弹窗 -->
+                                <div class="dialogShaw">
+                                   <div class="inquiry inquiryDelete">
+                                        <div class="cenrerBox">
+                                            <i class="failIcon fl">!</i>
+                                            <div class="fl">
+                                                <p>是否删除</p>
                                             </div>
                                         </div>
-                                     </div>
-                                  </a>
-                                </div>
+                                        <div class="inquiryBtn">
+                                            <button type="button" class="btn btn-success" @click="deleteClick()">确定</button>
+                                            <button type="button" class="btn btn-default" @click="closes">取消</button>
+                                        </div>
+                                    </div>
+                                 </div>
+                              </a>
                             </td>
                         </tr>
                     </table>

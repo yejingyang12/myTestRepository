@@ -72,7 +72,7 @@
           compPrincipalWorkTel: [
               { required: false, message: '请输入办公电话', trigger: 'blur' },
               { min: 7, max: 13, message: '长度在7 到 13个字符', trigger: 'blur' },
-              { pattern: /^0\d{2,3}-\d{7,8}$/, message: '办公电话输入有误', trigger: 'blur'}
+              { pattern: /^0\d{2,4}-\d{7,8}$/, message: '办公电话输入有误', trigger: 'blur'}
           ],
           compPrincipalPhone: [
               { required: false, message: '请输入移动电话', trigger: 'blur' },
