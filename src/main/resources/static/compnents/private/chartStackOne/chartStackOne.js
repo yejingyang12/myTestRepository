@@ -209,10 +209,7 @@
 	  	    	        	 $('#container-stack-one').css('display','block');
 	  	    	        	 data.myChart.setOption(data.option, true);
 	            		 	}else{
-	            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-	                     dangerouslyUseHTMLString: true
-	            		 	 });
-	            		 	 $('#container-stack-one').css('display','block');
+	            		 	 $('#container-stack-one').css('display','none');
 	            		 		_self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
 	              			_self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
@@ -250,13 +247,7 @@
   	    	        	 $('#container-stack-one').css('display','block');
   	    	        	 data.myChart.setOption(data.option, true);
               		 }else{
-              			 var json = JSON.parse(meg);
-              			 if(json.type == null || json.type == ''){
-              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
-  	                     dangerouslyUseHTMLString: true
-  	            		 	 });
-              			 }
-              			 $('#container-stack-one').css('display','block');
+              			 $('#container-stack-one').css('display','none');
               			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];

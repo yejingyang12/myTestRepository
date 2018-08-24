@@ -316,7 +316,7 @@
 	<select id="selectSystemTrendByYear" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam" resultMap="DiagramListResult">
 		SELECT 
 			MONTH( system.createTime ) AS mouthCount,
-			SUM( IF ( system.gradingStatus = 2, 1, 0 ) ) AS readyGradCount,
+			SUM( IF ( system.gradingStatus = 3, 1, 0 ) ) AS readyGradCount,
 			SUM( IF ( system.examineStatus = 3, 1, 0 ) ) AS checkGradCount,
 			SUM( IF ( system.recordStatus = 3, 1, 0 ) ) AS recordsCount,
 			SUM( IF ( system.evaluationStatus = 3, 1, 0 ) ) AS evaluationCount,
