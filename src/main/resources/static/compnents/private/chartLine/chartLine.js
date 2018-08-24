@@ -198,13 +198,15 @@
 	  	    	        		 _self.option.series[4].data[result.data[i].mouthCount -1] = result.data[i].selfInspectionCount;	
 	  	    	        	 }
 	  	    	        	 //重绘
-	  	    	        	 $('#container-stack').css('display','block')
+	  	    	        	 $('#container-bar').css('display','none');
 	  	    	        	 data.myChart.setOption(data.option, true);
 	              		 }else{
 	              			 var json = JSON.parse(meg);
 	              			 if(json.type == null || json.type == ''){
-	              				
-	              				$('#container-stack').css('display','none')
+	              				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	  	                     dangerouslyUseHTMLString: true
+	  	            		 	 });
+	  	            		 	 $('#container-bar').css('display','none');
 	              				 _self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	                		   _self.option.series[1].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 	                		   _self.option.series[2].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

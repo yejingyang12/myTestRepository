@@ -125,10 +125,8 @@
         mounted: function() {
           data.dom = document.getElementById("container-bar");
           data.myChart = echarts.init(data.dom);
-          /*console.log(data.dom)*/
           var _self = this;
            if (data.option && typeof data.option === "object") {
-          	
           	 data.myChart.setOption(data.option, true);
           	 bus.$on("gradingShapeEnd",function(meg){
           	 ajaxMethod(_self, 'post',
@@ -157,10 +155,16 @@
 				             }
 	    	        	 }
   	    	         //重绘
-	    	        $('#container-bar').css('display','block');
+  	    	         $('#container-bar').css('display','block');
   	    	         data.myChart.setOption(data.option, true);
             		 }else{
-            		 		$('#container-bar').css('display','none');
+            			 var json = JSON.parse(meg);
+            			 if(json.type == null || json.type == ''){
+            		 		_self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+            		 			dangerouslyUseHTMLString: true
+            		 	  });
+            			 }
+            			 $('#container-bar').css('display','none');
             		 		_self.option.series[0].data = ([0,0,0,0,0]);
             		 		data.myChart.setOption(data.option, true);
             		 } 
@@ -193,12 +197,15 @@
 				             }
 	    	        	 }
 	    	        	 //重绘
-	    	        	 $('#container-bar').css('display','block');
+	    	        	 $('#container-bar').css('display','none');
 	    	        	 data.myChart.setOption(data.option, true);
             		 }else{
             			 var json = JSON.parse(meg);
             			 if(json.type == null || json.type == ''){
-            				 $('#container-bar').css('display','none');
+            				 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+	                     dangerouslyUseHTMLString: true
+	            		 	 });
+	            		 	 $('#container-bar').css('display','none');
             				 _self.option.series[0].data = ([0,0,0,0,0]);
             				 data.myChart.setOption(data.option, true);
             			 }
@@ -234,9 +241,12 @@
 				             }
 	    	        	 }
 	    	        	 //重绘
-	    	        	 $('#container-bar').css('display','block');
+	    	        	 $('#container-bar').css('display','none');
 	    	        	 data.myChart.setOption(data.option, true);
             		 }else{
+            			 _self.$alert('<center><strong>暂无数据</strong></center>', '提示', {
+                     dangerouslyUseHTMLString: true
+            			 });
             			 $('#container-bar').css('display','none');
             			 _self.option.series[0].data = ([0,0,0,0,0]);
             			 data.myChart.setOption(data.option, true);

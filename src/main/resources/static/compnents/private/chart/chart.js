@@ -91,6 +91,7 @@
               bus.$emit("gradingShapeBegin",'{"systemType":"1","type":"1"}');
               bus.$emit("recordBegin",'{"systemType":"1","type":"1"}');
               bus.$emit("acceptRecordEnd",'{"systemType":"1","type":"1"}');
+              bus.$emit("gradingShapeEnd",'{"systemType":"1","type":"1"}');
               bus.$emit("yearType",'{"systemType":"1","type":"1"}');
               this.statisticsType = 1;
         		}else{
@@ -101,6 +102,7 @@
         			bus.$emit("gradingStatisticsEnd",'{"systemType":"2","type":"1"}');
               bus.$emit("gradingShapeBegin",'{"systemType":"2","type":"1"}');
               bus.$emit("recordBegin",'{"systemType":"2","type":"1"}');
+              bus.$emit("gradingShapeEnd",'{"systemType":"2","type":"1"}');
               bus.$emit("acceptRecordEnd",'{"systemType":"2","type":"1"}');
               bus.$emit("yearType",'{"systemType":"2","type":"1"}');
               this.statisticsType = 2;
