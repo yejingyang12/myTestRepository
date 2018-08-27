@@ -26,6 +26,7 @@ import com.sinopec.smcc.base.result.PageUtil;
 import com.sinopec.smcc.base.result.RetResult;
 import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
+import com.sinopec.smcc.cpro.api.entity.GetSystemRelationResult;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
 import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.api.service.ApiService;
@@ -124,11 +125,10 @@ public class ApiController {
   }
   
   /**
-   * @Descrption 获取定级信息
+   * @Descrption 获取关联表信息列表
    * @author aran
    * @date 2018年7月17日上午11:10:08
    * @param request
-   * @param systemId 系统ID
    * @return
    * @throws BusinessException
    */
@@ -140,5 +140,55 @@ public class ApiController {
         getSystemRelationInfo(systemRelationParam);
     PageUtil pageUtil = new PageUtil(systemApiResult);
     return RetResultUtil.ok(pageUtil);
+  }
+  /**
+   * @Descrption 获取关联表信息编辑回显
+   * @author aran
+   * @date 2018年7月17日上午11:10:08
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/editGetSystemRelationInfo", method = RequestMethod.POST)
+  public RetResult<GetSystemRelationResult> editGetSystemRelationInfo(HttpServletRequest request,
+      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
+    // 调用service实体，获得
+    GetSystemRelationResult systemApiResult = this.apiServiceImpl.
+        editGetSystemRelationInfo(systemRelationParam);
+    return RetResultUtil.ok(systemApiResult);
+  }
+  
+  /**
+   * @Descrption 获取关联表信息编辑
+   * @author aran
+   * @date 2018年7月17日上午11:10:08
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/editSystemRelationInfo", method = RequestMethod.POST)
+  public RetResult<String> editSystemRelationInfo(HttpServletRequest request,
+      @RequestBody GetSystemRelationResult getSystemRelationResult) throws BusinessException{
+    // 调用service实体，获得
+    this.apiServiceImpl.
+        editSystemRelationInfo(getSystemRelationResult);
+    return RetResultUtil.ok();
+  }
+  
+  /**
+   * @Descrption 获取关联表信息删除
+   * @author aran
+   * @date 2018年7月17日上午11:10:08
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/deleteSystemRelationInfo", method = RequestMethod.POST)
+  public RetResult<String> deleteSystemRelationInfo(HttpServletRequest request,
+      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
+    // 调用service实体，获得
+    this.apiServiceImpl.
+      deleteSystemRelationInfo(systemRelationParam);
+    return RetResultUtil.ok();
   }
 }

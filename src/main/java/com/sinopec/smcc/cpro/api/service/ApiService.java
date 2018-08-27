@@ -12,6 +12,7 @@ package com.sinopec.smcc.cpro.api.service;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
+import com.sinopec.smcc.cpro.api.entity.GetSystemRelationResult;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
 import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
@@ -60,4 +61,32 @@ public interface ApiService {
    */
   PageInfo<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam)
       throws BusinessException ;
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年8月27日上午9:42:18
+   * @param systemRelationParam
+   * @return
+   */
+  GetSystemRelationResult editGetSystemRelationInfo(
+      SystemRelationParam systemRelationParam)throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年8月27日上午11:47:14
+   * @param systemRelationEditParam
+   */
+  void editSystemRelationInfo(GetSystemRelationResult getSystemRelationResult)
+      throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年8月27日上午11:51:37
+   * @param systemRelationParam
+   */
+  void deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
+      throws BusinessException;
 }

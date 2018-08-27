@@ -61,4 +61,22 @@ public interface SystemRelationMapper {
   List<SystemRelationResult> selectSystemRelationListBySystemId(
       SystemRelationParam querySystemRelationListParam);
 
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年8月27日下午12:05:27
+   * @param systemRelationParam
+   */
+  void deleteSystemRelationInfoBySmccCode(
+      SystemRelationParam systemRelationParam);
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年8月27日下午12:32:56
+   * @param systemRelationParam
+   */
+  void deleteSystemRelationInfoByStandardizedCode(
+      SystemRelationParam systemRelationParam);
+
 }

@@ -10,8 +10,21 @@
     <result column="standardizedCode" property="standardizedCode" jdbcType="VARCHAR" />
     <result column="systemIsMerge" property="systemIsMerge" jdbcType="INTEGER" />
     <result column="systemSource" property="systemSource" jdbcType="VARCHAR" />
+    <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
   </resultMap>
  
+  <update id="deleteSystemRelationInfoByStandardizedCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam">
+    UPDATE t_cpro_system_relation 
+    SET deleteStatus = 2
+    WHERE standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="deleteSystemRelationInfoBySmccCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam">
+    UPDATE t_cpro_system_relation 
+    SET deleteStatus = 2
+    WHERE systemSmccCode = #{systemSmccCode,jdbcType=VARCHAR}
+  </update>
+  
   <select id="querySystemRelationInfo" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam" resultMap="BaseResultMap">
     SELECT
     	relation.pkId,

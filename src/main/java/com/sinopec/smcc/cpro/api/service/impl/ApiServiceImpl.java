@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.api.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
+import com.sinopec.smcc.cpro.api.entity.GetSystemRelationResult;
 import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
 import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.api.service.ApiService;
@@ -51,6 +53,8 @@ import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemRelationMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
+import com.sinopec.smcc.cpro.system.util.SystemInfoUtil;
+import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
 
@@ -276,6 +280,12 @@ public class ApiServiceImpl implements ApiService{
   @Override
   public PageInfo<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam) 
       throws BusinessException {
+    if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
+      HttpServletRequest request = 
+          ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+      HttpSession session = request.getSession();
+      session.setAttribute("userId",systemRelationParam.getUserId());
+    }
     
     StringBuffer orderBy = new StringBuffer();
     if (StringUtils.isNotBlank(systemRelationParam.getField())) {
@@ -291,44 +301,116 @@ public class ApiServiceImpl implements ApiService{
     List<SystemRelationResult> systemRelationResultList = new ArrayList<SystemRelationResult>();
     
     //权限
-    JurisdictionDataResult organizationApiResult = 
-        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+//    JurisdictionDataResult organizationApiResult = 
+//        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
     
-    if(organizationApiResult==null){
-      return new PageInfo<>();
-    }else{
+//    if(organizationApiResult==null){
+//      return new PageInfo<>();
+//    }else{
       
       // 初始化分页拦截器
       PageHelper.startPage(systemRelationParam.getCurrentPage(), systemRelationParam.getPageSize(),
           orderBy.toString());
       
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
-      switch (organizationApiResult.getResultType()) {
-      
-      case "0":
-        break;
-      case "1":
+//      switch (organizationApiResult.getResultType()) {
+//      
+//      case "0":
+//        break;
+//      case "1":
         // 获得响应列表数据
         systemRelationResultList = this.systemRelationMapper.
             querySystemRelationInfo(systemRelationParam);
-        break;
-      case "2":
-        systemRelationParam.setPlateList(organizationApiResult.getNameList());
-        systemRelationResultList = this.systemRelationMapper.
-            querySystemRelationInfo(systemRelationParam);
-        break;
-      case "3":
-        systemRelationParam.setCompanyList(organizationApiResult.getCodeList());
-        systemRelationResultList = this.systemRelationMapper.
-            querySystemRelationInfo(systemRelationParam);
-        break;
-
-      default:
-        break;
-      }
-    }
+//        break;
+//      case "2":
+//        systemRelationParam.setPlateList(organizationApiResult.getNameList());
+//        systemRelationResultList = this.systemRelationMapper.
+//            querySystemRelationInfo(systemRelationParam);
+//        break;
+//      case "3":
+//        systemRelationParam.setCompanyList(organizationApiResult.getCodeList());
+//        systemRelationResultList = this.systemRelationMapper.
+//            querySystemRelationInfo(systemRelationParam);
+//        break;
+//
+//      default:
+//        break;
+//      }
+//    }
     // 装载列表数据
     PageInfo<SystemRelationResult> pageInfo = new PageInfo<>(systemRelationResultList);
     return pageInfo;
+  }
+
+  @Override
+  public GetSystemRelationResult editGetSystemRelationInfo(
+      SystemRelationParam systemRelationParam) throws BusinessException {
+    if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
+      HttpServletRequest request = 
+          ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+      HttpSession session = request.getSession();
+      session.setAttribute("userId",systemRelationParam.getUserId());
+    }
+    GetSystemRelationResult getSystemRelationResult = new GetSystemRelationResult();
+    
+    List<SystemRelationResult> systemRelationResultList = this.systemRelationMapper.
+        querySystemRelationInfo(systemRelationParam);
+    if(systemRelationResultList==null){
+      return new GetSystemRelationResult();
+    }
+    getSystemRelationResult.setSystemId(systemRelationResultList.get(0).getSystemId());
+    getSystemRelationResult.setSystemName(systemRelationResultList.get(0).getSystemName());
+    getSystemRelationResult.setSystemSmccCode(systemRelationResultList.get(0).getSystemSmccCode());
+    getSystemRelationResult.setSystemIsMerge(systemRelationResultList.get(0).getSystemIsMerge());
+    getSystemRelationResult.setFkCompanyCode(systemRelationResultList.get(0).getFkCompanyCode());
+    getSystemRelationResult.setStandardizedInfo(systemRelationResultList);
+    return getSystemRelationResult;
+  }
+
+  @Override
+  public void editSystemRelationInfo(
+      GetSystemRelationResult getSystemRelationResult) throws BusinessException {
+    if(StringUtils.isNotBlank(getSystemRelationResult.getUserId())){
+      HttpServletRequest request = 
+          ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+      HttpSession session = request.getSession();
+      session.setAttribute("userId",getSystemRelationResult.getUserId());
+    }
+    
+    if(getSystemRelationResult.getAddSystemInfo()!=null){
+      List<SystemRelationParam> systemRelationList = new ArrayList<SystemRelationParam>();
+      for (SystemRelationParam systemRelationParam:getSystemRelationResult.getDeleteSystemInfo()){
+        systemRelationParam.setSystemRelationId(Utils.getUuidFor32());
+        systemRelationParam.setFkSystemId(getSystemRelationResult.getSystemId());
+        systemRelationParam.setFkCompanyCode(getSystemRelationResult.getFkCompanyCode());
+        systemRelationParam.setSystemIsMerge("0");
+        systemRelationParam.setSystemName(getSystemRelationResult.getSystemName());
+        systemRelationParam.setSystemSmccCode(SystemInfoUtil.getSmccId("0"));
+        systemRelationParam.setCreateTime(new Date());
+        systemRelationList.add(systemRelationParam);
+      }
+      this.systemRelationMapper.insertBatchSystemPelation(systemRelationList);
+    }
+    if(getSystemRelationResult.getDeleteSystemInfo()!=null){
+      for (SystemRelationParam systemRelationParam:getSystemRelationResult.getDeleteSystemInfo()){
+        this.systemRelationMapper.
+          deleteSystemRelationInfoByStandardizedCode(systemRelationParam);
+      }
+    }
+  }
+
+  @Override
+  public void deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
+      throws BusinessException {
+    if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
+      HttpServletRequest request = 
+          ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+      HttpSession session = request.getSession();
+      session.setAttribute("userId",systemRelationParam.getUserId());
+    }
+    
+    this.systemRelationMapper.
+        deleteSystemRelationInfoBySmccCode(systemRelationParam);
+    
   }
 }

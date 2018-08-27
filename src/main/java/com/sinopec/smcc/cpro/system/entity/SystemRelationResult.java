@@ -27,6 +27,7 @@ public class SystemRelationResult {
   private String standardizedCode;
   private String systemIsMerge;
   private String systemSource;
+  private String fkCompanyCode;
   
   public String getSystemRelationId() {
     return systemRelationId;
@@ -75,5 +76,11 @@ public class SystemRelationResult {
   }
   public void setSystemSource(String systemSource) {
     this.systemSource = systemSource;
+  }
+  public String getFkCompanyCode() {
+    return fkCompanyCode;
+  }
+  public void setFkCompanyCode(String fkCompanyCode) {
+    this.fkCompanyCode = fkCompanyCode;
   }
 }

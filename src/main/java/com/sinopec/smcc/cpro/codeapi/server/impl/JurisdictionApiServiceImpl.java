@@ -185,7 +185,7 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
       if (authorizationDTO.getPermissionList() != null) {
         List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
         for (PermissionDTO permissionDTO : permissionDTOList) {
-          //查看权限
+          //申请变更权限
           if(permissionDTO.getPermcode().equals("0102010106")){
             booValue = true;
           }

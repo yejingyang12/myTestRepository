@@ -29,10 +29,10 @@ public class SystemRelationParam {
   private String systemRelationId;
   private String fkSystemId;
   private String fkCompanyCode;
-  private String systemName;
-  private String systemSmccCode;
-  private String standardizedName;
-  private String standardizedCode;
+  private String systemName;//系统名称
+  private String systemSmccCode;//smcc编码
+  private String standardizedName;//标准化名称
+  private String standardizedCode;//标准化编码
   private String systemIsMerge;
   private String systemSource;
   private Integer deleteStatus;
@@ -43,6 +43,7 @@ public class SystemRelationParam {
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date updateTime;
   private String remark;
+  private String userId;
   
   //当页数量
   private int pageSize = 10;
@@ -192,5 +193,11 @@ public class SystemRelationParam {
   }
   public String toString(){
     return JSON.toJSONString(this);
+  }
+  public String getUserId() {
+    return userId;
+  }
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 }
