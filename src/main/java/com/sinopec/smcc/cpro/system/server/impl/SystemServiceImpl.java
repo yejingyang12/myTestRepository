@@ -178,6 +178,9 @@ public class SystemServiceImpl implements SystemService {
   private NodeMapper nodeMapperImpl;
   @Autowired
   private RecordsMapper recordsMapperImpl;
+  @Autowired
+  private SystemRelationMapper systemRelationMapperImpl;
+  
   
 	/**
    * 响应系统列表数据
@@ -926,6 +929,26 @@ public class SystemServiceImpl implements SystemService {
             this.nodeServiceImpl.addNodeInfo(node);
           }
         }
+        
+        //修改关联表
+        SystemRelationParam systemRelationParam = new SystemRelationParam();
+        systemRelationParam.setSystemSmccCode(systemParam.getSystemId());
+        List<SystemRelationResult> systemRelationResultList = 
+            systemRelationMapperImpl.querySystemRelationInfo(systemRelationParam);
+        if(systemRelationResultList != null && systemRelationResultList.size() >=2){
+          for(SystemRelationResult systemRelationResult : systemRelationResultList){
+            if(systemRelationResult.getSystemIsMerge().equals("1")){
+              SystemRelationParam sysRelationParam = new SystemRelationParam();
+              sysRelationParam.setSystemName(systemRelationResult.getSystemName());
+              sysRelationParam.setSystemIsMerge("0");
+              sysRelationParam.setFkSystemId(systemParam.getSystemId());
+              sysRelationParam.setStandardizedName(systemRelationResult.getStandardizedName());
+              systemRelationMapperImpl.updateSystemRelationBySystemIdAndStandardizedName(
+                  sysRelationParam);
+            }
+          }
+        }
+
         List<SystemParam> systemDelete = new ArrayList<SystemParam>();
         SystemParam systemParamDel = new SystemParam();
         systemParamDel.setSystemId(systemSubParam.getSystemId());

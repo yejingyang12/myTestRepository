@@ -563,6 +563,12 @@
 					AND company.deleteStatus =1
         ]]>
       </if>
+      <if test="appIsInternet != null ">
+        <![CDATA[
+          AND system.appIsInternet =#{appIsInternet}
+        ]]>
+      </if>
+      
     </where>
      <![CDATA[
        ORDER BY rcordSort DESC,system.createTime DESC

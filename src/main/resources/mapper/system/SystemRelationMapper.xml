@@ -13,17 +13,31 @@
     <result column="fkCompanyCode" property="fkCompanyCode" jdbcType="VARCHAR" />
   </resultMap>
  
-  <update id="deleteSystemRelationInfoByStandardizedCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam">
-    UPDATE t_cpro_system_relation 
-    SET deleteStatus = 2
-    WHERE standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
-  </update>
-  
-  <update id="deleteSystemRelationInfoBySmccCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam">
-    UPDATE t_cpro_system_relation 
-    SET deleteStatus = 2
-    WHERE systemSmccCode = #{systemSmccCode,jdbcType=VARCHAR}
-  </update>
+ <select id="querySystemRelationById" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam" resultMap="BaseResultMap">
+    SELECT
+      relation.pkId,
+      relation.fkSystemId,
+      relation.fkCompanyCode,
+      relation.systemName,
+      relation.systemSmccCode,
+      relation.standardizedName,
+      relation.standardizedCode,
+      relation.systemIsMerge,
+      relation.systemSource
+    FROM
+      t_cpro_system_relation AS relation
+    <where>
+       relation.deleteStatus=1 
+      <![CDATA[
+        AND relation.pkId = #{systemRelationId,jdbcType=VARCHAR}
+      ]]>
+    </where>
+  </select>
+ 
+  <delete id="deleteSystemRelationInfoBySystemRelationId" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam">
+    DELETE FROM t_cpro_system_relation 
+    WHERE pkId = #{systemRelationId,jdbcType=VARCHAR}
+  </delete>
   
   <select id="querySystemRelationInfo" parameterType="com.sinopec.smcc.cpro.system.entity.SystemRelationParam" resultMap="BaseResultMap">
     SELECT
@@ -70,6 +84,23 @@
   	  <if test="standardizedCode != null and standardizedCode != ''">
         <![CDATA[
           AND relation.standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="systemName != null and systemName != ''">
+        <bind name="systemName" value="'%' + systemName + '%'" />
+        <![CDATA[
+          AND relation.systemName LIKE #{systemName,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="standardizedName != null and standardizedName != ''">
+        <bind name="standardizedName" value="'%' + standardizedName + '%'" />
+        <![CDATA[
+          AND relation.standardizedName LIKE #{standardizedName,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="systemSource != null and systemSource != ''">
+        <![CDATA[
+          AND relation.systemSource = #{systemSource,jdbcType=VARCHAR}
         ]]>
       </if>
     </where>
