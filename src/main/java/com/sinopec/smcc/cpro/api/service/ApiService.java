@@ -9,6 +9,8 @@
 */
 package com.sinopec.smcc.cpro.api.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
@@ -87,6 +89,15 @@ public interface ApiService {
    * @date 2018年8月27日上午11:51:37
    * @param systemRelationParam
    */
-  void deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
+  boolean deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
       throws BusinessException;
+
+  /**
+   * @Descrption
+   * @author Aran
+   * @date 2018年8月28日下午12:56:52
+   * @param systemRelationParam
+   * @return
+   */
+  List<SystemRelationResult> getSystemRelationByGrade()throws BusinessException;
 }

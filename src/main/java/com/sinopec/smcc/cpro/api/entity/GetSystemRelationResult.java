@@ -24,6 +24,7 @@ import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
  */
 public class GetSystemRelationResult {
 
+  private String systemRelationId;
   private String systemId;
   private String systemName;
   private String systemSmccCode;
@@ -106,5 +107,13 @@ public class GetSystemRelationResult {
 
   public void setFkCompanyCode(String fkCompanyCode) {
     this.fkCompanyCode = fkCompanyCode;
+  }
+
+  public String getSystemRelationId() {
+    return systemRelationId;
+  }
+
+  public void setSystemRelationId(String systemRelationId) {
+    this.systemRelationId = systemRelationId;
   }
 }

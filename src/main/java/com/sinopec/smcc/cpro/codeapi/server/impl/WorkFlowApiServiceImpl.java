@@ -11,11 +11,8 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,11 +20,9 @@ import org.springframework.stereotype.Service;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.AppExtendsData;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
-import com.pcitc.ssc.dps.inte.workflow.AppParticipantData;
 import com.pcitc.ssc.dps.inte.workflow.AppWorkflowData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
-import com.pcitc.ssc.dps.inte.workflow.ExecutorData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.pcitc.ssc.dps.inte.workflow.StartContext;
 import com.sinopec.smcc.base.consts.SmccConsts;

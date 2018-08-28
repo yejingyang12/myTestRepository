@@ -358,6 +358,7 @@ public class ApiServiceImpl implements ApiService{
     if(systemRelationResultList==null){
       return new GetSystemRelationResult();
     }
+    getSystemRelationResult.setSystemRelationId(systemRelationResultList.get(0).getSystemRelationId());
     getSystemRelationResult.setSystemId(systemRelationResultList.get(0).getSystemId());
     getSystemRelationResult.setSystemName(systemRelationResultList.get(0).getSystemName());
     getSystemRelationResult.setSystemSmccCode(systemRelationResultList.get(0).getSystemSmccCode());
@@ -377,15 +378,27 @@ public class ApiServiceImpl implements ApiService{
       session.setAttribute("userId",getSystemRelationResult.getUserId());
     }
     
+    SystemRelationParam systemRelationTempParam = new SystemRelationParam();
+    systemRelationTempParam.setSystemRelationId(getSystemRelationResult.getSystemRelationId());
+    SystemRelationResult systemRelationResult =  this.systemRelationMapper.
+        querySystemRelationById(systemRelationTempParam);
+    
     if(getSystemRelationResult.getAddSystemInfo()!=null){
       List<SystemRelationParam> systemRelationList = new ArrayList<SystemRelationParam>();
-      for (SystemRelationParam systemRelationParam:getSystemRelationResult.getDeleteSystemInfo()){
+      for (SystemRelationParam systemRelationParam:getSystemRelationResult.getAddSystemInfo()){
         systemRelationParam.setSystemRelationId(Utils.getUuidFor32());
         systemRelationParam.setFkSystemId(getSystemRelationResult.getSystemId());
         systemRelationParam.setFkCompanyCode(getSystemRelationResult.getFkCompanyCode());
-        systemRelationParam.setSystemIsMerge("0");
         systemRelationParam.setSystemName(getSystemRelationResult.getSystemName());
-        systemRelationParam.setSystemSmccCode(SystemInfoUtil.getSmccId("0"));
+        systemRelationParam.setSystemSource("0");
+        
+        if(systemRelationResult.getSystemIsMerge().equals("0")){
+          systemRelationParam.setSystemIsMerge("0");
+          systemRelationParam.setSystemSmccCode(SystemInfoUtil.getSmccId("0"));
+        }else{
+          systemRelationParam.setSystemIsMerge("1");
+          systemRelationParam.setSystemSmccCode(SystemInfoUtil.getSmccId("1"));
+        }
         systemRelationParam.setCreateTime(new Date());
         systemRelationList.add(systemRelationParam);
       }
@@ -394,13 +407,13 @@ public class ApiServiceImpl implements ApiService{
     if(getSystemRelationResult.getDeleteSystemInfo()!=null){
       for (SystemRelationParam systemRelationParam:getSystemRelationResult.getDeleteSystemInfo()){
         this.systemRelationMapper.
-          deleteSystemRelationInfoByStandardizedCode(systemRelationParam);
+          deleteSystemRelationInfoBySystemRelationId(systemRelationParam);
       }
     }
   }
 
   @Override
-  public void deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
+  public boolean deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
       throws BusinessException {
     if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
       HttpServletRequest request = 
@@ -408,9 +421,29 @@ public class ApiServiceImpl implements ApiService{
       HttpSession session = request.getSession();
       session.setAttribute("userId",systemRelationParam.getUserId());
     }
+    SystemRelationResult systemRelationResult =  this.systemRelationMapper.
+        querySystemRelationById(systemRelationParam);
+    
+    if(systemRelationResult==null){
+      return false;
+    }
+    if(systemRelationResult.getSystemSource().equals("0")){
+      return false;
+    }
     
     this.systemRelationMapper.
-        deleteSystemRelationInfoBySmccCode(systemRelationParam);
+    deleteSystemRelationInfoBySystemRelationId(systemRelationParam);
+    return true;
+  }
+
+  @Override
+  public List<SystemRelationResult> getSystemRelationByGrade() throws BusinessException {
     
+    SystemRelationParam systemRelationParam = new SystemRelationParam();
+    systemRelationParam.setSystemIsMerge("1");
+    List<SystemRelationResult> systemRelationResultList = this.systemRelationMapper.
+        querySystemRelationInfo(systemRelationParam);
+    
+    return systemRelationResultList;
   }
 }

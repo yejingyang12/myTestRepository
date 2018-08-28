@@ -184,11 +184,27 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/deleteSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<String> deleteSystemRelationInfo(HttpServletRequest request,
+  public RetResult<Boolean> deleteSystemRelationInfo(HttpServletRequest request,
       @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
     // 调用service实体，获得
-    this.apiServiceImpl.
+    boolean booValue = this.apiServiceImpl.
       deleteSystemRelationInfo(systemRelationParam);
-    return RetResultUtil.ok();
+    return RetResultUtil.ok(booValue);
+  }
+  
+  /**
+   * @Descrption 获取关联表信息--已做等保信息
+   * @author aran
+   * @date 2018年7月17日上午11:10:08
+   * @param request
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/getSystemRelationByGrade", method = RequestMethod.POST)
+  public RetResult<List<SystemRelationResult>> getSystemRelationByGrade() throws BusinessException{
+    // 调用service实体，获得
+    List<SystemRelationResult> systemRelationResultList = this.apiServiceImpl.
+        getSystemRelationByGrade();
+    return RetResultUtil.ok(systemRelationResultList);
   }
 }
