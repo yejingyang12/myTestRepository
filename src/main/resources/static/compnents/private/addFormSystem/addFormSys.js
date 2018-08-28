@@ -7,6 +7,8 @@ var  data={
 	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	        },
+	        flag:false,
+	        substitute:"",
 		jurisdiction: false,
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
@@ -677,7 +679,7 @@ var  data={
                     // 获取系统下拉列表
                     getSystemInfoMethod : function(_self) {
                       ajaxMethod(_self, 'post',
-                          'systemapi/querySystemApi', true,
+                          'systemapi/querySystemApi', false,
                           '{"companyCode":"'+companyCode+'"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getSystemInfoSuccessMethod);
@@ -725,7 +727,7 @@ var  data={
                     // 获取覆盖范围信息
                     getCoverageRangeMethod : function(_self) {
                       ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          'systemCode/querySystemCodeForKeySystemCode', false,
                           '{"codeType":"17"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getCoverageRangeSuccessMethod);
@@ -768,7 +770,7 @@ var  data={
                     //获取服务范围信息
                     getServiceRangeMethod: function(_self) {
                       ajaxMethod(_self, 'post',
-                          'systemCode/querySystemCodeForKeySystemCode', true,
+                          'systemCode/querySystemCodeForKeySystemCode', false,
                           '{"codeType":"20"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getServiceRangeSuccessMethod);
@@ -783,7 +785,7 @@ var  data={
                     //获取单位信息
                     getCompanyMethod:function(_self){
                       ajaxMethod(_self, 'post',
-                          'company/queryCompanyName', true,'{}', 'json',
+                          'company/queryCompanyName', false,'{}', 'json',
                           'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
                     },
                     //获取单位信息
@@ -802,7 +804,7 @@ var  data={
                     //获取上级系统所属单位信息
                     getParentCompanyMethod:function(_self){
                       ajaxMethod(_self, 'post',
-                          'organizationapi/queryOrganizationForKeyOrganizationName', true,'{}', 'json',
+                          'organizationapi/queryOrganizationForKeyOrganizationName', false,'{}', 'json',
                           'application/json;charset=UTF-8',_self.getParentCompanySuccessMethod);
                     },
                     //获取上级系统所属单位信息
@@ -1016,7 +1018,6 @@ var  data={
                         this.systemSonInfo = false;
                         this.systemInfo = true;
                       }
-                      
                       if(_self.formData.fkInfoSysTypeCon!=''){
                         var array = $('#baseMes1').find('div').map(function (index, ele) {
                           if(_self.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
@@ -1266,7 +1267,26 @@ var  data={
                     },
                     getPermitJurisdictionSuccess: function(_self,response){
                       _self.jurisdiction = getJurisdictionMethod(response,S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE);
-                    }
+                    },
+                    querySessionSuccess:function(_self,responseData){
+                    	_self.formData = responseData.data;
+                    },
+                    getSystemSession:function(_self){
+                    	ajaxMethod(_self, 'post',
+                          'system/querySystemSession', false,
+                          JSON.stringify(''), 'json',
+                          'application/json;charset=UTF-8',
+                          _self.querySystemSessionSuccess);
+                    },
+                    querySystemSessionSuccess:function(_self,responseData){
+                    	if(responseData.data!=null){
+                    		
+                    		_self.substitute = responseData;
+                    		_self.change = true;
+
+                    		_self.flag = true;
+                    	}
+                    },
                 },
                 created: function() {
                 	//获取权限
@@ -1296,6 +1316,9 @@ var  data={
                   this.getParentCompanyMethod(this);
                   //获取系统主管处室
 //                  this.getSystemExecutiveApi(this);
+                  
+                  //从session中获取数据
+                  this.getSystemSession(this);
                 },
                 mounted: function() {
                 	//功能权限
@@ -1329,10 +1352,27 @@ var  data={
                   }else{
                     this.formData.fkComCode = "";
                   }
-                  if(systemId!=''&&systemId!=null){
-//                    this.change = true;
-                    this.formData.systemId = systemId;
-                    this.getGetSystemMethod(this,systemId);
+                  if(!this.flag){
+                  	if(systemId!=''&&systemId!=null){
+                  		this.change = true;
+                  		this.formData.systemId = systemId;
+                  		this.getGetSystemMethod(this,systemId);
+                  	}
+                  }else{
+                		var arr = this.substitute.data.systemKeyProducts
+                		for(var i=0;i<arr.length;i++){
+                			if(arr[i].fkNationalIsProducts != null && arr[i].fkNationalIsProducts != '' && arr[i].fkNationalIsProducts != 'undefind'){
+                				arr[i].fkNationalIsProducts = arr[i].fkNationalIsProducts+"";
+                			}
+                		}
+                		var arr2 = this.substitute.data.systemUseServices
+                		for(var i=0;i<arr2.length;i++){
+                			if(arr2[i].fkResponsibleType != null && arr2[i].fkResponsibleType != '' && arr2[i].fkResponsibleType != 'undefind'){
+                				arr2[i].fkResponsibleType = parseInt(arr2[i].fkResponsibleType);
+                			}
+                		}
+                  	this.getGetSystemSuccessMethod(this,this.substitute);
+                  	//_self.formData = responseData.data;
                   }
                   
                   var _self=this;
@@ -1392,7 +1432,7 @@ var  data={
                       	console.log(valid+"+"+i)
                       	i++;
                         if (valid) {
-                          bus.$emit('changeNextSystemAjax',"add");
+                          bus.$emit('toGradPage',"add");
                         } else {
                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',

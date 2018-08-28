@@ -34,10 +34,7 @@ import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.mapper.CompanyMapper;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
-import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
-import com.sinopec.smcc.cpro.node.entity.NodeParam;
-import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.tools.Utils;
@@ -137,58 +134,58 @@ public class CompanyServiceImpl implements CompanyService {
     }else{
       companyParam.setCreateTime(new Date());
     }
-    if ("1".equals(companyParam.getChangeType())) {
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(companyParam.getSystemId());
-      nodeParam.setOperation("申请变更");
-      nodeParam.setOperationResult("已修改");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      if(companyParam.getFkNodeChangeContent()!=null){
-        nodeParam.setFkChangeContent(companyParam.getFkNodeChangeContent());
-      }
-      if(companyParam.getFkNodeChangeReason()!=null){
-        nodeParam.setFkChangeReason(companyParam.getFkNodeChangeReason());
-      }
-      if(companyParam.getFkNodeSysChangeMatter()!=null){
-        nodeParam.setFkSysChangeMatter(companyParam.getFkNodeSysChangeMatter());
-      }
-      
-      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-      if (nodeResult == null) {
-        this.nodeServiceImpl.addNodeInfo(nodeParam);
-      }else{
-        nodeParam.setNodeId(nodeResult.getNodeId());
-        this.nodeServiceImpl.editNodeInfo(nodeParam);
-      }
-      
-      //修改审核状态
-//      CheckParam checkParam = new CheckParam();
-//      checkParam.setFkSystemId(companyParam.getSystemId());
-//      checkParam.setFkExaminStatus("1");
-//      checkParam.setFkBusinessNode("3");
-//      checkParam.setPrevExecutor(userName);
-//      checkParam.setExecuteTime(new Date());
-//      checkServiceImpl.editCheckStatusBySystemId(checkParam);
-      if(companyParam.getJurisdictionDel() != null){
-        //1总部 2 企业
-        if(companyParam.getJurisdictionDel() == 1){
-          //发起审核流程
-          workFlowApiServiceImpl.initStart("申请变更", "2", companyParam.getSystemId());
-        }else{
-          //发起审核流程
-          workFlowApiServiceImpl.initStart("申请变更", "1", companyParam.getSystemId());
-        }
-      }
-      
-      //修改审核状态为进行中
-      MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("3");
-      mainParam.setExamineStatus("2");
-      mainParam.setSystemId(companyParam.getSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
-    }
+//    if ("1".equals(companyParam.getChangeType())) {
+//      //添加节点状态信息
+//      NodeParam nodeParam = new NodeParam();
+//      nodeParam.setSystemId(companyParam.getSystemId());
+//      nodeParam.setOperation("申请变更");
+//      nodeParam.setOperationResult("已修改");
+//      nodeParam.setOperationOpinion("");
+//      nodeParam.setOperator(userName);
+//      if(companyParam.getFkNodeChangeContent()!=null){
+//        nodeParam.setFkChangeContent(companyParam.getFkNodeChangeContent());
+//      }
+//      if(companyParam.getFkNodeChangeReason()!=null){
+//        nodeParam.setFkChangeReason(companyParam.getFkNodeChangeReason());
+//      }
+//      if(companyParam.getFkNodeSysChangeMatter()!=null){
+//        nodeParam.setFkSysChangeMatter(companyParam.getFkNodeSysChangeMatter());
+//      }
+//      
+//      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//      if (nodeResult == null) {
+//        this.nodeServiceImpl.addNodeInfo(nodeParam);
+//      }else{
+//        nodeParam.setNodeId(nodeResult.getNodeId());
+//        this.nodeServiceImpl.editNodeInfo(nodeParam);
+//      }
+//      
+//      //修改审核状态
+////      CheckParam checkParam = new CheckParam();
+////      checkParam.setFkSystemId(companyParam.getSystemId());
+////      checkParam.setFkExaminStatus("1");
+////      checkParam.setFkBusinessNode("3");
+////      checkParam.setPrevExecutor(userName);
+////      checkParam.setExecuteTime(new Date());
+////      checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//      if(companyParam.getJurisdictionDel() != null){
+//        //1总部 2 企业
+//        if(companyParam.getJurisdictionDel() == 1){
+//          //发起审核流程
+//          workFlowApiServiceImpl.initStart("申请变更", "2", companyParam.getSystemId());
+//        }else{
+//          //发起审核流程
+//          workFlowApiServiceImpl.initStart("申请变更", "1", companyParam.getSystemId());
+//        }
+//      }
+//      
+//      //修改审核状态为进行中
+//      MainParam mainParam = new MainParam();
+//      mainParam.setGradingStatus("3");
+//      mainParam.setExamineStatus("2");
+//      mainParam.setSystemId(companyParam.getSystemId());
+//      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//    }
     this.companyMapper.insertCompanyByCompanyId(companyParam);
     return companyParam.getCompanyId();
   }

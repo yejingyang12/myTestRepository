@@ -159,7 +159,9 @@ public class DiagramServiceImpl implements DiagramService {
     if(StringUtils.isNotBlank(diagramParam.getUserId())){
       request.getSession().setAttribute("userId", diagramParam.getUserId());
     }
-    
+    if("".equals(diagramParam.getYear())){
+      diagramParam.setYear(null);
+    }
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
     //权限

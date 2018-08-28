@@ -5,6 +5,8 @@
       arrowdown:true,
       //每页显示条数
       showItem:10,
+      appIsInternets:[{value:1, label:"是"}, {value:2, label:"否"}],
+      appIsInternet: null,//是否为互联网应用
 	  hStatus: [{
         value: '1',
         label: '未定级'
@@ -377,6 +379,7 @@
           //查询 点击发送请求
           search:function(page){
             var selectSystemName = $("#selectSystemName").val();
+            var appIsInternet = this.appIsInternet;
             var applyTime = $("#applyTime").val();
             var applytimeend =$("#applytimeend").val();
             var recordDateBegin = $("#recordDateBegin").val();
@@ -399,6 +402,7 @@
             var _self=this;
             var dataparmars = {
               "systemName": selectSystemName,//系统名称
+              "appIsInternet": appIsInternet,//是否为互联网应用
               "companyName": this.value9,//所属单位
               "auditTimeBegin": applyTime,//申请开始时间
               "auditTimeEnd": applytimeend,//申请结束时间
@@ -558,10 +562,26 @@
           	$("#changeMattersSystemId").val(systemId);
           	$("#changeMattersCompanyCode").val(companyCode);
           	$("#changeMattersCompanyId").val(companyId);
+          	var _self=this;
+          	ajaxMethod(_self, 'post',
+					      'system/queryChange', false,
+					      '{"systemId":"'+systemId+'"}', 'json',
+					      'application/json;charset=UTF-8',
+					      _self.queryChangeSuccess);
           	this.getChangeMattersMethod(this,systemId);
-          	this.showDialog();          	
+          	
 /*          	window.location.href=originUrl+encodeURI("/page/auditChangePage?systemId="+systemId);
 */          },
+					queryChangeSuccess:function(_self,responseData){
+						if(responseData.data.changeContent==''&&responseData.data.changeReason==''){
+							//显示弹窗
+							this.showDialog();   
+						}else{
+							var companyCode = $("#changeMattersCompanyCode").val();
+							var companyId = $("#changeMattersCompanyId").val();
+							window.location.href=originUrl+encodeURI("/page/applicationChangePage?systemId="+ responseData.data.systemId +"&fkCompanyCode="+companyCode+"&companyId="+companyId);
+						}
+					},
 					// 获取变更事项
 					getChangeMattersMethod : function(_self,systemId) {
 					  ajaxMethod(_self, 'post',

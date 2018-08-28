@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
+import com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
@@ -178,6 +179,9 @@ public interface SystemService {
    * @return
    */
   SystemResult querySystemBysystemCode(SystemParam systemParam);
+  /**
+   * 判断首页申请变更弹窗
+   */
+  SystemAllInfoResult queryChange(SystemParam systemParam);
   
-
 }

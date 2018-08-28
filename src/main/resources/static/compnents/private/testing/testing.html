@@ -2,14 +2,14 @@
 <div>
     <!--弹窗-->
     <div id="dialog" class="evaluationAlert hDiaTesting" style="display:none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">
-        <div class="evaluation" style="height:560px;margin-top:-245px;padding: 0 15px;">
+        <div class="evaluation" style="height:560px;margin-top:-245px;">
             <span class="closes" @click="closes"></span>
             <p class="clearfix cut">
-                <span class="fl revokeTitle" v-if="!editData.evaluationId">添加系统测评信息</span>
-                <span class="fl revokeTitle" v-else>修改系统测评信息</span>
-                <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
+                <span class="fl revokeTitle" v-if="!editData.evaluationId" style="margin-left:15px">添加系统测评信息</span>
+                <span class="fl revokeTitle" v-else style="margin-left:15px">修改系统测评信息</span>
+                <span class="fr tianMsg" style="margin-right:15px !important">带“ <span class="xing">*</span>”为必填项</span>
             </p>
-            <el-form action="" :model="editData" :rules="rules" ref="editData" label-width="140px">
+            <el-form action="" :model="editData" :rules="rules" ref="editData" label-width="120px">
                 <ul class="clearfix">
                     <li style="margin-top:20px;">测评</li>
                         <!-- <div style="margin-left: 15px; width: 10%;">测评</div> -->
@@ -164,9 +164,9 @@
                     </li>
                 </ul>
             </el-form>
-            <p class="h-p" style="width:100%;margin: -15px 15px;">
+            <p class="h-p" style="width:96%;margin: -15px 15px;">
                 <button type="button" class="btn btn-default" 
-                        style="float:right;margin-right: 35px;padding: 6px 10px;height: 34px;" 
+                        style="float:right;margin-right: 35px;padding: 6px 10px;height: 34px;width:70px !important" 
                         @click="closes">
                                         取消</button>
                 <button type="button" class="btn " 

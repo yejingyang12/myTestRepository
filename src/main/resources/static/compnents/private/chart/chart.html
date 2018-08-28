@@ -32,7 +32,7 @@
                                                                     v-model="value1"
                                                                     type="date"
                                                                     placeholder="选择日期"
-                                                                    @blur="getGradingStatisticsBegin()">
+                                                                    @change="getGradingStatisticsBegin()">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -47,7 +47,7 @@
                                                                     v-model="value3"
                                                                     type="date"
                                                                     placeholder="选择日期"
-                                                                    @blur="getGradingStatisticsEnd()">
+                                                                    @change="getGradingStatisticsEnd()">
                                                     </el-date-picker>
                                                 </div>
                                             </template>
@@ -78,7 +78,7 @@
                                                     <el-date-picker class="h-applyTime input"
                                                                     v-model="gradingShapeBegin"
                                                                     type="date"
-                                                                    @blur="getGradingShapeBegin()"
+                                                                    @change="getGradingShapeBegin()"
                                                                     placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
@@ -92,7 +92,7 @@
                                                     <el-date-picker class="h-applyTime input"
                                                             v-model="gradingShapeEnd"
                                                             type="date"
-                                                            @blur="getGradingShapeEnd()"
+                                                            @change="getGradingShapeEnd()"
                                                             placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
@@ -141,7 +141,7 @@
                                                          <el-date-picker class="h-applyTime input"
                                                                          v-model="recordDateBegin"
                                                                          type="date"
-                                                                         @blur="getRecordDateBegin()"
+                                                                         @change="getRecordDateBegin()"
                                                                          placeholder="选择日期">
                                                          </el-date-picker>
                                                      </div>
@@ -155,7 +155,7 @@
                                                          <el-date-picker class="h-applyTime input"
                                                                          v-model="recordDateEnd"
                                                                          type="date"
-                                                                         @blur="getRecordDateEnd()"
+                                                                         @change="getRecordDateEnd()"
                                                                          placeholder="选择日期">
                                                          </el-date-picker>
                                                      </div>
@@ -227,7 +227,7 @@
                                                     <el-date-picker class="h-applyTime input"
                                                                        v-model="acceptRecordDateBegin"
                                                                        type="date"
-                                                                       @blur="getAcceptRecordDateBegin()"
+                                                                       @change="getAcceptRecordDateBegin()"
                                                                        placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>
@@ -241,7 +241,7 @@
                                                     <el-date-picker class="h-applyTime input"
                                                                      v-model="acceptRecordDateEnd"
                                                                      type="date"
-                                                                     @blur="getAcceptRecordDateEnd()"
+                                                                     @change="getAcceptRecordDateEnd()"
                                                                      placeholder="选择日期">
                                                     </el-date-picker>
                                                 </div>

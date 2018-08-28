@@ -10,6 +10,7 @@
 package com.sinopec.smcc.cpro.grading.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -298,5 +299,47 @@ public class GradingController {
         submitSystemMaterialsForHeadquarters(userName,systemMaterialsBeanParam);
 
     return RetResultUtil.ok(fkSystemId);
+  }
+  
+  @RequestMapping(value = "/saveGradSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<String> saveGradSession(HttpServletRequest request, @RequestBody GradingListResult GradingListResult)
+      throws BusinessException{
+    HttpSession session = request.getSession();
+    session.setAttribute("gradSession", GradingListResult);
+    String sessionId = session.getId();
+    return RetResultUtil.ok(sessionId);
+  }
+  
+  @RequestMapping(value = "/queryGradSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<GradingListResult> queryGradSession(HttpServletRequest request)
+      throws BusinessException{
+    HttpSession session = request.getSession();
+    GradingListResult gradingListResult = (GradingListResult) session.getAttribute("gradSession");
+
+    return RetResultUtil.ok(gradingListResult);
+  }
+  
+  @RequestMapping(value = "/saveSystemMaterialsSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<String> saveSystemMaterialsSession(HttpServletRequest request, 
+      @RequestBody SystemMaterialsBeanParam systemMaterialsBeanParam) throws BusinessException{
+    HttpSession session = request.getSession();
+    session.setAttribute("systemMaterials", systemMaterialsBeanParam);
+    String sessionId = session.getId();
+    return RetResultUtil.ok(sessionId);
+  }
+  
+  @RequestMapping(value = "/quertSystemMaterialsSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<SystemMaterialsBeanParam> querySystemMaterialsSession(HttpServletRequest request) throws BusinessException{
+    HttpSession session = request.getSession();
+    SystemMaterialsBeanParam systemMaterialsBeanParam = (SystemMaterialsBeanParam) session.getAttribute("systemMaterials");
+    return RetResultUtil.ok(systemMaterialsBeanParam);
   }
 }

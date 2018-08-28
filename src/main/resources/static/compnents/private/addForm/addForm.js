@@ -1,8 +1,11 @@
   var data = {
+  		flag:false,
   		disabledInput:false,
       directive:false,
       check : false,
       dtlCompanyCode:"",
+      companyCookie:"",
+      substitute:"",
       formData:{
         companyName:"",
         companyTypeName:"",
@@ -250,7 +253,7 @@
               // 获取板块类型
               getPlateTypeMethod : function(_self) {
                  ajaxMethod(_self, 'post',
-                     'systemCode/querySystemCodeForKeySystemCode', true,
+                     'systemCode/querySystemCodeForKeySystemCode', false,
                      '{"codeType":"6"}', 'json',
                      'application/json;charset=UTF-8',
                      _self.getPlateTypeSuccessMethod);
@@ -533,27 +536,47 @@
               },
               getCompanyDetailsByCompanyIdMethodSuccess:function(_self, companyCode){
               	this.getCompanyCodeSuccessMethod(_self,companyCode);
-              }
+              },
+              querySession:function(_self){
+              	ajaxMethod(_self, 'post',
+                    'company/queryCompanyBySession', false,JSON.stringify(''), 'json',
+                    'application/json;charset=UTF-8',_self.getCompanyBySessionSuccess);
+              },
+              getCompanyBySessionSuccess:function(_self,responseData){
+              	if(responseData.data!=null){
+              		_self.substitute = responseData;
+              		_self.formData = responseData.data;
+              		_self.flag = true;
+
+//              		_self.getCompanyInfoSuccessMethod(_self,responseData);
+//              		_self.getCompanyCodeSuccessMethod(_self,_self.formData.companyCode);
+              	}
+              },
             },
             created : function() {
-              // 获取省份
-              this.getProvinceMethod(this);
-              // 获取隶属关系
-              this.getAffiliationMethod(this);
-              // 获取单位类别
-              this.getUnitTypeMethod(this);
-              // 获取板块类型
-              this.getPlateTypeMethod(this);
-              // 获取单位
-              this.getCompanyMethod(this);
+            	// 获取省份
+            	this.getProvinceMethod(this);
+            	// 获取隶属关系
+            	this.getAffiliationMethod(this);
+            	// 获取单位类别
+            	this.getUnitTypeMethod(this);
+            	// 获取板块类型
+            	this.getPlateTypeMethod(this);
+            	//获取session中的数据
+            	this.querySession(this);
+            	
+            	// 获取单位
+            	this.getCompanyMethod(this);
               //获取系统ID
               //getJurisdictionMethod(a,"0101010101");
-              if(type == 'change'){
-                this.getCompanyDetailsByCompanyIdMethodSuccess(this,companyCode);
-                return;
-              }
-              if(jurisdiction == null || jurisdiction == ''){
-            		this.getCompanyCode(this);
+            	if(!this.flag){
+            		if(type == 'change'){
+            			this.getCompanyDetailsByCompanyIdMethodSuccess(this,companyCode);
+            			return
+            		}
+            		if(jurisdiction == null || jurisdiction == ''){
+            			this.getCompanyCode(this);
+            		}
             	}
             },
             mounted : function() {
@@ -562,14 +585,17 @@
               var _self=this;
               // 获取单位
               _self.getCompanyMethod(_self);
-              if(companyId!=''&&companyId!=null){
-                _self.getCompanyInfoByIdMethod(_self,companyId);
-                $("#cover").removeClass('cover');
-              }else if(companyCode!=null){
-                _self.getCompanyInfoMethod(_self,companyCode);
-                $("#cover").removeClass('cover');
+              if(!this.flag){
+              	if(companyId!=''&& companyId!=null){
+              		_self.getCompanyInfoByIdMethod(_self,companyId);
+              		$("#cover").removeClass('cover');
+              	}else if(companyCode!=null){
+              		_self.getCompanyInfoMethod(_self,companyCode);
+              		$("#cover").removeClass('cover');
+              	}
+              }else{
+              	this.getCompanyInfoSuccessMethod(_self,_self.substitute);
               }
-              
               if(readonly=='update'){
                 _self.nameReadonly = true;
                 _self.disabledInput = true;
@@ -632,7 +658,7 @@
                 if(meg!=null){
                   _self.$refs[meg].validate(function (valid) {
                     if (valid) {
-                      bus.$emit('changeFormAjax',"add");
+                      bus.$emit('toSystemPage',"add");
                     } else {
                       _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                         confirmButtonText: '确定',

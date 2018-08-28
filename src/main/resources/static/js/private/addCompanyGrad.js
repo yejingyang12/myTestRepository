@@ -9,6 +9,63 @@ window.onload = function () {
             return data;
         },
         methods:{
+        	//判断定级列表是否被改变
+        	judgeChange:function(judgeChange){
+        		var flag = true;
+        		var beginContent = this.beginContent;
+        		var currentContent = _self.formData;
+        		if(beginContent.competentIsExisting != currentContent.competentIsExisting){//是否有主管
+        			flag = false;
+        		}
+        		if(beginContent.competentName != currentContent.competentName){//主管部门名称
+        			flag = false;
+        		}
+        		if(beginContent.competentView != currentContent.competentView){//主管部门审批定级情况
+        			flag = false;
+        		}
+        		if(beginContent.directorOpinionName != currentContent.directorOpinionName){//上级主管部门审批意见
+        			flag = false;
+        		}
+        		if(beginContent.expertReviewName != currentContent.expertReviewName){//评审附件名称
+        			flag = false;
+        		}
+        		if(beginContent.expertView != currentContent.expertView){//专家评审情况
+        			flag = false;
+        		}
+        		if(beginContent.fillDate != currentContent.fillDate){//填表时间
+        			flag = false;
+        		}
+        		if(beginContent.filler != currentContent.filler){//填表人
+        			flag = false;
+        		}	
+        		if(beginContent.fkBizSPRankDegree != currentContent.fkBizSPRankDegree){
+        			flag = false;
+        		}
+        		if(beginContent.fkBizSPRankLevel != currentContent.fkBizSPRankLevel){//业务信息等级
+        			flag = false;
+        		}
+        		if(beginContent.fkBizSystemDegree != currentContent.fkBizSystemDegree){
+        			flag = false;
+        		}
+        		if(beginContent.fkBizSystemLevel != currentContent.fkBizSystemLevel){//系统信息等级
+        			flag = false;
+        		}
+        		if(beginContent.fkSpRanklevel != currentContent.fkSpRanklevel){//信息系统安全保护等级
+        			flag = false;
+        		}
+        		if(beginContent.gradingReportName != currentContent.gradingReportName){//定级报告
+        			flag = false;
+        		}
+        		if(beginContent.rankTime != currentContent.rankTime){//定级时间
+        			flag = false;
+        		}
+        		if(flag){
+        			this.preBtnSuccessMethod('', '',true);
+        		}else{
+        			$(".inquiryBoxShow1").show();
+        		}
+        	},
+        	
           //保存
           saveBtn:function(formName) {
             bus.$emit('addGradName',formName);
@@ -62,8 +119,14 @@ window.onload = function () {
           },
           //返回
           returnBtn:function() {
+          	ajaxMethod(_self, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',_self.removeSessionSuccess);
             window.location.href = originUrl+"page/indexPage";
-          }
+          },
+          removeSessionSuccess:function(){
+          	
+          },
         },
         mounted : function() {
           var _self = this;

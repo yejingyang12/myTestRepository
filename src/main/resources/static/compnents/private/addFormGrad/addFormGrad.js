@@ -4,6 +4,8 @@ var data={
 	        return time.getTime() < Date.now() - 8.64e7;
 	      }
 	},
+	companyBySession:"",
+	systemBySession:"",
     check : false,
     dialogVisible: false,
     jurisdictionType:0,
@@ -35,7 +37,8 @@ var data={
           directorOpinionId:'',
           directorOpinionName:'',
           directorOpinionPath:'',
-          changeType:''
+          changeType:'',
+          gradeRecordSysName:''
         },
         bizSPRankLevel:false,
         bizSystemLevel:false,
@@ -120,7 +123,24 @@ var data={
         },
         checkFn:"",
         fnCheck:"",
-        tishi:""
+        tishi:"",
+        beginContent:{
+        	competentIsExisting:"",
+        	competentName:"",
+        	competentView:"",
+        	directorOpinionName:"",
+        	expertReviewName:"",
+        	expertView:"",
+        	fillDate:"",
+        	filler:"",
+        	fkBizSPRankDegree:"",
+        	fkBizSPRankLevel:"",
+        	fkBizSystemDegree:"",
+        	fkBizSystemLevel:"",
+        	fkSpRanklevel:"",
+        	gradingReportName:"",
+        	rankTime:""
+        }
     };
 
 (function () {
@@ -1113,7 +1133,42 @@ var data={
                     // 获取回显安全按等级成功
                     getGradeSuccessMethod : function(_self, responseData) {
                       if(responseData.data!=null){
+                      	//在进入页面时记录起始页面内容，在用户点击上一步时，如果用户没有修改过内容，默认不出弹窗
+                      	this.beginContent.competentIsExisting = responseData.data.competentIsExisting;
+                      	this.beginContent.competentName = responseData.data.competentName;
+                      	this.beginContent.competentView = responseData.data.competentView;
+                      	if(responseData.data.directorOpinionName != null){
+                      		this.beginContent.directorOpinionName = responseData.data.directorOpinionName;
+                      	}else{
+                      		this.beginContent.directorOpinionName = "";
+                      	}
+                      	this.beginContent.expertReviewName = responseData.data.expertReviewName;
+                      	this.beginContent.expertView = responseData.data.expertView;
+                      	if(responseData.data.fillDate != "1970-01-01"){
+                      		this.beginContent.fillDate = responseData.data.fillDate;
+                      	}else{
+                      		this.beginContent.fillDate = "";
+                      	}
+                      	
+                      	this.beginContent.filler = responseData.data.filler;
+                      	if(responseData.data.fkBizSPRankDegree != ''){
+                      		this.beginContent.fkBizSPRankDegree = responseData.data.fkBizSPRankDegree+",";//因为下面有操作加了","
+                      	}
+                      	this.beginContent.fkBizSPRankLevel = responseData.data.fkBizSPRankLevel;
+                      	if(responseData.data.fkBizSystemDegree != ''){
+                      		this.beginContent.fkBizSystemDegree = responseData.data.fkBizSystemDegree+",";
+                      	}
+                      	this.beginContent.fkBizSystemLevel = responseData.data.fkBizSystemLevel;
+                      	this.beginContent.fkSpRanklevel = responseData.data.fkSpRanklevel;
+                      	this.beginContent.gradingReportName = responseData.data.gradingReportName;
+                      	this.beginContent.rankTime = responseData.data.rankTime;
                         _self.formData = responseData.data;
+                      }
+                      this.initial(_self);
+                      this.initial2(_self);
+                    },
+                    initial:function(_self){
+                    	if(_self!=null){
                         if(_self.formData.competentIsExisting == '1'){
                           $("#direHide1").show();
                           _self.rules.competentName[0].required = true;
@@ -1123,12 +1178,12 @@ var data={
                           if(_self.formData.competentView == '1'){
                           	$("#approval").show();
                           	_self.rules.directorOpinionName[0].required = true;
-                          	if(responseData.data.directorOpinionName!=''&&responseData.data.directorOpinionName!=null){
-                          		var fileHtml='<li><div class="fl updwon1">'+responseData.data.directorOpinionName+'</div><i class="el-icon-close fl del1"></i></li>'
+                          	if(_self.formData.directorOpinionName!=''&&_self.formData.directorOpinionName!=null){
+                          		var fileHtml='<li><div class="fl updwon1">'+_self.formData.directorOpinionName+'</div><i class="el-icon-close fl del1"></i></li>'
                           		$("#fileList").html(fileHtml);
                           		$(".del1").click(function(){
                           			$(this).parent("li").remove();
-                          			_self.fileDel(responseData.data.directorOpinionId,2);
+                          			_self.fileDel(_self.formData.directorOpinionId,2);
                           			_self.formData.directorOpinionName = '';
                           			_self.formData.directorOpinionId = '';
                           		});
@@ -1156,32 +1211,32 @@ var data={
                           _self.rules.directorOpinionName[0].required = false;
                         }
                         
-                        if(responseData.data.gradingReportName!=''&&responseData.data.gradingReportName!=null){
-                          var fileHtml='<li><div class="fl updwon2">'+responseData.data.gradingReportName+'</div><i class="el-icon-close fl del2"></i></li>'
+                        if(_self.formData.gradingReportName!=''&&_self.formData.gradingReportName!=null){
+                          var fileHtml='<li><div class="fl updwon2">'+_self.formData.gradingReportName+'</div><i class="el-icon-close fl del2"></i></li>'
                           $("#fileList1").html(fileHtml);
                           $(".del2").click(function(){
                             $(this).parent("li").remove();
                             _self.formData.gradingReportName = '';
                             _self.formData.gradingReportId = '';
-                            _self.fileDel(responseData.data.gradingReportId,2);
+                            _self.fileDel(_self.formData.gradingReportId,2);
                           });
                           $(".updwon2").click(function(){
                             //$(this).parent("li").remove();
-                            _self.fileDownload(responseData.data.gradingReportId,2);
+                            _self.fileDownload(_self.formData.gradingReportId,2);
                           });
                         }
-                        if(responseData.data.expertReviewName!=''&&responseData.data.expertReviewName!=null){
-                          var fileHtml='<li><div class="fl updwon3">'+responseData.data.expertReviewName+'</div><i class="el-icon-close fl del3"></i></li>'
+                        if(_self.formData.expertReviewName!=''&&_self.formData.expertReviewName!=null){
+                          var fileHtml='<li><div class="fl updwon3">'+_self.formData.expertReviewName+'</div><i class="el-icon-close fl del3"></i></li>'
                           $("#fileList2").html(fileHtml);
                           $(".del3").click(function(){
                             $(this).parent("li").remove();
-                            _self.fileDel(responseData.data.expertReviewId,2);
+                            _self.fileDel(_self.formData.expertReviewId,2);
                             _self.formData.expertReviewName = '';
                             _self.formData.expertReviewId = '';
                           });
                           $(".updwon3").click(function(){
                             //$(this).parent("li").remove();
-                            _self.fileDownload(responseData.data.expertReviewId,2);
+                            _self.fileDownload(_self.formData.expertReviewId,2);
                           });
                         }
                         if(_self.formData.competentIsExisting!=''){
@@ -1229,7 +1284,9 @@ var data={
                           $(array).addClass('btnColor');
                           this.$refs.expertView.clearValidate();
                         }
-                      }
+                    	}
+                    },
+                    initial2:function(_self){
                       if(_self.formData.fkBizSPRankDegree!=''){
                         _self.formData.fkBizSPRankDegree = _self.formData.fkBizSPRankDegree+",";
                         var bizSPRankDegree = _self.formData.fkBizSPRankDegree.split(",");
@@ -1319,8 +1376,8 @@ var data={
                       if(this.formData.fillDate == '1970-01-01'){
                       	this.formData.fillDate = '';
                       }
-                    },
-                    
+                    	
+                    },                    
                     submitGradeInfo: function() {
                       ajaxMethod(this, 'post',
                       'grading/saveGrading', true,
@@ -1370,6 +1427,18 @@ var data={
                           _self.jurisdictionType = 2;
                         }
                       }
+                    },
+                    getGradSession : function(_self){
+                    	ajaxMethod(_self,"post",
+                          "grading/queryGradSession",false,
+                          JSON.stringify(''),"json",
+                          'application/json;charset=UTF-8', _self.queryGradSessionSuccess);
+                    },
+                    queryGradSessionSuccess:function(_self,responseData){
+                    	if(responseData.data!=null){
+                    		_self.formData = responseData.data;
+                    		_self.flag = true;
+                    	}
                     }
                 },
                 created: function() {
@@ -1379,10 +1448,10 @@ var data={
                     this.smccChecdArr[1].length = 2;
                     //安全等级信息
                     this.getProtectionGradeInfoMethod(this);
-                    if(systemId!=null&&systemId!=''){
-                      this.getGradeMethod(this,systemId);
-                      this.formData.fkSystemId = systemId;
-                    }
+                    //从session中获取数据
+                    this.getGradSession(this);
+                    
+                    this.formData.fkSystemId = systemId;
                     //获取系统信息
                     this.getSystem(this);
                     $("#direHide1").hide();
@@ -1412,6 +1481,14 @@ var data={
                 },
                 mounted: function() {
                    var _self=this;
+                   if(!this.flag){
+                   	if(systemId!=null&&systemId!=''){
+                   		this.getGradeMethod(this,systemId);
+                   	}
+                   }else{
+                  	 this.initial(_self);
+                 		this.initial2(_self);
+                   }
                    bus.$on('addGradName',function(meg){
                      if(meg!=null){
                        _self.$refs[meg].validate(function (valid) {
@@ -1529,7 +1606,7 @@ var data={
                      if(meg!=null){
                        _self.$refs[meg].validate(function (valid) {
                          if (valid) {
-                           bus.$emit('changeNextGradAjax',"add");
+                           bus.$emit('toAttachPage',"add");
                          } else {
                            _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',

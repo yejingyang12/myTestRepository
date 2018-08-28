@@ -6,9 +6,9 @@
         <div class="evaluation" style="height: 560px;margin-top:-245px;">
             <span class="closes" @click="closes()"></span>
             <p class="clearfix cut">
-                <span class="fl revokeTitle" v-if="!editParam.selfexaminationId">添加系统自查信息</span>
-                <span class="fl revokeTitle" v-else>修改系统自查信息</span>
-                <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
+                <span class="fl revokeTitle" v-if="!editParam.selfexaminationId" style="margin-left:15px">添加系统自查信息</span>
+                <span class="fl revokeTitle" v-else style="margin-left:15px">修改系统自查信息</span>
+                <span class="fr tianMsg" style="margin-right:15px">带“ <span class="xing">*</span>”为必填项</span>
             </p>
 
             <el-form action="" :model="editParam" :rules="rules" ref="editParam" label-width="140px">
@@ -136,15 +136,15 @@
                     </li>
                 </ul>
             </el-form>
-            <p class="h-p" style="width:100%;margin:-15px">
+            <p class="h-p" style="width:98%;margin:-15px">
 
                 <button type="button"
 
-                        class="btn btn-default" style="padding:6px 10px;float:right;margin-right: 35px;padding: 6px 10px; margin-bottom: 15px" @click="closes">
+                        class="btn btn-default" style="padding:6px 10px;float:right;margin-right: 35px;padding: 6px 10px; margin-bottom: 15px;width:70px !important" @click="closes">
                     取消</button>
                 <button type="button" class="btn"
                         @click="saveSelfexamination('editParam')"
-                        style="padding:6px 10px;float:right;margin-right:10px;margin-bottom:15px;background-color:rgb(61,149,223);color:#fff;">确认
+                        style="padding:6px 10px;float:right;margin-right:10px;margin-bottom:15px;background-color:rgb(61,149,223);color:#fff;width:70px">确认
                 </button>
 
             </p>

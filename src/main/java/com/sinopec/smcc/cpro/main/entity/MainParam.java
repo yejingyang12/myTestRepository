@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class MainParam {
 
   private String systemId;
+  private Integer appIsInternet;
   private String[] systemIds;
   private String fkCompanyCode;
   private String customizedSearch;
@@ -85,7 +86,6 @@ public class MainParam {
   private String[] subordinateProvincesArray;
   private Long gradingBeginTimeStamp;//定级开始时间戳
   private Long gradingEndTimeStamp;//定级结束时间戳
-  private Integer appIsInternet;
   
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -116,18 +116,6 @@ public class MainParam {
   private String jurBind;
   
   
-  /**
-   * @return the appIsInternet
-   */
-  public Integer getAppIsInternet() {
-    return appIsInternet;
-  }
-  /**
-   * @param appIsInternet the appIsInternet to set
-   */
-  public void setAppIsInternet(Integer appIsInternet) {
-    this.appIsInternet = appIsInternet;
-  }
   public String getJurBind() {
 		return jurBind;
 	}
@@ -282,6 +270,12 @@ public class MainParam {
    */
   public void setSystemType(Integer systemType) {
     this.systemType = systemType;
+  }
+  public Integer getAppIsInternet() {
+    return appIsInternet;
+  }
+  public void setAppIsInternet(Integer appIsInternet) {
+    this.appIsInternet = appIsInternet;
   }
   public List<String> getCompanyList() {
     return companyList;

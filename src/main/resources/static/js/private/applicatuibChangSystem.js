@@ -26,20 +26,42 @@ window.onload = function () {
             window.location.href = originUrl+"page/indexPage";
           },
           //上一页
-          preBtn:function(formName) {
-            bus.$emit('changePreSystemName',formName);
+          preBtn:function() {
+          	var systemTemp = JSON.stringify(data.formData);
+          	ajaxMethod(this, 'post',
+                'system/saveSystemSession', true,
+                systemTemp, 'json',
+                'application/json;charset=UTF-8',
+                this.saveSystemTempSession);
+          },
+          saveSystemTempSession:function(_self, responseData){
+          	if(responseData.data!=null){
+          		window.location.href = originUrl+"/page/applicationChangePage?fkCompanyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
+          	}
+          },
+          saveSystemSessionSuccess:function(_self,responseData){
+          	if(responseData.data!=null){
+              window.location.href = originUrl+"/page/applicationChangeGradPage?systemId="+data.formData.systemId+"&fkCompanyCode="+data.formData.fkCompanyCode;
+          	}
           },
           // 获取系统信息成功
-          preBtnSuccessMethod : function(_self, responseData) {
-              window.location.href = originUrl+"page/applicationChangePage?fkCompanyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
-          },
+//          preBtnSuccessMethod : function(_self, responseData) {
+//              window.location.href = originUrl+"page/applicationChangePage?fkCompanyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
+//          },
           //下一页
           nextBtn:function(formName) {
             bus.$emit('changeNextSystemName',formName);
           },
           //返回
-          returnBtn:function() {
+        //返回
+          returnBtn:function(_self) {
+          	ajaxMethod(_self, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
             window.location.href = originUrl+"page/indexPage";
+          },
+          removeSessionSuccess:function(){
+          	
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
@@ -57,6 +79,16 @@ window.onload = function () {
                   'application/json;charset=UTF-8',
                   _self.preBtnSuccessMethod);
             }
+          });
+          
+          bus.$on('toGradPage',function(meg){
+        		if(meg!=null){
+        			ajaxMethod(_self, 'post',
+                  'system/saveSystemSession', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.saveSystemSessionSuccess);
+        		}
           });
           bus.$on('changeNextSystemAjax',function(meg){
             if(meg!=null){

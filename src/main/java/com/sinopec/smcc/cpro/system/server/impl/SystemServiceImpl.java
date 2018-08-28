@@ -85,8 +85,6 @@ import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.grading.server.SystemMaterialsService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
 import com.sinopec.smcc.cpro.main.server.MainService;
-import com.sinopec.smcc.cpro.node.entity.NodeParam;
-import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
@@ -908,27 +906,27 @@ public class SystemServiceImpl implements SystemService {
             }
           }
         }
-        //创建节点信息数据
-        NodeParam nodeParam = new NodeParam();
-        nodeParam.setSystemId(systemParam.getSystemId());
-        List<NodeResult> nodeResultList = this.nodeMapperImpl.selectSingleNodeBySystemId(
-            nodeParam);
-        if(!ObjectUtils.isEmpty(nodeResultList)){
-          for (NodeResult nodeResult : nodeResultList) {
-            //添加节点状态信息
-            NodeParam node = new NodeParam();
-            node.setSystemId(systemSubParam.getSystemId());
-            node.setOperation(nodeResult.getOperation());
-            node.setOperationResult(nodeResult.getOperationResult());
-            if(StringUtils.isNotBlank(nodeResult.getOperationOpinion())){
-              node.setOperationOpinion(nodeResult.getOperationOpinion());
-            }else{
-              node.setOperationOpinion("");
-            }
-            node.setOperator(userName);
-            this.nodeServiceImpl.addNodeInfo(node);
-          }
-        }
+//        //创建节点信息数据
+//        NodeParam nodeParam = new NodeParam();
+//        nodeParam.setSystemId(systemParam.getSystemId());
+//        List<NodeResult> nodeResultList = this.nodeMapperImpl.selectSingleNodeBySystemId(
+//            nodeParam);
+//        if(!ObjectUtils.isEmpty(nodeResultList)){
+//          for (NodeResult nodeResult : nodeResultList) {
+//            //添加节点状态信息
+//            NodeParam node = new NodeParam();
+//            node.setSystemId(systemSubParam.getSystemId());
+//            node.setOperation(nodeResult.getOperation());
+//            node.setOperationResult(nodeResult.getOperationResult());
+//            if(StringUtils.isNotBlank(nodeResult.getOperationOpinion())){
+//              node.setOperationOpinion(nodeResult.getOperationOpinion());
+//            }else{
+//              node.setOperationOpinion("");
+//            }
+//            node.setOperator(userName);
+//            this.nodeServiceImpl.addNodeInfo(node);
+//          }
+//        }
         
         //修改关联表
         SystemRelationParam systemRelationParam = new SystemRelationParam();
@@ -972,7 +970,7 @@ public class SystemServiceImpl implements SystemService {
       }
       this.systemMapper.updateSystemEdit(systemTempParam);
     }
-	    
+	     
 	    //获取系统所有已有的未删除的关联表信息
 	    SystemRelationParam querySystemRelationListParam = new SystemRelationParam();
 	    querySystemRelationListParam.setFkSystemId(systemParam.getSystemId());
@@ -1098,7 +1096,9 @@ public class SystemServiceImpl implements SystemService {
 	    //查询子表信息
 	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
 	    //删除子表信息
-	    this.systemMapper.deleteRelationSonSystem(subSystemList);
+      if(!ObjectUtils.isEmpty(subSystemList)){
+        this.systemMapper.deleteRelationSonSystem(subSystemList);
+      }
 	    //添加系统子表
       for (int key = 0; key < subKeyList.size(); key++) {
         SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
@@ -1466,22 +1466,22 @@ public class SystemServiceImpl implements SystemService {
 //    this.systemUseServicesMapper
 //        .insertSystemUseServicesBySystemUseServicesId(subSystemUseServicesList);
     
-    if ("1".equals(systemParam.getChangeType())) {
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(systemParam.getSystemId());
-      nodeParam.setOperation("申请变更");
-      nodeParam.setOperationResult("已修改");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-      if (nodeResult == null) {
-        this.nodeServiceImpl.addNodeInfo(nodeParam);
-      }else{
-        nodeParam.setNodeId(nodeResult.getNodeId());
-        this.nodeServiceImpl.editNodeInfo(nodeParam);
-      }
-    }
+//    if ("1".equals(systemParam.getChangeType())) {
+//      //添加节点状态信息
+//      NodeParam nodeParam = new NodeParam();
+//      nodeParam.setSystemId(systemParam.getSystemId());
+//      nodeParam.setOperation("申请变更");
+//      nodeParam.setOperationResult("已修改");
+//      nodeParam.setOperationOpinion("");
+//      nodeParam.setOperator(userName);
+//      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//      if (nodeResult == null) {
+//        this.nodeServiceImpl.addNodeInfo(nodeParam);
+//      }else{
+//        nodeParam.setNodeId(nodeResult.getNodeId());
+//        this.nodeServiceImpl.editNodeInfo(nodeParam);
+//      }
+//    }
 	  return systemParam.getSystemId();
 	}
 	
@@ -4810,7 +4810,17 @@ public class SystemServiceImpl implements SystemService {
     return systemMapper.selectSystemBysystemCode(systemParam);
   }
 
-
+  @Override
+  public SystemAllInfoResult queryChange(SystemParam systemParam) {
+    String[] systemIds = {systemParam.getSystemId()};
+    systemParam.setSystemIds(systemIds);
+    List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+    SystemAllInfoResult systemAllInfoResult = null;
+    if(systemAllInfoResults!=null){
+      systemAllInfoResult = systemAllInfoResults.get(0);
+    }
+    return systemAllInfoResult;
+  }
 
 
 }

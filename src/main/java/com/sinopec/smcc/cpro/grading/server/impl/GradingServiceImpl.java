@@ -34,6 +34,8 @@ import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.server.CheckService;
+import com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
 
@@ -62,7 +64,8 @@ public class GradingServiceImpl implements GradingService{
   private SystemMapper systemMapperImpl;
   @Autowired
   private WorkFlowApiService workFlowApiServiceImpl;
-  
+  @Autowired
+  private SystemMapper systemMapper;
   
   
   /**
@@ -137,11 +140,11 @@ public class GradingServiceImpl implements GradingService{
         this.fileServiceImpl.addFile(directorOpinion);
       }
       
-      //修改审核状态为进行中
-      MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
-      mainParam.setSystemId(gradingParam.getFkSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//      //修改审核状态为进行中
+//      MainParam mainParam = new MainParam();
+//      mainParam.setGradingStatus("2");
+//      mainParam.setSystemId(gradingParam.getFkSystemId());
+//      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       
       if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
@@ -181,37 +184,37 @@ public class GradingServiceImpl implements GradingService{
         this.fileServiceImpl.addFile(directorOpinion);
       }
     }
-    if ("1".equals(gradingParam.getChangeType())) {
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(gradingParam.getFkSystemId());
-      nodeParam.setOperation("申请变更");
-      nodeParam.setOperationResult("已修改");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-      if (nodeResult == null) {
-        this.nodeServiceImpl.addNodeInfo(nodeParam);
-      }else{
-        nodeParam.setNodeId(nodeResult.getNodeId());
-        this.nodeServiceImpl.editNodeInfo(nodeParam);
-      }
-    } else if("2".equals(gradingParam.getChangeType())){
-      //添加节点状态信息
-      NodeParam nodeParam = new NodeParam();
-      nodeParam.setSystemId(gradingParam.getFkSystemId());
-      nodeParam.setOperation("创建");
-      nodeParam.setOperationResult("已创建");
-      nodeParam.setOperationOpinion("");
-      nodeParam.setOperator(userName);
-      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-      if (nodeResult == null) {
-        this.nodeServiceImpl.addNodeInfo(nodeParam);
-      }else{
-        nodeParam.setNodeId(nodeResult.getNodeId());
-        this.nodeServiceImpl.editNodeInfo(nodeParam);
-      }
-    }
+//    if ("1".equals(gradingParam.getChangeType())) {
+//      //添加节点状态信息
+//      NodeParam nodeParam = new NodeParam();
+//      nodeParam.setSystemId(gradingParam.getFkSystemId());
+//      nodeParam.setOperation("申请变更");
+//      nodeParam.setOperationResult("已修改");
+//      nodeParam.setOperationOpinion("");
+//      nodeParam.setOperator(userName);
+//      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//      if (nodeResult == null) {
+//        this.nodeServiceImpl.addNodeInfo(nodeParam);
+//      }else{
+//        nodeParam.setNodeId(nodeResult.getNodeId());
+//        this.nodeServiceImpl.editNodeInfo(nodeParam);
+//      }
+//    } else if("2".equals(gradingParam.getChangeType())){
+//      //添加节点状态信息
+//      NodeParam nodeParam = new NodeParam();
+//      nodeParam.setSystemId(gradingParam.getFkSystemId());
+//      nodeParam.setOperation("创建");
+//      nodeParam.setOperationResult("已创建");
+//      nodeParam.setOperationOpinion("");
+//      nodeParam.setOperator(userName);
+//      NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//      if (nodeResult == null) {
+//        this.nodeServiceImpl.addNodeInfo(nodeParam);
+//      }else{
+//        nodeParam.setNodeId(nodeResult.getNodeId());
+//        this.nodeServiceImpl.editNodeInfo(nodeParam);
+//      }
+//    }
     this.gradingMapper.insertGrading(gradingParam);
     return gradingParam.getFkSystemId();
   }
@@ -343,6 +346,20 @@ public class GradingServiceImpl implements GradingService{
       nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
+      
+      //从系统表查出更改原因，内容
+      SystemParam systemParam = new SystemParam();
+      String[] systemIds = {gradingParam.getFkSystemId()};
+      systemParam.setSystemIds(systemIds);
+      List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+      SystemAllInfoResult systemAllInfoResult = null;
+      if(systemAllInfoResults!=null){
+        systemAllInfoResult = systemAllInfoResults.get(0);
+      }
+      nodeParam.setFkChangeReason(systemAllInfoResult.getChangeReason());
+      nodeParam.setFkSysChangeMatter(systemAllInfoResult.getFkChangeMatter());
+      nodeParam.setFkChangeContent(systemAllInfoResult.getChangeContent());
+      
       NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
       if (nodeResult == null) {
         this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -350,6 +367,14 @@ public class GradingServiceImpl implements GradingService{
         nodeParam.setNodeId(nodeResult.getNodeId());
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
+      
+      //清除system表中的变更原因，内容
+      systemParam.setSystemId(gradingParam.getFkSystemId());
+      systemParam.setChangeContent("");
+      systemParam.setChangeReason("");
+      systemMapper.updateSystemEdit(systemParam);
+      
+      
       
 //      //修改审核状态
 //      CheckParam checkParam = new CheckParam();
@@ -361,7 +386,7 @@ public class GradingServiceImpl implements GradingService{
 //      checkServiceImpl.editCheckStatusBySystemId(checkParam);
       
       //发起审核流程
-//      workFlowApiServiceImpl.initStart("申请变更", "1", gradingParam.getFkSystemId());
+      workFlowApiServiceImpl.initStart("申请变更", "1", gradingParam.getFkSystemId());
       
       //修改审核状态为进行中
       MainParam mainParam = new MainParam();
@@ -530,6 +555,20 @@ public class GradingServiceImpl implements GradingService{
       nodeParam.setOperationResult("已提交");
       nodeParam.setOperationOpinion("");
       nodeParam.setOperator(userName);
+      
+    //从系统表查出更改原因，内容
+      SystemParam systemParam = new SystemParam();
+      String[] systemIds = {gradingParam.getFkSystemId()};
+      systemParam.setSystemIds(systemIds);
+      List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+      SystemAllInfoResult systemAllInfoResult = null;
+      if(systemAllInfoResults!=null){
+        systemAllInfoResult = systemAllInfoResults.get(0);
+      }
+      nodeParam.setFkChangeReason(systemAllInfoResult.getChangeReason());
+      nodeParam.setFkSysChangeMatter(systemAllInfoResult.getFkChangeMatter());
+      nodeParam.setFkChangeContent(systemAllInfoResult.getChangeContent());
+      
       NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
       if (nodeResult == null) {
         this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -537,6 +576,13 @@ public class GradingServiceImpl implements GradingService{
         nodeParam.setNodeId(nodeResult.getNodeId());
         this.nodeServiceImpl.editNodeInfo(nodeParam);
       }
+      
+      //清除system表中的变更原因，内容
+      systemParam.setSystemId(gradingParam.getFkSystemId());
+      systemParam.setChangeContent("");
+      systemParam.setChangeReason("");
+      systemMapper.updateSystemEdit(systemParam);
+      
       
 //      //修改审核状态
 //      CheckParam checkParam = new CheckParam();

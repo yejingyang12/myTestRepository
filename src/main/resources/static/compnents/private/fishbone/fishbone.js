@@ -54,10 +54,10 @@
             data.result=dataList;
           },
           closesDir:function(){
-        	  $('.revokeBg').css('display','none');
+        	  $('.revokeBgs').css('display','none');
           },
           //鱼骨图弹窗：隐藏弹窗
-          closes:function (msg) {
+         /* closes:function (msg) {
           	if(msg == 1 || msg == "1"){
           		var evaluationAlert=document.getElementsByClassName("evaluationAlert")[0];
           	}
@@ -65,7 +65,7 @@
           		var evaluationAlert=document.getElementsByClassName("evaluationAlert")[1];
           	}
             evaluationAlert.style.display="none";
-          },
+          },*/
           //弹窗：显示弹窗
           showDialog:function(itemdata){
           	var url = "node/queryNode";
@@ -80,7 +80,7 @@
           querySuccess:function(_self,responseData){
           	data.result1=responseData.data;
           	if(responseData.data.operation == '申请变更'){
-          		$("#dialog").css("display","block");
+          		$("#dialogFishBone").css('display','block');
           	}
           	if(responseData.data.operation == '撤销备案'){
           		this.queryRevokeRecordsInfo(responseData.data.systemId);

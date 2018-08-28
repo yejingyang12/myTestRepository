@@ -2,6 +2,11 @@
  * Created by timha on 2018/5/24.
  */
 var data={
+		substitute:"",
+		companyBySession:"",
+		systemBySession:"",
+		gradingBySession:"",
+		flag:false,
     check : false,
     jurisdictionType:0,
     submitCheck:false,
@@ -640,15 +645,26 @@ var data={
                         _self.jurisdictionType = 2;
                       }
                     }
+                  },
+                  getMaterialsInfoBySession:function(_self){
+                  	ajaxMethod(_self,"post",
+                        "grading/quertSystemMaterialsSession",false,
+                        JSON.stringify(""),"json",
+                        'application/json;charset=UTF-8', _self.quertSystemMaterialsSessionSuccess);
+                  },
+                  quertSystemMaterialsSessionSuccess : function(_self,responseData){
+                  	if(responseData.data!=null){
+                  		_self.substitute = responseData;
+                  		_self.formData = responseData.data;
+                  		_self.flag = true;
+                  		_self.setShowAttachName(_self);
+                  	}
                   }
                 },
                 created: function() {
                   //this.getPermitJurisdictionInfo(this);
                    //获取资料信息
-                  if(systemId!=null&&systemId!=''){
-                    this.formData.fkSystemId = systemId;
-                    this.getMaterialsInfo(this,systemId);
-                  }
+                	this.getMaterialsInfoBySession(this);
                   _self = this;
                   //功能权限
                   $.ajax({
@@ -674,6 +690,14 @@ var data={
                 },
                 mounted: function() {
                   var _self = this;
+                  if(!_self.flag){
+                		if(systemId!=null&&systemId!=''){
+                			_self.formData.fkSystemId = systemId;
+                			_self.getMaterialsInfo(this,systemId);
+                		}
+                	}else{
+                		_self.getMaterialsInfoSuccessMethod(_self,_self.substitute);
+                	}
                   bus.$on('addMaterialFormName',function(meg){
                     if(meg!=null){
                       _self.$refs[meg].validate(function (valid) {

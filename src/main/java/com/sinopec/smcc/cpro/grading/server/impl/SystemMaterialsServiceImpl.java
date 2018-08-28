@@ -36,10 +36,9 @@ import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckParam;
-import com.sinopec.smcc.cpro.review.entity.CheckResult;
 import com.sinopec.smcc.cpro.review.server.CheckService;
+import com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
-import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.tools.Utils;
 
@@ -69,6 +68,8 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
   private SystemMapper systemMapperImpl;
   @Autowired
   private WorkFlowApiService workFlowApiServiceImpl;
+  @Autowired
+  private SystemMapper systemMapper;
   
   /**
    * 获取提交材料信息
@@ -581,6 +582,20 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperationResult("已修改");
         nodeParam.setOperationOpinion("");
         nodeParam.setOperator(userName);
+        
+      //从系统表查出更改原因，内容
+        SystemParam systemParam = new SystemParam();
+        String[] systemIds = {systemMaterialsBeanParam.getFkSystemId()};
+        systemParam.setSystemIds(systemIds);
+        List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+        SystemAllInfoResult systemAllInfoResult = null;
+        if(systemAllInfoResults!=null){
+          systemAllInfoResult = systemAllInfoResults.get(0);
+        }
+        nodeParam.setFkChangeReason(systemAllInfoResult.getChangeReason());
+        nodeParam.setFkSysChangeMatter(systemAllInfoResult.getFkChangeMatter());
+        nodeParam.setFkChangeContent(systemAllInfoResult.getChangeContent());
+        
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -588,6 +603,12 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
+        
+        //清除system表中的变更原因，内容
+        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+        systemParam.setChangeContent("");
+        systemParam.setChangeReason("");
+        systemMapper.updateSystemEdit(systemParam);
         
 //        //修改审核状态
 //        CheckParam checkParam = new CheckParam();
@@ -668,9 +689,23 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperationResult("已提交");
         nodeParam.setOperationOpinion("");
         nodeParam.setOperator(userName);
+        
+      //从系统表查出更改原因，内容
+        SystemParam systemParam = new SystemParam();
+        String[] systemIds = {systemMaterialsBeanParam.getFkSystemId()};
+        systemParam.setSystemIds(systemIds);
+        List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+        SystemAllInfoResult systemAllInfoResult = null;
+        if(systemAllInfoResults!=null){
+          systemAllInfoResult = systemAllInfoResults.get(0);
+        }
+        nodeParam.setFkChangeReason(systemAllInfoResult.getChangeReason());
+        nodeParam.setFkSysChangeMatter(systemAllInfoResult.getFkChangeMatter());
+        nodeParam.setFkChangeContent(systemAllInfoResult.getChangeContent());
+        
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         
-//        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId());
+        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId());
 
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -678,6 +713,12 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
+        
+      //清除system表中的变更原因，内容
+        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+        systemParam.setChangeContent("");
+        systemParam.setChangeReason("");
+        systemMapper.updateSystemEdit(systemParam);
       }
     }
     this.systemMaterialsMapper.insertSystemMaterialsBean(systemMaterialsBeanParam);
@@ -884,6 +925,20 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperationResult("已修改");
         nodeParam.setOperationOpinion("");
         nodeParam.setOperator(userName);
+        
+      //从系统表查出更改原因，内容
+        SystemParam systemParam = new SystemParam();
+        String[] systemIds = {systemMaterialsBeanParam.getFkSystemId()};
+        systemParam.setSystemIds(systemIds);
+        List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+        SystemAllInfoResult systemAllInfoResult = null;
+        if(systemAllInfoResults!=null){
+          systemAllInfoResult = systemAllInfoResults.get(0);
+        }
+        nodeParam.setFkChangeReason(systemAllInfoResult.getChangeReason());
+        nodeParam.setFkSysChangeMatter(systemAllInfoResult.getFkChangeMatter());
+        nodeParam.setFkChangeContent(systemAllInfoResult.getChangeContent());
+        
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -891,6 +946,13 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
+        
+        //清除system表中的变更原因，内容
+        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+        systemParam.setChangeContent("");
+        systemParam.setChangeReason("");
+        systemMapper.updateSystemEdit(systemParam);
+        
         
 //        //修改审核状态
 //        CheckParam checkParam = new CheckParam();
@@ -980,9 +1042,23 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         nodeParam.setOperationResult("已提交");
         nodeParam.setOperationOpinion("");
         nodeParam.setOperator(userName);
+        
+      //从系统表查出更改原因，内容
+        SystemParam systemParam = new SystemParam();
+        String[] systemIds = {systemMaterialsBeanParam.getFkSystemId()};
+        systemParam.setSystemIds(systemIds);
+        List<SystemAllInfoResult> systemAllInfoResults = systemMapper.selectSystemAllInfoBySystemParam(systemParam);
+        SystemAllInfoResult systemAllInfoResult = null;
+        if(systemAllInfoResults!=null){
+          systemAllInfoResult = systemAllInfoResults.get(0);
+        }
+        nodeParam.setFkChangeReason(systemAllInfoResult.getChangeReason());
+        nodeParam.setFkSysChangeMatter(systemAllInfoResult.getFkChangeMatter());
+        nodeParam.setFkChangeContent(systemAllInfoResult.getChangeContent());
+        
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         
-//        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId());
+        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId());
 
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -990,6 +1066,12 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
+        
+      //清除system表中的变更原因，内容
+        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+        systemParam.setChangeContent("");
+        systemParam.setChangeReason("");
+        systemMapper.updateSystemEdit(systemParam);
       }
     }
     this.systemMaterialsMapper.insertSystemMaterialsBean(systemMaterialsBeanParam);
@@ -1185,119 +1267,119 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         }
       }
     }
-    if ("1".equals(systemMaterialsBeanParam.getSaveType())) {
-      //保存材料
-      if ("1".equals(systemMaterialsBeanParam.getChangeType())) {
-        //添加节点状态信息
-        NodeParam nodeParam = new NodeParam();
-        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        nodeParam.setOperation("申请变更");
-        nodeParam.setOperationResult("已修改");
-        nodeParam.setOperationOpinion("");
-        nodeParam.setOperator(userName);
-        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-        if (nodeResult == null) {
-          this.nodeServiceImpl.addNodeInfo(nodeParam);
-        }else{
-          nodeParam.setNodeId(nodeResult.getNodeId());
-          this.nodeServiceImpl.editNodeInfo(nodeParam);
-        }
-        
-        //修改审核状态
-        CheckParam checkParam = new CheckParam();
-        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        checkParam.setFkExaminStatus("1");
-        checkParam.setFkBusinessNode("3");
-        checkServiceImpl.editCheckStatusBySystemId(checkParam);
-        //修改审核,定级状态为进行中
-        MainParam mainParam = new MainParam();
-        mainParam.setGradingStatus("2");
-        mainParam.setExamineStatus("2");
-        mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        mainServiceImpl.editSystemStatusBySystemId(mainParam);
-      }else if("2".equals(systemMaterialsBeanParam.getChangeType())){
-        //添加节点状态信息
-        NodeParam nodeParam = new NodeParam();
-        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        nodeParam.setOperation("创建");
-        nodeParam.setOperationResult("已创建");
-        nodeParam.setOperationOpinion("");
-        nodeParam.setOperator(userName);
-        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-        if (nodeResult == null) {
-          this.nodeServiceImpl.addNodeInfo(nodeParam);
-        }else{
-          nodeParam.setNodeId(nodeResult.getNodeId());
-          this.nodeServiceImpl.editNodeInfo(nodeParam);
-        }
-      }
-    }else if("2".equals(systemMaterialsBeanParam.getSaveType())){
-      //创建
-      if("2".equals(systemMaterialsBeanParam.getChangeType())){
-
-        //添加节点状态信息
-        NodeParam nodeParam = new NodeParam();
-        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        nodeParam.setOperation("创建");
-        nodeParam.setOperationResult("已提交");
-        nodeParam.setOperationOpinion("");
-        nodeParam.setOperator(userName);
-        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-        if (nodeResult == null) {
-          this.nodeServiceImpl.addNodeInfo(nodeParam);
-        }else{
-          nodeParam.setNodeId(nodeResult.getNodeId());
-          this.nodeServiceImpl.editNodeInfo(nodeParam);
-        }
-        
-        //创建审核记录
-        SystemParam systemParam = new SystemParam();
-        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
-        CheckParam checkParam = new CheckParam();
-        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        //查询审核详情通过systemID
-        CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
-        if(checkResult != null){
-          checkParam.setCheckId(checkResult.getCheckId());
-          checkServiceImpl.deleteCheckByCheckId(checkParam);
-        }
-        CheckParam checkParamAdd = new CheckParam();
-        checkParamAdd.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
-        checkParamAdd.setFkExaminStatus("1");
-        checkParamAdd.setFkBusinessNode("1");
-        checkParamAdd.setInstanceName(systemResult.getSystemName());
-        checkParamAdd.setInitiator(userName);
-        checkParamAdd.setPrevExecutor(userName);
-        checkParamAdd.setExecuteTime(new Date());
-        checkServiceImpl.addCheck(checkParamAdd);
-      }
-      
-      //修改审核状态为进行中
-      MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
-      mainParam.setExamineStatus("2");
-      mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
-      
-      //提交材料信息
-      if ("1".equals(systemMaterialsBeanParam.getChangeType())) {
-        //添加节点状态信息
-        NodeParam nodeParam = new NodeParam();
-        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
-        nodeParam.setOperation("申请变更");
-        nodeParam.setOperationResult("已提交");
-        nodeParam.setOperationOpinion("");
-        nodeParam.setOperator(userName);
-        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
-        if (nodeResult == null) {
-          this.nodeServiceImpl.addNodeInfo(nodeParam);
-        }else{
-          nodeParam.setNodeId(nodeResult.getNodeId());
-          this.nodeServiceImpl.editNodeInfo(nodeParam);
-        }
-      }
-    }
+//    if ("1".equals(systemMaterialsBeanParam.getSaveType())) {
+//      //保存材料
+//      if ("1".equals(systemMaterialsBeanParam.getChangeType())) {
+//        //添加节点状态信息
+//        NodeParam nodeParam = new NodeParam();
+//        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        nodeParam.setOperation("申请变更");
+//        nodeParam.setOperationResult("已修改");
+//        nodeParam.setOperationOpinion("");
+//        nodeParam.setOperator(userName);
+//        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//        if (nodeResult == null) {
+//          this.nodeServiceImpl.addNodeInfo(nodeParam);
+//        }else{
+//          nodeParam.setNodeId(nodeResult.getNodeId());
+//          this.nodeServiceImpl.editNodeInfo(nodeParam);
+//        }
+//        
+//        //修改审核状态
+//        CheckParam checkParam = new CheckParam();
+//        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        checkParam.setFkExaminStatus("1");
+//        checkParam.setFkBusinessNode("3");
+//        checkServiceImpl.editCheckStatusBySystemId(checkParam);
+//        //修改审核,定级状态为进行中
+//        MainParam mainParam = new MainParam();
+//        mainParam.setGradingStatus("2");
+//        mainParam.setExamineStatus("2");
+//        mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//      }else if("2".equals(systemMaterialsBeanParam.getChangeType())){
+//        //添加节点状态信息
+//        NodeParam nodeParam = new NodeParam();
+//        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        nodeParam.setOperation("创建");
+//        nodeParam.setOperationResult("已创建");
+//        nodeParam.setOperationOpinion("");
+//        nodeParam.setOperator(userName);
+//        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//        if (nodeResult == null) {
+//          this.nodeServiceImpl.addNodeInfo(nodeParam);
+//        }else{
+//          nodeParam.setNodeId(nodeResult.getNodeId());
+//          this.nodeServiceImpl.editNodeInfo(nodeParam);
+//        }
+//      }
+//    }else if("2".equals(systemMaterialsBeanParam.getSaveType())){
+//      //创建
+//      if("2".equals(systemMaterialsBeanParam.getChangeType())){
+//
+//        //添加节点状态信息
+//        NodeParam nodeParam = new NodeParam();
+//        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        nodeParam.setOperation("创建");
+//        nodeParam.setOperationResult("已提交");
+//        nodeParam.setOperationOpinion("");
+//        nodeParam.setOperator(userName);
+//        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//        if (nodeResult == null) {
+//          this.nodeServiceImpl.addNodeInfo(nodeParam);
+//        }else{
+//          nodeParam.setNodeId(nodeResult.getNodeId());
+//          this.nodeServiceImpl.editNodeInfo(nodeParam);
+//        }
+//        
+//        //创建审核记录
+//        SystemParam systemParam = new SystemParam();
+//        systemParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        SystemResult systemResult = systemMapperImpl.selectSystem(systemParam);
+//        CheckParam checkParam = new CheckParam();
+//        checkParam.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        //查询审核详情通过systemID
+//        CheckResult checkResult = checkServiceImpl.queryCheckInfoBySystemId(checkParam);
+//        if(checkResult != null){
+//          checkParam.setCheckId(checkResult.getCheckId());
+//          checkServiceImpl.deleteCheckByCheckId(checkParam);
+//        }
+//        CheckParam checkParamAdd = new CheckParam();
+//        checkParamAdd.setFkSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        checkParamAdd.setFkExaminStatus("1");
+//        checkParamAdd.setFkBusinessNode("1");
+//        checkParamAdd.setInstanceName(systemResult.getSystemName());
+//        checkParamAdd.setInitiator(userName);
+//        checkParamAdd.setPrevExecutor(userName);
+//        checkParamAdd.setExecuteTime(new Date());
+//        checkServiceImpl.addCheck(checkParamAdd);
+//      }
+//      
+//      //修改审核状态为进行中
+//      MainParam mainParam = new MainParam();
+//      mainParam.setGradingStatus("2");
+//      mainParam.setExamineStatus("2");
+//      mainParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//      
+//      //提交材料信息
+//      if ("1".equals(systemMaterialsBeanParam.getChangeType())) {
+//        //添加节点状态信息
+//        NodeParam nodeParam = new NodeParam();
+//        nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
+//        nodeParam.setOperation("申请变更");
+//        nodeParam.setOperationResult("已提交");
+//        nodeParam.setOperationOpinion("");
+//        nodeParam.setOperator(userName);
+//        NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
+//        if (nodeResult == null) {
+//          this.nodeServiceImpl.addNodeInfo(nodeParam);
+//        }else{
+//          nodeParam.setNodeId(nodeResult.getNodeId());
+//          this.nodeServiceImpl.editNodeInfo(nodeParam);
+//        }
+//      }
+//    }
     this.systemMaterialsMapper.insertSystemMaterialsBean(systemMaterialsBeanParam);
     return systemMaterialsBeanParam.getFkSystemId();
   }

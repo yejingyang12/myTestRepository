@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -365,5 +366,18 @@ public class MainController {
         this.mainServiceImpl.logout();
 
     return RetResultUtil.ok(strValue);
+  }
+  
+  @RequestMapping(value = "/removeSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<Void> removeSession(HttpServletRequest request) 
+      throws BusinessException {
+    HttpSession session = request.getSession();
+    session.removeAttribute("companySession");
+    session.removeAttribute("systemSession");
+    session.removeAttribute("gradSession");
+    session.removeAttribute("systemMaterials");
+    return RetResultUtil.ok();
   }
 }

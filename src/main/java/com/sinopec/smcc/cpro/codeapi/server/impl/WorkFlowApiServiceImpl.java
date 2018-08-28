@@ -125,7 +125,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       }
       
       startContext.setExtendsData(appExtendsData);
-      AppCallResult initResult = dpsTemplate.initStart(startContext);
+      dpsTemplate.initStart(startContext);
 //      
       
       // 当前人待办信息 获取业务id集合

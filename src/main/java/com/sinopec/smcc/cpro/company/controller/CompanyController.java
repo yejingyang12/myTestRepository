@@ -12,6 +12,7 @@ package com.sinopec.smcc.cpro.company.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -199,5 +200,27 @@ public class CompanyController {
     // 通过resultApi实体组成返回参数
 
     return RetResultUtil.ok(list);
+  }
+  
+  @RequestMapping(value = "/saveCompanyToSession", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
+  @ResponseBody
+  public RetResult<String> saveCompanyToSession(HttpServletRequest request, 
+      @RequestBody CompanyParam companyParam) throws BusinessException {
+    HttpSession session = request.getSession();
+    session.setAttribute("companySession", companyParam);
+    String sessionId = session.getId();
+    return RetResultUtil.ok(sessionId);
+  }
+  
+  @RequestMapping(value = "/queryCompanyBySession", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro)
+  @ResponseBody
+  public RetResult<CompanyParam> queryCompanyBySession(HttpServletRequest request
+      ) throws BusinessException {
+    HttpSession session = request.getSession();
+    CompanyParam companyParam = (CompanyParam) session.getAttribute("companySession");
+
+    return RetResultUtil.ok(companyParam);
   }
 }

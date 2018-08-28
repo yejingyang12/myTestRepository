@@ -9,10 +9,6 @@ window.onload = function () {
           return data;
       },
       methods : {
-        submitForm:function(formName){
-          data.check=false;
-          bus.$emit('changeFormName',formName);
-        },
         submitHandlerSuccessMethod: function(_self,data,boo){
 //          if(boo){
 //            data.check = false;
@@ -25,12 +21,32 @@ window.onload = function () {
 //          }
         },
         //返回
-        returnBtn:function() {
+        returnBtn:function(_self) {
+        	ajaxMethod(_self, 'post',
+              'main/removeSession', true,JSON.stringify(''), 'json',
+              'application/json;charset=UTF-8',this.removeSessionSuccess);
           window.location.href = originUrl+"page/indexPage";
-        }
+        },
+        removeSessionSuccess:function(){
+        	
+        },
+        setFormDataToSession:function(meg){
+        	bus.$emit('changeFormName',meg);
+        },
+        //将单位信息存入session后成功
+        saveCompanyToSessionSuccess:function(_self,responseData){
+        	if(responseData.data!=null){
+        		window.location.href = originUrl+"/page/applicatuibChangSystemPage?fkCompanyCode=" +companyCode+"&systemId="+systemId+"&companyId="+companyId;
+        	}
+        },
       },
       mounted : function() {
         var _self = this;
+        bus.$on('toSystemPage',function(meg){
+        	ajaxMethod(_self, 'post',
+              'company/saveCompanyToSession', true,JSON.stringify(data.formData), 'json',
+              'application/json;charset=UTF-8',_self.saveCompanyToSessionSuccess);
+        });
         bus.$on('changeFormAjax',function(meg){
           if(meg!=null){
           	if(theLastStep == null || theLastStep == ''){

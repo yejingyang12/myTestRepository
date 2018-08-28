@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ import com.sinopec.smcc.base.result.RetResult;
 import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
+import com.sinopec.smcc.cpro.system.entity.SystemAllInfoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoParam;
 import com.sinopec.smcc.cpro.system.entity.SystemEchoResult;
 import com.sinopec.smcc.cpro.system.entity.SystemGradingChangeResult;
@@ -305,5 +307,40 @@ public class SystemController {
         querySystemInfoEchoList(systemEchoParam);
     
     return RetResultUtil.ok(systemGradingInfoResultList);
+  }
+  
+  @RequestMapping(value = "/saveSystemSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<String> saveSystemSession(HttpServletRequest request,
+      @RequestBody SystemResult systemResult) throws BusinessException{
+    HttpSession session = request.getSession();
+    session.setAttribute("systemSession", systemResult);
+    String sessionId = session.getId();
+    return RetResultUtil.ok(sessionId);
+  }
+  
+  @RequestMapping(value = "/querySystemSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<SystemResult> querySystemSession(HttpServletRequest request
+      ) throws BusinessException{
+    HttpSession session = request.getSession();
+    SystemResult systemResult = (SystemResult) session.getAttribute("systemSession");   
+    return RetResultUtil.ok(systemResult);
+  }
+  
+  /**
+   * 判断首页申请变更弹窗
+   */
+  @RequestMapping(value = "/queryChange", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<SystemAllInfoResult> queryChange(HttpServletRequest request,@RequestBody SystemParam systemParam
+      ) throws BusinessException{
+
+    SystemAllInfoResult system = this.systemServiceImpl.queryChange(systemParam);
+    
+    return RetResultUtil.ok(system);
   }
 }

@@ -214,7 +214,47 @@
                         </div> 
                         <div class="col-md-6 h-col-md-9 deleteFalse">
                             <div class="row" style="margin-right:0">
-                               <!--申请时间-->
+                            <!-- 互联网应用 start -->
+                            <div class="col-md-3 h-line" style="min-width:76px;width:90px;padding-right:0; ">
+                                                                                                         互联网应用:
+                            </div>
+                              <div class="col-md-5">
+            						<el-select clearable  v-model="appIsInternet">
+            							<el-option   v-for="item in appIsInternets"
+      													:key="item.value"
+      													:label="item.label"
+      													:value="item.value">
+      									</el-option>
+            						</el-select>
+            					</div>
+            					<!-- 互联网应用 end -->
+                                <!--查询 高级查询 清空 按钮-->
+			                   <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="..."> 
+			                       <button @click="search(1)" type="button" class="btn btn-default" style="width:70px;margin-right:5px;">
+			                                                                      查询
+			                        </button>                       
+			                        <div class="btn-group" style="margin-left: 10">
+			                            <button type="button" class="hoverBlue btn h-btn-info dropdown-toggle downh"
+			                                    data-toggle="dropdown"
+			                                    aria-haspopup="true" aria-expanded="false" @click="searchclick">
+			                                                                                          高级查询  
+			                                <i class="el-icon-arrow-down"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
+			                            </button>
+			                        </div>
+			                        <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;" @click="empty()">
+			                                                                       清空
+			                         </button>  
+			                    </div>
+			                   <!--查询 高级查询 清空 按钮end--> 
+			                   
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div> 
+             <div class="col-md-6 h-col-md-9 deleteFalse" style="margin-bottom:10px">
+                    <div class="row" style="margin-right:0">
+                    	 <!--申请时间-->
                               <div class="col-md-6 h-clear-time" style="padding-right:0px;width:55%;">
                                 <div class="col-md-8 h-padding" style="padding-right:6px;">
                                     <div class="row" style="margin: 0">
@@ -254,30 +294,10 @@
                                 </div>
                               </div>
                                 <!--申请时间end-->
-                                <!--查询 高级查询 清空 按钮-->
-			                   <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="..."> 
-			                       <button @click="search(1)" type="button" class="btn btn-default" style="width:70px;margin-right:5px;">
-			                                                                      查询
-			                        </button>                       
-			                        <div class="btn-group" style="margin-left: 10">
-			                            <button type="button" class="hoverBlue btn h-btn-info dropdown-toggle downh"
-			                                    data-toggle="dropdown"
-			                                    aria-haspopup="true" aria-expanded="false" @click="searchclick">
-			                                                                                          高级查询  
-			                                <i class="el-icon-arrow-down"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
-			                            </button>
-			                        </div>
-			                        <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;" @click="empty()">
-			                                                                       清空
-			                         </button>  
-			                    </div>
-			                   <!--查询 高级查询 清空 按钮end--> 
-                            </div>
-                        </div> 
                     </div>
-                </div>
-            </div> 
+             </div>
             </div>
+           
            <!--高级查询-->
            <div class="container" style="margin:0;background:#f9f9f9;">
             <div id="h-height-search"  style="display: none;background:#f9f9f9;margin-top:10px">

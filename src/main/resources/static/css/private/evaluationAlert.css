@@ -64,11 +64,11 @@ input{
     width: 100%;
     height: 2px;
     background: #ededed;
-    margin-left: 0;
+    margin-left: 0 !important;
 }
 .revokeTitle{
     line-height:60px;
-    margin-left: 15px;
+    /* margin-left: 15px; */
 }
 .tianMsg{
     margin:28px 15px 0;

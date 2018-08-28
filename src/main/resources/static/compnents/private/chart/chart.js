@@ -137,27 +137,39 @@
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate();       			
         			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
         			bus.$emit("gradingStatisticsBegin",dataparmars); 
+        		}else if(this.value1==null&&this.value3==null){
+        		//如果两个时间都是空
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
+      	  			bus.$emit("gradingStatisticsBegin",dataparmars);
+        		}else{
         		}
           },
           //系统等保等级分布结束时间
         	getGradingStatisticsEnd:function(){
         		bus.$emit("pie",this.value1,this.value3);
-        		var begin;
-        		var end;
         		if(this.value1 != null && this.value1 != "" && this.value1 != 'undefined' &&this.value3 != null && this.value3 != "" && this.value3 != 'undefined'){
-        			begin = new Date(this.value1);
+        			var begin = new Date(this.value1);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
-        			end = new Date(this.value3);
+        			var end = new Date(this.value3);
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
         			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
         			bus.$emit("gradingStatisticsEnd",dataparmars);
+        		}else if(this.value1==null&&this.value3==null){
+        			//如果两个时间都是空
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","systemType":"'+this.statisticsType+'"}';
+      	  			bus.$emit("gradingStatisticsEnd",dataparmars);
+        		}else{
         		}
           },
           //不同等保级别系统在不同等保管理状态下详情-开始时间
         	getGradingShapeBegin:function(){
         		bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
         		//如果两个时间不是空，但
-        		if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
+        		if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefined' && this.gradingShapeEnd !='undefined'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
         			var begin = new Date(this.gradingShapeBegin);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
         			var end = new Date(this.gradingShapeEnd);
@@ -168,12 +180,23 @@
         			}
         			dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
         			bus.$emit("gradingShapeBegin",dataparmars);           
+        		}else if(this.gradingShapeBegin==null&&this.gradingShapeEnd==null){
+        			//如果两个时间都是空
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars ;
+        			if(this.gradingShapeType == null || this.gradingShapeType == 'undefined'){
+        				this.gradingShapeType = "";
+        			}
+        			dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("gradingShapeBegin",dataparmars);
+        		}else{
         		}
           },
           //不同等保级别系统在不同等保管理状态下详情-结束时间
           getGradingShapeEnd:function(){
         	    bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
-        		if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
+        		if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefined' && this.gradingShapeEnd !='undefined'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
         			var begin = new Date(this.gradingShapeBegin);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
         			var end = new Date(this.gradingShapeEnd);
@@ -183,13 +206,24 @@
         			}
         			var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
         			bus.$emit("gradingShapeEnd",dataparmars);
+        		}else if(this.gradingShapeBegin==null&&this.gradingShapeEnd==null){
+        			//如果两个时间都是空
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars ;
+        			if(this.gradingShapeType == null || this.gradingShapeType == 'undefined'){
+        				this.gradingShapeType = "";
+        			}
+        			dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("gradingShapeEnd",dataparmars);
+        		}else{
         		}
           },
           //不同等保级别系统在不同等保管理状态下详情-类型
           getGradingShapeType:function(){
         	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
         	  if(this.gradingShapeType != null &&  this.gradingShapeType != 'undefined'){
-        	  	if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefind' && this.gradingShapeEnd !='undefind'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
+        	  	if(this.gradingShapeBegin != null   && this.gradingShapeBegin !="" && this.gradingShapeBegin !='undefined' && this.gradingShapeEnd !='undefined'  && this.gradingShapeEnd != null && this.gradingShapeEnd != ""){
         	  		var begin = new Date(this.gradingShapeBegin);
           			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
           			var end = new Date(this.gradingShapeEnd);
@@ -204,80 +238,82 @@
           },
           //备案单位数量Top10-开始时间
           getRecordDateBegin:function(){
-        		var begin;
-        		var end;
-        		if(this.recordDateBegin != null && this.recordDateBegin !=''){
-        			begin = new Date(this.recordDateBegin);
-        			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
-        		}
-        		if(this.recordDateEnd != null && this.recordDateEnd !=''){
-        			end = new Date(this.recordDateEnd);
+        		if(this.recordDateBegin != null && this.recordDateBegin !='' && this.recordDateBegin !='undefined' && this.recordDateEnd != null && this.recordDateEnd !='' && this.recordDateEnd !='undefined'){
+        			var begin = new Date(this.recordDateBegin);
+        			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate();
+        			var end = new Date(this.recordDateEnd);
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
-        		}
-        		if(this.recordDateBegin != null && this.recordDateBegin !='' && this.recordDateEnd != null && this.recordDateEnd !=''){
         			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
-              bus.$emit("recordBegin",dataparmars);
+        			bus.$emit("recordBegin",dataparmars);
+        		}else if(this.recordDateBegin==null&&this.recordDateEnd==null){
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("recordBegin",dataparmars);
+        		}else{
         		}
           },
           //备案单位数量Top10-结束时间
           getRecordDateEnd:function(){
-        		var begin;
-        		var end;
-        		if(this.recordDateBegin != null && this.recordDateBegin !=''){
-        			begin = new Date(this.recordDateBegin);
+        		if(this.recordDateBegin != null && this.recordDateBegin !='' && this.recordDateBegin !='undefined' && this.recordDateEnd != null && this.recordDateEnd !='' && this.recordDateEnd !='undefined'){
+        			var begin = new Date(this.recordDateBegin);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
-        		}
-        		if(this.recordDateEnd != null && this.recordDateEnd !=''){
-        			end = new Date(this.recordDateEnd);
+        			var end = new Date(this.recordDateEnd);
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
-        		}
-        		if(this.recordDateBegin != null && this.recordDateBegin !=''&& this.recordDateEnd != null && this.recordDateEnd !=''){
         			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
-              bus.$emit("recordEnd",dataparmars);
+        			bus.$emit("recordEnd",dataparmars);
+        		}else if(this.recordDateBegin==null&&this.recordDateEnd==null){
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("recordEnd",dataparmars);
+        		}else{
         		}
           },
           //受理备案单位数量Top10-开始时间
           getAcceptRecordDateBegin:function(){
-        		var begin;
-        		var end;
-        		if(this.acceptRecordDateBegin != null && this.acceptRecordDateBegin !=''){
-        			begin = new Date(this.acceptRecordDateBegin);
+        		if(this.acceptRecordDateBegin != null && this.acceptRecordDateBegin !='' && this.acceptRecordDateBegin !='undefined'&&this.acceptRecordDateEnd != null && this.acceptRecordDateEnd !='' && this.acceptRecordDateEnd !='undefined'){
+        			var begin = new Date(this.acceptRecordDateBegin);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
-        		}
-        		if(this.acceptRecordDateEnd != null && this.acceptRecordDateEnd !=''){
-        			end = new Date(this.acceptRecordDateEnd);
+        			var end = new Date(this.acceptRecordDateEnd);
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
-        		}
-        		if(this.acceptRecordDateBegin != null && this.acceptRecordDateBegin !=''&& this.acceptRecordDateEnd != null && this.acceptRecordDateEnd !=''){
         			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
-              bus.$emit("acceptRecordBegin",dataparmars);
+        			bus.$emit("acceptRecordBegin",dataparmars);
+        		}else if(this.acceptRecordDateBegin==null&&this.acceptRecordDateEnd==null){
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("acceptRecordBegin",dataparmars);
+        		}else{
         		}
           },
           //受理备案单位数量Top10-结束时间
           getAcceptRecordDateEnd:function(){
-        		var begin;
-        		var end;
-        		if(this.acceptRecordDateBegin != null && this.acceptRecordDateBegin !=''){
-        			begin = new Date(this.acceptRecordDateBegin);
+        		if(this.acceptRecordDateBegin != null && this.acceptRecordDateBegin !='' && this.acceptRecordDateBegin !='undefined'&&this.acceptRecordDateEnd != null && this.acceptRecordDateEnd !='' && this.acceptRecordDateEnd !='undefined'){
+        			var begin = new Date(this.acceptRecordDateBegin);
         			begin=begin.getFullYear() + '-' + (begin.getMonth() + 1) + '-' + begin.getDate(); 
-        		}
-        		if(this.acceptRecordDateEnd != null && this.acceptRecordDateEnd !=''){
-        			end = new Date(this.acceptRecordDateEnd);
+        			var end = new Date(this.acceptRecordDateEnd);
         			end=end.getFullYear() + '-' + (end.getMonth() + 1) + '-' + end.getDate(); 
-        		}
-        		if(this.acceptRecordDateBegin != null && this.acceptRecordDateBegin !='' && this.acceptRecordDateEnd != null && this.acceptRecordDateEnd !=''){
         			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
-              bus.$emit("acceptRecordEnd",dataparmars);
+        			bus.$emit("acceptRecordEnd",dataparmars);
+        		}else if(this.acceptRecordDateBegin==null&&this.acceptRecordDateEnd==null){
+        			var begin = "1970-01-01";
+      	  			var end = "9999-12-31";
+      	  			var dataparmars = '{"dateBegin":"'+begin+'","dateEnd":"'+end+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("acceptRecordEnd",dataparmars);
+        		}else{
         		}
           },
           //系统等保管理趋势 - 类型
           getYearType:function(){
-          	if(this.yearType==null||this.yearType=='undefind'||this.yearType==''){
-          		bus.$emit("yearEmptyType",this);
-          		return;
-          	}
-          	var dataparmars;
-        		if(this.yearType != null&&this.yearType != ''&&this.yearType!='undefind'){
+//          	if(this.yearType==null||this.yearType=='undefind'||this.yearType==''){
+//          		bus.$emit("yearEmptyType",this);
+//          		return;
+//          	}
+        		if(this.yearType != null&&this.yearType != ''&&this.yearType!='undefined'){
+        			var dataparmars = '{"year":"'+this.yearType+'","systemType":"'+this.statisticsType+'"}';
+        			bus.$emit("yearType",dataparmars);
+        		}else{
         			var dataparmars = '{"year":"'+this.yearType+'","systemType":"'+this.statisticsType+'"}';
         			bus.$emit("yearType",dataparmars);
         		}

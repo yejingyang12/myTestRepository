@@ -20,6 +20,7 @@
                     },
                     recordFn:function () {
                         $('.wrap').removeClass('cover');
+                      
                     },
                     toIndexPage : function(){
                     	window.location.href=originUrl+encodeURI("/page/indexPage");

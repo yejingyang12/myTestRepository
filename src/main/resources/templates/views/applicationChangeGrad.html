@@ -75,12 +75,12 @@
           <div class="saveBnt">
             <button type="button" class="btn btn-success " id="submit" @click="submitCheck = true" v-show="!nextBtn">提交</button>
             <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
-            <button type="button" class="btn btn-default" id="pre" @click="check = true" v-show="!nextBtn">上一步</button>
+            <button type="button" class="btn btn-default" id="pre" @click="toSystemPage('formData')" v-show="!nextBtn">上一步</button>
           </div>
         </li>
         <li slot="gradNextChange" class="fr liMargin">
           <div class="saveBnt">
-            <button type="button" class="btn btn-default " id="pre" @click="check = true" v-show="nextBtn">上一步</button>
+            <button type="button" class="btn btn-default " id="pre" @click="toSystemPage('formData')" v-show="nextBtn">上一步</button>
             <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')" v-show="nextBtn">保存</button>
             <button type="button" class="btn btn-success"  id="next" @click="nextBtn1('formData')" v-show="nextBtn">下一步</button>
           </div>
