@@ -29,11 +29,11 @@
 .sekuaiBlue5{ background: #0065ba;}
 .two .el-input__suffix {
     margin-right: 25px;
-    top: 7px;
+    top: 7px !important;
     height: 0px; 
     width: 0px; 
     background: none; 
-    right: 21px;
+    right: 0px !important;
     transition: all .3s;
    /*  top: 7px;
     height: 20px;

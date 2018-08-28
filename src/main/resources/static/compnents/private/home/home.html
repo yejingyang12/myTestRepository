@@ -219,7 +219,7 @@
                                 <div class="col-md-8 h-padding" style="padding-right:6px;">
                                     <div class="row" style="margin: 0">
                                         <div class="col-md-3 applyTime" style="width:66px;line-height: 34px;min-width: 61px; max-width:69px;line-height: 34px">
-                                      	  申请时间:
+                                      	  提报时间:
                                       	</div>
                           		<div class="float-le timeInput chartstarttime" style="padding: 0;width:57%; margin-right: 2%;">
                                               <template>
@@ -929,10 +929,10 @@
                                   <div v-for="companyCodeJ in nameList">
                                     <div v-if="companyCodeJ==pro.companyCode">
                                       <!--  &lt;!&ndash;class="hide3"&ndash;&gt; -->
-                                      <a class="hide3" style="cursor:pointer;">  
-                                        <i id="h-dingji"  @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i>
-                                        <i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i>
+                                        <a style="cursor:pointer;"><i id="h-dingji"  @click="toAuditGradPage(pro.systemId,pro.companyId)" v-show="paramGrading">定级</i> <i style="color:#1e91e2 " v-show="paramGrading">|</i></a>
+                                        <a style="cursor:pointer"><i @click="deleteClick(pro.systemId)" type="text" size="small"   v-show="paramDelete">删除</i></a>
                                         <!-- 首页表格的删除弹窗 -->
+                                         <a class="hide3" style="cursor:pointer;">  
                                         <div class="dialogShaw">
                                           <div class="startBox" v-show="deleteDialog">
                                             <div v-show="deleteSuccessDialog"><i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>删除成功!</P></div>

@@ -11,8 +11,11 @@ package com.sinopec.smcc.cpro.codeapi.server.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,14 +23,18 @@ import org.springframework.stereotype.Service;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.AppExtendsData;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
+import com.pcitc.ssc.dps.inte.workflow.AppParticipantData;
 import com.pcitc.ssc.dps.inte.workflow.AppWorkflowData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
+import com.pcitc.ssc.dps.inte.workflow.ExecutorData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.pcitc.ssc.dps.inte.workflow.StartContext;
 import com.sinopec.smcc.base.consts.SmccConsts;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
@@ -58,6 +65,8 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   private DpsConfig dpsConfig;
   @Autowired
   private SystemMapper systemMapperImpl;
+  @Autowired
+  private JurisdictionApiService jurisdictionApiServiceImpl;
   
   /**
    * 流程发起
@@ -110,9 +119,20 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       appExtendsData.setExt006(businessName);//业务节点
       appExtendsData.setExt007(userDTO.getUserName());//发起人
       
+      //权限
+      JurisdictionDataResult organizationApiResult = 
+          this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+      List<String> orgStr = organizationApiResult.getPermssions();
+      //企业权限  
+      if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
+        //单位Code
+        appExtendsData.setExt008(jurisdictionApiServiceImpl.getCompanyCode());
+      }
+      
       startContext.setExtendsData(appExtendsData);
-      dpsTemplate.initStart(startContext);
-
+      AppCallResult initResult = dpsTemplate.initStart(startContext);
+//      
+      
       // 当前人待办信息 获取业务id集合
 //    List<ExecuteContext> executeContextList = new ArrayList<ExecuteContext>();
 //    final PagedList appPagedTODOTask = dpsTemplate.appTODOTask(String.valueOf(userDTO.getUserId()),"","");
@@ -131,11 +151,8 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
 //      }
 //    }
 //    String a= "";
-    
-    
-    
-//    AppCallResult appCallResult1 = dpsTemplate.approveCompleteBatch(executeContextList);
-//    String b = "";
+//      List<AppParticipantData> aaaa = 
+//          dpsTemplate.appParticipant("F74C601474B44DF99246CBC861037069","59A64727D3F889008A0E37F11246DD3E");
     } catch (Exception e) {
       e.printStackTrace();
     }

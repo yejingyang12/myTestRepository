@@ -6,16 +6,16 @@
       <span class="fl revokeTitle">撤销备案</span>
       <span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项</span>
     </p>
-    <el-form action="#" ref="formData" :rules="rules" :model="formData" label-width="160px">
+    <el-form class="chexiao" action="#" ref="formData" :rules="rules" :model="formData" >
       <ul class="clearfix" style="margin: 0 15px !important;">
         <li class="row P-record">
-          <el-form-item label="变更事项：" prop="">
+          <el-form-item style="margin-left:-150px" label="变更事项：" prop="">
             <div style="line-height: 34px">撤销备案</div>
           </el-form-item>
         </li>
         <li class="row P-record">
-          <el-form-item label="撤销证明：" prop="revokeAttachName" ref='revokeAttachName'>
-            <div class=" col-md-9 uploadBox" style="width:90%">
+          <el-form-item label="撤销证明：" style="margin-left:-142px" prop="revokeAttachName" ref='revokeAttachName'>
+            <div class=" col-md-9 uploadBox" style="width:100%">
               <div class="uploadSty">
                 <ul class="fileList" id="fileList">
                   <li v-if="!(formData.revokeAttachName == null || formData.revokeAttachName == '')">
@@ -23,7 +23,7 @@
                     <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
                   </li>
                 </ul>
-                <el-button type="primary" size="small">上传</el-button>
+                <el-button type="primary" size="small" style="margin-right:-15px;cursor:pointer">上传</el-button>
               </div>
               <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
               <p>附件总量最大 <span class="xing">30M</span>，上传格式为：doc,docx,xls,xlsx,pdf,zip,rar,sep</p>
@@ -31,8 +31,7 @@
           </el-form-item>
         </li>
         <li class="row P-record">
-          <el-form-item label="撤销原因：" prop="revokereason" ref='revokereason'>
-            <div class="mcTextArea col-md-11 col-sm-3" @click="text" style="width:90%;">
+            <div class="mcTextArea col-md-11 col-sm-3" @click="text" style="width:100%;">
               <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.revokereason"></textarea>
               <span class='textAll'><span id="textNum">0</span>/200</span>
               <!-- 最多200字符，0处显示的是已经写了多少字符-->
@@ -40,7 +39,7 @@
           </el-form-item>
         </li>
       </ul>
-      <p class="fr">
+      <p class="fr" style="margin-right:-30px">
         <button class="btn btn-success fl" type="button" @click="submitRevokeRecordDir('formData')">提交</button>
         <button class="btn btn-default fl btnRight" type="button" @click="closesDir()">取消</button>
       </p>

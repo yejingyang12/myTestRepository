@@ -403,11 +403,19 @@ public interface SystemMapper {
   List<SystemAllInfoResult> selectSystemAllInfoBySystemParam(SystemParam systemParam);
   
   /**
-   * @Descrption 通过systemCode查询系统信息
+   * @Descrption 通过systemCode查询系统信息 
    * @author dongxu
    * @date 2018年8月6日下午7:28:25
    * @param systemParam
    * @return
    */
   SystemResult selectSystemBysystemCode(SystemParam systemParam);
+  
+  /**
+   * @Descrption 通过fkFatherSysId删除系统信息
+   * @author changmingyong
+   * @date 2018.8.27
+   * @param fkFatherSysId
+   */
+  void deleteRelationSonSystem(List<SystemSubResult> fkFatherSysId);
 }

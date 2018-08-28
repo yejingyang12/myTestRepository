@@ -516,6 +516,7 @@ public class SystemServiceImpl implements SystemService {
     int sum = 0;//计数器
     //修改原子系统的信息
     for (SystemSubResult systemSubParam : subSystemList) {
+    	
       boolean sonBoo = false;
       SystemParam systemTempParam = new SystemParam();
       //修改系统关联表信息
@@ -1071,6 +1072,10 @@ public class SystemServiceImpl implements SystemService {
         this.systemMapper.updateSystemEdit(systemTempParam);
       }
 	  }else{
+	    //查询子表信息
+	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
+	    //删除子表信息
+	    this.systemMapper.deleteRelationSonSystem(subSystemList);
 	    //添加系统子表
       for (int key = 0; key < subKeyList.size(); key++) {
         SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
@@ -4393,7 +4398,7 @@ public class SystemServiceImpl implements SystemService {
           if (StringUtils.isNotBlank(topNum[5])) {
             try {
               system.setWhenInvestmentUse(new SimpleDateFormat(
-                  "yyyy-MM-dd HH:mm:ss").parse(topNum[5]));
+                  "yyyy-MM-dd").parse(topNum[5].toString()));
             } catch (ParseException e) {
               e.printStackTrace();
             }
@@ -4781,4 +4786,8 @@ public class SystemServiceImpl implements SystemService {
   public SystemResult querySystemBysystemCode(SystemParam systemParam){
     return systemMapper.selectSystemBysystemCode(systemParam);
   }
+
+
+
+
 }

@@ -1024,7 +1024,7 @@ public class MainServiceImpl implements MainService{
       }
       //信息系统总数
       
-      List<MainListResult> mainListResultList = new ArrayList<MainListResult>();
+      /*List<MainListResult> mainListResultList = new ArrayList<MainListResult>();
     //权限
       JurisdictionDataResult organizationApiResult = 
           this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
@@ -1051,9 +1051,14 @@ public class MainServiceImpl implements MainService{
 
       default:
         break;
-      }
+      }*/
 
-      dataMap.put("sn", mainListResultList.size());
+      dataMap.put("sn", "");
+      dataMap.put("sy2", "");
+      dataMap.put("sy3", "");
+      dataMap.put("sy4", "");
+      dataMap.put("sy5", "");
+      /*dataMap.put("sn", mainListResultList.size());
       //定级信息系统
       int twoLevel = 0;
       int threeLevel = 0;
@@ -1078,7 +1083,7 @@ public class MainServiceImpl implements MainService{
       dataMap.put("sy2", twoLevel);
       dataMap.put("sy3", threeLevel);
       dataMap.put("sy4", fourLevel);
-      dataMap.put("sy5", fiveLevel);
+      dataMap.put("sy5", fiveLevel);*/
     }else{
       dataMap.put("companyName", "");dataMap.put("province", "");
       dataMap.put("compPrincipalWorkTel", "");dataMap.put("compPrincipalName", "");

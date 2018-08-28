@@ -471,6 +471,7 @@ var  data={
                       ];
                       this.promptCount=false;
                 			this.formData.checkCount = '1';
+                			this.formData.systemName = "";
                 			this.systemNameSon1 = [];
                 			this.systemNameSon12= [];
                 			Vue.set(this.systemNameSon12, 0, false);
@@ -1329,7 +1330,7 @@ var  data={
                     this.formData.fkComCode = "";
                   }
                   if(systemId!=''&&systemId!=null){
-                    this.change = true;
+//                    this.change = true;
                     this.formData.systemId = systemId;
                     this.getGetSystemMethod(this,systemId);
                   }

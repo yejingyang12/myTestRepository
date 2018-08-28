@@ -53,6 +53,9 @@
           listSuccess:function(_self,dataList){
             data.result=dataList;
           },
+          closesDir:function(){
+        	  $('.revokeBg').css('display','none');
+          },
           //鱼骨图弹窗：隐藏弹窗
           closes:function (msg) {
           	if(msg == 1 || msg == "1"){

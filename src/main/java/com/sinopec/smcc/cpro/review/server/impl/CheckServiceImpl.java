@@ -29,6 +29,7 @@ import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
@@ -135,6 +136,16 @@ public class CheckServiceImpl implements CheckService {
           extMap.put("ext006", "申请变更");   
         }
       }
+      
+      //权限
+      JurisdictionDataResult organizationApiResult = 
+          this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+      List<String> orgStr = organizationApiResult.getPermssions();
+      //企业权限  
+      if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
+        //单位Code
+        extMap.put("ext008", jurisdictionApiServiceImpl.getCompanyCode());
+      } 
       final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(UserId,10,
           checkParam.getCurrentPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
       appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
@@ -236,6 +247,15 @@ public class CheckServiceImpl implements CheckService {
         if(checkParam.getFkBusinessNode().equals("3")){
           extMap.put("ext006", "申请变更");   
         }
+      }
+      //权限
+      JurisdictionDataResult organizationApiResult = 
+          this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+      List<String> orgStr = organizationApiResult.getPermssions();
+      //企业权限  
+      if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
+        //单位Code
+        extMap.put("ext008", jurisdictionApiServiceImpl.getCompanyCode());
       }
       final PagedList appPagedTODOTaskHaveDone = dpsTemplate.appPagedDoneTask(UserId,10,
           checkParam.getCurrentPage(), "",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);

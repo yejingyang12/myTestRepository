@@ -3936,4 +3936,13 @@
     AND 
       system.standardizedCode = #{standardizedCode}
   </select>
+  <!-- 删除子系统信息 -->
+  <update id="deleteRelationSonSystem" parameterType="java.util.List">
+    UPDATE t_cpro_system 
+      SET deleteStatus = 2 
+    WHERE pkId IN
+      <foreach item="item" collection="list" index="index" open="(" separator="," close=")">
+        #{item.systemId}
+      </foreach>
+  </update>
 </mapper>

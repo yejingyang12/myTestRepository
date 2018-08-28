@@ -178,4 +178,6 @@ public interface SystemService {
    * @return
    */
   SystemResult querySystemBysystemCode(SystemParam systemParam);
+  
+
 }

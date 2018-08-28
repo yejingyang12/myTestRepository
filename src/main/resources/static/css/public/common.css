@@ -70,6 +70,7 @@ a:focus {
 
 .float-right {
 	float: right!important;
+	margin-left:620px;
 }
 
 .float-none {
@@ -360,7 +361,7 @@ a.text-gray {
 }
 
 .b {
-	font-weight: bold;
+	/* font-weight: bold; */
 }
 
 .i {

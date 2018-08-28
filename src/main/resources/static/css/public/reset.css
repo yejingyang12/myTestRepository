@@ -52,7 +52,7 @@ a {
 
 a:hover, a:active {
     outline-width: 0 !important;
-    text-decoration: none !important;
+    text-decoration: underline !important;
 }
 
 /*重置表格元素*/

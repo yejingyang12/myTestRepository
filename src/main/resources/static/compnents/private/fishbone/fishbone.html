@@ -2,39 +2,35 @@
 
 <!--鱼骨图弹窗 -->
   <div id="dialog" 
-       class="evaluationAlert"
-       style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
-    <div class="evaluation" 
-         style="padding:15px;border: 1px solid #cecece;background:#fff; width: 80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 12;">
-         <p class="clearfix cut">
+       class="evaluationAlert revokeBg"
+       style="display: none">
+    <div class="evaluation revoke" >
+    <span class="closes" @click="closesDir"></span>
+         <p class="clearfix cuto">
           <span class="fl revokeTitle" v-show="true">变更信息</span>
-          <span @click="closes(1)" 
-                class="fr revokeTitle" 
-                style="margin-right: 15px;margin-bottom: 15px;cursor:pointer">X</span>
         </p>
          <div>
             <div class="col-md-12 clearPadding">
                         <!--变更事项--> 
                             <div class="col-md-10 clearPadding h-system-fishbone">
-                                <span class="col-md-2 clearPadding "> 
+                                <span class="col-md-2 clearPadding " style="margin:15px 0 15px -40px"> 
                                                                                        变更事项：
                                 </span>
-                               <p class="col-md-3 clearPadding">{{result1.fkSysChangeMatter}}</p> 
+                               <p class="col-md-3 clearPadding" style="margin:15px 0 15px -40px">{{result1.fkSysChangeMatter}}</p> 
                              </div>
-                      
                         <!--变更原因-->
-                        <div class="col-md-10 clearPadding h-system-fishbone">
+                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px -40px">
                                 <span class="col-md-2 clearPadding "> 
                                                                                        变更原因：
                                 </span>
-                               <p class="col-md-3 clearPadding">{{result1.fkChangeReason}}</p> 
+                               <p class="col-md-3 clearPadding" style="margin:0 0 0 -40px">{{result1.fkChangeReason}}</p> 
                              </div>
                         <!--变更内容-->
-                        <div class="col-md-10 clearPadding h-system-fishbone">
+                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px -40px">
                                 <span class="col-md-2 clearPadding "> 
                                                                                        变更内容：
                                 </span>
-                               <p class="col-md-6 clearPadding">{{result1.fkChangeContent}}</p> 
+                               <p class="col-md-6 clearPadding" style="margin:0 0 0 -40px">{{result1.fkChangeContent}}</p> 
                              </div>
                </div>
            </div>
@@ -44,8 +40,7 @@
    <div id="dialog1" 
        class="evaluationAlert"
        style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
-    <div class="evaluation" 
-         style="padding:15px;border: 1px solid #cecece;background:#fff; width:80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 12;">
+    <div class="evaluation" style="padding:15px;border: 1px solid #cecece;background:#fff; width:80%;  position: absolute;top: 50%;left: 50%;margin-left: -40%; margin-top: -210px;  z-index: 12;">
          <p class="clearfix cut">
           <span class="fl revokeTitle" v-show="true">撤销备案详情</span>
           <span @click="closes(2)" 

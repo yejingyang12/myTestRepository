@@ -11297,8 +11297,12 @@
 }
 
 .el-input__suffix {
-    right: 5px;
-    transition: all .3s
+    right: 29px !important;
+    transition: all .3s !important;
+    top: 7px !important;
+    height: 20px !important;
+    width: 1px !important;
+    background: rgb(206, 206, 206) !important;
 }
 
 .el-input__suffix-inner {
@@ -11355,7 +11359,8 @@
 }
 
 .el-input--suffix .el-input__inner {
-    padding-right: 30px
+    padding-right: 30px;
+    border-radius:2px !important;
 }
 
 .el-input--prefix .el-input__inner {

@@ -15,8 +15,9 @@ label{
     position: relative;
 }
 .closes{
+	cursor:pointer;
     display: block;
-    width: 50px;
+    width:50px;
     height: 50px;
     border:1px solid #fff;
     -webkit-border-radius:50%;
@@ -25,7 +26,7 @@ label{
     background: url("../../images/close.png") no-repeat;
     position: absolute;
     top:-8%;
-    right:-6%;
+    right:-8%;
 }
 .revokeBg{
     width: 100%;
@@ -37,10 +38,8 @@ label{
     left:0;
     z-index: 14;
 }
-.revokeBg:
 .revokeTitle{
     line-height:60px;
-    margin-left: 15px;
 }
 .revoke{
     width: 65%;
@@ -53,6 +52,10 @@ label{
     margin:auto;
     z-index: 999;
     background-color: #fff;
+    padding:0 15px;
+}
+.revoke .chexiao{
+	
 }
 .cuto:after{
     content: "";
@@ -62,7 +65,7 @@ label{
     background: #ededed;
 }
 .tianMsg{
-    margin:28px 15px 0;
+    margin:28px 0 0;
     font: 14px/32px "微软雅黑";
     color: #333333;
 }
