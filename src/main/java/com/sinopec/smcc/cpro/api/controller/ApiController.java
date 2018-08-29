@@ -133,7 +133,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<PageUtil> getSystemRelationInfo(HttpServletRequest request,
+  public RetResult<PageUtil> getSystemRelationInfo(
       @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
     // 调用service实体，获得
     PageInfo<SystemRelationResult> systemApiResult = this.apiServiceImpl.
@@ -167,7 +167,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/editSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<String> editSystemRelationInfo(HttpServletRequest request,
+  public RetResult<String> editSystemRelationInfo(
       @RequestBody GetSystemRelationResult getSystemRelationResult) throws BusinessException{
     // 调用service实体，获得
     this.apiServiceImpl.
@@ -201,10 +201,11 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getSystemRelationByGrade", method = RequestMethod.POST)
-  public RetResult<List<SystemRelationResult>> getSystemRelationByGrade() throws BusinessException{
+  public RetResult<List<SystemRelationResult>> getSystemRelationByGrade(
+      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
     // 调用service实体，获得
     List<SystemRelationResult> systemRelationResultList = this.apiServiceImpl.
-        getSystemRelationByGrade();
+        getSystemRelationByGrade(systemRelationParam);
     return RetResultUtil.ok(systemRelationResultList);
   }
 }

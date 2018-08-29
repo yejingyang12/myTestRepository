@@ -95,9 +95,11 @@ public interface ApiService {
   /**
    * @Descrption
    * @author Aran
+   * @param systemRelationParam 
    * @date 2018年8月28日下午12:56:52
    * @param systemRelationParam
    * @return
    */
-  List<SystemRelationResult> getSystemRelationByGrade()throws BusinessException;
+  List<SystemRelationResult> getSystemRelationByGrade(SystemRelationParam systemRelationParam)
+      throws BusinessException;
 }

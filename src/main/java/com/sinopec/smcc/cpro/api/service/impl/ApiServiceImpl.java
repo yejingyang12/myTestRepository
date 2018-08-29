@@ -53,7 +53,6 @@ import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemRelationMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
-import com.sinopec.smcc.cpro.system.util.SystemInfoUtil;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
@@ -378,10 +377,10 @@ public class ApiServiceImpl implements ApiService{
       session.setAttribute("userId",getSystemRelationResult.getUserId());
     }
     
-    SystemRelationParam systemRelationTempParam = new SystemRelationParam();
-    systemRelationTempParam.setSystemRelationId(getSystemRelationResult.getSystemRelationId());
-    SystemRelationResult systemRelationResult =  this.systemRelationMapper.
-        querySystemRelationById(systemRelationTempParam);
+//    SystemRelationParam systemRelationTempParam = new SystemRelationParam();
+//    systemRelationTempParam.setSystemRelationId(getSystemRelationResult.getSystemRelationId());
+//    SystemRelationResult systemRelationResult =  this.systemRelationMapper.
+//        querySystemRelationById(systemRelationTempParam);
     
     if(getSystemRelationResult.getAddSystemInfo()!=null){
       List<SystemRelationParam> systemRelationList = new ArrayList<SystemRelationParam>();
@@ -391,14 +390,8 @@ public class ApiServiceImpl implements ApiService{
         systemRelationParam.setFkCompanyCode(getSystemRelationResult.getFkCompanyCode());
         systemRelationParam.setSystemName(getSystemRelationResult.getSystemName());
         systemRelationParam.setSystemSource("0");
-        
-        if(systemRelationResult.getSystemIsMerge().equals("0")){
-          systemRelationParam.setSystemIsMerge("0");
-          systemRelationParam.setSystemSmccCode(SystemInfoUtil.getSmccId("0"));
-        }else{
-          systemRelationParam.setSystemIsMerge("1");
-          systemRelationParam.setSystemSmccCode(SystemInfoUtil.getSmccId("1"));
-        }
+        systemRelationParam.setSystemIsMerge(getSystemRelationResult.getSystemIsMerge());
+        systemRelationParam.setSystemSmccCode(getSystemRelationResult.getSystemSmccCode());
         systemRelationParam.setCreateTime(new Date());
         systemRelationList.add(systemRelationParam);
       }
@@ -427,7 +420,7 @@ public class ApiServiceImpl implements ApiService{
     if(systemRelationResult==null){
       return false;
     }
-    if(systemRelationResult.getSystemSource().equals("0")){
+    if(systemRelationResult.getSystemSource().equals("1")){
       return false;
     }
     
@@ -437,12 +430,19 @@ public class ApiServiceImpl implements ApiService{
   }
 
   @Override
-  public List<SystemRelationResult> getSystemRelationByGrade() throws BusinessException {
+  public List<SystemRelationResult> getSystemRelationByGrade(
+      SystemRelationParam systemRelationParam) throws BusinessException {
+    if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
+      HttpServletRequest request = 
+          ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+      HttpSession session = request.getSession();
+      session.setAttribute("userId",systemRelationParam.getUserId());
+    }
     
-    SystemRelationParam systemRelationParam = new SystemRelationParam();
-    systemRelationParam.setSystemIsMerge("1");
+    SystemRelationParam systemRelationTempParam = new SystemRelationParam();
+    systemRelationTempParam.setSystemIsMerge("1");
     List<SystemRelationResult> systemRelationResultList = this.systemRelationMapper.
-        querySystemRelationInfo(systemRelationParam);
+        querySystemRelationInfo(systemRelationTempParam);
     
     return systemRelationResultList;
   }
