@@ -131,7 +131,8 @@
               },
           }
       ]
-  }
+  },
+  queryDataparmars: {},//关联图表查询条件
   };
   Vue.component('chartLine',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/chartLine/chartLine.html').then(function(res){
@@ -143,9 +144,10 @@
         methods:{
         	// 获取系统等保等级分布统计图数据
         	getSystemTrendByYear : function(_self) {
+        		_self.queryDataparmars.systemType = "1";
           	ajaxMethod(_self, 'post',
               'diagram/querySystemTrendByYear', false,
-              '{"systemType":"1"}', 'json',
+              JSON.stringify(_self.queryDataparmars), 'json',
               'application/json;charset=UTF-8',
               this.getSystemTrendByYearSuccess);
           } ,
@@ -175,10 +177,48 @@
           this.getSystemTrendByYear(this);
         },
         mounted: function() {
-            data.dom = document.getElementById("container-stack");
-            data.myChart = echarts.init(data.dom);
-            /*console.log(data.dom)*/
-            var _self = this;
+        	data.dom = document.getElementById("container-stack");
+        	data.myChart = echarts.init(data.dom);
+        	var myChart = data.myChart;
+        	/*console.log(data.dom)*/
+        	var _self = this;
+        	//获取查询中的条件
+      	  bus.$on("queryDataParams",function(data){
+      	  	_self.queryDataparmars = JSON.parse(data);
+      	  	ajaxMethod(_self, 'post',
+                'diagram/querySystemTrendByYear', false,
+                JSON.stringify(_self.queryDataparmars), 'json',
+                'application/json;charset=UTF-8',
+                function(_self,result){
+		         		 if(result.data != null && result.data !=''){
+		   	        	 for(var i = 0; i < result.data.length; i++){
+		   	        		 //赋值
+		   	        		 _self.option.series[0].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 _self.option.series[1].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 _self.option.series[2].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 _self.option.series[3].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 _self.option.series[4].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 _self.option.series[0].data[result.data[i].mouthCount -1] = result.data[i].readyGradCount;	
+		   	        		 _self.option.series[1].data[result.data[i].mouthCount -1] = result.data[i].checkGradCount;	
+		   	        		 _self.option.series[2].data[result.data[i].mouthCount -1] = result.data[i].recordsCount;	
+		   	        		 _self.option.series[3].data[result.data[i].mouthCount -1] = result.data[i].evaluationCount;	
+		   	        		 _self.option.series[4].data[result.data[i].mouthCount -1] = result.data[i].selfInspectionCount;	
+		   	        	 }
+		   	        	 //重绘
+		   	        	 $('#container-stack').css('display','block');
+		   	        	 myChart.setOption(_self.option, true);
+		         		 }else{
+		         				 /*_self.option.series[0].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		           		   _self.option.series[1].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		           		   _self.option.series[2].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		           		   _self.option.series[3].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		           		   _self.option.series[4].data=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		           		   data.myChart.setOption(data.option, true);*/
+		         			 $('#container-stack').css('display','none');
+		         		 }
+		       	 });
+					});
+      	  
              if (data.option && typeof data.option === "object") {
             	 data.myChart.setOption(data.option, true);
             	 if(_self.lineShow){
@@ -187,9 +227,17 @@
             		 $('#container-stack').css('display','none');
             	 }
             	 bus.$on("yearType",function(meg){
+            		 var queryDataParamsTemp = JSON.parse(meg);
+            		 if(queryDataParamsTemp.year){
+            			 _self.queryDataparmars.year = queryDataParamsTemp.year;
+            		 }
+            		 if(queryDataParamsTemp.systemType){
+            			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }
+            		 
               	 ajaxMethod(_self, 'post',
                    'diagram/querySystemTrendByYear', false,
-                    meg, 'json',
+                   JSON.stringify(_self.queryDataparmars), 'json',
                    'application/json;charset=UTF-8',
                    function(_self,result){
 	              		 if(result.data != null && result.data !=''){

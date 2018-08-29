@@ -31,6 +31,7 @@
           </el-form-item>
         </li>
         <li class="row P-record">
+        	<el-form-item label="撤销原因：" style="margin-left:-142px" prop="revokereason" ref='revokereason'>
             <div class="mcTextArea col-md-11 col-sm-3" @click="text" style="width:100%;">
               <textarea id="textArea" cols="30" rows="10" placeholder="请输入" v-model="formData.revokereason"></textarea>
               <span class='textAll'><span id="textNum">0</span>/200</span>

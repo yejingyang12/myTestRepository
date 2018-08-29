@@ -70,7 +70,8 @@
       label: '总部统建数'
     }],
     years:[],
-    statisticsType:'1'
+    statisticsType:'1',
+    queryDataparmars:{},//关联图表查询条件
   };
   Vue.component('chart',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/chart/chart.html').then(function(res){
@@ -331,8 +332,12 @@
         },
         mounted: function() {
         	this.getStatisticsType(1);
-        	  bus.$emit("pie",this.value1,this.value3);
-        	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
+      	  bus.$emit("pie",this.value1,this.value3);
+      	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
+      	  
+      	  bus.$on("queryDataParams",function(data){
+						this.queryDataparmars = JSON.parse(data);
+					});
         }
       })
     })

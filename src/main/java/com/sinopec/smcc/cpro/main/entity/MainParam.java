@@ -86,6 +86,16 @@ public class MainParam {
   private String[] subordinateProvincesArray;
   private Long gradingBeginTimeStamp;//定级开始时间戳
   private Long gradingEndTimeStamp;//定级结束时间戳
+  private Long auditTimeBeginTimeStamp;//填报开始时间戳
+  private Long auditTimeEndTimeStamp;//填报结束时间戳
+  private Long recordDateBeginTimeStamp;//备案开始时间戳
+  private Long recordDateEndTimeStamp;//备案结束时间戳
+  private Long examTimeBeginTimeStamp;//测评开始时间戳
+  private Long examTimeEndTimeStamp;//测评结束时间戳
+  private Long rankTimeBeginTimeStamp;//定级开始时间戳
+  private Long rankTimeEndTimeStamp;//定级结束时间戳
+  private Long inspectionDateBeginTimeStamp;//自查开始时间戳
+  private Long inspectionDateEndTimeStamp;//自查结束时间戳
   
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -246,6 +256,96 @@ public class MainParam {
       this.gradingEndTime = new Date(gradingEndTimeStamp);
     }
     this.gradingEndTimeStamp = gradingEndTimeStamp;
+  }
+  public Long getAuditTimeBeginTimeStamp() {
+    return auditTimeBeginTimeStamp;
+  }
+  public void setAuditTimeBeginTimeStamp(Long auditTimeBeginTimeStamp) {
+    if(auditTimeBeginTimeStamp != null){
+      this.auditTimeBegin = new Date(auditTimeBeginTimeStamp);
+    }
+    this.auditTimeBeginTimeStamp = auditTimeBeginTimeStamp;
+  }
+  public Long getAuditTimeEndTimeStamp() {
+    return auditTimeEndTimeStamp;
+  }
+  public void setAuditTimeEndTimeStamp(Long auditTimeEndTimeStamp) {
+    if(auditTimeEndTimeStamp != null){
+      this.auditTimeEnd = new Date(auditTimeEndTimeStamp);
+    }
+    this.auditTimeEndTimeStamp = auditTimeEndTimeStamp;
+  }
+  public Long getRecordDateBeginTimeStamp() {
+    return recordDateBeginTimeStamp;
+  }
+  public void setRecordDateBeginTimeStamp(Long recordDateBeginTimeStamp) {
+    if(recordDateBeginTimeStamp != null){
+      this.recordDateBegin = new Date(recordDateBeginTimeStamp);
+    }
+    this.recordDateBeginTimeStamp = recordDateBeginTimeStamp;
+  }
+  public Long getRecordDateEndTimeStamp() {
+    return recordDateEndTimeStamp;
+  }
+  public void setRecordDateEndTimeStamp(Long recordDateEndTimeStamp) {
+    if(recordDateEndTimeStamp != null){
+      this.recordDateEnd = new Date(recordDateEndTimeStamp);
+    }
+    this.recordDateEndTimeStamp = recordDateEndTimeStamp;
+  }
+  public Long getExamTimeBeginTimeStamp() {
+    return examTimeBeginTimeStamp;
+  }
+  public void setExamTimeBeginTimeStamp(Long examTimeBeginTimeStamp) {
+    if(examTimeBeginTimeStamp != null){
+      this.examTimeBegin = new Date(examTimeBeginTimeStamp);
+    }
+    this.examTimeBeginTimeStamp = examTimeBeginTimeStamp;
+  }
+  public Long getExamTimeEndTimeStamp() {
+    return examTimeEndTimeStamp;
+  }
+  public void setExamTimeEndTimeStamp(Long examTimeEndTimeStamp) {
+    if(examTimeEndTimeStamp != null){
+      this.examTimeEnd = new Date(examTimeEndTimeStamp);
+    }
+    this.examTimeEndTimeStamp = examTimeEndTimeStamp;
+  }
+  public Long getRankTimeBeginTimeStamp() {
+    return rankTimeBeginTimeStamp;
+  }
+  public void setRankTimeBeginTimeStamp(Long rankTimeBeginTimeStamp) {
+    if(rankTimeBeginTimeStamp != null){
+      this.rankTimeBegin = new Date(rankTimeBeginTimeStamp);
+    }
+    this.rankTimeBeginTimeStamp = rankTimeBeginTimeStamp;
+  }
+  public Long getRankTimeEndTimeStamp() {
+    return rankTimeEndTimeStamp;
+  }
+  public void setRankTimeEndTimeStamp(Long rankTimeEndTimeStamp) {
+    if(rankTimeEndTimeStamp != null){
+      this.rankTimeEnd = new Date(rankTimeEndTimeStamp);
+    }
+    this.rankTimeEndTimeStamp = rankTimeEndTimeStamp;
+  }
+  public Long getInspectionDateBeginTimeStamp() {
+    return inspectionDateBeginTimeStamp;
+  }
+  public void setInspectionDateBeginTimeStamp(Long inspectionDateBeginTimeStamp) {
+    if(inspectionDateBeginTimeStamp != null){
+      this.inspectionDateBegin = new Date(inspectionDateBeginTimeStamp);
+    }
+    this.inspectionDateBeginTimeStamp = inspectionDateBeginTimeStamp;
+  }
+  public Long getInspectionDateEndTimeStamp() {
+    return inspectionDateEndTimeStamp;
+  }
+  public void setInspectionDateEndTimeStamp(Long inspectionDateEndTimeStamp) {
+    if(inspectionDateEndTimeStamp != null){
+      this.inspectionDateEnd = new Date(inspectionDateEndTimeStamp);
+    }
+    this.inspectionDateEndTimeStamp = inspectionDateEndTimeStamp;
   }
   /**
    * @return the sprankLevelArray

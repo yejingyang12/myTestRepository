@@ -247,6 +247,27 @@
               "systemType": systemType,//系统类型
               "gradingShapeType": gradingShapeType,//查询类型
               "currentPage": page,
+              //连动查询条件
+              "systemName": systemName,
+              "appIsInternet": appIsInternet,
+              "companyName": companyName,
+              "auditTimeBeginTimeStamp": auditTimeBeginTimeStamp,
+              "auditTimeEndTimeStamp": auditTimeEndTimeStamp,
+              "acceptCompany": acceptCompany,
+              "examOrg": examOrg,
+              "recordDateBeginTimeStamp": recordDateBeginTimeStamp,
+              "recordDateEndTimeStamp": recordDateEndTimeStamp,
+              "examTimeBeginTimeStamp": examTimeBeginTimeStamp,
+              "examTimeEndTimeStamp": examTimeEndTimeStamp,
+              "rankTimeBeginTimeStamp": rankTimeBeginTimeStamp,
+              "rankTimeEndTimeStamp": rankTimeEndTimeStamp,
+              "inspectionDateBeginTimeStamp": inspectionDateBeginTimeStamp,
+              "inspectionDateEndTimeStamp": inspectionDateEndTimeStamp,
+              "plTypeArray": plTypeArray,
+              "statusArray": statusArray,
+              "sprankLevelArray": sprankLevelArray,
+              "subordinateProvincesArray": subordinateProvincesArray,
+              "customFiltering": customFiltering,
             };
             ajaxMethod(_self, "post", url, false, JSON.stringify(dataparmars), "json", 'application/json;charset=UTF-8', _self.listSuccess);
           },

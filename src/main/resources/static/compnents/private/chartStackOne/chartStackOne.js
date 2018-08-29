@@ -137,6 +137,7 @@
           }
       ]
   },
+  queryDataparmars: {},//关联图表查询条件
 
   };
   Vue.component('chartStackOne',function (resolve,reject) {
@@ -149,9 +150,10 @@
         methods:{
         	// 获取系统等保等级分布统计图数据
         	getRecordsCompanyNum : function(_self) {
+        		_self.queryDataparmars.systemType = "1";
           	ajaxMethod(_self, 'post',
               'diagram/queryRecordCompanyTop10', false,
-              '{"systemType":"1"}', 'json',
+              JSON.stringify(_self.queryDataparmars), 'json',
               'application/json;charset=UTF-8',
               this.getRecordsCompanyNumSuccess);
           } ,
@@ -181,10 +183,51 @@
           this.getRecordsCompanyNum(this);
         },
         mounted: function() {
-            data.dom = document.getElementById("container-stack-one");
-            data.myChart = echarts.init(data.dom);
-            /*console.log(data.dom)*/
-            var _self = this;
+        	data.dom = document.getElementById("container-stack-one");
+        	data.myChart = echarts.init(data.dom);
+        	var myChart = data.myChart;
+        	/*console.log(data.dom)*/
+        	var _self = this;
+        	//获取查询中的条件
+      	  bus.$on("queryDataParams",function(data){
+      	  	_self.queryDataparmars = JSON.parse(data);
+      	  	ajaxMethod(_self, 'post',
+                'diagram/queryRecordCompanyTop10', false,
+                JSON.stringify(_self.queryDataparmars), 'json',
+                'application/json;charset=UTF-8',
+                function(_self,result){
+         		 if(result.data != null && result.data !=''){
+         			 _self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+         			 _self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+         			 _self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+         			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+         			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+         			 _self.option.xAxis.data = [];
+	    	         for(var i = 0; i < result.data.length; i++){
+   	        		 //赋值
+	    	        	 _self.option.xAxis.data[i] = result.data[i].companyName;
+   	        		 _self.option.series[0].data[i] = result.data[i].level1;
+   	        		 _self.option.series[1].data[i] = result.data[i].level2;	
+   	        		 _self.option.series[2].data[i] = result.data[i].level3;	
+   	        		 _self.option.series[3].data[i] = result.data[i].level4;	
+   	        		 _self.option.series[4].data[i] = result.data[i].level5;
+	    	         }
+	    	        	 //重绘
+	    	        	 $('#container-stack-one').css('display','block');
+	    	        	 myChart.setOption(_self.option, true);
+         		 	}else{
+         		 	 $('#container-stack-one').css('display','none');
+         		 		/*_self.option.series[0].data=[0,0,0,0,0,0,0,0,0,0];
+           			_self.option.series[1].data=[0,0,0,0,0,0,0,0,0,0];
+           			_self.option.series[2].data=[0,0,0,0,0,0,0,0,0,0];
+           			_self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
+           			_self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
+           			_self.option.xAxis.data = [];
+           			data.myChart.setOption(data.option, true);*/
+         		 	} 
+       	 	 });
+					});
+      	  
              if (data.option && typeof data.option === "object") {
             	 data.myChart.setOption(data.option, true);
             	 if(_self.stackOneShow){
@@ -193,9 +236,20 @@
             		 $('#container-stack-one').css('display','none');
             	 }
             	 bus.$on("recordEnd",function(meg){
+            		 var queryDataParamsTemp = JSON.parse(meg);
+            		 if(queryDataParamsTemp.dateBegin){
+            			 _self.queryDataparmars.dateBegin = queryDataParamsTemp.dateBegin;
+            		 }
+            		 if(queryDataParamsTemp.dateEnd){
+            			 _self.queryDataparmars.dateEnd = queryDataParamsTemp.dateEnd;
+            		 }
+            		 if(queryDataParamsTemp.systemType){
+            			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }
+            		 
             	 ajaxMethod(_self, 'post',
                  'diagram/queryRecordCompanyTop10', false,
-                  meg, 'json',
+                 JSON.stringify(_self.queryDataparmars), 'json',
                  'application/json;charset=UTF-8',
                  function(_self,result){
 	            		 if(result.data != null && result.data !=''){
@@ -230,9 +284,19 @@
             	 	 });
             	 }); 
             	 bus.$on("recordBegin",function(meg){
+            		 var queryDataParamsTemp = JSON.parse(meg);
+            		 if(queryDataParamsTemp.dateBegin){
+            			 _self.queryDataparmars.dateBegin = queryDataParamsTemp.dateBegin;
+            		 }
+            		 if(queryDataParamsTemp.dateEnd){
+            			 _self.queryDataparmars.dateEnd = queryDataParamsTemp.dateEnd;
+            		 }
+            		 if(queryDataParamsTemp.systemType){
+            			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }
               	 ajaxMethod(_self, 'post',
                    'diagram/queryRecordCompanyTop10', false,
-                    meg, 'json',
+                   JSON.stringify(_self.queryDataparmars), 'json',
                    'application/json;charset=UTF-8',
                    function(_self,result){
               		 if(result.data != null && result.data !=''){

@@ -59,7 +59,7 @@
     <add-form-grad>
         <li slot="gradBtn" class="fr liMargin">
             <div class="saveBnt">
-                <button type="button" class="btn btn-success " id="submit" @click="submitCheck = true" v-show="!nextBtn">提交</button>
+                <button type="button" class="btn btn-success " id="submit"  @click="submitCheck = true" v-show="!nextBtn">提交</button>
                 <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
                 <button type="button" class="btn btn-default" id="pre" @click="judgeChange('judgeChange')" v-show="!nextBtn">上一步</button>
             </div>
@@ -72,8 +72,8 @@
             </div>
         </li>
     </add-form-grad>
-    <div class="inquiryBoxShow1" style="display: none">
-        <div class="inquiry">
+    <div class="inquiryBoxShow1">
+        <div class="inquiry" style="position:fixed;">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
                 <div class="fl">

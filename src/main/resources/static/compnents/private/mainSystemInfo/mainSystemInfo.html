@@ -3,21 +3,29 @@
 	<div id="dialog"  class="evaluationAlert hDiaSelfCheck"
 		style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
 		<div class="evaluation"
-			style="padding:15px;border: 1px solid #cecece;background:#fff; width: 60%;  position: absolute;top: 30%;left: 20%;  z-index: 1s2;">
-			<p class="clearfix cut">
-				<span class="fl revokeTitle">批量导入</span> <span @click="closes1"
-					class="fr revokeTitle"
-					style="margin-right: 15px;margin-bottom: 15px;">X</span>
-			</p>
+			style="padding:15px;border: 1px solid #cecece;background:#fff; width: 65%;height:65%;  position: absolute;top: 0;left: 0;bottom:0;right:0;margin:auto;  z-index: 1s2;">
+			<p class="clearfix cut" style="margin:10px 0 0 0 ">
 			<span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项
 			</span>
+				<span class="fl revokeTitle" style="margin-top:-10px">批量导入</span> <span @click="closes1"
+					style="cursor: pointer;
+    					display: block;
+    					width: 50px;
+    					height: 50px;
+    					border: 1px solid rgb(255, 255, 255);
+					    border-radius: 50%;
+					    background: url(../../images/close.png) no-repeat;
+					    position: absolute;
+					    top: -8%;
+					    right: -8%;"></span>
+			</p>
 			<div>
-				<div class="row" style="margin:0;margin-top:60px;">
+				<div class="row" style="margin:0;margin-top:30px;">
 					<el-form :model="systemForm" :rules="systemForm.rules"
 						ref="systemForm" label-width="100px" class="demo-ruleForm">
 					<div class="col-md-12 p-up">
-						<el-form-item label="上传附件：" prop="importSystemInfo">
-						<div class="clearfix sysText col-md-12 uploadBox">
+						<el-form-item label="上传附件：" prop="importSystemInfo" style="margin-left: -35px;">
+						<div class="clearfix sysText col-md-12 uploadBox" style="width: 107%;margin-left: -35px;">
 							<div class="uploadSty">
 								<ul class="fileList" id="fileList">
 									<li v-if="!(systemForm.importSystemInfo == null || systemForm.importSystemInfo =='')">
@@ -70,7 +78,7 @@
 					<button type="button" @click="querySystemListInfoMethod()"
 						class="btn btn-default"
 						style="padding:5px 20px;width:70px;margin-right:5px;background:#3d95df;color:#fff;">查询</button>
-					<button type="button" class="btn btn-default"
+					<button type="button" class="btn btn-defaults"
 						style="padding:5px 20px;width:70px;" @click="clearHeadle">
 						清空</button>
 				</div>

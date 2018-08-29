@@ -190,7 +190,7 @@ li{
     margin-top:1px;
     border:none;
     border-bottom: 2px solid #adadad;
-    float: none !important;
+    float: right !important;
 }
 .baseMesWrap{
     margin-left:69px;
@@ -210,6 +210,9 @@ li{
     font:14px/34px "微软雅黑";
     border-right: 1px solid #cecece;
     width: 100%;
+}
+#baseMes3 div:nth-of-type(9){
+	width:1180px;
 }
 .baseMes1>div:last-child{
     border-right: none;

@@ -81,7 +81,7 @@
           	data.result1=responseData.data;
           	if(responseData.data.operation == '申请变更'){
           		$("#dialogFishBone").css('display','block');
-          	}
+          		}
           	if(responseData.data.operation == '撤销备案'){
           		this.queryRevokeRecordsInfo(responseData.data.systemId);
           	}

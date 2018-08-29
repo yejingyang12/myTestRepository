@@ -65,7 +65,6 @@ window.onload = function () {
         			$(".inquiryBoxShow1").show();
         		}
         	},
-        	
           //保存
           saveBtn:function(formName) {
             bus.$emit('addGradName',formName);
@@ -82,6 +81,7 @@ window.onload = function () {
           submitBtn:function(formName) {
             data.submitCheck = false;
             bus.$emit('addSubmitGradName',formName);
+           
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {

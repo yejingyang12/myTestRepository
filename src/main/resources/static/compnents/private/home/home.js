@@ -346,6 +346,7 @@
         		this.systemLevel = [];
         		this.checkTest=[];
         		this.systemProvince = [];
+        		this.appIsInternet = null;
         		$(".pic").css("background-image","url(../../images/home/square.png)")
         		$(".checkName1").attr("checked",false);       		
         		$("#plateType").val("");
@@ -353,6 +354,30 @@
         		$(".checkName3").attr("checked",false);
         		$("#systemCodeProvince").val("");
         		$(".checkName4").attr("checked",false);
+        		var dataparmars = {
+                "systemName": '',//系统名称
+                "appIsInternet": null,//是否为互联网应用
+                "companyName": this.value9,//所属单位
+                "auditTimeBegin": null,//填报开始时间
+                "auditTimeEnd": null,//填报结束时间
+                "acceptCompany": this.value12,//受理备案单位 
+                "examOrg": this.value10,//测评单位
+                "recordDateBegin":null,//备案开始时间
+                "recordDateEnd": null,//备案结束时间
+                "examTimeBegin": null,//测评开始时间
+                "examTimeEnd": null,//测评结束时间
+                "rankTimeBegin": null,//定级开始时间
+                "rankTimeEnd": null,//定级结束时间
+                "inspectionDateBegin": null,//自查开始时间
+                "inspectionDateEnd": null,//自查结束时间
+                "plTypeArray": [],//所属板块
+                "statusArray":[],//状态
+                "sprankLevelArray": [],//等保级别
+                "subordinateProvincesArray": this.value22,//地区
+                "customFiltering": '',//自定义
+                "currentPage": 1,
+              };
+              bus.$emit("queryDataParams",JSON.stringify(dataparmars));
         		this.createdList();
         	},
           //ajax请求成功的方法
@@ -404,8 +429,8 @@
               "systemName": selectSystemName,//系统名称
               "appIsInternet": appIsInternet,//是否为互联网应用
               "companyName": this.value9,//所属单位
-              "auditTimeBegin": applyTime,//申请开始时间
-              "auditTimeEnd": applytimeend,//申请结束时间
+              "auditTimeBegin": applyTime,//填报开始时间
+              "auditTimeEnd": applytimeend,//填报结束时间
               "acceptCompany": this.value12,//受理备案单位 
               "examOrg": this.value10,//测评单位
               "recordDateBegin":recordDateBegin,//备案开始时间
@@ -423,7 +448,7 @@
               "customFiltering": customFiltering,//自定义
               "currentPage": page,
             };
-            console.log(JSON.stringify(dataparmars))
+            bus.$emit("queryDataParams",JSON.stringify(dataparmars));
             ajaxMethod(_self, "post", url, false, JSON.stringify(dataparmars), "json", 'application/json;charset=UTF-8', _self.listSuccess);
           },
           

@@ -78,6 +78,9 @@ public class DiagramServiceImpl implements DiagramService {
     if(organizationApiResult==null){
       return list;
     }else{
+      if(diagramParam.getStatusArray() != null){
+        this.handleStatus(diagramParam);
+      }
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       
@@ -121,6 +124,9 @@ public class DiagramServiceImpl implements DiagramService {
     if(organizationApiResult==null){
       return list;
     }else{
+      if(diagramParam.getStatusArray() != null){
+        this.handleStatus(diagramParam);
+      }
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       
@@ -162,6 +168,9 @@ public class DiagramServiceImpl implements DiagramService {
     if("".equals(diagramParam.getYear())){
       diagramParam.setYear(null);
     }
+    if(diagramParam.getStatusArray() != null){
+      this.handleStatus(diagramParam);
+    }
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
     //权限
@@ -194,6 +203,131 @@ public class DiagramServiceImpl implements DiagramService {
       }
     }
     return list;
+  }
+
+  /**
+   * @Descrption
+   * @author yejingyang
+   * @date 2018年8月29日下午3:33:35
+   * @param diagramParam
+   */
+  private void handleStatus(DiagramParam diagramParam) {
+    
+    List<Integer> gradingStatus = new ArrayList<Integer>();//定级
+    List<Integer> fkExaminStatus = new ArrayList<Integer>();//审核
+    List<Integer> recordStatus = new ArrayList<Integer>();//备案
+    List<Integer> evaluationStatus = new ArrayList<Integer>();//测评
+    List<Integer> examinationStatus = new ArrayList<Integer>();//自查
+    List<Integer> examinStatus = new ArrayList<Integer>();//待。。。审核
+    
+    Integer[] stsusArray = diagramParam.getStatusArray();
+    for (int i = 0; i < stsusArray.length; i++) {
+      if(stsusArray[i] == 1){//未定级
+        diagramParam.setGradingStatusType("23");
+//        mainParam.setGradingStatus("1");
+        gradingStatus.add(1);
+      }
+      if(stsusArray[i] == 2){//预定级
+        diagramParam.setGradingStatusType("23");
+//        mainParam.setGradingStatus("2");
+        gradingStatus.add(2);
+        }
+      if(stsusArray[i] == 3){//已定级
+        diagramParam.setGradingStatusType("23");
+//        mainParam.setGradingStatus("3");
+        gradingStatus.add(3);  
+      }
+      //审核
+      if(stsusArray[i] == 4 ){//未审核
+        diagramParam.setFkExaminStatusType("24");
+//        mainParam.setFkExaminStatus(0);
+        fkExaminStatus.add(2);
+      }
+      if(stsusArray[i] == 6 ){//已审核
+        diagramParam.setFkExaminStatusType("24");
+//        mainParam.setFkExaminStatus(3);
+        fkExaminStatus.add(3);
+      }
+      //备案
+      if(stsusArray[i] == 8){//未备案
+        diagramParam.setRecordStatusType("25");
+//        mainParam.setRecordStatus("");
+        recordStatus.add(1);
+      }
+      if(stsusArray[i] == 9){//已备案
+        diagramParam.setRecordStatusType("25");
+//        mainParam.setRecordStatus("");
+        recordStatus.add(3);
+      }
+      if(stsusArray[i] == 10){//撤销备案
+        diagramParam.setRecordStatusType("25");
+//        mainParam.setRecordStatus("");
+        recordStatus.add(4);
+      }
+      
+      //测评
+      if(stsusArray[i] == 11){//未测评
+        diagramParam.setEvaluationStatusType("26");
+//        mainParam.setEvaluationStatus("");
+        evaluationStatus.add(1);
+      }
+      if(stsusArray[i] == 12){//以测评
+        diagramParam.setEvaluationStatusType("26");
+//      mainParam.setEvaluationStatus("");
+        evaluationStatus.add(3);
+      }
+      
+      //自查
+      if(stsusArray[i] == 13){
+        diagramParam.setExaminationStatusType("27");
+//        mainParam.setExaminationStatus("1");
+        examinationStatus.add(1);
+      }
+      if(stsusArray[i] == 14){//以自查
+        diagramParam.setExaminationStatusType("27");
+//      mainParam.setExaminationStatus("1");
+        examinationStatus.add(3);
+      }
+      //状态为待审核，查询审核状态为：
+      //1：待企业安全员管理审核；
+      //2：待总部安全管理员审核；
+      /*if(mainParam.getStatus() == 5){
+    mainParam.setFkExaminStatus(1);
+    }*/
+      if(stsusArray[i] == 15){//待企业业务审核
+        diagramParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(1);
+        examinStatus.add(1);
+      }
+      if(stsusArray[i] == 16){//待总部安全审核
+        diagramParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(2);
+        examinStatus.add(2);
+      }
+      
+      //状态为审核未通过，查询审核状态为
+      //3：企业安全员管理审核未通过；
+      //4：总部安全管理员审核未通过；
+      /*if(mainParam.getStatus() == 7){
+      mainParam.setFkExaminStatus(3);
+    }*/
+      if(stsusArray[i] == 17){//企业业务审核未通过
+        diagramParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(3);
+        examinStatus.add(3);
+      }
+      if(stsusArray[i] == 18){//总部安全审核未通过
+        diagramParam.setExaminStatusType("28");
+//        mainParam.setFkExaminStatus(4);
+        examinStatus.add(4);
+      }
+    }
+    diagramParam.setGradingStatus1(gradingStatus);
+    diagramParam.setFkExaminStatus1(fkExaminStatus);
+    diagramParam.setRecordStatus1(recordStatus);
+    diagramParam.setEvaluationStatus1(evaluationStatus);
+    diagramParam.setExaminationStatus1(examinationStatus);
+    diagramParam.setExaminStatus1(examinStatus);
   }
 
 }

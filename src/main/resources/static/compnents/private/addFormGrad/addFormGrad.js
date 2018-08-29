@@ -1,7 +1,7 @@
 var data={
 	pickerOptions0: {
 	      disabledDate: function(time) {
-	        return time.getTime() < Date.now() - 8.64e7;
+	       
 	      }
 	},
 	companyBySession:"",

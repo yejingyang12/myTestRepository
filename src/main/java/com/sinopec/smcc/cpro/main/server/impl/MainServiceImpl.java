@@ -3237,6 +3237,10 @@ public class MainServiceImpl implements MainService{
         e.printStackTrace();
       }
     }
+    //处理高级查询状态
+    if(mainParam.getStatusArray() != null){
+      this.handleStatus(mainParam);
+    }
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();

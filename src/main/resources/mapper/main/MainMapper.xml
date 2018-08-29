@@ -103,6 +103,8 @@
       LEFT JOIN t_cpro_system_code AS examinationSystemCode 
         ON system.examinationStatus = examinationSystemCode.systemCode
         AND examinationSystemCode.fkCodeType = 25
+      LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
+        AND node.operation = '创建'
     ]]>
     <where>
       <if test="companyList != null">
@@ -269,12 +271,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND examine.executeTime >= #{auditTimeBegin,jdbcType=DATE}
+          AND node.createTime >= #{auditTimeBegin,jdbcType=DATE}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND examine.executeTime <= #{auditTimeEnd,jdbcType=DATE}
+          AND node.createTime <= #{auditTimeEnd,jdbcType=DATE}
         ]]>
       </if>
       <if test="recordDateBegin != null ">
@@ -690,8 +692,25 @@
       AND code.systemFatherCode = 3
     LEFT JOIN t_cpro_system system
       ON score.fkSystemId = system.pkId
-    LEFT JOIN t_cpro_company com 
+    LEFT JOIN t_cpro_company AS com  
       ON com.companyCode = system.fkCompanyCode
+          LEFT JOIN t_cpro_records AS records 
+      ON system.pkId = records.fkSystemId
+    LEFT JOIN t_cpro_evaluation AS evaluation 
+      ON system.pkId = evaluation.fkSystemId
+      AND evaluation.deleteStatus = 1
+      AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
+                                   WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
+    LEFT JOIN t_cpro_self_inspection AS selfInspection 
+      ON system.pkId = selfInspection.fkSystemId
+      AND selfInspection.deleteStatus = 1
+      AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
+                                       WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
+    LEFT JOIN t_cpro_check AS examine 
+      ON system.pkId = examine.fkSystemId
+    LEFT JOIN t_cpro_system_code AS systemCodeInfoSysTypeConstruction 
+      ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
+      AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
     <where>
       	score.deleteStatus = 1 
 		AND system.deleteStatus = 1 
@@ -791,7 +810,338 @@
 	          ]]>
 	        </if>
         </if>
-        
+      </if>
+            <!-- 查询条件连动 -->
+      <if test="systemName != null and systemName != ''">
+      	<bind name="systemName" value="'%' + _parameter.systemName + '%'" />
+        <![CDATA[
+          AND system.systemName LIKE #{systemName}
+        ]]>
+      </if>
+      <if test="appIsInternet != null">
+      	<![CDATA[
+          AND system.appIsInternet = #{appIsInternet}
+        ]]>
+      </if>
+      <if test="companyName and companyName != ''">
+        <bind name="companyName" value="'%' + _parameter.companyName + '%'" />
+        <![CDATA[
+          AND com.companyName LIKE #{companyName}
+        ]]>
+      </if>
+      <if test="auditTimeBegin != null ">
+        <![CDATA[
+          AND examine.executeTime >= #{auditTimeBegin}
+        ]]>
+      </if>
+      <if test="auditTimeEnd != null ">
+        <![CDATA[
+          AND examine.executeTime <= #{auditTimeEnd}
+        ]]>
+      </if>
+      <if test="acceptCompany != null and acceptCompany != ''">
+        <bind name="acceptCompany" value="'%' + _parameter.acceptCompany + '%'" />
+        <![CDATA[
+          AND records.acceptCompany LIKE #{acceptCompany}
+        ]]>
+      </if>
+      <if test="examOrg != null and examOrg != ''">
+        <bind name="examOrg" value="'%' + _parameter.examOrg + '%'" />
+        <![CDATA[
+          AND evaluation.examOrg LIKE #{examOrg}
+        ]]>
+      </if>
+      <if test="recordDateBegin != null ">
+        <![CDATA[
+          AND records.recordDate >= #{recordDateBegin}
+        ]]>
+      </if>
+      <if test="recordDateEnd != null ">
+        <![CDATA[
+          AND records.recordDate <= #{recordDateEnd}
+        ]]>
+      </if>
+      <if test="examTimeBegin != null ">
+        <![CDATA[
+          AND evaluation.examTime >= #{examTimeBegin}
+        ]]>
+      </if>
+      <if test="examTimeEnd != null ">
+        <![CDATA[
+          AND evaluation.examTime <= #{examTimeEnd}
+        ]]>
+      </if>
+      <if test="rankTimeBegin != null ">
+        <![CDATA[
+          AND score.rankTime >= #{rankTimeBegin}
+        ]]>
+      </if>
+      <if test="rankTimeEnd != null ">
+        <![CDATA[
+          AND score.rankTime <= #{rankTimeEnd}
+        ]]>
+      </if>
+      <if test="inspectionDateBegin != null ">
+        <![CDATA[
+          AND selfInspection.inspectionDate >= #{inspectionDateBegin}
+        ]]>
+      </if>
+      <if test="inspectionDateEnd != null ">
+        <![CDATA[
+          AND selfInspection.inspectionDate <= #{inspectionDateEnd}
+        ]]>
+      </if>
+      <if test="plTypeArray != null and plTypeArray.length > 0">
+        <![CDATA[
+          AND com.fkPlateType IN  
+        ]]>
+        <foreach collection="plTypeArray" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="sprankLevelArray != null and sprankLevelArray.length > 0">
+        <![CDATA[
+          AND score.fkSprankLevel IN  
+        ]]>
+        <foreach collection="sprankLevelArray" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="subordinateProvincesArray != null and subordinateProvincesArray.length > 0">
+        <![CDATA[
+          AND com.fkSubordinatePro IN  
+        ]]>
+        <foreach collection="subordinateProvincesArray" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="customFiltering != null and customFiltering != ''">
+        <bind name="customFiltering" value="'%' + _parameter.customFiltering + '%'" />
+          <![CDATA[
+             system.systemName LIKE #{customFiltering} 
+             AND (system.deleteStatus=1 
+				     AND system.fkSystemType != 3
+				     AND fkSystemIsMerge = 2)
+             OR com.companyName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR com.fkPlateType LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR systemCodeSprankLevel.codeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.appIsInternet LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR systemCodeInfoSysTypeConstruction.codeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR examine.fkExaminStatus LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.standardizedCode LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.gradeRecordSysName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysBusSituationType LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysBusDescription LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysServiceSitScope LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.sysServiceSitObject LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.npCoverageRange LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.npNetworkProperties LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.executiveOfficeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.executiveDireCon LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.executiveDireConTel LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.changeReason LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR system.changeContent LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR gradingSystemCode.codeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR examineSystemCode.codeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR recordSystemCode.codeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR evaluationSystemCode.codeName LIKE #{customFiltering}
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR examinationSystemCode.codeName LIKE #{customFiltering}  
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+             OR systemCodeAppIsInternet.codeName LIKE #{customFiltering} 
+             AND (system.deleteStatus=1 
+             AND system.fkSystemType != 3
+             AND fkSystemIsMerge = 2)
+          ]]>
+      </if>
+      <!-- 定级状态 -->
+      <if test="systemCodeType != null and systemCodeType == '23'">
+        <![CDATA[
+          AND system.gradingStatus = #{gradingStatus}
+        ]]>
+      </if>
+      <!-- 审核状态  待审核-->
+	    <if test="fkExaminStatus != null and fkExaminStatus == 1">
+	        <![CDATA[
+	          AND examine.fkExaminStatus = 1 
+	        ]]>
+	    </if>
+	    <if test="fkExaminStatus != null and fkExaminStatus == 2">
+	        <![CDATA[
+	          AND examine.fkExaminStatus = 2 
+	        ]]>
+	    </if>
+	    <!-- 审核状态 已审核-->
+      <if test="fkExaminStatus != null and fkExaminStatus == 5">
+          <![CDATA[
+            AND examine.fkExaminStatus = 5
+          ]]>
+      </if>
+      <!-- 审核状态 审核未通过-->
+      <if test="fkExaminStatus != null and fkExaminStatus == 3">
+          <![CDATA[
+             AND examine.fkExaminStatus = 3 
+          ]]>
+      </if>
+      <if test="fkExaminStatus != null and fkExaminStatus == 4">
+          <![CDATA[
+             AND examine.fkExaminStatus = 4 
+          ]]>
+      </if>
+      <!-- 备案状态 -->
+      <if test="systemCodeType != null and systemCodeType == '25'">
+        <![CDATA[
+          AND system.recordStatus = #{recordStatus}
+        ]]>
+      </if>
+      <!-- 测评状态 -->
+      <if test="systemCodeType != null and systemCodeType == '26'">
+        <![CDATA[
+          AND system.evaluationStatus = #{evaluationStatus}
+        ]]>
+      </if>
+      <!-- 自查状态 -->
+      <if test="systemCodeType != null and systemCodeType == '27'">
+        <![CDATA[
+          AND system.examinationStatus = #{examinationStatus}
+        ]]>
+      </if>
+      
+      <if test="gradingStatus1 !=null and gradingStatusType == '23'">
+        <![CDATA[
+          AND system.gradingStatus IN  
+        ]]>
+        <foreach collection="gradingStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>
+      <if test="fkExaminStatus1 !=null and fkExaminStatusType == '24'">
+        <![CDATA[
+          AND system.examineStatus IN  
+        ]]>
+        <foreach collection="fkExaminStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>
+      <if test="recordStatus1 !=null and recordStatusType == '25'">
+        <![CDATA[
+          AND system.recordStatus IN  
+        ]]>
+        <foreach collection="recordStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if> 
+      <if test="evaluationStatus1 !=null and evaluationStatusType == '26'">
+          <![CDATA[
+          AND system.evaluationStatus IN  
+        ]]>
+        <foreach collection="evaluationStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>
+      <if test="examinationStatus1 !=null and examinationStatusType == '27'">
+        <![CDATA[
+          AND system.examinationStatus IN  
+        ]]>
+        <foreach collection="examinationStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
+      </if>
+      <if test="examinStatus1 !=null and examinStatusType == '28'">
+        <![CDATA[
+          AND system.examineStatus IN  
+        ]]>
+        <foreach collection="examinStatus1" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>								
       </if>
     </where>
       GROUP BY

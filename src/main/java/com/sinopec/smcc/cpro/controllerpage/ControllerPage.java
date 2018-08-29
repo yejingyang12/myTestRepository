@@ -270,6 +270,27 @@ public class ControllerPage {
     model.addAttribute("gradingEndTimeStamp", mainParam.getGradingEndTimeStamp());
     model.addAttribute("systemType", mainParam.getSystemType());
     model.addAttribute("gradingShapeType", mainParam.getGradingShapeType());
+    //连动条件
+    model.addAttribute("systemName", mainParam.getSystemName());
+    model.addAttribute("appIsInternet", mainParam.getAppIsInternet());
+    model.addAttribute("companyName", mainParam.getCompanyName());
+    model.addAttribute("auditTimeBeginTimeStamp", mainParam.getAuditTimeBeginTimeStamp());
+    model.addAttribute("auditTimeEndTimeStamp", mainParam.getAuditTimeEndTimeStamp());
+    model.addAttribute("acceptCompany", mainParam.getAcceptCompany());
+    model.addAttribute("examOrg", mainParam.getExamOrg());
+    model.addAttribute("recordDateBeginTimeStamp", mainParam.getRecordDateBeginTimeStamp());
+    model.addAttribute("recordDateEndTimeStamp", mainParam.getRecordDateEndTimeStamp());
+    model.addAttribute("examTimeBeginTimeStamp", mainParam.getExamTimeBeginTimeStamp());
+    model.addAttribute("examTimeEndTimeStamp", mainParam.getExamTimeEndTimeStamp());
+    model.addAttribute("rankTimeBeginTimeStamp", mainParam.getRankTimeBeginTimeStamp());
+    model.addAttribute("rankTimeEndTimeStamp", mainParam.getRankTimeEndTimeStamp());
+    model.addAttribute("inspectionDateBeginTimeStamp", mainParam.getInspectionDateBeginTimeStamp());
+    model.addAttribute("inspectionDateEndTimeStamp", mainParam.getInspectionDateEndTimeStamp());
+    model.addAttribute("plTypeArray", mainParam.getPlTypeArray());
+    model.addAttribute("statusArray", mainParam.getStatusArray());
+    model.addAttribute("sprankLevelArray", mainParam.getSprankLevelArray());
+    model.addAttribute("subordinateProvincesArray", mainParam.getSubordinateProvincesArray());
+    model.addAttribute("customFiltering", mainParam.getCustomFiltering());
     return "views/showChartDataList";
   }
 }
