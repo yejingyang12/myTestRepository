@@ -249,14 +249,20 @@ input[type="radio"] {
  }
 .btn.focus, .btn:focus, .btn:hover {  color: #fff; }
 .pic2{background-image: url(../../images/home/square-true.png);}
+ @media screen and (max-width: 1250px) {
+            .flexs {
+                width:1280px;
+            }
+        }
+        
 </style>
 </head>
 <body class="h-body">
 <div id="app">
-     <smcc-header>
+     <smcc-header class="flexs">
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
      </smcc-header>
-    <home>
+    <home class="flexs">
         <!--帮助中心 箭头 插槽-->
         <img src="../../static/images/home/s01xialayijianxiazai.png" id="arrowHelp" th:attr="src=@{/images/home/s01xialayijianxiazai.png}" slot="arrowHelp">
         
@@ -278,7 +284,7 @@ input[type="radio"] {
         <!--<img @click="downloadFile('')" id="download" src="../../static/images/home/xiazaikexiazai.png"-->
         <!--alt="" th:attr="src=@{/images/home/xiazaikexiazai.png}" slot="xiazaikexiazai">-->
 </home>
-    <chart></chart>
+    <chart class="flexs"></chart>
 </div>
 </body>
 <!--插件-->

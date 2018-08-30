@@ -162,6 +162,9 @@ li{
 	height: 34px;
     margin-bottom:0px; 
 }
+.nu:hover{
+	background:#fff !important;
+}
 .lastLine{
     width: 100%;
     height: 1px;

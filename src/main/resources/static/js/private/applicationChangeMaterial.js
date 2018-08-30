@@ -11,6 +11,7 @@ window.onload = function () {
         methods:{
         	//到定级页
         	toGradPageSession:function(_self){
+        		bus.$emit('deleteConfirm',_self);
         			ajaxMethod(_self, 'post',
                   'grading/saveSystemMaterialsSession', false,
                   JSON.stringify(data.formData), 'json',
@@ -24,6 +25,7 @@ window.onload = function () {
         	},
           //保存
           saveBtn:function(formName) {
+          	bus.$emit('deleteConfirm',formName);
             bus.$emit('changeMaterialFormName',formName);
           },
           //返回
@@ -52,6 +54,7 @@ window.onload = function () {
           },
           //提交
           submitBtn:function(formName) {
+          	bus.$emit('deleteConfirm',formName);
             data.submitCheck = false;
             bus.$emit('changeSubmitMaterialFormName',formName);
           },

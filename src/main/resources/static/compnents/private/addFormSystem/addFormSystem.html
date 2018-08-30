@@ -10,7 +10,7 @@
             <el-form action="" method="post" id="AddformSystem" name="AddformSystem" :model="formData" :rules="rules" ref="formData" label-width="145px" class="P-addformsystem">
                 <ul class="clearfix dataForm">
                     <li class="row">
-                        <div class="col-lg-6 col-sm-3" v-if="change">
+                        <div class="col-lg-6 col-md-6" v-if="change">
                             <el-form-item label="信息系统建设类型：" prop="fkInfoSysTypeCon" class="P-addsystem">
                                 <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1">
                                     <input type="hidden" name="formData.fkInfoSysTypeCon" v-model="formData.fkInfoSysTypeCon">
@@ -21,7 +21,7 @@
                                 <div class="mcAddSysBuildTxt"></div>
                             </el-form-item>
                         </div>
-                        <div class="col-lg-6 col-sm-3" v-else>
+                        <div class="col-lg-6 col-md-6" v-else>
                             <el-form-item label="信息系统建设类型：" prop="fkInfoSysTypeCon" class="P-addsystem">
                                 <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1">
                                     <input type="hidden" name="formData.fkInfoSysTypeCon" v-model="formData.fkInfoSysTypeCon">
@@ -35,7 +35,7 @@
                                 <div class="mcAddSysBuildTxt"></div>
                             </el-form-item>
                         </div>
-                        <div class="col-lg-6 col-sm-3" v-if="change">
+                        <div class="col-lg-6 col-md-6" v-if="change">
                             <el-form-item label="是否为合并系统：" prop="fkSystemIsMerge" class="P-addsystem">
                                 <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2">
                                     <input type="hidden" name="formData.fkSystemIsMerge" v-model="formData.fkSystemIsMerge">
@@ -44,7 +44,7 @@
                                 </div>
                             </el-form-item>
                         </div>
-                        <div class="col-lg-6 col-sm-3" v-else>
+                        <div class="col-lg-6 col-md-6" v-else>
                             <el-form-item label="是否为合并系统：" prop="fkSystemIsMerge" class="P-addsystem">
                                 <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes2">
                                     <input type="hidden" name="formData.fkSystemIsMerge" v-model="formData.fkSystemIsMerge">
@@ -53,7 +53,7 @@
                                 </div>
                             </el-form-item>
                         </div>
-                        <div class="col-lg-6 col-sm-3 hintBox" v-if="formData.fkInfoSysTypeCon!==''">
+                        <div class="col-lg-6 col-md-6 hintBox" v-if="formData.fkInfoSysTypeCon!==''">
                           <i class="fl">!</i>
                           <span v-if="formData.fkInfoSysTypeCon==1">企业自建</span>
                           <span v-else-if="formData.fkInfoSysTypeCon==2">总部统建，部署在企业</span>

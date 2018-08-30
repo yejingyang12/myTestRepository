@@ -230,9 +230,13 @@
             		 var queryDataParamsTemp = JSON.parse(meg);
             		 if(queryDataParamsTemp.year){
             			 _self.queryDataparmars.year = queryDataParamsTemp.year;
+            		 }else{
+            			 _self.queryDataparmars.year = '';
             		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }else{
+            			 _self.queryDataparmars.systemType = '';
             		 }
             		 
               	 ajaxMethod(_self, 'post',

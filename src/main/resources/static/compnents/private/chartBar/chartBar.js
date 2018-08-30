@@ -183,15 +183,23 @@
           		 var queryDataParamsTemp = JSON.parse(meg);
           		 if(queryDataParamsTemp.gradingBeginTime){
           			 _self.queryDataparmars.gradingBeginTime = queryDataParamsTemp.gradingBeginTime;
+          		 }else{
+          			 _self.queryDataparmars.gradingBeginTime = '';
           		 }
           		 if(queryDataParamsTemp.gradingEndTime){
           			 _self.queryDataparmars.gradingEndTime = queryDataParamsTemp.gradingEndTime;
+          		 }else{
+          			 _self.queryDataparmars.gradingEndTime = '';
           		 }
           		 if(queryDataParamsTemp.gradingShapeType){
           			 _self.queryDataparmars.gradingShapeType = queryDataParamsTemp.gradingShapeType;
+          		 }else{
+          			 _self.queryDataparmars.gradingShapeType = '';
           		 }
           		 if(queryDataParamsTemp.systemType){
           			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+          		 }else{
+          			 _self.queryDataparmars.systemType = '';
           		 }
           	 ajaxMethod(_self, 'post',
                'main/queryGradingStatistics', false,
@@ -232,15 +240,23 @@
           		 var queryDataParamsTemp = JSON.parse(meg);
           		 if(queryDataParamsTemp.gradingBeginTime){
           			 _self.queryDataparmars.gradingBeginTime = queryDataParamsTemp.gradingBeginTime;
+          		 }else{
+          			 _self.queryDataparmars.gradingBeginTime = '';
           		 }
           		 if(queryDataParamsTemp.gradingEndTime){
           			 _self.queryDataparmars.gradingEndTime = queryDataParamsTemp.gradingEndTime;
+          		 }else{
+          			 _self.queryDataparmars.gradingEndTime = '';
           		 }
           		 if(queryDataParamsTemp.gradingShapeType){
           			 _self.queryDataparmars.gradingShapeType = queryDataParamsTemp.gradingShapeType;
+          		 }else{
+          			 _self.queryDataparmars.gradingShapeType = '';
           		 }
           		 if(queryDataParamsTemp.systemType){
           			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+          		 }else{
+          			 _self.queryDataparmars.systemType = '';
           		 }
             	 ajaxMethod(_self, 'post',
                  'main/queryGradingStatistics', false,
@@ -281,15 +297,23 @@
           		 var queryDataParamsTemp = JSON.parse(meg);
           		 if(queryDataParamsTemp.gradingBeginTime){
           			 _self.queryDataparmars.gradingBeginTime = queryDataParamsTemp.gradingBeginTime;
+          		 }else{
+          			 _self.queryDataparmars.gradingBeginTime = '';
           		 }
           		 if(queryDataParamsTemp.gradingEndTime){
           			 _self.queryDataparmars.gradingEndTime = queryDataParamsTemp.gradingEndTime;
+          		 }else{
+          			 _self.queryDataparmars.gradingEndTime = '';
           		 }
           		 if(queryDataParamsTemp.gradingShapeType){
           			 _self.queryDataparmars.gradingShapeType = queryDataParamsTemp.gradingShapeType;
+          		 }else{
+          			 _self.queryDataparmars.gradingShapeType = '';
           		 }
           		 if(queryDataParamsTemp.systemType){
           			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+          		 }else{
+          			 _self.queryDataparmars.systemType = '';
           		 }
           		 var a=JSON.parse(meg); 
         		 _self.hSystemType=a.systemType;  

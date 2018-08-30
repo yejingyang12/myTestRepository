@@ -71,26 +71,31 @@
     .P-form-input2 .el-form-item__content{
       width:975px;
     }
+     @media screen and (max-width: 1250px) {
+            .flexs {
+                width:1280px;
+            }
+        }
     </style>
 </head>
 <body>
   <div id="app" v-cloak>
-    <smcc-header>
+    <smcc-header class="flexs">
         <img src="../../static/images/logo.png" th:attr="src=@{/images/logo.png}" slot="smmc-header-img">
         <!--<img src="../../static/images/sousuo.jpg" th:attr="src=@{/images/sousuo.jpg}" slot="smmc-header-sou">
         <img src="../../static/images/ss.png" th:attr="src=@{/images/ss.png}" slot="smmc-head-ss">-->
     </smcc-header>
-    <smcc-breadcrumb>
+    <smcc-breadcrumb class="flexs">
       <li slot="materialChangeBtn" class="fr liMargin">
-        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+        <button type="button" class="btn btn-default nu  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
       </li>
     </smcc-breadcrumb> 
-    <add-list></add-list>
-    <add-form-cha></add-form-cha>
-    <add-form>
+    <add-list class="flexs"></add-list>
+    <add-form-cha class="flexs"></add-form-cha>
+    <add-form class="flexs">
         <div slot="addInf"  class="btn btn-success dianji btnNext fr" @click="submitHandler('formData')">下一步</div>
     </add-form>
-    <add-fromalert></add-fromalert>
+    <add-fromalert class="flexs"></add-fromalert>
     <div class="inquiryBoxShow" v-show="check">
         <div class="inquiry">
             <div class="cenrerBox">

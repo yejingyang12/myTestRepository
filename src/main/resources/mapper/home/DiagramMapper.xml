@@ -209,6 +209,8 @@
       LEFT JOIN t_cpro_system_code AS examinationSystemCode 
         ON system.examinationStatus = examinationSystemCode.systemCode
         AND examinationSystemCode.fkCodeType = 25
+      LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
+        AND node.operation = '创建'
 		]]>
 		<where>
 		  system.deleteStatus = 1 
@@ -278,12 +280,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND examine.executeTime >= #{auditTimeBegin}
+          AND node.createTime >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND examine.executeTime <= #{auditTimeEnd}
+          AND node.createTime <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">
@@ -655,6 +657,8 @@
       LEFT JOIN t_cpro_system_code AS examinationSystemCode 
         ON system.examinationStatus = examinationSystemCode.systemCode
         AND examinationSystemCode.fkCodeType = 25
+	    LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
+	      AND node.operation = '创建'
 		]]>
 		<where>
 		  system.deleteStatus = 1 
@@ -725,12 +729,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND examine.executeTime >= #{auditTimeBegin}
+          AND node.createTime >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND examine.executeTime <= #{auditTimeEnd}
+          AND node.createTime <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">
@@ -1138,6 +1142,8 @@
 			AND evaluationSystemCode.fkCodeType = 25
 			LEFT JOIN t_cpro_system_code AS examinationSystemCode ON system.examinationStatus = examinationSystemCode.systemCode 
 			AND examinationSystemCode.fkCodeType = 25 
+    	LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
+      AND node.operation = '创建'
 		<where>
 		  system.deleteStatus = 1 
 		  AND system.createTime!=''
@@ -1202,12 +1208,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND examine.executeTime >= #{auditTimeBegin}
+          AND node.createTime >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND examine.executeTime <= #{auditTimeEnd}
+          AND node.createTime <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">
@@ -1516,6 +1522,6 @@
       </if>
     </where>
 		GROUP BY MONTH(system.createTime)
-		HAVING readyGradCount!=0 AND checkGradCount!=0 AND recordsCount!=0 AND evaluationCount!=0 AND selfInspectionCount!=0
+		<!-- HAVING readyGradCount!=0 AND checkGradCount!=0 AND recordsCount!=0 AND evaluationCount!=0 AND selfInspectionCount!=0 -->
 	</select>
 </mapper>

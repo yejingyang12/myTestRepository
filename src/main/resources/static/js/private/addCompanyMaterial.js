@@ -11,6 +11,7 @@ window.onload = function () {
         methods:{
           //保存
           saveBtn:function(formName) {
+          	bus.$emit('deleteConfirm',formName);
             bus.$emit('addMaterialFormName',formName);
           },
           // 获取系统信息成功
@@ -23,6 +24,7 @@ window.onload = function () {
           },
           //提交
           submitBtn:function(formName) {
+          	bus.$emit('deleteConfirm',formName);
             data.submitCheck = false;
             bus.$emit('addSubmitMaterialFormName',formName);
           },
@@ -36,6 +38,7 @@ window.onload = function () {
           },
           //上一页
           preBtn:function(formName) {
+          	bus.$emit('deleteConfirm',formName);
             data.check = false;
             bus.$emit('addPreMaterialFormName',formName);
           },
@@ -103,6 +106,7 @@ window.onload = function () {
           //保存返回
           retuenSave:function(formName){
           	this.retuenCheck = false;
+          	bus.$emit('deleteConfirm',formName);
             bus.$emit('retuenSaveAttach',formName);
           },
           //不保存返回

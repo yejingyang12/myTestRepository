@@ -223,7 +223,7 @@ var  data={
              { required: true, message: '至少创建两条子系统', trigger: 'change' }
           ],
           standardizedCode:[  // 标准化代码
-              { required: true, message: '请输入标准化代码', trigger: 'change' }
+              { required: false, message: '请输入标准化代码', trigger: 'change' }
           ],
           gradeRecordSysName:[  // 等保备案系统名称
               { required: false, message: '请输入等保备案系统名称', trigger: 'blur' },
@@ -483,7 +483,7 @@ var  data={
                 			 this.delIndex = delIndex;
                 		 }
                 	},
-                	delSonSystemLast:function(){  
+                	delSonSystemLast:function(){
                 	  if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
                 	    return;
                 	  }
@@ -571,6 +571,24 @@ var  data={
                     this.$refs.formData.validateField('fkInfoSysTypeCon');
                   },
                   getMergeClass:function(e,param){
+                  	this.paramNan = true;
+                  	this.rules.standardizedCode[0].required=true;
+                    this.systemInfo = true;
+                    this.systemSonInfo = false;
+                    this.formData.addSystemSub=[];
+                    this.promptCount=false;
+              			this.formData.checkCount = '1';
+              			this.formData.systemName = "";
+              			this.systemNameSon1 = [];
+              			this.systemNameSon12= [];
+              			Vue.set(this.systemNameSon12, 0, false);
+              			Vue.set(this.systemNameSon1, 0, true);
+              			this.formData.addSystemSubSon = [];
+                  	this.formData.systemNameSon="1";
+                  	this.formData.systemCodeSon="1";
+                  	this.formData.stars="1";
+                  	this.formData.aa = '1';
+                  	
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.fkSystemIsMerge = param;
                     if(param==1 && this.paramNan == true){
@@ -598,20 +616,7 @@ var  data={
                     	this.rules.standardizedCode[0].required=true;
                       this.systemInfo = true;
                       this.systemSonInfo = false;
-                      this.formData.addSystemSub=[
-//                      {
-//                        label:"子系统1系统名称：",
-//                        labelCode:"子系统1标准化代码：",
-//                        systemName:"",
-//                        standardizedCode:""
-//                      },
-//                      {
-//                        label:"子系统2系统名称：",
-//                        labelCode:"子系统2标准化代码：",
-//                        systemName:"",
-//                        standardizedCode:""
-//                      }
-                      ];
+                      this.formData.addSystemSub=[];
                       this.promptCount=false;
                 			this.formData.checkCount = '1';
                 			this.formData.systemName = "";
@@ -1153,10 +1158,14 @@ var  data={
                       if(response.fkSystemIsMerge == '1'){
                         this.systemSonInfo = true;
                         this.systemInfo = false;
-                        $("#systemInfo1").attr("disabled","disabled");
-												//下面的这句改过，会放开子系统的
-//                        this.systemInfo2 = true;
-                        this.rules.standardizedCode[0].required=false;
+                        if(type=="create"){
+                        	$("#systemInfo1").removeAttr("disabled");
+                        	this.systemInfo2 = true;
+                        }else if(type="change"){
+                        	$("#systemInfo1").attr("disabled","disabled");
+                        	this.systemInfo2 = false;
+                        	this.rules.standardizedCode[0].required=false;
+                        }
                       }else{
                       	this.rules.standardizedCode[0].required=true;
                         this.systemSonInfo = false;
@@ -1179,8 +1188,10 @@ var  data={
                       if(_self.formData.fkSystemIsMerge!=''){
                         var array = $('#baseMes2').find('div').map(function (index, ele) {
                           if(_self.formData.fkSystemIsMerge==1&&ele.innerHTML=='是'){
+                          	_self.rules.standardizedCode[0].required=false;
                             return ele;
                           }else if(_self.formData.fkSystemIsMerge==2&&ele.innerHTML=='否'){
+                          	_self.rules.standardizedCode[0].required=true;
                             return ele;
                           }else{
                              return "";
@@ -1200,7 +1211,6 @@ var  data={
                         }).get();
                         $(array).addClass('btnColor')
                       }
-
                       if(_self.formData.sysBusSituationType!=''){
                         var array = $('#sysType').find('div').map(function (index, ele) {
                           if(ele.innerHTML==_self.formData.sysBusSituationType){
@@ -1424,10 +1434,12 @@ var  data={
                     },
                     querySystemSessionSuccess:function(_self,responseData){
                     	if(responseData.data!=null){
-                    		
                     		_self.substitute = responseData;
-                    		_self.change = true;
-
+                    		if(type=="create"){
+                    	  	this.change = false;
+                        }else if(type="change"){
+                        	this.change = true;
+                        }
                     		_self.flag = true;
                     	}
                     },
@@ -1460,8 +1472,8 @@ var  data={
                   this.getParentCompanyMethod(this);
                   //获取系统主管处室
 //                  this.getSystemExecutiveApi(this);
-                  
-                  //从session中获取数据
+
+									//从session中获取数据
                   this.getSystemSession(this);
                 },
                 mounted: function() {
@@ -1503,7 +1515,11 @@ var  data={
                   }
                   if(!this.flag){
                   	if(systemId!=''&&systemId!=null){
-                  		this.change = true;
+                  	  if(type=="create"){
+                  	  	this.change = false;
+                      }else if(type="change"){
+                      	this.change = true;
+                      }
                   		this.formData.systemId = systemId;
                   		this.getGetSystemMethod(this,systemId);
                   	}

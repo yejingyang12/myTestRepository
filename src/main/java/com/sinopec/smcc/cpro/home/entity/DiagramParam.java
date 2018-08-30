@@ -210,24 +210,28 @@ public class DiagramParam {
   public void setCompanyName(String companyName) {
     this.companyName = companyName;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getGradingBeginTime() {
     return gradingBeginTime;
   }
   public void setGradingBeginTime(Date gradingBeginTime) {
     this.gradingBeginTime = gradingBeginTime;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getGradingEndTime() {
     return gradingEndTime;
   }
   public void setGradingEndTime(Date gradingEndTime) {
     this.gradingEndTime = gradingEndTime;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getAuditTimeBegin() {
     return auditTimeBegin;
   }
   public void setAuditTimeBegin(Date auditTimeBegin) {
     this.auditTimeBegin = auditTimeBegin;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getAuditTimeEnd() {
     return auditTimeEnd;
   }
@@ -246,48 +250,56 @@ public class DiagramParam {
   public void setExamOrg(String examOrg) {
     this.examOrg = examOrg;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRecordDateBegin() {
     return recordDateBegin;
   }
   public void setRecordDateBegin(Date recordDateBegin) {
     this.recordDateBegin = recordDateBegin;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRecordDateEnd() {
     return recordDateEnd;
   }
   public void setRecordDateEnd(Date recordDateEnd) {
     this.recordDateEnd = recordDateEnd;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getExamTimeBegin() {
     return examTimeBegin;
   }
   public void setExamTimeBegin(Date examTimeBegin) {
     this.examTimeBegin = examTimeBegin;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getExamTimeEnd() {
     return examTimeEnd;
   }
   public void setExamTimeEnd(Date examTimeEnd) {
     this.examTimeEnd = examTimeEnd;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRankTimeBegin() {
     return rankTimeBegin;
   }
   public void setRankTimeBegin(Date rankTimeBegin) {
     this.rankTimeBegin = rankTimeBegin;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getRankTimeEnd() {
     return rankTimeEnd;
   }
   public void setRankTimeEnd(Date rankTimeEnd) {
     this.rankTimeEnd = rankTimeEnd;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDateBegin() {
     return inspectionDateBegin;
   }
   public void setInspectionDateBegin(Date inspectionDateBegin) {
     this.inspectionDateBegin = inspectionDateBegin;
   }
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
   public Date getInspectionDateEnd() {
     return inspectionDateEnd;
   }

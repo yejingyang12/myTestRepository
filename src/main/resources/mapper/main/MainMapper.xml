@@ -711,6 +711,8 @@
     LEFT JOIN t_cpro_system_code AS systemCodeInfoSysTypeConstruction 
       ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
       AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
+    LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
+      AND node.operation = '创建'
     <where>
       	score.deleteStatus = 1 
 		AND system.deleteStatus = 1 
@@ -831,12 +833,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND examine.executeTime >= #{auditTimeBegin}
+          AND node.createTime >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND examine.executeTime <= #{auditTimeEnd}
+          AND node.createTime <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">

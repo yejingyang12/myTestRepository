@@ -271,8 +271,13 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .btn-defaults:hover{
 	color: #fff !important;
 	background-color: #0065ba !important;
-	border-color: #cecece;
 },
+.nu:hover{
+	background-color: #ededed !important;
+}
+.ls:hover{
+	background:#ededed !important;
+}
 .btn-default.focus,
 .btn-default:focus {
 	color: #333!important;

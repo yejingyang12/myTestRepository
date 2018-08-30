@@ -179,11 +179,10 @@
             		 if(queryDataParamsTemp.gradingEndTime){
             			 _self.queryDataparmars.gradingEndTime = queryDataParamsTemp.gradingEndTime;
             		 }
-            		 if(queryDataParamsTemp.gradingShapeType){
-            			 _self.queryDataparmars.gradingShapeType = queryDataParamsTemp.gradingShapeType;
-            		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }else{
+            			 _self.queryDataparmars.systemType = '';
             		 }
             		 
             		 var a=JSON.parse(meg) 
@@ -244,12 +243,11 @@
             		 if(queryDataParamsTemp.gradingEndTime){
             			 _self.queryDataparmars.gradingEndTime = queryDataParamsTemp.gradingEndTime;
             		 }
-            		 if(queryDataParamsTemp.gradingShapeType){
-            			 _self.queryDataparmars.gradingShapeType = queryDataParamsTemp.gradingShapeType;
-            		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
-            		 }   
+            		 }else{
+            			 _self.queryDataparmars.systemType = '';
+            		 }
               	 ajaxMethod(_self, 'post',
                    'main/queryGradingStatistics', false,
                    JSON.stringify(_self.queryDataparmars), 'json',

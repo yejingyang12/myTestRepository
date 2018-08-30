@@ -56,7 +56,15 @@ window.onload = function () {
                 this.saveSystemSessionSuccess);
           },
           saveSystemSessionSuccess:function(_self,responseData){
-          	
+          	if(responseData.data!=''&&responseData.data!=null&&responseData.data!='undefined'){
+              if(data.headquarters){
+               this.jurisdiction = 'headquarters';
+                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
+              }
+              if(data.enterprise){
+                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+              }
+             }
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {

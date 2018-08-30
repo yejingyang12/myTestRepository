@@ -2,6 +2,10 @@
  * Created by timha on 2018/5/24.
  */
 var data={
+		fileId1:"",
+		fileId2:"",
+		fileId3:"",
+		fileId4:"",
 		retuenCheck:false,
 		substitute:"",
 		companyBySession:"",
@@ -431,7 +435,7 @@ var data={
                     	url = '{"fileId":""}'
                     }
                     ajaxMethod(this, 'post',
-                        'fileHandle/deleteFile', true,url, 'json',
+                        'fileHandle/deleteFile', false,url, 'json',
                         'application/json;charset=UTF-8',this.fileDelSuccessMethod);
                   },
                   fileDelSuccessMethod:function(_self,responseData){
@@ -533,25 +537,26 @@ var data={
                     	var fileHtml='';
                     	var len_topologyDescriptionList = _self.formData.topologyDescriptionList.length;
                       for(var i=0;i<len_topologyDescriptionList;i++){
-                      	fileHtml = fileHtml +'<li><input type="hidden" value="'+responseData.data.topologyDescriptionList[i].fileId+'"/><div class="fl updwon">'+responseData.data.topologyDescriptionList[i].attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      	fileHtml = fileHtml +'<li><input type="hidden" value="'+responseData.data.topologyDescriptionList[i].fileId+'"/><div class="fl updwon">'+responseData.data.topologyDescriptionList[i].attachName+'</div><i class="el-icon-close fl del1"></i></li>'
                       };
                      
                       $("#fileList").html(fileHtml);
-                      $(".del").click(function(){
-                      	var fileId = $(this).parent("li").find("input").val();
-                        var len = _self.formData.topologyDescriptionList.length;
-                        for(var i=0;i<len;i++){
-                        	if(_self.formData.topologyDescriptionList[i].fileId == fileId){
-                        		_self.formData.topologyDescriptionList.splice(i,1);
-                        		$(this).parent("li").remove();
-                        		_self.$refs.refOnUpload.value = null;
-                        		_self.fileDel(fileId,2);
-                        		break;
-                        	}
-                        }
-                        _self.setShowAttachName(_self);
-                        /*_self.formData.topologyDescriptionName = '';
-                        _self.formData.topologyDescriptionId = '';*/
+                      $(".del1").click(function(){
+                      	var fileId1 = $(this).parent("li").find("input").val();
+                      	_self.fileId1 = fileId1+","+_self.fileId1;
+                      	$(this).parent("li").hide();
+                      	var fileName1 = $(this).parent("li").find("div").html();
+                    		var arr1 = _self.formData.topologyDescriptionName.split(",");
+                    		if(arr1.length==1){
+                    			_self.formData.topologyDescriptionName = _self.formData.topologyDescriptionName.replace(fileName1,"");
+                    		}else{
+                    			if(arr1[arr1.length-1].attachName == fileName1){
+                    				_self.formData.topologyDescriptionName = _self.formData.topologyDescriptionName.replace('  ,  '+fileName1,"");
+                    			}else{
+                    				_self.formData.topologyDescriptionName = _self.formData.topologyDescriptionName.replace(fileName1+'  ,  ',""); 
+                    			}
+                    		}
+                        
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -563,24 +568,25 @@ var data={
                     	var fileHtml='';
                       var len_organizationManagementList = _self.formData.organizationManagementList.length;
                       for(var i=0;i<len_organizationManagementList;i++){
-                      	fileHtml=fileHtml+'<li><input type="hidden" value="'+responseData.data.organizationManagementList[i].fileId+'"/><div class="fl updwon">'+responseData.data.organizationManagementList[i].attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      	fileHtml=fileHtml+'<li><input type="hidden" value="'+responseData.data.organizationManagementList[i].fileId+'"/><div class="fl updwon">'+responseData.data.organizationManagementList[i].attachName+'</div><i class="el-icon-close fl del2"></i></li>'
                       }
                       $("#fileList2").html(fileHtml);
-                      $(".del").click(function(){
-                      	var fileId = $(this).parent("li").find("input").val();
-                        var len = _self.formData.organizationManagementList.length;
-                        for(var i=0;i<len;i++){
-                        	if(_self.formData.organizationManagementList[i].fileId == fileId){
-                        		_self.formData.organizationManagementList.splice(i,1);
-                        		$(this).parent("li").remove();
-                        		_self.$refs.refOnUpload2.value = null;
-                        		_self.fileDel(fileId,2);
-                        		break;
-                        	}
-                        }
-                        _self.setShowAttachName(_self);
-                        /*_self.formData.organizationManagementName = '';
-                        _self.formData.organizationManagementId = '';*/
+                      $(".del2").click(function(){
+                      	var fileId2 = $(this).parent("li").find("input").val();
+                      	_self.fileId2 = fileId2+","+_self.fileId2;
+                      	$(this).parent("li").hide();
+                      	var fileName2 = $(this).parent("li").find("div").html();
+                      	var arr2 = _self.formData.organizationManagementName.split(",");
+                      	if(arr2.length==1){
+                    			_self.formData.organizationManagementName = _self.formData.organizationManagementName.replace(fileName2,"");
+                      	}else{
+                      		if(arr2[arr2.length-1].attachName == fileName2){
+                      			_self.formData.organizationManagementName = _self.formData.organizationManagementName.replace('  ,  '+fileName2,"");
+                      		}else{
+                      			_self.formData.organizationManagementName = _self.formData.organizationManagementName.replace(fileName2+'  ,  ',""); 
+                      		}
+                      	}
+                        
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -592,24 +598,25 @@ var data={
                     	var fileHtml='';
                       var len_implementationPlanList = _self.formData.implementationPlanList.length;
                       for(var i=0;i<len_implementationPlanList;i++){
-                      	fileHtml=fileHtml+'<li><input type="hidden" value="'+responseData.data.implementationPlanList[i].fileId+'"/><div class="fl updwon">'+responseData.data.implementationPlanList[i].attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      	fileHtml=fileHtml+'<li><input type="hidden" value="'+responseData.data.implementationPlanList[i].fileId+'"/><div class="fl updwon">'+responseData.data.implementationPlanList[i].attachName+'</div><i class="el-icon-close fl del3"></i></li>'
                       }
                       $("#fileList3").html(fileHtml);
-                      $(".del").click(function(){
-                      	var fileId = $(this).parent("li").find("input").val();
-                        var len = _self.formData.implementationPlanList.length;
-                        for(var i=0;i<len;i++){
-                        	if(_self.formData.implementationPlanList[i].fileId == fileId){
-                        		_self.formData.implementationPlanList.splice(i,1);
-                        		$(this).parent("li").remove();
-                        		_self.$refs.refOnUpload3.value = null;
-                        		_self.fileDel(fileId,2);
-                        		break;
-                        	}
-                        }
-                        _self.setShowAttachName(_self);
-                        /*_self.formData.implementationPlanName = '';
-                        _self.formData.implementationPlanId = '';*/
+                      $(".del3").click(function(){
+                      	var fileId3 = $(this).parent("li").find("input").val();
+                      	_self.fileId3 = fileId3+","+_self.fileId3;
+                      	$(this).parent("li").hide();
+                      	var fileName3 = $(this).parent("li").find("div").html();
+                      	var arr3 = _self.formData.implementationPlanName.split(",");
+                      	if(arr3.length==1){
+                    			_self.formData.implementationPlanName = _self.formData.implementationPlanName.replace(fileName3,"");
+                      	}else{
+                      		if(arr3[arr3.length-1].attachName == fileName3){
+                      			_self.formData.implementationPlanName = _self.formData.implementationPlanName.replace('  ,  '+fileName3,"");
+                      		}else{
+                      			_self.formData.implementationPlanName = _self.formData.implementationPlanName.replace(fileName3+'  ,  ',""); 
+                      		}
+                      	}
+                        
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -621,24 +628,25 @@ var data={
                     	var fileHtml='';
                       var len_licenseCertificateList = _self.formData.licenseCertificateList.length;
                       for(var i=0;i<len_licenseCertificateList;i++){
-                      	fileHtml=fileHtml+'<li><input type="hidden" value="'+responseData.data.licenseCertificateList[i].fileId+'"/><div class="fl updwon">'+responseData.data.licenseCertificateList[i].attachName+'</div><i class="el-icon-close fl del"></i></li>'
+                      	fileHtml=fileHtml+'<li><input type="hidden" value="'+responseData.data.licenseCertificateList[i].fileId+'"/><div class="fl updwon">'+responseData.data.licenseCertificateList[i].attachName+'</div><i class="el-icon-close fl del4"></i></li>'
                       }
                       $("#fileList4").html(fileHtml);
-                      $(".del").click(function(){
-                      	var fileId = $(this).parent("li").find("input").val();
-                        var len = _self.formData.licenseCertificateList.length;
-                        for(var i=0;i<len;i++){
-                        	if(_self.formData.licenseCertificateList[i].fileId == fileId){
-                        		_self.formData.licenseCertificateList.splice(i,1);
-                        		$(this).parent("li").remove();
-                        		_self.$refs.refOnUpload4.value = null;
-                        		_self.fileDel(fileId,2);
-                        		break;
-                        	}
-                        }
-                        _self.setShowAttachName(_self);
-                        /*_self.formData.licenseCertificateName = '';
-                        _self.formData.licenseCertificateId = '';*/
+                      $(".del4").click(function(){
+                      	var fileId4 = $(this).parent("li").find("input").val();
+                      	_self.fileId4 = fileId4+","+_self.fileId4;
+                      	$(this).parent("li").hide();
+                      	var fileName4 = $(this).parent("li").find("div").html();
+                      	var arr4 = _self.formData.licenseCertificateName.split(",");
+                      	if(arr4.length==1){
+                    			_self.formData.licenseCertificateName = _self.formData.licenseCertificateName.replace(fileName4,"");
+                      	}else{
+                      		if(arr4[arr4.length-1].attachName == fileName4){
+                      			_self.formData.licenseCertificateName = _self.formData.licenseCertificateName.replace('  ,  '+fileName4,"");
+                      		}else{
+                      			_self.formData.licenseCertificateName = _self.formData.licenseCertificateName.replace(fileName4+'  ,  ',""); 
+                      		}
+                      	}
+                        
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -693,7 +701,75 @@ var data={
                   		_self.flag = true;
                   		_self.setShowAttachName(_self);
                   	}
-                  }
+                  },
+                  //删除表list1的方法
+                  delList1:function(meg){
+                  	var fileId = meg;
+                  	var len = _self.formData.topologyDescriptionList.length;
+                    for(var i=0;i<len;i++){
+                    	if(_self.formData.topologyDescriptionList[i].fileId == fileId){
+                    		_self.formData.topologyDescriptionList.splice(i,1);
+                    		$(this).parent("li").remove();
+                    		_self.$refs.refOnUpload.value = null;
+                    		_self.fileDel(fileId,2);
+                    		break;
+                    	}
+                    }
+                    _self.setShowAttachName(_self);
+                    /*_self.formData.topologyDescriptionName = '';
+                    _self.formData.topologyDescriptionId = '';*/
+                  },
+                //删除表list2的方法
+                  delList2:function(meg){
+                  	var fileId = meg;
+                  	var len = _self.formData.organizationManagementList.length;
+                    for(var i=0;i<len;i++){
+                    	if(_self.formData.organizationManagementList[i].fileId == fileId){
+                    		_self.formData.organizationManagementList.splice(i,1);
+                    		$(this).parent("li").remove();
+                    		_self.$refs.refOnUpload2.value = null;
+                    		_self.fileDel(fileId,2);
+                    		break;
+                    	}
+                    }
+                    _self.setShowAttachName(_self);
+                    /*_self.formData.organizationManagementName = '';
+                    _self.formData.organizationManagementId = '';*/
+                  },
+                  //删除表list3的方法
+                  delList3:function(meg){
+                  	var fileId = meg;
+                  	var len = _self.formData.implementationPlanList.length;
+                    for(var i=0;i<len;i++){
+                    	if(_self.formData.implementationPlanList[i].fileId == fileId){
+                    		_self.formData.implementationPlanList.splice(i,1);
+                    		$(this).parent("li").remove();
+                    		_self.$refs.refOnUpload3.value = null;
+                    		_self.fileDel(fileId,2);
+                    		break;
+                    	}
+                    }
+                    _self.setShowAttachName(_self);
+                    /*_self.formData.implementationPlanName = '';
+                    _self.formData.implementationPlanId = '';*/
+                  },
+                //删除表list4的方法
+                  delList4:function(meg){
+                  	var fileId = meg;
+                  	var len = _self.formData.licenseCertificateList.length;
+                    for(var i=0;i<len;i++){
+                    	if(_self.formData.licenseCertificateList[i].fileId == fileId){
+                    		_self.formData.licenseCertificateList.splice(i,1);
+                    		$(this).parent("li").remove();
+                    		_self.$refs.refOnUpload4.value = null;
+                    		_self.fileDel(fileId,2);
+                    		break;
+                    	}
+                    }
+                    _self.setShowAttachName(_self);
+                    /*_self.formData.licenseCertificateName = '';
+                    _self.formData.licenseCertificateId = '';*/
+                  },
                 },
                 created: function() {
                   //this.getPermitJurisdictionInfo(this);
@@ -923,6 +999,41 @@ var data={
                         }
                       });
                     }
+                  });
+                 
+                  bus.$on('deleteConfirm',function(meg){
+                  	if(_self.fileId1!=''){
+                  		var fileIds = _self.fileId1.split(",");
+                  		for(var i=0;i<fileIds.length;i++){
+                  			if(fileIds[i]!=''){
+                  				_self.delList1(fileIds[i]);
+                  			}
+                  		}
+                  	}
+                  	if(_self.fileId2!=''){
+                  		var fileIds = _self.fileId2.split(",");
+                  		for(var i=0;i<fileIds.length;i++){
+                  			if(fileIds[i]!=''){
+                  				_self.delList2(fileIds[i]);
+                  			}
+                  		}
+                  	}
+                  	if(_self.fileId3!=''){
+                  		var fileIds = _self.fileId3.split(",");
+                  		for(var i=0;i<fileIds.length;i++){
+                  			if(fileIds[i]!=''){
+                  				_self.delList3(fileIds[i]);
+                  			}
+                  		}
+                  	}
+                  	if(_self.fileId4!=''){
+                  		var fileIds = _self.fileId4.split(",");
+                  		for(var i=0;i<fileIds.length;i++){
+                  			if(fileIds[i]!=''){
+                  				_self.delList4(fileIds[i]);
+                  			}
+                  		}
+                  	}
                   });
                   
                 }

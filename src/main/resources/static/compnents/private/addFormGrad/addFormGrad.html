@@ -4,7 +4,7 @@
             <span class="fl tianMsg">定级信息</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
-        <el-dialog  title="附件上传" :visible.sync="dialogVisible" width="30%">
+        <el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
         	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;">!</i>
         	<div class="ceshi" style="text-align:center">
         		<p>附件总量最大 30M，上传格式为：doc,docx,xls,xlsx,pdf,zip,rar,sep</p>		

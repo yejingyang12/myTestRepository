@@ -234,7 +234,7 @@
         	  		var end = "9999-12-31";
         	  	}
         	  	var dataparmars = '{"gradingBeginTime":"'+begin+'","gradingEndTime":"'+end+'","gradingShapeType":"'+this.gradingShapeType+'","systemType":"'+this.statisticsType+'"}';
-        	  	bus.$emit("gradingShapeEnd",dataparmars);        				
+        	  	bus.$emit("gradingShapeType",dataparmars);        				
         	  }
           },
           //备案单位数量Top10-开始时间

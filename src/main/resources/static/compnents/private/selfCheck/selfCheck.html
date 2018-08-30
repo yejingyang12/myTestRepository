@@ -136,16 +136,17 @@
                     </li>
                 </ul>
             </el-form>
-            <p class="h-p" style="width:98%;margin:-15px">
+            <p class="h-p" style="width:99%;margin:-15px">
+             <button type="button" class="btn btn-defaults"
+                        @click="saveSelfexamination('editParam')"
+                        style="padding:6px 10px;float:right;margin-right:35px;margin-bottom:15px;background-color:rgb(61,149,223);color:#fff;width:70px">确认
+                </button>
 
                 <button type="button"
 
-                        class="btn btn-default" style="padding:6px 10px;float:right;margin-right: 35px;padding: 6px 10px; margin-bottom: 15px;width:70px !important" @click="closes">
+                        class="btn btn-default ls" style="padding:6px 10px;float:right;margin-right: 10px;padding: 6px 10px; margin-bottom: 15px;width:70px !important" @click="closes">
                     取消</button>
-                <button type="button" class="btn"
-                        @click="saveSelfexamination('editParam')"
-                        style="padding:6px 10px;float:right;margin-right:10px;margin-bottom:15px;background-color:rgb(61,149,223);color:#fff;width:70px">确认
-                </button>
+               
 
             </p>
         </div>

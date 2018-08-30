@@ -624,7 +624,8 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         mainServiceImpl.editSystemStatusBySystemId(mainParam);
       }else if("2".equals(systemMaterialsBeanParam.getChangeType())){
         //添加节点状态信息
-        NodeParam nodeParam = new NodeParam();
+        //保存表4不添加节点，只有提交时才添加
+        /*NodeParam nodeParam = new NodeParam();
         nodeParam.setSystemId(systemMaterialsBeanParam.getFkSystemId());
         nodeParam.setOperation("创建");
         nodeParam.setOperationResult("已创建");
@@ -636,7 +637,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         }else{
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
-        }
+        }*/
       }
     }else if("2".equals(systemMaterialsBeanParam.getSaveType())){
       //创建

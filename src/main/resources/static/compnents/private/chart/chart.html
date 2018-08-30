@@ -12,7 +12,7 @@
             </div>
             <!--分割线-->
             <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px;background:#ececec;"></div>
-            <div class="row" style="height:450px;margin:0;">
+            <div class="row " style="height:450px;margin:0;">
                 <div class="col-md-12">
                      <div class="row">
                          <div class="col-md-6 chart chart1 padding-0"  >
@@ -191,9 +191,8 @@
                                <div class="pos-relative">
                                     <p class="p1">系统等保管理趋势 </p>
                                     <p class="p2">不同等保管理状态下系统数量</p>
-                                    <!--<span>|</span>-->
+                                    <span style="position:absolute;right: 33%;top: 6px;">年份:</span>
                                     <template>
-                                        <span style="position: relative;top: -55px;left: 360px;">年份:</span> 
                                         <el-select clearable v-model="yearType"  @change="getYearType()"  filterable  placeholder="请选择" style="width: 33%;position: absolute;right: 0;top:0;">
                                             <el-option
                                                     v-for="item in years"

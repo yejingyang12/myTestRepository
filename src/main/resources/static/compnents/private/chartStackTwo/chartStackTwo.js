@@ -276,6 +276,8 @@
             		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }else{
+            			 _self.queryDataparmars.systemType = '';
             		 }
             		 
             	 ajaxMethod(_self, 'post',
@@ -324,6 +326,8 @@
             		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+            		 }else{
+            			 _self.queryDataparmars.systemType = '';
             		 }
               	 ajaxMethod(_self, 'post',
                    'diagram/queryAcceptCompanyTop10', false,

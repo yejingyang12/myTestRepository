@@ -392,6 +392,7 @@ public class MainParam {
   /**
    * @return the recordsEndTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getRecordsEndTime() {
     return recordsEndTime;
   }
@@ -406,6 +407,7 @@ public class MainParam {
   /**
    * @return the recordsBeginTime
    */
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getRecordsBeginTime() {
     return recordsBeginTime;
   }
@@ -576,6 +578,7 @@ public class MainParam {
   /**
    * @return the auditTimeBegin
    */
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getAuditTimeBegin() {
     return auditTimeBegin;
   }
@@ -590,6 +593,7 @@ public class MainParam {
   /**
    * @return the auditTimeEnd
    */
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getAuditTimeEnd() {
     return auditTimeEnd;
   }
@@ -794,7 +798,7 @@ public class MainParam {
   public void setExamOrg(String examOrg) {
     this.examOrg = examOrg;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getRecordDateBegin() {
     return recordDateBegin;
   }
@@ -802,7 +806,7 @@ public class MainParam {
   public void setRecordDateBegin(Date recordDateBegin) {
     this.recordDateBegin = recordDateBegin;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getRecordDateEnd() {
     return recordDateEnd;
   }
@@ -810,7 +814,7 @@ public class MainParam {
   public void setRecordDateEnd(Date recordDateEnd) {
     this.recordDateEnd = recordDateEnd;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getExamTimeBegin() {
     return examTimeBegin;
   }
@@ -818,7 +822,7 @@ public class MainParam {
   public void setExamTimeBegin(Date examTimeBegin) {
     this.examTimeBegin = examTimeBegin;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getExamTimeEnd() {
     return examTimeEnd;
   }
@@ -826,7 +830,7 @@ public class MainParam {
   public void setExamTimeEnd(Date examTimeEnd) {
     this.examTimeEnd = examTimeEnd;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getRankTimeBegin() {
     return rankTimeBegin;
   }
@@ -834,7 +838,7 @@ public class MainParam {
   public void setRankTimeBegin(Date rankTimeBegin) {
     this.rankTimeBegin = rankTimeBegin;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getRankTimeEnd() {
     return rankTimeEnd;
   }
@@ -842,7 +846,7 @@ public class MainParam {
   public void setRankTimeEnd(Date rankTimeEnd) {
     this.rankTimeEnd = rankTimeEnd;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getInspectionDateBegin() {
     return inspectionDateBegin;
   }
@@ -850,7 +854,7 @@ public class MainParam {
   public void setInspectionDateBegin(Date inspectionDateBegin) {
     this.inspectionDateBegin = inspectionDateBegin;
   }
-
+  @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")  
   public Date getInspectionDateEnd() {
     return inspectionDateEnd;
   }

@@ -41,7 +41,7 @@ window.onload = function () {
           },
           saveSystemSessionSuccess:function(_self,responseData){
           	if(responseData.data!=null){
-              window.location.href = originUrl+"/page/applicationChangeGradPage?systemId="+data.formData.systemId+"&fkCompanyCode="+data.formData.fkCompanyCode;
+              window.location.href = originUrl+"/page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
           	}
           },
           // 获取系统信息成功

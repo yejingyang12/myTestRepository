@@ -85,6 +85,8 @@ import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.grading.server.SystemMaterialsService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
 import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
@@ -287,7 +289,9 @@ public class SystemServiceImpl implements SystemService {
     systemParam.setRecordStatus(1);
     systemParam.setGradingStatus(1);
     systemParam.setFkChangeMatter(5);
-//    systemParam.setAppIsInternet(2);
+    if(systemParam.getAppIsInternet()==null){
+    	 systemParam.setAppIsInternet(2);
+    }
     systemParam.setCreateTime(new Date());
     systemParam.setEvaluationStatus(1);
 //    if(systemParam.getFkComCode() == 2){
@@ -440,8 +444,10 @@ public class SystemServiceImpl implements SystemService {
     this.systemKeyProductsMapper.insertSystemKeyProductsBySystemKeyProductsId(
         systemKeyProductsList);
     //批量添加使用服务信息
-    this.systemUseServicesMapper.insertSystemUseServicesBySystemUseServicesId(
-        systemUseServicesList);
+    if(!ObjectUtils.isEmpty(systemUseServicesList)){
+	    this.systemUseServicesMapper.insertSystemUseServicesBySystemUseServicesId(
+	        systemUseServicesList);
+    }
     //批量添加系统信息（包括合并父系统、合并子系统）
     this.systemMapper.insertBatchSystem(subSystemList);
     //批量添加系统关联表信息
@@ -497,8 +503,8 @@ public class SystemServiceImpl implements SystemService {
 //  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
 //  List<SystemResult> subUpdateSystemList = new ArrayList<SystemResult>();
 //  List<SystemParam> addSubSystem = systemParam.getAddSystemSub();
-  
-  
+
+		
   List<SystemParam> systemParamAddList = new ArrayList<SystemParam>();
   List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
   List<SystemKeyProducts> subSystemKeyProductsList = new ArrayList<SystemKeyProducts>();
@@ -532,6 +538,7 @@ public class SystemServiceImpl implements SystemService {
           break;
         }
       }
+      
       if(!sonBoo){
         //创建子系统定级信息
         GradingParam gradingParam = new GradingParam();
@@ -970,7 +977,6 @@ public class SystemServiceImpl implements SystemService {
       }
       this.systemMapper.updateSystemEdit(systemTempParam);
     }
-	     
 	    //获取系统所有已有的未删除的关联表信息
 	    SystemRelationParam querySystemRelationListParam = new SystemRelationParam();
 	    querySystemRelationListParam.setFkSystemId(systemParam.getSystemId());
@@ -1040,6 +1046,19 @@ public class SystemServiceImpl implements SystemService {
         }
       }
 	    
+	    //删除子表信息
+	    if(!ObjectUtils.isEmpty(subSystemList)){
+	    	this.systemMapper.deleteRelationSonSystem(subSystemList);
+	    }
+	    //准备添加新子系统信息
+      for (SystemSubResult systemSubParam : subSystemList) {
+        SystemParam systemTempParam = new SystemParam();
+        systemTempParam.addSystemParam(systemParam);
+        systemTempParam.setSystemId(systemSubParam.getSystemId());
+        this.systemMapper.updateSystemEdit(systemTempParam);
+      } 
+      
+      this.saveSonSystem(systemParam);
 	    systemParamAddList.add(systemParam);
 	    this.systemMapper.updateSystemEdit(systemParam);
 	    
@@ -1071,34 +1090,14 @@ public class SystemServiceImpl implements SystemService {
 	        subSystemUseServicesList.add(SystemUseServices);
 	      }
       }
-
       
-      //准备添加新子系统信息
-      for (SystemSubResult systemSubParam : subSystemList) {
-        SystemParam systemTempParam = new SystemParam();
-        systemTempParam.addSystemParam(systemParam);
-        systemTempParam.setSystemId(systemSubParam.getSystemId());
-        //如果是新添加子系统
-        if(sum == 0){
-          if(systemParam.getAddSystemSub().size() > subSystemList.size()){
-            for (int i = systemParam.getAddSystemSub().size(); i >= 0; i--) {
-              if(i < subSystemList.size()){
-                systemParam.getAddSystemSub().remove(i);
-              }
-            }
-            this.saveSonSystem(systemParam);
-          }
-          sum = 1;
-        }
-        this.systemMapper.updateSystemEdit(systemTempParam);
-      }
 	  }else{
 	    //查询子表信息
 	    List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
 	    //删除子表信息
-      if(!ObjectUtils.isEmpty(subSystemList)){
-        this.systemMapper.deleteRelationSonSystem(subSystemList);
-      }
+	    if(!ObjectUtils.isEmpty(subSystemList)){
+	    	this.systemMapper.deleteRelationSonSystem(subSystemList);
+	    }
 	    //添加系统子表
       for (int key = 0; key < subKeyList.size(); key++) {
         SystemKeyProducts systemKeyProducts = new SystemKeyProducts();
@@ -4285,11 +4284,12 @@ public class SystemServiceImpl implements SystemService {
 
           List<SystemKeyProducts> keyList = new ArrayList<SystemKeyProducts>();// 关键产品使用情况
           if (list1 != null) {
+          	boolean flag=false;
             for (int p = 0; p < list1.size(); p++) {
               String[] proCount = list1.get(p);
               SystemKeyProducts keyPro = new SystemKeyProducts();
-              if (!proCount[0].isEmpty() && !proCount[1].isEmpty()
-                  && !proCount[2].isEmpty() && !proCount[3].isEmpty()) {
+//              if (!proCount[0].isEmpty() && !proCount[1].isEmpty()
+//                  && !proCount[2].isEmpty() && !proCount[3].isEmpty()) {
                 keyPro.setFkSystemId(system.getSystemId());
                 switch (proCount[0]) {// 产品类型
                 case "安全专用产品":
@@ -4312,7 +4312,9 @@ public class SystemServiceImpl implements SystemService {
                   keyPro.setOtherName(proCount[0]);// 其他情况
                   break;
                 }
-                keyPro.setProductsNumber(proCount[1]);// 数量
+                if(StringUtils.isNotBlank(proCount[1])){
+                	keyPro.setProductsNumber(proCount[1]);// 数量
+                }
                 switch (proCount[2]) {// 使用情况
                 case "全部使用":
                   keyPro.setFkNationalIsProducts(1);
@@ -4320,24 +4322,35 @@ public class SystemServiceImpl implements SystemService {
                 case "全部未使用":
                   keyPro.setFkNationalIsProducts(2);
                   break;
-                default:
+                case "部分使用":
                   keyPro.setFkNationalIsProducts(3);
                   break;
                 }
-                keyPro.setnUseProbability(Integer.parseInt(proCount[3]));// 国产率
+                if(StringUtils.isNotBlank(proCount[3])){
+                	keyPro.setnUseProbability((int)(Double.parseDouble(proCount[3])*100));// 国产率
+                }else{
+                	keyPro.setnUseProbability(0);
+                }
                 keyList.add(keyPro);
-              }
+//              }
+            }
+            if(!flag){//其他
+            	SystemKeyProducts keyPro2 = new SystemKeyProducts();
+            	keyPro2.setFkExaminStatus(6);
+            	keyPro2.setnUseProbability(0);
+            	keyList.add(keyPro2);
             }
             isProUseSit.clear();
           }
           system.setSystemKeyProducts(keyList);
           List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
           if (list2 != null) {
+          	boolean flag=false;
             for (int s = 0; s < list2.size(); s++) {
               String[] serCount = list2.get(s);
               SystemUseServices SystemUseServicesBean = new SystemUseServices();
-              if (!serCount[0].isEmpty() && !serCount[1].isEmpty()
-                  && !serCount[2].isEmpty()) {
+//              if (!serCount[0].isEmpty() && !serCount[1].isEmpty()
+//                  && !serCount[2].isEmpty()) {
                 SystemUseServicesBean.setFkSystemId(system.getSystemId());
                 switch (serCount[0]) {// 服务类型
                 case "等级测评":
@@ -4362,7 +4375,8 @@ public class SystemServiceImpl implements SystemService {
                   SystemUseServicesBean.setFkProductsType(7);
                   break;
                 default:
-                  SystemUseServicesBean.setServiceIsUse(8);
+                	flag=true;
+                	SystemUseServicesBean.setFkProductsType(8);
                   SystemUseServicesBean.setOtherName(serCount[0]);// 其他
                   break;
                 }
@@ -4371,9 +4385,6 @@ public class SystemServiceImpl implements SystemService {
                   SystemUseServicesBean.setServiceIsUse(1);
                   break;
                 case "否":
-                  SystemUseServicesBean.setServiceIsUse(2);
-                  break;
-                default:
                   SystemUseServicesBean.setServiceIsUse(2);
                   break;
                 }
@@ -4387,12 +4398,14 @@ public class SystemServiceImpl implements SystemService {
                 case "本行业（单位）":
                   SystemUseServicesBean.setFkResponsibleType("1");
                   break;
-                default:
-                  SystemUseServicesBean.setFkResponsibleType("0");
-                  break;
                 }
                 systemUseServicesList.add(SystemUseServicesBean);
-              }
+//              }
+            }
+            if(!flag){//其他
+            	SystemUseServices SystemUseServicesBean2 = new SystemUseServices();
+            	SystemUseServicesBean2.setFkProductsType(8);
+              systemUseServicesList.add(SystemUseServicesBean2);
             }
             serviceType.clear();
           }
@@ -4451,8 +4464,10 @@ public class SystemServiceImpl implements SystemService {
           if (StringUtils.isNotBlank(topNum[14])) {
             if (strsList[14].equals("其他")) {// 服务范围
               system.setSysServiceSitScope(topNum[15]);
-            } else {
+            } else if(strsList[14].contains("跨省") || strsList[14].contains("跨地")){
               system.setSysServiceSitScope(topNum[14] + "^" + topNum[15]);
+            }else{
+            	system.setSysServiceSitScope(topNum[14]);
             }
           } else {
             return false;
@@ -4588,17 +4603,17 @@ public class SystemServiceImpl implements SystemService {
   public void saveSonSystem(SystemParam systemParam) {
     
     //获得用户信息
-    UserDTO userDTO = userApiServiceImpl.getUserInfo();
-    String fkCompanyCode = "";
-    String[] orgCodes = userDTO.getOrgCode().split(",");
-    for (String strCode : orgCodes) {
-      if (strCode.trim().length()>8) {
-        fkCompanyCode = strCode.trim().substring(0, 8);
-      }else {
-        fkCompanyCode = strCode.trim();
-      }
-      break;
-    }
+//    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+//    String fkCompanyCode = "";
+//    String[] orgCodes = userDTO.getOrgCode().split(",");
+//    for (String strCode : orgCodes) {
+//      if (strCode.trim().length()>8) {
+//        fkCompanyCode = strCode.trim().substring(0, 8);
+//      }else {
+//        fkCompanyCode = strCode.trim();
+//      }
+//      break;
+//    }
     systemParam.setExamineStatus(1);
     systemParam.setExaminationStatus(1);
     systemParam.setSubIsSystem(2);
@@ -4613,7 +4628,7 @@ public class SystemServiceImpl implements SystemService {
     systemParam.setAppIsInternet(2);
     systemParam.setCreateTime(new Date());
     systemParam.setEvaluationStatus(1);
-      systemParam.setFkCompanyCode(fkCompanyCode);
+    systemParam.setFkCompanyCode(systemParam.getFkCompanyCode());
     List<SystemParam> systemCode = systemParam.getAddSystemSub();
     List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
     List<SystemUseServices> subUseList = systemParam.getSystemUseServices();
@@ -4821,6 +4836,7 @@ public class SystemServiceImpl implements SystemService {
     }
     return systemAllInfoResult;
   }
+	
 
 
 }

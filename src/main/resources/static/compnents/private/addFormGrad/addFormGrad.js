@@ -6,6 +6,7 @@ var data={
 	},
 	returnCheck:false,
 	judgeType : 0,//判断是上一步还是返回按钮
+	ceshi:false,
 	companyBySession:"",
 	systemBySession:"",
     check : false,
@@ -1127,7 +1128,7 @@ var data={
 //                    }
                     },
                     getGradeMethod: function(_self,id) {
-                      ajaxMethod(_self, 'post','grading/queryEditGrading', true,
+                      ajaxMethod(_self, 'post','grading/queryEditGrading', false,
                       '{"fkSystemId":"'+id+'"}', 'json',
                       'application/json;charset=UTF-8',
                       _self.getGradeSuccessMethod);
@@ -1408,9 +1409,9 @@ var data={
                     getSystemSuccess : function(_self,result){
                     	this.formData.systemName = result.data.systemName;
                     	if(result.data.gradeRecordSysName==''||result.data.gradeRecordSysName==null||result.data.gradeRecordSysName=='undefind'){
-                    		this.formData.gradeRecordSysName = result.data.systemName;
+                    		_self.formData.gradeRecordSysName = result.data.systemName;
                     	}else{
-                    		this.formData.gradeRecordSysName = result.data.gradeRecordSysName;
+                    		_self.formData.gradeRecordSysName = result.data.gradeRecordSysName;
                     	}
                     },
                     getPermitJurisdictionInfo: function(_self){
@@ -1453,9 +1454,6 @@ var data={
                     //从session中获取数据
                     this.getGradSession(this);
                     
-                    this.formData.fkSystemId = systemId;
-                    //获取系统信息
-                    this.getSystem(this);
                     $("#direHide1").hide();
                     $("#approval").hide();
                     _self = this;
@@ -1491,6 +1489,9 @@ var data={
                   	 this.initial(_self);
                  		this.initial2(_self);
                    }
+                   _self.formData.fkSystemId = systemId;
+                   //获取系统信息
+                   _self.getSystem(_self);
                    bus.$on('addGradName',function(meg){
                      if(meg!=null){
                        _self.$refs[meg].validate(function (valid) {
