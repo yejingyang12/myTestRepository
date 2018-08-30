@@ -45,6 +45,8 @@
                       for(var i=0;i<responseData.data.length;i++){
                         if(_self.formData.systemKeyProducts.length>=i+1){
                           _self.formData.systemKeyProducts[i].fkExaminStatus = responseData.data[i].systemCode;
+                          //进入页面要一致
+                          _self.beginContent.systemKeyProducts[i].fkExaminStatus = responseData.data[i].systemCode;
                         }else{
                           _self.formData.systemKeyProducts.push({
                             "fkNationalIsProducts":"",
@@ -120,6 +122,7 @@
                       for(var i=0;i<responseData.data.length;i++){
                         if(_self.formData.systemUseServices.length>=i+1){
                           _self.formData.systemUseServices[i].fkProductsType = responseData.data[i].systemCode;
+                          _self.beginContent.systemUseServices[i].fkProductsType = responseData.data[i].systemCode;
                         }else{
                           _self.formData.systemUseServices.push({
                             "fkResponsibleType":"",

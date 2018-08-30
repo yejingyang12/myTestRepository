@@ -91,7 +91,7 @@
         <div slot="addInf"  class="btn btn-success dianji btnNext fr" @click="submitHandler('formData')">下一步</div>
     </add-form>
     <add-fromalert></add-fromalert>
-    <!-- <div class="inquiryBoxShow" v-show="check">
+    <div class="inquiryBoxShow" v-show="check">
         <div class="inquiry">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
@@ -101,14 +101,14 @@
                 </div>
             </div>
             <div class="inquiryBtn">
-                <button type="button" class="btn btn-success" @click="submitHandler('formData')">确定</button>
-                <button type="button" class="btn btn-default" @click="check = false">取消</button>
+                <button type="button" class="btn btn-success" @click="returnSave('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="cancelSave()">取消</button>
             </div>
         </div>
     </div>
     <div class="startBox">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
-    </div> -->
+    </div>
   </div>
 </body>
 <!--公用js-->

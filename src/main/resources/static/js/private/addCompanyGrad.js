@@ -10,10 +10,11 @@ window.onload = function () {
         },
         methods:{
         	//判断定级列表是否被改变
-        	judgeChange:function(judgeChange){
+        	judgeChange:function(judge){
+        		this.judgeType = judge;//1,上一步，2，返回
         		var flag = true;
         		var beginContent = this.beginContent;
-        		var currentContent = _self.formData;
+        		var currentContent = this.formData;
         		if(beginContent.competentIsExisting != currentContent.competentIsExisting){//是否有主管
         			flag = false;
         		}
@@ -59,12 +60,21 @@ window.onload = function () {
         		if(beginContent.rankTime != currentContent.rankTime){//定级时间
         			flag = false;
         		}
-        		if(flag){
-        			this.preBtnSuccessMethod('', '',true);
-        		}else{
-        			$(".inquiryBoxShow1").show();
+        		if(this.judgeType == 1){//上一步
+        			if(flag){
+        				this.preBtnSuccessMethod('', '',true);
+        			}else{
+        				this.check = true;
+        			}
+        		}else{//返回
+        			if(flag){//没有改动
+        				window.location.href = originUrl+"page/indexPage";
+        			}else{
+        				this.returnCheck = true;
+        			}
         		}
         	},
+        	
           //保存
           saveBtn:function(formName) {
             bus.$emit('addGradName',formName);
@@ -81,7 +91,6 @@ window.onload = function () {
           submitBtn:function(formName) {
             data.submitCheck = false;
             bus.$emit('addSubmitGradName',formName);
-           
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
@@ -99,7 +108,7 @@ window.onload = function () {
           preBtnSuccessMethod : function(_self, responseData,boo) {
             if(boo){
               data.check = false;
-              window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId;
+              window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId+"&companyId="+companyId+"&companyCode="+companyCode;
             }else{
               $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {
@@ -117,15 +126,18 @@ window.onload = function () {
             data.formData.gradingId = responseData.data;
             window.location.href = originUrl+"page/addCompanyMaterialPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
           },
-          //返回
+          //取消保存，返回
           returnBtn:function() {
-          	ajaxMethod(_self, 'post',
-                'main/removeSession', true,JSON.stringify(''), 'json',
-                'application/json;charset=UTF-8',_self.removeSessionSuccess);
+          	this.returnCheck = false;
             window.location.href = originUrl+"page/indexPage";
           },
-          removeSessionSuccess:function(){
-          	
+          //确认保存，返回
+          retuenSave:function(formName){
+            bus.$emit('retuenSaveGrad',formName);
+            this.returnCheck = false;
+          },
+          retuenSaveGradAjaxSuccess:function(_self,responseData){
+          	window.location.href = originUrl+"page/indexPage";
           },
         },
         mounted : function() {
@@ -168,6 +180,17 @@ window.onload = function () {
                   _self.preBtnSuccessMethod);
             }
           });
+          bus.$on('retuenSaveGradAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              ajaxMethod(_self, 'post',
+                  'grading/saveGrading', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.retuenSaveGradAjaxSuccess);
+            }
+          });
+          
           bus.$on('addNextGradAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";

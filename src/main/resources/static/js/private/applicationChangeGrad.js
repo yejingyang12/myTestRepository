@@ -29,7 +29,13 @@ window.onload = function () {
           },
           //返回
           returnBtn:function() {
-            window.location.href = originUrl+"page/indexPage";
+          	ajaxMethod(_self, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',_self.removeSessionSuccess);
+          	window.location.href = originUrl+"page/indexPage";
+          },
+          removeSessionSuccess:function(){
+          	
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
@@ -75,7 +81,7 @@ window.onload = function () {
           preBtnSuccessMethod : function(_self, responseData,boo) {
           	if(boo){
               data.check = false;
-              window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId;
+              window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
             }else{
               //$(".startBox").show().delay(2000).fadeOut();
             	if(_self.formData.saveType == "1"){
@@ -138,7 +144,6 @@ window.onload = function () {
             //保存系统
             if(data.systemBySession!=null){
             	data.systemBySession.changeType = "1";
-            	debugger
               ajaxMethod(_self, 'post',
                   'system/editSystem', true,
                   JSON.stringify(data.systemBySession), 'json',

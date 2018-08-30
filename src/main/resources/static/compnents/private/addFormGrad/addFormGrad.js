@@ -4,6 +4,8 @@ var data={
 	       
 	      }
 	},
+	returnCheck:false,
+	judgeType : 0,//判断是上一步还是返回按钮
 	companyBySession:"",
 	systemBySession:"",
     check : false,
@@ -1537,6 +1539,23 @@ var data={
                        });
                      }
                    });
+                   bus.$on('retuenSaveGrad',function(meg){
+                     if(meg!=null){
+                       _self.$refs[meg].validate(function (valid) {
+                         if (valid) {
+                           bus.$emit('retuenSaveGradAjax',"add");
+                         } else {
+                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                             confirmButtonText: '确定',
+                             callback: function callback(action) {
+                             }
+                           });
+                           return false;
+                         }
+                       });
+                     }
+                   });
+                   
                    bus.$on('addNextGradName',function(meg){
                      if(meg!=null){
                        _self.$refs[meg].validate(function (valid) {

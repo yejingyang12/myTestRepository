@@ -47,6 +47,17 @@ window.onload = function () {
             data.check = false;
             bus.$emit('addPreSystemName',formName);
           },
+          saveSystemToSession:function(formName){
+          	//新的上一页，点击没有验证，直接过，存入session，下一步回显
+          	ajaxMethod(this, 'post',
+                'system/saveSystemSession', true,
+                JSON.stringify(data.formData), 'json',
+                'application/json;charset=UTF-8',
+                this.saveSystemSessionSuccess);
+          },
+          saveSystemSessionSuccess:function(_self,responseData){
+          	
+          },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
           	var systemId = responseData.data;
@@ -242,7 +253,131 @@ window.onload = function () {
           },
           //返回
           returnBtn:function() {
-            window.location.href = originUrl+"page/indexPage";
+          	var flag = true;
+          	var beginContent = this.beginContent;
+          	var currentContent = this.formData;
+          	
+          	if(beginContent.fkInfoSysTypeCon != currentContent.fkInfoSysTypeCon){//信息系统建设类型
+          		flag = false;
+          	}
+          	if(beginContent.fkSystemIsMerge != currentContent.fkSystemIsMerge){//是否为合并系统
+          		flag = false;
+          	}
+          	if(beginContent.systemName != currentContent.systemName){//系统名称
+          		flag = false;
+          	}
+          	if(beginContent.standardizedCode != currentContent.standardizedCode){//标准化代码
+          		flag = false;
+          	}
+          	
+          	//子系统通过是否为合并系统来判断，如果是合并系统才会有子系统，选择了合并系统，页面的值已经被改变
+          	
+          	if(beginContent.gradeRecordSysName != currentContent.gradeRecordSysName){//等保备案系统名称
+          		flag = false;
+          	}
+          	if(beginContent.appIsInternet != currentContent.appIsInternet){//是否为互联网应用
+          		flag = false;
+          	}
+          	if(beginContent.sysBusSituationType != currentContent.sysBusSituationType){//业务类型
+          		flag = false;
+          	}
+          	if(beginContent.sysBusDescription != currentContent.sysBusDescription){//业务描述
+          		flag = false;
+          	}
+          	if(beginContent.sysServiceSitScope != currentContent.sysServiceSitScope){//服务范围
+          		flag = false;
+          	}
+          	if(beginContent.sysServiceSitObject != currentContent.sysServiceSitObject){//服务对象
+          		flag = false;
+          	}
+          	if(beginContent.npCoverageRange != currentContent.npCoverageRange){//覆盖范围
+          		flag = false;
+          	}
+          	if(beginContent.npNetworkProperties != currentContent.npNetworkProperties){//网络性质
+          		flag = false;
+          	}
+          	if(beginContent.interconnectionSit != currentContent.interconnectionSit){//系统互联情况
+          		flag = false;
+          	}
+          	//关键产品使用情况
+          	for(var i=0;i<currentContent.systemKeyProducts.length;i++){
+          		if(beginContent.systemKeyProducts[i].fkNationalIsProducts != currentContent.systemKeyProducts[i].fkNationalIsProducts){//是否使用国产品
+          			flag = false;
+          		}
+          		if(beginContent.systemKeyProducts[i].fkExaminStatus != currentContent.systemKeyProducts[i].fkExaminStatus){//数字1234，对应产品类型，
+          			flag = false;
+          		}
+          		if(beginContent.systemKeyProducts[i].productsNumber != currentContent.systemKeyProducts[i].productsNumber){//数量
+          			flag = false;
+          		}
+          		if(beginContent.systemKeyProducts[i].nUseProbability != currentContent.systemKeyProducts[i].nUseProbability){//使用国产品率
+          			flag = false;
+          		}
+          		if(beginContent.systemKeyProducts[i].otherName != currentContent.systemKeyProducts[i].otherName){//其他
+          			flag = false;
+          		}
+          	}
+          	//系统采用服务情况
+          	for(var i=0;i<currentContent.systemUseServices.length;i++){
+              if(beginContent.systemUseServices[i].fkResponsibleType != currentContent.systemUseServices[i].fkResponsibleType){//服务责任方类型
+              	flag = false;
+              }
+	          	if(beginContent.systemUseServices[i].fkProductsType != currentContent.systemUseServices[i].fkProductsType){//产品类型
+	            	flag = false;
+	            }
+	          	if(beginContent.systemUseServices[i].fkSystemId != currentContent.systemUseServices[i].fkSystemId){
+	            	flag = false;
+	            }
+	          	if(beginContent.systemUseServices[i].serviceIsUse != currentContent.systemUseServices[i].serviceIsUse){//是否采用
+              	flag = false;
+              }
+	          	if(beginContent.systemUseServices[i].otherName != currentContent.systemUseServices[i].otherName){//其他
+              	flag = false;
+              }
+          	}	
+          	if(beginContent.companyName != currentContent.companyName){//所属单位名称
+          		flag = false;
+          	}
+          	if(beginContent.whenInvestmentUse != currentContent.whenInvestmentUse){//何时投入使用
+          		flag = false;
+          	}
+          	if(beginContent.executiveOfficeName != currentContent.executiveOfficeName){//主管处室名称
+          		flag = false;
+          	}
+          	if(beginContent.subIsSystem != currentContent.subIsSystem){//系统是否为分系统
+          		flag = false;
+          	}
+          	if(beginContent.fatherSystemName != currentContent.fatherSystemName){//上级系统名称
+          		flag = false;
+          	}
+          	if(beginContent.fatherCompanyName != currentContent.fatherCompanyName){//请选择上级系统所属单位名称
+          		flag = false;
+          	}
+          	if(beginContent.executiveDireCon != currentContent.executiveDireCon){//主管联系人
+          		flag = false;
+          	}
+          	if(beginContent.executiveDireConTel != currentContent.executiveDireConTel){//主管联系人电话
+          		flag = false;
+          	}
+          	if(flag){
+          		//页面的值没有改变
+          		window.location.href = originUrl+"page/indexPage";
+          	}else{
+          		this.check = true;
+          	}
+          },
+          //确定保存
+          returnSave:function(formName){
+          	bus.$emit('returnSave',formName);
+          	this.check = false;
+          },
+          returnSaveAjaxSuccess:function(_self, responseData){
+          	window.location.href = originUrl+"page/indexPage";
+          },
+          //取消保存
+          cancelSave:function(){
+          	this.check = false;
+        		window.location.href = originUrl+"page/indexPage";
           },
           
           //显示弹窗
@@ -332,6 +467,25 @@ window.onload = function () {
               }
             }
           });
+          bus.$on('returnSaveAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              if(systemId!=''&&systemId!=null){
+                ajaxMethod(_self, 'post',
+                    'system/editSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.returnSaveAjaxSuccess);
+              }else{
+                ajaxMethod(_self, 'post',
+                    'system/saveSystem', true,
+                    JSON.stringify(data.formData), 'json',
+                    'application/json;charset=UTF-8',
+                    _self.returnSaveAjaxSuccess);
+              }
+            }
+          });
+          
           bus.$on('mainSaveSystemAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";

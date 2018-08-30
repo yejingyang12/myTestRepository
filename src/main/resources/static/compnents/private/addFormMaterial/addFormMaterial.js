@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/24.
  */
 var data={
+		retuenCheck:false,
 		substitute:"",
 		companyBySession:"",
 		systemBySession:"",
@@ -46,7 +47,30 @@ var data={
             licenseCertificateName:[
                 {required: true, message: '请上传系统使用的安全产品清单及认证、销售许可证明', trigger: 'change' }
             ]
-        }
+        },
+        beginContent:{
+      		systemMaterialsId: '',
+      		fkSystemId: '',
+      		topologyDescriptionList: [],
+          topologyDescriptionName:'',
+      		organizationManagementList: [],
+          organizationManagementName:'',
+      		implementationPlanList: [],
+          implementationPlanName:'',
+      		licenseCertificateList: [],
+          licenseCertificateName:'',
+      		evaluationPresentationId: '',
+      		evaluationPresentationName: '',
+      		evaluationPresentationPath: '',
+      		expertReviewId: '',
+      		expertReviewName: '',
+      		expertReviewPath: '',
+      		directorOpinionId: '',
+      		directorOpinionName: '',
+      		directorOpinionPath: '',
+          changeType:'',
+          saveType:''
+      	},
     };
 (function () {
     Vue.component('addFormMaterial',function (resolve, reject) {
@@ -491,8 +515,18 @@ var data={
                   // 获取回显材料信息成功
                   getMaterialsInfoSuccessMethod : function(_self, responseData) {
                     if(responseData.data!=null){
+                    	
                       _self.formData = responseData.data;
                       _self.setShowAttachName(_self);
+                      //第一次进来，将本页面内容存入beginContent中，离开页面时进行判断，如果修改过就弹窗
+                      //因为后台传过来的数据是数组，所以放置处理后的数据
+                      _self.beginContent.topologyDescriptionName = _self.formData.topologyDescriptionName;//系统拓扑结构及说明
+                      _self.beginContent.organizationManagementName = _self.formData.organizationManagementName;//系统安全组织机构及管理制度
+                      _self.beginContent.implementationPlanName = _self.formData.implementationPlanName; //系统安全保护设施设计实施方案或改建实施方案
+                      _self.beginContent.licenseCertificateName = _self.formData.licenseCertificateName;//系统使用的安全产品清单及认证、销售许可证明
+                      _self.beginContent.evaluationPresentationName = _self.formData.evaluationPresentationName;//系统等级测评报告
+                      _self.beginContent.expertReviewName = _self.formData.expertReviewName;//专家评审情况
+                      _self.beginContent.directorOpinionName = _self.formData.directorOpinionName;//上级主管部门审批意见
                     }
                     
                     if(responseData.data.topologyDescriptionName!=null){
@@ -739,6 +773,24 @@ var data={
                       _self.$refs[meg].validate(function (valid) {
                         if (valid) {
                           bus.$emit('addPreMaterialFormAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                              
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  
+                  bus.$on('retuenSaveAttach',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('retuenSaveAttachAjax',"add");
                         } else {
                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',

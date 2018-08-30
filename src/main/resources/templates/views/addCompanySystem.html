@@ -65,7 +65,7 @@
           <button type="button" class="btn btn-default" id="next" @click="nextBtn('formData')">下一步</button>
       </div>
     </add-form-system>
-<!--     <div class="inquiryBoxShow" v-show="check">
+		<div class="inquiryBoxShow" v-show="check">
         <div class="inquiry">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
@@ -75,11 +75,11 @@
                 </div>
             </div>
             <div class="inquiryBtn">
-                <button type="button" class="btn btn-success" @click="preBtn('formData')">确定</button>
-                <button type="button" class="btn btn-default" @click="preBtnSuccessMethod('','',true)">取消</button>
+                <button type="button" class="btn btn-success" @click="returnSave('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="cancelSave()">取消</button>
             </div>
         </div>
-    </div> -->
+    </div>
     <div class="startBox" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
     </div>

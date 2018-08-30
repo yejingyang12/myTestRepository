@@ -133,6 +133,38 @@
                { required: true, message: '请选择板块类型', trigger: 'change' }
           ]
       },
+      beginContent:{
+        companyName:"",
+        companyTypeName:"",
+        ldContactName:"",
+        companyCode:"",
+        companyAddress:"",
+        postalCode:"",
+        administrativeNum:"",
+        compPrincipalName:"",
+        compPrincipalPost:"",
+        compPrincipalWorkTel:"",
+        compPrincipalEm:"",
+        compPrincipalPhone:"",
+        ldContactPost:"",
+        ldContactWorkTel:"",
+        ldContactEmail:"",
+        ldContactPhone:"",
+        rDepartment:"",
+        gpReportingComp:"",
+        fkSubordinatePro:"",
+        fkIndustryCategory:"",
+        fkAffiliation:"",
+        fkPlateType:"",
+        fkCompanyType:"",
+        companyId:"",
+        changeType:"",
+        systemId:"",
+        jurisdictionDel:"",
+        fkNodeChangeReason : "",
+        fkNodeChangeContent : "",
+        fkNodeSysChangeMatter : ""
+      },
   };
 (function() {
   Vue.component('addForm', function(resolve, reject) {
@@ -281,6 +313,34 @@
               },
               getCompanyInfoSuccessMethod: function(_self,data){
                 if(data.data!=null){
+                	//如果是总部权限，总部点击进来是空的，但是点击确定时会走此方法，影响判断，所以总部权限不走此代码
+                	if(jurisdiction!=='headquarters'){
+                		//在第一次进来就把当前页内容存入beginContent中，等返回时拿出进行判断
+                		_self.beginContent.companyName = data.data.companyName;//单位名称
+                		_self.beginContent.companyCode = data.data.companyCode;//单位编码;
+                		_self.beginContent.companyAddress = data.data.companyAddress;//单位地址
+                		_self.beginContent.postalCode = data.data.postalCode;//邮政编码
+                		_self.beginContent.fkSubordinatePro = data.data.fkSubordinatePro;//所属省份
+                		_self.beginContent.administrativeNum = data.data.administrativeNum;//行政区划编码
+                		_self.beginContent.compPrincipalName = data.data.compPrincipalName;//单位负责人姓名
+                		_self.beginContent.compPrincipalWorkTel = data.data.compPrincipalWorkTel;//办公电话
+                		_self.beginContent.compPrincipalPhone = data.data.compPrincipalPhone;//移动电话
+                		_self.beginContent.compPrincipalPost = data.data.compPrincipalPost;//职务职称
+                		_self.beginContent.compPrincipalEm = data.data.compPrincipalEm;//电子邮件
+                		_self.beginContent.ldContactName = data.data.ldContactName;//责任部门联系人姓名
+                		_self.beginContent.ldContactWorkTel = data.data.ldContactWorkTel;//办公电话
+                		_self.beginContent.ldContactPhone = data.data.ldContactPhone;//移动电话
+                		_self.beginContent.ldContactPost = data.data.ldContactPost;//职务职称
+                		_self.beginContent.ldContactEmail = data.data.ldContactEmail;//电子邮件
+                		_self.beginContent.rDepartment = data.data.rDepartment;//责任部门
+                		_self.beginContent.gpReportingComp = data.data.gpReportingComp;//等保上报单位名称
+                		_self.beginContent.fkIndustryCategory = data.data.fkIndustryCategory;//行业类别
+                		_self.beginContent.fkAffiliation = data.data.fkAffiliation;//隶属关系
+                		_self.beginContent.fkCompanyType = data.data.fkCompanyType;//单位类型
+                		_self.beginContent.fkPlateType = data.data.fkPlateType;//板块类型
+                	}
+                	
+                	
                   _self.formData = data.data;
                   if(data.data.postalCode=='0'){
                   	_self.formData.postalCode='';
@@ -659,6 +719,22 @@
                   _self.$refs[meg].validate(function (valid) {
                     if (valid) {
                       bus.$emit('toSystemPage',"add");
+                    } else {
+                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                        confirmButtonText: '确定',
+                        callback: function callback(action) {
+                        }
+                      });
+                      return false;
+                    }
+                  });
+                }
+              });
+              bus.$on('returnSave',function(meg){
+                if(meg!=null){
+                  _self.$refs[meg].validate(function (valid) {
+                    if (valid) {
+                      bus.$emit('returnSaveToIndex',"add");
                     } else {
                       _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                         confirmButtonText: '确定',

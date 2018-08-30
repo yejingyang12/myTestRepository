@@ -43,7 +43,7 @@ window.onload = function () {
           preBtnSuccessMethod : function(_self, responseData,boo) {
             if(boo){
               data.check = false;
-              window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId;
+              window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
             }else{
 	            	if(_self.formData.saveType == "1"){
 	            		$(".save").show().delay(2000).fadeOut();
@@ -57,7 +57,61 @@ window.onload = function () {
           },
           //返回
           returnBtn:function() {
-            window.location.href = originUrl+"page/indexPage";
+          	var flag = true;
+          	var beginContent = this.beginContent;
+          	var currentContent = this.formData;
+          	if(beginContent.topologyDescriptionName == null){
+          		beginContent.topologyDescriptionName = '';
+          	}
+          	if(beginContent.organizationManagementName == null){
+          		beginContent.organizationManagementName = '';
+          	}
+          	if(beginContent.implementationPlanName == null){
+          		beginContent.implementationPlanName = '';
+          	}
+          	if(beginContent.licenseCertificateName == null){
+          		beginContent.licenseCertificateName = '';
+          	}
+          	if(beginContent.topologyDescriptionName != currentContent.topologyDescriptionName){//系统拓扑结构及说明
+          		flag = false;
+          	}
+          	if(beginContent.organizationManagementName != currentContent.organizationManagementName){//系统安全组织机构及管理制度
+          		flag = false;
+          	}
+          	if(beginContent.implementationPlanName != currentContent.implementationPlanName){//系统安全保护设施设计实施方案或改建实施方案
+          		flag = false;
+          	}
+          	if(beginContent.licenseCertificateName != currentContent.licenseCertificateName){//系统使用的安全产品清单及认证、销售许可证明
+          		flag = false;
+          	}
+          	if(beginContent.evaluationPresentationName != currentContent.evaluationPresentationName){//系统等级测评报告
+          		flag = false;
+          	}
+          	if(beginContent.expertReviewName != currentContent.expertReviewName){//专家评审情况
+          		flag = false;
+          	}
+          	if(beginContent.directorOpinionName != currentContent.directorOpinionName){//上级主管部门审批意见
+          		flag = false;
+          	}
+          	if(flag){
+          		//没有改变
+          		window.location.href = originUrl+"page/indexPage";
+          	}else{
+          		this.retuenCheck = true;
+          	}
+          },
+          //保存返回
+          retuenSave:function(formName){
+          	this.retuenCheck = false;
+            bus.$emit('retuenSaveAttach',formName);
+          },
+          //不保存返回
+          returnNotSave:function(){
+          	this.retuenCheck = false;
+          	window.location.href = originUrl+"page/indexPage";
+          },
+          retuenSaveAttachSuccess:function(_self,responseData){
+          	window.location.href = originUrl+"page/indexPage";
           }
         },
         mounted : function() {
@@ -102,6 +156,18 @@ window.onload = function () {
                   JSON.stringify(data.formData), 'json',
                   'application/json;charset=UTF-8',
                   _self.preBtnSuccessMethod);
+            }
+          });
+          
+          bus.$on('retuenSaveAttachAjax',function(meg){
+            if(meg!=null){
+              data.formData.changeType = "2";
+              data.formData.saveType = "1";
+              ajaxMethod(_self, 'post',
+                  'grading/saveSystemMaterialsInfo', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  _self.retuenSaveAttachSuccess);
             }
           });
         }

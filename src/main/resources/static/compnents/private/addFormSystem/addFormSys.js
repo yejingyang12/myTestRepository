@@ -302,7 +302,148 @@ var  data={
           fatherCompanyName:[
               {required: false, message: '请选择父系统所属单位', trigger: 'change'}
           ]
-      }
+      },
+      beginContent:{
+        systemId:"",
+        companyId:"",
+        fkInfoSysTypeCon:"",
+        fkSystemIsMerge:"",
+        systemName:"",
+        fatherSystemName:"",
+        standardizedCode:"",
+        gradeRecordSysName:"",
+        sysBusSituationType:"",
+        sysBusDescription:"",
+        sysServiceSitScope:"",
+        sysServiceSitObject:"",
+        npCoverageRange:"",
+        npNetworkProperties:"",
+        interconnectionSit:"",
+        productsNumber:"",
+        fkNationalIsProducts:"",
+        fkResponsibleType:"",
+        fkCompanyCode:"",
+        executiveOfficeName:"",
+        executiveDireCon:"",
+        executiveDireConTel:"",
+        whenInvestmentUse:"",
+        subIsSystem:"",
+        companyName:"",
+        fatherCompanyName:"",
+        fkComCode:"",
+        changeType:"",
+        stars:"1",
+        aa:"1",
+        checkCount:"1",
+        systemNameSon:"",
+        systemCodeSon:"",
+        addSystemSubSon:[],
+        addSystemSub:[
+//        {
+//          label:"子系统1系统名称：",
+//          labelCode:"子系统1标准化代码：",
+//          systemName:"",
+//          standardizedCode:""
+//        },
+//        {
+//          label:"子系统2系统名称：",
+//          labelCode:"子系统2标准化代码：",
+//          systemName:"",
+//          standardizedCode:""
+//        }
+        ],
+        systemKeyProducts:[{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        },{
+          fkNationalIsProducts:"",
+          fkExaminStatus:"",
+          productsNumber:"",
+          nUseProbability:0,
+          otherName:""
+        }],
+        systemUseServices:[{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        },{
+          fkResponsibleType:"",
+          fkProductsType:"",
+          fkSystemId:"",
+          serviceIsUse:"",
+          otherName:""
+        }],
+        systemKeyProductsNumber:'',
+        systemKeyFkNationalIsProducts:'',
+        systemKeyNUseProbability:'',
+        systemKeyOtherName:'',
+        systemProServices:''
+      },
     };
 
 (function () {
@@ -796,6 +937,9 @@ var  data={
                           if(companyCode==_self.msgName[i].companyCode){
                             _self.formData.companyName = _self.msgName[i].companyName;
                             _self.formData.fkCompanyCode = _self.msgName[i].companyCode;
+                            //为了保证一进入页面就保证beginContent与一开始的formData一致
+                            _self.beginContent.companyName = _self.msgName[i].companyName;
+                            _self.beginContent.fkCompanyCode = _self.msgName[i].companyCode;
                             break;
                           }
                         }
@@ -1343,14 +1487,19 @@ var  data={
                 	
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;
+                  //让开始内容与开始的formData一致
+                  this.beginContent.companyId = companyId;
+                  this.beginContent.fkCompanyCode = companyCode;
                   
                   if(companyCode==''||companyCode==null){
                     this.companyNameDisabled = false;
                   }
                   if(companyCode!=''&&companyCode!=null){
                     this.formData.fkComCode = "1";
+                    this.beginContent.fkComCode = "1";
                   }else{
                     this.formData.fkComCode = "";
+                    this.beginContent.fkComCode = "";
                   }
                   if(!this.flag){
                   	if(systemId!=''&&systemId!=null){
@@ -1397,6 +1546,22 @@ var  data={
                       _self.$refs[meg].validate(function (valid) {
                         if (valid) {
                           bus.$emit('addNextSystemAjax',"add");
+                        } else {
+                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                            confirmButtonText: '确定',
+                            callback: function callback(action) {
+                            }
+                          });
+                          return false;
+                        }
+                      });
+                    }
+                  });
+                  bus.$on('returnSave',function(meg){
+                    if(meg!=null){
+                      _self.$refs[meg].validate(function (valid) {
+                        if (valid) {
+                          bus.$emit('returnSaveAjax',"add");
                         } else {
                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',

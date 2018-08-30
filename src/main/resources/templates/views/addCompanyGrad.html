@@ -52,7 +52,7 @@
     </smcc-header>
     <smcc-breadcrumb>
       <li slot="materialChangeBtn" class="fr liMargin">
-        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="returnBtn()" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
+        <button type="button" class="btn btn-default  btnNext fr" id="return" @click="judgeChange(2)" style="color: #666;background-color: #ffffff;border-color: #d0d0d0;">返回</button>
       </li>
     </smcc-breadcrumb>
     <add-list></add-list>
@@ -61,19 +61,36 @@
             <div class="saveBnt">
                 <button type="button" class="btn btn-success " id="submit"  @click="submitCheck = true" v-show="!nextBtn">提交</button>
                 <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
-                <button type="button" class="btn btn-default" id="pre" @click="judgeChange('judgeChange')" v-show="!nextBtn">上一步</button>
+                <button type="button" class="btn btn-default" id="pre" @click="judgeChange(1)" v-show="!nextBtn">上一步</button>
             </div>
         </li>
         <li slot="gradNextBtn" class="fr liMargin">
             <div class="saveBnt">
-                <button type="button" class="btn btn-default " id="pre" @click="judgeChange('judgeChange')"  v-show="nextBtn">上一步</button>
+                <button type="button" class="btn btn-default " id="pre" @click="judgeChange(1)"  v-show="nextBtn">上一步</button>
                 <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')"  v-show="nextBtn">保存</button>
                 <button type="button" class="btn btn-success " id="next" @click="next1Btn('formData')"  v-show="nextBtn">下一步</button>
             </div>
         </li>
     </add-form-grad>
-    <div class="inquiryBoxShow1">
-        <div class="inquiry" style="position:fixed;">
+    
+    <div class="inquiryBoxShow" v-show="returnCheck">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否保存?</p>
+                    <span>未保存的部分将会消失哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="retuenSave('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="returnBtn()">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="inquiryBoxShow" v-show="check">
+        <div class="inquiry"  style="position:fixed;">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
                 <div class="fl">

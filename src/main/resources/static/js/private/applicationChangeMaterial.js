@@ -83,7 +83,7 @@ window.onload = function () {
             if(boo){
               data.check = false;
               data.formData.systemMaterialsId = responseData.data;
-              window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId;
+              window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
             }else{
               $(".startBox").show().delay(2000).fadeOut();
               window.setTimeout(function () {

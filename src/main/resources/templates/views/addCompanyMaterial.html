@@ -83,6 +83,22 @@
       </li>
     </add-form-material>
     
+    <div class="inquiryBoxShow" v-show="retuenCheck">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否保存?</p>
+                    <span>未保存的部分将会消失哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="retuenSave('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="returnNotSave()">取消</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="inquiryBoxShow" v-show="check">
         <div class="inquiry">
             <div class="cenrerBox">
