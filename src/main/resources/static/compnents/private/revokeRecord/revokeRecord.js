@@ -19,6 +19,12 @@ var revokeRecordData={
 	},
 //删除弹窗的
   deleteDialog:false,
+  ceshi:false,
+	ceshi1:false,
+	ceshi2:false,
+	dialogVisible:false,
+	dialogVisibles:false,
+	dialogVisibled:false,
   deleteSuccessDialog:false,
 	deleteFailDialog:false,
 	fileDelete: null,
@@ -47,6 +53,8 @@ var revokeRecordData={
 						this.$refs.refOnUpload.value = null;
 						this.fileDel(this.formData.recordReportPath,this.formData.recordReportName,this.formData.recordReportId);
 						$('.wrap').addClass('cover');
+						this.$refs.revokeAttachName.clearValidate();
+						this.$refs.revokereason.clearValidate();
 					},
 					onUpload: function(e){
 						var fileSize;
@@ -54,11 +62,12 @@ var revokeRecordData={
           		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	          	var fimeMax = 1048576 *30;
 	          	if(fileSize > fimeMax){
-	          		this.$alert('文件不能大于30M！', '信息提示', {
+	          		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
-	              });
+	              });*/
+	          		this.dialogVisible=true;
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -66,11 +75,12 @@ var revokeRecordData={
             	if(fileFormatLength){
             		var i = fileFormatLength - 1;
             		if(fileFormat[i] != 'pdf' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip' && fileFormat[i] !='sep'){
-            			this.$alert('不接受此文件类型！', '信息提示', {
+            			/*this.$alert('不接受此文件类型！', '信息提示', {
 	            			confirmButtonText: '确定',
 	            			callback: function callback(action) {
 	            			}
-	            		});
+	            		});*/
+            			this.dialogVisibles=true;
 	            		return;
             		}
             		var uploadData = new FormData(); 
@@ -135,7 +145,7 @@ var revokeRecordData={
 						revokeAttachName = _self.formData.revokeAttachName;
 						revokeAttachPath = _self.formData.revokeAttachPath;
 						var msg = false;
-						if(revokereason.length<=200&&revokeAttachName!=null&&revokeAttachName!=''&&revokeAttachName!='undefind'&&revokeAttachPath!=null&&revokeAttachPath!=''&&revokeAttachPath!='undefind'){
+						if(revokereason.length>0&&revokereason.length<=200&&revokeAttachName!=null&&revokeAttachName!=''&&revokeAttachName!='undefind'&&revokeAttachPath!=null&&revokeAttachPath!=''&&revokeAttachPath!='undefind'){
 							msg = true;
 						}
 						_self.$refs[formData].validate(function (valid) {
@@ -152,11 +162,12 @@ var revokeRecordData={
               } else {
               	$("#revokeRecordDialogShaw").css("display","none");
                 $("#revokeRecordInquiry").css("display","none");
-                _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                   confirmButtonText: '确定',
                   callback: function callback(action) {
                   }
-                });
+                });*/
+                _self.dialogVisibled=true;
                 return false;
               }
             });

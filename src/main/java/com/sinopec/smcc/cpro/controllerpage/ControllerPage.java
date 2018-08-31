@@ -291,6 +291,7 @@ public class ControllerPage {
     model.addAttribute("sprankLevelArray", mainParam.getSprankLevelArray());
     model.addAttribute("subordinateProvincesArray", mainParam.getSubordinateProvincesArray());
     model.addAttribute("customFiltering", mainParam.getCustomFiltering());
+    model.addAttribute("titleType", mainParam.getTitleType());
     return "views/showChartDataList";
   }
 }

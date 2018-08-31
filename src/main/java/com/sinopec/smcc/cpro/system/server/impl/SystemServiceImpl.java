@@ -4209,8 +4209,12 @@ public class SystemServiceImpl implements SystemService {
     List<SystemParam> sysListInfo = new ArrayList<SystemParam>();
 
     int dataListSize = dataList.size();
-    if (dataListSize > 5000) {
-      throw new BusinessException(EnumResult.ERROR);
+    if(dataListSize>0){
+	    if (dataListSize > 5000) {
+	      return false;
+	    }
+    }else{
+    	return false;
     }
     List<Map<String, String>> isService = new ArrayList<Map<String, String>>();
     Map<String, String> isNan = new HashMap<String, String>();// 系统承载业务情况

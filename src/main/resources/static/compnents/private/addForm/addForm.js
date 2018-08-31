@@ -3,6 +3,8 @@
   		disabledInput:false,
       directive:false,
       check : false,
+      ceshi2:false,
+      dialogVisibled:false,
       dtlCompanyCode:"",
       companyCookie:"",
       substitute:"",
@@ -476,12 +478,13 @@
                           'company/saveCompany', true,JSON.stringify(_self.formData), 'json',
                           'application/json;charset=UTF-8',this.submitHandlerSuccessMethod);
                     } else {
-                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                      /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                           
                         }
-                      });
+                      });*/	
+                    	_self.dialogVisibled=true;
                       return false;
                     }
                   });
@@ -702,12 +705,13 @@
                     if (valid) {
                       bus.$emit('addCompany',"add");
                     } else {
-                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                      /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                           
                         }
-                      });
+                      });*/
+                    	_self.dialogVisibled=true;
                       return false;
                     }
                   });
@@ -720,11 +724,12 @@
                     if (valid) {
                       bus.$emit('toSystemPage',"add");
                     } else {
-                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                    /*  _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
-                      });
+                      });*/
+                    	_self.dialogVisibled=true;
                       return false;
                     }
                   });
@@ -736,11 +741,12 @@
                     if (valid) {
                       bus.$emit('returnSaveToIndex',"add");
                     } else {
-                      _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                      /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
-                      });
+                      });*/
+                    	_self.dialogVisibled=true;
                       return false;
                     }
                   });

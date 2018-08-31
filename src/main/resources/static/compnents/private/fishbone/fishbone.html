@@ -10,23 +10,23 @@
           <span class="fl revokeTitle" v-show="true">变更信息</span>
         </p>
          <div>
-            <div class="col-md-12 clearPadding">
+            <div class="col-md-12 clearPadding" style="padding:0 0 0 0 !important">
                         <!--变更事项--> 
-                            <div class="col-md-10 clearPadding h-system-fishbone">
-                                <span class="col-md-2 clearPadding " style="margin:15px 0 15px -30px"> 
+                            <div class="col-md-10 clearPadding h-system-fishbone" style="padding:0 0 0 0 !important">
+                                <span class="col-md-2 clearPadding " style="margin:15px 0 15px"> 
                                                                                        变更事项：
                                 </span>
                                <p class="col-md-3 clearPadding" style="margin:15px 0 15px -30px">{{result1.fkSysChangeMatter}}</p> 
                              </div>
                         <!--变更原因-->
-                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px -30px">
+                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px">
                                 <span class="col-md-2 clearPadding "> 
                                                                                        变更原因：
                                 </span>
                                <p class="col-md-3 clearPadding" style="margin:0 0 0 -30px">{{result1.fkChangeReason}}</p> 
                              </div>
                         <!--变更内容-->
-                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px -30px">
+                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px">
                                 <span class="col-md-2 clearPadding "> 
                                                                                        变更内容：
                                 </span>
@@ -47,10 +47,10 @@
      
         </p>
          <div>
-            <div class="col-md-12 clearPadding">
+            <div class="col-md-12 clearPadding" style="padding:0 0 0 0 !important">
                         <!--变更事项--> 
-                            <div class="col-md-10 clearPadding h-system-fishbone">
-                                <span class="col-md-2 clearPadding " style="margin:15px 0 15px -30px"> 
+                            <div class="col-md-10 clearPadding h-system-fishbone" style="padding:0 0 0 0 !important">
+                                <span class="col-md-2 clearPadding " style="margin:15px 0 15px"> 
                                                                变更事项:
                                 </span>
                                <p class="col-md-3 clearPadding" v-show="true" style="margin:15px 0 15px -30px"> 
@@ -58,14 +58,14 @@
                                </p>
                              </div>
                          <!--撤销原因-->
-                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px -30px">
+                        <div class="col-md-10 clearPadding h-system-fishbone" style="padding:0 0 0 0 !important">
                                 <span class="col-md-2 clearPadding "> 
                                                                撤销原因：
                                 </span>
                                <p class="col-md-3 clearPadding" style="margin:0 0 0 -30px">{{result1.revokereason}}</p> 
                              </div>
                            <!--撤销证明-->
-                        <div class="col-md-10 clearPadding h-system-fishbone" style="margin:15px 0 15px -30px">
+                        <div class="col-md-10 clearPadding h-system-fishbone" style="padding:0 0 0 0 !important">
                                 <span class="col-md-2 clearPadding "> 
                                                                 撤销证明：
                                 </span>
@@ -88,7 +88,9 @@
 	                        </i> </div> 
                         <div class="second_div">操作人：{{pro.operator}}</div>
                         <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
-                        <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px" class="thirs_div" v-if="pro.operationOpinion!=''" :title="option" >操作意见：{{pro.operationOpinion}}</div>
+                        <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px" 
+                        			class="thirs_div" v-if="pro.operationOpinion!=''" >操作意见：
+                        			<span :title="pro.operationOpinion" >{{pro.operationOpinion}}</span></div>
                     	<div class="thirs_div" v-else>操作意见：无</div>
                     </div>
                     <div class="over_time">完成时间:{{pro.createTime}}</div>

@@ -991,14 +991,26 @@
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'xlsm' && fileFormat[1] != 'xlsx'){
+            	var fileFormatLength = fileFormat.length;
+            	if(fileFormatLength){
+            		var i = fileFormatLength - 1;
+            		if(fileFormat[i] != 'xlsm' && fileFormat[i] !='xlsx'){
+            			this.$alert('不接受此文件类型！', '信息提示', {
+            				confirmButtonText: '确定',
+            				callback: function callback(action) {
+            				}
+            			});
+            			return;
+            		}
+            	}
+	          	/*if(fileFormat[1] != 'xlsm' && fileFormat[1] != 'xlsx'){
 	          		this.$alert('不接受此文件类型！', '信息提示', {
 		              confirmButtonText: '确定',
 		              callback: function callback(action) {
 		              }
 		            });
 		        		return;
-		        	}
+		        	}*/
 							var importData = new FormData(); 
 							importData.append('file', e.target.files[0]);
 							importData.append('type', 'test');
@@ -1327,6 +1339,13 @@
                 _self.paramApplication = true;
               }
             }
+          },
+          removeUselessSession:function(_self){
+          	ajaxMethod(_self, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeUselessSessionSuccess);
+          },
+          removeUselessSessionSuccess:function(){
           }
       },
       mounted: function() {
@@ -1371,6 +1390,7 @@
           this.checkitem();
           this.listsort();
           this.imgArrowDownload();
+          this.removeUselessSession(this);
           //功能权限
           $.ajax({
             type: "get",

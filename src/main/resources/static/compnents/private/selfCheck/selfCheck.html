@@ -1,5 +1,41 @@
 <!--自查-->
 <div>
+<!-- 文件大小弹窗 start -->
+                                <el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">附件总量最大 30M</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisible = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 文件大小弹窗 end -->
+						        <!-- 文件限制弹窗 start -->
+						         <el-dialog lock-scroll  :close-on-click-modal="ceshi1"   title="文件限制" :visible.sync="dialogVisibles" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">上传格式只能为：doc,docx,xls,xlsx,pdf,zip,rar,sep</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibles = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibles = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 文件限制弹窗 end  -->
+						        <!-- 验证提示框 start -->
+						        <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">验证有误，请检查填写信息</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						         <!-- 验证提示框 end -->
 <!--弹出框-->
     <div id="dialog" class="evaluationAlert hDiaSelfCheck" 
     style=" display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);z-index: 2">

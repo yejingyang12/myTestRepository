@@ -9,6 +9,8 @@ var  data={
 	        },
 	        flag:false,
 	        substitute:"",
+	        ceshi2:false,
+	        dialogVisibled:false,
 		jurisdiction: false,
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
@@ -1547,11 +1549,12 @@ var  data={
                         if (valid) {
                           bus.$emit('addPreSystemAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        _self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -1563,11 +1566,12 @@ var  data={
                         if (valid) {
                           bus.$emit('addNextSystemAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -1579,11 +1583,12 @@ var  data={
                         if (valid) {
                           bus.$emit('returnSaveAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        	 _self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -1596,11 +1601,12 @@ var  data={
                         if (valid) {
                           bus.$emit('changePreSystemAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        	 _self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -1615,11 +1621,12 @@ var  data={
                         if (valid) {
                           bus.$emit('toGradPage',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        	 _self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -1634,11 +1641,12 @@ var  data={
                         if (valid) {
                           bus.$emit('mainSaveSystemAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        	 _self.dialogVisibled=true;
                           return false;
                         }
                       });

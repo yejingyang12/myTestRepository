@@ -7,6 +7,8 @@ var data={
 	returnCheck:false,
 	judgeType : 0,//判断是上一步还是返回按钮
 	ceshi:false,
+	ceshi2:false,
+	dialogVisibled:false,
 	companyBySession:"",
 	systemBySession:"",
     check : false,
@@ -1155,11 +1157,11 @@ var data={
                       	
                       	this.beginContent.filler = responseData.data.filler;
                       	if(responseData.data.fkBizSPRankDegree != ''){
-                      		this.beginContent.fkBizSPRankDegree = responseData.data.fkBizSPRankDegree+",";//因为下面有操作加了","
+                      		this.beginContent.fkBizSPRankDegree = responseData.data.fkBizSPRankDegree;
                       	}
                       	this.beginContent.fkBizSPRankLevel = responseData.data.fkBizSPRankLevel;
                       	if(responseData.data.fkBizSystemDegree != ''){
-                      		this.beginContent.fkBizSystemDegree = responseData.data.fkBizSystemDegree+",";
+                      		this.beginContent.fkBizSystemDegree = responseData.data.fkBizSystemDegree;
                       	}
                       	this.beginContent.fkBizSystemLevel = responseData.data.fkBizSystemLevel;
                       	this.beginContent.fkSpRanklevel = responseData.data.fkSpRanklevel;
@@ -1291,7 +1293,7 @@ var data={
                     },
                     initial2:function(_self){
                       if(_self.formData.fkBizSPRankDegree!=''){
-                        _self.formData.fkBizSPRankDegree = _self.formData.fkBizSPRankDegree+",";
+                        _self.formData.fkBizSPRankDegree = _self.formData.fkBizSPRankDegree;
                         var bizSPRankDegree = _self.formData.fkBizSPRankDegree.split(",");
                         for(var i=0;i<bizSPRankDegree.length;i++){
                           if(bizSPRankDegree[i]!=''){
@@ -1300,7 +1302,7 @@ var data={
                         }
                       }
                       if(_self.formData.fkBizSystemDegree!=''){
-                        _self.formData.fkBizSystemDegree = _self.formData.fkBizSystemDegree+",";
+                        _self.formData.fkBizSystemDegree = _self.formData.fkBizSystemDegree;
                         var bizSystemDegree = _self.formData.fkBizSystemDegree.split(",");
                         for(var i=0;i<bizSystemDegree.length;i++){
                           if(bizSystemDegree[i]!=''){
@@ -1498,11 +1500,12 @@ var data={
                          if (valid) {
                            bus.$emit('addGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                           /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1514,11 +1517,12 @@ var data={
                          if (valid) {
                            bus.$emit('addSubmitGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                           /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1530,11 +1534,12 @@ var data={
                          if (valid) {
                            bus.$emit('addPreGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1546,11 +1551,12 @@ var data={
                          if (valid) {
                            bus.$emit('retuenSaveGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                           /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1563,11 +1569,12 @@ var data={
                          if (valid) {
                            bus.$emit('addNextGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1580,11 +1587,12 @@ var data={
                          if (valid) {
                            bus.$emit('changeGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                           /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1596,11 +1604,12 @@ var data={
                          if (valid) {
                            bus.$emit('changeSubmitGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1612,11 +1621,12 @@ var data={
                          if (valid) {
                            bus.$emit('changePreGradAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1628,11 +1638,12 @@ var data={
                          if (valid) {
                            bus.$emit('toAttachPage',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                           /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1645,11 +1656,12 @@ var data={
                          if (valid) {
                            bus.$emit('gradGradingAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /*  _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1661,11 +1673,12 @@ var data={
                          if (valid) {
                            bus.$emit('gradSubmitGradingAjax',"add");
                          } else {
-                           _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                              confirmButtonText: '确定',
                              callback: function callback(action) {
                              }
-                           });
+                           });*/
+                        	 _self.dialogVisibled=true;
                            return false;
                          }
                        });
@@ -1677,11 +1690,12 @@ var data={
                   			 if (valid) {
                   				 bus.$emit('materialFormAjax',"add");
                   			 } else {
-                  				 _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                  				 _/*self.$alert('验证有误，请检查填写信息！', '验证提示', {
                   					 confirmButtonText: '确定',
                   					 callback: function callback(action) {
                   					 }
-                  				 });
+                  				 });*/
+                  				_self.dialogVisibled=true;
                   				 return false;
                   			 }
                   		 });

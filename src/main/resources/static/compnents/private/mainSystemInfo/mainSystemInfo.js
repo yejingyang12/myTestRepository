@@ -5,12 +5,20 @@ var data1={
 	  dialogShow:2,
 	  nameList:[],
 	  showImprot:2,
-	  showItem:10,
+	  showItem:10,	
     activeName: 'first',
     inputs:null,
     tr:null,
     systemForm:"1",
     tishi:"",
+    ceshi:false,
+    ceshi1:false,
+    ceshi3:false,
+    ceshi4:false,
+    dialogVisible:false,
+    dialogVisibles:false,
+    dialogVisiblesd:false,
+    dialogVisiblesdd:false,
     companyCode:"",
     systemForm:{
     	importSystemInfo:'',
@@ -103,17 +111,19 @@ var data1={
 			    	if(responseData.msg=='成功'){
 			    		$("#startBoxTest").show().delay(2000).fadeOut();
 			    	}else{
-			    		_self.$alert('<strong>导入失败！</strong>', '提示', {
+			    		/*_self.$alert('<strong>导入失败！</strong>', '提示', {
 			          dangerouslyUseHTMLString: true
-			        });
+			        });*/
+			    		_self.dialogVisiblesdd=true;
 			    	}
 			    	_self.getSystemListInfoMethod(_self,{});
 		    		_self.closes1();
 			    },
 			    open5:function() {
-		        this.$alert('<strong>请填写信息</strong>', '提示', {
+		       /* this.$alert('<strong>请填写信息</strong>', '提示', {
 		          dangerouslyUseHTMLString: true
-		        });
+		        });*/
+		        this.dialogVisiblesd=true;
 			    },			    
 			    //文件上传
           onUpload: function(e){
@@ -122,25 +132,27 @@ var data1={
           		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	          	var fimeMax = 1048576 *30;
 	          	if(fileSize > fimeMax){
-	          		this.$alert('文件不能大于30M！', '信息提示', {
+	          		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
-	              });
+	              });*/
+	          		this.dialogVisible=true;
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
-	          	if(fileFormat[1] != 'xls' && fileFormat[1] != 'xlsm'&& fileFormat[1] != 'xlsx' ){                  		this.$alert('不接受此文件类型！', '信息提示', {
-	                confirmButtonText: '确定',
-	                callback: function callback(action) {
-	                }
-	              });
-	          		return;
+            	var fileFormatLength = fileFormat.length;
+            	if(fileFormatLength){
+            		var i = fileFormatLength - 1;
+		          	if(fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm' && fileFormat[i] != 'xlsx' ){
+		              this.dialogVisibles=true;	
+		              return;
+		          	}
+		            var uploadData = new FormData(); 
+		            uploadData.append('file', e.target.files[0]);
+		            uploadData.append('type', 'test');
+		            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 	          	}
-	            var uploadData = new FormData(); 
-	            uploadData.append('file', e.target.files[0]);
-	            uploadData.append('type', 'test');
-	            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
           	}
           }, 
           //回显上传文件

@@ -140,11 +140,11 @@ public class GradingServiceImpl implements GradingService{
         this.fileServiceImpl.addFile(directorOpinion);
       }
       
-//      //修改审核状态为进行中
-//      MainParam mainParam = new MainParam();
-//      mainParam.setGradingStatus("2");
-//      mainParam.setSystemId(gradingParam.getFkSystemId());
-//      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+      //修改审核状态为进行中
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("2");
+      mainParam.setSystemId(gradingParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
     }else{
       
       if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
@@ -260,12 +260,12 @@ public class GradingServiceImpl implements GradingService{
       //发起审核流程
 //      workFlowApiServiceImpl.initStart("定级", "1", gradingParam.getFkSystemId());
       
-      //修改审核状态为进行中
-      MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("3");
-      mainParam.setExamineStatus("2");
-      mainParam.setSystemId(gradingParam.getFkSystemId());
-      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+//      //修改审核状态为进行中
+//      MainParam mainParam = new MainParam();
+//      mainParam.setGradingStatus("3");
+//      mainParam.setExamineStatus("2");
+//      mainParam.setSystemId(gradingParam.getFkSystemId());
+//      mainServiceImpl.editSystemStatusBySystemId(mainParam);
       if (StringUtils.isNotBlank(gradingParam.getGradingReportPath())) {
         //保存附件  定级报告
         AttachParam gradingReport = new AttachParam();

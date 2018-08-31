@@ -6,6 +6,18 @@
             <span class="fl tianMsg">系统信息</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
+        <!-- 验证提示弹框 start -->
+         <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
+						     <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						       <div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">验证有误，请检查填写信息</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 验证提示弹框 end -->
         <div class="mcAddMessge">
             <el-form action="" method="post" id="AddformSystem" name="AddformSystem" :model="formData" :rules="rules" ref="formData" label-width="145px" class="P-addformsystem">
                 <ul class="clearfix dataForm">
@@ -63,14 +75,14 @@
                     <li class="row" v-show="systemInfo">
                       <div class="col-lg-6 col-md-6">
                           <el-form-item label="系统名称：" prop="systemName" class="P-addsystem">
-                              <el-select clearable v-model="formData.systemName" :disabled = "change"  filterable placeholder="请选择" @change="setStandardizedCode(formData.systemName,1)">
+                              <el-select  v-model="formData.systemName" :disabled = "change"  filterable clearable placeholder="请选择" @change="setStandardizedCode(formData.systemName,1)">
                                   <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName" ></el-option>
                               </el-select>
                           </el-form-item>
                       </div>
                       <div class="col-lg-6 col-md-6">
                           <el-form-item label="标准化代码：" prop="standardizedCode" class="P-addsystem">
-                            <el-input name="standardizedCode" id="standardizedCode" disabled placeholder="请输入" v-model="formData.standardizedCode"></el-input>
+                            <el-input  clearable name="standardizedCode" id="standardizedCode" disabled placeholder="请输入" v-model="formData.standardizedCode"></el-input>
                           </el-form-item>
                       </div>
                    </li>
@@ -79,7 +91,7 @@
                             <li class="row">
                                 <div class="col-lg-6 col-md-3">
                                     <el-form-item label="系统名称：" prop="systemName" class="P-addsystem" style="padding-left: 15px;">
-                                        <input type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1">
+                                        <el-input clearable type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1"></el-input>
                                     </el-form-item>
                                 </div>
                             </li>
@@ -87,7 +99,7 @@
                               <li class="row" :id="delCount(i)" >
                                 <div class="col-lg-6 col-md-6">
                                     <el-form-item :label="formData.addSystemSub[[i]].label" :id="allSysName(i)" prop="stars" class="P-addsystem" style="padding-left: 15px;">
-                                        <el-select v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2[[i]]"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
+                                        <el-select clearable v-model="formData.addSystemSub[[i]].systemName" filterable placeholder="请选择" :disabled = "systemInfo2[[i]]"  @change="setStandardizedCode(formData.addSystemSub[[i]].systemName,[i+2])">
                                             <el-option v-for="item in sysName" :key="item.systemCode" :label="item.systemName" :value="item.systemName"></el-option>
                                         </el-select>
                                     </el-form-item>
@@ -97,7 +109,7 @@
 	                               </div>
 	                               <div class="col-lg-6 col-sm-3">
 	                                  <el-form-item :label="formData.addSystemSub[[i]].labelCode" :id="allSysCode(i)" prop="stars" class="P-addsystem" style="padding-left: 15px;">
-	                                      <input type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode">
+	                                      <el-input clearable type="text" disabled placeholder="" name="standardizedCode" v-model="formData.addSystemSub[[i]].standardizedCode" id="standardizedCode"></el-input>
 	                                  </el-form-item>
 	                                  <el-form-item label="" v-show="systemNameSon1[[i]]" prop="systemCodeSon" class="P-addsystem" style="padding-left: 15px;"></el-form-item>
 	                                  <button  v-if="formData.addSystemSub.length != i+1"
@@ -160,7 +172,7 @@
                     <li class="row">
                         <div class="col-lg-6 col-md-6">
                             <el-form-item label="等保备案系统名称：" prop="gradeRecordSysName" class="P-addsystem">
-                              <el-input name="gradeRecordSysName" id="gradeRecordSysName" placeholder="请输入" v-model="formData.gradeRecordSysName"></el-input>
+                              <el-input clearable name="gradeRecordSysName" id="gradeRecordSysName" placeholder="请输入" v-model="formData.gradeRecordSysName"></el-input>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">
@@ -335,7 +347,7 @@
                      <li class="row">
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="所属单位名称：" prop="companyName" class="P-addsystem">
-                              <el-select placeholder="请选择所属单位名称" clearable :disabled="companyNameDisabled" @change="headleCompanyName()" name="companyName" class="formControl" v-model="formData.companyName">
+                              <el-select  placeholder="请选择所属单位名称" clearable :disabled="companyNameDisabled" @change="headleCompanyName()" name="companyName" class="formControl" v-model="formData.companyName">
                                 <el-option v-for="item in msgName" :key="item.companyCode" :label="item.companyName" :value="item.companyName"></el-option>
                               </el-select>
                             </el-form-item>
@@ -349,7 +361,7 @@
                     <li class="row">
                          <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管处室名称：" prop="executiveOfficeName" class="P-addsystem">
-                              <el-input name="executiveOfficeName" id="executiveOfficeName" placeholder="请输入" v-model="formData.executiveOfficeName"></el-input>
+                              <el-input clearable name="executiveOfficeName" id="executiveOfficeName" placeholder="请输入" v-model="formData.executiveOfficeName"></el-input>
                               <!-- <el-select v-model="formData.executiveOfficeName" clearable filterable placeholder="请选择" @change="headleRelation()" @clear="executiveClear()">
                                 <el-option v-for="item in sysNameExecutive" :key="item.bcdCode" :label="item.bcdName" :value="item.bcdName" ></el-option>
                               </el-select> -->
@@ -368,7 +380,7 @@
                     <li class="row" v-show="BeSonSystem">
                          <div class="col-lg-6 col-sm-3">
                             <el-form-item label="上级系统名称：" prop="fatherSystemName" class="P-addsystem">
-                              <el-select v-model="formData.fatherSystemName" filterable placeholder="请选择上级系统名称" >
+                              <el-select clearable v-model="formData.fatherSystemName" filterable placeholder="请选择上级系统名称" >
                                   <el-option v-for="item in sysName" :key="item.systemName" :label="item.systemName" :value="item.systemName" ></el-option>
                               </el-select>
                             </el-form-item>
@@ -376,7 +388,7 @@
                         <div class="col-lg-6 col-sm-3"  >
                             <el-form-item  prop="fatherCompanyName" class="P-addsystem">
                             <label for="fatherCompanyName" class="el-form-item__label" style="width: auto;float:left;margin-left:-165px !important">上级系统所属单位名称：</label>
-                              <el-select  placeholder="请选择上级系统所属单位名称" class="formControl" v-model="formData.fatherCompanyName" filterable>
+                              <el-select clearable  placeholder="请选择上级系统所属单位名称" class="formControl" v-model="formData.fatherCompanyName" filterable>
                                 <el-option v-for="item in parentMsgName" :key="item.orgName" :label="item.orgName" :value="item.orgName"></el-option>
                               </el-select>
                             </el-form-item>
@@ -386,12 +398,12 @@
                         <div class="col-lg-6 col-sm-3">
                         <!-- :disabled = "executiveDisabled" -->
                             <el-form-item label="主管联系人：" prop="executiveDireCon" class="P-addsystem">
-                               <el-input name="executiveDireCon" id="executiveDireCon" placeholder="请输入"  v-model="formData.executiveDireCon" ></el-input>
+                               <el-input clearable name="executiveDireCon" id="executiveDireCon" placeholder="请输入"  v-model="formData.executiveDireCon" ></el-input>
                             </el-form-item>
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="主管联系人电话：" prop="executiveDireConTel" class="P-addsystem">
-                              <el-input name="executiveDireConTel" id="executiveDireConTel" placeholder="请输入" v-model="formData.executiveDireConTel"></el-input>
+                              <el-input clearable name="executiveDireConTel" id="executiveDireConTel" placeholder="请输入" v-model="formData.executiveDireConTel"></el-input>
                             </el-form-item>
                         </div>
                     </li>

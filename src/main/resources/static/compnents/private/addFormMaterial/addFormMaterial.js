@@ -13,6 +13,12 @@ var data={
 		gradingBySession:"",
 		flag:false,
     check : false,
+    ceshi:false,
+    ceshi1:false,
+    ceshi2:false,
+    dialogVisibles:false,
+    dialogVisible:false,
+    dialogVisibled:false,
     jurisdictionType:0,
     submitCheck:false,
         formData:{
@@ -92,11 +98,12 @@ var data={
                   		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	                  	var fimeMax = 1048576 *30;
 	                  	if(fileSize > fimeMax){
-	                  		this.$alert('文件不能大于30M！', '信息提示', {
+	                  		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                        confirmButtonText: '确定',
 	                        callback: function callback(action) {
 	                        }
-	                      });
+	                      });*/
+	                  		this.dialogVisible=true;
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
@@ -104,11 +111,12 @@ var data={
 	                  	if(fileFormatLength){
 	                  		var i = fileFormatLength - 1;
 	                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
-	                  			this.$alert('不接受此文件类型！', '信息提示', {
+	                  			/*this.$alert('不接受此文件类型！', '信息提示', {
 		                  			confirmButtonText: '确定',
 		                  			callback: function callback(action) {
 		                  			}
-		                  		});
+		                  		});*/
+	                  			this.dialogVisibles=true;
 		                  		return;
 	                  		}
 	                  		var uploadData = new FormData(); 
@@ -176,11 +184,12 @@ var data={
                   		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	                  	var fimeMax = 1048576 *30;
 	                  	if(fileSize > fimeMax){
-	                  		this.$alert('文件不能大于30M！', '信息提示', {
+	                  		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                        confirmButtonText: '确定',
 	                        callback: function callback(action) {
 	                        }
-	                      });
+	                      });*/
+	                  		this.dialogVisible=true;
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
@@ -188,11 +197,12 @@ var data={
 	                  	if(fileFormatLength){
 	                  		var i = fileFormatLength - 1;
 	                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
-	                  			this.$alert('不接受此文件类型！', '信息提示', {
+	                  			/*this.$alert('不接受此文件类型！', '信息提示', {
 		                  			confirmButtonText: '确定',
 		                  			callback: function callback(action) {
 		                  			}
-		                  		});
+		                  		});*/
+	                  			this.dialogVisibles=true;
 		                  		return;
 	                  		}
 	                  		var uploadData = new FormData(); 
@@ -262,11 +272,12 @@ var data={
                   		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	                  	var fimeMax = 1048576 *30;
 	                  	if(fileSize > fimeMax){
-	                  		this.$alert('文件不能大于30M！', '信息提示', {
+	                  		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                        confirmButtonText: '确定',
 	                        callback: function callback(action) {
 	                        }
-	                      });
+	                      });*/
+	                  		this.dialogVisible=true;
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
@@ -274,11 +285,12 @@ var data={
 	                  	if(fileFormatLength){
 	                  		var i = fileFormatLength - 1;
 	                  		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
-	                  			this.$alert('不接受此文件类型！', '信息提示', {
+	                  			/*this.$alert('不接受此文件类型！', '信息提示', {
 		                  			confirmButtonText: '确定',
 		                  			callback: function callback(action) {
 		                  			}
-		                  		});
+		                  		});*/
+	                  			this.dialogVisibles=true;
 		                  		return;
 	                  		}
 	                  		var uploadData = new FormData(); 
@@ -346,11 +358,12 @@ var data={
                   	var fileSize = e.target.files[0].size;//文件大小（字节）
                   	var fimeMax = 1048576 *30;
                   	if(fileSize > fimeMax){
-                  		this.$alert('文件不能大于30M！', '信息提示', {
+                  		/*this.$alert('文件不能大于30M！', '信息提示', {
                         confirmButtonText: '确定',
                         callback: function callback(action) {
                         }
-                      });
+                      });*/
+                  		this.dialogVisible=true;
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
@@ -358,11 +371,12 @@ var data={
                   	if(fileFormatLength){
                   		var i = fileFormatLength - 1;
                   		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
-                  			this.$alert('不接受此文件类型！', '信息提示', {
+                  			/*this.$alert('不接受此文件类型！', '信息提示', {
 	                  			confirmButtonText: '确定',
 	                  			callback: function callback(action) {
 	                  			}
-	                  		});
+	                  		});*/
+                  			this.dialogVisibles=true;
 	                  		return;
                   		}
                   		var uploadData = new FormData(); 
@@ -550,13 +564,18 @@ var data={
                     		if(arr1.length==1){
                     			_self.formData.topologyDescriptionName = _self.formData.topologyDescriptionName.replace(fileName1,"");
                     		}else{
-                    			if(arr1[arr1.length-1].attachName == fileName1){
+                    			if(arr1[arr1.length-1].trim() == fileName1){
                     				_self.formData.topologyDescriptionName = _self.formData.topologyDescriptionName.replace('  ,  '+fileName1,"");
                     			}else{
                     				_self.formData.topologyDescriptionName = _self.formData.topologyDescriptionName.replace(fileName1+'  ,  ',""); 
                     			}
                     		}
-                        
+                        for(var i=0;i<len_topologyDescriptionList;i++){
+                        	if(fileName1 == _self.formData.topologyDescriptionList[i].attachName){
+                        		_self.formData.topologyDescriptionList.splice(i,1);
+                        	}
+                        }
+                    		
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -580,13 +599,17 @@ var data={
                       	if(arr2.length==1){
                     			_self.formData.organizationManagementName = _self.formData.organizationManagementName.replace(fileName2,"");
                       	}else{
-                      		if(arr2[arr2.length-1].attachName == fileName2){
+                      		if(arr2[arr2.length-1].trim() == fileName2){
                       			_self.formData.organizationManagementName = _self.formData.organizationManagementName.replace('  ,  '+fileName2,"");
                       		}else{
                       			_self.formData.organizationManagementName = _self.formData.organizationManagementName.replace(fileName2+'  ,  ',""); 
                       		}
                       	}
-                        
+                      	for(var i=0;i<len_organizationManagementList;i++){
+                        	if(fileName2 == _self.formData.organizationManagementList[i].attachName){
+                        		_self.formData.organizationManagementList.splice(i,1);
+                        	}
+                        }
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -610,13 +633,17 @@ var data={
                       	if(arr3.length==1){
                     			_self.formData.implementationPlanName = _self.formData.implementationPlanName.replace(fileName3,"");
                       	}else{
-                      		if(arr3[arr3.length-1].attachName == fileName3){
+                      		if(arr3[arr3.length-1].trim() == fileName3){
                       			_self.formData.implementationPlanName = _self.formData.implementationPlanName.replace('  ,  '+fileName3,"");
                       		}else{
                       			_self.formData.implementationPlanName = _self.formData.implementationPlanName.replace(fileName3+'  ,  ',""); 
                       		}
                       	}
-                        
+                      	for(var i=0;i<len_implementationPlanList;i++){
+                        	if(fileName3 == _self.formData.implementationPlanList[i].attachName){
+                        		_self.formData.implementationPlanList.splice(i,1);
+                        	}
+                        }
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -640,13 +667,17 @@ var data={
                       	if(arr4.length==1){
                     			_self.formData.licenseCertificateName = _self.formData.licenseCertificateName.replace(fileName4,"");
                       	}else{
-                      		if(arr4[arr4.length-1].attachName == fileName4){
+                      		if(arr4[arr4.length-1].trim() == fileName4){
                       			_self.formData.licenseCertificateName = _self.formData.licenseCertificateName.replace('  ,  '+fileName4,"");
                       		}else{
                       			_self.formData.licenseCertificateName = _self.formData.licenseCertificateName.replace(fileName4+'  ,  ',""); 
                       		}
                       	}
-                        
+                      	for(var i=0;i<len_licenseCertificateList;i++){
+                        	if(fileName4 == _self.formData.licenseCertificateList[i].attachName){
+                        		_self.formData.licenseCertificateList.splice(i,1);
+                        	}
+                        }
                       });
                       $(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
@@ -814,13 +845,14 @@ var data={
                         if (valid) {
                           bus.$emit('addMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
-                          return false;
+                          });*/
+                        	_self.dialogVisibled=true;
+                        	return false;
                         }
                       });
                     }
@@ -832,12 +864,13 @@ var data={
                         if (valid) {
                           bus.$emit('addSubmitMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                        /*  _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -850,12 +883,13 @@ var data={
                         if (valid) {
                           bus.$emit('addPreMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                          _self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -868,12 +902,13 @@ var data={
                         if (valid) {
                           bus.$emit('retuenSaveAttachAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -886,12 +921,13 @@ var data={
                         if (valid) {
                           bus.$emit('changeMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -904,12 +940,13 @@ var data={
                         if (valid) {
                           bus.$emit('changeSubmitMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -922,12 +959,13 @@ var data={
                         if (valid) {
                           bus.$emit('changePreMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                        /*  _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -939,12 +977,13 @@ var data={
                         if (valid) {
                           bus.$emit('changePreMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -956,11 +995,12 @@ var data={
                         if (valid) {
                           bus.$emit('gradSubmitMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -972,12 +1012,13 @@ var data={
                         if (valid) {
                           bus.$emit('gradPreMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                          /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });
@@ -989,12 +1030,13 @@ var data={
                         if (valid) {
                           bus.$emit('gradMaterialFormAjax',"add");
                         } else {
-                          _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+                         /* _self.$alert('验证有误，请检查填写信息！', '验证提示', {
                             confirmButtonText: '确定',
                             callback: function callback(action) {
                               
                             }
-                          });
+                          });*/
+                        	_self.dialogVisibled=true;
                           return false;
                         }
                       });

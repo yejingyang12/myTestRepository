@@ -2360,10 +2360,10 @@ public class MainServiceImpl implements MainService{
         dataMap.put("s2", "☑");
         for (int i = 0; i < bizSystemDegree.length; i++) {
           if(!bizSystemDegree[i].equals("")){
-            if(bizSystemDegree[i].equals("20101")){
+            if(bizSystemDegree[i].equals("20201")){
               dataMap.put("snb2", "☑");
             }
-            if(bizSystemDegree[i].equals("20102")){
+            if(bizSystemDegree[i].equals("20202")){
               dataMap.put("snb3", "☑");
             }
           }

@@ -11,7 +11,7 @@ window.onload = function () {
         methods:{
         	//到定级页
         	toGradPageSession:function(_self){
-        		bus.$emit('deleteConfirm',_self);
+        		
         			ajaxMethod(_self, 'post',
                   'grading/saveSystemMaterialsSession', false,
                   JSON.stringify(data.formData), 'json',
@@ -20,12 +20,13 @@ window.onload = function () {
         	},
         	saveSystemMaterialsSessionSuccess:function(_self,responseData){
         		if(responseData.data!=null&&responseData.data!=''&&responseData.data!='undefind'){
+        			bus.$emit('deleteConfirm','');
         			window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
         		}
         	},
           //保存
           saveBtn:function(formName) {
-          	bus.$emit('deleteConfirm',formName);
+          	
             bus.$emit('changeMaterialFormName',formName);
           },
           //返回
@@ -40,6 +41,7 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
+          	bus.$emit('deleteConfirm','');
             data.formData.systemMaterialsId = responseData.data;
             $(".save").show().delay(2000).fadeOut();
             window.setTimeout(function () {
@@ -54,12 +56,13 @@ window.onload = function () {
           },
           //提交
           submitBtn:function(formName) {
-          	bus.$emit('deleteConfirm',formName);
+          	
             data.submitCheck = false;
             bus.$emit('changeSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
+          	bus.$emit('deleteConfirm','');
             data.formData.systemMaterialsId = responseData.data;
             //$(".startBox").show().delay(2000).fadeOut();
             $(".submit").show().delay(2000).fadeOut();

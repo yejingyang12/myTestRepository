@@ -27,7 +27,7 @@
 		                   {codeId: '2',codeName: '待总部安全审核'},
 		                   {codeId: '3',codeName: '企业业务审核未通过'},
 		                   {codeId: '4',codeName: '总部安全审核未通过'},
-		                   {codeId: '5',codeName: '归档'}
+		                   {codeId: '5',codeName: '已审核'}
 		                  ],
 		auditBtn:null,
 		flag:true,

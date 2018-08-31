@@ -26,7 +26,7 @@
                 },
             },
             axisLabel: {
-            	rotate:50,
+            	rotate:40,
                 textStyle: {
                    color: '#000',
                    fontSize: 12

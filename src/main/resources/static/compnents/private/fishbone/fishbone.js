@@ -127,7 +127,9 @@
             }
             return  month+ " "+  ddate+ " " + year;
         },
-
+        xuanfu: function(meg){
+        	this.option = meg;
+        }
 
         },
 

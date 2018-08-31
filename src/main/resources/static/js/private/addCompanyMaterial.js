@@ -11,11 +11,12 @@ window.onload = function () {
         methods:{
           //保存
           saveBtn:function(formName) {
-          	bus.$emit('deleteConfirm',formName);
+          	
             bus.$emit('addMaterialFormName',formName);
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
+          	bus.$emit('deleteConfirm','');
           	$(".save").show().delay(2000).fadeOut();
             //$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
@@ -24,12 +25,13 @@ window.onload = function () {
           },
           //提交
           submitBtn:function(formName) {
-          	bus.$emit('deleteConfirm',formName);
+          	
             data.submitCheck = false;
             bus.$emit('addSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
+          	bus.$emit('deleteConfirm','');
             //$(".startBox").show().delay(2000).fadeOut();
           	$(".submit").show().delay(2000).fadeOut();
             window.setTimeout(function () {
@@ -38,12 +40,13 @@ window.onload = function () {
           },
           //上一页
           preBtn:function(formName) {
-          	bus.$emit('deleteConfirm',formName);
+          	
             data.check = false;
             bus.$emit('addPreMaterialFormName',formName);
           },
           // 成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
+          	bus.$emit('deleteConfirm','');
             if(boo){
               data.check = false;
               window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
@@ -106,8 +109,8 @@ window.onload = function () {
           //保存返回
           retuenSave:function(formName){
           	this.retuenCheck = false;
-          	bus.$emit('deleteConfirm',formName);
-            bus.$emit('retuenSaveAttach',formName);
+          	bus.$emit('retuenSaveAttach',formName);
+          	
           },
           //不保存返回
           returnNotSave:function(){
@@ -115,6 +118,7 @@ window.onload = function () {
           	window.location.href = originUrl+"page/indexPage";
           },
           retuenSaveAttachSuccess:function(_self,responseData){
+          	bus.$emit('deleteConfirm','');
           	window.location.href = originUrl+"page/indexPage";
           }
         },

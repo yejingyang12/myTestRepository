@@ -1,5 +1,6 @@
 (function () {
   var data = {
+  		title: "",
       paramGrading:false,
       paramEvaluation:false,
       paramDelete:false,
@@ -158,7 +159,8 @@
         data:function () {
           return data;
         },
-        created: function() { 
+        created: function() {
+        	this.getTitle();
         	this.search(1);
         },
         computed:{
@@ -188,6 +190,25 @@
         	
         },
         methods: {
+        	getTitle: function(){ 
+          	if(titleType == 1 || titleType == "1"){
+          		this.title = "系统等保等级分布";
+          	}else if(titleType == 2 || titleType == "2"){
+          		this.title = "不同等保级别系统在不同管理状态下详情";
+          	}
+          	
+          	if(sprankLevel == "301"){
+          		this.title = this.title + " - 一级";
+          	}else if(sprankLevel == "302"){
+          		this.title = this.title + " - 二级";
+          	}else if(sprankLevel == "303"){
+          		this.title = this.title + " - 三级";
+          	}else if(sprankLevel == "304"){
+          		this.title = this.title + " - 四级";
+          	}else if(sprankLevel == "305"){
+          		this.title = this.title + " - 五级";
+          	}
+        	},
         	 submitForm:function(formName) {
 			      this.$refs[formName].validate(function(valid){
 			          if (valid) {

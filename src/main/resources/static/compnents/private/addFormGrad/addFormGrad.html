@@ -4,6 +4,7 @@
             <span class="fl tianMsg">定级信息</span>
             <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
         </p>
+        <!-- 附件上传弹窗 start -->
         <el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
         	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;">!</i>
         	<div class="ceshi" style="text-align:center">
@@ -14,6 +15,19 @@
     			<el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
   			</div>	
         </el-dialog>
+        <!-- 附件上传弹窗 end -->
+         <!-- 验证提示弹框 start -->
+         <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
+						     <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						       <div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">验证有误，请检查填写信息</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 验证提示弹框 end -->
         <el-form action="#" id="addFormGrad" :model="formData" :rules="rules" ref="formData" label-width="200px" class="P-addFormGrad">
             <ul class="clearfix liAddsty">
                 <li class="row">
@@ -271,7 +285,7 @@
                 <li class="row liMargin" id="direHide1" style="display: none;">
                     <div class="col-lg-6 col-md-6 P-useData">
                         <el-form-item label="主管部门名称：" prop="competentName" ref="competentName">
-                            <input id="competentNameinput" type="text"  v-model="formData.competentName"  @change="getCompetentNameSuccess">
+                            <el-input clearable id="competentNameinput" type="text"  v-model="formData.competentName"  @change="getCompetentNameSuccess"></el-input>
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">
@@ -357,7 +371,7 @@
                 <li class="row liMargin">
                     <div class="col-lg-6 col-md-6 P-useData">
                         <el-form-item label="填表人：" prop="filler">
-                            <input type="text" v-model="formData.filler">
+                            <input  clearable type="text" v-model="formData.filler">
                         </el-form-item>
                     </div>
                     <div class="col-lg-6 col-md-6 P-useData">

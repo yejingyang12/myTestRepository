@@ -6,6 +6,18 @@
         <i class="xing">*</i> ”为必填项
       </span>
     </p>
+    <!-- 验证提示弹框 start -->
+         <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
+						     <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						       <div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">验证有误，请检查填写信息</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 验证提示弹框 end -->
     <div class="mcAddMessge clearfix">
       <el-form action="" name="addform" id="addform" method="post" :model="formData" :rules="rules" ref="formData" label-width="156px">
         <!--<input name="companyId" id="companyId" type="hidden" v-model="formData.companyId"/>-->
@@ -20,19 +32,19 @@
               </div>
               <div class="col-lg-6 col-sm-3">
                 <el-form-item label="单位编码:" prop="companyCode" class="P-form-input">
-                  <el-input id="companyCode" name="companyCode" disabled placeholder="请输入" v-model="formData.companyCode"></el-input>
+                  <el-input clearable id="companyCode" name="companyCode" disabled placeholder="请输入" v-model="formData.companyCode"></el-input>
                 </el-form-item>
               </div>
           </li>
           <li class="row">
             <div class="col-lg-6 col-sm-3 ">
               <el-form-item label="单位地址:" prop="companyAddress" class="P-form-input">
-                <el-input placeholder="请输入" id="companyAddress" name="companyAddress" v-model="formData.companyAddress" maxlength="400"></el-input>
+                <el-input clearable placeholder="请输入" id="companyAddress" name="companyAddress" v-model="formData.companyAddress" maxlength="400"></el-input>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="邮政编码:" prop="postalCode" class="P-form-input">
-                <el-input placeholder="请输入" name="postalCode" id="postalCode" v-model="formData.postalCode"></el-input>
+                <el-input clearable placeholder="请输入" name="postalCode" id="postalCode" v-model="formData.postalCode"></el-input>
               </el-form-item>
             </div>
           </li>
@@ -48,7 +60,7 @@
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="行政区划编码:" prop="administrativeNum" class="P-form-input">
-                <el-input name="administrativeNum" id="administrativeNum" placeholder="请输入" v-model="formData.administrativeNum" maxlength="10"></el-input>
+                <el-input clearable name="administrativeNum" id="administrativeNum" placeholder="请输入" v-model="formData.administrativeNum" maxlength="10"></el-input>
               </el-form-item>
             </div>
           </li>
@@ -58,31 +70,31 @@
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="单位负责人姓名:" prop="compPrincipalName" class="P-form-input">
-                <el-input id="compPrincipalName" name="compPrincipalName" placeholder="请输入" v-model="formData.compPrincipalName"></el-input>
+                <el-input clearable id="compPrincipalName" name="compPrincipalName" placeholder="请输入" v-model="formData.compPrincipalName"></el-input>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="办公电话:" prop="compPrincipalWorkTel" class="P-form-input">
-                <el-input name="compPrincipalWorkTel" id="compPrincipalWorkTel" placeholder="请输入" v-model="formData.compPrincipalWorkTel"></el-input>
+                <el-input clearable name="compPrincipalWorkTel" id="compPrincipalWorkTel" placeholder="请输入" v-model="formData.compPrincipalWorkTel"></el-input>
               </el-form-item>
             </div>
           </li>
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="移动电话:" prop="compPrincipalPhone" class="P-form-input">
-                <el-input name="compPrincipalPhone" id="compPrincipalPhone" placeholder="请输入" v-model="formData.compPrincipalPhone"></el-input>
+                <el-input clearable name="compPrincipalPhone" id="compPrincipalPhone" placeholder="请输入" v-model="formData.compPrincipalPhone"></el-input>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="职务/职称:" prop="compPrincipalPost" class="P-form-input">
-                <el-input id="compPrincipalPost" name="compPrincipalPost" placeholder="请输入" v-model="formData.compPrincipalPost"></el-input>
+                <el-input clearable id="compPrincipalPost" name="compPrincipalPost" placeholder="请输入" v-model="formData.compPrincipalPost"></el-input>
               </el-form-item>
             </div>
           </li>
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="电子邮件:" prop="compPrincipalEm" class="P-form-input">
-                <el-input id="compPrincipalEm" name="compPrincipalEm" placeholder="请输入" v-model="formData.compPrincipalEm"></el-input>
+                <el-input clearable id="compPrincipalEm" name="compPrincipalEm" placeholder="请输入" v-model="formData.compPrincipalEm"></el-input>
               </el-form-item>
             </div>
           </li>
@@ -92,31 +104,31 @@
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="责任部门联系人姓名:" prop="ldContactName" class="P-form-input">
-                <el-input name="ldContactName" id="ldContactName" placeholder="请输入" v-model="formData.ldContactName"></el-input>
+                <el-input clearable name="ldContactName" id="ldContactName" placeholder="请输入" v-model="formData.ldContactName"></el-input>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="办公电话:" prop="ldContactWorkTel" class="P-form-input">
-                <el-input id="ldContactWorkTel" name="ldContactWorkTel" placeholder="请输入" v-model="formData.ldContactWorkTel"></el-input>
+                <el-input clearable id="ldContactWorkTel" name="ldContactWorkTel" placeholder="请输入" v-model="formData.ldContactWorkTel"></el-input>
               </el-form-item>
             </div>
           </li>
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="移动电话:" prop="ldContactPhone" class="P-form-input">
-                <el-input name="ldContactPhone" id="ldContactPhone" placeholder="请输入" v-model="formData.ldContactPhone"></el-input>
+                <el-input clearable name="ldContactPhone" id="ldContactPhone" placeholder="请输入" v-model="formData.ldContactPhone"></el-input>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="职务/职称:" prop="ldContactPost" class="P-form-input">
-                <el-input name="ldContactPost" id="ldContactPost" placeholder="请输入" v-model="formData.ldContactPost"></el-input>
+                <el-input clearable name="ldContactPost" id="ldContactPost" placeholder="请输入" v-model="formData.ldContactPost"></el-input>
               </el-form-item>
             </div>
           </li>
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="电子邮件:" prop="ldContactEmail" class="P-form-input">
-                <el-input name="ldContactEmail" id="ldContactEmail" placeholder="请输入" v-model="formData.ldContactEmail"></el-input>
+                <el-input clearable name="ldContactEmail" id="ldContactEmail" placeholder="请输入" v-model="formData.ldContactEmail"></el-input>
               </el-form-item>
             </div>
           </li>
@@ -126,19 +138,19 @@
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="责任部门:" prop="rDepartment" class="P-form-input">
-                <el-input name="rDepartment" id="rDepartment" placeholder="请输入"  v-model="formData.rDepartment" maxlength="60"></el-input>
+                <el-input clearable name="rDepartment" id="rDepartment" placeholder="请输入"  v-model="formData.rDepartment" maxlength="60"></el-input>
               </el-form-item>
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="等保上报单位名称:" prop="gpReportingComp" class="P-form-input">
-                <el-input name="gpReportingComp" id="gpReportingComp" placeholder="请输入"  v-model="formData.gpReportingComp"></el-input>
+                <el-input clearable name="gpReportingComp" id="gpReportingComp" placeholder="请输入"  v-model="formData.gpReportingComp"></el-input>
               </el-form-item>
             </div>
           </li>
           <li class="row">
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="行业类别:" prop="fkIndustryCategory" class="P-form-input">
-                <input type="text" name="fkIndustryCategory" id="fkIndustryCategory" placeholder="请选择行业类别"  @click="industryCategory()"  v-model="formData.fkIndustryCategory">
+                <input  type="text" name="fkIndustryCategory" id="fkIndustryCategory" placeholder="请选择行业类别"  @click="industryCategory()"  v-model="formData.fkIndustryCategory">
               </el-form-item>
             </div>
           </li>

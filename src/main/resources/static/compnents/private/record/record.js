@@ -15,6 +15,12 @@ var data1={
 	},
 //删除弹窗的
 	showTable4 : false,
+	ceshi:false,
+	ceshi1:false,
+	ceshi2:false,
+	dialogVisible:false,
+	dialogVisibles:false,
+	dialogVisibled:false,
   deleteDialog:false,
   deleteSuccessDialog:false,
 	deleteFailDialog:false,
@@ -64,11 +70,12 @@ var data1={
 	            } else {
 	            	$("#recordInquiry").css("display","none");
 	              $("#recordDialogShaw").css("display","none");
-	              _self.$alert('验证有误，请检查填写信息！', '验证提示', {
+	              /*_self.$alert('验证有误，请检查填写信息！', '验证提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
-	              });
+	              });*/
+	              _self.dialogVisibled=true;
 	              return false;
 	            }
 	          });
@@ -164,11 +171,12 @@ var data1={
           		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	          	var fimeMax = 1048576 *30;
 	          	if(fileSize > fimeMax){
-	          		this.$alert('文件不能大于30M！', '信息提示', {
+	          		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
-	              });
+	              });*/
+	          		this.dialogVisible=true;
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -176,11 +184,12 @@ var data1={
             	if(fileFormatLength){
             		var i = fileFormatLength - 1;
             		if(fileFormat[i] != 'pdf' && fileFormat[i] !='sep' && fileFormat[i] != 'xls' && fileFormat[i] != 'xlsm'&& fileFormat[i] != 'xlsx'  && fileFormat[i] != 'rar' && fileFormat[i] !='doc' && fileFormat[i] !='docx' && fileFormat[i] !='zip'){
-            			this.$alert('不接受此文件类型！', '信息提示', {
+            			/*this.$alert('不接受此文件类型！', '信息提示', {
             				confirmButtonText: '确定',
             				callback: function callback(action) {
             				}
-            			});
+            			});*/
+            			this.dialogVisibles=true;
             			return;
             		}
             		var uploadData = new FormData(); 

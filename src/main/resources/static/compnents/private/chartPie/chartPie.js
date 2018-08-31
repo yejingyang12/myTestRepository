@@ -312,7 +312,7 @@
               }
               var params = "page/showChartDataListPage?sprankLevel="+sprankLevel
               		+"&gradingBeginTimeStamp="+gradingBeginTimeStamp+"&gradingEndTimeStamp="+gradingEndTimeStamp
-              		+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType;
+              		+"&systemType="+systemType+"&gradingShapeType="+gradingShapeType+"&titleType=1";
               if(_self.queryDataparmars.systemName){
               	params = params + "&systemName=" + _self.queryDataparmars.systemName;
               }

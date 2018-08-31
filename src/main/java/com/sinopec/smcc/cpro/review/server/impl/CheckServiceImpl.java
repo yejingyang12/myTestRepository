@@ -164,9 +164,18 @@ public class CheckServiceImpl implements CheckService {
             checkListResult.setFkSystemId(systemResult.getSystemId());
             checkListResult.setCompanyId(systemResult.getCompanyId());
             checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
-            checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
-            checkListResult.setRecordReportName(systemResult.getRecordReportName());
-            checkListResult.setRecordReportId(systemResult.getRecordReportId());
+            if(StringUtils.isNotBlank(systemResult.getRecordReportName())){
+              checkListResult.setRecordReportName(systemResult.getRecordReportName());
+            }
+            if(StringUtils.isNotBlank(systemResult.getRecordReportId())){
+              checkListResult.setRecordReportId(systemResult.getRecordReportId());
+            }
+            if(StringUtils.isNotBlank(systemResult.getExpertReviewId())){
+              checkListResult.setExpertReviewId(systemResult.getExpertReviewId());
+            }
+            if(StringUtils.isNotBlank(systemResult.getExpertReviewName())){
+              checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
+            }
           }else{
             if(StringUtils.isNotBlank(executeTaskData.getExt004())){
               checkListResult.setInstanceName(executeTaskData.getExt004());
@@ -275,9 +284,18 @@ public class CheckServiceImpl implements CheckService {
             checkListResult.setFkSystemId(systemResult.getSystemId());
             checkListResult.setCompanyId(systemResult.getCompanyId());
             checkListResult.setFkInfoSysTypeCon(systemResult.getFkInfoSysTypeCon().toString());
-            checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
-            checkListResult.setRecordReportName(systemResult.getRecordReportName());
-            checkListResult.setRecordReportId(systemResult.getRecordReportId());
+            if(StringUtils.isNotBlank(systemResult.getRecordReportName())){
+              checkListResult.setRecordReportName(systemResult.getRecordReportName());
+            }
+            if(StringUtils.isNotBlank(systemResult.getRecordReportId())){
+              checkListResult.setRecordReportId(systemResult.getRecordReportId());
+            }
+            if(StringUtils.isNotBlank(systemResult.getExpertReviewId())){
+              checkListResult.setExpertReviewId(systemResult.getExpertReviewId());
+            }
+            if(StringUtils.isNotBlank(systemResult.getExpertReviewName())){
+              checkListResult.setExpertReviewName(systemResult.getExpertReviewName());
+            }
           }else{
             if(StringUtils.isNotBlank(executeTaskData.getExt004())){
               checkListResult.setInstanceName(executeTaskData.getExt004());
@@ -747,7 +765,7 @@ public class CheckServiceImpl implements CheckService {
       
       //修改系统状态
       MainParam mainParam = new MainParam();
-      mainParam.setRecordStatus("2");
+//      mainParam.setRecordStatus("3");
       mainParam.setExamineStatus("4");
       mainParam.setSystemId(checkParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);

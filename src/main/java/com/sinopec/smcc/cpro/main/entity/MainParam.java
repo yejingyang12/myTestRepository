@@ -96,6 +96,7 @@ public class MainParam {
   private Long rankTimeEndTimeStamp;//定级结束时间戳
   private Long inspectionDateBeginTimeStamp;//自查开始时间戳
   private Long inspectionDateEndTimeStamp;//自查结束时间戳
+  private Integer titleType;//进入图表详情列表的标题类型
   
   // pagesize ，每一页显示多少
   private int pageSize = 10;
@@ -132,7 +133,13 @@ public class MainParam {
 	public void setJurBind(String jurBind) {
 		this.jurBind = jurBind;
 	}
-	public String getGradingStatusType() {
+	public Integer getTitleType() {
+    return titleType;
+  }
+  public void setTitleType(Integer titleType) {
+    this.titleType = titleType;
+  }
+  public String getGradingStatusType() {
     return gradingStatusType;
   }
   public void setGradingStatusType(String gradingStatusType) {

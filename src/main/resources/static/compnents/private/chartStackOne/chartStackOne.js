@@ -239,9 +239,13 @@
             		 var queryDataParamsTemp = JSON.parse(meg);
             		 if(queryDataParamsTemp.dateBegin){
             			 _self.queryDataparmars.dateBegin = queryDataParamsTemp.dateBegin;
+            		 }else{
+            			 _self.queryDataparmars.dateBegin = "1970-01-01";
             		 }
             		 if(queryDataParamsTemp.dateEnd){
             			 _self.queryDataparmars.dateEnd = queryDataParamsTemp.dateEnd;
+            		 }else{
+            			 _self.queryDataparmars.dateEnd = "9999-12-31";
             		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
@@ -287,9 +291,13 @@
             		 var queryDataParamsTemp = JSON.parse(meg);
             		 if(queryDataParamsTemp.dateBegin){
             			 _self.queryDataparmars.dateBegin = queryDataParamsTemp.dateBegin;
+            		 }else{
+            			 _self.queryDataparmars.dateBegin = "1970-01-01";
             		 }
             		 if(queryDataParamsTemp.dateEnd){
             			 _self.queryDataparmars.dateEnd = queryDataParamsTemp.dateEnd;
+            		 }else{
+            			 _self.queryDataparmars.dateEnd = "9999-12-31";
             		 }
             		 if(queryDataParamsTemp.systemType){
             			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
