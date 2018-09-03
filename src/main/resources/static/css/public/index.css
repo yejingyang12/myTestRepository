@@ -11304,7 +11304,7 @@
 }
 
 .el-input__suffix-inner {
-    pointer-events: all
+    pointer-events: all;
 }
 
 .el-input__prefix {

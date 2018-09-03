@@ -89,7 +89,6 @@
         methods:{
 	      	// 不同等保级别系统在不同管理状态下详情
 	      	getGradingShape : function(_self) {
-	      		_self.queryDataparmars.systemType = "1";
 	        	ajaxMethod(_self, 'post',
 	            'main/queryGradingStatistics', false,
 	            JSON.stringify(_self.queryDataparmars), 'json',
@@ -125,6 +124,7 @@
 	        },
         },
         created: function() {
+        	this.queryDataparmars.systemType = "1";
         	//不同等保级别系统在不同管理状态下详情
         	this.getGradingShape(this);
         },
@@ -135,7 +135,18 @@
           var _self = this;
           //获取查询中的条件
           bus.$on("queryDataParams",function(data){
-          	_self.queryDataparmars = JSON.parse(data);
+      	  	var systemType = _self.queryDataparmars.systemType;
+      	  	if(!systemType){
+      	  		systemType = "1";
+      	  	}
+      	  	var gradingBeginTime = _self.queryDataparmars.gradingBeginTime;
+      	  	var gradingEndTime = _self.queryDataparmars.gradingEndTime;
+      	  	var gradingShapeType = _self.queryDataparmars.gradingShapeType;
+      	  	_self.queryDataparmars = JSON.parse(data);
+      	  	_self.queryDataparmars.systemType = systemType;
+      	  	_self.queryDataparmars.gradingBeginTime = gradingBeginTime;
+      	  	_self.queryDataparmars.gradingEndTime = gradingEndTime;
+      	  	_self.queryDataparmars.gradingShapeType = gradingShapeType;
 	        	ajaxMethod(_self, 'post',
 	            'main/queryGradingStatistics', false,
 	            JSON.stringify(_self.queryDataparmars), 'json',
@@ -255,8 +266,10 @@
           		 }
           		 if(queryDataParamsTemp.systemType){
           			 _self.queryDataparmars.systemType = queryDataParamsTemp.systemType;
+          			 _self.hSystemType = queryDataParamsTemp.systemType;
           		 }else{
           			 _self.queryDataparmars.systemType = '';
+          			 _self.hSystemType = '';
           		 }
             	 ajaxMethod(_self, 'post',
                  'main/queryGradingStatistics', false,

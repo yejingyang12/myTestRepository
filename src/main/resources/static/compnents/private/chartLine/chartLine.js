@@ -144,7 +144,6 @@
         methods:{
         	// 获取系统等保等级分布统计图数据
         	getSystemTrendByYear : function(_self) {
-        		_self.queryDataparmars.systemType = "1";
           	ajaxMethod(_self, 'post',
               'diagram/querySystemTrendByYear', false,
               JSON.stringify(_self.queryDataparmars), 'json',
@@ -173,6 +172,7 @@
 	        }
         },
         created: function() {
+        	this.queryDataparmars.systemType = "1";
         //获取系统等保管理阶段趋势
           this.getSystemTrendByYear(this);
         },
@@ -184,7 +184,11 @@
         	var _self = this;
         	//获取查询中的条件
       	  bus.$on("queryDataParams",function(data){
+      	  	var systemType = _self.queryDataparmars.systemType;
+      	  	var year = _self.queryDataparmars.year;
       	  	_self.queryDataparmars = JSON.parse(data);
+      	  	_self.queryDataparmars.systemType = systemType;
+      	  	_self.queryDataparmars.year = year;
       	  	ajaxMethod(_self, 'post',
                 'diagram/querySystemTrendByYear', false,
                 JSON.stringify(_self.queryDataparmars), 'json',

@@ -26,9 +26,12 @@
                             <el-form-item label="信息系统建设类型：" prop="fkInfoSysTypeCon" class="P-addsystem">
                                 <div  class="col-md-6 col-sm-3 mcAddSysBuildChange text-center baseMes1" id="baseMes1">
                                     <input type="hidden" name="formData.fkInfoSysTypeCon" v-model="formData.fkInfoSysTypeCon">
-                                    <div class="baseMes" >自建</div>
-                                    <div class="baseMes" >统建</div>
-                                    <div class="baseMes">总部系统</div>
+                                    <div class="baseMes" v-if="enterprise">自建</div>
+	                                <div class="baseMes" v-if="enterprise">统建</div>
+	                                <div class="baseMes baseMesJY" v-if="headquarters">自建</div>
+	                                <div class="baseMes baseMesJY" v-if="headquarters">统建</div>
+	                                <div class="baseMes baseMesJY" v-if="enterprise">总部系统</div>
+	                                <div class="baseMes" v-if="headquarters">总部系统</div>
                                 </div>
                                 <div class="mcAddSysBuildTxt"></div>
                             </el-form-item>
@@ -91,7 +94,8 @@
                             <li class="row">
                                 <div class="col-lg-6 col-md-3">
                                     <el-form-item label="系统名称：" prop="systemName" class="P-addsystem" style="padding-left: 15px;">
-                                        <el-input clearable type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1"></el-input>
+                                        <el-input v-if="change" type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1"></el-input>
+                                        <el-input v-else clearable type="text" placeholder="请输入" v-model="formData.systemName" id="systemInfo1"></el-input>
                                     </el-form-item>
                                 </div>
                             </li>
@@ -354,7 +358,7 @@
                         </div>
                         <div class="col-lg-6 col-sm-3">
                             <el-form-item label="何时投入使用：" prop="whenInvestmentUse" class="P-addsystem">
-                                <el-date-picker  :picker-options="pickerOptions0" id="whenInvestmentUseinput" class="col-md-6 col-sm-3 useData" v-model="formData.whenInvestmentUse" type="date"></el-date-picker>
+                                <el-date-picker  :picker-options="pickerOptions0" id="whenInvestmentUseinput" class="col-md-6 col-sm-3 useData lsed" v-model="formData.whenInvestmentUse" type="date"></el-date-picker>
                             </el-form-item>
                         </div>
                     </li>

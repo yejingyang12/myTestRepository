@@ -38,7 +38,15 @@
                 </self-check>
             </el-tab-pane>
             <el-tab-pane label="测评" name="evaluation">
-                <view-details-evalu></view-details-evalu>
+                <view-details-evalu>
+                  <!--排序图标-->
+		          <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou">
+		          <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou1">
+		          <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou2">
+		          <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou3">
+		          <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou4">
+		          <img src="/images/home/paixujiantou.png" alt="" th:attr="src=@{/images/home/paixujiantou.png}" slot="paixujiantou5">
+                </view-details-evalu>
             </el-tab-pane>
             <el-tab-pane label="备案" name="record">
                 <view-details-record></view-details-record>

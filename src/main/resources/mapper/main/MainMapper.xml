@@ -26,12 +26,12 @@
         systemCodeInfoSysTypeConstruction.codeName AS InfoSysTypeConstruction, 
         systemCodeSprankLevel.codeName AS SprankLevel,
         score.fkSpRanklevel AS fkSpRanklevel,
-        appIsInternet, 
-        gradingStatus, 
-        examineStatus, 
-        recordStatus, 
-        evaluationStatus,
-        examinationStatus,
+        system.appIsInternet, 
+        system.gradingStatus, 
+        system.examineStatus, 
+        system.recordStatus, 
+        system.evaluationStatus,
+        system.examinationStatus,
         company.pkId AS companyId,
         company.companyCode,
         gradingAttch.pkId AS gradingPkId,
@@ -45,6 +45,10 @@
         records.acceptCompany
       FROM
         t_cpro_system AS system
+      LEFT JOIN t_cpro_system AS system1 
+        ON system.pkId = system1.fkFatherSystemId 
+        AND system1.fkSystemType = 3
+        AND system1.deleteStatus = 1
       LEFT JOIN t_cpro_company AS company 
         ON system.fkCompanyCode = company.companyCode
       LEFT JOIN t_cpro_system_code AS systemCodeAppIsInternet
@@ -504,16 +508,58 @@
       	<when test="systemType == 1">
       		<![CDATA[
       			AND system.fkSystemType < 3
+						AND (
+							(
+								system1.pkId IS NULL
+								OR system1.fkFatherSystemId = ''
+							)
+							OR (
+								system1.pkId IS NOT NULL
+								AND system1.fkFatherSystemId != ''
+								AND system1.pkId IN (
+									SELECT
+										MAX(system2.pkId)
+									FROM
+										t_cpro_system system2
+									WHERE
+										system.pkId = system2.fkFatherSystemId
+									AND system2.fkSystemType = 3
+									AND system2.deleteStatus = 1
+								)
+							)
+						)
       		]]>
       	</when>
       	<when test="systemType == 2">
       		<![CDATA[
-      			AND system.fkSystemType = 3
+      			AND system1.fkSystemType = 3
+      			AND system1.pkId IS NOT NULL 
+      			AND system1.fkFatherSystemId != ''
       		]]>
       	</when>
       	<otherwise>
       		<![CDATA[
       			AND system.fkSystemType != 3
+						AND (
+							(
+								system1.pkId IS NULL
+								OR system1.fkFatherSystemId = ''
+							)
+							OR (
+								system1.pkId IS NOT NULL
+								AND system1.fkFatherSystemId != ''
+								AND system1.pkId IN (
+									SELECT
+										MAX(system2.pkId)
+									FROM
+										t_cpro_system system2
+									WHERE
+										system.pkId = system2.fkFatherSystemId
+									AND system2.fkSystemType = 3
+									AND system2.deleteStatus = 1
+								)
+							)
+						)
       		]]>
       	</otherwise>
       </choose>
@@ -691,7 +737,11 @@
       AND code.fkCodeType = 11
       AND code.systemFatherCode = 3
     LEFT JOIN t_cpro_system system
-      ON score.fkSystemId = system.pkId
+      ON score.fkSystemId = system.pkId 
+      AND system.deleteStatus = 1
+    LEFT JOIN t_cpro_system system1
+      ON score.fkSystemId = system1.fkFatherSystemId
+      AND system1.deleteStatus = 1
     LEFT JOIN t_cpro_company AS com  
       ON com.companyCode = system.fkCompanyCode
           LEFT JOIN t_cpro_records AS records 
@@ -745,11 +795,33 @@
       <if test="systemType != null and systemType == 1">
         <![CDATA[
            AND system.fkSystemType < 3
+					AND (
+						(
+							system1.pkId IS NULL
+							OR system1.fkFatherSystemId = ''
+						)
+						OR (
+							system1.pkId IS NOT NULL
+							AND system1.fkFatherSystemId != ''
+							AND system1.pkId IN (
+								SELECT
+									MAX(system2.pkId)
+								FROM
+									t_cpro_system system2
+								WHERE
+									system.pkId = system2.fkFatherSystemId
+								AND system2.fkSystemType = 3
+								AND system2.deleteStatus = 1
+							)
+						)
+					)
         ]]>
       </if>
       <if test="systemType != null and systemType == 2">
         <![CDATA[
-           AND system.fkSystemType = 3
+           AND system1.fkSystemType = 3
+           AND system1.fkFatherSystemId IS NOT NULL 
+           AND system1.fkFatherSystemId != ''
         ]]>
       </if>
       <if test="gradingBeginTime != null ">

@@ -17,7 +17,7 @@
         methods:{
           handleClick: function(tab, event) {
             console.log(tab, event);
-            if(tab.label!='审核'){
+            if(tab.label!='审核及处理信息'){
             	bus.$emit('jurisdictionShow','1');
             }else{
             	bus.$emit('jurisdictionShow',null);

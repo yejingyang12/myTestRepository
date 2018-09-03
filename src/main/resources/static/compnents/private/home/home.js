@@ -5,6 +5,12 @@
       arrowdown:true,
       //每页显示条数
       showItem:10,
+      ceshi:false,
+      dialogVisible:false,
+      ceshi1:false,
+      ceshi2:false,
+      dialogVisiblesd:false,
+      dialogVisibles:false,
       appIsInternets:[{value:1, label:"是"}, {value:2, label:"否"}],
       appIsInternet: null,//是否为互联网应用
 	  hStatus: [{
@@ -270,9 +276,10 @@
 			        });
 			      },
 			    open5:function() {
-			        this.$alert('<strong>请填写信息</strong>', '提示', {
+			        /*this.$alert('<strong>请填写信息</strong>', '提示', {
 			          dangerouslyUseHTMLString: true
-			        });
+			        });*/
+			    	this.dialogVisiblesd=true;
 			      }, 
 			    deleteTag:function(val){
             for(var i=0;i<this.msgProvince.length;i++){
@@ -288,6 +295,14 @@
                      }
                  }
            },           
+           deleteAllCheckBox: function(){
+          	 for(var i=0;i<this.msgProvince.length;i++){
+          		 this.msgProvince[i].showflag = false;
+          	 }
+          	 for(var i=0;i<this.hStatus.length;i++){
+          		 this.hStatus[i].status = false;
+          	 }
+           },
         	text:function(){
              $('#textArea').on("keyup",function(){
                  $('#textNum').text($('#textArea').val().length);//这句是在键盘按下时，实时的显示字数
@@ -321,7 +336,7 @@
         	},
         	//清空
         	empty:function(){
-
+        		this.deleteAllCheckBox();
         		this.value2 = '';
         		this.value1 = '';
         		$("#customFiltering").val("");
@@ -341,7 +356,7 @@
         		this.value9 = '';
         		this.value12 = '';
         		this.value10 = '';
-        		this.value21 = '';
+        		this.value21 = [];
         		this.value22 = [];
         		this.systemLevel = [];
         		this.checkTest=[];
@@ -983,11 +998,12 @@
           		fileSize = e.target.files[0].size;//文件大小（字节）                 		
 	          	var fimeMax = 1048576 *30;
 	          	if(fileSize > fimeMax){
-	          		this.$alert('文件不能大于30M！', '信息提示', {
+	          		/*this.$alert('文件不能大于30M！', '信息提示', {
 	                confirmButtonText: '确定',
 	                callback: function callback(action) {
 	                }
-	              });
+	              });*/
+	          		this.dialogVisible=true;
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -995,11 +1011,12 @@
             	if(fileFormatLength){
             		var i = fileFormatLength - 1;
             		if(fileFormat[i] != 'xlsm' && fileFormat[i] !='xlsx'){
-            			this.$alert('不接受此文件类型！', '信息提示', {
+            			/*this.$alert('不接受此文件类型！', '信息提示', {
             				confirmButtonText: '确定',
             				callback: function callback(action) {
             				}
-            			});
+            			});*/
+            			this.dialogVisibles=true;
             			return;
             		}
             	}

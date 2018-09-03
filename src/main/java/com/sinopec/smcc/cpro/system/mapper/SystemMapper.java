@@ -418,4 +418,31 @@ public interface SystemMapper {
    * @param fkFatherSysId
    */
   void deleteRelationSonSystem(List<SystemSubResult> fkFatherSysId);
+
+  /**
+   * @Descrption  通过条件查询所有系统
+   * @author yejingyang
+   * @date 2018年9月3日下午3:47:29
+   * @param systemParam
+   * @return
+   */
+  List<SystemResult> selectSystemBySystemParam(SystemParam systemParam);
+
+  /**
+   * @Descrption  根据系统信息查询自查数量
+   * @author yejingyang
+   * @date 2018年9月3日下午5:42:20
+   * @param systemParam
+   * @return
+   */
+  int selectSelfexaminationCountBySystemParam(SystemParam systemParam);
+
+  /**
+   * @Descrption  根据系统信息查询测评数量
+   * @author yejingyang
+   * @date 2018年9月3日下午5:53:37
+   * @param systemParam
+   * @return
+   */
+  int selectEvaluationCountBySystemParam(SystemParam systemParam);
 }

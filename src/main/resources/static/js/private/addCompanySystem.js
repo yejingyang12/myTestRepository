@@ -264,7 +264,6 @@ window.onload = function () {
           	var flag = true;
           	var beginContent = this.beginContent;
           	var currentContent = this.formData;
-          	
           	if(beginContent.fkInfoSysTypeCon != currentContent.fkInfoSysTypeCon){//信息系统建设类型
           		flag = false;
           	}
@@ -277,9 +276,33 @@ window.onload = function () {
           	if(beginContent.standardizedCode != currentContent.standardizedCode){//标准化代码
           		flag = false;
           	}
-          	
-          	//子系统通过是否为合并系统来判断，如果是合并系统才会有子系统，选择了合并系统，页面的值已经被改变
-          	
+          	//子系统
+          	if(currentContent.addSystemSub!=null){//当前页面有子系统
+          		if(beginContent.addSystemSub == null){//页面开始没有
+          			flag = false;
+          		}
+          	}
+          	if(beginContent.addSystemSub!=null){//页面开始有子系统
+          		if(currentContent.addSystemSub == null){//当前页面没有
+          			flag = false;
+          		}
+          	}
+          	if(currentContent.addSystemSub!=null && beginContent.addSystemSub == null){//当前页面与开始页面都有子系统
+          		for(var i=0;i<currentContent.addSystemSub.length;i++){
+          			if(beginContent.addSystemSub[i].label != currentContent.addSystemSub[i].label){
+          				flag = false;
+          			}
+          			if(beginContent.addSystemSub[i].labelCode != currentContent.addSystemSub[i].labelCode){
+          				flag = false;
+          			}
+          			if(beginContent.addSystemSub[i].systemName != currentContent.addSystemSub[i].systemName){//子系统名称
+          				flag = false;
+          			}
+          			if(beginContent.addSystemSub[i].standardizedCode != currentContent.addSystemSub[i].standardizedCode){//子系统标准化代码
+          				flag = false;
+          			}
+          		}
+          	}
           	if(beginContent.gradeRecordSysName != currentContent.gradeRecordSysName){//等保备案系统名称
           		flag = false;
           	}

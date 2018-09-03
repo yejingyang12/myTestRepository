@@ -90,7 +90,7 @@
                         <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
                         <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px" 
                         			class="thirs_div" v-if="pro.operationOpinion!=''" >操作意见：
-                        			<span :title="pro.operationOpinion" >{{pro.operationOpinion}}</span></div>
+                        			<span :title="pro.operationOpinion" style="cursor:pointer;">{{pro.operationOpinion}}</span></div>
                     	<div class="thirs_div" v-else>操作意见：无</div>
                     </div>
                     <div class="over_time">完成时间:{{pro.createTime}}</div>

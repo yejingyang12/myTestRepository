@@ -2,6 +2,8 @@
   var data = {
       jurisdictionShow:false,
       jurisdictionType:0,
+      ceshi:false,
+      dialogVisible:false,
 		  ruleForm: {
 	          name: '',
 	          scoreCheckResult: '',
@@ -86,9 +88,10 @@
 			     });
 			 },
 			 open5:function() {
-			        this.$alert('<strong>请填写信息</strong>', '提示', {
+			       /* this.$alert('<strong>请填写信息</strong>', '提示', {
 			          dangerouslyUseHTMLString: true
-			        });
+			        });*/
+				 this.dialogVisible=true;
 			  }, 
         	//获取变更信息
         	queryGradingEditAudit: function(_self){

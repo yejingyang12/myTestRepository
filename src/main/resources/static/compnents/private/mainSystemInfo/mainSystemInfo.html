@@ -71,7 +71,7 @@
 						         <el-dialog lock-scroll  :close-on-click-modal="ceshi1"   title="文件限制" :visible.sync="dialogVisibles" width="30%">
 						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
 						        	<div class="ceshi" style="text-align:center;">
-						        		<p style="float:none">上传格式只能为：doc,docx,xls,xlsx,pdf,zip,rar,sep</p>		
+						        		<p style="float:none">上传格式只能为：excel(xls、xlsx、xlsm)</p>		
 						        	</div>
 						        	 <div slot="footer" class="dialog-footer">
 						    			<el-button size="mini" @click="dialogVisibles = false" style="background:#FFF;width:70px;height:40px;border:1px solid #ededed;color:#333">取 消</el-button>
@@ -132,7 +132,7 @@
 		<div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
 
 		<p class="h-p" style="margin: 15px 0;">
-            <button   class="h-btn btn h-btn-add" 
+            <button  title="新建"  class="h-btn btn h-btn-add" 
             id="h-btn-add"
              @click="newSystemInfoMethod()" 
             style="border: none;"> </button>

@@ -62,7 +62,6 @@
         methods:{
         	// 获取系统等保等级分布统计图数据
         	getGradingStatistics : function(_self) {
-        		_self.queryDataparmars.systemType = "1";
           	ajaxMethod(_self, 'post',
               'main/queryGradingStatistics', false,
               JSON.stringify(_self.queryDataparmars), 'json',
@@ -103,6 +102,7 @@
 	        },
         },
         created: function() { 
+        	this.queryDataparmars.systemType = "1";
           //获取系统等保等级分布统计图数据
           this.getGradingStatistics(this);
         },
@@ -114,7 +114,16 @@
         	var _self = this;
         	//获取查询中的条件
       	  bus.$on("queryDataParams",function(data){
+      	  	var systemType = _self.queryDataparmars.systemType;
+      	  	if(!systemType){
+      	  		systemType = "1";
+      	  	}
+      	  	var gradingBeginTime = _self.queryDataparmars.gradingBeginTime;
+      	  	var gradingEndTime = _self.queryDataparmars.gradingEndTime;
       	  	_self.queryDataparmars = JSON.parse(data);
+      	  	_self.queryDataparmars.systemType = systemType;
+      	  	_self.queryDataparmars.gradingBeginTime = gradingBeginTime;
+      	  	_self.queryDataparmars.gradingEndTime = gradingEndTime;
 						ajaxMethod(_self, 'post',
 	              'main/queryGradingStatistics', false,
 	              JSON.stringify(_self.queryDataparmars), 'json',

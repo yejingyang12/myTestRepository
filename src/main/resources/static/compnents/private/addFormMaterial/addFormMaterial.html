@@ -54,6 +54,18 @@
 						  			</div>	
 						        </el-dialog>
 						         <!-- 验证提示框 end -->
+						          <!-- 验证是否是相同文件 start -->
+						        <el-dialog lock-scroll  :close-on-click-modal="ceshi3"  title="提示" :visible.sync="dialogVisibleds" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">文件相同</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibleds = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibleds = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						         <!-- 验证是否是相同文件 end -->
                             </div>
                         </el-form-item>
                     </div>

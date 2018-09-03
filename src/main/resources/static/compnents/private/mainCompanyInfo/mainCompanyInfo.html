@@ -42,8 +42,8 @@
         <!--</div>-->
         <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
         <p class="h-p" style="margin: 15px 0;">
-            <button   class="h-btn btn h-btn-add" id="h-btn-add" @click="newCompanyInfoMethod()" style="border: none;"> </button>
-            <button type="button" class="hh-btn btn btn-default h-bagimg" id="h-btn-add" @click="check = true">
+            <button title="新建"  class="h-btn btn h-btn-add" id="h-btn-add" @click="newCompanyInfoMethod()" style="border: none;"> </button>
+            <button title="删除" type="button" class="hh-btn btn btn-default h-bagimg" id="h-btn-add" @click="check = true">
                 <img class="hh-add   btn-default" src="/images/del.png" alt=""/>
                 <slot name="shanchu"></slot>
             </button>
@@ -81,7 +81,7 @@
                             <!--操作-->
                             <td style="color:#1e91e2;">
                               <!--class="hide3"-->
-                              <a class="hide3">
+                              <span class="hide3">
                                 <a><el-button @click="handleClick(item.companyId)" type="text" size="small">编辑</el-button></a>
                                 <i style="color:#1e91e2 ">|</i>
                                 <a><el-button @click="deleteClickDialog(item.companyId)" type="text" size="small">删除</el-button></a>
@@ -100,7 +100,7 @@
                                         </div>
                                     </div>
                                  </div>
-                              </a>
+                              </span>
                             </td>
                         </tr>
                     </table>

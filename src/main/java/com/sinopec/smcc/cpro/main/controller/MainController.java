@@ -326,7 +326,6 @@ public class MainController {
       throws BusinessException {
     List<MainListResult> gradingStatisticsResult = 
         this.mainServiceImpl.queryGradingStatistics(mainParam);
-    System.out.println(gradingStatisticsResult);
     return RetResultUtil.ok(gradingStatisticsResult);
   }
   

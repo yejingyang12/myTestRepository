@@ -16,9 +16,11 @@ var data={
     ceshi:false,
     ceshi1:false,
     ceshi2:false,
+    ceshi3:false,
     dialogVisibles:false,
     dialogVisible:false,
     dialogVisibled:false,
+    dialogVisibleds:false,
     jurisdictionType:0,
     submitCheck:false,
         formData:{
@@ -139,9 +141,10 @@ var data={
                   	}else{
                   		for(var t=0;t<_self.formData.topologyDescriptionList.length;t++){
               			  	if(_self.formData.topologyDescriptionList[t].attachName==responseData.data.attachName){
-              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+              			  		/*_self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
-	                  				});
+	                  				});*/
+              			  		_self. dialogVisibleds=true,
               			  		submitDescName = true ; 
                   				break;
                   			}
@@ -225,9 +228,10 @@ var data={
                   	}else{
                   		for(var t=0;t<_self.formData.organizationManagementList.length;t++){
               			  	if(_self.formData.organizationManagementList[t].attachName==responseData.data.attachName){
-              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+              			  		/*_self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
-	                  				});
+	                  				});*/
+              			  		_self.dialogVisibleds=true,
               			  		submitManagName = true ; 
                   				break;
                   			}
@@ -313,9 +317,10 @@ var data={
                   	}else{
                   		for(var t=0;t<_self.formData.implementationPlanList.length;t++){
               			  	if(_self.formData.implementationPlanList[t].attachName==responseData.data.attachName){
-              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+              			  		_/*self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
-	                  				});
+	                  				});*/
+              			  		_self.dialogVisibleds=true;
               			  		submitPlanName = true ; 
                   				break;
                   			}
@@ -398,9 +403,10 @@ var data={
                   	}else{
                   		for(var t=0;t<_self.formData.licenseCertificateList.length;t++){
               			  	if(_self.formData.licenseCertificateList[t].attachName==responseData.data.attachName){
-              			  		_self.$alert('<strong>文件相同！</strong>', '提示', {
+              			  		_/*self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
-	                  				});
+	                  				});*/
+              			  		_self. dialogVisibleds=true;
               			  		submitCateName = true ; 
                   				break;
                   			}

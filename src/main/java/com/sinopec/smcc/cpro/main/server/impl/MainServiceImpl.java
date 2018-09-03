@@ -39,6 +39,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
 import com.sinopec.smcc.cpro.company.server.CompanyService;
@@ -400,6 +401,7 @@ public class MainServiceImpl implements MainService{
           //自查结果
           cellList.add(ExcelUtils.getExportCelBean(""));
         }
+        
 //        //系统名称
 //        cellList.add(ExcelUtils.getExportCelBean(mainResult.getSystemName()));
 //        cellList.add(ExcelUtils.getExportCelBean(mainResult.getCompanyName()));
@@ -467,8 +469,97 @@ public class MainServiceImpl implements MainService{
       }
     }
     sheetBean.setDataList(dataList);
+
+    SheetBean sheetBean2 = new SheetBean();
+    sheetBean.setRowFixed(1);
+    Map<Integer, Short> columnWidthMap2 = new HashMap<Integer, Short>();
+    columnWidthMap2.put(9, (short)25);
+    sheetBean2.setColumnWidthMap(columnWidthMap2);
+    sheetBean2.setDefaultRowHeight((short) 20);
+    sheetBean2.setDefaultColumnWidth((short) 15);
+    sheetBean2.setSheetName("Sheet2");
+    List<List<CellBean>> dataList2 = new ArrayList<List<CellBean>>();
+    List<CellBean> cellList2 = new ArrayList<CellBean>();
+    
+    // 装载第一行为表头
+    cellList2.add(ExcelUtils.getExportCelBean("序号"));
+    cellList2.add(ExcelUtils.getExportCelBean("单位名称"));
+    cellList2.add(ExcelUtils.getExportCelBean("现有系统数"));
+    cellList2.add(ExcelUtils.getExportCelBean("审核通过系统数"));
+    cellList2.add(ExcelUtils.getExportCelBean("待审核系统数"));
+    cellList2.add(ExcelUtils.getExportCelBean("备案系统数"));
+    cellList2.add(ExcelUtils.getExportCelBean("自查次数"));
+    cellList2.add(ExcelUtils.getExportCelBean("测评次数"));
+    dataList2.add(cellList2);
+    
+    //获取所有单位列表
+    List<CompanyListResult> companyList = this.companyServiceImpl.
+        queryCompanyName(new CompanyParam());
+    int count2 = 1;
+    for (CompanyListResult companyListResult : companyList) {
+      cellList2 = new ArrayList<CellBean>();
+      //序号
+      cellList2.add(ExcelUtils.getExportCelBean(count2));
+      //单位名称
+      String strCompanyName = companyListResult.getCompanyName();
+      cellList2.add(ExcelUtils.getExportCelBean(strCompanyName));
+      //现有系统数
+      SystemParam systemParam = new SystemParam();
+      systemParam.setFkCompanyCode(companyListResult.getCompanyCode());
+      List<SystemResult> systemResult = this.systemMapper.selectSystemBySystemParam(systemParam);
+      int systemCount = 0;
+      if(systemResult != null){
+        systemCount = systemResult.size();
+      }
+      cellList2.add(ExcelUtils.getExportCelBean(systemCount));
+      //审核通过系统数
+      systemParam = new SystemParam();
+      systemParam.setFkCompanyCode(companyListResult.getCompanyCode());
+      systemParam.setExamineStatus(3);
+      List<SystemResult> systemResult1 = this.systemMapper.selectSystemBySystemParam(systemParam);
+      int successSystemCount = 0;
+      if(systemResult1 != null){
+        successSystemCount = systemResult1.size();
+      }
+      cellList2.add(ExcelUtils.getExportCelBean(successSystemCount));
+      //待审核系统数
+      systemParam = new SystemParam();
+      systemParam.setFkCompanyCode(companyListResult.getCompanyCode());
+      systemParam.setExamineStatus(2);
+      List<SystemResult> systemResult2 = this.systemMapper.selectSystemBySystemParam(systemParam);
+      int toCheckSystemCount = 0;
+      if(systemResult2 != null){
+        successSystemCount = systemResult2.size();
+      }
+      cellList2.add(ExcelUtils.getExportCelBean(toCheckSystemCount));
+      //备案系统数
+      systemParam = new SystemParam();
+      systemParam.setFkCompanyCode(companyListResult.getCompanyCode());
+      systemParam.setRecordStatus(3);
+      List<SystemResult> systemResult3 = this.systemMapper.selectSystemBySystemParam(systemParam);
+      int recordSystemCount = 0;
+      if(systemResult3 != null){
+        recordSystemCount = systemResult3.size();
+      }
+      cellList2.add(ExcelUtils.getExportCelBean(recordSystemCount));
+      //自查次数
+      systemParam = new SystemParam();
+      systemParam.setFkCompanyCode(companyListResult.getCompanyCode());
+      int selfexaminationCount = this.systemMapper.selectSelfexaminationCountBySystemParam(systemParam);
+      cellList2.add(ExcelUtils.getExportCelBean(selfexaminationCount));
+      //测评次数
+      systemParam = new SystemParam();
+      systemParam.setFkCompanyCode(companyListResult.getCompanyCode());
+      int evaluationCount = this.systemMapper.selectEvaluationCountBySystemParam(systemParam);
+      cellList2.add(ExcelUtils.getExportCelBean(evaluationCount));
+      
+      dataList2.add(cellList2);
+    }
+    sheetBean2.setDataList(dataList2);
+    
     List<SheetBean> sheetBeanList = new ArrayList<SheetBean>();
     sheetBeanList.add(sheetBean);
+    sheetBeanList.add(sheetBean2);
     excelBean.setSheetList(sheetBeanList);
     // 创建excel错误
     try {
@@ -3244,19 +3335,19 @@ public class MainServiceImpl implements MainService{
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
-    List<String> orgStr = organizationApiResult.getPermssions();
-    String jurBind  = "";
-    //总部权限
-    if(orgStr.contains("0102010302")||orgStr.contains("0102010202")){
-    	jurBind="总部";
-    //企业权限  
-    }else if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
-    	jurBind="企业";
-    }
-    
     if(organizationApiResult==null){
       return list;
     }else{
+      List<String> orgStr = organizationApiResult.getPermssions();
+      String jurBind  = "";
+      //总部权限
+      if(orgStr.contains("0102010302")||orgStr.contains("0102010202")){
+        jurBind="总部";
+        //企业权限  
+      }else if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
+        jurBind="企业";
+      }
+      
       //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
       switch (organizationApiResult.getResultType()) {
       

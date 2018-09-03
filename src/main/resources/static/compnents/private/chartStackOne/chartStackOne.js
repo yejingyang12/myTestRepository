@@ -150,7 +150,6 @@
         methods:{
         	// 获取系统等保等级分布统计图数据
         	getRecordsCompanyNum : function(_self) {
-        		_self.queryDataparmars.systemType = "1";
           	ajaxMethod(_self, 'post',
               'diagram/queryRecordCompanyTop10', false,
               JSON.stringify(_self.queryDataparmars), 'json',
@@ -179,6 +178,7 @@
 	        }
         },
         created: function() {
+        	this.queryDataparmars.systemType = "1";
           //获取备案单位数量统计图数据
           this.getRecordsCompanyNum(this);
         },
@@ -190,7 +190,13 @@
         	var _self = this;
         	//获取查询中的条件
       	  bus.$on("queryDataParams",function(data){
+      	  	var systemType = _self.queryDataparmars.systemType;
+      	  	var dateBegin = _self.queryDataparmars.dateBegin
+      	  	var dateEnd = _self.queryDataparmars.dateEnd
       	  	_self.queryDataparmars = JSON.parse(data);
+      	  	_self.queryDataparmars.systemType = systemType;
+      	  	_self.queryDataparmars.dateBegin = dateBegin;
+      	  	_self.queryDataparmars.dateEnd = dateEnd;
       	  	ajaxMethod(_self, 'post',
                 'diagram/queryRecordCompanyTop10', false,
                 JSON.stringify(_self.queryDataparmars), 'json',

@@ -83,7 +83,6 @@
         methods:{
         	getStatisticsType:function(type){
         		if(type==1){
-        			this.queryDataparmars = {};
         			this.value1='';
         			this.value3='';
         			this.gradingShapeBegin='';
@@ -106,7 +105,6 @@
               bus.$emit("yearType",'{"systemType":"1","type":"1"}');
               this.statisticsType = 1;
         		}else{
-        			this.queryDataparmars={};
         			this.value1='';
         			this.value3='';
         			this.gradingShapeBegin='';

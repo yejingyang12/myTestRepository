@@ -1,7 +1,7 @@
 .paddind-0{
     padding: 0;
 }
-.inputPadding .timeInput input{
+ .inputPadding .timeInput input{
   background: url(../../../images/datatime.png) no-repeat right 3px top 8.5px;
   padding:0!important;
   padding-left:1px!important; 
@@ -98,6 +98,7 @@
     height: 100%;
     width: 46%;
 }
+
 .bingzhuangtu{
     padding: 0;
     padding-top: 15px;

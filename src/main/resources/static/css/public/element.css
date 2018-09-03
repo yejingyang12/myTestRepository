@@ -3200,7 +3200,8 @@
 }
 
 .el-date-editor .el-icon-circle-close {
-    cursor: pointer
+    cursor: pointer;
+    margin-left:-22px;
 }
 
 .el-date-editor .el-range__icon {
@@ -11313,14 +11314,13 @@
     left: 5px;
     transition: all .3s
 }
-
 .el-input__icon {
     height: 100%;
     width: 25px;
     text-align: center;
     -webkit-transition: all .3s;
     transition: all .3s;
-    line-height: 40px
+    line-height: 40px;
 }
 
 .el-input__icon:after {

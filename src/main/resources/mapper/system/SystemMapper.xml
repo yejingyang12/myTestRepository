@@ -3955,4 +3955,101 @@
         #{item.systemId}
       </foreach>
   </update>
+  
+  <!-- 根据条件查询系统列表 -->
+  <select id="selectSystemBySystemParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
+  	SELECT
+      system.pkId AS systemId,
+      system.fkInfoSysTypeCon,
+      system.fkSystemIsMerge,
+      system.fkSystemType,
+      system.fkFatherSystemId,
+      system.fkCompanyCode,
+      system.fkChangeMatter,
+      system.companyName,
+      system.fatherCompanyName,
+      system.systemName,
+      system.fatherSystemName,
+      system.standardizedCode,
+      system.gradeRecordSysName,
+      system.appIsInternet,
+      system.sysBusSituationType,
+      system.sysBusDescription,
+      system.sysServiceSitScope,
+      system.sysServiceSitObject,
+      system.npCoverageRange,
+      system.npNetworkProperties,
+      system.interconnectionSit,
+      system.whenInvestmentUse,
+      system.executiveOfficeName,
+      system.subIsSystem,
+      system.executiveDireCon,
+      system.executiveDireConTel,
+      system.gradingStatus,
+      system.examineStatus,
+      system.recordStatus,
+      system.evaluationStatus,
+      system.examinationStatus,
+      system.changeReason,
+      system.changeContent,
+      system.deleteStatus,
+      system.createUserName,
+      system.createTime,
+      system.updateTime,
+      system.remark
+    FROM
+      t_cpro_system system
+    WHERE 
+      system.deleteStatus = 1 
+    <if test="fkCompanyCode != null and fkCompanyCode != ''">
+	    AND system.fkCompanyCode = #{fkCompanyCode}
+    </if>
+    <if test="recordStatus != null">
+    	AND system.recordStatus = #{recordStatus}
+    </if>
+    <if test="examineStatus != null">
+    	AND system.examineStatus = #{examineStatus}
+    </if>
+  </select>
+  
+  <!-- 根据系统信息查询自查数量 -->
+  <select id="selectSelfexaminationCountBySystemParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultType="java.lang.Integer">
+  	SELECT
+			COUNT(self.pkId)
+		FROM
+			t_cpro_self_inspection self
+		WHERE
+			self.fkSystemId IN (
+				SELECT
+					system.pkId
+				FROM
+					t_cpro_system AS system
+				WHERE
+					system.deleteStatus = 1
+				<if test="fkCompanyCode != null and fkCompanyCode != ''">
+					AND system.fkCompanyCode = #{fkCompanyCode}
+				</if>
+			)
+		AND self.deleteStatus = 1
+  </select>
+  <!-- 根据系统信息查询测评数量 -->
+  <select id="selectEvaluationCountBySystemParam" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultType="java.lang.Integer">
+  	SELECT
+			COUNT(evaluation.pkId)
+		FROM
+			t_cpro_evaluation evaluation
+		WHERE
+			evaluation.fkSystemId IN (
+				SELECT
+					system.pkId
+				FROM
+					t_cpro_system AS system
+				WHERE
+					system.deleteStatus = 1
+				<if test="fkCompanyCode != null and fkCompanyCode != ''">
+					AND system.fkCompanyCode = #{fkCompanyCode}
+				</if>
+			)
+		AND evaluation.deleteStatus = 1
+  </select>
 </mapper>

@@ -104,9 +104,27 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .useData span.el-input__suffix{
     height:16px;
     position: relative;
-    top: -28px;
+    top: -36px;
     left:calc(100% - 30px);
     border-left:1px solid #cecece;
+    background:none;
+}
+.lsed span.el-input__suffix{
+    height:16px;
+    line-height:16px;
+    position: relative;
+    top: -36px !important;
+    left:calc(100% - 30px);
+    border-left:1px solid #cecece;
+    background:none;
+}
+/* .lsed span.el-input__suffix .el-input__suffix-inner {
+    position: absolute;
+    top: -8px;
+    right: 3px;
+} */
+.el-date-editor .el-icon-circle-close{
+	margin-left:-22px;
 }
 .useData span i{
     display: inline-block;

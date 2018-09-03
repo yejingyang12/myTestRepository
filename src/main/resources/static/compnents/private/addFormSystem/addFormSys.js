@@ -580,7 +580,6 @@ var  data={
                     this.formData.addSystemSub=[];
                     this.promptCount=false;
               			this.formData.checkCount = '1';
-              			this.formData.systemName = "";
               			this.systemNameSon1 = [];
               			this.systemNameSon12= [];
               			Vue.set(this.systemNameSon12, 0, false);
@@ -621,7 +620,7 @@ var  data={
                       this.formData.addSystemSub=[];
                       this.promptCount=false;
                 			this.formData.checkCount = '1';
-                			this.formData.systemName = "";
+//                			this.formData.systemName = "";
                 			this.systemNameSon1 = [];
                 			this.systemNameSon12= [];
                 			Vue.set(this.systemNameSon12, 0, false);
@@ -1157,15 +1156,72 @@ var  data={
 //                        }
                         ];
                       }
+                      if(responseData.data!=null){
+                    		var beginContent = _self.beginContent;
+                      	var currentContent = responseData.data;
+                    		beginContent.fkInfoSysTypeCon = currentContent.fkInfoSysTypeCon;//信息系统建设类型
+                    		beginContent.fkSystemIsMerge = currentContent.fkSystemIsMerge;//是否为合并系统
+                    		beginContent.systemName = currentContent.systemName;//系统名称
+                    		beginContent.standardizedCode = currentContent.standardizedCode;//标准化代码
+                    		//子系统
+                    		if(currentContent.addSystemSub!=null){
+                        	for(var i=0;i<currentContent.addSystemSub.length;i++){
+                        		beginContent.addSystemSub[i] = {
+     	                          "label":currentContent.addSystemSub[i].label,
+     	                          "labelCode":currentContent.addSystemSub[i].labelCode,
+     	                          "systemName":currentContent.addSystemSub[i].systemName,
+     	                          "standardizedCode":currentContent.addSystemSub[i].standardizedCode
+     	                        };
+   	                   		}
+                        }
+                    		beginContent.gradeRecordSysName = currentContent.gradeRecordSysName;//等保备案系统名称
+                    		beginContent.appIsInternet = currentContent.appIsInternet;//是否为互联网应用
+                    		beginContent.sysBusSituationType = currentContent.sysBusSituationType;//业务类型
+                    		beginContent.sysBusDescription = currentContent.sysBusDescription;//业务描述
+                    		beginContent.sysServiceSitScope = currentContent.sysServiceSitScope;//服务范围
+                    		beginContent.sysServiceSitObject = currentContent.sysServiceSitObject;//服务对象
+                    		beginContent.npCoverageRange = currentContent.npCoverageRange;//覆盖范围
+                    		beginContent.npNetworkProperties = currentContent.npNetworkProperties;//网络性质
+                    		beginContent.interconnectionSit = currentContent.interconnectionSit;//系统互联情况
+                    		//关键产品使用情况
+                    		for(var i=0;i<currentContent.systemKeyProducts.length;i++){
+                      		beginContent.systemKeyProducts[i].fkNationalIsProducts = currentContent.systemKeyProducts[i].fkNationalIsProducts+"";//是否使用国产品
+                      		beginContent.systemKeyProducts[i].fkExaminStatus = currentContent.systemKeyProducts[i].fkExaminStatus;//数字1234，对应产品类型，
+                      		beginContent.systemKeyProducts[i].productsNumber = currentContent.systemKeyProducts[i].productsNumber;//数量
+                      		beginContent.systemKeyProducts[i].nUseProbability = currentContent.systemKeyProducts[i].nUseProbability;//使用国产品率
+                      		beginContent.systemKeyProducts[i].otherName = currentContent.systemKeyProducts[i].otherName;//其他
+                      	}
+                    	//系统采用服务情况
+                      	for(var i=0;i<currentContent.systemUseServices.length;i++){
+                          beginContent.systemUseServices[i].fkResponsibleType = parseInt(currentContent.systemUseServices[i].fkResponsibleType);//服务责任方类型
+            	          	beginContent.systemUseServices[i].fkProductsType = currentContent.systemUseServices[i].fkProductsType;//产品类型
+            	          	beginContent.systemUseServices[i].fkSystemId = currentContent.systemUseServices[i].fkSystemId;
+            	          	beginContent.systemUseServices[i].serviceIsUse = currentContent.systemUseServices[i].serviceIsUse;//是否采用
+            	          	beginContent.systemUseServices[i].otherName = currentContent.systemUseServices[i].otherName;//其他
+                      	}
+                      	beginContent.companyName = currentContent.companyName;//所属单位名称
+                      	beginContent.whenInvestmentUse = currentContent.whenInvestmentUse;//何时投入使用
+                      	beginContent.executiveOfficeName = currentContent.executiveOfficeName;//主管处室名称
+                      	beginContent.subIsSystem = currentContent.subIsSystem;//系统是否为分系统
+                      	beginContent.fatherSystemName = currentContent.fatherSystemName;//上级系统名称
+                      	beginContent.fatherCompanyName = currentContent.fatherCompanyName;//请选择上级系统所属单位名称
+                      	beginContent.executiveDireCon = currentContent.executiveDireCon;//主管联系人
+                      	beginContent.executiveDireConTel = currentContent.executiveDireConTel;//主管联系人电话
+                    	}
+                    	
                       if(response.fkSystemIsMerge == '1'){
                         this.systemSonInfo = true;
                         this.systemInfo = false;
                         if(type=="create"){
                         	$("#systemInfo1").removeAttr("disabled");
-                        	this.systemInfo2 = true;
+                        	for(var i=0;i<response.addSystemSub.length;i++){
+                        		this.systemInfo2[i] = false;
+                        	}
                         }else if(type="change"){
-                        	$("#systemInfo1").attr("disabled","disabled");
-                        	this.systemInfo2 = false;
+                        	$("#systemInfo1").attr("disabled","true");
+                        	for(var i=0;i<response.addSystemSub.length;i++){
+                        		this.systemInfo2[i] = true;
+                        	}
                         	this.rules.standardizedCode[0].required=false;
                         }
                       }else{

@@ -1,4 +1,40 @@
 <div class="container h-padding" style="margin:0 15px;font-size: 14px;font-style: normal">
+  <!-- 文件大小弹窗 start -->
+                                <el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">附件总量最大 30M</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisible = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 文件大小弹窗 end -->
+						        <!-- 文件限制弹窗 start -->
+						         <el-dialog lock-scroll  :close-on-click-modal="ceshi1"   title="信息提示" :visible.sync="dialogVisibles" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">不接受此类型文件</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisibles = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisibles = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 文件限制弹窗 end  -->
+						          <!-- 填写信息弹窗 start -->
+						         <el-dialog lock-scroll  :close-on-click-modal="ceshi2"   title="信息提示" :visible.sync="dialogVisiblesd" width="30%">
+						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+						        	<div class="ceshi" style="text-align:center;">
+						        		<p style="float:none">请填写信息</p>		
+						        	</div>
+						        	 <div slot="footer" class="dialog-footer">
+						    			<el-button size="mini" @click="dialogVisiblesd = false">取 消</el-button>
+						    			<el-button size="mini" type="primary" @click="dialogVisiblesd = false">确 定</el-button>
+						  			</div>	
+						        </el-dialog>
+						        <!-- 填写弹窗信息 end  -->
 <!-- 首页申请变更弹窗 -->
   <div id="dialog" class="evaluationAlert"
    style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
@@ -774,7 +810,7 @@
             </div>
             <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
             <p class="h-p" style="margin: 15px 0;"> 
-                <button v-show="newlyBuild"  class="h-btn btn h-btn-add" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;margin-bottom:2px;"> </button>
+                <button title="新建" v-show="newlyBuild"  class="h-btn btn h-btn-add" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;margin-bottom:2px;"> </button>
            <!-- <button v-show="templateExport" style="padding:5px;width:auto;" type="button" id="h-score-list2" class="btn btn-default h-borde-hover" @click="checkallexport()" hascheck="" show="show">
                                                      定级模板导出 </button>  --> 
                 <button  v-show="templateExport" 
@@ -847,7 +883,7 @@
                                   <div v-if="pro.recordStatus != 4">
                                     <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
                                   </div>
-                                  <div v-else> <a  style="cursor:pointer;color:#bfbfbf;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a></div>
+                                  <div v-else> <a  style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a></div>
                                 </td>                              
                                 <td>{{pro.companyName}}</td>
                                 <!-- <td>{{pro.plateType}}</td> -->
@@ -878,31 +914,31 @@
                                   </div>
                                 </td>
                                 <!-- &lt;!&ndash;定级状态 1&#45;&#45;进行中；2&#45;&#45;&ndash;&gt; -->
-                                <td v-if="pro.gradingStatus===1" class="h-moren h-weijinxing"></td>
-                                <td v-if="pro.gradingStatus===2" class="h-moren h-jingxingzhong"></td>
-                                <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng"></td>
-                                <td v-if="pro.gradingStatus===4" class="h-moren h-chexiao"></td>
+                                <td v-if="pro.gradingStatus===1" class="h-moren h-weijinxing" title="未进行"></td>
+                                <td v-if="pro.gradingStatus===2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                                <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.gradingStatus===4" class="h-moren h-chexiao" title="已撤销"></td>
                                 <!-- &lt;!&ndash;审核状态&ndash;&gt; -->
-                               <!--  <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing"></td>
-                                <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong"></td>
-                                <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"></td>
+                               <!--  <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing" title="未进行"></td>
+                                <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                                <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"  title="完成"></td>
                                 <td v-if="pro.examineStatus==4" class="h-moren h-examine"></td>
-                                <td v-if="pro.examineStatus==5" class="h-moren h-chexiao"></td> -->
+                                <td v-if="pro.examineStatus==5" class="h-moren h-chexiao" title="撤销"></td> -->
                                 <!-- &lt;!&ndash;备案状态&ndash;&gt; -->
-                                <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"></td>
-                                <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong"></td>
-                                <td v-if="pro.recordStatus==3" class="h-moren h-wancheng"></td>
-                                <td v-if="pro.recordStatus==4" class="h-moren h-chexiao"></td>
+                                <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"  title="未进行"></td>
+                                <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                                <td v-if="pro.recordStatus==3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.recordStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
                                 <!-- &lt;!&ndash;测评状态&ndash;&gt; -->
-                                <td v-if="pro.evaluationStatus==1" class="h-moren h-weijinxing"></td>
-                                <td v-if="pro.evaluationStatus==2" class="h-moren h-jingxingzhong"></td>
-                                <td v-if="pro.evaluationStatus==3" class="h-moren h-wancheng"></td>
-                                <td v-if="pro.evaluationStatus==4" class="h-moren h-chexiao"></td>
+                                <td v-if="pro.evaluationStatus==1" class="h-moren h-weijinxing"  title="未进行"></td>
+                                <td v-if="pro.evaluationStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                                <td v-if="pro.evaluationStatus==3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.evaluationStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
                                 <!-- &lt;!&ndash;自查状态&ndash;&gt; -->
-                                <td v-if="pro.examinationStatus==1" class="h-moren h-weijinxing"></td>
-                                <td v-if="pro.examinationStatus==2" class="h-moren h-jingxingzhong"></td>
-                                <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng"></td>
-                                <td v-if="pro.examinationStatus==4" class="h-moren h-chexiao"></td>
+                                <td v-if="pro.examinationStatus==1" class="h-moren h-weijinxing" title="未进行"></td>
+                                <td v-if="pro.examinationStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                                <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.examinationStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
 
                                 <td class="h-morenxiazai h-xiazai" v-if="pro.checkPkId != null && pro.checkPkId !=  '' && pro.recordStatus != 4" @click="downloadFile(pro.checkPkId)"></td>
                                 <td class="h-morenxiazai h-weixiazai" v-else></td>
