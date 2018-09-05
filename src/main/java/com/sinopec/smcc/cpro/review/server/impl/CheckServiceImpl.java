@@ -320,19 +320,19 @@ public class CheckServiceImpl implements CheckService {
           checkListResult.setBusinessId(executeTaskData.getBusinessId());
           //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
           if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
-            if(executeTaskData.getActivityName().equals("企业主联络员审批")){
-              //待企业待企业安全员管理审核
-              checkListResult.setFkExaminStatus("1");
-            }else{
-              //待总部安全管理员审核
-              checkListResult.setFkExaminStatus("2");
-              List<AppTaskOpinionData> appTaskOpinionDataList = 
-                  dpsTemplate.appOpinion(executeTaskData.getBusinessId());
-              if(appTaskOpinionDataList.get(0) != null){
-                if(appTaskOpinionDataList.get(0).getExecuteResult() == 2){
-                  //归档
-                  checkListResult.setFkExaminStatus("5");
-                }
+            //待总部安全管理员审核
+            checkListResult.setFkExaminStatus("2");
+            //获取审批历史
+            List<AppTaskOpinionData> appTaskOpinionDataList = 
+                dpsTemplate.appOpinion(executeTaskData.getBusinessId());
+            //如果审批历史记录大于等于2，则表示总部已进行审批
+            if(appTaskOpinionDataList != null && appTaskOpinionDataList.size() >=2){
+              if(appTaskOpinionDataList.get(0).getExecuteResult() == 2){
+                //归档
+                checkListResult.setFkExaminStatus("5");
+              }else{
+                //总部审核未通过 
+                checkListResult.setFkExaminStatus("4");
               }
             }
           }else if(executeTaskData.getExecuteResult() == 2){
@@ -459,7 +459,7 @@ public class CheckServiceImpl implements CheckService {
       
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"2",checkParam.getBusinessId(),"定级");
     }else{
       nodeParam.setOperationResult("未通过");
       //修改审核状态
@@ -474,7 +474,7 @@ public class CheckServiceImpl implements CheckService {
 
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"3","定级",checkParam.getScoreCheckReason());
       
       //修改系统状态为
       MainParam mainParam = new MainParam();
@@ -523,7 +523,7 @@ public class CheckServiceImpl implements CheckService {
       
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"4",checkParam.getBusinessId(),"定级");
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -545,7 +545,7 @@ public class CheckServiceImpl implements CheckService {
 
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"5","定级",checkParam.getScoreCheckReason());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -595,7 +595,7 @@ public class CheckServiceImpl implements CheckService {
       
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),String.valueOf(userDTO.getUserId()),
-          userName);
+          userName,"2",checkParam.getBusinessId(),"申请变更");
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -617,7 +617,8 @@ public class CheckServiceImpl implements CheckService {
 
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"3","申请变更",
+          checkParam.getScoreCheckChangeReason());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -665,7 +666,7 @@ public class CheckServiceImpl implements CheckService {
 //      editCheckStatusBySystemId(check);
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"4",checkParam.getBusinessId(),"申请变更");
 
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -687,7 +688,8 @@ public class CheckServiceImpl implements CheckService {
       
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"5","申请变更",
+          checkParam.getScoreCheckChangeReason());
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -736,7 +738,7 @@ public class CheckServiceImpl implements CheckService {
       
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"2",checkParam.getBusinessId(),"撤销备案");
     
     //修改系统状态
     MainParam mainParam = new MainParam();
@@ -761,7 +763,8 @@ public class CheckServiceImpl implements CheckService {
       
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
-          String.valueOf(userDTO.getUserId()),userName);
+          String.valueOf(userDTO.getUserId()),userName,"3","撤销备案",
+          checkParam.getCancelRecordsReason());
       
       //修改系统状态
       MainParam mainParam = new MainParam();

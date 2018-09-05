@@ -4,7 +4,7 @@
 (function () {
   var data={
   		systemName:'',
-  		activeName: 'record',
+  		activeName: 'examine',
   		materialView: false
   };
   Vue.component('tabNav',function (resolve,reject) {
@@ -17,11 +17,21 @@
         methods:{
           handleClick: function(tab, event) {
             console.log(tab, event);
-            if(tab.label!='审核及处理信息'){
+            if(tab.label!='审核信息'){
             	bus.$emit('jurisdictionShow','1');
             }else{
             	bus.$emit('jurisdictionShow',null);
             }
+            //获取鱼骨图
+            if(tab.label=='审核信息'){
+            	bus.$emit('fishbone','audit');
+            }
+            if(tab.label=='处理信息'){
+            	bus.$emit('fishbone','');
+            }
+          },
+          getFishbone: function(){
+            bus.$emit('fishbone','audit');
           },
           // 获取系统信息
           getSystem : function(_self) {
@@ -51,6 +61,7 @@
           //获取系统信息
           this.getSystem(this);
           this.getSystemMaterialsInfo(systemId);
+          this.getFishbone();
         },
         mounted: function() {
           // this.selectChange()

@@ -101,5 +101,39 @@
                 </div>
             </div>
         </li> 
+        <li v-if="lastNodeShowTop" class="top">
+        	<div class="item">
+                    <div class="content">
+                        <div class="frist_div">操作：{{lastNode.operation}}</div>
+                        <div class="second_div" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px">操作人：
+                        			<span :title="lastNode.operator" style="cursor:pointer;">{{lastNode.operator}}</span>
+                        </div>
+                        <div class="thirs_div">操作结果：无</div>
+                        <div class="thirs_div">操作意见：无</div>
+                    </div>
+                    <div class="over_time">完成时间:</div>
+                <div class="centerline">
+                    <div class="cricle"></div>
+                    <div class="line beianline"></div>
+                </div>
+            </div>
+        </li>
+        <li v-if="lastNodeShowBottom" class="bottom">
+        	<div class="item">
+                    <div class="content">
+                        <div class="frist_div">操作：{{lastNode.operation}}</div>
+                        <div class="second_div" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px">操作人：
+                        			<span :title="lastNode.operator" style="cursor:pointer;">{{lastNode.operator}}</span>
+                        </div>
+                        <div class="thirs_div">操作结果：无</div>
+                        <div class="thirs_div">操作意见：无</div>
+                    </div>
+                    <div class="over_time">完成时间:</div>
+                <div class="centerline">
+                    <div class="cricle"></div>
+                    <div class="line beianline"></div>
+                </div>
+            </div>
+        </li>
     </ul>
 </div>

@@ -70,4 +70,15 @@ public interface NodeMapper {
   List<NodeResult> selectSingleNodeBySystemId(NodeParam nodeParam);
 
   NodeResult querySingleNode(NodeParam nodeParam);
+
+  NodeResult queryChangeInformationBySystemId(NodeParam nodeParam);
+
+  /**
+   * @Descrption获取审核页签的鱼骨图列表
+   * @author yejingyang
+   * @date 2018年9月4日下午12:53:25
+   * @param nodeParam
+   * @return
+   */
+  List<NodeResult> selectAllForExamine(NodeParam nodeParam);
 }

@@ -26,6 +26,7 @@
                 },
             },
             axisLabel: {
+            	interval:0,
             	rotate:40,
                 textStyle: {
                    color: '#000',

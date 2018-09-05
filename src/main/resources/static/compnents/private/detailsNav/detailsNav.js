@@ -26,6 +26,14 @@ var detailsData={
 						if(this.submitShowLabel == "备案"){
 							bus.$emit("showComitBtm","comitBtm");
 						}
+						
+            //获取鱼骨图
+            if(tab.label=='审核信息'){
+            	bus.$emit('fishbone','audit');
+            }
+            if(tab.label=='处理信息'){
+            	bus.$emit('fishbone','');
+            }
 					},
 					submitRecord:function (){
 						bus.$emit("submitRecord","formData");

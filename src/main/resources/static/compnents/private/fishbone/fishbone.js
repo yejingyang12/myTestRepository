@@ -32,7 +32,15 @@
   option:'',
   fkChangeContent:"",
   fkChangeReason:"",
-  fkSysChangeMatter:""
+  fkSysChangeMatter:"",
+  topOrBottom: '',//节点在上还是在下
+  fishboneType: "2",//鱼骨图类型，1：审核，2：详情
+  lastNodeShowTop: false,//是否显示最后一个虚假节点
+  lastNodeShowBottom: false,//是否显示最后一个虚假节点
+  lastNode: {
+  	operation: "",//操作
+  	operator: "",//操作人
+  },
   };
   Vue.component('fishbone',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/fishbone/fishbone.html').then(function (res) {
@@ -42,20 +50,70 @@
           return data;
         },
         created: function() {
-          var url="node/queryNodeList";//鱼骨图
-          var _self=this;
-          var dataparmars={
-            "systemId": systemId,//鱼骨图的系统id
-          };
-          ajaxMethod(_self,"post",url,false,JSON.stringify(dataparmars),"json",'application/json;charset=UTF-8', _self.listSuccess)
+        	if(fishboneType == 'auditGrad'){
+        		this.fishboneType = "1";
+        		this.queryNodeList(this);
+        	}else{
+        		this.fishboneType = "2";
+        		this.queryNodeList(this);
+        	}
         },
         methods:{
+        	queryNodeList: function(_self){
+        		var url="";//鱼骨图
+        		if(_self.fishboneType == "2"){
+        			//获取申请处理信息的鱼骨图
+        			url="node/queryNodeList";
+        		}else if(_self.fishboneType == "1"){
+        			//获取审核鱼骨图
+        			url="node/queryExamineNodeList";//鱼骨图
+        		}
+        		var dataparmars={
+        				"systemId": systemId,//鱼骨图的系统id
+        		};
+        		ajaxMethod(_self,"post",url,false,JSON.stringify(dataparmars),"json",'application/json;charset=UTF-8', _self.listSuccess);
+        	},
           listSuccess:function(_self,dataList){
             data.result=dataList;
+            //如果是审核页签，判断是否显示最后的虚假节点
+            if(_self.fishboneType == "1"){
+            	_self.whetherQueryNextOperators(_self);
+            	if(data.result.data.length%2 == 0){
+            		_self.lastNodeShowTop = true;
+            		_self.lastNodeShowBottom = false;
+            	}else{
+            		_self.lastNodeShowTop = false;
+            		_self.lastNodeShowBottom = true;
+            	}
+            }else{
+            	_self.lastNodeShowTop = false;
+          		_self.lastNodeShowBottom = false;
+            }
+          },
+          whetherQueryNextOperators: function(_self){
+          	_self.lastNodeShow = true;
+          },
+          //获取下一步操作人信息
+          queryNextOperators: function(_self){
+          	var url="node/queryNextNode";//鱼骨图
+        		var _self=this;
+        		var dataparmars={
+        				"systemId": systemId,//鱼骨图的系统id
+        		};
+        		ajaxMethod(_self,"post",url,false,JSON.stringify(dataparmars),"json",'application/json;charset=UTF-8', _self.queryNextOperatorsSuccess);
+          },
+          //获取下一步操作人信息成功
+          queryNextOperatorsSuccess: function(_self,responseData){
+          	_self.lastNode = responseData.data;
+          	if(_self.lastNode.operation == ""){
+          		_self.lastNodeShowTop = false;
+          		_self.lastNodeShowBottom = false;
+          	}
           },
           closesDir:function(){
         	  $('.revokeBgs').css('display','none');
           },
+          
           //鱼骨图弹窗：隐藏弹窗
          /* closes:function (msg) {
           	if(msg == 1 || msg == "1"){
@@ -134,6 +192,17 @@
         },
 
         mounted: function() {
+        	var _self = this;
+        	bus.$on('fishbone',function(meg){
+            if(meg == 'audit'){
+            	//为审核页签获取鱼骨图信息
+            	_self.fishboneType = "1";
+            }else{
+            	//为处理信息详情获取鱼骨图信息
+            	_self.fishboneType = "2";
+            }
+            _self.queryNodeList(_self);
+          });
         }
       })
     })

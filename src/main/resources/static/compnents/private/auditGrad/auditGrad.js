@@ -108,13 +108,24 @@
             case '3':
             	//定级信息变更
             	ajaxMethod(_self,"post",
-          				"system/queryGradingEditAudit",false,
-          				JSON.stringify(_self.formData),"json",
-          				'application/json;charset=UTF-8', _self.queryGradingEditAuditSuccess);
+          				"node/queryChangeInformation",false,
+          				JSON.stringify(this.formData),"json",
+          				'application/json;charset=UTF-8', _self.queryChangeInformation);
               break;
             default:
               break;
             }
+        	},
+        	queryChangeInformation:function(_self,responseData){
+        		if(responseData.data!=null){
+        			_self.fkChangeMatterShow = true;
+      				_self.changeContentShow = true;
+      				_self.changeReasonShow = true;
+      				
+        			_self.formData.fkChangeMatter = responseData.data.fkSysChangeMatter;
+        			_self.formData.changeContent = responseData.data.fkChangeContent;
+        			_self.formData.changeReason = responseData.data.fkChangeReason;
+        		}
         	},
         	queryGradingEditAuditSuccess: function(_self,responseData){
         		if(responseData.data !=null){

@@ -916,28 +916,28 @@
                                 <!-- &lt;!&ndash;定级状态 1&#45;&#45;进行中；2&#45;&#45;&ndash;&gt; -->
                                 <td v-if="pro.gradingStatus===1" class="h-moren h-weijinxing" title="未进行"></td>
                                 <td v-if="pro.gradingStatus===2" class="h-moren h-jingxingzhong" title="预定级"></td>
-                                <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng" title="已完成"></td>
                                 <td v-if="pro.gradingStatus===4" class="h-moren h-chexiao" title="已撤销"></td>
                                 <!-- &lt;!&ndash;审核状态&ndash;&gt; -->
                                <!--  <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing" title="未进行"></td>
                                 <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
-                                <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"  title="完成"></td>
+                                <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"  title="已完成"></td>
                                 <td v-if="pro.examineStatus==4" class="h-moren h-examine"></td>
                                 <td v-if="pro.examineStatus==5" class="h-moren h-chexiao" title="撤销"></td> -->
                                 <!-- &lt;!&ndash;备案状态&ndash;&gt; -->
                                 <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"  title="未进行"></td>
                                 <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
-                                <td v-if="pro.recordStatus==3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.recordStatus==3" class="h-moren h-wancheng" title="已完成"></td>
                                 <td v-if="pro.recordStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
                                 <!-- &lt;!&ndash;测评状态&ndash;&gt; -->
                                 <td v-if="pro.evaluationStatus==1" class="h-moren h-weijinxing"  title="未进行"></td>
                                 <td v-if="pro.evaluationStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
-                                <td v-if="pro.evaluationStatus==3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.evaluationStatus==3" class="h-moren h-wancheng" title="已完成"></td>
                                 <td v-if="pro.evaluationStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
                                 <!-- &lt;!&ndash;自查状态&ndash;&gt; -->
                                 <td v-if="pro.examinationStatus==1" class="h-moren h-weijinxing" title="未进行"></td>
                                 <td v-if="pro.examinationStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
-                                <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng" title="完成"></td>
+                                <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng" title="已完成"></td>
                                 <td v-if="pro.examinationStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
 
                                 <td class="h-morenxiazai h-xiazai" v-if="pro.checkPkId != null && pro.checkPkId !=  '' && pro.recordStatus != 4" @click="downloadFile(pro.checkPkId)"></td>

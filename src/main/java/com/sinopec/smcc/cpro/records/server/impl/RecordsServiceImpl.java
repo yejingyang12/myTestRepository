@@ -177,7 +177,7 @@ public class RecordsServiceImpl implements RecordsService{
 //    checkServiceImpl.editCheckStatusBySystemId(checkParam);
     
     //发起审核流程
-    workFlowApiServiceImpl.initStart("撤销备案", "3", recordsParam.getFkSystemId());
+    workFlowApiServiceImpl.initStart("撤销备案", "3", recordsParam.getFkSystemId(),"0");
     
 //    
     //修改系统状态

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
+import com.sinopec.smcc.cpro.system.entity.SystemParam;
 
 /**
  * @Title NodeService.java
@@ -73,4 +74,24 @@ public interface NodeService {
   void editNodeInfo(NodeParam nodeParam);
 
   NodeResult querySingleNode(NodeParam nodeParam);
+
+  NodeResult queryChangeInformation(SystemParam systemParam);
+
+  /**
+   * @Descrption获取审核页签的鱼骨图列表
+   * @author yejingyang
+   * @date 2018年9月4日下午12:51:42
+   * @param nodeParam
+   * @return
+   */
+  List<NodeResult> queryExamineNodeList(NodeParam nodeParam);
+
+  /**
+   * @Descrption获取下一步审核人信息
+   * @author yejingyang
+   * @date 2018年9月4日下午6:59:07
+   * @param nodeParam
+   * @return
+   */
+  NodeResult queryNextNode(NodeParam nodeParam);
 }

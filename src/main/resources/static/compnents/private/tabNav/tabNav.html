@@ -25,12 +25,15 @@
       <el-tab-pane label="测评" name="evaluation">
         <view-details-evalu></view-details-evalu>
       </el-tab-pane>
-      <el-tab-pane label="备案" name="examine">
+      <el-tab-pane label="备案" name="record">
         <view-details-record></view-details-record>
       </el-tab-pane>
-      <el-tab-pane label="审核及处理信息" name="record">
+      <el-tab-pane label="审核信息" name="examine">
         <slot name="auditGrad"></slot>
         <slot name="fishbone"></slot>
+      </el-tab-pane>
+      <el-tab-pane label="处理信息" name="examineInfo">
+        <view-details-examine1></view-details-examine1>
       </el-tab-pane>
     </el-tabs>
   </template>

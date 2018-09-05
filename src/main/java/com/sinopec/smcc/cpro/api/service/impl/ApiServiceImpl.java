@@ -440,7 +440,7 @@ public class ApiServiceImpl implements ApiService{
     }
     
     SystemRelationParam systemRelationTempParam = new SystemRelationParam();
-    systemRelationTempParam.setSystemIsMerge("1");
+    systemRelationTempParam.setSystemIsMerge("0");
     List<SystemRelationResult> systemRelationResultList = this.systemRelationMapper.
         querySystemRelationInfo(systemRelationTempParam);
     

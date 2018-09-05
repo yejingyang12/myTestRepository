@@ -671,7 +671,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
 //          checkServiceImpl.deleteCheckByCheckId(checkParam);
 //        }
         //发起审核流程
-        workFlowApiServiceImpl.initStart("定级", "1", systemMaterialsBeanParam.getFkSystemId());
+        workFlowApiServiceImpl.initStart("定级", "1", systemMaterialsBeanParam.getFkSystemId(),"0");
       }
       
       //修改审核状态为进行中
@@ -706,7 +706,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         
-        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId());
+        workFlowApiServiceImpl.initStart("申请变更", "1", systemMaterialsBeanParam.getFkSystemId(),"0");
 
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);
@@ -1002,7 +1002,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
-        workFlowApiServiceImpl.initStart("定级", "2", systemMaterialsBeanParam.getFkSystemId());
+        workFlowApiServiceImpl.initStart("定级", "2", systemMaterialsBeanParam.getFkSystemId(),"1");
       }
 //      //创建审核记录
 //      SystemParam systemParam = new SystemParam();
@@ -1059,7 +1059,7 @@ public class SystemMaterialsServiceImpl implements SystemMaterialsService {
         
         NodeResult nodeResult = this.nodeServiceImpl.selectSingleNode(nodeParam);
         
-        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId());
+        workFlowApiServiceImpl.initStart("申请变更", "2", systemMaterialsBeanParam.getFkSystemId(),"1");
 
         if (nodeResult == null) {
           this.nodeServiceImpl.addNodeInfo(nodeParam);

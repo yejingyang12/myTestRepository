@@ -16,7 +16,14 @@
         },
         methods:{
           handleClick:function(tab, event) {
-            //console.log(tab, event);
+						
+            //获取鱼骨图
+            if(tab.label=='审核信息'){
+            	bus.$emit('fishbone','audit');
+            }
+            if(tab.label=='处理信息'){
+            	bus.$emit('fishbone','');
+            }
           },
        // 获取系统信息
           getSystem : function(_self) {

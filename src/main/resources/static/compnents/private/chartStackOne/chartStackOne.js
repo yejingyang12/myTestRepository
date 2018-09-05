@@ -26,12 +26,13 @@
               },
           },
           axisLabel: {
+        	  interval:0,
         	  rotate:40,
               textStyle: {
                  color: '#000',
                  fontSize: 12
               },
-              //切分文字数量
+//              切分文字数量
               formatter : function(params){
                   var newParamsName = "";
                   var paramsNameNumber = params.length;
@@ -80,7 +81,7 @@
               barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
-              data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
+              data: [],
               itemStyle: {
                   normal: {
                       color:'rgba(93,174,81,1)'//颜色编码，透明度
@@ -89,10 +90,10 @@
           },
           {
               name: '二级',
-              barWidth : 40,//柱图宽度
+//              barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
-              data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
+              data: [],
               itemStyle: {
                   normal: {
                       color:'rgba(93,174,81,0.8)'
@@ -104,7 +105,7 @@
               barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
-              data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
+              data: [],
               itemStyle: {
                   normal: {
                       color:'rgba(93,174,81,0.6)'
@@ -116,7 +117,7 @@
               barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
-              data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
+              data: [],
               itemStyle: {
                   normal: {
                       color:'rgba(93,174,81,0.4)'
@@ -128,7 +129,7 @@
               barWidth : 40,//柱图宽度
               type: 'bar',
               stack: '总量',
-              data: [320, 302, 301, 334, 390, 330, 320, 100, 200, 300],
+              data: [],
               itemStyle: {
                   normal: {
                       color:'rgba(93,174,81,0.2)'
@@ -171,6 +172,7 @@
   	        		this.option.series[3].data[i] = result.data[i].level4;	
   	        		this.option.series[4].data[i] = result.data[i].level5;	
   	        	}
+          		
           		_self.stackOneShow=true;
           	}else{
           		_self.stackOneShow=false;
@@ -320,7 +322,6 @@
               			 _self.option.series[3].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.series[4].data=[0,0,0,0,0,0,0,0,0,0];
               			 _self.option.xAxis.data = [];
-              			 
   	    	        	 for(var i = 0; i < result.data.length; i++){
   	    	        		 //赋值    		 
   	    	        		 _self.option.xAxis.data[i] = result.data[i].companyName;
