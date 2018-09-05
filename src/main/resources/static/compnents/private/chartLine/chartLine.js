@@ -195,13 +195,21 @@
                 'application/json;charset=UTF-8',
                 function(_self,result){
 		         		 if(result.data != null && result.data !=''){
+		         			 //清空所有值
+		         			 for(var i=0;i<12;i++){
+		         				 _self.option.series[0].data[i] = 0;
+		   	        		 _self.option.series[1].data[i] = 0;
+		   	        		 _self.option.series[2].data[i] = 0;
+		   	        		 _self.option.series[3].data[i] = 0;
+		   	        		 _self.option.series[4].data[i] = 0;
+		         			 }
 		   	        	 for(var i = 0; i < result.data.length; i++){
 		   	        		 //赋值
-		   	        		 _self.option.series[0].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 /*_self.option.series[0].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 		   	        		 _self.option.series[1].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 		   	        		 _self.option.series[2].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 		   	        		 _self.option.series[3].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-		   	        		 _self.option.series[4].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+		   	        		 _self.option.series[4].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);*/
 		   	        		 _self.option.series[0].data[result.data[i].mouthCount -1] = result.data[i].readyGradCount;	
 		   	        		 _self.option.series[1].data[result.data[i].mouthCount -1] = result.data[i].checkGradCount;	
 		   	        		 _self.option.series[2].data[result.data[i].mouthCount -1] = result.data[i].recordsCount;	
@@ -249,13 +257,21 @@
                    'application/json;charset=UTF-8',
                    function(_self,result){
 	              		 if(result.data != null && result.data !=''){
+	  		         			 //清空所有值
+	  		         			 for(var i=0;i<12;i++){
+	  		         				 _self.option.series[0].data[i] = 0;
+	  		   	        		 _self.option.series[1].data[i] = 0;
+	  		   	        		 _self.option.series[2].data[i] = 0;
+	  		   	        		 _self.option.series[3].data[i] = 0;
+	  		   	        		 _self.option.series[4].data[i] = 0;
+	  		         			 }
 	  	    	        	 for(var i = 0; i < result.data.length; i++){
 	  	    	        		 //赋值
-	  	    	        		 _self.option.series[0].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 /*_self.option.series[0].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 	  	    	        		 _self.option.series[1].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 	  	    	        		 _self.option.series[2].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 	  	    	        		 _self.option.series[3].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-	  	    	        		 _self.option.series[4].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+	  	    	        		 _self.option.series[4].data.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);*/
 	  	    	        		 _self.option.series[0].data[result.data[i].mouthCount -1] = result.data[i].readyGradCount;	
 	  	    	        		 _self.option.series[1].data[result.data[i].mouthCount -1] = result.data[i].checkGradCount;	
 	  	    	        		 _self.option.series[2].data[result.data[i].mouthCount -1] = result.data[i].recordsCount;	

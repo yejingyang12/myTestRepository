@@ -4228,10 +4228,10 @@ public class SystemServiceImpl implements SystemService {
     List<String[]> serviceType = new ArrayList<String[]>();// 系统服务情况
 
     int countLeng = 0;
-    String[] strsList = new String[dataListSize - 3];
+    String[] strsList = new String[dataListSize - 4];
     
     // excel行号循环
-    for (int dataListTem = 3, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
+    for (int dataListTem = 4, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
       strsList = dataList.get(dataListTem);
       if(strsList.length==31){
         if (!strsList[11].isEmpty() && !strsList[11].equals("0")) {
@@ -4243,7 +4243,7 @@ public class SystemServiceImpl implements SystemService {
         if (!strsList[22].isEmpty() && !strsList[22].equals("0")) {
           sysNetSit.put(strsList[22], strsList[23]);
         }
-        if (!strsList[24].isEmpty() && !strsList[24].equals("0")) {
+        if (!strsList[24].isEmpty() && !strsList[24].equals("0")) {//关键产品使用情况
           String[] proUseSit = new String[4];
           proUseSit[0] = strsList[24];
           proUseSit[1] = strsList[25];
@@ -4251,7 +4251,7 @@ public class SystemServiceImpl implements SystemService {
           proUseSit[3] = strsList[27];
           isProUseSit.add(proUseSit);
         }
-        if (!strsList[28].isEmpty() && !strsList[28].equals("0")) {
+        if (!strsList[28].isEmpty() && !strsList[28].equals("0")) {//系统采用服务情况
           String[] serType = new String[3];
           serType[0] = strsList[28];
           serType[1] = strsList[29];
@@ -4266,7 +4266,7 @@ public class SystemServiceImpl implements SystemService {
           isProUseSitList.add(isProUseSit);
           isServiceTypeList.add(serviceType);
           // 每8行一条数据的第一行
-          String[] topNum = dataList.get(countLeng * 8 + 3);
+          String[] topNum = dataList.get(countLeng * 8 + 4);
           SystemParam system = new SystemParam();
           // 验证是否新建重复
           for (int j = 0; j < systemCode.size(); j++) {
@@ -4282,9 +4282,9 @@ public class SystemServiceImpl implements SystemService {
           List<String[]> list1 = isProUseSitList.get(countLeng);
           List<String[]> list2 = isServiceTypeList.get(countLeng);
           // 添加数据
-          system.setSysBusSituationType(this.sheetUtil(map1));// 业务类型
-          system.setNpCoverageRange(this.sheetUtil(map2));// 覆盖范围
-          system.setInterconnectionSit(this.sheetUtil(map3));// 系统互联情况
+          system.setSysBusSituationType(this.sheetUtil(map1).trim());// 业务类型
+          system.setNpCoverageRange(this.sheetUtil(map2).trim());// 覆盖范围
+          system.setInterconnectionSit(this.sheetUtil(map3).trim());// 系统互联情况
 
           List<SystemKeyProducts> keyList = new ArrayList<SystemKeyProducts>();// 关键产品使用情况
           if (list1 != null) {
@@ -4330,7 +4330,7 @@ public class SystemServiceImpl implements SystemService {
                   keyPro.setFkNationalIsProducts(3);
                   break;
                 }
-                if(StringUtils.isNotBlank(proCount[3])){
+                if(StringUtils.isNotBlank(proCount[3])&&!"使用国产品率".equals(proCount[3])){
                 	keyPro.setnUseProbability((int)(Double.parseDouble(proCount[3])*100));// 国产率
                 }else{
                 	keyPro.setnUseProbability(0);
@@ -4347,7 +4347,7 @@ public class SystemServiceImpl implements SystemService {
             isProUseSit.clear();
           }
           system.setSystemKeyProducts(keyList);
-          List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();
+          List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();//系统采用服务情况
           if (list2 != null) {
           	boolean flag=false;
             for (int s = 0; s < list2.size(); s++) {
@@ -4417,17 +4417,19 @@ public class SystemServiceImpl implements SystemService {
           system.setFkInfoSysTypeCon(1);// 信息系统建设类型
           system.setFkSystemIsMerge(2);// 是否为合并系统
           system.setFkSystemType(1);// 系统类型
-          system.setSystemName(topNum[1]);// 系统名称
-          system.setStandardizedCode(topNum[2]);// 标准化代码
-          system.setGradeRecordSysName(topNum[3]);// 等保备案系统名称
+          system.setSystemName(topNum[1].trim());// 系统名称
+          system.setStandardizedCode(topNum[2].trim());// 标准化代码
+          if(StringUtils.isNotBlank(topNum[3])){
+            system.setGradeRecordSysName(topNum[3].trim());// 等保备案系统名称
+          }
 
           if (StringUtils.isNotBlank(topNum[4])) {
-            system.setCompanyName(topNum[4]);// 所属单位名称
+            system.setCompanyName(topNum[4].trim());// 所属单位名称
             String comCode = this.systemMapper.selectSystemByComCode(system
                 .getCompanyName());
             if (comCode != null || StringUtils.isNotBlank(comCode)) {
               system.setFkComCode(2);
-              system.setFkCompanyCode(comCode);
+              system.setFkCompanyCode(comCode.trim());
             } else {
               return false;
             }
@@ -4445,10 +4447,15 @@ public class SystemServiceImpl implements SystemService {
           } else {
             return false;
           }
-
-          system.setExecutiveOfficeName(topNum[6]);// 主管处室名称
-          system.setExecutiveDireCon(topNum[7]);// 主管联系人
-          system.setExecutiveDireConTel(topNum[8]);// 联系人电话
+          if(StringUtils.isNotBlank(topNum[6])){
+            system.setExecutiveOfficeName(topNum[6].trim());// 主管处室名称
+          }
+          if(StringUtils.isNotBlank(topNum[7])){
+            system.setExecutiveDireCon(topNum[7].trim());// 主管联系人
+          }
+          if(StringUtils.isNotBlank(topNum[8])){
+            system.setExecutiveDireConTel(topNum[8].trim());// 联系人电话
+          }
           if (StringUtils.isNotBlank(topNum[9])) {
             if (topNum[9].equals("是")) {// 系统是否为分系统
               system.setSubIsSystem(1);
@@ -4458,20 +4465,22 @@ public class SystemServiceImpl implements SystemService {
           } else {
             return false;
           }
-          system.setFatherSystemName(topNum[10]);// 上级系统名称
-          if (StringUtils.isNotBlank(topNum[9])) {
-            system.setSysBusDescription(topNum[13]);// 业务描述
+          if(StringUtils.isNotBlank(topNum[10])){
+            system.setFatherSystemName(topNum[10].trim());// 上级系统名称
+          }
+          if (StringUtils.isNotBlank(topNum[13])) {
+            system.setSysBusDescription(topNum[13].trim());// 业务描述
           } else {
             return false;
           }
 
           if (StringUtils.isNotBlank(topNum[14])) {
             if (strsList[14].equals("其他")) {// 服务范围
-              system.setSysServiceSitScope(topNum[15]);
+              system.setSysServiceSitScope(topNum[15].trim());
             } else if(strsList[14].contains("跨省") || strsList[14].contains("跨地")){
-              system.setSysServiceSitScope(topNum[14] + "^" + topNum[15]);
+              system.setSysServiceSitScope(topNum[14].trim() + "^" + topNum[15].trim());
             }else{
-            	system.setSysServiceSitScope(topNum[14]);
+            	system.setSysServiceSitScope(topNum[14].trim());
             }
           } else {
             return false;
@@ -4479,9 +4488,9 @@ public class SystemServiceImpl implements SystemService {
 
           if (StringUtils.isNotBlank(topNum[16])) {
             if (topNum[16].equals("其他")) {// 服务对象
-              system.setSysServiceSitObject(topNum[17]);
+              system.setSysServiceSitObject(topNum[17].trim());
             } else {
-              system.setSysServiceSitObject(topNum[16]);
+              system.setSysServiceSitObject(topNum[16].trim());
             }
           } else {
             return false;
@@ -4489,9 +4498,9 @@ public class SystemServiceImpl implements SystemService {
 
           if (StringUtils.isNotBlank(topNum[20])) {
             if (strsList[20].equals("其他")) {// 网络性质
-              system.setNpNetworkProperties(topNum[21]);
+              system.setNpNetworkProperties(topNum[21].trim());
             } else {
-              system.setNpNetworkProperties(topNum[20]);
+              system.setNpNetworkProperties(topNum[20].trim());
             }
           } else {
             return false;

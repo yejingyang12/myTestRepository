@@ -532,6 +532,7 @@
       	</when>
       	<when test="systemType == 2">
       		<![CDATA[
+      			AND system.gradingStatus = 3
       			AND system1.fkSystemType = 3
       			AND system1.pkId IS NOT NULL 
       			AND system1.fkFatherSystemId != ''
@@ -590,15 +591,29 @@
             AND system.examinationStatus = 2
           ]]>
         </if>
-        <if test="gradingShapeType == 6 ">
-          <![CDATA[
-            AND system.fkInfoSysTypeCon = 1
-          ]]>
+        <if test="jurBind=='总部'">
+          <if test="gradingShapeType == 6 ">
+            <![CDATA[
+              AND system.fkInfoSysTypeCon = 1
+            ]]>
+          </if>
+          <if test="gradingShapeType == 7 ">
+            <![CDATA[
+              AND system.fkInfoSysTypeCon IN (2,3)
+            ]]>
+          </if>
         </if>
-        <if test="gradingShapeType == 7 ">
-          <![CDATA[
-            AND system.fkInfoSysTypeCon = 3
-          ]]>
+        <if test="jurBind=='企业'">
+          <if test="gradingShapeType == 6 ">
+            <![CDATA[
+              AND system.fkInfoSysTypeCon = 1
+            ]]>
+          </if>
+          <if test="gradingShapeType == 7 ">
+            <![CDATA[
+              AND system.fkInfoSysTypeCon = 2
+            ]]>
+          </if>
         </if>
       </if>
       <!-- 定级时间 -->
@@ -794,6 +809,7 @@
       </if>
       <if test="systemType != null and systemType == 1">
         <![CDATA[
+            AND system.gradingStatus = 3
            AND system.fkSystemType < 3
 					AND (
 						(
@@ -819,6 +835,7 @@
       </if>
       <if test="systemType != null and systemType == 2">
         <![CDATA[
+       	   AND system.gradingStatus = 3
            AND system1.fkSystemType = 3
            AND system1.fkFatherSystemId IS NOT NULL 
            AND system1.fkFatherSystemId != ''

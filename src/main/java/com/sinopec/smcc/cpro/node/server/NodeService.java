@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
-import com.sinopec.smcc.cpro.system.entity.SystemParam;
 
 /**
  * @Title NodeService.java
@@ -75,7 +74,7 @@ public interface NodeService {
 
   NodeResult querySingleNode(NodeParam nodeParam);
 
-  NodeResult queryChangeInformation(SystemParam systemParam);
+  NodeResult queryChangeInformation(NodeParam nodeParam);
 
   /**
    * @Descrption获取审核页签的鱼骨图列表

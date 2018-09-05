@@ -257,7 +257,32 @@
 
           //查询 点击发送请求
           search:function(page){
+          	var headquarters;
+          	var enterprise;
+          	//功能权限
+            $.ajax({
+              type: "get",
+              url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+              async: false,
+              data: "",
+              dataType: "json",
+              cache: false,
+              processData: false,
+              contentType: false,
+              success: function(response) {
+              	headquarters = getJurisdictionMethod(response,'0102010101');
+              	enterprise = getJurisdictionMethod(response,'0102010108');
+              },
+              error: function(err) {
+              }
+            });
             //var sprankLevelArray = [sprankLevel];
+            var jurBind;
+            if(headquarters){
+            	jurBind='总部';
+            }else{
+            	jurBind='企业';
+            }
           	var url = "main/queryMainList";
             var _self=this;
             var dataparmars = {
@@ -289,6 +314,7 @@
               "sprankLevelArray": sprankLevelArray,
               "subordinateProvincesArray": subordinateProvincesArray,
               "customFiltering": customFiltering,
+              "jurBind": jurBind,
             };
             ajaxMethod(_self, "post", url, false, JSON.stringify(dataparmars), "json", 'application/json;charset=UTF-8', _self.listSuccess);
           },

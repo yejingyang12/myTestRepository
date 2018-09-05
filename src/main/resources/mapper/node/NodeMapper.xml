@@ -227,4 +227,23 @@
         t_cpro_node node
     WHERE pkId = #{nodeId}
   </select>
+    <select id="queryChangeInformationBySystemId" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam" resultMap="NodeResult">
+   SELECT
+			pkId,
+			fkSystemId,
+			operation,
+			operator,
+			operationResult,
+			operationOpinion,
+			createTime,
+			fkChangeReason,
+			fkChangeContent,
+			( CASE fkSysChangeMatter WHEN '1' THEN '系统合并' WHEN '2' THEN '级别降低' WHEN '3' THEN '级别升高' WHEN '4' THEN '撤销备案' ELSE '其他' END ) AS fkSysChangeMatter 
+	FROM
+			t_cpro_node 
+	WHERE
+			fkSystemId = #{systemId} 
+			AND operation = '申请变更' 
+			AND createTime = ( SELECT MAX( createTime ) FROM t_cpro_node WHERE fkSystemId = #{systemId} AND operation = '申请变更' )
+  </select>
 </mapper>

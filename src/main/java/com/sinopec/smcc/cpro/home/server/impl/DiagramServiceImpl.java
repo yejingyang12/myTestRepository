@@ -9,6 +9,8 @@
 */
 package com.sinopec.smcc.cpro.home.server.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.entity.DiagramResult;
 import com.sinopec.smcc.cpro.home.mapper.DiagramMapper;
 import com.sinopec.smcc.cpro.home.server.DiagramService;
+import com.sinopec.smcc.cpro.tools.DateUtils;
 
 /**
  * @Title DiagramServiceImpl.java
@@ -72,6 +75,19 @@ public class DiagramServiceImpl implements DiagramService {
       throws BusinessException {
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
+  //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    if(diagramParam.getAuditTimeEnd()!=null){
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String auditTimeEnd = sdf.format(diagramParam.getAuditTimeEnd());
+      String[] auditTimes = auditTimeEnd.split("-");
+      int dayTime = Integer.valueOf(auditTimes[auditTimes.length-1]);
+      auditTimeEnd = auditTimes[0] + "-" + auditTimes[1] + "-" + (dayTime+1)+"";
+      try {
+        diagramParam.setAuditTimeEnd(DateUtils.getDate("yyyy-MM-dd", auditTimeEnd));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    }
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
@@ -118,6 +134,19 @@ public class DiagramServiceImpl implements DiagramService {
       throws BusinessException {
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();
+  //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    if(diagramParam.getAuditTimeEnd()!=null){
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String auditTimeEnd = sdf.format(diagramParam.getAuditTimeEnd());
+      String[] auditTimes = auditTimeEnd.split("-");
+      int dayTime = Integer.valueOf(auditTimes[auditTimes.length-1]);
+      auditTimeEnd = auditTimes[0] + "-" + auditTimes[1] + "-" + (dayTime+1)+"";
+      try {
+        diagramParam.setAuditTimeEnd(DateUtils.getDate("yyyy-MM-dd", auditTimeEnd));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    }
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
@@ -170,6 +199,19 @@ public class DiagramServiceImpl implements DiagramService {
     }
     if(diagramParam.getStatusArray() != null){
       this.handleStatus(diagramParam);
+    }
+  //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    if(diagramParam.getAuditTimeEnd()!=null){
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String auditTimeEnd = sdf.format(diagramParam.getAuditTimeEnd());
+      String[] auditTimes = auditTimeEnd.split("-");
+      int dayTime = Integer.valueOf(auditTimes[auditTimes.length-1]);
+      auditTimeEnd = auditTimes[0] + "-" + auditTimes[1] + "-" + (dayTime+1)+"";
+      try {
+        diagramParam.setAuditTimeEnd(DateUtils.getDate("yyyy-MM-dd", auditTimeEnd));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
     }
     //获得相应图表数据
     List<DiagramListResult> list = new ArrayList<DiagramListResult>();

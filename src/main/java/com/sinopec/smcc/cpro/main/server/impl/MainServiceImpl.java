@@ -161,6 +161,19 @@ public class MainServiceImpl implements MainService{
     if(mainParam.getStatusArray() != null){
       this.handleStatus(mainParam);
     }
+    //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    if(mainParam.getAuditTimeEnd()!=null){
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String auditTimeEnd = sdf.format(mainParam.getAuditTimeEnd());
+      String[] auditTimes = auditTimeEnd.split("-");
+      int dayTime = Integer.valueOf(auditTimes[auditTimes.length-1]);
+      auditTimeEnd = auditTimes[0] + "-" + auditTimes[1] + "-" + (dayTime+1)+"";
+      try {
+        mainParam.setAuditTimeEnd(DateUtils.getDate("yyyy-MM-dd", auditTimeEnd));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    }
     //获得相应列表数据
     List<MainListResult> list = new ArrayList<MainListResult>();
     //权限
@@ -3063,6 +3076,10 @@ public class MainServiceImpl implements MainService{
     if(systemResult == null){
       throw new BusinessException(EnumResult.UNKONW_ERROR);
     }else{
+      if(systemResult.getGradingStatus() != null && systemResult.getGradingStatus() > 2){
+        //不是未定级与预定级，无法导入定级信息。1：未定级，2：预定级
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }
       //开始查询定级信息
       GradingParam gradingParam = new GradingParam();
       gradingParam.setFkSystemId(systemResult.getSystemId());
@@ -3228,19 +3245,29 @@ public class MainServiceImpl implements MainService{
       gradingParam.setCompetentIsExisting(competentIsExisting);
       //主管部门名称
       String competentName = dataList.get(22)[1];
-      gradingParam.setCompetentName(competentName);
+      if(StringUtils.isNotBlank(competentName)){
+        gradingParam.setCompetentName(competentName);
+      }
       //主管审批定级情况
       String strCompetentView = dataList.get(23)[1];
-      Integer competentView = Integer.parseInt(strCompetentView);
-      gradingParam.setCompetentView(competentView);
+      if(StringUtils.isNotBlank(strCompetentView)){
+        Integer competentView = Integer.parseInt(strCompetentView);
+        gradingParam.setCompetentView(competentView);
+      }
       //填写人
       String filler = dataList.get(24)[1];
-      gradingParam.setFiller(filler);
+      if(StringUtils.isNotBlank(filler)){
+        gradingParam.setFiller(filler);
+      }
       //填写时间
       String strFillDate = dataList.get(24)[3];
       Date fillDate;
       try {
-        fillDate = DateUtils.getDate("yyyy-MM-dd HH:mm:ss", strFillDate);
+        if(StringUtils.isNotBlank(strFillDate)){
+          fillDate = DateUtils.getDate("yyyy-MM-dd HH:mm:ss", strFillDate);
+        }else{
+          fillDate = DateUtils.getDate("yyyy-MM-dd HH:mm:ss", "1970-01-01 00:00:00");
+        }
       } catch (ParseException e) {
         e.printStackTrace();
         throw new BusinessException(EnumResult.UNKONW_ERROR);
@@ -3248,7 +3275,7 @@ public class MainServiceImpl implements MainService{
       gradingParam.setFillDate(fillDate);
       
       //准备节点信息
-      if (existGradingId) {
+      /*if (existGradingId) {
         //添加节点状态信息
         NodeParam nodeParam = new NodeParam();
         nodeParam.setSystemId(gradingParam.getFkSystemId());
@@ -3278,9 +3305,14 @@ public class MainServiceImpl implements MainService{
           nodeParam.setNodeId(nodeResult.getNodeId());
           this.nodeServiceImpl.editNodeInfo(nodeParam);
         }
-      }
+      }*/
       //导入数据获取成功，准备保存定级信息
       this.gradingMapper.insertGrading(gradingParam);
+      SystemParam system = new SystemParam();
+      system.setSystemId(gradingParam.getFkSystemId());
+      system.setGradingStatus(2);
+      
+      this.systemServiceImpl.editSystemStatusBySystemId(system);
       gradingId = gradingParam.getGradingId();
       return gradingId;
     }
@@ -3331,6 +3363,19 @@ public class MainServiceImpl implements MainService{
     //处理高级查询状态
     if(mainParam.getStatusArray() != null){
       this.handleStatus(mainParam);
+    }
+  //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    if(mainParam.getAuditTimeEnd()!=null){
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String auditTimeEnd = sdf.format(mainParam.getAuditTimeEnd());
+      String[] auditTimes = auditTimeEnd.split("-");
+      int dayTime = Integer.valueOf(auditTimes[auditTimes.length-1]);
+      auditTimeEnd = auditTimes[0] + "-" + auditTimes[1] + "-" + (dayTime+1)+"";
+      try {
+        mainParam.setAuditTimeEnd(DateUtils.getDate("yyyy-MM-dd", auditTimeEnd));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
     }
     //权限
     JurisdictionDataResult organizationApiResult = 

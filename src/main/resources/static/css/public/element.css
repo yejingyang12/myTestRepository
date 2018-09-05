@@ -11506,9 +11506,9 @@
 }
 
 .el-button:focus, .el-button:hover {
-    color: #409EFF;
-    border-color: #c6e2ff;
-    background-color: #ecf5ff
+    color: #333;
+    border-color: #ededed;
+    background-color: #ededed
 }
 
 .el-button:active {
@@ -11587,14 +11587,14 @@
 }
 
 .el-button--primary {
-    color: #fff;
-    background-color: #409EFF;
+    color: #fff !important;
+    background-color: #409EFF !important;
     border-color: #409EFF
 }
 
 .el-button--primary:focus, .el-button--primary:hover {
-    background: #66b1ff;
-    border-color: #66b1ff;
+    background: #0065ba;
+    border-color: #3d95df;
     color: #fff
 }
 

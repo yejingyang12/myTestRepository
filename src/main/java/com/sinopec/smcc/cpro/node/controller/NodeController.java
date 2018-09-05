@@ -27,7 +27,6 @@ import com.sinopec.smcc.base.result.RetResultUtil;
 import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.NodeService;
-import com.sinopec.smcc.cpro.system.entity.SystemParam;
 
 /**
  * @Title NodeController.java
@@ -117,8 +116,8 @@ public class NodeController {
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   @RequestMapping(value = "/queryChangeInformation", method = RequestMethod.POST)
   public RetResult<NodeResult> queryChangeInformation(
-      @RequestBody SystemParam systemParam) throws BusinessException{
-    NodeResult node = this.nodeServiceImpl.queryChangeInformation(systemParam);
+      @RequestBody NodeParam nodeParam) throws BusinessException{
+    NodeResult node = this.nodeServiceImpl.queryChangeInformation(nodeParam);
     
     return RetResultUtil.ok(node);
   }

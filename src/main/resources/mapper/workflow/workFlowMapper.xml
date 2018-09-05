@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper">
+  <resultMap id="selectAllResultMap" type="com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult">
+    <id column="workFlowId" property="workFlowId" />
+    <result property="businessId" column="businessId" />
+    <result property="businessName" column="businessName" />
+    <result property="checkResult" column="checkResult" />
+    <result property="auditReasons" column="auditReasons" />
+    <result property="createTime" column="createTime" />
+  </resultMap>
+
+  <insert id="insertWorkFlow" parameterType="com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam">
+    INSERT INTO t_cpro_work_flow (
+      pkId,
+      businessId,
+      businessName,
+      auditReasons,
+      checkResult,
+      userId,
+      fkSystemId,
+      nextApprover,
+      createTime
+    )VALUES(
+    <trim suffixOverrides=",">
+      #{workFlowId},
+      <choose>
+    		<when test="businessId != null and businessId != ''">
+		      #{businessId},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="businessName != null and businessName != ''">
+		      #{businessName},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="auditReasons != null and auditReasons != ''">
+		      #{auditReasons},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	<choose>
+    		<when test="checkResult != null">
+		      #{checkResult},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    	 <choose>
+        <when test="userId != null and userId != ''">
+          #{userId},
+        </when>
+        <otherwise>
+          DEFAULT,
+        </otherwise>
+      </choose>
+       <choose>
+        <when test="systemId != null and systemId != ''">
+          #{systemId},
+        </when>
+        <otherwise>
+          DEFAULT,
+        </otherwise>
+      </choose>
+       <choose>
+        <when test="nextApprover != null and nextApprover != ''">
+          #{nextApprover},
+        </when>
+        <otherwise>
+          DEFAULT,
+        </otherwise>
+      </choose>
+    	<choose>
+    		<when test="createTime != null">
+		      #{createTime},
+    		</when>
+    		<otherwise>
+    			DEFAULT,
+    		</otherwise>
+    	</choose>
+    </trim>
+    ) 
+  </insert>
+  
+  <update id="updateWorkFlowByBusinessId" parameterType="com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam">
+    <![CDATA[
+      UPDATE t_cpro_work_flow
+    ]]>
+    <set>
+      <if test="auditReasons != null and auditReasons != ''">
+        <![CDATA[
+         auditReasons = #{auditReasons},
+        ]]>
+      </if>
+     <if test="checkResult != null">
+        <![CDATA[
+         checkResult = #{checkResult},
+        ]]>
+      </if>
+     <if test="nextApprover != null and nextApprover !=''">
+        <![CDATA[
+         nextApprover = #{nextApprover},
+        ]]>
+      </if>
+    </set>
+    <where>
+      <![CDATA[
+         businessId = #{businessId}
+      ]]>
+    </where>
+  </update>
+  
+  <select id="selectWorkFlowByBusinessId" parameterType="com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam" resultMap="selectAllResultMap">
+    <![CDATA[
+      SELECT 
+        pkId,
+	      businessId,
+	      businessName,
+	      checkResult,
+	      auditReasons,
+	      fkSystemIdId,
+	      nextApprover,
+	      userId,
+	      createTime
+	    FROM t_cpro_work_flow
+    ]]>
+    <where>
+      <if test="businessId != null and businessId != ''">
+        <![CDATA[
+          AND businessId = #{businessId,jdbcType=CHAR}
+        ]]>
+      </if>
+      <if test="systemId != null and systemId != ''">
+        <![CDATA[
+          AND systemId = #{systemId,jdbcType=CHAR}
+        ]]>
+      </if>
+    </where>
+    ORDER BY createTime DESC
+    LIMIT 1
+  </select>
+</mapper>

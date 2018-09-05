@@ -28,7 +28,6 @@ import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
 import com.sinopec.smcc.cpro.node.server.NodeService;
-import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
@@ -119,9 +118,7 @@ public class NodeServiceImpl implements NodeService {
     return nodeResult;
   }
   @Override
-  public NodeResult queryChangeInformation(SystemParam systemParam) {
-    NodeParam nodeParam = new NodeParam();
-    nodeParam.setSystemId(systemParam.getSystemId());
+  public NodeResult queryChangeInformation(NodeParam nodeParam) {
     NodeResult nodeResult = this.nodeMapper.queryChangeInformationBySystemId(nodeParam);
     return nodeResult;
   }
