@@ -77,7 +77,6 @@
             data.result=dataList;
             //如果是审核页签，判断是否显示最后的虚假节点
             if(_self.fishboneType == "1"){
-            	_self.whetherQueryNextOperators(_self);
             	if(data.result.data.length%2 == 0){
             		_self.lastNodeShowTop = true;
             		_self.lastNodeShowBottom = false;
@@ -85,13 +84,11 @@
             		_self.lastNodeShowTop = false;
             		_self.lastNodeShowBottom = true;
             	}
+            	_self.queryNextOperators(_self);
             }else{
             	_self.lastNodeShowTop = false;
           		_self.lastNodeShowBottom = false;
             }
-          },
-          whetherQueryNextOperators: function(_self){
-          	_self.lastNodeShow = true;
           },
           //获取下一步操作人信息
           queryNextOperators: function(_self){
@@ -105,7 +102,7 @@
           //获取下一步操作人信息成功
           queryNextOperatorsSuccess: function(_self,responseData){
           	_self.lastNode = responseData.data;
-          	if(_self.lastNode.operation == ""){
+          	if(!_self.lastNode.operation){
           		_self.lastNodeShowTop = false;
           		_self.lastNodeShowBottom = false;
           	}

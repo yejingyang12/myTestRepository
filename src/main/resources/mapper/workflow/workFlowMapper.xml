@@ -128,7 +128,7 @@
 	      businessName,
 	      checkResult,
 	      auditReasons,
-	      fkSystemIdId,
+	      fkSystemId,
 	      nextApprover,
 	      userId,
 	      createTime
@@ -142,7 +142,7 @@
       </if>
       <if test="systemId != null and systemId != ''">
         <![CDATA[
-          AND systemId = #{systemId,jdbcType=CHAR}
+          AND fkSystemId = #{systemId,jdbcType=CHAR}
         ]]>
       </if>
     </where>

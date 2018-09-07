@@ -50,7 +50,8 @@ public class MainListResult {
   private String fkChangeMatter;
   private String changeReason;
   private String changeContent;
-  
+
+  private String sonSystemName;
 
   
   /**
@@ -340,5 +341,11 @@ public class MainListResult {
   }
   public void setExaminationStatus(Integer examinationStatus) {
     this.examinationStatus = examinationStatus;
+  }
+  public String getSonSystemName() {
+    return sonSystemName;
+  }
+  public void setSonSystemName(String sonSystemName) {
+    this.sonSystemName = sonSystemName;
   }
 }

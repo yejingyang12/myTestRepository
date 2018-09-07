@@ -125,7 +125,13 @@
                                     style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
                                     <input class="checkName" type="checkbox" style=" margin: 4px 36%;"></td>
                                 <td>{{index+1}}</td>
- 								                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+ 								                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" v-if="pro.sonSystemName">
+                                  <div v-if="pro.recordStatus != 4">
+                                    <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.sonSystemName}}</a>
+                                  </div>
+                                  <div v-else> <a  style="cursor:pointer;color:#bfbfbf;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.sonSystemName}}</a></div>
+                                </td>
+ 								                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" v-else>
                                   <div v-if="pro.recordStatus != 4">
                                     <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
                                   </div>

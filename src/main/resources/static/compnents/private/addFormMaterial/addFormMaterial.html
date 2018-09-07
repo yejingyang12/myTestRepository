@@ -1,24 +1,6 @@
 
 <div class="inner inner2">
-    <div class="mcAddTian">
-        <p class="clearfix cut">
-            <span class="fl tianMsg">备案</span>
-            <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
-        </p>
-        <el-form action="#" ref="formData" :rules="rules" :model="formData" label-width="300px" class="P-info-page">
-            <ul class="clearfix dataForm">
-                <li class="row">
-                    <div class="col-md-12">
-                        <el-form-item label="1.系统拓扑结构及说明：" prop="topologyDescriptionName" ref="topologyDescriptionName">
-                            <div class="clearfix sysText col-md-12 uploadBox">
-                                <div class="uploadSty">
-                                    <ul class="fileList" id="fileList"></ul>
-                                    <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null&&formData.topologyDescriptionName!=='undefind'" size="small">继续上传</el-button>
-                                    <el-button type="primary" v-else size="small">上传</el-button>
-                                </div>
-                                <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
-                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：doc,docx,xls,xlsx,pdf,zip,rar,sep</p>
-                                <!-- 文件大小弹窗 start -->
+ <!-- 文件大小弹窗 start -->
                                 <el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
 						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
 						        	<div class="ceshi" style="text-align:center;">
@@ -66,6 +48,25 @@
 						  			</div>	
 						        </el-dialog>
 						         <!-- 验证是否是相同文件 end -->
+    <div class="mcAddTian">
+        <p class="clearfix cut">
+            <span class="fl tianMsg">备案</span>
+            <span class="fr tianMeg">带“ <i class="xing">*</i> ”为必填项</span>
+        </p>
+        <el-form action="#" ref="formData" :rules="rules" :model="formData" label-width="300px" class="P-info-page">
+            <ul class="clearfix dataForm">
+                <li class="row">
+                    <div class="col-md-12">
+                        <el-form-item label="1.系统拓扑结构及说明：" prop="topologyDescriptionName" ref="topologyDescriptionName">
+                            <div class="clearfix sysText col-md-12 uploadBox">
+                                <div class="uploadSty">
+                                    <ul class="fileList" id="fileList"></ul>
+                                    <el-button type="primary" v-if="formData.topologyDescriptionName!==''&&formData.topologyDescriptionName!==null&&formData.topologyDescriptionName!=='undefind'" size="small">继续上传</el-button>
+                                    <el-button type="primary" v-else size="small">上传</el-button>
+                                </div>
+                                <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
+                                <p> 附件总量最大 <span class="xing">30M</span>，上传格式为：doc,docx,xls,xlsx,pdf,zip,rar,sep</p>
+                               
                             </div>
                         </el-form-item>
                     </div>

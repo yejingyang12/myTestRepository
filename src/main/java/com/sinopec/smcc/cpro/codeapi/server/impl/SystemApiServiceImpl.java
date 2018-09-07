@@ -55,7 +55,7 @@ public class SystemApiServiceImpl implements SystemApiService{
         systemInfoList = JSON.parseObject(systemApiClient.querySystemList(
             systemApiParam.getCompanyCode()), SystemInfoList.class);
 //        systemInfoList = JSON.parseObject(systemApiClient.querySystemList("10010037"), SystemInfoList.class);
-//        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+//    	  systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
       }else{
         systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
       }

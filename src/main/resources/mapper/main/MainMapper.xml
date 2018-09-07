@@ -42,7 +42,8 @@
         records.recordDate AS recordCreateTime,
         records.recordCode,
         IF(system.recordStatus=4,1,2)AS rcordSort,
-        records.acceptCompany
+        records.acceptCompany,
+        system1.systemName AS sonSystemName
       FROM
         t_cpro_system AS system
       LEFT JOIN t_cpro_system AS system1 
@@ -507,6 +508,7 @@
       <choose>
       	<when test="systemType == 1">
       		<![CDATA[
+      			AND system.gradingStatus = 3
       			AND system.fkSystemType < 3
 						AND (
 							(
