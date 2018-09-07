@@ -184,6 +184,7 @@
         ON sce.fkSystemId = system.pkId
       LEFT JOIN t_cpro_company company 
         ON company.companyCode = system.fkCompanyCode
+        AND company.deleteStatus = 1
       LEFT JOIN t_cpro_check AS examine 
         ON system.pkId = examine.fkSystemId
       LEFT JOIN t_cpro_evaluation AS evaluation 
@@ -660,6 +661,7 @@
         ON sce.fkSystemId = system.pkId
       LEFT JOIN t_cpro_company company 
         ON company.companyCode = system.fkCompanyCode
+        AND company.deleteStatus = 1
       LEFT JOIN t_cpro_check AS examine 
         ON system.pkId = examine.fkSystemId
       LEFT JOIN t_cpro_evaluation AS evaluation 
@@ -1113,6 +1115,11 @@
 	<select id="selectSystemTrendByYear" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam" resultMap="DiagramListResult">
 		SELECT 
 			MONTH( system.createTime ) AS mouthCount,
+			MONTH (score.rankTime) AS mouthCountGrad,
+			MONTH (node.createTime) AS mouthCountExamine,
+			MONTH (records.recordDate) AS mouthCountRecords,
+			MONTH (evaluation.examTime) AS mouthCountExam,
+			MONTH (selfInspection.inspectionDate) AS mouthCountSelf,
 			SUM( IF ( system.gradingStatus = 3, 1, 0 ) ) AS readyGradCount,
 			SUM( IF ( system.examineStatus = 3, 1, 0 ) ) AS checkGradCount,
 			SUM( IF ( system.recordStatus = 3, 1, 0 ) ) AS recordsCount,
@@ -1606,7 +1613,12 @@
         </foreach>								
       </if>
     </where>
-		GROUP BY MONTH(system.createTime)
+		GROUP BY MONTH(system.createTime),
+							MONTH (score.rankTime),
+							MONTH (node.createTime),
+							MONTH (records.recordDate),
+							MONTH (evaluation.examTime),
+							MONTH (selfInspection.inspectionDate)
 		<!-- HAVING readyGradCount!=0 AND checkGradCount!=0 AND recordsCount!=0 AND evaluationCount!=0 AND selfInspectionCount!=0 -->
 	</select>
 </mapper>

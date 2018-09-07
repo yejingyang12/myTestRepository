@@ -63,8 +63,6 @@ import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.mapper.MainMapper;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.main.utils.ConvertFieldUtil;
-import com.sinopec.smcc.cpro.node.entity.NodeParam;
-import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.impl.NodeServiceImpl;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
@@ -3086,11 +3084,9 @@ public class MainServiceImpl implements MainService{
       GradingListResult gradingResult = this.gradingMapper.selectDetailsGrading(gradingParam);
       //没有定级信息则添加，有则修改
       gradingParam.setCreateTime(new Date());
-      boolean existGradingId = true;
       if(gradingResult == null){
         gradingParam.setGradingId(Utils.getUuidFor32());
         gradingParam.setCreateUserName(userName);
-        existGradingId = false;
       }else{
         gradingParam.setGradingId(gradingResult.getGradingId());
       }

@@ -273,7 +273,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
               workFlowResult.getCheckResult().toString(), auditReasons);
           //添加下一步审批人
           if(StringUtils.isNotBlank(userIds)){
-            workFlowParam.setAuditReasons(userIds);
+            workFlowParam.setNextApprover(userIds);
           }
           workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
           return true;

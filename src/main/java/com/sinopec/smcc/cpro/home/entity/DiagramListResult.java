@@ -37,6 +37,11 @@ public class DiagramListResult {
   
   private String month;
   private Integer mouthCount;
+  private Integer mouthCountGrad;
+  private Integer mouthCountExamine;
+  private Integer mouthCountRecords;
+  private Integer mouthCountExam;
+  private Integer mouthCountSelf;
   
   
   /**
@@ -50,6 +55,36 @@ public class DiagramListResult {
    */
   public void setMouthCount(Integer mouthCount) {
     this.mouthCount = mouthCount;
+  }
+  public Integer getMouthCountGrad() {
+    return mouthCountGrad;
+  }
+  public void setMouthCountGrad(Integer mouthCountGrad) {
+    this.mouthCountGrad = mouthCountGrad;
+  }
+  public Integer getMouthCountExamine() {
+    return mouthCountExamine;
+  }
+  public void setMouthCountExamine(Integer mouthCountExamine) {
+    this.mouthCountExamine = mouthCountExamine;
+  }
+  public Integer getMouthCountRecords() {
+    return mouthCountRecords;
+  }
+  public void setMouthCountRecords(Integer mouthCountRecords) {
+    this.mouthCountRecords = mouthCountRecords;
+  }
+  public Integer getMouthCountExam() {
+    return mouthCountExam;
+  }
+  public void setMouthCountExam(Integer mouthCountExam) {
+    this.mouthCountExam = mouthCountExam;
+  }
+  public Integer getMouthCountSelf() {
+    return mouthCountSelf;
+  }
+  public void setMouthCountSelf(Integer mouthCountSelf) {
+    this.mouthCountSelf = mouthCountSelf;
   }
   /**
    * @return the month

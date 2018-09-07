@@ -85,8 +85,6 @@ import com.sinopec.smcc.cpro.grading.server.GradingService;
 import com.sinopec.smcc.cpro.grading.server.SystemMaterialsService;
 import com.sinopec.smcc.cpro.main.constant.MainConstant;
 import com.sinopec.smcc.cpro.main.server.MainService;
-import com.sinopec.smcc.cpro.node.entity.NodeParam;
-import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.mapper.NodeMapper;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
@@ -124,7 +122,6 @@ import com.sinopec.smcc.cpro.system.util.SystemInfoUtil;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
-import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title SystemServiceImpl.java
@@ -520,7 +517,6 @@ public class SystemServiceImpl implements SystemService {
   if(systemParam.getFkSystemIsMerge()==1){
     //查询子表信息
     List<SystemSubResult> subSystemList = this.systemMapper.selectEditBySub(systemParam);
-    int sum = 0;//计数器
     //修改原子系统的信息
     for (SystemSubResult systemSubParam : subSystemList) {
     	

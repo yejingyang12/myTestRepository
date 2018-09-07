@@ -12,7 +12,9 @@ package com.sinopec.smcc.cpro.home.server.impl;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -244,7 +246,91 @@ public class DiagramServiceImpl implements DiagramService {
         break;
       }
     }
-    return list;
+    List<DiagramListResult> list2 = new ArrayList<DiagramListResult>();
+    if(list == null || list.size() == 0){
+      list2 = list;
+    }else{
+      //如果有数据，对数据进行组装
+      Map<Integer, Integer> monthMap = new HashMap<Integer, Integer>();
+      Map<Integer, String> monthNameMap = new HashMap<Integer, String>();
+      monthNameMap.put(1, "一月");
+      monthNameMap.put(2, "二月");
+      monthNameMap.put(3, "三月");
+      monthNameMap.put(4, "四月");
+      monthNameMap.put(5, "五月");
+      monthNameMap.put(6, "六月");
+      monthNameMap.put(7, "七月");
+      monthNameMap.put(8, "八月");
+      monthNameMap.put(9, "九月");
+      monthNameMap.put(10, "十月");
+      monthNameMap.put(11, "十一月");
+      monthNameMap.put(12, "十二月");
+      //获取有数据的月份
+      for (DiagramListResult diagramListResult : list) {
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCount(), diagramListResult.getMouthCount());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountExam(), diagramListResult.getMouthCountExam());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountExamine(), diagramListResult.getMouthCountExamine());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountGrad(), diagramListResult.getMouthCountGrad());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountRecords(), diagramListResult.getMouthCountRecords());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountSelf(), diagramListResult.getMouthCountSelf());
+        }
+      }
+      //将有数据的月份的数据生成出来(1至12月)
+      for (int i = 1; i < 13; i++) {
+        //如果有该月份,生成对象，合并统计数据
+        if(monthMap.get(i) != null){
+          DiagramListResult diagramListResultTemp = new DiagramListResult();
+          diagramListResultTemp.setMonth(monthNameMap.get(i));
+          diagramListResultTemp.setMouthCount(i);
+          Integer readyGradCount = 0;
+          Integer checkGradCount = 0;
+          Integer recordsCount = 0;
+          Integer evaluationCount = 0;
+          Integer selfInspectionCount = 0;
+          //循环查询获取的集合，将本月的同性质数据加起来
+          for (DiagramListResult diagramListResult : list) {
+            //已定级数
+            if(diagramListResult.getMouthCountGrad() != null && diagramListResult.getMouthCountGrad() == i){
+              readyGradCount += diagramListResult.getReadyGradCount();
+            }
+            //审核定级数
+            if(diagramListResult.getMouthCountExamine() != null && diagramListResult.getMouthCountExamine() == i){
+              checkGradCount += diagramListResult.getCheckGradCount();
+            }
+            //备案数
+            if(diagramListResult.getMouthCountRecords() != null && diagramListResult.getMouthCountRecords() == i){
+              recordsCount += diagramListResult.getRecordsCount();
+            }
+            //测评数
+            if(diagramListResult.getMouthCountExam() != null && diagramListResult.getMouthCountExam() == i){
+              evaluationCount += diagramListResult.getEvaluationCount();
+            }
+            //自查数
+            if(diagramListResult.getMouthCountSelf() != null && diagramListResult.getMouthCountSelf() == i){
+              selfInspectionCount += diagramListResult.getSelfInspectionCount();
+            }
+          }
+          diagramListResultTemp.setReadyGradCount(readyGradCount);
+          diagramListResultTemp.setCheckGradCount(checkGradCount);
+          diagramListResultTemp.setRecordsCount(recordsCount);
+          diagramListResultTemp.setEvaluationCount(evaluationCount);
+          diagramListResultTemp.setSelfInspectionCount(selfInspectionCount);
+          list2.add(diagramListResultTemp);
+        }
+      }
+    }
+    return list2;
   }
 
   /**
