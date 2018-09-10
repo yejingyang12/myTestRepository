@@ -8,6 +8,7 @@
 */
 package com.sinopec.smcc.cpro.file.server.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
-import com.sinopec.smcc.common.mongodb.MongoService;
+import com.sinopec.smcc.common.objstor.ObjectStorageService;
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
@@ -49,7 +50,7 @@ public class FileServiceImpl implements FileService{
   @Autowired
   private AttachMapper attachMapper;
   @Autowired
-  private MongoService mongoServiceImpl;
+  private ObjectStorageService objectStorageServiceImpl;
 
   @Override
   public AttachResult uploadFile(HttpServletRequest request, 
@@ -87,7 +88,7 @@ public class FileServiceImpl implements FileService{
     String fileId;
     try {
       InputStream inputStream = new FileInputStream(file);  
-      fileId = this.mongoServiceImpl.uploadFile(inputStream, attachParam.getAttachName());
+      fileId = this.objectStorageServiceImpl.uploadFile(inputStream, attachParam.getAttachName());
     } catch (Exception e) {
       throw new BusinessException(EnumResult.UNKONW_ERROR);
     }
@@ -132,7 +133,7 @@ public class FileServiceImpl implements FileService{
       }
       
       try {
-        this.mongoServiceImpl.deleteByObjectId(mongoFileId);
+        this.objectStorageServiceImpl.deleteByObjectId(mongoFileId);
       } catch (Exception e) {
         throw new BusinessException(EnumResult.UNKONW_ERROR);
       }
@@ -163,16 +164,34 @@ public class FileServiceImpl implements FileService{
       }
     }
     
-    if (attachParam.getFileId()!=null) {
+    if (attachParam.getFileId() != null) {
       AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+      String fileName = attachResult.getAttachName();
       //获得文件扩展名
       String strExtensionName = attachResult.getAttachName().substring(
           attachResult.getAttachName().lastIndexOf("."));
       String filePath = FileConstant.TEMPORARY_FILE_PATH+Utils.getUuidFor32()+strExtensionName;
       try {
-        this.mongoServiceImpl.downloadFile(attachResult.getMongoFileId(), filePath);
-      } catch (Exception e1) {
-        throw new BusinessException(EnumResult.UNKONW_ERROR);
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        try{
+          byteArrayOutputStream = new ByteArrayOutputStream();          
+          this.objectStorageServiceImpl.downloadFile(attachResult.getMongoFileId(), 
+              byteArrayOutputStream);
+          fileName = new String(attachResult.getAttachName().getBytes("GB2312"), "ISO_8859_1");
+          response.setCharacterEncoding("utf-8");
+          response.setContentType("multipart/form-data");
+          // 设置文件名
+          response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
+          response.getOutputStream().write(byteArrayOutputStream.toByteArray());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }finally {
+          if (byteArrayOutputStream != null){
+            byteArrayOutputStream.close();
+          }
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
       }
       try {
         FileOperateUtil.download(request, response, filePath, 

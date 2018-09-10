@@ -50,7 +50,7 @@
           return data;
         },
         created: function() {
-        	if(fishboneType == 'auditGrad'){
+        	if(fishboneType == 'auditGrad' || fishboneType == 'auditDetails'){
         		this.fishboneType = "1";
         		this.queryNodeList(this);
         	}else{

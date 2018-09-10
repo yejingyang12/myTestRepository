@@ -114,7 +114,11 @@ var data1={
 			    		/*_self.$alert('<strong>导入失败！</strong>', '提示', {
 			          dangerouslyUseHTMLString: true
 			        });*/
-			    		_self.dialogVisiblesdd=true;
+			    		_self.dialogVisiblesdd = true;
+			    		
+			    		setTimeout(function(){
+			    			_self.dialogVisiblesdd = false;
+			    		},3000);
 			    	}
 			    	_self.getSystemListInfoMethod(_self,{});
 		    		_self.closes1();
@@ -247,7 +251,11 @@ var data1={
             window.location.href = originUrl+encodeURI("/page/changeSystemInformationPage?systemId="+id);
           },
           newSystemInfoMethod:function(){
-            window.location.href = originUrl+encodeURI("/page/newSystemInformationPage?companyCode="+this.companyCode);
+          	if(this.nameList.length == 1){
+          		window.location.href = originUrl+encodeURI("/page/newSystemInformationPage?companyCode="+this.companyCode);
+          	}else{
+          		window.location.href = originUrl+encodeURI("/page/newSystemInformationPage");
+          	}
           },
           //清空
           clearHeadle:function(){

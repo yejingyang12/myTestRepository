@@ -263,13 +263,33 @@
                    'application/json;charset=UTF-8',
                    function(_self,result){
               		 if(result.data != null && result.data !=''){
-              			 _self.option.series[0].data=[];
+	            		 	 _self.option.series[0].data[0].value = 0;
+	            			 _self.option.series[0].data[1].value = 0;
+	            			 _self.option.series[0].data[2].value = 0;
+	            			 _self.option.series[0].data[3].value = 0;
+	            			 _self.option.series[0].data[4].value = 0;
   	    	        	 for(var i = 0; i < result.data.length; i++){
   	    	        		 //赋值
-  	    	        		 _self.option.series[0].data.push({value:'', name:''})
+  	    	        		 if(result.data[i].spRanklevelName == '一级'){
+	  	    	        		 _self.option.series[0].data[0].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '二级'){
+	  	    	        		 _self.option.series[0].data[1].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '三级'){
+	  	    	        		 _self.option.series[0].data[2].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '四级'){
+	  	    	        		 _self.option.series[0].data[3].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 if(result.data[i].spRanklevelName == '五级'){
+	  	    	        		 _self.option.series[0].data[4].value = result.data[i].spRanklevelCount;
+	  	    	        	 }
+	  	    	        	 
+  	    	        		 /*_self.option.series[0].data.push({value:'', name:''})
   	    	        		 _self.option.series[0].data[i].value = result.data[i].spRanklevelCount;
   	    	        		 _self.option.series[0].data[i].name = result.data[i].spRanklevelName;	
-  	    	        		 _self.option.legend.data[i] = result.data[i].spRanklevelName;
+  	    	        		 _self.option.legend.data[i] = result.data[i].spRanklevelName;*/
   	    	        	 }
   	    	        	 //重绘
   	    	        	  $('#container-pie').css('display','block');

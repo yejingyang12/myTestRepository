@@ -266,7 +266,7 @@
                                                                                                          互联网应用:
                             </div>
                               <div class="col-md-5">
-            						<el-select clearable  v-model="appIsInternet">
+            						<el-select clearable  v-model="appIsInternet" style="width:190px;height:34px">
             							<el-option   v-for="item in appIsInternets"
       													:key="item.value"
       													:label="item.label"
@@ -1101,5 +1101,8 @@
     </div>
     <div class="startBox" id="startBoxImport" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>导入成功！</P>
+    </div>
+    <div class="startBox" id="startBoxImportFailed" style="display:none;">
+      <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>导入失败！</P>
     </div>
 </div>

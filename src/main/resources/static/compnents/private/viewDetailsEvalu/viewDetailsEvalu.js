@@ -173,7 +173,15 @@
                             break;
                           case 6://整改时间
                             data.result.data.list.sort(function (a, b) {
-                            	return (new Date(a.rectificationDate.split('-').join('/')).getTime()-new Date(b.rectificationDate.split('-').join('/')).getTime()) * flagOne
+                            	var x = a.rectificationDate;
+                            	var y = b.rectificationDate;
+                            	if(!x){
+                            		x = "1970-01-01";
+                            	}
+                            	if(!y){
+                            		y = "1970-01-01";
+                            	}
+                            	return (new Date(x.split('-').join('/')).getTime()-new Date(y.split('-').join('/')).getTime()) * flagOne
                             });
                             break;
                         }

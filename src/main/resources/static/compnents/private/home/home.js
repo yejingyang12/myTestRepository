@@ -614,12 +614,18 @@
 */          },
 					queryChangeSuccess:function(_self,responseData){
 						if(responseData.data.changeContent==''&&responseData.data.changeReason==''){
-							//显示弹窗
+							//第一次申请变更，显示空弹窗
 							this.showDialog();   
 						}else{
-							var companyCode = $("#changeMattersCompanyCode").val();
-							var companyId = $("#changeMattersCompanyId").val();
-							window.location.href=originUrl+encodeURI("/page/applicationChangePage?systemId="+ responseData.data.systemId +"&fkCompanyCode="+companyCode+"&companyId="+companyId);
+							//第二次点进申请变更弹窗
+							_self.ruleForm.region = responseData.data.fkChangeMatter;//变更事项
+							_self.ruleForm.desc = responseData.data.changeReason;//变更原因
+							_self.ruleForm.desc1 = responseData.data.changeContent;//变更内容
+							this.showDialog();
+							
+//							var companyCode = $("#changeMattersCompanyCode").val();
+//							var companyId = $("#changeMattersCompanyId").val();
+//							window.location.href=originUrl+encodeURI("/page/applicationChangePage?systemId="+ responseData.data.systemId +"&fkCompanyCode="+companyCode+"&companyId="+companyId);
 						}
 					},
 					// 获取变更事项
@@ -1032,15 +1038,17 @@
 							importData.append('file', e.target.files[0]);
 							importData.append('type', 'test');
 							ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
-							//$("#startBoxImporting").css('display', 'block');
-	          	$("#startBoxImporting").show().delay(2000).fadeOut();
+							$("#startBoxImporting").css('display', 'block');
+	          	//$("#startBoxImporting").show().delay(2000).fadeOut();
           	}
           },
           //导入成功
           importGardingSuccessMethod: function(_self,responseData){
-          	//$("#startBoxImporting").css('display', 'none');
+          	$("#startBoxImporting").css('display', 'none');
           	if(responseData.data){
           		$("#startBoxImport").show().delay(2000).fadeOut();
+          	}else{
+          		$("#startBoxImportFailed").show().delay(2000).fadeOut();
           	}
           },
           

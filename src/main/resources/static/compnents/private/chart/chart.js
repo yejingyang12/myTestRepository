@@ -1,11 +1,27 @@
 (function () {
-  var data={
-      
+  var data={ 
+  		rankBeginTime: null,
+  		rankEndTime: null,
     pickerOptions1: {
       disabledDate:function(time) {
-        return time.getTime() > Date.now();
+      	if(data.rankBeginTime){
+      		var timeBegin = data.rankBeginTime.getTime() - 8.64e7;
+      		if(data.rankEndTime){
+      			var timeEnd = data.rankEndTime.getTime();
+      			return time.getTime() <= timeBegin || time.getTime() >= timeEnd;
+      		}else{
+      			return time.getTime() <= timeBegin;
+      		}
+      	}else{
+      		if(data.rankEndTime){
+      			var timeEnd = data.rankEndTime.getTime();
+      			return time.getTime() >= timeEnd;
+      		}else{
+      			return false;
+      		}
+      	}
       },
-      shortcuts: [{
+     /* shortcuts: [{
         text: '今天',
         onClick:function(picker) {
           picker.$emit('pick', new Date());
@@ -24,8 +40,30 @@
           date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
           picker.$emit('pick', date);
         }
-      }]
+      }]*/
     },
+    recordBeginTime: null,
+    recordEndTime: null,
+  pickerOptions2: {
+    disabledDate:function(time) {
+    	if(data.recordBeginTime){
+    		var timeBegin = data.recordBeginTime.getTime() - 8.64e7;
+    		if(data.recordEndTime){
+    			var timeEnd = data.recordEndTime.getTime();
+    			return time.getTime() <= timeBegin || time.getTime() >= timeEnd;
+    		}else{
+    			return time.getTime() <= timeBegin;
+    		}
+    	}else{
+    		if(data.recordEndTime){
+    			var timeEnd = data.recordEndTime.getTime();
+    			return time.getTime() >= timeEnd;
+    		}else{
+    			return false;
+    		}
+    	}
+    },
+  },
     value1: '',//饼状图开始时间；
     value2: '',
     options:'',
@@ -334,9 +372,41 @@
         	this.getStatisticsType(1);
       	  bus.$emit("pie",this.value1,this.value3);
       	  bus.$emit("bar",this.gradingShapeBegin,this.gradingShapeEnd,this.gradingShapeType);
-      	  
+      	  var _self = this;
       	  bus.$on("queryDataParams",function(data){
-						this.queryDataparmars = JSON.parse(data);
+      	  	_self.queryDataparmars = JSON.parse(data);
+						if(_self.queryDataparmars.rankTimeBegin){
+							_self.value1 = new Date(_self.queryDataparmars.rankTimeBegin);
+							_self.gradingShapeBegin = new Date(_self.queryDataparmars.rankTimeBegin);
+							_self.rankBeginTime = new Date(_self.queryDataparmars.rankTimeBegin);
+						}else{
+							_self.value1 = "";
+							_self.gradingShapeBegin = "";
+							_self.rankBeginTime = "";
+						}
+						if(_self.queryDataparmars.rankTimeEnd){
+							_self.value3 = new Date(_self.queryDataparmars.rankTimeEnd);
+							_self.gradingShapeEnd = new Date(_self.queryDataparmars.rankTimeEnd);
+							_self.rankEndTime = new Date(_self.queryDataparmars.rankTimeEnd);
+						}else{
+							_self.value3 = "";
+							_self.gradingShapeEnd = "";
+							_self.rankEndTime = "";
+						}
+						if(_self.queryDataparmars.recordDateBegin){
+							_self.recordDateBegin = new Date(_self.queryDataparmars.recordDateBegin);
+							_self.recordBeginTime = new Date(_self.queryDataparmars.recordDateBegin);
+						}else{
+							_self.recordDateBegin = "";
+							_self.recordBeginTime = "";
+						}
+						if(_self.queryDataparmars.recordDateEnd){
+							_self.recordDateEnd = new Date(_self.queryDataparmars.recordDateEnd);
+							_self.recordEndTime = new Date(_self.queryDataparmars.recordDateEnd);
+						}else{
+							_self.recordDateEnd = "";
+							_self.recordEndTime = "";
+						}
 					});
         }
       })
