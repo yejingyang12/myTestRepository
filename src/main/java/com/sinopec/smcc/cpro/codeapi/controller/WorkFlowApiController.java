@@ -86,8 +86,8 @@ public class WorkFlowApiController {
    * @throws BusinessException
    */
   @ResponseBody
-  @RequestMapping(value="/stayHandleCallback", method = RequestMethod.POST)
-  public ResultApi stayHandleCallback(HttpServletRequest request,String businessId, 
+  @RequestMapping(value="/stayHleCallback", method = RequestMethod.POST)
+  public ResultApi stayHleCallback(HttpServletRequest request,String businessId, 
       String activityId, String activityName,List<String> taskIdList,  List<String> executorIdList, 
       String categoryCode, Integer result, String message, List<AppMetasData> metasList, 
       List<AppVariableData> variableList,String appId) throws BusinessException{
