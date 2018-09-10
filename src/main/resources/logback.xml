@@ -64,12 +64,6 @@
     </layout>
   </appender>
 
-  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-    <layout name="StandardFormat" class="ch.qos.logback.classic.PatternLayout">
-      <pattern>${consoleLayoutPattern}</pattern>
-    </layout>
-  </appender>
-
   <logger name="com.sinopec" level="INFO">
     <appender-ref ref="INFO_FILE" />
     <appender-ref ref="DEBUG_FILE"/>
