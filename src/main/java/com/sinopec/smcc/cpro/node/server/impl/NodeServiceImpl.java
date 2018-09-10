@@ -158,13 +158,13 @@ public class NodeServiceImpl implements NodeService {
       if(checkResult != null){
         switch (checkResult) {
         case 0:
-          nodeResult.setOperation("待企业审核");
+          nodeResult.setOperation("待企业业务审核");
           break;
         case 1:
-          nodeResult.setOperation("待总部审核");
+          nodeResult.setOperation("待总部安全审核");
           break;
         case 2:
-          nodeResult.setOperation("待总部审核");
+          nodeResult.setOperation("待总部安全审核");
           break;
         case 3:
           nodeResult.setOperation("");

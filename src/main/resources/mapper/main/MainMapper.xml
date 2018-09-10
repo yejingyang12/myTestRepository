@@ -580,7 +580,7 @@
         </if>
         <if test="gradingShapeType == 3 ">
           <![CDATA[
-            AND system.evaluationStatus = 2
+            AND system.evaluationStatus = 3
           ]]>
         </if>
         <if test="gradingShapeType == 4 ">
@@ -590,7 +590,7 @@
         </if>
         <if test="gradingShapeType == 5 ">
           <![CDATA[
-            AND system.examinationStatus = 2
+            AND system.examinationStatus = 3
           ]]>
         </if>
         <if test="jurBind=='总部'">
