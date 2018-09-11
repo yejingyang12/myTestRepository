@@ -478,7 +478,7 @@ public class CheckServiceImpl implements CheckService {
       
       //修改系统状态为
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("4");
       mainParam.setSystemId(checkParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -549,7 +549,7 @@ public class CheckServiceImpl implements CheckService {
       
       //修改系统状态
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("4");
       mainParam.setSystemId(checkParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -599,7 +599,7 @@ public class CheckServiceImpl implements CheckService {
       
       //修改系统状态
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("2");
       mainParam.setSystemId(checkParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -622,7 +622,7 @@ public class CheckServiceImpl implements CheckService {
       
       //修改系统状态
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("4");
       mainParam.setSystemId(checkParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);
@@ -693,7 +693,7 @@ public class CheckServiceImpl implements CheckService {
       
       //修改系统状态
       MainParam mainParam = new MainParam();
-      mainParam.setGradingStatus("2");
+      mainParam.setGradingStatus("3");
       mainParam.setExamineStatus("4");
       mainParam.setSystemId(checkParam.getFkSystemId());
       mainServiceImpl.editSystemStatusBySystemId(mainParam);

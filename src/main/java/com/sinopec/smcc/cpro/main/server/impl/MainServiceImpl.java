@@ -248,7 +248,7 @@ public class MainServiceImpl implements MainService{
     sheetBean.setColumnWidthMap(columnWidthMap);
     sheetBean.setDefaultRowHeight((short) 20);
     sheetBean.setDefaultColumnWidth((short) 15);
-    sheetBean.setSheetName("Sheet1");
+    sheetBean.setSheetName("系统信息");
     List<List<CellBean>> dataList = new ArrayList<List<CellBean>>();
     List<CellBean> cellList = new ArrayList<CellBean>();
     
@@ -488,7 +488,7 @@ public class MainServiceImpl implements MainService{
     sheetBean2.setColumnWidthMap(columnWidthMap2);
     sheetBean2.setDefaultRowHeight((short) 20);
     sheetBean2.setDefaultColumnWidth((short) 15);
-    sheetBean2.setSheetName("Sheet2");
+    sheetBean2.setSheetName("单位信息");
     List<List<CellBean>> dataList2 = new ArrayList<List<CellBean>>();
     List<CellBean> cellList2 = new ArrayList<CellBean>();
     
@@ -540,7 +540,7 @@ public class MainServiceImpl implements MainService{
       List<SystemResult> systemResult2 = this.systemMapper.selectSystemBySystemParam(systemParam);
       int toCheckSystemCount = 0;
       if(systemResult2 != null){
-        successSystemCount = systemResult2.size();
+        toCheckSystemCount = systemResult2.size();
       }
       cellList2.add(ExcelUtils.getExportCelBean(toCheckSystemCount));
       //备案系统数
@@ -620,7 +620,8 @@ public class MainServiceImpl implements MainService{
   @Override
   public AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException {
-    String filePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/gradingTemp.xlsm";
+    //String filePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/gradingTemp.xlsm";
+    String filePath = "src/main/resources/file/template/excel/exportExcelModel.xlsm";
     String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds()+".xlsm";
     String toFilePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/"+expName;
     File fromFile = new File(filePath);

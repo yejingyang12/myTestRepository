@@ -4,7 +4,7 @@
 var  data={
 		 pickerOptions0: {
 	          disabledDate:function(time) {
-	            return time.getTime() < Date.now() - 8.64e7;
+	            //return time.getTime() < Date.now() - 8.64e7;
 	          }
 	        },
 	        flag:false,
@@ -225,7 +225,7 @@ var  data={
              { required: true, message: '至少创建两条子系统', trigger: 'change' }
           ],
           standardizedCode:[  // 标准化代码
-              { required: false, message: '请输入标准化代码', trigger: 'change' }
+              { required: true, message: '请输入标准化代码', trigger: 'change' }
           ],
           gradeRecordSysName:[  // 等保备案系统名称
               { required: false, message: '请输入等保备案系统名称', trigger: 'blur' },
@@ -620,7 +620,8 @@ var  data={
                       this.formData.addSystemSub=[];
                       this.promptCount=false;
                 			this.formData.checkCount = '1';
-//                			this.formData.systemName = "";
+                			this.formData.systemName = "";
+                			this.formData.standardizedCode = "";
                 			this.systemNameSon1 = [];
                 			this.systemNameSon12= [];
                 			Vue.set(this.systemNameSon12, 0, false);
@@ -1493,13 +1494,21 @@ var  data={
                     querySystemSessionSuccess:function(_self,responseData){
                     	if(responseData.data!=null){
                     		_self.substitute = responseData;
-                    		if(type=="create"){
-                    	  	this.change = false;
-                        }else if(type="change"){
-                        	this.change = true;
-                        }
                     		_self.flag = true;
                     	}
+                    },
+                    getMenuJurisdictionApi:function(_self){
+                    	ajaxMethod(_self, 'post',
+                          'jurisdiction/queryMenuJurisdictionApi', false,
+                          JSON.stringify(''), 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getMenuJurisdictionApiSuccess);
+                    },
+                    getMenuJurisdictionApiSuccess:function(_self,responseData){
+                    //总部新建
+                    	_self.headquarters = getJurisdictionMethod(responseData,'0102010101');
+                    	//企业新建
+                    	_self.enterprise = getJurisdictionMethod(responseData,'0102010108');
                     },
                 },
                 created: function() {
@@ -1530,31 +1539,29 @@ var  data={
                   this.getParentCompanyMethod(this);
                   //获取系统主管处室
 //                  this.getSystemExecutiveApi(this);
-
-									//从session中获取数据
-                  this.getSystemSession(this);
+                  this.getMenuJurisdictionApi(this);
                 },
                 mounted: function() {
                 	//功能权限
-                  $.ajax({
-                    type: "get",
-                    url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
-                    async: true,
-                    data: "",
-                    dataType: "json",
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                    	//总部新建
-                    	data.headquarters = getJurisdictionMethod(response,'0102010101');
-                    	//企业新建
-                    	data.enterprise = getJurisdictionMethod(response,'0102010108');
-                    },
-                    error: function(err) {
-                    }
-                  });
-                	
+//                  $.ajax({
+//                    type: "get",
+//                    url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+//                    async: false,
+//                    data: "",
+//                    dataType: "json",
+//                    cache: false,
+//                    processData: false,
+//                    contentType: false,
+//                    success: function(response) {
+//                    	//总部新建
+//                    	data.headquarters = getJurisdictionMethod(response,'0102010101');
+//                    	//企业新建
+//                    	data.enterprise = getJurisdictionMethod(response,'0102010108');
+//                    },
+//                    error: function(err) {
+//                    }
+//                  });
+                
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;
                   //让开始内容与开始的formData一致
@@ -1571,6 +1578,8 @@ var  data={
                     this.formData.fkComCode = "";
                     this.beginContent.fkComCode = "";
                   }
+                //从session中获取数据
+                  this.getSystemSession(this);
                   if(!this.flag){
                   	if(systemId!=''&&systemId!=null){
                   	  if(type=="create"){
@@ -1582,13 +1591,18 @@ var  data={
                   		this.getGetSystemMethod(this,systemId);
                   	}
                   }else{
-                		var arr = this.substitute.data.systemKeyProducts
+                  	if(type=="create"){
+                  		this.change = false;
+                    }else if(type="change"){
+                    	this.change = true;
+                    }
+                		var arr = this.substitute.data.systemKeyProducts;
                 		for(var i=0;i<arr.length;i++){
                 			if(arr[i].fkNationalIsProducts != null && arr[i].fkNationalIsProducts != '' && arr[i].fkNationalIsProducts != 'undefind'){
                 				arr[i].fkNationalIsProducts = arr[i].fkNationalIsProducts+"";
                 			}
                 		}
-                		var arr2 = this.substitute.data.systemUseServices
+                		var arr2 = this.substitute.data.systemUseServices;
                 		for(var i=0;i<arr2.length;i++){
                 			if(arr2[i].fkResponsibleType != null && arr2[i].fkResponsibleType != '' && arr2[i].fkResponsibleType != 'undefind'){
                 				arr2[i].fkResponsibleType = parseInt(arr2[i].fkResponsibleType);
@@ -1596,6 +1610,22 @@ var  data={
                 		}
                   	this.getGetSystemSuccessMethod(this,this.substitute);
                   	//_self.formData = responseData.data;
+                  	setTimeout(function(){
+                  		if(_self.formData.fkInfoSysTypeCon!=''){
+                  			var array = $('#baseMes1').find('div').map(function (index, ele) {
+                  				if(_self.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
+                  					return ele;
+                  				}else if(_self.formData.fkInfoSysTypeCon==2&&ele.innerHTML=='统建'){
+                  					return ele;
+                  				}else if(_self.formData.fkInfoSysTypeCon==3&&ele.innerHTML=='总部系统'){
+                  					return ele;
+                  				}else{
+                  					return "";
+                  				}
+                  			}).get();
+                  			$(array).addClass('btnColor')
+                  		}
+                  	},1);
                   }
                   
                   var _self=this;
