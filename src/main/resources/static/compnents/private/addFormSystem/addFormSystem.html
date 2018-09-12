@@ -385,7 +385,7 @@
                          <div class="col-lg-6 col-sm-3">
                             <el-form-item label="上级系统名称：" prop="fatherSystemName" class="P-addsystem">
                               <el-select clearable v-model="formData.fatherSystemName" filterable placeholder="请选择上级系统名称" >
-                                  <el-option v-for="item in sysName" :key="item.systemName" :label="item.systemName" :value="item.systemName" ></el-option>
+                                  <el-option v-for="item in allFatherSystemName" :key="item.systemName" :label="item.systemName" :value="item.systemName" ></el-option>
                               </el-select>
                             </el-form-item>
                         </div>

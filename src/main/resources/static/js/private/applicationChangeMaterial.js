@@ -43,10 +43,10 @@ window.onload = function () {
           saveBtnSuccessMethod : function(_self, responseData) {
           	bus.$emit('deleteConfirm','');
             data.formData.systemMaterialsId = responseData.data;
-            $(".save").show().delay(2000).fadeOut();
+            $(".save").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
             //清空session
             ajaxMethod(_self, 'post',
                 'main/removeSession', true,
@@ -65,10 +65,10 @@ window.onload = function () {
           	bus.$emit('deleteConfirm','');
             data.formData.systemMaterialsId = responseData.data;
             //$(".startBox").show().delay(2000).fadeOut();
-            $(".submit").show().delay(2000).fadeOut();
+            $(".submit").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
           //清空session
             ajaxMethod(_self, 'post',
                 'main/removeSession', true,
@@ -91,10 +91,10 @@ window.onload = function () {
               data.formData.systemMaterialsId = responseData.data;
               window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
             }else{
-              $(".startBox").show().delay(2000).fadeOut();
+              $(".startBox").show().delay(1000).fadeOut();
               window.setTimeout(function () {
                 window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
-              }, 2300);
+              }, 1300);
             }
           },
           queryCompanySuccess :function(_self,responseData){

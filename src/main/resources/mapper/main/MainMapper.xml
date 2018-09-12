@@ -109,7 +109,7 @@
         ON system.examinationStatus = examinationSystemCode.systemCode
         AND examinationSystemCode.fkCodeType = 25
       LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
-        AND node.operation = '创建'
+        AND node.operation = '创建' AND node.operationResult = '已提交'
     ]]>
     <where>
       <if test="companyList != null">
@@ -779,7 +779,7 @@
       ON system.fkInfoSysTypeCon = systemCodeInfoSysTypeConstruction.systemCode 
       AND systemCodeInfoSysTypeConstruction.fkCodeType = 7
     LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
-      AND node.operation = '创建'
+      AND node.operation = '创建' AND node.operationResult = '已提交'
     <where>
       	score.deleteStatus = 1 
 		AND system.deleteStatus = 1 

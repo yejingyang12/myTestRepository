@@ -82,10 +82,10 @@ window.onload = function () {
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
             data.formData.gradingId = responseData.data;
-            $(".save").show().delay(2000).fadeOut();
+            $(".save").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
           },
           //提交
           submitBtn:function(formName) {
@@ -94,10 +94,10 @@ window.onload = function () {
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
-            $(".submit").show().delay(2000).fadeOut();
+            $(".submit").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
           },
           //上一页
           preBtn:function(formName) {
@@ -110,11 +110,11 @@ window.onload = function () {
               data.check = false;
               window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId+"&companyId="+companyId+"&companyCode="+companyCode;
             }else{
-              $(".startBox").show().delay(2000).fadeOut();
+              $(".startBox").show().delay(1000).fadeOut();
               window.setTimeout(function () {
                 data.formData.gradingId = responseData.data;
                 window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId+"&companyId="+companyId+"&companyCode="+companyCode;
-              }, 2300);
+              }, 1300);
             }
           },
           //下一页

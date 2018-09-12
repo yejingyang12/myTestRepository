@@ -39,10 +39,10 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
-          	$(".save").show().delay(2000).fadeOut();
+          	$(".save").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
             //清除session
             ajaxMethod(_self, 'post',
                 'main/removeSession', true,
@@ -61,10 +61,10 @@ window.onload = function () {
           // 提交成功
           submitBtnSuccessMethod : function(_self, responseData) {
             //$(".startBox").show().delay(2000).fadeOut();
-          	$(".submit").show().delay(2000).fadeOut();
+          	$(".submit").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
             //清除session
             ajaxMethod(_self, 'post',
                 'main/removeSession', true,
@@ -85,9 +85,9 @@ window.onload = function () {
             }else{
               //$(".startBox").show().delay(2000).fadeOut();
             	if(_self.formData.saveType == "1"){
-            		$(".save").show().delay(2000).fadeOut();
+            		$(".save").show().delay(1000).fadeOut();
             	}else if(_self.formData.saveType == "2"){
-            		$(".submit").show().delay(2000).fadeOut();
+            		$(".submit").show().delay(1000).fadeOut();
             	}
 //              window.setTimeout(function () {
                 window.location.href = originUrl+"page/applicatuibChangSystemPage?systemId="+systemId+"&fkCompanyCode="+companyCode;

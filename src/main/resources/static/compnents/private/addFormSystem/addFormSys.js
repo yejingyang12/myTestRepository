@@ -11,6 +11,7 @@ var  data={
 	        substitute:"",
 	        ceshi2:false,
 	        dialogVisibled:false,
+	        allFatherSystemName:"",
 		jurisdiction: false,
 		nUsePro:[true,true,true,true,true,true],
 		btnId:"",
@@ -823,7 +824,17 @@ var  data={
                         window.location.href = originUrl+encodeURI("addCompanyGradPage?systemId="+responseData.data);
                       }
                     },
-
+                    //获取全部系统
+                    getAllSystemInfoMethod : function(_self){
+                    	ajaxMethod(_self, 'post',
+                          'systemapi/querySystemApi', false,
+                          '{"companyCode":"'+null+'"}', 'json',
+                          'application/json;charset=UTF-8',
+                          _self.getAllSystemInfoSuccessMethod);
+                    },
+                    getAllSystemInfoSuccessMethod:function(_self,responseData){
+                    	_self.allFatherSystemName = responseData.data;
+                    },
                     // 获取系统下拉列表
                     getSystemInfoMethod : function(_self) {
                       ajaxMethod(_self, 'post',
@@ -1519,6 +1530,8 @@ var  data={
                 			this.companyNameDisabled = false;
                 		}
                 	}
+                	//获取全部系统信息
+                	this.getAllSystemInfoMethod(this);
                   // 获取系统信息
                   this.getSystemInfoMethod(this);
                   // 获取业务承受业务类型

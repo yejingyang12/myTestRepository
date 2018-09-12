@@ -17,11 +17,11 @@ window.onload = function () {
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
           	bus.$emit('deleteConfirm','');
-          	$(".save").show().delay(2000).fadeOut();
+          	$(".save").show().delay(1000).fadeOut();
             //$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
           },
           //提交
           submitBtn:function(formName) {
@@ -33,10 +33,10 @@ window.onload = function () {
           submitBtnSuccessMethod : function(_self, responseData) {
           	bus.$emit('deleteConfirm','');
             //$(".startBox").show().delay(2000).fadeOut();
-          	$(".submit").show().delay(2000).fadeOut();
+          	$(".submit").show().delay(1000).fadeOut();
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
-            }, 2300);
+            }, 1300);
           },
           //上一页
           preBtn:function(formName) {
@@ -52,9 +52,9 @@ window.onload = function () {
               window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
             }else{
 	            	if(_self.formData.saveType == "1"){
-	            		$(".save").show().delay(2000).fadeOut();
+	            		$(".save").show().delay(1000).fadeOut();
 	            	}else if(_self.formData.saveType == "2"){
-	            		$(".submit").show().delay(2000).fadeOut();
+	            		$(".submit").show().delay(1000).fadeOut();
 	            	}
 //              window.setTimeout(function () {
                 window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;

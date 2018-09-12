@@ -219,7 +219,7 @@
         ON system.examinationStatus = examinationSystemCode.systemCode
         AND examinationSystemCode.fkCodeType = 25
       LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
-        AND node.operation = '创建'
+        AND node.operation = '创建' AND node.operationResult = '已提交'
 		]]>
 		<where>
 		  system.deleteStatus = 1 
@@ -696,7 +696,7 @@
         ON system.examinationStatus = examinationSystemCode.systemCode
         AND examinationSystemCode.fkCodeType = 25
 	    LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
-	      AND node.operation = '创建'
+	      AND node.operation = '创建' AND node.operationResult = '已提交'
 		]]>
 		<where>
 		  system.deleteStatus = 1 
@@ -1211,7 +1211,7 @@
 			LEFT JOIN t_cpro_system_code AS examinationSystemCode ON system.examinationStatus = examinationSystemCode.systemCode 
 			AND examinationSystemCode.fkCodeType = 25 
     	LEFT JOIN t_cpro_node node ON system.pkId = node.fkSystemId
-      AND node.operation = '创建'
+      AND node.operation = '创建' AND node.operationResult = '已提交'
 		<where>
 		  system.deleteStatus = 1 
 		  AND system.createTime!=''

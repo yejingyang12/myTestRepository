@@ -284,8 +284,42 @@ public class MainServiceImpl implements MainService{
     dataList.add(cellList);
 
     List<MainListResult> mainListResultList = new ArrayList<>();
+    MainParam mainParam = new MainParam();
     try {
-      mainListResultList = this.mainMapper.selectAllByMainParam(new MainParam());
+      //权限
+      JurisdictionDataResult organizationApiResult = 
+          this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+      if(organizationApiResult==null){
+        
+      }else{
+        
+        //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+        switch (organizationApiResult.getResultType()) {
+        
+        case "0":
+          break;
+        case "1":
+          // 获得响应列表数据
+          mainListResultList = 
+              this.mainMapper.selectAllByMainParam(mainParam);
+          break;
+        case "2":
+          mainParam.setPlateList(organizationApiResult.getNameList());
+          mainListResultList =  
+              this.mainMapper.selectAllByMainParam(mainParam);
+          break;
+        case "3":
+          mainParam.setCompanyList(organizationApiResult.getCodeList());
+          mainListResultList =  
+              this.mainMapper.selectAllByMainParam(mainParam);
+          break;
+
+        default:
+          break;
+        }
+      }
+      
+      //mainListResultList = this.mainMapper.selectAllByMainParam(mainParam);
     } catch (Exception e) {
       e.printStackTrace();
     }
