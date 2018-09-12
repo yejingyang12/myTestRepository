@@ -1,6 +1,7 @@
 <!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
 <configuration scan="true" scanPeriod="10 seconds">
-  <include resource="org/springframework/boot/logging/logback/base.xml" />
+  <!-- base.xml在spring-boot-1.5.10.RELEASE.jar中，base.xml中开启了Console-->
+  <!--<include resource="org/springframework/boot/logging/logback/base.xml" />-->
   <jmxConfigurator />
   <property name="LOG_PATH" value="${LOG_PATH:-${LOG_TEMP:-${java.io.tmpdir:-/tmp}}}" />
   <property name="PROJECT_NAME" value="CPRO"/>
