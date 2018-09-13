@@ -164,11 +164,11 @@
                                         <th>状态</th>
                                         <th>操作</th>
                                     </tr>
-                                    <tr v-for="(pro,index) in tableData">
+                                    <tr class="c" v-for="(pro,index) in tableData">
                                         <td>{{index+1}}</td>
                                         <!--实例名称-->
                                         <td>
-                                        <a style="cursor: pointer;" @click="auditDetails(pro.fkSystemId,pro.companyId)"> {{pro.instanceName}}</a>
+                                        <a class="zouni" style="cursor: pointer;color:#333" @click="auditDetails(pro.fkSystemId,pro.companyId)"> {{pro.instanceName}}</a>
                                         </td>
                                         <!--建设类型-->
                                         <td v-if="pro.fkInfoSysTypeCon == '1'">自建</td>

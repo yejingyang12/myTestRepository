@@ -125,8 +125,21 @@ public class MainParam {
   private String examinStatusType;
   
   private String jurBind;
+  private List<String> systemIdList;//系统ID集合
   
   
+  /**
+   * @return the systemIdList
+   */
+  public List<String> getSystemIdList() {
+    return systemIdList;
+  }
+  /**
+   * @param systemIdList the systemIdList to set
+   */
+  public void setSystemIdList(List<String> systemIdList) {
+    this.systemIdList = systemIdList;
+  }
   public String getJurBind() {
 		return jurBind;
 	}

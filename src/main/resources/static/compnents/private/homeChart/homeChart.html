@@ -1,0 +1,784 @@
+<div class="container h-padding" style="margin:0 15px;font-size: 14px;font-style: normal">
+<!-- 文件大小弹窗 start -->
+<el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
+    <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+    <div class="ceshi" style="text-align:center;">
+        <p style="float:none">附件总量最大 30M</p>
+    </div>
+    <div slot="footer" class="dialog-footer" style="text-align"center>
+        <el-button size="mini" @click="dialogVisible = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="dialogVisible = false">确 定</el-button>
+    </div>
+</el-dialog>
+<!-- 文件大小弹窗 end -->
+<!-- 文件限制弹窗 start -->
+<el-dialog lock-scroll  :close-on-click-modal="ceshi1"   title="信息提示" :visible.sync="dialogVisibles" width="30%">
+    <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+    <div class="ceshi" style="text-align:center;">
+        <p style="float:none">不接受此类型文件</p>
+    </div>
+    <div slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="dialogVisibles = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="dialogVisibles = false">确 定</el-button>
+    </div>
+</el-dialog>
+<!-- 文件限制弹窗 end  -->
+<!-- 填写信息弹窗 start -->
+<el-dialog lock-scroll  :close-on-click-modal="ceshi2"   title="信息提示" :visible.sync="dialogVisiblesd" width="30%">
+    <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
+    <div class="ceshi" style="text-align:center;">
+        <p style="float:none">请填写信息</p>
+    </div>
+    <div slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="dialogVisiblesd = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="dialogVisiblesd = false">确 定</el-button>
+    </div>
+</el-dialog>
+<!-- 填写弹窗信息 end  -->
+<div class="h-bread-le">
+            <span class="float-le" style="height: 44px;">
+                <smcc-breadcrumb></smcc-breadcrumb>
+            </span>
+    <span class="float-ri" style="color:#333;" onclick="">共享资料库</span>
+            <span @click="helpCenter" openHelp="open" class="float-ri" style="color:#333;cursor:pointer;">帮助中心
+                <i id="arrowHelp" class="el-icon-arrow-down" style="vertical-align: middle;margin-left:-4px;"></i>
+                <i style="font-size: 12px; text-align: center; color: #c5c5c5;margin: 0 5px;">|</i>
+           </span>
+</div>
+<!--小导航、帮助中心-->
+<div class="h-bread" id="h-bread">
+    <div class="h-bottom-line" id="h-help-bottom1"  ></div>
+    <!--help-->
+    <div class="h-help-container" id="h-help-center">
+        <div class="all">
+            <!--单位系统填写-->
+            <div class="box1">
+                <div class="bg-item1" id="bg-item1" @click="help(this,0)"  @mouseenter="mouseenter(true,0)" @mouseleave="mouseenter(false,0)">
+
+                    <div class="content">
+                        <div class="img-1"></div>
+                        <h4>单位系统信息填写</h4>
+                    </div>
+                    <div class="text">
+                        <h3>单位系统信息填写</h3>
+                        <p>用户在做等级保护申请时,第一步需先将企业单位相关信息(即备案表1)填写完整,再将系统相关信息(即备案表2)填写完整,未填写完整的信息可能导致无法继续申请或审核未通过哦。</p>
+                    </div>
+                </div>
+                <div class="arrow1"></div>
+            </div>
+            <!--申请定级-->
+            <div class="box2">
+                <div class="bg-item2" id="bg-item2" @click="help(this,1)"  @mouseenter="mouseenter(true,1)" @mouseleave="mouseenter(false,1)">
+                    <div class="content">
+                        <div class="img-1"></div>
+                        <h4>申请定级</h4>
+                    </div>
+                    <div class="text">
+                        <h3>申请定级</h3>
+                        <p>填写系统基本信息及定级信息，上传定级报告、评审意见等材料。申请过程若发现错漏资料可点击“申请变更”修改申请信息并重新提交定级申请哦。“申请变更”需填写变更事项及原由。</p>
+                    </div>
+                </div>
+                <div class="arrow2">
+                </div>
+            </div>
+            <!--审查、自查保护-->
+            <div class="box3 bg-item3" @click="help(this,4)" id="bg-item3"  @mouseenter="mouseenter(true,4)" @mouseleave="mouseenter(false,4)">
+                <div class="box3-item">
+                    <div class="box3-item-content" id="box3-shenhe">
+                        <div class="box3-item-img-1"></div>
+                        <h4>审核</h4>
+                    </div>
+                    <div class="box3-text">
+                        <h3>审核</h3>
+                        <p>企业分管信息领导对本企业上报数据进行审批。总部等保管理员对企业填报数据的规范性进行核对 </p></div>
+                </div>
+                <div class="box3-item">
+                    <div class="box3-item-content" id="box3-zicha">
+                        <div class="box3-item-img-2"></div>
+                        <h4>自查</h4>
+                    </div>
+                    <div class="box3-text">
+                        <h3>自查</h3>
+                        <p>
+                            国家规定信息系统运营、使用单位及其主管部门应当定期对信息系统安全状况、安全保护制度及措施的落实情况进行自查。第三级信息系统应当每年至少进行一次自查，请在此处填报系统安全自查相关数据。 </p>
+                    </div>
+                </div>
+                <div class="box3-item">
+                    <div class="box3-item-content" id="box3-ceping">
+                        <div class="box3-item-img-3"></div>
+                        <h4>测评</h4>
+                    </div>
+                    <div class="box3-text">
+                        <h3>测评</h3>
+                        <p>
+                            国家规定信息系统建设完成后，运营、使用单位或者其主管部门应当选择有资质的测评机构，依据《信息系统安全等级保护测评要求》等技术标准，定期对信息系统处填报系统等保测评相关数据。 </p>
+                    </div>
+                </div>
+                <div class="box3-item">
+                    <div class="box3-item-content" id="box3-beian">
+                        <div class="box3-item-img-4"></div>
+                        <h4>备案</h4>
+                    </div>
+                    <div class="box3-text">
+                        <h3>备案</h3>
+                        <p>二级及以上系统在公安机关完成备案后，在此处填报备案相关信息并上传备案证明。 </p>
+                    </div>
+                </div>
+            </div>
+            <!--撤销备案-->
+            <div class="box4" @click="help(this,2)"  >
+                <div class="arrow4"></div>
+                <div class="bg-item4" id="bg-item4" @mouseenter="mouseenter(true,2)" @mouseleave="mouseenter(false,2)">
+                    <div class="content">
+                        <div class="img-1"></div>
+                        <h4>撤销备案</h4>
+                    </div>
+                    <div class="text">
+                        <h3>撤销备案</h3>
+                        <p>已备案的申请可在备案页面中，通过点击“撤销备案”按钮去撤销申请。撤销申请时，需要添加撤销原因。撤销备案也需要通过审核哦！</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--查询、定级备案测评列表-->
+<div class="container h-padding" style="margin:0">
+<!--查询-->
+<div class="container container_hide" style="margin:0;background:#fff;">
+    <div class="row" style="margin-top: 15px;">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <!--系统名称-->
+                        <div class="col-md-6">
+                            <div class="row" >
+                                <div class="col-md-3 h-system" style="margin-right:0;margin-left:0px;width: 82px; min-width: 75px;" >
+                                    系统名称:
+                                </div>
+                                <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:5;position:relative;">
+                                    <template >
+                                        <el-input clearable type="text" placeholder="请输入系统名称" id="selectSystemName" v-model="value8" style="width:190px;height:34px" ></el-input>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                        <!--所属单位-->
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-3 h-line" style="min-width:76px;width:77px;padding-right:0; ">
+                                    所属单位:
+                                </div>
+                                <div class="col-md-8 h-col-md-9 pos-relative">
+                                    <template>
+                                        <el-input clearable type="text" placeholder="请输入所属单位" id="selectCompanyCode" v-model="value9" style="width:190px;height:34px" ></el-input>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row" style="margin-right:0">
+                        <!-- 互联网应用 start -->
+                        <div class="col-md-3 h-line" style="min-width:76px;width:90px;padding-right:0; ">
+                            互联网应用:
+                        </div>
+                        <div class="col-md-5">
+                            <el-select clearable  v-model="appIsInternet">
+                                <el-option   v-for="item in appIsInternets"
+                                             :key="item.value"
+                                             :label="item.label"
+                                             :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </div>
+                        <!-- 互联网应用 end -->
+                        <!--查询 高级查询 清空 按钮-->
+                        <div style="float: right" class=" btn-group btn-group-sm" role="group" aria-label="...">
+                            <button @click="search(1)" type="button" class="btn btn-default" style="width:70px;margin-right:5px;">
+                                查询
+                            </button>
+                            <div class="btn-group" style="margin-left: 10">
+                                <button type="button" class="hoverBlue btn h-btn-info dropdown-toggle downh"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false" @click="searchclick">
+                                    高级查询
+                                    <i class="el-icon-arrow-down"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
+                                </button>
+                            </div>
+                            <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;" @click="empty()">
+                                清空
+                            </button>
+                        </div>
+                        <!--查询 高级查询 清空 按钮end-->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 h-col-md-9 deleteFalse" style="margin-bottom:10px">
+        <div class="row" style="margin-right:0">
+            <!--申请时间-->
+            <div class="col-md-6 h-clear-time" style="padding-right:0px;width:53%;">
+                <div class="col-md-8 h-padding" style="padding-right:6px;">
+                    <div class="row" style="margin: 0">
+                        <div class="col-md-3 applyTime" style="width:66px;line-height: 34px;min-width: 61px; max-width:69px;line-height: 34px">
+                            提报时间:
+                        </div>
+                        <div class="float-le timeInput chartstarttime" style="padding: 0;width:55%;float:left;">
+                            <template>
+                                <div class="block">
+                                    <el-date-picker
+                                            v-model="value2"
+                                            type="date"
+                                            placeholder="选择日期" id="applyTime">
+                                    </el-date-picker>
+                                </div>
+                            </template>
+                        </div>
+                        <div style="width: 0px;display: inline-block;margin:0px;line-height: 34px;max-width: 10px;float:left;">
+                            到
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 input-box" style="float:right;">
+                    <div class="row">
+                        <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                            <template>
+                                <div class="block">
+                                    <el-date-picker
+                                            v-model="value1"
+                                            type="date"
+                                            placeholder="选择日期" id="applytimeend">
+                                    </el-date-picker>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--申请时间end-->
+        </div>
+    </div>
+</div>
+
+<!--高级查询-->
+<div class="container" style="margin:0;background:#f9f9f9;">
+<div id="h-height-search"  style="display: none;background:#f9f9f9;margin-top:10px">
+<div class="row" style="margin-top:0">
+    <div class="col-md-12">
+        <div class="row" style="margin-left:0">
+            <!--受理备案单位-->
+            <div class="col-md-3" style="padding: 0;width: 23.5%;">
+                <div class="row">
+                    <div class="col-md-3 h-system text-right" style="min-width:104px;margin-right:0;margin-left:0; width: 107px;">
+                        受理备案单位:
+                    </div>
+                    <div class="col-md-8 h-col-md-9 pos-relative"  >
+                        <template>
+                            <el-input clearable type="text" id="acceptancecompanyName" v-model="value12" placeholder="请输入受理备案单位" style="width:95%;"></el-input>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <!--备案时间-->
+            <div class="col-md-3 h-col-md-9 deleteFalse h-clear-time" style="width: 27.5%;">
+                <div class="row" style="margin-right:0;margin-left: 0px;">
+                    <div class="col-md-7 h-padding" >
+                        <div class="row" style="margin: 0">
+                            <div class="col-md-3 applyTime" style=" width: 66px;  line-height: 34px; min-width: 61px; max-width: 69px;">
+                                备案时间:
+                            </div>
+                            <div class="float-le timeInput chartstarttime" style="padding: 0;width:62%; margin-right: 2%;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value3"
+                                                type="date"
+                                                placeholder="选择日期" id="recordDateBegin">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                            <div style="width: 0px;display: inline-block;margin: 1px;line-height: 34px;max-width: 10px;">
+                                到
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 input-box" style="float: right;">
+                        <div class="row">
+                            <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value4"
+                                                type="date"
+                                                placeholder="选择日期" id="recordDateEnd">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--定级时间-->
+            <div class="col-md-3 h-col-md-9   deleteFalse h-clear-time" style="width: 27.5%;">
+                <div class="row" style="margin-right:0;margin-left: 0px;">
+                    <div class="col-md-7 h-padding" >
+                        <div class="row" style="margin: 0">
+                            <div class="col-md-3 applyTime" style="width: 66px;line-height: 34px;  min-width: 61px; max-width: 69px;">
+                                定级时间:
+                            </div>
+                            <div class="float-le timeInput chartstarttime" style="padding: 0;width:55%;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value7"
+                                                type="date"
+                                                placeholder="选择日期" id="rankTimeBegin">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                            <div style="width: 0px;  display: inline-block;  margin: 1px; line-height: 34px;  max-width: 10px;">
+                                到
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 input-box" style="float: right;">
+                        <div class="row">
+                            <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value13"
+                                                type="date"
+                                                placeholder="选择日期" id="rankTimeEnd">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--状态-->
+            <div class="col-md-3 float-ri" style="width:21.5%;">
+                <div class="row">
+                    <div class="col-md-3 h-line" style="width:51px; min-width:48px;padding-right:0;">
+                        状态:
+                    </div>
+                    <div class="col-md-8 h-col-md-9 pos-relative" style="width: 79%; padding-right: 0;">
+                        <template>
+                            <el-select v-model="value21" multiple filterable placeholder="请选择" @remove-tag="deleteStatus"  class="b" >
+                                <el-option class="c"
+                                           v-for="item in hStatus"
+                                           :key="item.value"
+                                           :label="item.label"
+                                           :value="item.value">
+                                    <span class="a" style="float: left"><el-checkbox v-model="item.status">{{item.label}}</el-checkbox></span>
+                                </el-option>
+                            </el-select>
+
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top: 15px">
+    <div class="col-md-12">
+        <div class="row" style="margin-left:0">
+            <!--测评单位 -->
+            <div class="col-md-3" style="padding: 0;width: 23.5%;">
+                <div class="row">
+                    <div class="col-md-3 h-system text-right" style="min-width:104px;margin-right:0;margin-left:0; width: 107px;">
+                        测评单位:
+                    </div>
+                    <div class="col-md-8 h-col-md-9 pos-relative"  >
+                        <template>
+                            <el-input clearable type="text"  v-model="value10" id="evaluationCompanyName" placeholder="请输入测评单位" style="width:95%;" ></el-input>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <!--测评时间：-->
+            <div class="col-md-3 h-col-md-9 deleteFalse h-clear-time" style="width: 27.5%;">
+                <div class="row" style="margin-right:0;margin-left: 0px;">
+                    <div class="col-md-7 h-padding" >
+                        <div class="row" style="margin: 0">
+                            <div class="col-md-3 applyTime" style=" width: 66px;  line-height: 34px; min-width: 61px; max-width: 69px;">
+                                测评时间:
+                            </div>
+                            <div class="float-le timeInput chartstarttime" style="padding: 0;width:62%; margin-right: 2%;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value17"
+                                                type="date"
+                                                placeholder="选择日期" id="examTimeBegin">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                            <div style="width: 0px;display: inline-block;margin: 1px;line-height: 34px;max-width: 10px;">
+                                到
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 input-box" style="float: right;">
+                        <div class="row">
+                            <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value18"
+                                                type="date"
+                                                placeholder="选择日期" id="examTimeEnd">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--自查时间-->
+            <div class="col-md-3 h-col-md-9 deleteFalse h-clear-time" style="width: 27.5%;">
+                <div class="row" style="margin-right:0;margin-left: 0px;">
+                    <div class="col-md-7 h-padding" >
+                        <div class="row" style="margin: 0">
+                            <div class="col-md-3 applyTime" style="width: 66px;line-height: 34px;  min-width: 61px; max-width: 69px;">
+                                自查时间:
+                            </div>
+                            <div class="float-le timeInput chartstarttime" style="padding: 0;width:62%; margin-right: 2%;">
+                                <template>
+                                    <div class="block">
+                                        <el-date-picker
+                                                v-model="value15"
+                                                type="date"
+                                                placeholder="选择日期" id="inspectionDateBegin">
+                                        </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                            <div style="width: 0px;  display: inline-block;  margin: 1px; line-height: 34px;  max-width: 10px;">
+                                到
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 input-box" style="float: right;">
+                        <div class="row">
+                            <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                <template>
+                                    <div class="block">
+                                        <!--                                               <span class="demonstration">默认</span>
+                                         -->                                              <el-date-picker
+                                            v-model="value16"
+                                            type="date"
+                                            placeholder="选择日期" id="inspectionDateEnd">
+                                    </el-date-picker>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--地区-->
+            <div class="col-md-3 float-ri" style="width:21.5%;">
+                <div class="row">
+                    <div class="col-md-3 h-line" style="width:51px; min-width:48px;padding-right:0;">
+                        地区:
+                    </div>
+                    <div class="col-md-8 h-col-md-9 pos-relative" id="q" style="width: 79%; padding-right: 0;">
+                        <template>
+                            <!--地区-->
+                            <el-select v-model="value22" multiple filterable placeholder="请选择" @remove-tag="deleteTag" class="b" >
+                                <el-option class="c"
+                                           v-for="item in msgProvince"
+                                           :key="item.systemCode"
+                                           :label="item.codeName"
+                                           :value="item.systemCode">
+                                    <span class="a" style="float: left"><el-checkbox v-model = "item.showflag">{{item.codeName}}</el-checkbox></span>
+                                </el-option>
+                            </el-select>
+                        </template>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- 所属板块 -->
+<div class="row" style="margin-top: 15px">
+    <label class="col-md-1 control-label text-right"  style="min-width:104px;margin-right:0;margin-left:0; width: 107px;padding:0;">
+        所属板块:
+    </label>
+    <el-checkbox-group v-model="checkTest">
+        <el-checkbox v-for="item in msgPlate" v-if="item.codeName!='其它'" :label="item.codeName" :key="item.codeName">{{item.codeName}}</el-checkbox>
+    </el-checkbox-group>
+</div>
+
+<!-- 等保级别 -->
+<div class="row" style="margin-top:0px">
+    <label class="col-md-1 control-label text-right " style="min-width:104px;margin-right:0;margin-left:4px; width: 107px;padding:0;">
+        等保级别:
+    </label>
+    <el-checkbox-group v-model="systemLevel">
+        <el-checkbox v-for="item in msgLevel" :label="item.systemCode" :key="item.systemCode">{{item.codeName}}</el-checkbox>
+    </el-checkbox-group>
+</div>
+</div>
+</div>
+<br>
+<!--系统定级备案测评列表-->
+<!--<div class="h-bottom-line  h-bottom-position"></div>-->
+<div class="container h-table-border" style="background:#fff;padding: 15px">
+<div style="height: 50px;line-height: 50px;margin-top: -15px">
+    <i class="h-list-line" style="vertical-align:middle;"></i>
+    系统定级备案测评列表
+                <span style="float: right;">
+                    <!--<img src="../../static/images/home/s01ztyichexiao.png" alt="">-->
+                    <slot name="s01ztyichexiao"></slot>
+                    已撤销
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                    <!--<img src="../../static/images/home/s01ztyiwancheng.png" alt="">-->
+                    <slot name="s01ztyiwancheng"></slot>
+                    已完成
+                </span>
+                <span style="float: right;margin-right: 20px;">
+                    <!--<img src="../../static/images/home/s01ztjinxingzhong.png" alt="">-->
+
+                    <slot name="s01ztjinxingzhong"></slot>
+                    预定级</span>
+                <span style="float: right;margin-right: 20px;">
+                    <!--<img src="../../static/images/home/s01ztweijinxing.png" alt="">-->
+                     <slot name="s01ztweijinxing"></slot>
+                    未进行</span>
+</div>
+<div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
+<p class="h-p" style="margin: 15px 0;">
+
+</p>
+<div class="row" style="margin:0">
+    <div class="col-md-12">
+        <div class="row table-responsive">
+            <table id="h-list-show" class="table table-bordered table-striped">
+                <tr class="tr-row rowOne">
+                    <th class="firstChecked" v-show="checkBox== 'true' "
+                        style="min-width:34px;display:block;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
+                        <input class="checkName frist" type="checkbox" style=" margin: 4px 36%;width:13px;"></th>
+                    <th style="min-width:47px">序号</th>
+                    <th>系统名称
+                        <slot name="paixujiantou"></slot>
+                    </th>
+                    <th>所属单位
+                        <slot name="paixujiantou2"></slot>
+                    </th>
+                    <th>建设类型
+                        <slot name="paixujiantou4"></slot>
+                    </th>
+                    <th>等保级别
+                        <slot name="paixujiantou5"></slot>
+                    </th>
+                    <th style="max-width:75px;min-width:60px;">是否为互联网应用
+                        <slot name="paixujiantou6"></slot>
+                    </th>
+                    <th>定级状态</th>
+                    <th>备案状态</th>
+                    <th>测评状态</th>
+                    <th>自查状态</th>
+                    <th style="width:5%;">专家评审意见</th>
+                    <th>定级报告</th>
+                    <th>测评报告</th>
+                    <th>自查报告</th>
+                    <th style="white-space: nowrap;width:7%;">备案表下载</th>
+                    <th>操作</th>
+                </tr>
+                <tr class="tr-row" v-for="(pro,index) in result" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
+                    data-td="https://codeload.github.com/douban/douban-client/legacy.zip/master">
+                    <td class="firstChecked" v-show="checkBox== 'true' "
+                        style="min-width:34px;display:block;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
+                        <input class="checkName" type="checkbox" style="margin:4px 36%;width:13px;"></td>
+                    <td>{{index+1}}</td>
+                    <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">
+                        <div v-if="pro.recordStatus != 4">
+                            <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
+                        </div>
+                        <div v-else> <a  style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a></div>
+                    </td>
+                    <td>{{pro.companyName}}</td>
+                    <!-- <td>{{pro.plateType}}</td> -->
+                    <td>{{pro.infoSysTypeConstruction}}</td>
+                    <td>
+                        <div v-if="pro.fkSpRanklevel==='301'">
+                            一级
+                        </div>
+                        <div v-if="pro.fkSpRanklevel==='302'">
+                            二级
+                        </div>
+                        <div v-if="pro.fkSpRanklevel==='303'">
+                            三级
+                        </div>
+                        <div v-if="pro.fkSpRanklevel==='304'">
+                            四级
+                        </div>
+                        <div v-if="pro.fkSpRanklevel==='305'">
+                            五级
+                        </div>
+                    </td>
+                    <td style=" vertical-align: middle;">
+                        <div v-if="pro.appIsInternet===1">
+                            是
+                        </div>
+                        <div v-if="pro.appIsInternet===2">
+                            否
+                        </div>
+                    </td>
+                    <!-- &lt;!&ndash;定级状态 1&#45;&#45;进行中；2&#45;&#45;&ndash;&gt; -->
+                    <td v-if="pro.gradingStatus===1" class="h-moren h-weijinxing" title="未进行"></td>
+                    <td v-if="pro.gradingStatus===2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                    <td v-if="pro.gradingStatus===3" class="h-moren h-wancheng" title="已完成"></td>
+                    <td v-if="pro.gradingStatus===4" class="h-moren h-chexiao" title="已撤销"></td>
+                    <!-- &lt;!&ndash;审核状态&ndash;&gt; -->
+                    <!--  <td v-if="pro.examineStatus==1" class="h-moren h-weijinxing" title="未进行"></td>
+                     <td v-if="pro.examineStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                     <td v-if="pro.examineStatus==3" class="h-moren h-wancheng"  title="已完成"></td>
+                     <td v-if="pro.examineStatus==4" class="h-moren h-examine"></td>
+                     <td v-if="pro.examineStatus==5" class="h-moren h-chexiao" title="撤销"></td> -->
+                    <!-- &lt;!&ndash;备案状态&ndash;&gt; -->
+                    <td v-if="pro.recordStatus==1" class="h-moren h-weijinxing"  title="未进行"></td>
+                    <td v-if="pro.recordStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                    <td v-if="pro.recordStatus==3" class="h-moren h-wancheng" title="已完成"></td>
+                    <td v-if="pro.recordStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
+                    <!-- &lt;!&ndash;测评状态&ndash;&gt; -->
+                    <td v-if="pro.evaluationStatus==1" class="h-moren h-weijinxing"  title="未进行"></td>
+                    <td v-if="pro.evaluationStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                    <td v-if="pro.evaluationStatus==3" class="h-moren h-wancheng" title="已完成"></td>
+                    <td v-if="pro.evaluationStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
+                    <!-- &lt;!&ndash;自查状态&ndash;&gt; -->
+                    <td v-if="pro.examinationStatus==1" class="h-moren h-weijinxing" title="未进行"></td>
+                    <td v-if="pro.examinationStatus==2" class="h-moren h-jingxingzhong" title="预定级"></td>
+                    <td v-if="pro.examinationStatus==3" class="h-moren h-wancheng" title="已完成"></td>
+                    <td v-if="pro.examinationStatus==4" class="h-moren h-chexiao" title="已撤销"></td>
+
+                    <td class="h-morenxiazai h-xiazai" v-if="pro.checkPkId != null && pro.checkPkId !=  '' && pro.recordStatus != 4" @click="downloadFile(pro.checkPkId)"></td>
+                    <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                    <td class="h-morenxiazai h-xiazai" v-if="pro.gradingPkId != null && pro.gradingPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.gradingPkId)"></td>
+                    <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                    <td class="h-morenxiazai h-xiazai" v-if="pro.evaluationPkId != null && pro.evaluationPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.evaluationPkId)"></td>
+                    <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                    <td class="h-morenxiazai h-xiazai" v-if="pro.selfPkId != null && pro.selfPkId != '' && pro.recordStatus != 4" @click="downloadFile(pro.selfPkId)"></td>
+                    <td class="h-morenxiazai h-weixiazai" v-else></td>
+
+                    </td>
+                    <!-- &lt;!&ndash;一键下载&ndash;&gt; -->
+
+                    <td style="position: relative; ">
+                        <div v-if="pro.recordStatus == 4">
+                            <span style="display:block; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
+                        </div>
+                        <div v-else>
+                            <span style="display:none; position: absolute; top: 0px;  left: 0px; z-index: 8; width: 100%; height: 100%;"></span>
+                        </div>
+                        <a @click="oneKeydownload(pro.systemId,pro.companyId)" style="float: left;cursor: pointer;"  v-bind:class="{'tr-row-gray':pro.recordStatus == 4}">一键下载</a>
+                        <!-- &lt;!&ndash;class=app1 都是app1&ndash;&gt; -->
+                        <i class="app1" style="float: left">
+                            <el-row class="block-col-2">
+                                <el-col :span="12">
+                                    <el-dropdown trigger="click">
+                                                    <span class="el-dropdown-link">
+                                                        <i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
+                                                    </span>
+                                        <el-dropdown-menu slot="dropdown">
+                                            <a @click="downloadList1(pro.companyId)">
+                                                <el-dropdown-item class="list" >表1</el-dropdown-item>
+                                            </a>
+                                            <a @click="downloadList2(pro.systemId)">
+                                                <el-dropdown-item class="list">表2</el-dropdown-item>
+                                            </a>
+                                            <a @click="downloadList3(pro.systemId)" v-if="pro.fkSpRanklevel != null && pro.fkSpRanklevel != ''">
+                                                <el-dropdown-item class="list">表3</el-dropdown-item>
+                                            </a>
+                                            <a @click="downloadList4(pro.systemId)" v-if="pro.fkSpRanklevel >=303  && pro.recordStatus != 4">
+                                                <el-dropdown-item class="list" >表4</el-dropdown-item>
+                                            </a>
+                                        </el-dropdown-menu>
+                                    </el-dropdown>
+                                </el-col>
+                            </el-row>
+                        </i>
+
+                    </td>
+                    <!-- &lt;!&ndash;操作&ndash;&gt; -->
+                    <td style="color:#1e91e2;" ></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<!--分页-->
+<div class="h-page-box1" style="position:relative;width:100%;height:64px;margin-right: 0;">
+  <span style="float: left;padding-top: 18px">
+                    <div v-if="result.currentPage==0">
+                        显示0到0行，共0行记录
+                    </div>
+                    <div v-else>
+                        显示{{((result.currentPage-1)*result.pagesize)+1}}到{{(result.currentPage)*(result.pagesize)}}行，共{{result.total}}行记录
+                    </div>
+                </span>
+    <div class="h-page">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li @click="clickPage(1)">
+                    <a href="javascript:;" aria-label="Previous" >
+                        <span aria-hidden="true">首页</span>
+                    </a>
+                </li>
+                <li @click="clickPage(result.currentPage-1)">
+                    <a href="javascript:;" aria-label="Previous" >
+                        <span aria-hidden="true">上一页</span>
+                    </a>
+                </li>
+                <li  v-for="n in totalPages" :class="[n==result.currentPage ? 'current' : '' ]">
+                    <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
+                </li>
+                <li @click="clickPage(result.currentPage+1)">
+                    <a href="javascript:;" aria-label="Next" >
+                        <span aria-hidden="true">下一页</span>
+                    </a>
+                </li>
+                <li @click="clickPage(result.totalPages)">
+                    <a href="javascript:;" aria-label="Next" >
+                        <span aria-hidden="true">尾页</span>
+                    </a>
+                </li>
+                共{{result.totalPages}}页，跳到
+                <li>
+                    <input type="text" id="txt"
+                           @keydown.enter="hpageNum(this)"
+                           onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"
+                           style="overflow: visible;">
+                    <div class="box" id="box"></div>
+                </li>
+                页
+            </ul>
+        </nav>
+    </div>
+</div>
+</div>
+</div>
+</div>

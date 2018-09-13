@@ -28,18 +28,32 @@
        // 获取系统信息
           getSystem : function(_self) {
           	ajaxMethod(this, 'post',
-              'system/querySystemInformationBySystemId', true,
+              'system/querySystemInformationBySystemId', false,
               '{"systemId":"'+systemId+'"}', 'json',
               'application/json;charset=UTF-8',
               this.getSystemSuccess);
           } ,
           getSystemSuccess : function(_self,result){
           	this.systemName = result.data.systemName;
+          },
+          //是否显示表4
+          getSystemMaterialsInfo:function(systemId){
+          	var _self = this;
+              ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', false,
+                  '{"fkSystemId":"'+systemId+'"}', 'json',
+                  'application/json;charset=UTF-8',
+                  _self.getMaterialsInfoSuccessMethod);
+          },
+          getMaterialsInfoSuccessMethod:function(_self,responseData){
+          	if(responseData.data.systemMaterialsId){
+          		_self.materialView = true;
+          	}
           }
         },
         created: function() {
           //获取系统信息
           this.getSystem(this);
+          this.getSystemMaterialsInfo(systemId);
         },
         mounted: function() {
           // this.selectChange()

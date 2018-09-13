@@ -86,7 +86,7 @@
     </smcc-breadcrumb>
     <add-re-list></add-re-list>
     <add-form>
-        <div slot="changeInf"  class="btn btn-success btnNext fr" @click="setFormDataToSession('formData')" >下一步</div>
+        <div slot="changeInf"  class="btn btn-success btnNext fr" @click="setCompanyFormDataToSession('formData')" >下一步</div>
     </add-form>
     <add-fromalert></add-fromalert>
     
@@ -129,7 +129,6 @@
 <script async src="../../static/compnents/public/smcc-header/smcc-header.js" th:attr="src=@{/compnents/public/smcc-header/smcc-header.js}"></script>
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <script async src="../../static/compnents/private/addForm/addForm.js" th:attr="src=@{/compnents/private/addForm/addForm.js}"></script>
-<script async src="../../static/js/private/addCompanyGrad.js" th:attr="src=@{/js/private/addCompanyGrad.js}"></script>
 <script async src="../../static/compnents/private/addFromalert/addFromalert.js" th:attr="src=@{/compnents/private/addFromalert/addFromalert.js}"></script>
 <script async src="../../static/js/private/applicationChange.js" th:attr="src=@{/js/private/applicationChange.js}"></script>
 <script type="text/javascript" th:inline="javascript">

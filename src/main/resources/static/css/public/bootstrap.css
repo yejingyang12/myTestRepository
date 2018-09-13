@@ -1647,11 +1647,13 @@ mark {
 }
 
 .text-left {
-	text-align: left
+	text-align: left;
+	color:#666666;
 }
 
 .text-right {
-	text-align: right
+	text-align: right;
+	color:#333333;
 }
 
 .text-center {

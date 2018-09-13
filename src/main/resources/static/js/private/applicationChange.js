@@ -30,8 +30,8 @@ window.onload = function () {
         removeSessionSuccess:function(){
         	
         },
-        setFormDataToSession:function(meg){
-        	bus.$emit('changeFormName',meg);
+        setCompanyFormDataToSession:function(formName){
+        	bus.$emit('changeFormName',formName);
         },
         //将单位信息存入session后成功
         saveCompanyToSessionSuccess:function(_self,responseData){
@@ -42,11 +42,7 @@ window.onload = function () {
       },
       mounted : function() {
         var _self = this;
-        bus.$on('toSystemPage',function(meg){
-        	ajaxMethod(_self, 'post',
-              'company/saveCompanyToSession', true,JSON.stringify(data.formData), 'json',
-              'application/json;charset=UTF-8',_self.saveCompanyToSessionSuccess);
-        });
+        
         bus.$on('changeFormAjax',function(meg){
           if(meg!=null){
           	if(theLastStep == null || theLastStep == ''){
@@ -90,6 +86,12 @@ window.onload = function () {
                 'company/saveCompany', true,JSON.stringify(data.formData), 'json',
                 'application/json;charset=UTF-8',_self.submitHandlerSuccessMethod);
           }
+        });
+        
+        bus.$on('toSystemPage',function(meg){
+        	ajaxMethod(_self, 'post',
+              'company/saveCompanyToSession', true,JSON.stringify(data.formData), 'json',
+              'application/json;charset=UTF-8',_self.saveCompanyToSessionSuccess);
         });
       }
   })

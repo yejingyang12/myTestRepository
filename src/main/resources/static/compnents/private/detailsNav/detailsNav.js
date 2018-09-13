@@ -48,18 +48,32 @@ var detailsData={
 					// 获取系统信息
           getSystem : function(_self) {
           	ajaxMethod(this, 'post',
-              'system/querySystemInformationBySystemId', true,
+              'system/querySystemInformationBySystemId', false,
               '{"systemId":"'+systemId+'"}', 'json',
               'application/json;charset=UTF-8',
               this.getSystemSuccess);
           } ,
           getSystemSuccess : function(_self,result){
           	this.systemName = result.data.systemName;
+          },
+          //是否显示表4
+          getSystemMaterialsInfo:function(systemId){
+          	var _self = this;
+              ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', false,
+                  '{"fkSystemId":"'+systemId+'"}', 'json',
+                  'application/json;charset=UTF-8',
+                  _self.getMaterialsInfoSuccessMethod);
+          },
+          getMaterialsInfoSuccessMethod:function(_self,responseData){
+          	if(responseData.data.systemMaterialsId){
+          		_self.materialView = true;
+          	}
           }
 				},
 				created: function() {
 				//获取系统信息
           this.getSystem(this);
+          this.getSystemMaterialsInfo(systemId);
           this.examineStatus= examineStatus;
           this.submitShowLabel= '备案';
           this.submitShow= true;
@@ -80,11 +94,11 @@ var detailsData={
 					bus.$on("showRevokeRecord",function(meg){
             _self.revokeRecordShow = meg;
           });
-					bus.$on('materialView',function(meg){
+					/*bus.$on('materialView',function(meg){
             if(meg!=null){
             	_self.materialView = meg;
             }
-          });
+          });*/
 				}
 			})
 		})

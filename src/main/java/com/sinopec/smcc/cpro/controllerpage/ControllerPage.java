@@ -33,11 +33,18 @@ import com.sinopec.smcc.cpro.system.entity.SystemParam;
 @Controller
 @RequestMapping("/page")
 public class ControllerPage {
-  //系统定级备案测评列表
+  //系统定级备案测评列表(无统计图)
   @RequestMapping("/indexPage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String indexPage( Model model){
     return "views/index";
+  }
+  
+  //系统定级备案测评列表(有统计图，无操作)
+  @RequestMapping("/indexChart")
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public String indexChart( Model model){
+    return "views/indexChart";
   }
   
   //新建单位信息填写

@@ -18,6 +18,7 @@
      <link rel="stylesheet" type="text/css" href="../../static/css/private/index.css" th:attr="href=@{/css/private/index.css}">
      <link rel="stylesheet" type="text/css" href="../../static/css/private/sm-breadcrumb.css" th:attr="href=@{/css/private/sm-breadcrumb.css}">
      <link rel="stylesheet" type="text/css" href="../../static/css/private/pagebox.css" th:attr="href=@{/css/private/pagebox.css}"> 
+     <link rel="stylesheet" type="text/css" href="../../static/css/private/chart.css" th:attr="href=@{/css/private/chart.css}"> 
     <link rel="stylesheet" type="text/css" href="../../static/css/private/total.css" th:attr="href=@{/css/private/total.css}"> 
     <link rel="stylesheet" type="text/css" href="../../static/css/private/addFormGrad.css" th:attr="href=@{/css/private/addFormGrad.css}"> 
     <link rel="stylesheet" type="text/css" href="../../static/css/private/statealert.css" th:attr="href=@{/css/private/statealert.css}">	 
@@ -281,7 +282,7 @@ input[type="radio"] {
         <!--<img @click="downloadFile('')" id="download" src="../../static/images/home/xiazaikexiazai.png"-->
         <!--alt="" th:attr="src=@{/images/home/xiazaikexiazai.png}" slot="xiazaikexiazai">-->
 </home>
-    <!-- <chart class="flexs"></chart> -->
+    <chart class="flexs"></chart>
 </div>
 </body>
 <!--插件-->
@@ -294,6 +295,16 @@ input[type="radio"] {
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
  <script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
+<!--图表插件-->
+<script src="../../static/js/public/echarts/echarts.min.js" th:attr="src=@{/js/public/echarts/echarts.min.js}"></script>
+ <script src="../../static/js/public/echarts/echarts-gl.min.js" th:attr="src=@{/js/public/echarts/echarts-gl.min.js}"></script>
+<script src="../../static/js/public/echarts/ecStat.min.js" th:attr="src=@{/js/public/echarts/ecStat.min.js}"></script>
+<script src="../../static/js/public/echarts/dataTool.min.js" th:attr="src=@{/js/public/echarts/dataTool.min.js}"></script>
+<script src="../../static/js/public/echarts/world.js" th:attr="src=@{/js/public/echarts/world.js}"></script>
+<script src="../../static/js/public/echarts/ZUONbpqGBs.js" th:attr="src=@{/js/public/echarts/ZUONbpqGBs.js}"></script>
+<script src="../../static/js/public/echarts/china.js" th:attr="src=@{/js/public/echarts/china.js}"></script>
+<script src="../../static/js/public/echarts/bmap.min.js" th:attr="src=@{/js/public/echarts/bmap.min.js}"></script>
+<script src="../../static/js/public/echarts/simplex.js" th:attr="src=@{/js/public/echarts/simplex.js}"></script>
 <script type="text/javascript">
   var bus = new Vue();
 </script>
@@ -308,9 +319,23 @@ input[type="radio"] {
 <!--面包屑导航-->
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <!--home组件-->
-<script async src="../../static/compnents/private/home/home.js" th:attr="src=@{/compnents/private/home/home.js}"></script>
+<script async src="../../static/compnents/private/homeChart/homeChart.js" th:attr="src=@{/compnents/private/homeChart/homeChart.js}"></script>
+<!--chart-->
+<script async src="../../static/compnents/private/chart/chart.js" th:attr="src=@{/compnents/private/chart/chart.js}"></script>
 <!--分页-->
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 <script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>
 
+<!--chart-->
+<script async src="../../static/compnents/private/chart/chart.js" th:attr="src=@{/compnents/private/chart/chart.js}"></script>
+<!--chartPie 饼状图组件-->
+<script async src="../../static/compnents/private/chartPie/chartPie.js" th:attr="src=@{/compnents/private/chartPie/chartPie.js}"></script>
+<!--chartBar 柱状图组件-->
+<script async src="../../static/compnents/private/chartBar/chartBar.js" th:attr="src=@{/compnents/private/chartBar/chartBar.js}"></script>
+<!--chartLine 折线图组件-->
+<script async src="../../static/compnents/private/chartLine/chartLine.js" th:attr="src=@{/compnents/private/chartLine/chartLine.js}"></script>
+<!--chartStackOne 堆叠图组件-->
+<script async src="../../static/compnents/private/chartStackOne/chartStackOne.js" th:attr="src=@{/compnents/private/chartStackOne/chartStackOne.js}"></script>
+<!--chartStackTwo 堆叠图组件-->
+<script async src="../../static/compnents/private/chartStackTwo/chartStackTwo.js" th:attr="src=@{/compnents/private/chartStackTwo/chartStackTwo.js}"></script>
 </html>

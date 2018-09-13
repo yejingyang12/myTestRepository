@@ -90,15 +90,7 @@
 						  			</div>	
 						        </el-dialog>
 						           <!-- 填写信息 end -->
-						           <el-dialog lock-scroll  :close-on-click-modal="ceshi4"   title="导入结果" :visible.sync="dialogVisiblesdd" width="30%">
-						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
-						        	<div class="ceshi" style="text-align:center;">
-						        		<p style="float:none">导入失败</p>		
-						        	</div>
-						        	 <div slot="footer" class="dialog-footer">
-						    			<el-button size="mini" type="primary" @click="dialogVisiblesdd = false"  style="background:#0065ba;width:70px;height:40px;border:1px solid #ededed;color:white">确 定</el-button>
-						  			</div>	
-						        </el-dialog>
+						        
 	<div class="container h-table-border"
 		style="background:#fff;padding: 15px;margin-top: -15px">
 		<div style="height: 50px;line-height: 50px;margin-top: -15px">
@@ -150,7 +142,7 @@
             <div class="col-md-12">
                 <div class="row table-responsive">
                     <table id="h-list-show" class="table table-bordered table-striped">
-                        <tr class="tr-row rowOneSysInfo">
+                        <tr class="tr-row rowOneSysInfo rowOne">
                             <!-- <th class="firstChecked"
                                 style="width:4%;padding: 0; line-height:39px;  margin-top:50%;  border:none;  border-bottom: 1px;">
                                 <input class="checkName frist" type="checkbox" id="checkboxAll1" @click="checkboxAllMethod()"  style=" margin: 4px 36%;"></th> -->
@@ -171,7 +163,7 @@
                             </th>
                             <th>操作</th>
                         </tr>
-                        <tr class="tr-row" v-for="(item,index) in systemForm.formData">
+                        <tr class="tr-row c" v-for="(item,index) in systemForm.formData">
                             <!-- <td class="firstChecked"
                                 style="min-width:34px;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
                                 <input class="checkName ids" type="checkbox" style=" margin: 4px 36%;" @click="checkboxMethod($event,item.systemId)"></td> -->
@@ -234,6 +226,9 @@
     </div>
     <div class="startBox" id="startBoxTest" style="display:none;">
       <i class="el-icon-circle-check"  style="color:#5DAE51;"></i><P>导入成功!</P>
+    </div>
+    <div class="startBox" id="startBoxImporta" style="display:none;">
+      <i class="el-icon-warning" style="display:block;color:#D81E06;font-size:32px;float:left;margin-right:12px;"></i><P>导入失败！</P>
     </div>
     <mainSystemInfoDialog></mainSystemInfoDialog>
 </div>

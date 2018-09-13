@@ -114,11 +114,12 @@ var data1={
 			    		/*_self.$alert('<strong>导入失败！</strong>', '提示', {
 			          dangerouslyUseHTMLString: true
 			        });*/
-			    		_self.dialogVisiblesdd = true;
-			    		
-			    		setTimeout(function(){
-			    			_self.dialogVisiblesdd = false;
-			    		},3000);
+//			    		_self.dialogVisiblesdd = true;
+//			    		
+//			    		setTimeout(function(){
+//			    			_self.dialogVisiblesdd = false;
+//			    		},3000);
+			    		$("#startBoxImporta").show().delay(2000).fadeOut();
 			    	}
 			    	_self.getSystemListInfoMethod(_self,{});
 		    		_self.closes1();

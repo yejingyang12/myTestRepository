@@ -5,7 +5,7 @@
     <table class="table table-bordered table-responsive table-striped">
         <tr class="table-bordered rowOneSelf">
             <th>序号</th>
-            <th>自查项目名称  <slot name="paixujiantou"></slot></th>
+            <th >自查项目名称  <slot name="paixujiantou"></slot></th>
             <th>自查时间 <slot name="paixujiantou1"></slot></th>
             <th>自查状态 <slot name="paixujiantou2"></slot></th>
             <th>自查结果 <slot name="paixujiantou3"></slot></th>
@@ -14,21 +14,25 @@
             <th>整改时间 <slot name="paixujiantou5"></slot></th>
             <th>整改报告</th>
         </tr>
-        <tr class="table-bordered" v-for="(item,index) in selfList">
+        <tr class="table-bordered c" v-for="(item,index) in selfList">
             <td>{{index+1}}</td>
-            <td>{{item.selfInspectionName}}</td>
+            <td>
+              <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(item.selfInspectionName)" :title="tishi">
+                 {{item.selfInspectionName}}
+              </div>
+            </td>
             <td>{{item.inspectionDate}}</td>
             <td>{{item.inspectionStatusName}}</td>
             <td>{{item.inspectionReuName}}</td>
             <td>
-            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(item.examinationReportName)" :title="tishi">
+            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(item.examinationReportName)" :title="tishi">
             		<a @click="download(item.examinationReportId)"  style="cursor:pointer" >{{item.examinationReportName}}</a>
             	</div>
             </td>
             <td>{{item.rectificationReuName}}</td>
             <td>{{item.rectificationDate}}</td>
             <td>
-            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(item.examinationRectificationReportName)" :title="tishi">
+            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(item.examinationRectificationReportName)" :title="tishi">
             		<a @click="download(item.examinationRectificationReportId)"  style="cursor:pointer">{{item.examinationRectificationReportName}}</a>
             	</div>
             </td>

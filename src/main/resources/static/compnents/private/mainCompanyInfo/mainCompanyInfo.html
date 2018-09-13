@@ -68,7 +68,7 @@
                             </th>
                             <th>操作</th>
                         </tr>
-                        <tr class="tr-row" v-for="(item,index) in companyForm.formData">
+                        <tr class="tr-row c" v-for="(item,index) in companyForm.formData">
                             <td class="firstChecked" style="min-width:34px;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
                               <!-- <div v-for="companyCodeJ in nameList" v-if="companyCodeJ==item.companyCode"> -->
                                 <input class="checkName ids" type="checkbox" style="margin: 4px 36%;" @click="checkboxMethod($event,item.companyId)"/>

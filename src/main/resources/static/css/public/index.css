@@ -665,7 +665,6 @@
     overflow: auto;
     margin: 0
 }
-
 .el-dialog__header {
     padding: 20px 20px 10px
 }
@@ -4203,6 +4202,9 @@
 
 .el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
     border-color: #67c23a 
+}
+.el-form-item.is-success #sysBusDescription,.el-form-item.is-success #sysBusDescription:focus{
+  border-color:#CECECE !important;
 }
 
 .el-form-item.is-success .el-input-group__append .el-input__inner, .el-form-item.is-success .el-input-group__prepend .el-input__inner {
@@ -11585,7 +11587,7 @@
 
 .el-button--primary {
     color: #fff;
-    background-color: #409EFF;
+    background-color: white;
     border-color: #409EFF
 }
 

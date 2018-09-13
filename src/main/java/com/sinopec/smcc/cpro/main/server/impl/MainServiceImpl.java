@@ -35,10 +35,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.ssc.dps.inte.workflow.AppTaskOpinionData;
+import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
+import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.company.entity.CompanyListResult;
 import com.sinopec.smcc.cpro.company.entity.CompanyParam;
 import com.sinopec.smcc.cpro.company.entity.CompanyResult;
@@ -86,6 +91,8 @@ import com.sinopec.smcc.cpro.tools.excel.bean.CellBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.ExcelBean;
 import com.sinopec.smcc.cpro.tools.excel.bean.SheetBean;
 import com.sinopec.smcc.cpro.tools.word.WordUtils;
+import com.sinopec.smcc.depends.dps.util.DpsTemplate;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title MainServiceImpl.java
@@ -135,6 +142,10 @@ public class MainServiceImpl implements MainService{
   private SelfexaminationMapper selfexaminationMapper;
   @Autowired
   private SystemMaterialsMapper systemMaterialsMapper;
+  @Autowired
+  private DpsTemplate dpsTemplate;
+  @Autowired
+  private UserApiService userApiServiceImpl;
   
   /**
    * 响应等保列表数据
@@ -317,9 +328,8 @@ public class MainServiceImpl implements MainService{
         default:
           break;
         }
-      }
-      
-      //mainListResultList = this.mainMapper.selectAllByMainParam(mainParam);
+      } 
+     //mainListResultList = this.mainMapper.selectAllByMainParam(mainParam);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -2923,12 +2933,43 @@ public class MainServiceImpl implements MainService{
   @Override
   public void handleStatus(MainParam mainParam) throws BusinessException {
     
+    Map<String,String> extMap = new HashMap<String,String>();
+  //获取用户信息
+    UserDTO user=userApiServiceImpl.getUserInfo();
+    String UserId=String.valueOf(user.getUserId());
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    List<String> orgStr = organizationApiResult.getPermssions();
+    //企业权限  
+    if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
+      //单位Code
+      extMap.put("ext008", jurisdictionApiServiceImpl.getCompanyCode());
+    } 
+    //版本号
+    extMap.put("ext003", WorkFlowConsts.CATEGORY_VERSION_NUM);
+    //获取所有待办
+    final PagedList appTODOTask = dpsTemplate.appTODOTask(UserId,"",
+        WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
+    //获取所有已办
+    final PagedList appDoneTask = dpsTemplate.appDoneTask(UserId,"",
+        WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
+    
+    //判断待办或已办是否为空
+    List<ExecuteTaskData> executeTaskDataList = new ArrayList<ExecuteTaskData>();
+    if(appTODOTask != null && ! ObjectUtils.isEmpty(appTODOTask.getExecuteTaskList())){
+      executeTaskDataList = appTODOTask.getExecuteTaskList(); 
+      if(appDoneTask != null && ! ObjectUtils.isEmpty(appDoneTask.getExecuteTaskList())){
+        executeTaskDataList.addAll(appDoneTask.getExecuteTaskList());
+      }
+    }
     List<Integer> gradingStatus = new ArrayList<Integer>();//定级
     List<Integer> fkExaminStatus = new ArrayList<Integer>();//审核
     List<Integer> recordStatus = new ArrayList<Integer>();//备案
     List<Integer> evaluationStatus = new ArrayList<Integer>();//测评
     List<Integer> examinationStatus = new ArrayList<Integer>();//自查
     List<Integer> examinStatus = new ArrayList<Integer>();//待。。。审核
+    List<String> systemIdList = new ArrayList<String>();//系统ID集合
     
     Integer[] stsusArray = mainParam.getStatusArray();
     for (int i = 0; i < stsusArray.length; i++) {
@@ -3004,33 +3045,70 @@ public class MainServiceImpl implements MainService{
       /*if(mainParam.getStatus() == 5){
     mainParam.setFkExaminStatus(1);
     }*/
-      if(stsusArray[i] == 15){//待企业业务审核
+      if(stsusArray[i] == 15 || stsusArray[i] == 16 ||  stsusArray[i] == 17 || stsusArray[i] == 18){
+        if(!ObjectUtils.isEmpty(executeTaskDataList)){
+          for(ExecuteTaskData executeTaskData : executeTaskDataList){
+            //executeResult : 1和-1 待办状态，2 审批通过 3 审批未通过
+            if(executeTaskData.getExecuteResult() == 1 || executeTaskData.getExecuteResult()==-1){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批") && stsusArray[i] == 15 ){
+                //待企业待企业安全员管理审核
+                if(StringUtils.isNotBlank(executeTaskData.getExt001())){
+                  systemIdList.add(executeTaskData.getExt001());
+                }
+              }
+            }else if(executeTaskData.getExecuteResult() == 2){
+              //获取审批历史
+              List<AppTaskOpinionData> appTaskOpinionDataList = 
+                  dpsTemplate.appOpinion(executeTaskData.getBusinessId());
+              AppTaskOpinionData appTaskOpinionData = appTaskOpinionDataList.get(0);
+              if(!ObjectUtils.isEmpty(appTaskOpinionDataList) &&appTaskOpinionDataList.size() >=2&&
+                  stsusArray[i]==18){
+                if(appTaskOpinionData.getExecuteResult() == 3){
+                  //总部安全管理员审核未通过
+                  systemIdList.add(executeTaskData.getExt001());
+                }
+              }
+              if(stsusArray[i]==16 && appTaskOpinionDataList.size() == 1){
+                //待总部审核
+                if(StringUtils.isNotBlank(executeTaskData.getExt001())){
+                  systemIdList.add(executeTaskData.getExt001());
+                }
+              }
+            }else if(executeTaskData.getExecuteResult() == 3){
+              if(executeTaskData.getActivityName().equals("企业主联络员审批") && stsusArray[i] == 17){
+                //如果企业主联络员未通过
+                if(StringUtils.isNotBlank(executeTaskData.getExt001())){
+                  systemIdList.add(executeTaskData.getExt001());
+                }
+              }
+            }
+          }
+        }
         mainParam.setExaminStatusType("28");
-//        mainParam.setFkExaminStatus(1);
-        examinStatus.add(1);
+        mainParam.setSystemIdList(systemIdList);
       }
-      if(stsusArray[i] == 16){//待总部安全审核
-        mainParam.setExaminStatusType("28");
+//      if(stsusArray[i] == 16){//待总部安全审核
+//        mainParam.setExaminStatusType("28");
 //        mainParam.setFkExaminStatus(2);
-        examinStatus.add(2);
-      }
-      
-      //状态为审核未通过，查询审核状态为
-      //3：企业安全员管理审核未通过；
-      //4：总部安全管理员审核未通过；
-      /*if(mainParam.getStatus() == 7){
-      mainParam.setFkExaminStatus(3);
-    }*/
-      if(stsusArray[i] == 17){//企业业务审核未通过
-        mainParam.setExaminStatusType("28");
+//        examinStatus.add(2);
+//      }
+//      
+//      //状态为审核未通过，查询审核状态为
+//      //3：企业安全员管理审核未通过；
+//      //4：总部安全管理员审核未通过；
+//      /*if(mainParam.getStatus() == 7){
+//      mainParam.setFkExaminStatus(3);
+//    }*/
+//      if(stsusArray[i] == 17){//企业业务审核未通过
+//        mainParam.setExaminStatusType("28");
 //        mainParam.setFkExaminStatus(3);
-        examinStatus.add(3);
-      }
-      if(stsusArray[i] == 18){//总部安全审核未通过
-        mainParam.setExaminStatusType("28");
+//        examinStatus.add(3);
+//      }
+//      if(stsusArray[i] == 18){//总部安全审核未通过
+//        mainParam.setExaminStatusType("28");
 //        mainParam.setFkExaminStatus(4);
-        examinStatus.add(4);
-      }
+//        examinStatus.add(4);
+//      }
     }
     mainParam.setGradingStatus1(gradingStatus);
     mainParam.setFkExaminStatus1(fkExaminStatus);

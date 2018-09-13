@@ -4433,6 +4433,19 @@ public class SystemServiceImpl implements SystemService {
           } else {
             return false;
           }
+          //权限
+          JurisdictionDataResult organizationApiResult = 
+              this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+          if(organizationApiResult==null){
+            return false;
+          }else{
+            List<String> companyList = organizationApiResult.getNameList();
+            if(companyList.contains(system.getFkCompanyCode())){
+              //如果批量导入时，导入的单位用户单位下没有，不能导入(总部只能操作总部单位，对其他单位下的数据只有查看权限，没有操作权限)
+            }else {
+              return false;
+            }
+          }
           if (StringUtils.isNotBlank(topNum[5])) {
             try {
               system.setWhenInvestmentUse(new SimpleDateFormat(
@@ -4784,40 +4797,63 @@ public class SystemServiceImpl implements SystemService {
       if (systemInfoList!=null&&systemInfoList.getData()!=null&&systemInfoList.getData().size()>0) {
         int systemListSize = systemList.size();
         int systemInfoListSize = systemInfoList.getData().size();
-        outermost:
-        for (int i = 0; i < systemListSize; i++) {
-          SystemListResult systemListResult = systemList.get(i);
-          if("3".equals(systemListResult.getFkSystemType())){
-            continue;
-          }
-          
-          for (int j = 0; j < systemInfoListSize; j++) {
-            SystemInfo systemInfo = systemInfoList.getData().get(j);
-            if (systemListResult.getStandardizedCode().equals(systemInfo.getSystemcode())) {
-              SystemEchoResult systemEchoResult = new SystemEchoResult();
-              systemEchoResult.setSystemId(systemListResult.getSystemId());
-              systemEchoResult.setSystemName(systemListResult.getSystemName());
-              systemEchoResult.setSystemCode(systemListResult.getStandardizedCode());
-              systemEchoResult.setSystemAlias(systemInfo.getIsbaSysalias());
-              systemEchoResult.setAppRangeName(systemInfo.getIsbaRangename());
-              systemEchoResult.setSystemBranch(systemInfo.getIsbaSysbranch());
-              systemEchoResult.setSystemGroup(systemInfo.getIsbaGroup());
-              systemEchoResult.setExecutiveOffice(systemInfo.getBcdName());
-              systemEchoResultList.add(systemEchoResult);
-              continue outermost;
+        int nameListSize = organizationApiResult.getNameList().size();
+        List<SystemInfo> systemDataList = new ArrayList<>();
+        //全部单位CODE和当前权限CODE进行比较
+        for (int i = 0; i < systemInfoListSize; i++) {
+          for (int e = 0; e < nameListSize; e++) {
+            if(organizationApiResult.getNameList().get(e).equals(systemInfoList.getData().get(i).
+                getBcdCode())){
+              systemDataList.add(systemInfoList.getData().get(i));
             }
           }
+        }
+        //将当前code集合与所查询code比较，统计不相同数据
+        if(!ObjectUtils.isEmpty(systemDataList)){
+          for (int i = 0; i < systemDataList.size(); i++) {
+            for (int j = 0; j < systemListSize; j++) {
+              if(systemDataList.get(i).getSystemallname().equals(systemList.get(j).getSystemName())){
+                systemDataList.remove(i);
+                i=i-1;
+                break;
+              }
+            }
+          }
+        }
+        for (SystemInfo systemInfo : systemDataList) {
           SystemEchoResult systemEchoResult = new SystemEchoResult();
-          systemEchoResult.setSystemId(systemListResult.getSystemId());
-          systemEchoResult.setSystemName(systemListResult.getSystemName());
-          systemEchoResult.setSystemCode((int)((Math.random()*9+1)*100000)+"");
-          systemEchoResult.setSystemAlias("");
-          systemEchoResult.setAppRangeName("");
-          systemEchoResult.setSystemBranch("");
-          systemEchoResult.setSystemGroup("");
-          systemEchoResult.setExecutiveOffice(systemListResult.getExecutiveOffice());
+          systemEchoResult.setSystemName(systemInfo.getSystemallname());
+          systemEchoResult.setSystemCode(systemInfo.getSystemcode());
+          systemEchoResult.setSystemAlias(systemInfo.getIsbaSysalias());
+          systemEchoResult.setAppRangeName(systemInfo.getIsbaRangename());
+          systemEchoResult.setSystemBranch(systemInfo.getIsbaSysbranch());
+          systemEchoResult.setSystemGroup(systemInfo.getIsbaGroup());
+          systemEchoResult.setExecutiveOffice(systemInfo.getBcdName());
           systemEchoResultList.add(systemEchoResult);
         }
+//        outermost:
+//        for (int i = 0; i < systemListSize; i++) {
+//          SystemListResult systemListResult = systemList.get(i);
+//          if("3".equals(systemListResult.getFkSystemType())){
+//            continue;
+//          }
+//          for (int j = 0; j < nameListSize; j++) {
+//            String name = organizationApiResult.getNameList().get(j);
+//            if (!systemListResult.getFkCompanyCode().equals(name)) {
+//              SystemEchoResult systemEchoResult = new SystemEchoResult();
+//              systemEchoResult.setSystemId(systemListResult.getSystemId());
+//              systemEchoResult.setSystemName(systemListResult.getSystemName());
+//              systemEchoResult.setSystemCode((int)((Math.random()*9+1)*100000)+"");
+//              systemEchoResult.setSystemAlias("");
+//              systemEchoResult.setAppRangeName("");
+//              systemEchoResult.setSystemBranch("");
+//              systemEchoResult.setSystemGroup("");
+//              systemEchoResult.setExecutiveOffice(systemListResult.getExecutiveOffice());
+//              systemEchoResultList.add(systemEchoResult);
+//              continue outermost;
+//            }
+//          }
+//        }
       }
     }
     return systemEchoResultList;

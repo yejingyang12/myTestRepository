@@ -156,13 +156,25 @@ var data={
                          }else{
                              return false;
                          }
+                     },
+                     thingMove:function(){
+                       var value = $(".thingName").html();
+                       $(".thingName").attr('title',value);
+                     },
+                     thingMove1:function(){
+                       var value = $(".thingName1").html();
+                       $(".thingName1").attr('title',value);
+                     },
+                     thingMove2:function(){
+                       var value = $(".thingName2").html();
+                       $(".thingName2").attr('title',value);
                      }
                 },
                 created: function() {
                     //安全等级信息
                     this.getGradeMethod(this,systemId);
                     this.formData.fkSystemId = systemId;
-                },
+                }
             })
         })
     })

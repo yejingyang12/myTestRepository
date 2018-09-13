@@ -46,7 +46,7 @@
           },
           getSystemMaterialsInfo:function(systemId){
           	var _self = this;
-              ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', true,
+              ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', false,
                   '{"fkSystemId":"'+systemId+'"}', 'json',
                   'application/json;charset=UTF-8',
                   _self.getMaterialsInfoSuccessMethod);

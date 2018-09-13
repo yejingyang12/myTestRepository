@@ -135,7 +135,6 @@
 .el-icon-circle-close-outline:before {
     content: "\e609"
 }
-
 .el-icon-circle-check-outline:before {
     content: "\e63e"
 }
@@ -663,7 +662,7 @@
     bottom: 0;
     left: 0;
     overflow: auto;
-    margin: 0
+    margin: 0;
 }
 
 .el-dialog__header {
@@ -679,11 +678,20 @@
     border: none;
     outline: 0;
     cursor: pointer;
-    font-size: 16px
+    font-size: 16px;
 }
-
 .el-dialog__headerbtn .el-dialog__close {
     color: #909399
+}
+
+#messageClose{
+  width:30%;
+  height:20%;
+  position:absolute;
+  left:45%;top:45%;
+  background-color:#fff;
+  z-index:5;
+  display:none;
 }
 
 .el-dialog__headerbtn:focus .el-dialog__close, .el-dialog__headerbtn:hover .el-dialog__close {
@@ -4201,11 +4209,12 @@
 .el-form-item.is-error .el-input__validateIcon {
     color: #f56c6c
 }
-
+.el-form-item.is-success #sysBusDescription,.el-form-item.is-success #sysBusDescription:focus{
+  border-color:#CECECE !important;
+}
 .el-form-item.is-success .el-input__inner, .el-form-item.is-success .el-input__inner:focus, .el-form-item.is-success .el-textarea__inner, .el-form-item.is-success .el-textarea__inner:focus {
     border-color: #67c23a
 }
-
 .el-form-item.is-success .el-input-group__append .el-input__inner, .el-form-item.is-success .el-input-group__prepend .el-input__inner {
     border-color: transparent
 }
@@ -11275,7 +11284,10 @@
     color: #c0c4cc;
     text-align: center
 }
-
+.el-input__suffix .el-icon-circle-close{
+  position:absolute;
+  right:13px !important;
+}
 .el-input__inner::-webkit-input-placeholder {
     color: #c0c4cc
 }
@@ -11586,16 +11598,19 @@
     padding: 12px
 }
 
-.el-button--primary {
+.el-button--primary{
     color: #fff !important;
     background-color: #409EFF !important;
-    border-color: #409EFF
+    border-color: #409EFF;
 }
 
-.el-button--primary:focus, .el-button--primary:hover {
-    background: #0065ba;
+.el-button--primary:hover {
+    background: #0065ba !important;
     border-color: #3d95df;
-    color: #fff
+    color: #fff;
+}
+.evaluation{
+  height:85% !important;
 }
 
 .el-button--primary.is-active, .el-button--primary:active {
@@ -12518,7 +12533,8 @@
 }
 
 .el-transfer-panel__filter .el-icon-circle-close {
-    cursor: pointer
+    cursor: pointer;
+    margin-left:-22px;
 }
 
 .el-transfer-panel .el-transfer-panel__header {
@@ -12664,4 +12680,14 @@
     box-sizing: border-box;
     -ms-flex-negative: 0;
     flex-shrink: 0
+}
+#h-btn-add{
+    width:80px;
+    height:30px;
+    background-color:#5DAE51;
+    color:#fff;
+    border-radius:3px;
+}
+#h-btn-add:hover{
+  background-color:#27801A;
 }

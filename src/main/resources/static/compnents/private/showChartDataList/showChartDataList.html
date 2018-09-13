@@ -119,7 +119,7 @@
                                 <th style="white-space: nowrap;width:7%;">备案表下载</th>
                                 <!-- <th>操作</th> -->
                             </tr>
-                            <tr class="tr-row" v-for="(pro,index) in result" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
+                            <tr class="tr-row c" v-for="(pro,index) in result" v-bind:class="{'tr-row-gray':pro.recordStatus == 4}"
                                 data-td="https://codeload.github.com/douban/douban-client/legacy.zip/master">
                                 <td class="firstChecked"
                                     style="min-width:34px;display:none;padding: 0; line-height:39px; margin-top:28%;  border:none;  border-bottom: 1px;">
@@ -127,13 +127,13 @@
                                 <td>{{index+1}}</td>
  								                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" v-if="pro.sonSystemName">
                                   <div v-if="pro.recordStatus != 4">
-                                    <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.sonSystemName}}</a>
+                                    <a  style="cursor:pointer;color:#333" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.sonSystemName}}</a>
                                   </div>
                                   <div v-else> <a  style="cursor:pointer;color:#bfbfbf;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.sonSystemName}}</a></div>
                                 </td>
  								                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" v-else>
                                   <div v-if="pro.recordStatus != 4">
-                                    <a style="cursor:pointer;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
+                                    <a class="zouni" style="cursor:pointer;color:#333" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a>
                                   </div>
                                   <div v-else> <a  style="cursor:pointer;color:#bfbfbf;" @click="toDetailsPage(pro.systemId,pro.companyId)" >{{pro.systemName}}</a></div>
                                 </td>

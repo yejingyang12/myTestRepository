@@ -238,9 +238,6 @@ var  data={
           sysBusSituationType:[  // 业务类型
               { required: true, message: '请选择业务类型', trigger: 'blur' },
           ],
-          sysBusDescription:[  // 业务描述
-              { required: true, message: '请填写业务描述', trigger: 'blur' },
-          ],
           sysServiceSitScope:[  // 服务范围
               { required: true, message: '请选择服务范围', trigger: 'blur' },
           ],
@@ -1508,19 +1505,19 @@ var  data={
                     		_self.flag = true;
                     	}
                     },
-                    getMenuJurisdictionApi:function(_self){
-                    	ajaxMethod(_self, 'post',
-                          'jurisdiction/queryMenuJurisdictionApi', false,
-                          JSON.stringify(''), 'json',
-                          'application/json;charset=UTF-8',
-                          _self.getMenuJurisdictionApiSuccess);
-                    },
-                    getMenuJurisdictionApiSuccess:function(_self,responseData){
-                    //总部新建
-                    	_self.headquarters = getJurisdictionMethod(responseData,'0102010101');
-                    	//企业新建
-                    	_self.enterprise = getJurisdictionMethod(responseData,'0102010108');
-                    },
+//                    getMenuJurisdictionApi:function(_self){
+//                    	ajaxMethod(_self, 'get',
+//                          'jurisdiction/queryMenuJurisdictionApi', false,
+//                          JSON.stringify(''), 'json',
+//                          'application/json;charset=UTF-8',
+//                          _self.getMenuJurisdictionApiSuccess);
+//                    },
+//                    getMenuJurisdictionApiSuccess:function(_self,responseData){
+//                    //总部新建
+//                    	_self.headquarters = getJurisdictionMethod(responseData,'0102010101');
+//                    	//企业新建
+//                    	_self.enterprise = getJurisdictionMethod(responseData,'0102010108');
+//                    },
                 },
                 created: function() {
                 	//获取权限
@@ -1552,28 +1549,28 @@ var  data={
                   this.getParentCompanyMethod(this);
                   //获取系统主管处室
 //                  this.getSystemExecutiveApi(this);
-                  this.getMenuJurisdictionApi(this);
+//                  this.getMenuJurisdictionApi(this);
                 },
                 mounted: function() {
                 	//功能权限
-//                  $.ajax({
-//                    type: "get",
-//                    url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
-//                    async: false,
-//                    data: "",
-//                    dataType: "json",
-//                    cache: false,
-//                    processData: false,
-//                    contentType: false,
-//                    success: function(response) {
-//                    	//总部新建
-//                    	data.headquarters = getJurisdictionMethod(response,'0102010101');
-//                    	//企业新建
-//                    	data.enterprise = getJurisdictionMethod(response,'0102010108');
-//                    },
-//                    error: function(err) {
-//                    }
-//                  });
+                  $.ajax({
+                    type: "get",
+                    url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+                    async: false,
+                    data: "",
+                    dataType: "json",
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                    	//总部新建
+                    	data.headquarters = getJurisdictionMethod(response,'0102010101');
+                    	//企业新建
+                    	data.enterprise = getJurisdictionMethod(response,'0102010108');
+                    },
+                    error: function(err) {
+                    }
+                  });
                 
                   this.formData.companyId = companyId;
                   this.formData.fkCompanyCode = companyCode;

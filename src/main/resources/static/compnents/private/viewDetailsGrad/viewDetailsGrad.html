@@ -6,7 +6,7 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-3 text-right">系统名称：</span>
-                <span class="col-md-6 text-left">{{formData.gradeRecordSysName}}</span>
+                <span class="col-md-6 text-left" style="width:70%;">{{formData.gradeRecordSysName}}</span>
             </p>
         </li>
         <li class="row">
@@ -254,31 +254,31 @@
         <li class="col-md-12" style="padding-left:0;"  v-if="formData.competentIsExisting == 1 && formData.competentView == 1">
             <p class="col-md-6" style="padding-left:0;">
                 <span class="col-md-5 text-right" style="margin-left: -68px;">上级主管部门审批意见：</span>
-                <span class="col-md-6 text-left"><a @click="download(formData.directorOpinionId)" style="cursor:pointer">{{formData.directorOpinionName}}</a></span>
+                <span class="col-md-6 text-left" @mouseenter="thingMove()" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><a @click="download(formData.directorOpinionId)" style="cursor:pointer" class="thingName">{{formData.directorOpinionName}}</a></span>
             </p>
             <p class="col-md-4" style="padding-left: 129px;">
                 <span class="col-md-6 text-right" >附件名称：</span>
-                <span class="col-md-6 text-left">{{formData.directorOpinionName}}</span>
+                <span class="col-md-6 text-left" class="thingName" @mouseenter="thingMove()" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">{{formData.directorOpinionName}}</span>
             </p>
         </li>
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-3 text-right">定级报告：</span>
-                <span class="col-md-6 text-left"><a @click="download(formData.gradingReportId)" style="cursor:pointer">{{formData.gradingReportName}}</a></span>
+                <span class="col-md-6 text-left" @mouseenter="thingMove1()" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><a @click="download(formData.gradingReportId)" style="cursor:pointer" class="thingName1">{{formData.gradingReportName}}</a></span>
             </p>
             <p class="col-md-6">
                 <span class="col-md-5 text-right">定级报告名称：</span>
-                <span class="col-md-6 text-left">{{formData.gradingReportName}}</span>
+                <span class="col-md-6 text-left" class="thingName1" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"  @mouseenter="thingMove1()">{{formData.gradingReportName}}</span>
             </p>
         </li>
         <li class="col-md-12">
-            <p class="col-md-6">
+            <p class="col-md-6" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                 <span class="col-md-3 text-right">专家评审情况：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" @mouseenter="thingMove2()">
                 <span>
                   <div  v-if="formData.expertView == '1'">
                   <span> 已审核
-                      <a href="javascript:;" style="cursor:pointer;margin-left: 5px;" @click="download(formData.expertReviewId)">{{formData.expertReviewName}}</a>  
+                      <a href="javascript:;" style="cursor:pointer;margin-left: 5px;" @click="download(formData.expertReviewId)" class="thingName2">{{formData.expertReviewName}}</a>  
                    </span>
                    </div>
                    <div  v-if="formData.expertView == '2'">
@@ -287,10 +287,10 @@
                  </span>
                 </span>
             </p>
-            <p class="col-md-6">
+            <p class="col-md-6" class="col-md-6" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                 <span class="col-md-5 text-right">评审附件名称：</span>
-                <span class="col-md-6 text-left">
-	                 <div  v-if="formData.expertView == '1'">
+                <span class="col-md-6 text-left"  @mouseenter="thingMove2()">
+	                 <div v-if="formData.expertView == '1'" class="thingName2">
 	                      {{formData.expertReviewName}}
 	                 </div>
                 </span>

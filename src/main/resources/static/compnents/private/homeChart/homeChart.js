@@ -214,11 +214,10 @@
     newlyBuild:false,
     headquarters:false,
     enterprise:false,
-    nameList:[],
-    loading: false
+    nameList:[]
   };
   Vue.component('home',function (resolve, reject) {
-    $.get(comp_src+'/compnents/private/home/home.html').then(function (res) {
+    $.get(comp_src+'/compnents/private/homeChart/homeChart.html').then(function (res) {
       resolve({
         template:res,
         data:function () {
@@ -399,15 +398,11 @@
           //ajax请求成功的方法
           listSuccess: function (_self, responseData) {
 //            data.result = dataList;  
-            if(responseData){
-              _self.result = responseData.data.list;
-              _self.result.totalPages = responseData.data.totalPage;
-              _self.result.pagesize = responseData.data.pageSize;
-              _self.result.currentPage = responseData.data.currPage;
-              _self.result.total = responseData.data.totalCount;
-            }else{
-              this.loading = true
-            }
+            _self.result = responseData.data.list;
+          	_self.result.totalPages = responseData.data.totalPage;
+          	_self.result.pagesize = responseData.data.pageSize;
+          	_self.result.currentPage = responseData.data.currPage;
+          	_self.result.total = responseData.data.totalCount;
 //          	_self.result.result = responseData.data;
           },   
           //上一页下一页点击事件
@@ -1090,7 +1085,7 @@
           downloadSuccess: function (_self,responseData) {
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
-         	 	window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name);
+         	 	window.location.href="fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
           }, 
           /*首页"高级查询"下的复选框--所属板块：*/
           checkAllHeightSearch: function () {

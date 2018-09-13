@@ -15,13 +15,21 @@
             <th>整改时间<slot name="paixujiantou6"></slot></th>
             <th>整改报告</th>
         </tr>
-        <tr class="table-bordered" v-for="(item,index) in evaluList">
+        <tr class="table-bordered c" v-for="(item,index) in evaluList">
             <td>{{index+1}}</td>
-            <td>{{item.examName}}</td>
-            <td>{{item.examTime}}</td>
-            <td>{{item.examOrg}}</td>
             <td>
-            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(item.examReportName)" :title="tishi">
+              <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:85px" @mouseover="xuanfu(item.examName)" :title="tishi">
+                  {{item.examName}}
+              </div>
+            </td>
+            <td>{{item.examTime}}</td>
+            <td>
+              <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:85px" @mouseover="xuanfu(item.examOrg)" :title="tishi">
+                  {{item.examOrg}}
+              </div>
+            </td>
+            <td>
+            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(item.examReportName)" :title="tishi">
             		<a @click="download(item.examReport)"  style="cursor:pointer" >{{item.examReportName}}</a>
             	</div>
             </td>
@@ -51,7 +59,7 @@
 
             <td>{{item.rectificationDate}}</td>
             <td>
-            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(item.rectificationReportName)" :title="tishi">
+            	<div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:150px" @mouseover="xuanfu(item.rectificationReportName)" :title="tishi">
             		<a @click="download(item.rectificationReport)"  style="cursor:pointer" >{{item.rectificationReportName}}</a>
             	</div>
             </td>

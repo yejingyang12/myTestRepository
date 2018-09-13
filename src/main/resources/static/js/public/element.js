@@ -8839,7 +8839,7 @@
           expression: "handleClose"
         }],
         ref: "reference",
-        staticClass: "el-date-editor",
+//        staticClass: "el-date-editor",
         class: "el-date-editor--" + e.type,
         attrs: {
           readonly: !e.editable || e.readonly || "dates" === e.type,
@@ -11349,7 +11349,7 @@
               i && (n = !1), a = (0, s.default)({}, a, o), "function" == typeof e && ++r === t.fields.length && e(n, a)
             })
           }), i || void 0
-        }, validateField: function (e, t) {
+        }, validateField: function (e,t) {
           var i = this.fields.filter(function (t) {
             return t.prop === e
           })[0];
@@ -17241,7 +17241,7 @@
         title: String,
         filterable: Boolean,
         format: Object,
-        filterMethod: Function,
+        Method: Function,
         defaultChecked: Array,
         props: Object
       },

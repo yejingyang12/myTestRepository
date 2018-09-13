@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
          xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>com.sinopec.smcc</groupId>
         <artifactId>smcc-parent</artifactId>
@@ -11,13 +10,11 @@
     </parent>
     <artifactId>smcc-cpro</artifactId>
     <name>smcc-cpro</name>
-
     <properties>
         <start-class>com.sinopec.smcc.cpro.ClassProtectionApplication</start-class>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
     </properties>
-
     <!-- 引用仓库地址 -->
     <repositories>
         <repository>
@@ -31,7 +28,6 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-
         <repository>
             <id>snapshots</id>
             <name>Smcc Snapshots</name>
@@ -43,7 +39,6 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-
         <repository>
             <id>sinopecMaven</id>
             <name>Sinopec Maven Mirror</name>
@@ -56,8 +51,14 @@
             </snapshots>
         </repository>
     </repositories>
-
     <dependencies>
+        <!-- CXF集成到SpringBoot-->
+      	<dependency>
+      		<groupId>org.apache.cxf</groupId>
+      		<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+      		<version>3.2.6</version>
+      	</dependency>
+  
         <dependency>
             <groupId>com.sinopec.smcc</groupId>
             <artifactId>smcc-common</artifactId>
@@ -78,7 +79,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -91,7 +91,6 @@
             <artifactId>ant</artifactId>
             <version>1.9.7</version>
         </dependency>
-
         <!-- 生成模板数据工具  用于等保首页一键下载生成表1、表2、表3、表4-->
         <dependency>
             <groupId>org.freemarker</groupId>
@@ -99,7 +98,6 @@
             <version>2.3.28</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>${artifactId}-${version}</finalName>
         <plugins>
@@ -127,5 +125,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

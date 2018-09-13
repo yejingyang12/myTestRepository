@@ -121,6 +121,7 @@
     FROM t_cpro_company AS company
     WHERE 
       company.companyName=#{codeName}
+    LIMIT 0,1
   </select>
   <select id="selectAllByEvaluation" parameterType="com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam" resultMap="selectEvaluationMap">
     SELECT
@@ -4002,7 +4003,7 @@
       t_cpro_system system
     WHERE 
       system.deleteStatus = 1 
-    AND system.fkSystemType != 3
+      AND system.fkSystemType != 3
     <if test="fkCompanyCode != null and fkCompanyCode != ''">
 	    AND system.fkCompanyCode = #{fkCompanyCode}
     </if>

@@ -229,10 +229,14 @@
 		                            <th>整改报告</th>
 		                            <th>操作</th>
 		                        </tr>
-		                        <tr class="tr-row" v-for="(pro,index) in result">
+		                        <tr class="tr-row c" v-for="(pro,index) in result">
 		                            <td>{{index+1}}</td>
 		                            <!--系统名称-->
-		                            <td>{{pro.selfInspectionName}}</td>
+		                            <td>
+                                      <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(pro.selfInspectionName)" :title="tishi">
+                                        {{pro.selfInspectionName}}
+                                      </div>
+                                    </td>
 		                            <!--自查时间-->
 		                            <td>{{pro.inspectionDate == '1970-01-01'?'':pro.inspectionDate}}</td>
 		                            <!--自查状态-->
@@ -241,7 +245,7 @@
 		                            <td>{{pro.fkInspectionReu == 1 ? '符合':(pro.fkInspectionReu == 2 ? '基本符合':(pro.fkInspectionReu==3 ? '不符合':''))}}</td>
 		                            <!--自查报告-->
 		                            <td>
-		                            <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(pro.examinationReportName)" :title="tishi">
+		                            <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(pro.examinationReportName)" :title="tishi">
 		                            	<a href="javascript:;" @click="downloadReport(pro.examinationReportId)">{{pro.examinationReportName}}</a>
 		                            </div>
 		                                
@@ -252,7 +256,7 @@
 		                            <td>{{pro.rectificationDate == '1970-01-01'?'':pro.rectificationDate}}</td>
 		                            <!--整改报告-->
 		                            <td>
-		                            <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:200px" @mouseover="xuanfu(pro.examinationRectificationReportName)" :title="tishi">
+		                            <div style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;width:120px" @mouseover="xuanfu(pro.examinationRectificationReportName)" :title="tishi">
 		                                <a href="javascript:;" @click="downloadReport(pro.examinationRectificationReportId)">{{pro.examinationRectificationReportName}}</a>
 		                            </div>
 		                            </td>
@@ -260,9 +264,9 @@
 		                            <td style="color:#1e91e2;">
 		                                <!--class="hide3"-->
 		                                <a class="hide3">
-		                                    <i id="h-dingji" @click="showDialog(pro.selfexaminationId)">编辑</i> <i style="color:#1e91e2 ">|</i>
+		                                    <i id="h-dingji" @click="showDialog(pro.selfexaminationId)">编辑</i> <i style="color:#1e91e2 ">|</i></a>
 		                                 
-		                                    
+		                                     <a class="hide3">
 		                                    	<i @click="deleteClick" type="text" size="small">删除</i>
                                            <!--  测评表格的删除弹窗 -->
                                             <div class="dialogShaw">
