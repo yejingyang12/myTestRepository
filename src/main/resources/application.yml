@@ -1,15 +1,11 @@
 server:
   port: 8082
   context-path: /
-  tomcat:
-    accesslog:
-      directory: ./logs
-      enabled: true
-logging:
-  config: classpath:logback.xml
-  path: ./logs
-  level:
-    root: info
+  max-http-header-size: 102400
+  undertow:
+    io-threads: 2
+    buffer-size: 1024
+    direct-buffers: true
 spring:
   profiles:
     active: dev,common
@@ -17,30 +13,10 @@ spring:
     cache: false 
   application:
     name: Class-Protection
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    #url: jdbc:mysql://10.248.74.58:3306/smcc_uatcpro?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&allowMultiQueries=true
-    #username: smccuat
-    #password: smcc2018
-    url: jdbc:mysql://103.249.52.8:13306/smcc_cpro1?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&useSSL=true&allowMultiQueries=true
-    username: root
-    password: esa@2011
-    driver-class-name: com.mysql.jdbc.Driver
-    minIdle: 1
-    maxActive: 20
-    initialSize: 1
-    timeBetweenEvictionRunsMillis: 3000
-    minEvictableIdleTimeMillis: 300000
-  redis:
-    host: 10.248.66.199
-    port: 6379
-    database: 0
-    timeout: 5000
-    pool:
-      max-active: 8
-      max-wait: -1
-      max-idle: 8
-      min-idle: 0
+  http:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
   thymeleaf:
     enabled: true
     mode: LEGACYHTML5

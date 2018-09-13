@@ -10,14 +10,9 @@ spring:
     initialSize: 1
     timeBetweenEvictionRunsMillis: 3000
     minEvictableIdleTimeMillis: 300000
-  redis:
-    host: 10.248.66.199
-    port: 6379
-    database: 0
-    timeout: 5000
-    pool:
-      max-active: 8
-      max-wait: -1
-      max-idle: 8
-      min-idle: 0
+logging:
+  config: classpath:logback-dev.xml
+  path: ./logs
+  level:
+    root: info
 
