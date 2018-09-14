@@ -110,7 +110,6 @@
     years:[],
     statisticsType:'1',
     queryDataparmars:{},//关联图表查询条件
-    loading:false
   };
   Vue.component('chart',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/chart/chart.html').then(function(res){

@@ -21,9 +21,9 @@ label{
 .dataForm>li>div{
     padding:0;
 }
-.dataForm>li input{
+/* .dataForm>li input{
     width: 140%;
-}
+} */
 .recordMain{
     /*width: 1200px;*/
     /*margin:0 auto;*/

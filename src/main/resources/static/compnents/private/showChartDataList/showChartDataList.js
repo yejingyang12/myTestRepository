@@ -609,7 +609,7 @@
           //点击返回按钮 返回到首页
           bus.$on("gradReturn",function(meg){
             if(meg!=null){
-            	window.location.href = originUrl+encodeURI("/page/indexPage");
+            	window.location.href = originUrl+encodeURI("/page/indexChart");
             }
           });
           var list= document.getElementsByClassName('list');

@@ -83,31 +83,31 @@
       <el-form  ref="formData" :rules="rules" :model="formData" label-width="210px">
         <ul class="clearfix dataForm">
           <li class="row P-record">
-            <div class="col-lg-6 col-sm-3">
+            <div class="col-lg-6 col-sm-3" style="width:50% !important">
               <el-form-item label="备案编号：" prop="recordCode" ref= 'recordCode'>
                 <input type="text" placeholder="请输入" name="recordCode" id="recordCode" v-model="formData.recordCode" @change="changeData('recordCode')">
               </el-form-item>
             </div>
-            <div class="col-lg-6 col-sm-3">
+            <div class="col-lg-6 col-sm-3" style="width:50% !important">
               <el-form-item label="备案单位：" prop="recordCompany" ref= 'recordCompany'>
                 <input type="text" placeholder="请输入" name="recordCompany" id="recordCompany" v-model="formData.recordCompany" @change="changeData('recordCompany')">
               </el-form-item>
             </div>
           </li>
           <li class="row P-record">
-            <div class="col-lg-6 col-sm-3">
+            <div class="col-lg-6 col-sm-3" style="width:50% !important">
               <el-form-item label="备案时间：" prop="recordDate">
                 <el-date-picker class="col-md-6 col-sm-3 useData" style="height:34px;overflow:hidden;" v-model="formData.recordDate" type="date"></el-date-picker>
               </el-form-item>
             </div>
-            <div class="col-lg-6 col-sm-3">
+            <div class="col-lg-6 col-sm-3" style="width:50% !important">
               <el-form-item label="受理备案单位：" prop="acceptCompany" ref= 'acceptCompany'>
                 <input type="text" placeholder="请输入" name="acceptCompany" id="acceptCompany" v-model="formData.acceptCompany" @change="changeData('acceptCompany')">
               </el-form-item>
             </div>
           </li>
           <li class="row P-record">
-            <div class="col-lg-6 col-sm-3">
+            <div class="col-lg-6 col-sm-3" style="width:50% !important">
               <el-form-item label="受理日期：" prop="acceptDate">
                 <el-date-picker class="col-md-6 col-sm-3 useData" style="height:34px;overflow:hidden;" v-model="formData.acceptDate" type="date"></el-date-picker>
               </el-form-item>
@@ -124,7 +124,7 @@
                         <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
                       </li>
                     </ul>
-                    <el-button type="primary" size="small" style="bottom:22px">上传</el-button>
+                    <el-button type="primary" size="small" style="bottom:22px" id="btn4">上传</el-button>
                   </div>
                   <input type="file" value="" id="file" @change='onUpload' ref="refOnUpload">
                   <p>

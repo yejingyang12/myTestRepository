@@ -253,26 +253,24 @@
         </li>
         <li class="col-md-12" style="padding-left:0;"  v-if="formData.competentIsExisting == 1 && formData.competentView == 1">
             <p class="col-md-6">
-                <span class="col-md-5 text-right" style="margin-left: -54px;">上级主管部门审批意见：</span>
+                <span class="col-md-5 text-right" style="margin-left: -78px;">上级主管部门审批意见：</span>
                 <span class="col-md-6 text-left" @mouseenter="thingMove()" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                   <a @click="download(formData.directorOpinionId)" style="cursor:pointer" class="thingName">{{formData.directorOpinionName}}</a>
                 </span>
             </p>
             <p class="col-md-4" style="padding-left: 125px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                 <span class="col-md-6 text-right" >附件名称：</span>
-                <span class="col-md-6 text-left thingName" @mouseenter="thingMove()" style="margin-left:-15px">{{formData.directorOpinionName}}</span>
+                <span class="col-md-6 text-left thingName" @mouseenter="thingMove()">{{formData.directorOpinionName}}</span>
             </p>
         </li>
-
-
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-3 text-right">定级报告：</span>
-                <span class="col-md-6 text-left" @mouseenter="thingMove1()" style="margin-left:-15px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><a @click="download(formData.gradingReportId)" style="cursor:pointer" class="thingName1">{{formData.gradingReportName}}</a></span>
+                <span class="col-md-6 text-left" @mouseenter="thingMove1()" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><a @click="download(formData.gradingReportId)" style="cursor:pointer" class="thingName1">{{formData.gradingReportName}}</a></span>
             </p>
             <p class="col-md-6" style="margin-left:70px;width:400px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                 <span class="col-md-5 text-right">定级报告名称：</span>
-                <span class="col-md-6 text-left thingName1" style="margin-left:-15px;"  @mouseenter="thingMove1()">{{formData.gradingReportName}}</span>
+                <span class="col-md-6 text-left thingName1"  @mouseenter="thingMove1()">{{formData.gradingReportName}}</span>
             </p>
         </li>
         <li class="col-md-12">
@@ -294,7 +292,7 @@
             <p class="col-md-6">
                 <span class="col-md-5 text-right">评审附件名称：</span>
                 <span class="col-md-6 text-left"  @mouseenter="thingMove2()">
-                   <div v-if="formData.expertView == '1'" class="thingName2"  style="margin-left:-30px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
+                   <div v-if="formData.expertView == '1'" class="thingName2"  style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;">
                         {{formData.expertReviewName}}
                    </div>
                 </span>
@@ -310,8 +308,5 @@
                 <span class="col-md-3 text-left">{{formData.fillDate}}</span>
             </p>
         </li>
-
-
-
     </ul>
 </div>

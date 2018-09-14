@@ -34,7 +34,7 @@ import com.sinopec.smcc.cpro.webservice.service.impl.WsMQExecResultService;
    private ISFMQExecResult mqexecresultservice;
    
    @Bean
-   public ServletRegistrationBean soapCXFServlet() {
+   public ServletRegistrationBean cxfServletRegistration() {
      return new ServletRegistrationBean(new CXFServlet(), "/service/*");
    }
    

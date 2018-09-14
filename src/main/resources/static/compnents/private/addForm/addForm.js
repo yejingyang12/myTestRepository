@@ -168,6 +168,7 @@
         fkNodeChangeContent : "",
         fkNodeSysChangeMatter : ""
       },
+      loading:true
   };
 (function() {
   Vue.component('addForm', function(resolve, reject) {
@@ -243,9 +244,9 @@
               },
               // 获取省份成功
               getProvinceSuccessMethod : function(_self, responseData) {
-                for (var i = 0; i < responseData.data.length; i++) {
-                  _self.msgProvince=responseData.data;
-                }
+                  for (var i = 0; i < responseData.data.length; i++) {
+                    _self.msgProvince=responseData.data;
+                  }
               },
               // 获取隶属关系
               getAffiliationMethod : function(_self) {
@@ -341,6 +342,7 @@
                 		_self.beginContent.fkAffiliation = data.data.fkAffiliation;//隶属关系
                 		_self.beginContent.fkCompanyType = data.data.fkCompanyType;//单位类型
                 		_self.beginContent.fkPlateType = data.data.fkPlateType;//板块类型
+                    this.loading=false;
                 	}
                 	
                 	

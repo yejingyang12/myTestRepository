@@ -100,7 +100,7 @@ var data1={
 			          if (valid) {
 			          	var uploadData = new FormData(); 
 									uploadData.append('strFilePath', _self.systemForm.importSystemPath);
-			          	ajaxUploadMethod(_self, 'POST','system/importForSystemTemplate', true,uploadData, 'json',_self.importForSystemSuccess);
+	                ajaxUploadMethod(_self, 'POST','system/importForSystemTemplate', true,uploadData, 'json',_self.importForSystemSuccess);
 			          } else {
 			            _self.open5();
 			            return false;
@@ -159,12 +159,13 @@ var data1={
 		            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 	          	}
           	}
-          }, 
+          },
           //回显上传文件
           onUploadSuccessMethod: function(_self,responseData){
           	this.$refs.refOnUpload.value = null;
           	_self.systemForm.importSystemInfo = responseData.data.attachName;
           	_self.systemForm.importSystemPath = responseData.data.uploadUrl;
+          	$("#startBoxExporting").css('display', 'none');
           },
           fileDel:function(path){
 						var _self = this;

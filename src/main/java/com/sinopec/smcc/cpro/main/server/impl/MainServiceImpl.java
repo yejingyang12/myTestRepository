@@ -68,6 +68,8 @@ import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.mapper.MainMapper;
 import com.sinopec.smcc.cpro.main.server.MainService;
 import com.sinopec.smcc.cpro.main.utils.ConvertFieldUtil;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
+import com.sinopec.smcc.cpro.node.entity.NodeResult;
 import com.sinopec.smcc.cpro.node.server.impl.NodeServiceImpl;
 import com.sinopec.smcc.cpro.records.entity.RecordsDetailResult;
 import com.sinopec.smcc.cpro.records.entity.RecordsParam;
@@ -393,9 +395,34 @@ public class MainServiceImpl implements MainService{
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getRecordCode()));
         //受理备案单位
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getAcceptCompany()));
-        //变更记录
+        //变更记录(从节点表中)
         String changeMatter = "";
-        if(StringUtils.isNotBlank(mainResult.getFkChangeMatter())){
+        NodeParam nodeParam = new NodeParam();
+        nodeParam.setSystemId(mainResult.getSystemId());
+        NodeResult nodeResult = this.nodeServiceImpl.queryChangeInformation(nodeParam);
+        if(nodeResult != null){
+          switch (nodeParam.getFkSysChangeMatter()) {
+          case "1":
+            changeMatter = "系统合并";
+            break;
+          case "2":
+            changeMatter = "级别降低";
+            break;
+          case "3":
+            changeMatter = "级别升高";
+            break;
+          case "5":
+            changeMatter = "其他";
+            break;
+          default:
+            break;
+          }
+          cellList.add(ExcelUtils.getExportCelBean("变更事项:"+changeMatter+",变更内容:"+
+              nodeParam.getFkChangeContent()+",变更原因:"+nodeParam.getFkChangeReason()));
+        }else{
+          cellList.add(ExcelUtils.getExportCelBean(""));
+        }
+        /*if(StringUtils.isNotBlank(mainResult.getFkChangeMatter())){
           switch (mainResult.getFkChangeMatter()) {
             case "1":
               changeMatter = "系统合并";
@@ -416,7 +443,7 @@ public class MainServiceImpl implements MainService{
           mainResult.getChangeContent()+",变更原因:"+mainResult.getChangeReason()));
         }else{
           cellList.add(ExcelUtils.getExportCelBean(""));
-        }
+        }*/
         //测评时间 和 测评结果
         EvaluationParam evaluationParam = new EvaluationParam();
         evaluationParam.setFkSystemId(mainResult.getSystemId());

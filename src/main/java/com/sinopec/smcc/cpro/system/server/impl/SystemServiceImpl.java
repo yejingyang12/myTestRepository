@@ -1613,9 +1613,10 @@ public class SystemServiceImpl implements SystemService {
               }
             } else if (i == 10) {
               //  上级系统名称
-              if(this.getUpSystemList() != null && this.getUpSystemList().length>0){
+              String[] stringsFatherSystemName = this.getUpSystemList();
+              if(stringsFatherSystemName != null && stringsFatherSystemName.length>0){
                 regions = new CellRangeAddressList(4 + j * 8, 8 + j * 8, i, i); // 创建所要下拉的区域
-                constraint = this.getDownList(workbook, hidden, this.getUpSystemList(), namedCell);// 生成下拉框内容
+                constraint = this.getDownList(workbook, hidden, stringsFatherSystemName, namedCell);// 生成下拉框内容
               }
             } else if (i == 12) {
               //  是否有此业务类型
@@ -3887,11 +3888,22 @@ public class SystemServiceImpl implements SystemService {
       }
       return array;*/
       String[] array = new String[]{};
-      List<SystemListResult> list = this.systemMapper.selectAllBySystemParam(new SystemParam());
+      
+      /*List<SystemListResult> list = this.systemMapper.selectAllBySystemParam(new SystemParam());
       if (list != null && list.size() > 0) {
         array = new String[list.size()];
         for (int i = 0; i < array.length; i++) {
           array[i] = list.get(i).getSystemName();
+        }
+      }*/
+      
+      //获取smcc中系统
+      List<OrganizationApi> organizationApiList = 
+          this.organizationApiServiceImpl.queryOrgForKeyOrganizationName(new OrganizationApiParam());
+      if(organizationApiList != null && organizationApiList.size() > 0){
+        array = new String[organizationApiList.size()];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = organizationApiList.get(i).getOrgName();
         }
       }
       return array;
@@ -4277,12 +4289,17 @@ public class SystemServiceImpl implements SystemService {
           String[] topNum = dataList.get(countLeng * 8 + 4);
           SystemParam system = new SystemParam();
           // 验证是否新建重复
+          boolean shouldBreak = false;
           for (int j = 0; j < systemCode.size(); j++) {
             if (topNum[2].equals(systemCode.get(j))) {
               System.out.println(systemCode.get(j) + "_______________"
                   + topNum[2]);
-              return false;
+              shouldBreak = true;
+              break;
             }
+          }
+          if(shouldBreak){
+            continue;
           }
           Map<String, String> map1 = isService.get(countLeng);
           Map<String, String> map2 = isSysNetWork.get(countLeng);
@@ -4894,7 +4911,10 @@ public class SystemServiceImpl implements SystemService {
     }
     return systemAllInfoResult;
   }
-	
-
+  
+  @Override
+  public SystemResult querySystemStatusBysystemId(SystemParam systemParam){
+    return systemMapper.selectSystem(systemParam);
+  }
 
 }

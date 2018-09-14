@@ -183,5 +183,9 @@ public interface SystemService {
    * 判断首页申请变更弹窗
    */
   SystemAllInfoResult queryChange(SystemParam systemParam);
+  /**
+   * 通过系统Id查询系统状态
+   */
+  SystemResult querySystemStatusBysystemId(SystemParam systemParam);
   
 }

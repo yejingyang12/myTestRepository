@@ -77,6 +77,7 @@ window.onload = function () {
         	},
         	
         	saveAndSubmit:function(formName){
+        		this.yesOrNotSubmit = false;
         		this.saveYesOrNo = true;
         		this.judgeSaveOrNot();
         	},
@@ -87,13 +88,12 @@ window.onload = function () {
         		_self.judgeChange(0);
         		if(_self.flag1){
         			if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
-         			 setTimeout(function(){
-         				 _self.submitCheck = true;
+        				setTimeout(function(){
+            			_self.submitBtn('formData');
          			 },1000);
-         		
         			}else{
-	         			//没有保存，出提示保存弹窗
-	         			_self.saveThePrompt = true;
+	         			//页面点了保存，取消，然后点提交
+        				_self.yesOrNotSubmit = true;
         			}
         		}else{
         			//页面数据改动过
@@ -104,12 +104,24 @@ window.onload = function () {
           saveBtn:function(formName) {
             bus.$emit('addGradName',formName);
           },
-          saveAlertBtn:function(formName) {
-          	this.judgeTwoOrThree = true;
-            bus.$emit('addGradName',formName);
+//          saveAlertBtn:function(formName) {
+//          	this.judgeTwoOrThree = true;
+//            bus.$emit('addGradName',formName);
+//          },
+          queryGradingIdBySystemId:function(systemId){
+          	ajaxMethod(_self, 'post','grading/queryEditGrading', false,
+                '{"fkSystemId":"'+systemId+'"}', 'json',
+                'application/json;charset=UTF-8',
+                _self.getGradeSuccessMethod);
+          },
+          getGradeSuccessMethod:function(_self, responseData){
+          	_self.formData.gradingId = responseData.data.gradingId;
           },
           saveBtnSuccessMethod : function(_self, responseData) {
-            data.formData.fkSystemId = responseData.data;
+          	_self.formData.fkSystemId = responseData.data;
+          	//通过systemId获取定级id
+          	this.queryGradingIdBySystemId(_self.formData.fkSystemId);
+          	
             //点击保存，即清空所有session。
             ajaxMethod(this, 'post',
                 'main/removeSession', true,JSON.stringify(''), 'json',

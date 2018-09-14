@@ -115,6 +115,22 @@
         </div>
     </div>
     
+        <div class="inquiry" v-show="yesOrNotSubmit">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否确定提交审批？</p>
+                    <span>提交后内容不可修改</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="saveAndSubmit('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="yesOrNotSubmit = false">取消</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="inquiry" v-show="saveThePrompt">
         <div class="inquiry">
             <div class="cenrerBox">

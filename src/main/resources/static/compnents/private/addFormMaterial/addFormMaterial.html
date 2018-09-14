@@ -162,11 +162,11 @@
                     <div class="col-md-12">
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 P-sysTitle text-right sysTitle">6.专家评审情况：</label>
-                            <p class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.expertReviewId)">{{formData.expertReviewName}}</p>
+                            <p class="downDoc col-md-6 P-addForm-fj" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" @click="downloadFile(formData.expertReviewId)" @mouseover="xuanfu(formData.expertReviewName)" :title="tishi">{{formData.expertReviewName}}</p>
                         </div>
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-9 text-left dixName">{{formData.expertReviewName}}</p>
+                            <p class="col-md-9 text-left dixName"  style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"  @mouseover="xuanfu(formData.expertReviewName)" :title="tishi">{{formData.expertReviewName}}</p>
                         </div>
                     </div>
                 </li>

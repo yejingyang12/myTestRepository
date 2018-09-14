@@ -110,9 +110,9 @@ public class GradingController {
   public RetResult<String> saveGrading(HttpServletRequest request, @RequestBody GradingParam gradingParam)
       throws BusinessException{
     String userName = this.nodeServiceImpl.getUserNameFromRequest(request);
-    String gradingId = this.gradingServiceImpl.saveGrading(userName,gradingParam);
+    String systemId = this.gradingServiceImpl.saveGrading(userName,gradingParam);
 
-    return RetResultUtil.ok(gradingId);
+    return RetResultUtil.ok(systemId);
   }
   
   /**

@@ -14,6 +14,7 @@
     		revokereason:"",//撤销原因
     		revokeRecordsId:"",//撤销备案ID
     		revokeRecordsName:"",//撤销备案名称
+    		isOrNotRevokeRecord:true,//是否是撤销备案
     };
     Vue.component('viewDetailsRecord',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/viewDetailsRecord/viewDetailsRecord.html').then(function (res) {
@@ -27,10 +28,24 @@
                   var _self=this;
                   //	 列表请求数据
                   ajaxMethod(_self, "post", url, false ,'{"fkSystemId":"'+systemId+'"}', "json", 'application/json;charset=UTF-8', _self.createdSuccess);
+                  var url1 = "system/querySystemStatus";
+                  //	查询系统信息
+                  ajaxMethod(_self, "post", url1, false ,'{"systemId":"'+systemId+'"}', "json", 'application/json;charset=UTF-8', _self.querySystemStatusSuccess);
                 },
                 mounted: function() {
                 },
                 methods:{
+                	querySystemStatusSuccess:function(_self, responseData){
+                		var gradingStatus = responseData.data.gradingStatus;
+                		var examineStatus = responseData.data.examineStatus;
+                		var recordStatus = responseData.data.recordStatus;
+                		var evaluationStatus = responseData.data.evaluationStatus;
+                		var examinationStatus = responseData.data.examinationStatus;
+                		
+                		if(gradingStatus == 4 && examineStatus == 5 && recordStatus == 4 && evaluationStatus == 4 && examinationStatus == 4){
+                			_self.isOrNotRevokeRecord = false;
+                		}
+                	},
                 	// 获取备案信息详情成功
                   createdSuccess : function(_self, recordsResult) {
                   	if(recordsResult.data != null){

@@ -343,4 +343,15 @@ public class SystemController {
     
     return RetResultUtil.ok(system);
   }
+  
+  @RequestMapping(value = "/querySystemStatus", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<SystemResult> querySystemStatus(HttpServletRequest request,@RequestBody SystemParam systemParam
+      ) throws BusinessException{
+
+    SystemResult system = this.systemServiceImpl.querySystemStatusBysystemId(systemParam);
+    
+    return RetResultUtil.ok(system);
+  }
 }

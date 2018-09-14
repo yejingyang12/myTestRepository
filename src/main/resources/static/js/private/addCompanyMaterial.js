@@ -16,14 +16,28 @@ window.onload = function () {
           },
           // 保存成功
           saveBtnSuccessMethod : function(_self, responseData) {
+          	var systemId = responseData.data;
           	bus.$emit('deleteConfirm','');
           	bus.$emit('placeContent',_self);
+          	this.querySystemMaterialsInfo(systemId);
           	_self.saveSuccess = true;
-          	this.saveYesOrNo = true;
+
+          	//查询材料表Id
+          },
+          querySystemMaterialsInfo : function(systemId){
+          	ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', false,
+                '{"fkSystemId":"'+systemId+'"}', 'json',
+                'application/json;charset=UTF-8',
+                _self.getMaterialsInfoSuccessMethod);
+          },
+          getMaterialsInfoSuccessMethod : function(_self, responseData){
+          	_self.formData.systemMaterialsId = responseData.data.systemMaterialsId;
           },
           saveAndSubmit:function(formName){
+          	this.yesOrNotSubmit = false;
           	this.saveYesOrNo = true;
-        		this.judgeSaveOrNot();
+          	this.judgeSaveOrNot();
+        		
           },
           cancelSaveSuccess:function(){
           	bus.$emit('placeContent',this);
@@ -40,11 +54,11 @@ window.onload = function () {
           	if(_self.flag1){
           		if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
           			setTimeout(function(){
-          				 _self.submitCheck = true;
-          			 },1000);
+            			_self.submitBtn('formData');
+         			 },1000);
           		}else{
-          			//没有保存，出提示保存弹窗
-          			_self.saveThePrompt = true;
+          			//保存成功，但是取消提交，现在另外点击提交
+              	this.yesOrNotSubmit = true;
           		}
           	}else{
           		//本页数据改变，需要重新保存
@@ -53,12 +67,12 @@ window.onload = function () {
         	},
           //提交
           submitBtn:function(formName) {
-          	
             data.submitCheck = false;
             bus.$emit('addSubmitMaterialFormName',formName);
           },
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
+          	
           	bus.$emit('deleteConfirm','');
             //$(".startBox").show().delay(2000).fadeOut();
           	$(".submit").show().delay(1000).fadeOut();

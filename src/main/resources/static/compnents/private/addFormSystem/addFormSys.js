@@ -469,6 +469,7 @@ var  data={
         systemKeyOtherName:'',
         systemProServices:''
       },
+      loading:true
     };
 
 (function () {
@@ -1244,20 +1245,30 @@ var  data={
                     	}
                     	if(_self.formData.systemKeyProducts!=null){
                       	  for(var k=0;k<currentContent.systemKeyProducts.length;k++){
-                      		  if(!response.systemKeyProducts[k].productsNumber){
-                      		  	
-                      		  	_self.formData.systemKeyProducts[k].productsNumber = 0;
-                      		  	
-                                
+                      		  if(!response.systemKeyProducts[k].productsNumber){//没填
+                      		  	_self.formData.systemKeyProducts[k].number = 0;
+                      		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
+                      		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
+                      		  	_self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
+                      		  	_self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
+                      		  	_self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
                       		  }else if(response.systemKeyProducts[k].productsNumber == "共有"){
                       		  	_self.formData.systemKeyProducts[k].allHave=1
                       		  	_self.formData.systemKeyProducts[k].number = 0;
-                      		  	
+                      		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
+                      		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
+                      		  	_self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
+                      		  	_self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
+                      		  	_self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
 
-                      		  }else{
+                      		  }else{//其他
                       		  	_self.formData.systemKeyProducts[k].allHave=2
                       		  	_self.formData.systemKeyProducts[k].number = response.systemKeyProducts[k].productsNumber;
-                      		  	
+                      		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
+                      		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
+                      		  	_self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
+                      		  	_self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
+                      		  	_self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
                       		  }
                       	  }
                         
@@ -1622,7 +1633,7 @@ var  data={
                   //让开始内容与开始的formData一致
                   this.beginContent.companyId = companyId;
                   this.beginContent.fkCompanyCode = companyCode;
-                  
+                  this.loading=false;
                   if(companyCode==''||companyCode==null){
                     this.companyNameDisabled = false;
                   }

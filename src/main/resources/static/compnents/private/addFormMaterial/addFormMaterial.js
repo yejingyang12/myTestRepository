@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/24.
  */
 var data={
+		yesOrNotSubmit:false,
 		returnIndex:false,
 		saveSuccess:false,//保存成功弹窗
 		saveThePrompt:false,//提示保存弹窗
@@ -88,6 +89,7 @@ var data={
           changeType:'',
           saveType:''
       	},
+        tishi:""
     };
 (function () {
     Vue.component('addFormMaterial',function (resolve, reject) {
@@ -98,7 +100,9 @@ var data={
                     return data;
                 },
                 methods:{
-
+                  xuanfu:function(data){
+                    this.tishi=data;
+                  },
                   onUpload: function(e){
                   	var fileSize;
                   	if(e.target.files.length!=0){

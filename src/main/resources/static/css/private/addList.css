@@ -45,7 +45,10 @@
 .active{
     display: none;
 }
-span{
+/* span{
     font:14px "微软雅黑";
-    color: #fff;
+    color: #565656 !important;
+} */
+#btn1 span,#btn2 span,#btn3 span,#btn4 span{
+  color:#fff !important;
 }

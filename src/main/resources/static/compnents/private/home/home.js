@@ -215,7 +215,7 @@
     headquarters:false,
     enterprise:false,
     nameList:[],
-    loading: false
+    loading: true
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/home/home.html').then(function (res) {
@@ -399,15 +399,11 @@
           //ajax请求成功的方法
           listSuccess: function (_self, responseData) {
 //            data.result = dataList;  
-            if(responseData){
               _self.result = responseData.data.list;
               _self.result.totalPages = responseData.data.totalPage;
               _self.result.pagesize = responseData.data.pageSize;
               _self.result.currentPage = responseData.data.currPage;
               _self.result.total = responseData.data.totalCount;
-            }else{
-              this.loading = true
-            }
 //          	_self.result.result = responseData.data;
           },   
           //上一页下一页点击事件
@@ -521,6 +517,7 @@
           // 获取系统名称下拉列表成功
           getSystemNameSuccess : function(_self, systemList) {
           		_self.system = systemList.data;
+              this.loading=false;
           },
           // 获取单位名称下拉列表
           getCompanyName : function(_self) {

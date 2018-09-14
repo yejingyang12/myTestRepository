@@ -4,6 +4,7 @@ var data={
 	       
 	      }
 	},
+	yesOrNotSubmit:false,//提交弹窗
 	returnIndex:false,
 	judgeTwoOrThree:false,
 	saveSuccess:false,//保存成功弹窗
