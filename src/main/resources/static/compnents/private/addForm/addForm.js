@@ -1,4 +1,5 @@
   var data = {
+  		returnIndex:false,
   		flag:false,
   		disabledInput:false,
       directive:false,

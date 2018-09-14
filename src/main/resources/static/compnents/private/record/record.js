@@ -300,7 +300,7 @@ var data1={
           downloadListSuccess: function (_self,responseData) {
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
-          	window.location.href="/fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
+          	window.location.href=originUrl+"/fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
           },
 					
           //清除验证提示信息

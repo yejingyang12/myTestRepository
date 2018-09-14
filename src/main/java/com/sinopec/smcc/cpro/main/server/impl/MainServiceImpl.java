@@ -3175,9 +3175,11 @@ public class MainServiceImpl implements MainService{
     String systemName = dataList.get(0)[1];
     systemParam.setSystemName(systemName);
     String standardizedCode = dataList.get(0)[3];
-    systemParam.setStandardizedCode(standardizedCode);
-    //如果系统名称或标准化代码没填写，导入失败
-    if(StringUtils.isBlank(systemName) || StringUtils.isBlank(standardizedCode)){
+    if(!StringUtils.isBlank(standardizedCode)){
+      systemParam.setStandardizedCode(standardizedCode);
+    }
+    //如果系统名称没填写，导入失败(或标准化代码)
+    if(StringUtils.isBlank(systemName)){
       throw new BusinessException(EnumResult.UNKONW_ERROR);
     }
     //根据系统名称和标准化代码查询系统信息
@@ -3187,6 +3189,10 @@ public class MainServiceImpl implements MainService{
     if(systemResult == null){
       throw new BusinessException(EnumResult.UNKONW_ERROR);
     }else{
+      //没有标准化代码，也不是父系统的时候抛出异常
+      if(StringUtils.isBlank(standardizedCode) && systemResult.getFkSystemType() != 2){
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }
       if(systemResult.getGradingStatus() != null && systemResult.getGradingStatus() > 2){
         //不是未定级与预定级，无法导入定级信息。1：未定级，2：预定级
         throw new BusinessException(EnumResult.UNKONW_ERROR);

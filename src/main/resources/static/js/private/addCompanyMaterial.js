@@ -9,20 +9,48 @@ window.onload = function () {
             return data;
         },
         methods:{
+        	
           //保存
           saveBtn:function(formName) {
-          	
             bus.$emit('addMaterialFormName',formName);
           },
-          // 获取系统信息成功
+          // 保存成功
           saveBtnSuccessMethod : function(_self, responseData) {
           	bus.$emit('deleteConfirm','');
-          	$(".save").show().delay(1000).fadeOut();
-            //$(".startBox").show().delay(2000).fadeOut();
-            window.setTimeout(function () {
-              window.location.href = originUrl+"page/indexPage";
-            }, 1300);
+          	bus.$emit('placeContent',_self);
+          	_self.saveSuccess = true;
+          	this.saveYesOrNo = true;
           },
+          saveAndSubmit:function(formName){
+          	this.saveYesOrNo = true;
+        		this.judgeSaveOrNot();
+          },
+          cancelSaveSuccess:function(){
+          	bus.$emit('placeContent',this);
+          	this.saveSuccess = false;
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
+          },
+          judgeSaveOrNot:function(){
+          	this.saveSuccess = false;
+          	var _self = this;
+        		//如果上次保存完又改动过数据，出提示保存弹窗
+        		_self.judgeChange();
+          	if(_self.flag1){
+          		if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
+          			setTimeout(function(){
+          				 _self.submitCheck = true;
+          			 },1000);
+          		}else{
+          			//没有保存，出提示保存弹窗
+          			_self.saveThePrompt = true;
+          		}
+          	}else{
+          		//本页数据改变，需要重新保存
+          		this.saveThePrompt = true;
+          	}
+        	},
           //提交
           submitBtn:function(formName) {
           	
@@ -34,9 +62,14 @@ window.onload = function () {
           	bus.$emit('deleteConfirm','');
             //$(".startBox").show().delay(2000).fadeOut();
           	$(".submit").show().delay(1000).fadeOut();
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
             }, 1300);
+          },
+          removeSuccess:function(){
           },
           //上一页
           preBtn:function(formName) {
@@ -44,6 +77,20 @@ window.onload = function () {
             data.check = false;
             bus.$emit('addPreMaterialFormName',formName);
           },
+          saveMaterialToSession:function(){
+            //新的上一页，点击没有验证，直接过，存入session，下一步回显
+            	ajaxMethod(this, 'post',
+                  'grading/saveSystemMaterialsSession', true,
+                  JSON.stringify(data.formData), 'json',
+                  'application/json;charset=UTF-8',
+                  this.saveMaterialSessionSuccess);
+            },
+            saveMaterialSessionSuccess:function(_self,responseData){
+            	if(responseData.data!=null){
+            		window.location.href = originUrl+"page/addCompanyGradPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
+            	}
+            },
+          
           // 成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
           	bus.$emit('deleteConfirm','');
@@ -61,8 +108,25 @@ window.onload = function () {
 //              }, 2300);
             }
           },
+          returnIndexMethod:function(){
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
+          },
+          removeSessionSuccess:function(){
+          	window.location.href = originUrl+"page/indexPage";
+          },
           //返回
           returnBtn:function() {
+          	this.judgeChange();
+          	if(this.flag1){
+          		//没有改变
+          		window.location.href = originUrl+"page/indexPage";
+          	}else{
+          		this.returnIndex = true;
+          	}
+          },
+          judgeChange:function(){
           	var flag = true;
           	var beginContent = this.beginContent;
           	var currentContent = this.formData;
@@ -99,13 +163,9 @@ window.onload = function () {
           	if(beginContent.directorOpinionName != currentContent.directorOpinionName){//上级主管部门审批意见
           		flag = false;
           	}
-          	if(flag){
-          		//没有改变
-          		window.location.href = originUrl+"page/indexPage";
-          	}else{
-          		this.retuenCheck = true;
-          	}
+          	this.flag1 = flag;
           },
+          
           //保存返回
           retuenSave:function(formName){
           	this.retuenCheck = false;

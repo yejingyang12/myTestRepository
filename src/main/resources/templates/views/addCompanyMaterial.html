@@ -76,9 +76,9 @@
     <add-form-material>
       <li slot="materialBtn" class="fr liMargin">
         <div class="saveBnt">
-          <button type="button" class="btn btn-success " id="submit" @click="submitCheck = true">提交</button>
+          <button type="button" class="btn btn-success " id="submit" @click="judgeSaveOrNot()">提交</button>
           <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')">保存</button>
-          <button type="button" class="btn btn-default" id="pre" @click="check = true">上一步</button>
+          <button type="button" class="btn btn-default" id="pre" @click="saveMaterialToSession()">上一步</button>
         </div>
       </li>
     </add-form-material>
@@ -95,6 +95,38 @@
             <div class="inquiryBtn">
                 <button type="button" class="btn btn-success" @click="retuenSave('formData')">确定</button>
                 <button type="button" class="btn btn-default" @click="returnNotSave()">取消</button>
+            </div>
+        </div>
+    </div>
+    
+        <div class="inquiryBoxShow" v-show="returnIndex">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否确定离开此页?</p>
+                    <span>当前页面所填内容还未保存哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="returnIndexMethod()">确定</button>
+                <button type="button" class="btn btn-default" @click="returnIndex = false">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="inquiry" v-show="saveThePrompt">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>所填内容还未保存，请先保存!</p>
+                    <span>先保存才能提交审批</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="saveThePrompt = false">确定</button>
+                <button type="button" class="btn ls btn-default" @click="saveThePrompt = false">取消</button>
             </div>
         </div>
     </div>
@@ -136,6 +168,23 @@
     <div class="startBox save" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
     </div>
+    
+    <div class="inquiry" v-show="saveSuccess">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>保存成功，是否需要提交审批</p>
+                    <span>申请审批后内容无法修改哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="saveAndSubmit('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="cancelSaveSuccess()">取消</button>
+            </div>
+        </div>
+    </div>
+    
     
 </div>
 </body>

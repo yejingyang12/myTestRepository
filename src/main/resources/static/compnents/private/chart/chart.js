@@ -410,9 +410,6 @@
 						}
 					});
         }
-      }),
-      reject({
-        this.loading=true;
       })
     })
   })

@@ -4,8 +4,15 @@ var data={
 	       
 	      }
 	},
+	returnIndex:false,
+	judgeTwoOrThree:false,
+	saveSuccess:false,//保存成功弹窗
+	saveThePrompt:false,//提示保存弹窗
+	saveYesOrNo:false,//判断提交时是否保存
 	returnCheck:false,
 	judgeType : 0,//判断是上一步还是返回按钮
+	flag:false,
+	flag1:false,
 	ceshi:false,
 	ceshi2:false,
 	dialogVisibled:false,
@@ -130,21 +137,33 @@ var data={
         fnCheck:"",
         tishi:"",
         beginContent:{
-        	competentIsExisting:"",
-        	competentName:"",
-        	competentView:"",
-        	directorOpinionName:"",
-        	expertReviewName:"",
-        	expertView:"",
-        	fillDate:"",
-        	filler:"",
-        	fkBizSPRankDegree:"",
-        	fkBizSPRankLevel:"",
-        	fkBizSystemDegree:"",
-        	fkBizSystemLevel:"",
-        	fkSpRanklevel:"",
-        	gradingReportName:"",
-        	rankTime:""
+          gradingId:'',
+          fkSystemId:'',
+      		gradeRecordSysName:'',
+          fkBizSPRankDegree:'',
+          fkBizSPRankLevel:'',
+          fkBizSystemDegree:'',
+          fkBizSystemLevel:'',
+          fkSpRanklevel:0,
+          expertView:'',
+          rankExplainDesc:'',
+          rankTime:'',
+          competentIsExisting:'',
+          competentName:'',
+          competentView:'',
+          filler:'',
+          fillDate:'',
+          gradingReportId:'',
+          gradingReportName:'',
+          gradingReportPath:'',
+          expertReviewId:'',
+          expertReviewName:'',
+          expertReviewPath:'',
+          directorOpinionId:'',
+          directorOpinionName:'',
+          directorOpinionPath:'',
+          changeType:'',
+          gradeRecordSysName:''
         }
     };
 
@@ -1135,38 +1154,43 @@ var data={
                       'application/json;charset=UTF-8',
                       _self.getGradeSuccessMethod);
                     },
+                    placeBeginContent:function(_self,content){
+                    	
+                    	_self.beginContent.competentIsExisting = content.competentIsExisting;
+                    	_self.beginContent.competentName = content.competentName;
+                    	_self.beginContent.competentView = content.competentView;
+                    	if(content.directorOpinionName != null){
+                    		_self.beginContent.directorOpinionName = content.directorOpinionName;
+                    	}else{
+                    		_self.beginContent.directorOpinionName = "";
+                    	}
+                    	_self.beginContent.expertReviewName = content.expertReviewName;
+                    	_self.beginContent.expertView = content.expertView;
+                    	if(content.fillDate != "1970-01-01"){
+                    		_self.beginContent.fillDate = content.fillDate;
+                    	}else{
+                    		_self.beginContent.fillDate = "";
+                    	}
+                    	
+                    	_self.beginContent.filler = content.filler;
+                    	if(content.fkBizSPRankDegree != ''){
+                    		_self.beginContent.fkBizSPRankDegree = content.fkBizSPRankDegree;
+                    	}
+                    	_self.beginContent.fkBizSPRankLevel = content.fkBizSPRankLevel;
+                    	if(content.fkBizSystemDegree != ''){
+                    		_self.beginContent.fkBizSystemDegree = content.fkBizSystemDegree;
+                    	}
+                    	_self.beginContent.fkBizSystemLevel = content.fkBizSystemLevel;
+                    	_self.beginContent.fkSpRanklevel = content.fkSpRanklevel;
+                    	_self.beginContent.gradingReportName = content.gradingReportName;
+                    	_self.beginContent.rankTime = content.rankTime;
+                    },
+                    
                     // 获取回显安全按等级成功
                     getGradeSuccessMethod : function(_self, responseData) {
                       if(responseData.data!=null){
-                      	//在进入页面时记录起始页面内容，在用户点击上一步时，如果用户没有修改过内容，默认不出弹窗
-                      	this.beginContent.competentIsExisting = responseData.data.competentIsExisting;
-                      	this.beginContent.competentName = responseData.data.competentName;
-                      	this.beginContent.competentView = responseData.data.competentView;
-                      	if(responseData.data.directorOpinionName != null){
-                      		this.beginContent.directorOpinionName = responseData.data.directorOpinionName;
-                      	}else{
-                      		this.beginContent.directorOpinionName = "";
-                      	}
-                      	this.beginContent.expertReviewName = responseData.data.expertReviewName;
-                      	this.beginContent.expertView = responseData.data.expertView;
-                      	if(responseData.data.fillDate != "1970-01-01"){
-                      		this.beginContent.fillDate = responseData.data.fillDate;
-                      	}else{
-                      		this.beginContent.fillDate = "";
-                      	}
-                      	
-                      	this.beginContent.filler = responseData.data.filler;
-                      	if(responseData.data.fkBizSPRankDegree != ''){
-                      		this.beginContent.fkBizSPRankDegree = responseData.data.fkBizSPRankDegree;
-                      	}
-                      	this.beginContent.fkBizSPRankLevel = responseData.data.fkBizSPRankLevel;
-                      	if(responseData.data.fkBizSystemDegree != ''){
-                      		this.beginContent.fkBizSystemDegree = responseData.data.fkBizSystemDegree;
-                      	}
-                      	this.beginContent.fkBizSystemLevel = responseData.data.fkBizSystemLevel;
-                      	this.beginContent.fkSpRanklevel = responseData.data.fkSpRanklevel;
-                      	this.beginContent.gradingReportName = responseData.data.gradingReportName;
-                      	this.beginContent.rankTime = responseData.data.rankTime;
+                      //在进入页面时记录起始页面内容，在用户点击上一步时，如果用户没有修改过内容，默认不出弹窗
+                      	_self.placeBeginContent(_self,responseData.data);
                         _self.formData = responseData.data;
                       }
                       this.initial(_self);
@@ -1699,6 +1723,12 @@ var data={
                   				 return false;
                   			 }
                   		 });
+                  	 }
+                   });
+                   
+                   bus.$on('placeContent',function(meg){
+                  	 if(meg!=null){
+                  		 _self.placeBeginContent(_self,meg);
                   	 }
                    });
                    

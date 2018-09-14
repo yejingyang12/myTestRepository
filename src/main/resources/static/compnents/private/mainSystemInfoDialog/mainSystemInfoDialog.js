@@ -4,7 +4,8 @@
 			 weizhi:null,
 			 formDialogData:{
 			   searchSystem:'',
-			   systemIds:[]
+			   systemIds:[],
+			   exportSystemInfo:[]
 			 },
 		     input5: '', 
 		  /*   multipleSelection: [],*/
@@ -72,8 +73,10 @@
 	              _self.returnParam = responseData.data;
 	           },
 	           exportSystemInfoMethod:function(){
+	          	 this.formDialogData.exportSystemInfo = [];
 	             for(var i=0;i<this.tableData2.length;i++){
 	               this.formDialogData.systemIds[i] = this.tableData2[i].systemId;
+	               this.formDialogData.exportSystemInfo[i] = this.tableData2[i];
 	             }
 	             if(this.formDialogData.systemIds.length>0){
 	               ajaxMethod(this, 'post',

@@ -1090,7 +1090,7 @@
           downloadSuccess: function (_self,responseData) {
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
-         	 	window.location.href=originUrl+encodeURI("fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name);
+         	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;
           }, 
           /*首页"高级查询"下的复选框--所属板块：*/
           checkAllHeightSearch: function () {

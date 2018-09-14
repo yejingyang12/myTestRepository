@@ -379,4 +379,24 @@ public class MainController {
     session.removeAttribute("systemMaterials");
     return RetResultUtil.ok();
   }
+  
+  @RequestMapping(value = "/removeSystemSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<Void> removeSystemSession(HttpServletRequest request) 
+      throws BusinessException {
+    HttpSession session = request.getSession();
+    session.removeAttribute("systemSession");;
+    return RetResultUtil.ok();
+  }
+  
+  @RequestMapping(value = "/removeGradingSession", method = RequestMethod.POST)
+  @ResponseBody
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public RetResult<Void> removeGradingSession(HttpServletRequest request) 
+      throws BusinessException {
+    HttpSession session = request.getSession();
+    session.removeAttribute("gradSession");;
+    return RetResultUtil.ok();
+  }
 }

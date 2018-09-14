@@ -119,6 +119,7 @@ public class DiagramParam {
   private String examinStatusType;
   
   private String jurBind;
+  private List<String> systemIdList;//系统ID集合
   
   /**
    * @return the userId
@@ -131,6 +132,12 @@ public class DiagramParam {
    */
   public void setUserId(String userId) {
     this.userId = userId;
+  }
+  public List<String> getSystemIdList() {
+    return systemIdList;
+  }
+  public void setSystemIdList(List<String> systemIdList) {
+    this.systemIdList = systemIdList;
   }
   /**
    * @return the companyList

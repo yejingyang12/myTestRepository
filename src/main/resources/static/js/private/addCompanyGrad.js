@@ -60,32 +60,75 @@ window.onload = function () {
         		if(beginContent.rankTime != currentContent.rankTime){//定级时间
         			flag = false;
         		}
+        		this.flag1 = flag;
         		if(this.judgeType == 1){//上一步
         			if(flag){
         				this.preBtnSuccessMethod('', '',true);
         			}else{
         				this.check = true;
         			}
-        		}else{//返回
+        		}else if(this.judgeType == 2){//返回
         			if(flag){//没有改动
         				window.location.href = originUrl+"page/indexPage";
         			}else{
-        				this.returnCheck = true;
+        				this.returnIndex = true;
         			}
         		}
         	},
         	
+        	saveAndSubmit:function(formName){
+        		this.saveYesOrNo = true;
+        		this.judgeSaveOrNot();
+        	},
+        	judgeSaveOrNot:function(){
+        		this.saveSuccess = false;
+        		var _self = this;
+        		//如果上次保存完又改动过数据，出提示保存弹窗
+        		_self.judgeChange(0);
+        		if(_self.flag1){
+        			if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
+         			 setTimeout(function(){
+         				 _self.submitCheck = true;
+         			 },1000);
+         		
+        			}else{
+	         			//没有保存，出提示保存弹窗
+	         			_self.saveThePrompt = true;
+        			}
+        		}else{
+        			//页面数据改动过
+        			_self.saveThePrompt = true;
+        		}
+        	},
           //保存
           saveBtn:function(formName) {
             bus.$emit('addGradName',formName);
           },
-          // 获取系统信息成功
+          saveAlertBtn:function(formName) {
+          	this.judgeTwoOrThree = true;
+            bus.$emit('addGradName',formName);
+          },
           saveBtnSuccessMethod : function(_self, responseData) {
-            data.formData.gradingId = responseData.data;
-            $(".save").show().delay(1000).fadeOut();
-            window.setTimeout(function () {
-              window.location.href = originUrl+"page/indexPage";
-            }, 1300);
+            data.formData.fkSystemId = responseData.data;
+            //点击保存，即清空所有session。
+            ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
+            if(_self.judgeTwoOrThree){
+            	$(".save").show().delay(1000).fadeOut();
+            }else{
+            	var formName = _self.formData;
+            	bus.$emit('placeContent',formName);
+            	_self.saveSuccess = true;
+            }
+          },
+          cancelSaveSuccess:function(){
+          	var formName = this.formData;
+          	bus.$emit('placeContent',formName);
+          	this.saveSuccess=false;
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
           },
           //提交
           submitBtn:function(formName) {
@@ -95,6 +138,10 @@ window.onload = function () {
           // 成功
           submitBtnSuccessMethod : function(_self, responseData) {
             $(".submit").show().delay(1000).fadeOut();
+            //提交也清空session
+            ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
             window.setTimeout(function () {
               window.location.href = originUrl+"page/indexPage";
             }, 1300);
@@ -103,6 +150,19 @@ window.onload = function () {
           preBtn:function(formName) {
             data.check = false;
             bus.$emit('addPreGradName',formName);
+          },
+          saveGradingToSession:function(){
+          //新的上一页，点击没有验证，直接过，存入session，下一步回显
+          	ajaxMethod(this, 'post',
+                'grading/saveGradSession', true,
+                JSON.stringify(data.formData), 'json',
+                'application/json;charset=UTF-8',
+                this.saveGradingSessionSuccess);
+          },
+          saveGradingSessionSuccess:function(_self,responseData){
+          	if(responseData.data!=null){
+          		window.location.href = originUrl+"page/addCompanySystemPage?systemId="+systemId+"&companyId="+companyId+"&companyCode="+companyCode;
+          	}
           },
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
@@ -121,16 +181,31 @@ window.onload = function () {
           next1Btn:function(formName) {
             bus.$emit('addNextGradName',formName);
           },
+          removeSuccess:function(){
+          },
           // 获取成功
           nextBtn2SuccessMethod : function(_self, responseData) {
-            data.formData.gradingId = responseData.data;
+          	data.formData.gradingId = responseData.data;
+          	ajaxMethod(this, 'post',
+                'main/removeGradingSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
             window.location.href = originUrl+"page/addCompanyMaterialPage?systemId="+systemId+"&companyId="+companyId+"&fkCompanyCode="+companyCode;
           },
-          //取消保存，返回
+          
           returnBtn:function() {
-          	this.returnCheck = false;
-            window.location.href = originUrl+"page/indexPage";
+//          	this.returnCheck = false;
+//            window.location.href = originUrl+"page/indexPage";
+          	this.judgeChange(2)
           },
+          returnIndexMethod:function(){
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
+          },
+          removeSessionSuccess:function(){
+          	window.location.href = originUrl+"page/indexPage";
+          },
+          
           //确认保存，返回
           retuenSave:function(formName){
             bus.$emit('retuenSaveGrad',formName);

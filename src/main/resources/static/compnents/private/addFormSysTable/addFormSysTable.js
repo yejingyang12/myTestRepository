@@ -2,7 +2,6 @@
  * Created by timha on 2018/6/1.
  */
 (function () {
-    
     Vue.component('addFormSysTable',function (resolve,reject) {
         $.get(comp_src+'/compnents/private/addFormSysTable/addFormSysTable.html').then(function(res){
             resolve({
@@ -58,6 +57,20 @@
                         }
                       }
                       _self.sysProductType = responseData.data;
+                    },
+                    radioChange:function(index,allHave){
+                    	if(allHave == 1){
+                    		this.formData.systemKeyProducts[index].allHave = 1;
+                    		this.formData.systemKeyProducts[index].number = 0;
+                    		this.formData.systemKeyProducts[index].productsNumber = "共有";
+                    	}else if(allHave == 2){
+                    		this.formData.systemKeyProducts[index].number = 0;
+                    		this.formData.systemKeyProducts[index].productsNumber = 0;
+                    	}
+                    },
+                    inputNumberChange:function(index){
+                    	this.formData.systemKeyProducts[index].allHave = 2;
+                    	this.formData.systemKeyProducts[index].productsNumber = this.formData.systemKeyProducts[index].number;
                     },
                     //获取数量信息
                     getNumberMethod: function(_self) {

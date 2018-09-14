@@ -1233,15 +1233,22 @@
           ]]>
         </foreach>								
       </if>
-      <if test="examinStatus1 !=null and examinStatusType == '28'">
-        <![CDATA[
-          AND system.examineStatus IN  
-        ]]>
-        <foreach collection="examinStatus1" item="item" index="index" open="(" separator="," close=")">
-          <![CDATA[
-            #{item}
-          ]]>
-        </foreach>								
+      <if test="examinStatusType == '28'">
+         <choose>
+            <when test="systemIdList != null and systemIdList.size > 0 ">
+              <![CDATA[
+			          AND system.pkId IN  
+			        ]]>
+			        <foreach collection="systemIdList" item="item" index="index" open="(" separator="," close=")">
+			          <![CDATA[
+			            #{item}
+			          ]]>
+			        </foreach>
+            </when>
+            <otherwise>
+                AND system.pkId = null
+            </otherwise>
+         </choose>
       </if>
     </where>
       GROUP BY

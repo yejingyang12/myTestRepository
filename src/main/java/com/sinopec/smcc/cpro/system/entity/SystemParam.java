@@ -80,6 +80,7 @@ public class SystemParam {
   private String theLastStep;
 
   private String activeName;//进入维护单位系统信息那个页签
+  private List<SystemEchoResult> exportSystemInfo;//维护单位系统信息中的导出数据信息
 
 
   private List<SystemParam> addSystemSub;
@@ -106,6 +107,12 @@ public class SystemParam {
    */
   public void setTheLastStep(String theLastStep) {
     this.theLastStep = theLastStep;
+  }
+  public List<SystemEchoResult> getExportSystemInfo() {
+    return exportSystemInfo;
+  }
+  public void setExportSystemInfo(List<SystemEchoResult> exportSystemInfo) {
+    this.exportSystemInfo = exportSystemInfo;
   }
   public String getUpdateUserName() {
     return updateUserName;

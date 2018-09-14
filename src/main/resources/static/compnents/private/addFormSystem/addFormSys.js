@@ -7,6 +7,7 @@ var  data={
 	            //return time.getTime() < Date.now() - 8.64e7;
 	          }
 	        },
+	        returnIndex:false,
 	        flag:false,
 	        substitute:"",
 	        ceshi2:false,
@@ -81,37 +82,49 @@ var  data={
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         }],
         systemUseServices:[{
           fkResponsibleType:"",
@@ -357,37 +370,49 @@ var  data={
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
           productsNumber:"",
           nUseProbability:0,
-          otherName:""
+          otherName:"",
+          allHave:"",
+          number:""
         }],
         systemUseServices:[{
           fkResponsibleType:"",
@@ -1217,7 +1242,27 @@ var  data={
                       	beginContent.executiveDireCon = currentContent.executiveDireCon;//主管联系人
                       	beginContent.executiveDireConTel = currentContent.executiveDireConTel;//主管联系人电话
                     	}
-                    	
+                    	if(_self.formData.systemKeyProducts!=null){
+                      	  for(var k=0;k<currentContent.systemKeyProducts.length;k++){
+                      		  if(!response.systemKeyProducts[k].productsNumber){
+                      		  	
+                      		  	_self.formData.systemKeyProducts[k].productsNumber = 0;
+                      		  	
+                                
+                      		  }else if(response.systemKeyProducts[k].productsNumber == "共有"){
+                      		  	_self.formData.systemKeyProducts[k].allHave=1
+                      		  	_self.formData.systemKeyProducts[k].number = 0;
+                      		  	
+
+                      		  }else{
+                      		  	_self.formData.systemKeyProducts[k].allHave=2
+                      		  	_self.formData.systemKeyProducts[k].number = response.systemKeyProducts[k].productsNumber;
+                      		  	
+                      		  }
+                      	  }
+                        
+                    	}
+                      
                       if(response.fkSystemIsMerge == '1'){
                         this.systemSonInfo = true;
                         this.systemInfo = false;

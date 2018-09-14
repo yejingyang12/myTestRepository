@@ -22,9 +22,14 @@
                             </div>
                         </td>
                         <td class="tdSelect">
-                            <el-select v-model="formData.systemKeyProducts[index].productsNumber" filterable @change="a()">
+                         <!-- <el-select v-model="formData.systemKeyProducts[index].productsNumber" filterable @change="a()">
                                 <el-option v-for="number in sysNumber" :key="number.systemCode" :label="number.systemCode" :value="number.systemCode" ></el-option>
-                            </el-select>
+                            </el-select> -->
+                           <el-radio-group v-model="formData.systemKeyProducts[index].allHave" @change="radioChange(index,formData.systemKeyProducts[index].allHave)">
+                            	<el-radio class="one" :label="1">共有</el-radio>
+                            	<el-radio class="two" :label="2">其他:</el-radio>
+                            </el-radio-group>
+                            <el-input-number @change="inputNumberChange(index)" style="width:50%;float:right" v-model="formData.systemKeyProducts[index].number" controls-position="right" :min="0" :max="999"></el-input-number>
                         </td>
                         <td>
                             <span class="dowmBg"></span>           

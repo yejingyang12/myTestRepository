@@ -89,12 +89,17 @@ window.onload = function () {
               }
           	}
           },
+          removeSuccess:function(){
+          },
           //下一页
           nextBtn:function(formName) {
             bus.$emit('addNextSystemName',formName);
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
+          	ajaxMethod(this, 'post',
+                'main/removeSystemSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSuccess);
             window.location.href = originUrl+"page/addCompanyGradPage?systemId="+responseData.data+"&fkCompanyCode="+companyCode+"&companyId="+companyId;
           },
           
@@ -394,9 +399,19 @@ window.onload = function () {
           		//页面的值没有改变
           		window.location.href = originUrl+"page/indexPage";
           	}else{
-          		this.check = true;
+          		this.returnIndex = true;
           	}
           },
+          
+          returnIndexMethod:function(){
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
+          },
+          removeSessionSuccess:function(){
+          	window.location.href = originUrl+"page/indexPage";
+          },
+          
           //确定保存
           returnSave:function(formName){
           	bus.$emit('returnSave',formName);

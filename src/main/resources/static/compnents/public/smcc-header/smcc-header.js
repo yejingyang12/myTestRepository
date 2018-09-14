@@ -10,22 +10,21 @@ var emitdata = new Vue();
 						isShowSearchForm: false,
 						isShowSilder: false,
 						isShowToggle: false,
-						userToken:false,
 						sanjianIndex: 0,
+						nowDate:'',
 						userToken: false,
-                        selectIndex: 0,
-						isShowToggleTwo: [false, false, false],
-						isShowToggleTwoUl: [false, false, false],
+						selectIndex: 0,
 						HeaderData: null,
-						userData:{
-							data:{},
+						headerTime: '',
+						userData: {
+							data: {},
 						},
 						mainNav: [],
 						titleList: [],
 						toggleOneData: [],
 						toggleTwoData: [],
 					}
-				},
+				},				
 				watch: {
 					HeaderData: function(val) {
 						val.data.forEach(function(item, ind) {
@@ -38,16 +37,14 @@ var emitdata = new Vue();
 				},
 				methods: {
 					toggle: function() {
-						this.isShowSearchForm = !this.isShowSearchForm
+						this.isShowSearchForm = true
 					},
-					showSilder: function() {
+					showSilder: function(ind) {
+						this.sanjianIndex = ind
 						this.isShowSilder = true
 					},
 					hideSilder: function() {
 						this.isShowSilder = false
-					},
-					signOutMethod: function() {
-					    window.location.href = originUrl + "SSO/GLO/Redirect";
 					},
 					FnShowToggle: function(data, ind) {
 						if(ind !== undefined) {
@@ -63,31 +60,45 @@ var emitdata = new Vue();
 						}
 						this.isShowToggle = data
 					},
-					FnToggleTwo: function(ind1, ind2, token1, arr) {
-						if(arr) this.toggleTwoData = [].concat(arr)
-						if(!this.isShowToggleTwo[ind1]) token1 = this.isShowToggleTwo[ind1]
-						this.isShowToggleTwo = [false, false, false]
-						this.isShowToggleTwoUl = [false, false, false]
-						this.isShowToggleTwo[ind1] = !token1
-						this.isShowToggleTwoUl[ind2] = !token1
+					FnNowDate: function() {
+						var date = new Date(),
+							zhou = ['日', '一', '二', '三', '四', '五', '六']
+						y = date.getFullYear(),
+							m = date.getMonth() + 1
+						d = date.getDate()
+						w = date.getDay()
+						h = date.getHours()
+						min = date.getMinutes()
+						se = date.getSeconds()						
+						this.nowDate = y + '年' + (m * 1 > 10 ? m : '0' + m) + '月' + d + '日 ' + '周' + zhou[w] + ' ' + 
+						(h*1 >= 10? h : '0' + h) + ':' + 
+						(min*1 >= 10? min : '0' + min)+ ':' + 
+						(se*1 >= 10? se : '0' + se)
 					},
 					FnSetParam: function(param) {
 						return param
 					},
-					  moreSetupMenuRemove: function() {
-	                        this.userToken = false
-	                        this.isShowSearchForm = false
-	                    },
-				
-					FnHref: function() {
-
+					moreSetupMenuRemove: function() {
+						this.userToken = false
+						this.isShowSearchForm = false
 					},
 					FnGetData: FnGetData
 				},
-				mounted: function() {
+				beforeCreate : function(){
+					this.$nextTick(function () {
+				     	this.FnNowDate()
+				   })					
+				},
+				created: function(){
+					setInterval(function() {
+						this.FnNowDate()
+					}.bind(this), 1000)
+				},
+				mounted: function() {					
+					this.globalClick(this.moreSetupMenuRemove);
 					this.FnGetData('/base/sysMenu', 'HeaderData');
 					this.FnGetData('/base/sysUser', 'userData');
-					this.$emit('userdata',this.userData);
+					this.$emit('userdata', this.userData);
 				}
 			})
 		});

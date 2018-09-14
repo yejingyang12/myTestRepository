@@ -3720,16 +3720,25 @@
   
     <!-- 根据系统名称和标准化代码查询系统信息 -->
   <select id="selectSystemBySystemNameAndStandardizedCode" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
-  	SELECT
-      system.pkId AS systemId,
-      system.systemName,
-      system.standardizedCode
-    FROM t_cpro_system system
-    WHERE system.systemName = #{systemName,jdbcType=VARCHAR}
-    AND system.standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
-    AND system.deleteStatus = 1
-    AND system.gradingStatus = 1
-    LIMIT 0,1
+  	<![CDATA[
+	  	SELECT
+	      system.pkId AS systemId,
+	      system.systemName,
+	      system.standardizedCode,
+	      system.fkSystemType
+	    FROM t_cpro_system system
+	    WHERE system.systemName = #{systemName,jdbcType=VARCHAR}
+    ]]>
+    <if test="standardizedCode != null">
+	    <![CDATA[
+	    	AND system.standardizedCode = #{standardizedCode,jdbcType=VARCHAR}
+    	]]>
+    </if>
+    <![CDATA[
+	    AND system.deleteStatus = 1
+	    AND system.gradingStatus < 3
+	    LIMIT 0,1
+    ]]>
   </select>
   
   <!-- 一次查询，多条sql，按条件查出系统对应所有信息 -->

@@ -26,6 +26,7 @@ import com.sinopec.smcc.cpro.codeapi.server.SystemApiService;
 import com.sinopec.smcc.cpro.system.entity.SystemListResult;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
+import com.sinopec.smcc.depends.region.util.UsmgTemplate;
 
 /**
  * @Title SystemApiServiceImpl.java
@@ -42,6 +43,8 @@ public class SystemApiServiceImpl implements SystemApiService{
   private SystemApiClient systemApiClient;
   @Autowired
   private SystemMapper systemMapper;
+  @Autowired
+  private UsmgTemplate usmgTemplate;
 
   @Override
   public List<SystemApiResult> querySystemApi(SystemApiParam systemApiParam)
@@ -52,12 +55,13 @@ public class SystemApiServiceImpl implements SystemApiService{
     try {
       if(StringUtils.isNotBlank(systemApiParam.getCompanyCode())
           &&(!systemApiParam.getCompanyCode().equals("null"))){
-        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(
-            systemApiParam.getCompanyCode()), SystemInfoList.class);
+        systemInfoList = JSON.parseObject(usmgTemplate.findSystemInfoBySpOrgNumber(
+            systemApiParam.getCompanyCode()).toString(), SystemInfoList.class);
 //        systemInfoList = JSON.parseObject(systemApiClient.querySystemList("10010037"), SystemInfoList.class);
 //    	  systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
       }else{
-        systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+        systemInfoList = JSON.parseObject(usmgTemplate.querySystemInfoList().toString(), 
+            SystemInfoList.class);
       }
     } catch (Exception e) {
       e.printStackTrace();

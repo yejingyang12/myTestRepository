@@ -94,8 +94,16 @@ window.onload = function () {
         			//没有改变
         			window.location.href = originUrl+"page/indexPage";
         		}else{
-        			this.check = true;
+        			this.returnIndex = true;
         		}
+          },
+          returnIndexMethod:function(){
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
+          },
+          removeSessionSuccess:function(){
+          	window.location.href = originUrl+"page/indexPage";
           },
           //确认保存
           returnSave:function(formName){

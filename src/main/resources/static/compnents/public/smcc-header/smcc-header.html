@@ -2,83 +2,88 @@
 	<div>
 		<div class="header-2" id="tab">
 			<div class="header-2-l">
-				<div class="logo"><img src="../../images/logo.png"></div>
+				<div class="logo"><img src="/images/logo.png"></div>
 				<div class="name">中国石化网络安全运营中心</div>
 				<div class="clear"></div>
 			</div>
-			<div class="float-le" style="float:right;">
-				<div class="nav" v-if="!isShowSearchForm">
-					<ul id="navigation-list">
-						<li v-for="(item,ind) in mainNav" v-bind:class="{ active:item.isActive }" v-on:mouseenter="showSilder(ind)" v-on:mouseout="hideSilder">
-							<a @mouseenter="FnShowToggle(item.name,ind)" :href="item.path">{{ item.name }}</a>
-							<i v-if="isShowToggle && sanjianIndex === ind" class="navigation-list-sanjiao"></i>
-						</li>
-						<div class="clear"></div>
-					</ul>					
-				</div>
+			<div class="nav" v-if="!isShowSearchForm">
+				<ul id="navigation-list">
+					<li v-for="(item,ind) in mainNav" v-bind:class="{ active:item.isActive }" v-on:mouseenter="showSilder(ind)" v-on:mouseout="hideSilder">
+						<a @mouseenter="FnShowToggle(item.name,ind)" :href="item.path">{{ item.name }}</a>
+						<i v-if="isShowToggle && sanjianIndex === ind" class="navigation-list-sanjiao"></i>
+					</li>
+					<div class="clear"></div>
+				</ul>
+			</div>
+			<div class="float-right">
 				<div class="search-con" @click.stop="toggle" v-show="isShowSearchForm">
-						<div class="search-con-l-2">
-							<img src="../../images/sousuo.jpg" width="20" height="20">
-						</div>
-						<div class="search-con-l-1">
-							<input @focus.stop="toggle" type="text" placeholder="请输入搜索内容">
-						</div>
-						<div class="float-left ml10" style="line-height: 55px;">
-							<i class="el-icon-close text-white f24px"></i>
-						</div>
-						<div class="clear"></div>
+					<div class="search-con-l-2">
+						<img src="/images/sousuo.jpg" width="14" height="14">
+					</div>
+					<div class="search-con-l-1">
+						<input @focus.stop="toggle" type="text" placeholder="请输入搜索内容">
+					</div>
+					<div class="float-left ml10" @click.stop="isShowSearchForm = false" style="line-height: 55px;">
+						<i class="el-icon-close text-white f24px"></i>
+					</div>
+					<div class="clear"></div>
 				</div>
 				<div class="float-right header-user nav" v-if="!isShowSearchForm">
 					<ul class="text-white">
 						<li>
-							<div class="search" @click.stop="toggle"><img src="../../images/sousuo.jpg"></div>
+							<div class="search" @click.stop="toggle">
+								<img src="/images/sousuo.jpg" width="14" height="14">
+							</div>
+						</li>
+						<li>
+							{{nowDate}}
 						</li>
 						<li>
 							<div class="head-text">
 								<span v-if="userData.data" style="cursor: pointer;" @click.stop="userToken = true">{{userData.data.ssoCn}}</span>
-								<a class="in-block" @click="signOutMethod" href="javascript:;">退出</a>
+								<a class="in-block" :href="origin +'SSO/GLO/Redirect'">退出</a>
 							</div>
 						</li>
 					</ul>
-				</div>				
-			</div>		
-			</div>
-		</div>
-		<transition name="custom-classes-transition" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
-			<div class="smcc-header-user-bg" v-if="userToken">
-				<ul class="smcc-header-user-datail">
-					<li><span class="text-right" style="width: 4em;">用户名：</span>{{userData.data.ssoCn}}</li>
-					<li><span class="text-right" style="width: 4em;">单位：</span>{{userData.data.orgName}}</li>
-				</ul>
-			</div>
-		</transition>
-		<transition name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
-			<div class="header-toggle-box-bg" @mouseleave="FnShowToggle(false)" v-show="isShowToggle">
-				<div class="header-toggle-box">
-					<div class="toggle-box-left">
-						<ul>
-							<li v-for="(item,ind) in titleList" @mouseenter="selectIndex = ind">
-								<div class="hf text-box">
-									{{item.resourceName}}
-								</div>						
-							</li>
-						</ul>
-					</div>
-					<div v-if="titleList.length" class="toggle-box-right flex-box flex1">
-						<dl v-for="(item,ind) in titleList[selectIndex].childList" class="right-con-box">
-							<dt><i class="header-blue-cre"></i>{{item.resourceName}}</dt>
-							<dd>
-								<ul class="con-chilid-box">
-									<li v-for="(item,ind) in item.childList">
-										<a :href="item.resourceUrl">{{item.resourceName}}</a>
-									</li>
-								</ul>
-							</dd>
-						</dl>						
-					</div>
 				</div>
 			</div>
-		</transition>
-
+		</div>
 	</div>
+	<transition name="custom-classes-transition" enter-active-class="animated fadeInDown" leave-active-class="animated fadeOutUp">
+		<div class="smcc-header-user-bg" v-if="userToken">
+			<ul class="smcc-header-user-datail">
+				<li><span class="text-right" style="width: 4em;">用户名：</span>{{userData.data.ssoCn}}</li>
+				<li><span class="text-right" style="width: 4em;">单位：</span>{{userData.data.orgName}}</li>
+			</ul>
+		</div>
+	</transition>
+	<transition name="custom-classes-transition" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+		<div class="header-toggle-box-bg" @mouseleave="FnShowToggle(false)" v-show="isShowToggle">
+			<div class="header-toggle-box">
+				<div class="toggle-box-left">
+					<ul>
+						<li v-for="(item,ind) in titleList" @mouseenter="selectIndex = ind">
+							<div class="hf text-box">
+								{{item.resourceName}}
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div v-if="titleList.length" class="toggle-box-right flex-box flex1">
+					<dl v-for="(item,ind) in titleList[selectIndex].childList" class="right-con-box">
+						<dt><i class="header-blue-cre"></i>{{item.resourceName}}</dt>
+						<dd>
+							<ul class="con-chilid-box">
+								<li v-for="(item,ind) in item.childList">
+									<a :href="item.resourceUrl">{{item.resourceName}}</a>
+								</li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</transition>
+
+</div>
 </div>

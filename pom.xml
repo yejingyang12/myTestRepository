@@ -54,10 +54,10 @@
     <dependencies>
         <!-- CXF集成到SpringBoot-->
       	<dependency>
-      		<groupId>org.apache.cxf</groupId>
-      		<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
-      		<version>3.2.6</version>
-      	</dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+            <version>3.1.12</version>
+        </dependency>
   
         <dependency>
             <groupId>com.sinopec.smcc</groupId>

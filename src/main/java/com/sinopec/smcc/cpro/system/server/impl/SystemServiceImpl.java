@@ -122,6 +122,7 @@ import com.sinopec.smcc.cpro.system.util.SystemInfoUtil;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
+import com.sinopec.smcc.depends.region.util.UsmgTemplate;
 
 /**
  * @Title SystemServiceImpl.java
@@ -177,7 +178,8 @@ public class SystemServiceImpl implements SystemService {
   private RecordsMapper recordsMapperImpl;
   @Autowired
   private SystemRelationMapper systemRelationMapperImpl;
-  
+  @Autowired
+  private UsmgTemplate usmgTemplate;
   
 	/**
    * 响应系统列表数据
@@ -1497,12 +1499,19 @@ public class SystemServiceImpl implements SystemService {
   @Override
   public AttachResult exportExcelForSystemTemplate(SystemParam systemParam) throws BusinessException {
     //没系统id时抛出异常
-    if(systemParam.getSystemIds() == null || systemParam.getSystemIds().length < 1){
+    /*if(systemParam.getSystemIds() == null || systemParam.getSystemIds().length < 1){
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
-    AttachResult attachResult = null;
     List<SystemAllInfoResult> systemAllInfoResultList = this.systemMapper.
-        selectSystemAllInfoBySystemParam(systemParam);
+        selectSystemAllInfoBySystemParam(systemParam);*/
+    AttachResult attachResult = null;
+    
+    //获取从前端获取到的数据列表
+    List<SystemEchoResult> exportSystemInfoList = systemParam.getExportSystemInfo();
+    //没信息时抛出异常
+    if(exportSystemInfoList == null || exportSystemInfoList.size() < 1){
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
     
     
     /*String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
@@ -1525,7 +1534,7 @@ public class SystemServiceImpl implements SystemService {
         "系统互联情况","关键产品使用情况","系统采用服务情况"};
     
     //有要导出的对象时
-    if(systemAllInfoResultList != null && systemAllInfoResultList.size() > 0){
+    if(exportSystemInfoList != null && exportSystemInfoList.size() > 0){
       try {
         HSSFWorkbook workbook = new HSSFWorkbook();// 创建工作薄
         HSSFSheet sheet = workbook.createSheet("信息系统模版");// 创建工作表
@@ -1564,7 +1573,7 @@ public class SystemServiceImpl implements SystemService {
         sheet.createFreezePane(4, 4);
         
         // 合并行
-        for (int j = 0; j < systemAllInfoResultList.size(); j++) {
+        for (int j = 0; j < exportSystemInfoList.size(); j++) {
           for (int i = 0; i < rowName.length; i++) {
             if (i == 11 || i == 12 || i == 24 || i == 25 || i == 26 || i == 27) {
               sheet.addMergedRegion(new CellRangeAddress(9 + j * 8, 11 + j * 8, i, i));
@@ -1583,7 +1592,7 @@ public class SystemServiceImpl implements SystemService {
         Name namedCell = workbook.createName();
         Name namedCell2 = workbook.createName();
         // 下拉列
-        for (int j = 0; j < systemAllInfoResultList.size(); j++) {
+        for (int j = 0; j < exportSystemInfoList.size(); j++) {
           for (int i = 0; i < rowName.length; i++) {
             CellRangeAddressList regions = null;
             DVConstraint constraint = null;
@@ -1754,12 +1763,12 @@ public class SystemServiceImpl implements SystemService {
         }
 
         // 将查询出的数据设置到sheet对应的单元格中
-        for (int i = 0; i < systemAllInfoResultList.size(); i++) {
-          SystemAllInfoResult systemInfo = systemAllInfoResultList.get(i);// 遍历每个对象
-          //获取关键产品
+        for (int i = 0; i < exportSystemInfoList.size(); i++) {
+          SystemEchoResult systemEchoResultTemp = exportSystemInfoList.get(i);// 遍历每个对象
+          /*//获取关键产品
           List<SystemKeyProducts> systemKeyProductsList = systemInfo.getSystemKeyProductsList();
           //获取采用服务
-          List<SystemUseServices> systemUseServicesList = systemInfo.getSystemUseServicesList();
+          List<SystemUseServices> systemUseServicesList = systemInfo.getSystemUseServicesList();*/
           //获取子系统
           //List<SystemSubResult> systemSubResultList = systemAllInfoResult.getSystemSubResultList();
           
@@ -1797,7 +1806,7 @@ public class SystemServiceImpl implements SystemService {
             } else if (j == 1) {
             //系统名称
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getSystemName());
+              cell.setCellValue(systemEchoResultTemp.getSystemName());
               cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
 
               HSSFCell cell3 = row3.createCell(j);
@@ -1817,7 +1826,8 @@ public class SystemServiceImpl implements SystemService {
             } else if (j == 2) {
             //系统标准化代码
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getStandardizedCode());
+//              cell.setCellValue(systemEchoResultTemp.getStandardizedCode());
+              cell.setCellValue(systemEchoResultTemp.getSystemCode());
               cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
 
               HSSFCell cell3 = row3.createCell(j);
@@ -1837,7 +1847,7 @@ public class SystemServiceImpl implements SystemService {
             } else if (j == 3) {
             //等保备案名称
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getGradeRecordSysName());
+//              cell.setCellValue(systemEchoResultTemp.getGradeRecordSysName());
               cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
               
               HSSFCell cell3 = row3.createCell(j);
@@ -1859,7 +1869,8 @@ public class SystemServiceImpl implements SystemService {
               cell = row.createCell(j);
               // 设置格式
               cell.setCellStyle(style2);
-              cell.setCellValue(systemInfo.getCompanyName());
+//              cell.setCellValue(systemEchoResultTemp.getCompanyName());
+//              cell.setCellValue("");
               
               HSSFCell cell3 = row3.createCell(j);
               cell3.setCellStyle(style2);
@@ -1887,11 +1898,11 @@ public class SystemServiceImpl implements SystemService {
                   new HSSFClientAnchor(0, 0, 0, 0, (short) 3, 3, (short) 5, 6));
               comment.setString(new HSSFRichTextString("请输入格式为：20XX-XX-XX"));
               cell.setCellComment(comment);// 将批注添加都单元格对象中
-              Date whenInvestmentUse = systemInfo.getWhenInvestmentUse();
+              /*Date whenInvestmentUse = systemEchoResultTemp.getWhenInvestmentUse();
               if (whenInvestmentUse != null) {
                 String strWhenInvestmentUse = DateUtils.getDate("yyyy-MM-dd", whenInvestmentUse);
                 cell.setCellValue(strWhenInvestmentUse);
-              }
+              }*/
               cell.setCellStyle(style3);
 
               HSSFCell cell3 = row3.createCell(j);
@@ -1911,7 +1922,8 @@ public class SystemServiceImpl implements SystemService {
             } else if(j == 6){
             //主管处室名称
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getExecutiveOfficeName());
+//              cell.setCellValue(systemEchoResultTemp.getExecutiveOfficeName());
+              cell.setCellValue(systemEchoResultTemp.getExecutiveOffice());
               cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
               
               HSSFCell cell3 = row3.createCell(j);
@@ -1931,7 +1943,7 @@ public class SystemServiceImpl implements SystemService {
             } else if(j == 7){
             //主管联系人
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getExecutiveDireCon());
+//              cell.setCellValue(systemEchoResultTemp.getExecutiveDireCon());
               cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
               
               HSSFCell cell3 = row3.createCell(j);
@@ -1951,7 +1963,7 @@ public class SystemServiceImpl implements SystemService {
             } else if(j == 8){
             //联系人电话
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getExecutiveDireConTel());
+//              cell.setCellValue(systemEchoResultTemp.getExecutiveDireConTel());
               cell.setCellStyle(columnTopStyle);// 设置列头单元格样式
               
               HSSFCell cell3 = row3.createCell(j);
@@ -1970,14 +1982,14 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(columnTopStyle);
             } else if (j == 9) {
             //系统是否为分系统
-              String strSubIsSystem = "";
-              if(systemInfo.getSubIsSystem() == 1){
+              /*String strSubIsSystem = "";
+              if(systemEchoResultTemp.getSubIsSystem() == 1){
                 strSubIsSystem = "是";
-              }else if(systemInfo.getSubIsSystem() == 2){
+              }else if(systemEchoResultTemp.getSubIsSystem() == 2){
                 strSubIsSystem = "否";
-              }
+              }*/
               cell = row.createCell(j);
-              cell.setCellValue(strSubIsSystem);
+//              cell.setCellValue(strSubIsSystem);
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -1997,7 +2009,7 @@ public class SystemServiceImpl implements SystemService {
             } else if (j == 10) {
             //上级系统名称
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getFatherSystemName());
+//              cell.setCellValue(systemEchoResultTemp.getFatherSystemName());
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2045,57 +2057,57 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(columnTopStyle);
             } else if (j == 12) {
             //是否有此业务类型
-              boolean flag = true;
-              String strSysBusSituationType = systemInfo.getSysBusSituationType();
+              /*boolean flag = true;
+              String strSysBusSituationType = systemEchoResultTemp.getSysBusSituationType();*/
               cell = row.createCell(j);
-              if("生产作业".equals(strSysBusSituationType)){
+              /*if("生产作业".equals(strSysBusSituationType)){
                 cell.setCellValue("是");
                 flag = false;
               }else{
                 cell.setCellValue("否");
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
-              if("指挥调度".equals(strSysBusSituationType)){
+              /*if("指挥调度".equals(strSysBusSituationType)){
                 cell3.setCellValue("是");
                 flag = false;
               }else{
                 cell3.setCellValue("否");
-              }
+              }*/
               cell3.setCellStyle(style2);
               
               HSSFCell cell4 = row4.createCell(j);
-              if("管理控制".equals(strSysBusSituationType)){
+              /*if("管理控制".equals(strSysBusSituationType)){
                 cell4.setCellValue("是");
                 flag = false;
               }else{
                 cell4.setCellValue("否");
-              }
+              }*/
               cell4.setCellStyle(style2);
               
               HSSFCell cell5 = row5.createCell(j);
-              if("内部办公".equals(strSysBusSituationType)){
+              /*if("内部办公".equals(strSysBusSituationType)){
                 cell5.setCellValue("是");
                 flag = false;
               }else{
                 cell5.setCellValue("否");
-              }
+              }*/
               cell5.setCellStyle(style2);
               
               HSSFCell cell6 = row6.createCell(j);
-              if("公众服务".equals(strSysBusSituationType)){
+              /*if("公众服务".equals(strSysBusSituationType)){
                 cell6.setCellValue("是");
                 flag = false;
               }else{
                 cell6.setCellValue("否");
-              }
+              }*/
               cell6.setCellStyle(style2);
               
               HSSFCell cell7 = row7.createCell(j);
-              if (flag) {
+              /*if (flag) {
                 cell7.setCellValue(strSysBusSituationType);
-              }
+              }*/
               cell7.setCellStyle(style2);
               HSSFCell cell8 = row8.createCell(j);
               cell8.setCellStyle(style2);
@@ -2104,7 +2116,7 @@ public class SystemServiceImpl implements SystemService {
             } else if (j == 13) {
             //业务描述
               cell = row.createCell(j);
-              cell.setCellValue(systemInfo.getSysBusDescription());
+//              cell.setCellValue(systemEchoResultTemp.getSysBusDescription());
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2123,11 +2135,11 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style2);
             } else if (j == 14) {
             //服务范围
-              String strSysServiceSitScope = systemInfo.getSysServiceSitScope()==null
-                  ?"":systemInfo.getSysServiceSitScope();
-              String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");
+              /*String strSysServiceSitScope = systemEchoResultTemp.getSysServiceSitScope()==null
+                  ?"":systemEchoResultTemp.getSysServiceSitScope();
+              String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");*/
               cell = row.createCell(j);
-              if((strSysServiceSitScopes.length != 2 
+              /*if((strSysServiceSitScopes.length != 2 
                   && !"全国".equals(strSysServiceSitScopes[0])
                   && !"全省（区、市）".equals(strSysServiceSitScopes[0])
                   && !"地（区、市）".equals(strSysServiceSitScopes[0]))
@@ -2136,7 +2148,7 @@ public class SystemServiceImpl implements SystemService {
                 cell.setCellValue("其他");
               }else{
                 cell.setCellValue(strSysServiceSitScopes[0]);
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2155,12 +2167,12 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style2);
             } else if (j == 15) {
             //服务范围所跨地区个数或其他
-              String strSysServiceSitScope = systemInfo.getSysServiceSitScope()==null
-                  ?"":systemInfo.getSysServiceSitScope();
+              /*String strSysServiceSitScope = systemEchoResultTemp.getSysServiceSitScope()==null
+                  ?"":systemEchoResultTemp.getSysServiceSitScope();
               //分割时用"^"字符来分割，但在split方法中要用"\\^"来充当"^"来使用
-              String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");
+              String[] strSysServiceSitScopes = strSysServiceSitScope.split("\\^");*/
               cell = row.createCell(j);
-              if((strSysServiceSitScopes.length != 2 
+              /*if((strSysServiceSitScopes.length != 2 
                   && !"全国".equals(strSysServiceSitScopes[0])
                   && !"全省（区、市）".equals(strSysServiceSitScopes[0])
                   && !"地（区、市）".equals(strSysServiceSitScopes[0]))
@@ -2174,7 +2186,7 @@ public class SystemServiceImpl implements SystemService {
                 }else{
                   cell.setCellValue("");
                 }
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2193,13 +2205,13 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style2);
             } else if (j == 16) {
             //服务对象
-              String strSysServiceSitObject = systemInfo.getSysServiceSitObject();
+//              String strSysServiceSitObject = systemEchoResultTemp.getSysServiceSitObject();
               cell = row.createCell(j);
-              if("单位内部人员".equals(strSysServiceSitObject) 
+              /*if("单位内部人员".equals(strSysServiceSitObject) 
                   || "社会公众人员".equals(strSysServiceSitObject) 
                   || "两者均包括".equals(strSysServiceSitObject)){
                 cell.setCellValue(strSysServiceSitObject);
-              }/*else{
+              }else{
                 cell.setCellValue("其他");
               }*/
               cell.setCellStyle(style2);
@@ -2220,15 +2232,15 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style2);
             } else if (j == 17) {
             //服务对象其他
-              String strSysServiceSitObject = systemInfo.getSysServiceSitObject();
+//              String strSysServiceSitObject = systemEchoResultTemp.getSysServiceSitObject();
               cell = row.createCell(j);
-              if("单位内部人员".equals(strSysServiceSitObject) 
+              /*if("单位内部人员".equals(strSysServiceSitObject) 
                   || "社会公众人员".equals(strSysServiceSitObject) 
                   || "两者均包括".equals(strSysServiceSitObject)){
                 //cell.setCellValue("");
               }else{
                 cell.setCellValue(strSysServiceSitObject);
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2272,41 +2284,41 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(columnTopStyle);
             } else if (j == 19) {
             //是否有此覆盖范围
-              boolean flag = true;
-              String strNpCoverageRange = systemInfo.getNpCoverageRange();
+              /*boolean flag = true;
+              String strNpCoverageRange = systemEchoResultTemp.getNpCoverageRange();*/
               cell = row.createCell(j);
-              if("局域网".equals(strNpCoverageRange)){
+              /*if("局域网".equals(strNpCoverageRange)){
                 cell.setCellValue("是");
                 flag = false;
               }else{
                 cell.setCellValue("否");
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
-              if("城域网".equals(strNpCoverageRange)){
+              /*if("城域网".equals(strNpCoverageRange)){
                 cell3.setCellValue("是");
                 flag = false;
               }else{
                 cell3.setCellValue("否");
-              }
+              }*/
               cell3.setCellStyle(style2);
               
               HSSFCell cell4 = row4.createCell(j);
-              if("广域网".equals(strNpCoverageRange)){
+              /*if("广域网".equals(strNpCoverageRange)){
                 cell4.setCellValue("是");
                 flag = false;
               }else{
                 cell4.setCellValue("否");
-              }
+              }*/
               cell4.setCellStyle(style2);
               
               HSSFCell cell5 = row5.createCell(j);
-              if (flag) {
+              /*if (flag) {
                 cell5.setCellValue(strNpCoverageRange);
               }else{
                 //cell5.setCellValue("");
-              }
+              }*/
               cell5.setCellStyle(style2);
               HSSFCell cell6 = row6.createCell(j);
               cell6.setCellStyle(style2);
@@ -2318,13 +2330,13 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style2);
             } else if (j == 20) {
             //网络性质
-              String strNpNetworkProperties = systemInfo.getNpNetworkProperties();
+//              String strNpNetworkProperties = systemEchoResultTemp.getNpNetworkProperties();
               cell = row.createCell(j);
-              if("业务专网".equals(strNpNetworkProperties) || "互联网".equals(strNpNetworkProperties)){
+              /*if("业务专网".equals(strNpNetworkProperties) || "互联网".equals(strNpNetworkProperties)){
                 cell.setCellValue(strNpNetworkProperties);
               }else{
                 //cell.setCellValue("");
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2343,13 +2355,13 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style2);
             } else if (j == 21) {
             //网络性质其他
-              String strNpNetworkProperties = systemInfo.getNpNetworkProperties();
+//              String strNpNetworkProperties = systemEchoResultTemp.getNpNetworkProperties();
               cell = row.createCell(j);
-              if("业务专网".equals(strNpNetworkProperties) || "互联网".equals(strNpNetworkProperties)){
+              /*if("业务专网".equals(strNpNetworkProperties) || "互联网".equals(strNpNetworkProperties)){
                 //cell.setCellValue(strNpNetworkProperties);
               }else{
                 cell.setCellValue(strNpNetworkProperties);
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
@@ -2393,37 +2405,37 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(columnTopStyle);
             } else if (j == 23) {
             //系统互联情况
-              boolean flag = true;
-              String strInterconnectionSit = systemInfo.getInterconnectionSit();
+              /*boolean flag = true;
+              String strInterconnectionSit = systemEchoResultTemp.getInterconnectionSit();*/
               cell = row.createCell(j);
-              if ("与其他行业系统连接".equals(strInterconnectionSit)) {
+              /*if ("与其他行业系统连接".equals(strInterconnectionSit)) {
                 cell.setCellValue("是");
                 flag = false;
               }else{
                 cell.setCellValue("否");
-              }
+              }*/
               cell.setCellStyle(style2);
               
               HSSFCell cell3 = row3.createCell(j);
-              if ("与本行业其他单位系统连接".equals(strInterconnectionSit)) {
+              /*if ("与本行业其他单位系统连接".equals(strInterconnectionSit)) {
                 cell3.setCellValue("是");
                 flag = false;
               }else{
                 cell3.setCellValue("否");
-              }
+              }*/
               cell3.setCellStyle(style2);
               HSSFCell cell4 = row4.createCell(j);
-              if ("与本单位其他系统连接".equals(strInterconnectionSit)) {
+              /*if ("与本单位其他系统连接".equals(strInterconnectionSit)) {
                 cell4.setCellValue("是");
                 flag = false;
               }else{
                 cell4.setCellValue("否");
-              }
+              }*/
               cell4.setCellStyle(style2);
               HSSFCell cell5 = row5.createCell(j);
-              if (flag) {
+              /*if (flag) {
                 cell5.setCellValue(strInterconnectionSit);
-              }
+              }*/
               cell5.setCellStyle(style2);
               HSSFCell cell6 = row6.createCell(j);
               cell6.setCellStyle(style2);
@@ -2466,13 +2478,13 @@ public class SystemServiceImpl implements SystemService {
               cell7d.setCellComment(comment);// 将批注添加都单元格对象中
               
               //其他的关键产品名放入数据
-              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+              /*for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
                 if(systemKeyProductsTemp.getFkExaminStatus() == 6){
                   if(systemKeyProductsTemp.getOtherName() != null){
                     cell7d.setCellValue(systemKeyProductsTemp.getOtherName());
                   }
                 }
-              }
+              }*/
               cell7d.setCellStyle(style);// 设置列头单元格样式
               
               //数据验证
@@ -2510,7 +2522,7 @@ public class SystemServiceImpl implements SystemService {
               HSSFCell cell9 = row9.createCell(j);
               cell9.setCellStyle(style4);
               //放入数量
-              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+              /*for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
                 switch (systemKeyProductsTemp.getFkExaminStatus()) {
                 case 1:
                   if(systemKeyProductsTemp.getProductsNumber() != null){
@@ -2545,7 +2557,7 @@ public class SystemServiceImpl implements SystemService {
                 default:
                   break;
                 }
-              }
+              }*/
             } else if (j == 26) {
             //使用情况
               cell = row.createCell(j);
@@ -2565,7 +2577,7 @@ public class SystemServiceImpl implements SystemService {
               HSSFCell cell9 = row9.createCell(j);
               cell9.setCellStyle(style2);
               //放入使用情况
-              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+              /*for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
                 Integer fkNationalIsProducts = systemKeyProductsTemp.getFkNationalIsProducts();
                 String strFkNationalIsProducts = null;
                 if(fkNationalIsProducts == 1){
@@ -2609,7 +2621,7 @@ public class SystemServiceImpl implements SystemService {
                 default:
                   break;
                 }
-              }
+              }*/
             } else if (j == 27) {
             //国产品使用率
               HSSFCell cell2d = row.createCell(j);// 设置单元格的数据类型
@@ -2635,7 +2647,7 @@ public class SystemServiceImpl implements SystemService {
               HSSFCell cell9 = row9.createCell(j);
               cell9.setCellStyle(style5);
               //放入国产品使用率
-              for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
+              /*for (SystemKeyProducts systemKeyProductsTemp : systemKeyProductsList) {
                 double nUseProbability = (systemKeyProductsTemp.getnUseProbability()==null
                     ?0:systemKeyProductsTemp.getnUseProbability())/100.0;
                 Integer fkNationalIsProducts = systemKeyProductsTemp.getFkNationalIsProducts();
@@ -2681,7 +2693,7 @@ public class SystemServiceImpl implements SystemService {
                 default:
                   break;
                 }
-              }
+              }*/
             } else if (j == 28) {
               HSSFCell cell2e = row.createCell(j);// 设置单元格的数据类型
               cell2e.setCellValue("等级测评");// 设置单元格的值
@@ -2722,13 +2734,13 @@ public class SystemServiceImpl implements SystemService {
               comment.setString(new HSSFRichTextString("请输入其他服务类型"));
               cell9e.setCellComment(comment);// 将批注添加都单元格对象中
               //放入其他的使用服务
-              for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
+              /*for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
                 if (systemUseServicesTemp.getFkProductsType() == 8) {
                   if (systemUseServicesTemp.getOtherName() != null) {
                     cell9e.setCellValue(systemUseServicesTemp.getOtherName());
                   }
                 }
-              }
+              }*/
               cell9e.setCellStyle(style);// 设置列头单元格样式
               
               //数据验证
@@ -2763,7 +2775,7 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style);
               
               //系统采用服务情况 是否有此服务类型
-              for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
+              /*for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
                 //服务类型
                 Integer fkProductsType = systemUseServicesTemp.getFkProductsType()==null
                     ?0:systemUseServicesTemp.getFkProductsType();
@@ -2819,7 +2831,7 @@ public class SystemServiceImpl implements SystemService {
                 default:
                   break;
                 }
-              }//系统采用服务情况end
+              }*///系统采用服务情况end
               //数据验证
               HSSFDataValidation validate = setValidate((short) (i * 8 + 4),  
                           (short) j, (short) (i * 8 + 11), (short) j, 30);  
@@ -2852,7 +2864,7 @@ public class SystemServiceImpl implements SystemService {
               cell9.setCellStyle(style);
               
               //系统采用服务情况 服务责任方类型
-              for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
+              /*for (SystemUseServices systemUseServicesTemp : systemUseServicesList) {
                 //服务类型
                 Integer fkProductsType = systemUseServicesTemp.getFkProductsType()==null
                     ?0:systemUseServicesTemp.getFkProductsType();
@@ -2910,7 +2922,7 @@ public class SystemServiceImpl implements SystemService {
                 default:
                   break;
                 }
-              }//系统采用服务情况end
+              }*///系统采用服务情况end
             }
             
           }
@@ -4787,7 +4799,8 @@ public class SystemServiceImpl implements SystemService {
     
     SystemInfoList systemInfoList = null;
     try {
-      systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+      systemInfoList = JSON.parseObject(usmgTemplate.querySystemInfoList().toString(), 
+          SystemInfoList.class);
     } catch (Exception e) {
       e.printStackTrace();
       return systemEchoResultList;
