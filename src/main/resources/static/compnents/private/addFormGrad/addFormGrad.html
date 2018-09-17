@@ -102,7 +102,7 @@
                                                     <input type="checkbox" id="10401" @click="fnChecked(104,10401)" class="inpChoose">对社会秩序和公共利益造成特别严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" id="10402" @click="fnChecked(104,10402)"  class="inpChoose">对国家安全造成特别严重损
+                                                    <input type="checkbox" id="10402" @click="fnChecked(104,10402)"  class="inpChoose">对国家安全造成特别严重损害
                                                 </div>
                                             </div>
                                             <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
@@ -114,7 +114,7 @@
                                                 <input type="radio" id="" v-model="formData.fkBizSPRankLevel" @click="checkFnAll(105)" id="105" value="105" name="inform" class="inpChoose">
                                             </div>
                                             <div class="col-md-9 saveMsg ">
-                                                <input type="checkbox" id="10501"  @click="fnChecked(105,10501)" class="inpChoose checkFirst">对国家安全造成特别严重损
+                                                <input type="checkbox" id="10501"  @click="fnChecked(105,10501)" class="inpChoose checkFirst">对国家安全造成特别严重损害
                                             </div>
                                             <div class="col-md-2 saveTableBg saveLevel">
                                                 <input type="radio" name="business" id="05" class="inpChoose" disabled>第五级
@@ -180,7 +180,7 @@
                                                     <input type="checkbox" @click="checkAll(204,20401)" id="20401" class="inpChoose">对社会秩序和公共利益造成特别严重损害
                                                 </div>
                                                 <div class="col-md-9">
-                                                    <input type="checkbox" @click="checkAll(204,20402)" id="20402" class="inpChoose">对国家安全造成特别严重损
+                                                    <input type="checkbox" @click="checkAll(204,20402)" id="20402" class="inpChoose">对国家安全造成特别严重损害
                                                 </div>
                                             </div>
                                             <div class="col-md-2 saveTableBg saveTableHgh saveLevel">
@@ -192,7 +192,7 @@
                                                 <input type="radio" id="205" v-model="formData.fkBizSystemLevel" @click="fnCheckAll(205)" value="205"  name="inorm" class="inpChoose">
                                             </div>
                                             <div class="col-md-9 saveMsg ">
-                                                <input type="checkbox" @click="checkAll(205,20501)" id="20501" class="inpChoose checkFirst">对国家安全造成特别严重损
+                                                <input type="checkbox" @click="checkAll(205,20501)" id="20501" class="inpChoose checkFirst">对国家安全造成特别严重损害
                                             </div>
                                             <div class="col-md-2 saveTableBg saveLevel">
                                                 <input type="radio" name="busine" id="025" class="inpChoose" disabled>第五级
@@ -344,9 +344,9 @@
                                 <div role="group"  class="mcAddSysBuildChange text-center col-sm-3 col-md-6 p-mcAddSys" id="baseMes3" style="width:50% !important;">
                                     <input type="hidden"  v-model="formData.expertView">
                                     <div class="col-md-6" @click="getExpertClass($event,1)" v-show="expertType||((!expertType)&&formData.fkSpRanklevel==0)">已审批</div>
-                                    <div class="col-md-6 btnColor" id="shenp" @click="getExpertClass($event,1)" v-show="(!expertType)&&formData.fkSpRanklevel!==0">已审批</div>
+                                    <div class="col-md-6 btnColor" id="shenp" @click="getExpertClass($event,1)" v-show="(!expertType)&&formData.fkSpRanklevel!=0">已审批</div>
                                     <div class="col-md-6" @click="getExpertClass($event,2)" v-show="expertType||((!expertType)&&formData.fkSpRanklevel==0)">未审批</div>
-                                    <div class="col-md-6" style="background-color: #c7cace;color: #606266;" v-show="(!expertType)&&formData.fkSpRanklevel!==0">未审批</div>
+                                    <div class="col-md-6" style="background-color: #ededed;color: #bbb;" v-show="(!expertType)&&formData.fkSpRanklevel!=0">未审批</div>
                                 </div>
                                 <div class="uploadSty P-uploadSty">
                                     <ul class="fileList" id="fileList2" style="width: calc(50% - 80px);height: 36px;padding-left:5px">

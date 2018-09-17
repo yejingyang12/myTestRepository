@@ -401,7 +401,7 @@ public class MainServiceImpl implements MainService{
         nodeParam.setSystemId(mainResult.getSystemId());
         NodeResult nodeResult = this.nodeServiceImpl.queryChangeInformation(nodeParam);
         if(nodeResult != null){
-          switch (nodeParam.getFkSysChangeMatter()) {
+          /*switch (nodeResult.getFkSysChangeMatter()) {
           case "1":
             changeMatter = "系统合并";
             break;
@@ -416,9 +416,9 @@ public class MainServiceImpl implements MainService{
             break;
           default:
             break;
-          }
-          cellList.add(ExcelUtils.getExportCelBean("变更事项:"+changeMatter+",变更内容:"+
-              nodeParam.getFkChangeContent()+",变更原因:"+nodeParam.getFkChangeReason()));
+          }*/
+          cellList.add(ExcelUtils.getExportCelBean("变更事项:"+nodeResult.getFkSysChangeMatter()+",变更内容:"+
+              nodeResult.getFkChangeContent()+",变更原因:"+nodeResult.getFkChangeReason()));
         }else{
           cellList.add(ExcelUtils.getExportCelBean(""));
         }
@@ -1302,6 +1302,10 @@ public class MainServiceImpl implements MainService{
     String url = WordUtils.createWord(dataMap,"company.ftl","单位信息");
     String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
     String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    
+    //将压缩包对应路径放入result中
+    result.put("urlForRar", fileUrl+fileName);
+    
     //如果是IE浏览器，则用URLEncode解析  
     FileOperateUtil fileOperateUtil = new FileOperateUtil();
     if(fileOperateUtil.isMSBrowser(request)){  
@@ -2262,6 +2266,10 @@ public class MainServiceImpl implements MainService{
     String url = WordUtils.createWord(dataMap,"system.ftl","系统信息");
     String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
     String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+    
+    //将压缩包对应路径放入result中
+    result.put("urlForRar", fileUrl+fileName);
+    
     //如果是IE浏览器，则用URLEncode解析  
     FileOperateUtil fileOperateUtil = new FileOperateUtil();
     if(fileOperateUtil.isMSBrowser(request)){  
@@ -2583,6 +2591,10 @@ public class MainServiceImpl implements MainService{
       String url = WordUtils.createWord(dataMap,"grading.ftl","定级信息");
       String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
       String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+      
+      //将压缩包对应路径放入result中
+      result.put("urlForRar", fileUrl+fileName);
+      
       //如果是IE浏览器，则用URLEncode解析  
       FileOperateUtil fileOperateUtil = new FileOperateUtil();
       if(fileOperateUtil.isMSBrowser(request)){  
@@ -2754,6 +2766,10 @@ public class MainServiceImpl implements MainService{
       String url = WordUtils.createWord(dataMap,"attach.ftl","附件信息");
       String fileName = url.substring(url.lastIndexOf("/")+1,url.length());
       String fileUrl = url.substring(0,url.lastIndexOf("/")+1);
+      
+      //将压缩包对应路径放入result中
+      result.put("urlForRar", fileUrl+fileName);
+      
       //如果是IE浏览器，则用URLEncode解析  
       FileOperateUtil fileOperateUtil = new FileOperateUtil();
       if(fileOperateUtil.isMSBrowser(request)){  
@@ -2865,7 +2881,24 @@ public class MainServiceImpl implements MainService{
     File systemFile = null;
     File gradingFile = null;
     File attachFile = null;
+    //urlForRar
     if(tableCompanyFilePath !=null){
+      companyFile = new File(tableCompanyFilePath.get("urlForRar").toString());
+      srcfile.add(companyFile);
+    }
+    if(tableSystemFilePath != null){
+      systemFile = new File(tableSystemFilePath.get("urlForRar").toString());
+      srcfile.add(systemFile);
+    }
+    if(tableGradingFilePath != null){
+      gradingFile = new File(tableGradingFilePath.get("urlForRar").toString());
+      srcfile.add(gradingFile);
+    }
+     if(tableAttachFilePath != null){
+      attachFile = new File(tableAttachFilePath.get("urlForRar").toString());
+      srcfile.add(attachFile);
+    }
+    /*if(tableCompanyFilePath !=null){
       companyFile = new File(tableCompanyFilePath.get("url").toString());
       srcfile.add(companyFile);
     }
@@ -2880,7 +2913,7 @@ public class MainServiceImpl implements MainService{
      if(tableAttachFilePath != null){
       attachFile = new File(tableAttachFilePath.get("url").toString());
       srcfile.add(attachFile);
-    }
+    }*/
     // 压缩文件
     String fileName = "备案表"+"_"+DateUtils.getStringDateShort();
     String filePath = MainConstant.TEMPORARY_FILE_PATH;

@@ -309,10 +309,10 @@ var data={
                         _self.formData.directorOpinionName='';
                         _self.formData.directorOpinionPath='';
                       });
-                      $(".updwon1").click(function(){
+                      /*$(".updwon1").click(function(){
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
-                      });
+                      });*/
                       this.$refs.directorOpinionName.clearValidate();
                     },
                     onUpload1: function(e){
@@ -365,10 +365,10 @@ var data={
                         _self.formData.gradingReportName='';
                         _self.formData.gradingReportName='';
                       });
-                      $(".updwon2").click(function(){
+                      /*$(".updwon2").click(function(){
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
-                      });
+                      });*/
                      
                     },
                     onUpload2: function(e){
@@ -1217,10 +1217,10 @@ var data={
                           			_self.formData.directorOpinionName = '';
                           			_self.formData.directorOpinionId = '';
                           		});
-                          		$(".updwon1").click(function(){
+                          		/*$(".updwon1").click(function(){
                           			//$(this).parent("li").remove();
                           			_self.fileDownload(responseData.data.directorOpinionId,2);
-                          		});
+                          		});*/
                           	}
                           }else{
                           	$("#approval").hide();
@@ -1250,10 +1250,10 @@ var data={
                             _self.formData.gradingReportId = '';
                             _self.fileDel(_self.formData.gradingReportId,2);
                           });
-                          $(".updwon2").click(function(){
+                          /*$(".updwon2").click(function(){
                             //$(this).parent("li").remove();
                             _self.fileDownload(_self.formData.gradingReportId,2);
-                          });
+                          });*/
                         }
                         if(_self.formData.expertReviewName!=''&&_self.formData.expertReviewName!=null){
                           var fileHtml='<li><div class="fl updwon3">'+_self.formData.expertReviewName+'</div><i class="el-icon-close fl del3"></i></li>'

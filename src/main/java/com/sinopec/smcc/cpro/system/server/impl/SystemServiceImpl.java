@@ -64,10 +64,13 @@ import com.sinopec.smcc.cpro.codeapi.api.SystemApiClient;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApi;
 import com.sinopec.smcc.cpro.codeapi.entity.OrganizationApiParam;
+import com.sinopec.smcc.cpro.codeapi.entity.SystemApiParam;
+import com.sinopec.smcc.cpro.codeapi.entity.SystemApiResult;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList;
 import com.sinopec.smcc.cpro.codeapi.entity.SystemInfoList.SystemInfo;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.OrganizationApiService;
+import com.sinopec.smcc.cpro.codeapi.server.SystemApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationListResult;
 import com.sinopec.smcc.cpro.evaluation.entity.EvaluationParam;
@@ -180,6 +183,8 @@ public class SystemServiceImpl implements SystemService {
   private SystemRelationMapper systemRelationMapperImpl;
   @Autowired
   private UsmgTemplate usmgTemplate;
+  @Autowired
+  private SystemApiService systemApiServiceImpl;
   
 	/**
    * 响应系统列表数据
@@ -3896,16 +3901,23 @@ public class SystemServiceImpl implements SystemService {
           array[i] = list.get(i).getSystemName();
         }
       }*/
-      
       //获取smcc中系统
-      List<OrganizationApi> organizationApiList = 
+      List<SystemApiResult> systemApiList = systemApiServiceImpl.querySystemApi(new SystemApiParam());
+      if (systemApiList != null && systemApiList.size() > 0) {
+        array = new String[systemApiList.size()];
+        for (int i = 0; i < array.length; i++) {
+          array[i] = systemApiList.get(i).getSystemName();
+        }
+      }
+      /*List<OrganizationApi> organizationApiList = 
           this.organizationApiServiceImpl.queryOrgForKeyOrganizationName(new OrganizationApiParam());
       if(organizationApiList != null && organizationApiList.size() > 0){
         array = new String[organizationApiList.size()];
         for (int i = 0; i < array.length; i++) {
           array[i] = organizationApiList.get(i).getOrgName();
         }
-      }
+      }*/
+      
       return array;
     } catch (Exception e) {
       /*logger.error(e);

@@ -158,7 +158,10 @@ input[type=submit] {
 
 button[disabled],
 html input[disabled] {
-	cursor: default
+	cursor: default;
+	background:#ededed;
+	color:#bbbbbb;
+	border:1px solid;
 }
 
 button::-moz-focus-inner,

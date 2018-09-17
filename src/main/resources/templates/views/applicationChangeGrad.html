@@ -87,6 +87,22 @@
         </li>
     </add-form-grad>
     
+    <div class="inquiryBoxShow" v-show="returnIndex">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否确定离开此页?</p>
+                    <span>当前页面所填内容还未保存哦</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="returnIndexMethod()">确定</button>
+                <button type="button" class="btn btn-default" @click="returnIndex = false">取消</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="inquiry" v-show="check">
         <div class="inquiry">
             <div class="cenrerBox">

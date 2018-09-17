@@ -342,11 +342,11 @@
                 		_self.beginContent.fkAffiliation = data.data.fkAffiliation;//隶属关系
                 		_self.beginContent.fkCompanyType = data.data.fkCompanyType;//单位类型
                 		_self.beginContent.fkPlateType = data.data.fkPlateType;//板块类型
-                    this.loading=false;
                 	}
                 	
                 	
                   _self.formData = data.data;
+
                   if(data.data.postalCode=='0'){
                   	_self.formData.postalCode='';
                   }
@@ -460,6 +460,7 @@
                   $("#companyType").val("");
                   $("#plateType").val("");
                 }
+
               },
               //获取单位信息
               getCompanyMethod:function(_self){
@@ -669,6 +670,7 @@
               if(type=='update'){
                 _self.nameReadonly = true;
               }
+              _self.loading=false;
               bus.$on("selectedOptions",function(meg){
                 if(meg!=null){
                 	//清空验证

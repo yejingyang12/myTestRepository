@@ -1078,13 +1078,13 @@
                 "{}", 'json',
                 'application/json;charset=UTF-8',
                 _self.downloadSuccess);
-          	$("#startBoxExport").show().delay(2000).fadeOut();
             window.setTimeout(function () {
               //window.location.href = originUrl+encodeURI("page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode);
             }, 2300);
           },
           //下载成功回调
           downloadSuccess: function (_self,responseData) {
+          	$("#startBoxExport").show().delay(2000).fadeOut();
           	var url = responseData.data;
           	var name = url.substring(url.lastIndexOf("/")+1,url.length);
          	 	window.location.href=originUrl+"fileHandle/downloadFile?uploadUrl="+name+"&attachName="+name;

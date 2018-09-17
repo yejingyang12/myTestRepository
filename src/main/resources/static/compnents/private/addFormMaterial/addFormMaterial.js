@@ -182,11 +182,12 @@ var data={
                         }
                         _self.setShowAttachName(_self);
                     });
-                    $(".updwon").click(function(){
+                  	//这是在新建表四页面，点击附件就可下载的代码
+                   /* $(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
-                    });
+                    });*/
                     _self.$refs.topologyDescriptionName.clearValidate();
                     _self.$refs.formData.validateField('topologyDescriptionName');
                   },
@@ -271,11 +272,11 @@ var data={
                       /*_self.formData.organizationManagementName='';
                       _self.formData.organizationManagementPath='';*/
                     });
-                    $(".updwon").click(function(){
+                    /*$(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
-                    });
+                    });*/
                     _self.$refs.organizationManagementName.clearValidate();
                     _self.$refs.formData.validateField('organizationManagementName');
                   },
@@ -360,11 +361,11 @@ var data={
                       /*_self.formData.implementationPlanName='';
                       _self.formData.implementationPlanPath='';*/
                     });
-                    $(".updwon").click(function(){
+                    /*$(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
-                    });
+                    });*/
                     _self.$refs.implementationPlanName.clearValidate();
                     _self.$refs.formData.validateField('implementationPlanName');
                   },
@@ -446,11 +447,11 @@ var data={
                       /*_self.formData.licenseCertificateName='';
                       _self.formData.licenseCertificatePath='';*/
                     });
-                    $(".updwon").click(function(){
+                    /*$(".updwon").click(function(){
                     	var fileId = $(this).parent("li").find("input").val();
                     	fileId = fileId.split("&");
                       _self.fileDownload(fileId[0],1,fileId[1]);
-                    });
+                    });*/
                     _self.$refs.licenseCertificateName.clearValidate();
                     _self.$refs.formData.validateField('licenseCertificateName');
                   },
@@ -595,10 +596,10 @@ var data={
                         }
                     		
                       });
-                      $(".updwon").click(function(){
+                      /*$(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
                         _self.fileDownload(fileId,2);
-                      });
+                      });*/
                     }
                     
                     if(responseData.data.organizationManagementName!=null){
@@ -629,10 +630,10 @@ var data={
                         	}
                         }
                       });
-                      $(".updwon").click(function(){
+                      /*$(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
                       	_self.fileDownload(fileId,2);
-                      });
+                      });*/
                     }
                     
                     if(responseData.data.implementationPlanName!=null){
@@ -663,10 +664,10 @@ var data={
                         	}
                         }
                       });
-                      $(".updwon").click(function(){
+                      /*$(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
                       	_self.fileDownload(fileId,2);
-                      });
+                      });*/
                     }
                     
                     if(responseData.data.licenseCertificateName!=null){
@@ -697,10 +698,10 @@ var data={
                         	}
                         }
                       });
-                      $(".updwon").click(function(){
+                      /*$(".updwon").click(function(){
                       	var fileId = $(this).parent("li").find("input").val();
                       	_self.fileDownload(fileId,2);
-                      });
+                      });*/
                     }
                   },
                   downloadFile:function(str) {

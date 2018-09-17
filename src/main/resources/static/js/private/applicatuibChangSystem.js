@@ -54,8 +54,11 @@ window.onload = function () {
           },
           //返回
         //返回
-          returnBtn:function(_self) {
-          	ajaxMethod(_self, 'post',
+          returnBtn:function() {
+            this.returnIndex = true;
+          },
+          returnIndexMethod:function(){
+          	ajaxMethod(this, 'post',
                 'main/removeSession', true,JSON.stringify(''), 'json',
                 'application/json;charset=UTF-8',this.removeSessionSuccess);
             window.location.href = originUrl+"page/indexPage";

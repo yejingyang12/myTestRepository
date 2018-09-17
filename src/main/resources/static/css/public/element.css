@@ -17,6 +17,7 @@
 [class*=" el-icon-"], [class^=el-icon-] {
     font-family: element-icons !important;
     speak: none;
+    transform:rotateX(0deg);
     font-style: normal;
     font-weight: 400;
     font-variant: normal;
@@ -11348,9 +11349,9 @@
 }
 
 .el-input.is-disabled .el-input__inner {
-    background-color: #f5f7fa;
+    background-color: #ededed;
     border-color: #e4e7ed;
-    color: #c0c4cc;
+    color: #bbbbbb !important;
     cursor: not-allowed
 }
 
@@ -12682,11 +12683,13 @@
     flex-shrink: 0
 }
 #h-btn-add{
-    width:80px;
-    height:30px;
+    width:70px;
+    height:34px;
     background-color:#5DAE51;
     color:#fff;
-    border-radius:3px;
+    border-radius:2px;
+    text-align:center;
+    line-height:34px
 }
 #h-btn-add:hover{
   background-color:#27801A;

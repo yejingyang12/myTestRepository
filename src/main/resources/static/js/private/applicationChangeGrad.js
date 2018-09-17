@@ -29,7 +29,10 @@ window.onload = function () {
           },
           //返回
           returnBtn:function() {
-          	ajaxMethod(_self, 'post',
+          	this.returnIndex = true;
+          },
+          returnIndexMethod:function(){
+          	ajaxMethod(this, 'post',
                 'main/removeSession', true,JSON.stringify(''), 'json',
                 'application/json;charset=UTF-8',_self.removeSessionSuccess);
           	window.location.href = originUrl+"page/indexPage";
