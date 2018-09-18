@@ -145,19 +145,33 @@ public class WsMQExecResultService implements ISFMQExecResult {
     if(WorkFlowResult != null){
       workFlowParam.setNextApprover("businessId:"+businessId+"+++++executorIdList"+executorIdList.toString());
       workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-      if(workFlowResult.getBusinessName().equals("定级")){
-        checkType = 1;
-      }else if(workFlowResult.getBusinessName().equals("申请变更")){
-        checkType = 3;
-      }else{
-        checkType = 2;
-      }
       String auditReasons = "";
-      //如果是企业未通过或总部未通过则添加审核原因
-      if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
-        auditReasons = workFlowResult.getAuditReasons();
+      try{
+        if(workFlowResult.getBusinessName().equals("定级")){
+          checkType = 1;
+        }else if(workFlowResult.getBusinessName().equals("申请变更")){
+          checkType = 3;
+        }else{
+          checkType = 2;
+        }
+        
+        workFlowParam.setNextApprover("断点测试1");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        
+        //如果是企业未通过或总部未通过则添加审核原因
+        if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
+          auditReasons = workFlowResult.getAuditReasons();
+        }
+        workFlowParam.setNextApprover("断点测试2");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }catch(Exception e){
+        workFlowParam.setNextApprover(e.toString());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        e.printStackTrace();
       }
       
+      workFlowParam.setNextApprover("断点测试3");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
