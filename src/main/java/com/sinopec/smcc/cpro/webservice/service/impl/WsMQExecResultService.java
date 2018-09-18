@@ -137,28 +137,31 @@ public class WsMQExecResultService implements ISFMQExecResult {
       List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
-    WorkFlowResult WorkFlowResult
+    WorkFlowResult workFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
     
     workFlowParam.setNextApprover("回调开始");
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-    
-    WorkFlowResult workFlowResult = new WorkFlowResult();
     Integer checkType = 0;
-    if(WorkFlowResult != null){
-      if(workFlowResult.getBusinessName().equals("定级")){
-        checkType = 1;
-      }else if(workFlowResult.getBusinessName().equals("申请变更")){
-        checkType = 3;
-      }else{
-        checkType = 2;
+    String auditReasons = "";
+    if(workFlowResult != null){
+      try {
+        if(workFlowResult.getBusinessName().equals("定级")){
+          checkType = 1;
+        }else if(workFlowResult.getBusinessName().equals("申请变更")){
+          checkType = 3;
+        }else{
+          checkType = 2;
+        }
+        //如果是企业未通过或总部未通过则添加审核原因
+        if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
+          auditReasons = workFlowResult.getAuditReasons();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
-
-      String auditReasons = "";
-      //如果是企业未通过或总部未通过则添加审核原因
-      if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
-        auditReasons = workFlowResult.getAuditReasons();
-      }
+      workFlowParam.setNextApprover("测试1"+executorIdList.toString());
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
@@ -171,7 +174,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
           userIds += userId + ",";
         }
         
-        workFlowParam.setNextApprover("测试1"+userIds+"--"+email);
+        workFlowParam.setNextApprover("测试2"+userIds+"--"+email);
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
