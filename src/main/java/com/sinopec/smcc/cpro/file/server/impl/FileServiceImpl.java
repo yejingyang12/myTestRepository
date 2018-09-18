@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.common.objstor.ObjectStorageService;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.file.constant.FileConstant;
 import com.sinopec.smcc.cpro.file.entity.AttachParam;
 import com.sinopec.smcc.cpro.file.entity.AttachResult;
@@ -35,6 +36,7 @@ import com.sinopec.smcc.cpro.file.mapper.AttachMapper;
 import com.sinopec.smcc.cpro.file.server.FileService;
 import com.sinopec.smcc.cpro.tools.FileOperateUtil;
 import com.sinopec.smcc.cpro.tools.Utils;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title FileServiceImpl.java
@@ -51,6 +53,9 @@ public class FileServiceImpl implements FileService{
   private AttachMapper attachMapper;
   @Autowired
   private ObjectStorageService objectStorageServiceImpl;
+  @Autowired
+  private UserApiService userApiServiceImpl;
+  
 
   @Override
   public AttachResult uploadFile(HttpServletRequest request, 
@@ -95,8 +100,12 @@ public class FileServiceImpl implements FileService{
     if (fileId == null) {
       throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
     }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
     attachParam.setMongoFileId(fileId);
-    attachParam.setCreateTime(new Date());
+    attachParam.setCreateDate(new Date());
+    attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+    attachParam.setCreateUname(userDTO.getUserName());
     this.attachMapper.insertAttach(attachParam);
     //删除现有文件
     file.delete();

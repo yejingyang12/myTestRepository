@@ -251,6 +251,10 @@ var  data={
           sysBusSituationType:[  // 业务类型
               { required: true, message: '请选择业务类型', trigger: 'blur' },
           ],
+          sysBusDescription:[  // 业务描述
+              { required: true, message: '请填写业务描述', trigger: 'blur' },
+              { min: 0, max: 200, message: '长度在 0 到200个字符', trigger: 'blur' },
+          ],
           sysServiceSitScope:[  // 服务范围
               { required: true, message: '请选择服务范围', trigger: 'blur' },
           ],

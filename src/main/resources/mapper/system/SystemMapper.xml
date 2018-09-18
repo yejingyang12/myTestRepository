@@ -91,8 +91,8 @@
     <result property="fkExamStatus" column="fkExamStatus" />
     <result property="fkExamResult" column="fkExamResult" />
     <result property="deleteStatus" column="deleteStatus" jdbcType="TINYINT"/>
-    <result property="createTime" column="createTime" />
-    <result property="updateTime" column="updateTime" />
+    <result property="createTime" column="create_date" />
+    <result property="updateTime" column="update_date" />
     <result property="remark" column="remark" />
     <result property="fkRectificationReu" column="fkRectificationReu" />
     <result property="rectificationDate" column="rectificationDate" />
@@ -136,9 +136,9 @@
       examTime,
       rectificationDate,
       deleteStatus,
-      createUserName,
-      createTime,
-      updateTime,
+      create_uname,
+      create_date,
+      update_date,
       remark
     FROM
       t_cpro_evaluation
@@ -155,9 +155,9 @@
     <result column="inspectionDate" property="inspectionDate" />
     <result column="rectificationDate" property="rectificationDate" />
     <result column="deleteStatus" property="deleteStatus" />
-    <result column="createUserName" property="createUserName" />
-    <result column="createTime" property="createTime" />
-    <result column="updateTime" property="updateTime" />
+    <result column="create_uname" property="createUserName" />
+    <result column="create_date" property="createTime" />
+    <result column="update_uname" property="updateTime" />
     <result column="remark" property="remark" />
     <result column="reviewReportName" property="reviewReportName" />
     <result column="reviewReportPath" property="reviewReportPath" />
@@ -175,9 +175,9 @@
       inspectionDate,
       rectificationDate,
       deleteStatus,
-      createUserName,
-      createTime,
-      updateTime,
+      create_uname,
+      create_date,
+      update_date,
       remark
     FROM  t_cpro_self_inspection
     WHERE 
@@ -200,9 +200,9 @@
     <result column="filler" property="filler" jdbcType="VARCHAR" />
     <result column="fillDate" property="fillDate" jdbcType="DATE" />
     <result column="deleteStatus" property="deleteStatus" jdbcType="TINYINT" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="createTime" property="createTime" jdbcType="DATE" />
-    <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_uname" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_date" property="createTime" jdbcType="DATE" />
+    <result column="update_date" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="codeName" property="auditName" jdbcType="VARCHAR" />
   </resultMap>
@@ -224,9 +224,9 @@
       filler,
       fillDate,
       deleteStatus,
-      createUserName,
-      createTime,
-      updateTime,
+      create_uname,
+      create_date,
+      update_date,
       remark
     FROM t_cpro_score
     WHERE
@@ -242,9 +242,9 @@
     <result column="revokereason" property="revokereason" jdbcType="VARCHAR"/>
     <result column="revokecontent" property="revokecontent" jdbcType="VARCHAR"/>
     <result column="deleteStatus" property="deleteStatus" jdbcType="VARCHAR"/>
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR"/>
-    <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
-    <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    <result column="create_uname" property="createUserName" jdbcType="VARCHAR"/>
+    <result column="create_date" property="createTime" jdbcType="VARCHAR"/>
+    <result column="update_date" property="updateTime" jdbcType="VARCHAR"/>
     <result column="remark" property="remark" jdbcType="VARCHAR"/>
     <result column="recordCompany" property="recordCompany" jdbcType="VARCHAR"/>
     <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR"/>
@@ -266,9 +266,9 @@
       revokereason,
       revokecontent,
       deleteStatus,
-      createUserName,
-      createTime,
-      updateTime,
+      create_uname,
+      create_date,
+      update_date,
       remark
     FROM t_cpro_records
     WHERE
@@ -292,9 +292,9 @@
       mongoFileId,
       attachPath,
       deleteStatus,
-      createUserName,
-      createTime,
-      updateTime,
+      create_uname,
+      create_date,
+      update_date,
       remark
     FROM t_cpro_attach
     WHERE 
@@ -306,13 +306,13 @@
     <result column="instanceName" property="instanceName" jdbcType="VARCHAR" />
     <result column="fkBusinessNode" property="fkBusinessNode" jdbcType="VARCHAR" />
     <result column="initiator" property="initiator" jdbcType="VARCHAR" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
-    <result column="updateTime" property="updateTime" jdbcType="DATE" />
+    <result column="create_uname" property="createUserName" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateTime" jdbcType="DATE" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="fkSystemId" property="fkSystemId" jdbcType="VARCHAR" />
     <result column="fkExaminStatus" property="fkExaminStatus" jdbcType="VARCHAR" />
     <result column="prevExecutor" property="prevExecutor" jdbcType="VARCHAR" />
-    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createTime" jdbcType="TIMESTAMP" />
     <result column="deleteStatus" property="deleteStatus" jdbcType="INTEGER" />
     <result column="executeTime" property="executeTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -327,9 +327,9 @@
       prevExecutor,
       executeTime,
       deleteStatus,
-      createUserName,
-      createTime,
-      updateTime,
+      create_uname,
+      create_date,
+      update_date,
       remark
     FROM  t_cpro_check
     WHERE 
@@ -340,7 +340,7 @@
     INSERT INTO t_cpro_check
       (
       pkId,fkSystemId,fkExaminStatus,fkBusinessNode,instanceName,initiator,prevExecutor,executeTime,
-      deleteStatus,createUserName,createTime,updateTime,remark
+      deleteStatus,create_uname,create_date,update_date,remark
       )VALUES (
         <trim suffixOverrides="," >
           <![CDATA[
@@ -498,7 +498,7 @@
     INSERT INTO t_cpro_attach
       (
       pkId,fkSystemId,fkSyssonId,fkAttachType,attachName,mongoFileId,attachPath,deleteStatus,
-      createUserName,createTime,updateTime,remark
+      create_uname,create_date,update_date,remark
       )VALUES (
         <trim suffixOverrides="," >
           <![CDATA[
@@ -644,7 +644,7 @@
     INSERT INTO t_cpro_records
       (
         pkId,fkSystemId,fkrevokematter,recordCode,recordCompany,recordDate,acceptCompany,acceptDate,
-        acceptReason,revokereason,revokecontent,deleteStatus,createUserName,createTime,updateTime,
+        acceptReason,revokereason,revokecontent,deleteStatus,create_uname,create_date,update_date,
         remark
       )VALUES (
         <trim suffixOverrides="," >
@@ -840,7 +840,7 @@
       (
       pkId,fkSystemId,fkBizSPRankDegree,fkBizSPRankLevel,fkBizSystemDegree,fkBizSystemLevel,
       fkSpRanklevel,expertView,rankExplainDesc,rankTime,competentIsExisting,competentName,
-      competentView,filler,fillDate,deleteStatus,createUserName,createTime,updateTime,remark
+      competentView,filler,fillDate,deleteStatus,create_uname,create_date,update_date,remark
       )VALUES(
         <trim suffixOverrides="," >
           <![CDATA[
@@ -1082,8 +1082,8 @@
     INSERT INTO t_cpro_self_inspection
       (
         pkId,fkSystemId,fkInspectionStatus,fkInspectionReu,fkRectificationReu,inspectionDate,
-        rectificationDate,deleteStatus,createUserName,createTime,updateTime,remark,
-        selfInspectionName,updateUserName
+        rectificationDate,deleteStatus,create_uname,create_date,update_date,remark,
+        selfInspectionName,update_uname
       )VALUES
       <foreach collection="list" item="item" index="index" separator=",">
         (
@@ -1256,7 +1256,7 @@
     INSERT INTO t_cpro_evaluation
       (
         pkId,fkSystemId,fkExamResult,fkExamStatus,fkRectificationReu,examName,examYear,examOrg,
-        examTime,rectificationDate,deleteStatus,createUserName,createTime,updateTime,remark
+        examTime,rectificationDate,deleteStatus,create_uname,create_date,update_date,remark
       )VALUES 
       <foreach collection="list" item="item" index="index" separator=",">
         (
@@ -1707,7 +1707,7 @@
       </if>
       <if test="updateTime != null ">
         <![CDATA[
-          updateTime = #{updateTime,jdbcType=DATE},
+          update_date = #{updateTime,jdbcType=DATE},
         ]]>
       </if>
       <if test="recordStatus != null ">
@@ -1727,7 +1727,7 @@
       </if>
       <if test="updateUserName != null ">
         <![CDATA[
-          updateUserName = #{updateUserName,jdbcType=VARCHAR},
+          update_uname = #{updateUserName,jdbcType=VARCHAR},
         ]]>
       </if>
     </set>
@@ -1747,15 +1747,15 @@
 	
   <insert id="insertBatchSystem" parameterType="java.util.List">
     INSERT INTO t_cpro_system
-      (pkId,interconnectionSit,fkFatherSystemId,standardizedCode,createUserName,remark,
+      (pkId,interconnectionSit,fkFatherSystemId,standardizedCode,create_uname,remark,
       whenInvestmentUse,examineStatus,executiveOfficeName,examinationStatus,sysBusDescription,
       subIsSystem,executiveDireCon,fkChangeMatter,systemName,deleteStatus,fkSystemType,
       appIsInternet,gradeRecordSysName,fkSystemIsMerge,changeReason,executiveDireConTel,
-      npCoverageRange,updateTime,sysBusSituationType,
+      npCoverageRange,update_date,sysBusSituationType,
       sysServiceSitObject,sysServiceSitScope,fkCompanyCode,
-      recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeCon,
+      recordStatus,gradingStatus,changeContent,create_date,fkInfoSysTypeCon,
       npNetworkProperties,evaluationStatus,companyName,
-      fatherSystemName,fatherCompanyName,updateUserName)VALUES
+      fatherSystemName,fatherCompanyName,update_uname)VALUES
       <foreach collection="list" item="item" index="index" separator=",">
         (
           <trim suffixOverrides="," >
@@ -2225,14 +2225,14 @@
   
 	<insert id="insertSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemResult">
   	INSERT INTO t_cpro_system
-			(pkId,interconnectionSit,fkFatherSystemId,standardizedCode,createUserName,remark,
+			(pkId,interconnectionSit,fkFatherSystemId,standardizedCode,create_uname,remark,
 			whenInvestmentUse,examineStatus,executiveOfficeName,examinationStatus,sysBusDescription,
 			subIsSystem,executiveDireCon,fkChangeMatter,systemName,deleteStatus,fkSystemType,
 			appIsInternet,gradeRecordSysName,fkSystemIsMerge,changeReason,executiveDireConTel,
-			npCoverageRange,updateTime,sysBusSituationType,
+			npCoverageRange,update_date,sysBusSituationType,
 			sysServiceSitObject,sysServiceSitScope,fkCompanyCode,
-			recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeCon,
-			npNetworkProperties,evaluationStatus,updateUserName)VALUES(
+			recordStatus,gradingStatus,changeContent,create_date,fkInfoSysTypeCon,
+			npNetworkProperties,evaluationStatus,update_uname)VALUES(
 	    <trim suffixOverrides="," >
         <![CDATA[
           #{systemId,jdbcType=VARCHAR},
@@ -2663,7 +2663,7 @@
 	  	<trim suffixOverrides="," >
         <if test="updateUserName != null and updateUserName !=''">
           <![CDATA[
-            updateUserName = #{updateUserName,jdbcType=VARCHAR},
+            update_uname = #{updateUserName,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="interconnectionSit != null and interconnectionSit !=''">
@@ -2683,7 +2683,7 @@
         </if>
         <if test="createUserName != null and createUserName !=''">
           <![CDATA[
-           createUserName = #{createUserName,jdbcType=VARCHAR},
+           create_uname = #{createUserName,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="remark != null and remark !=''">
@@ -2778,7 +2778,7 @@
         </if>
         <if test="updateTime != null">
           <![CDATA[
-            updateTime = #{updateTime,jdbcType=DATE},
+            update_date = #{updateTime,jdbcType=DATE},
           ]]>
         </if>
         <if test="sysBusSituationType != null and sysBusSituationType !=''">
@@ -2818,7 +2818,7 @@
         </if>
         <if test="createTime != null ">
           <![CDATA[
-            createTime = #{createTime,jdbcType=TIMESTAMP},
+            create_date = #{createTime,jdbcType=TIMESTAMP},
           ]]>
         </if>
         <if test="fkInfoSysTypeCon != null and fkInfoSysTypeCon !=''">
@@ -2845,7 +2845,7 @@
      <trim suffixOverrides="," >
 	    <if test="updateUserName != null">
 	      <![CDATA[
-	        updateUserName = #{updateUserName,jdbcType=VARCHAR},
+	        update_uname = #{updateUserName,jdbcType=VARCHAR},
 	      ]]>
 	    </if>
 	    <if test="fkSystemIsMerge != null">
@@ -2905,14 +2905,14 @@
   <insert id="insertSystemTemplate" parameterType="java.util.List" >
     INSERT INTO t_cpro_system
       (
-        pkId,interconnectionSit,fkFatherSystemId,standardizedCode,createUserName,remark,
+        pkId,interconnectionSit,fkFatherSystemId,standardizedCode,create_uname,remark,
         whenInvestmentUse,examineStatus,executiveOfficeName,examinationStatus,sysBusDescription,
         subIsSystem,executiveDireCon,fkChangeMatter,systemName,deleteStatus,fkSystemType,
         appIsInternet,gradeRecordSysName,fkSystemIsMerge,changeReason,executiveDireConTel,
-        npCoverageRange,updateTime,sysBusSituationType,
+        npCoverageRange,update_date,sysBusSituationType,
         sysServiceSitObject,sysServiceSitScope,fkCompanyCode,
-        recordStatus,gradingStatus,changeContent,createTime,fkInfoSysTypeCon,
-        npNetworkProperties,evaluationStatus,updateUserName
+        recordStatus,gradingStatus,changeContent,create_date,fkInfoSysTypeCon,
+        npNetworkProperties,evaluationStatus,update_uname
       ) VALUES
       <foreach collection="list" item="item" index="index" separator=",">
           (
@@ -3359,12 +3359,12 @@
     </if>
     <if test="updateTimeBegin != null ">
         <![CDATA[
-          AND sys.updateTime >= #{updateTimeBegin,jdbcType=DATE}
+          AND sys.update_date >= #{updateTimeBegin,jdbcType=DATE}
         ]]>
     </if>
     <if test="updateTimeEnd != null ">
         <![CDATA[
-          AND sys.updateTime <= #{updateTimeEnd,jdbcType=DATE}
+          AND sys.update_date <= #{updateTimeEnd,jdbcType=DATE}
         ]]>
     </if>
     <if test="evaluationStatus != null and evaluationStatus != ''">
@@ -3403,7 +3403,7 @@
 	      fkFatherSystemId = #{item.fkFatherSystemId,jdbcType=VARCHAR},
 	      fkSystemType = #{item.fkSystemType,jdbcType=INTEGER}
 	      <if test="item.updateUserName != null">
-		      ,updateUserName = #{item.updateUserName,jdbcType=VARCHAR}
+		      ,update_uname = #{item.updateUserName,jdbcType=VARCHAR}
 	      </if>
 	    WHERE pkId = #{item.systemId}
     </foreach>
@@ -3431,7 +3431,7 @@
         subIsSystem = #{item.subIsSystem,jdbcType=TINYINT},
         companyName = #{item.companyName,jdbcType=VARCHAR}
 	      <if test="item.updateUserName != null">
-	      	,updateUserName = #{item.updateUserName}
+	      	,update_uname = #{item.updateUserName}
 	      </if>
         WHERE pkId = #{item.systemId}
     </foreach>
@@ -3461,7 +3461,7 @@
         subIsSystem = #{item.subIsSystem,jdbcType=TINYINT},
         companyName = #{item.companyName,jdbcType=VARCHAR}
         <if test="item.updateUserName != null">
-	      	,updateUserName = #{item.updateUserName}
+	      	,update_uname = #{item.updateUserName}
 	      </if>
         WHERE pkId = #{item.systemId}
     </foreach>
@@ -3490,7 +3490,7 @@
         subIsSystem = #{item.subIsSystem,jdbcType=TINYINT},
         companyName = #{item.companyName,jdbcType=VARCHAR}
         <if test="item.updateUserName != null">
-	      	,updateUserName = #{item.updateUserName}
+	      	,update_uname = #{item.updateUserName}
 	      </if>
         WHERE pkId = #{item.systemId}
     </foreach>
@@ -3611,7 +3611,7 @@
         </if>
         <if test="updateUserName != null ">
           <![CDATA[
-            updateUserName = #{updateUserName,jdbcType=VARCHAR},
+            update_uname = #{updateUserName,jdbcType=VARCHAR},
           ]]>
         </if>
         <if test="changeReason != null ">
@@ -3853,9 +3853,9 @@
 			system.changeReason,
 			system.changeContent,
 			system.deleteStatus,
-			system.createUserName,
-			system.createTime,
-			system.updateTime,
+			system.create_uname,
+			system.create_date,
+			system.update_date,
 			system.remark
 		FROM
 			t_cpro_system system
@@ -3945,9 +3945,9 @@
       system.changeReason,
       system.changeContent,
       system.deleteStatus,
-      system.createUserName,
-      system.createTime,
-      system.updateTime,
+      system.create_uname,
+      system.create_date,
+      system.update_date,
       system.remark
     FROM
       t_cpro_system system
@@ -4004,9 +4004,9 @@
       system.changeReason,
       system.changeContent,
       system.deleteStatus,
-      system.createUserName,
-      system.createTime,
-      system.updateTime,
+      system.create_uname,
+      system.create_date,
+      system.update_date,
       system.remark
     FROM
       t_cpro_system system

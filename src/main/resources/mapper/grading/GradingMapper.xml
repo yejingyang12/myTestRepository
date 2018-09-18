@@ -40,8 +40,8 @@
       (
         pkId,fkSystemId,fkBizSPRankDegree,fkBizSPRankLevel,fkBizSystemDegree,fkBizSystemLevel,
         fkSpRanklevel,expertView,rankExplainDesc,rankTime,competentIsExisting,competentName,
-        competentView,filler,fillDate,deleteStatus,createUserName,createTime,updateTime,remark,
-        updateUserName
+        competentView,filler,fillDate,deleteStatus,create_uname,create_date,update_date,remark,
+        update_uname
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -298,7 +298,7 @@
 	     filler = #{filler},
      </if>
      <if test="updateUserName != null">
-	     updateUserName = #{updateUserName},
+	     update_uname = #{updateUserName},
      </if>
      <choose>
      	<when test="fillDate != null">

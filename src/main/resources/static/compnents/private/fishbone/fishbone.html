@@ -91,6 +91,7 @@
                         <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:250px" 
                         			class="thirs_div" v-if="pro.operationOpinion!=''" >操作意见：
                         			<span :title="pro.operationOpinion" style="cursor:pointer;">{{pro.operationOpinion}}</span></div>
+                    	<div class="thirs_div" v-else-if="pro.fkChangeReason !== ''">操作意见：{{pro.fkChangeReason}}</div>
                     	<div class="thirs_div" v-else>操作意见：无</div>
                     </div>
                     <div class="over_time">完成时间:{{pro.createTime}}</div>

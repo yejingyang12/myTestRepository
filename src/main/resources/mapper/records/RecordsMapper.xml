@@ -48,8 +48,8 @@
       (
         pkId,fkSystemId,fkrevokematter,recordCode,recordCompany,
         recordDate,acceptCompany,acceptDate,acceptReason,revokereason,
-        revokecontent,deleteStatus,createUserName,updateTime,createTime,
-        remark,updateUserName
+        revokecontent,deleteStatus,create_uname,update_date,create_date,
+        remark,update_uname
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -267,7 +267,7 @@
     		acceptCompany = #{acceptCompany},
       </if>
       <if test="updateUserName != null and updateUserName !='' ">
-    		updateUserName = #{updateUserName},
+    		update_uname = #{updateUserName},
       </if>
     </trim>
   </insert> 
@@ -302,7 +302,7 @@
   	UPDATE t_cpro_records 
   	SET revokereason = #{revokereason},fkrevokematter = #{fkrevokematter} 
   	<if test="updateUserName != null">
-  		,updateUserName = #{updateUserName}
+  		,update_uname = #{updateUserName}
   	</if>
     WHERE fkSystemId = #{fkSystemId} 
   </update>

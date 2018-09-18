@@ -9,7 +9,7 @@
     <result column="operator" property="operator" />
     <result column="operationResult" property="operationResult" />
     <result column="operationOpinion" property="operationOpinion" />
-    <result column="createTime" property="createTime" />
+    <result column="create_date" property="createTime" />
 
   </resultMap>
   <select id="selectAllBynodeParam" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam" resultMap="NodeResult">
@@ -21,7 +21,7 @@
 				operator,
 				operationResult,
 				operationOpinion,
-				createTime,
+				create_date,
 				( CASE fkSysChangeMatter WHEN '1' THEN '系统合并' WHEN '2' THEN '级别降低' WHEN '3' THEN '级别升高' WHEN '4' THEN '撤销备案' ELSE '其他' END ) AS fkChangeMatter,
 				fkChangeReason,
 				fkChangeContent 
@@ -33,7 +33,7 @@
         AND fkSystemId = #{systemId,jdbcType=CHAR}
       ]]>
     </where>
-    		ORDER BY createTime
+    		ORDER BY create_date
   </select>
   <select id="selectAllForExamine" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam" resultMap="NodeResult">
   	<![CDATA[
@@ -44,7 +44,7 @@
 				operator,
 				operationResult,
 				operationOpinion,
-				createTime,
+				create_date,
 				( CASE fkSysChangeMatter WHEN '1' THEN '系统合并' WHEN '2' THEN '级别降低' WHEN '3' THEN '级别升高' WHEN '4' THEN '撤销备案' ELSE '其他' END ) AS fkChangeMatter,
 				fkChangeReason,
 				fkChangeContent 
@@ -57,7 +57,7 @@
         AND (operation LIKE '%定级%' OR operation LIKE '%申请变更%' OR operation LIKE '%撤销备案%' OR operation LIKE '%审核%' OR operation LIKE '%创建%')
       ]]>
     </where>
-    		ORDER BY createTime
+    		ORDER BY create_date
   </select>
   
   <insert id="insertBynodeParam" parameterType="com.sinopec.smcc.cpro.node.entity.NodeParam">
@@ -69,7 +69,7 @@
           operator,
           operationResult,
           operationOpinion,
-          createTime,
+          create_date,
           fkChangeReason,
           fkChangeContent,
           fkSysChangeMatter
@@ -155,22 +155,22 @@
 			operator,
 			operationResult,
 			operationOpinion,
-			createTime 
+			create_date 
 		FROM
 			t_cpro_node 
 		WHERE
 			fkSystemId = #{systemId} 
 			AND operation = #{operation} 
-			AND createTime > (
+			AND create_date > (
 			SELECT
-			createTime 
+			create_date 
 		FROM
 			t_cpro_node node 
 		WHERE
 			operation LIKE '%审核%' 
 			AND node.fkSystemId = #{systemId} 
 		ORDER BY
-			createTime DESC 
+			create_date DESC 
 			LIMIT 0,1
 			)
 			LIMIT 0,1
@@ -180,7 +180,7 @@
 			SET operation = #{operation},
 			 operator = #{operator},
 			 operationResult = #{operationResult},
-			 createTime = #{createTime},
+			 create_date = #{createTime},
 			 operationOpinion = #{operationOpinion}
 			WHERE
 				pkId = #{nodeId}
@@ -193,7 +193,7 @@
       operator,
       operationResult,
       operationOpinion,
-      createTime
+      create_date
     FROM
       t_cpro_node 
     WHERE fkSystemId = #{systemId}
@@ -206,7 +206,7 @@
         operator,
         operationResult,
         operationOpinion,
-        createTime,		
+        create_date,		
         fkChangeContent,
         fkChangeReason,
 				 (
@@ -235,7 +235,7 @@
 			operator,
 			operationResult,
 			operationOpinion,
-			createTime,
+			create_date,
 			fkChangeReason,
 			fkChangeContent,
 			( CASE fkSysChangeMatter WHEN '1' THEN '系统合并' WHEN '2' THEN '级别降低' WHEN '3' THEN '级别升高' WHEN '4' THEN '撤销备案' ELSE '其他' END ) AS fkSysChangeMatter 
@@ -244,6 +244,6 @@
 	WHERE
 			fkSystemId = #{systemId} 
 			AND operation = '申请变更' 
-			AND createTime = ( SELECT MAX( createTime ) FROM t_cpro_node WHERE fkSystemId = #{systemId} AND operation = '申请变更' )
+			AND create_date = ( SELECT MAX( create_date ) FROM t_cpro_node WHERE fkSystemId = #{systemId} AND operation = '申请变更' )
   </select>
 </mapper>

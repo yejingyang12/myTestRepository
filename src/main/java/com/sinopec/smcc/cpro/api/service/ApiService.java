@@ -11,15 +11,13 @@ package com.sinopec.smcc.cpro.api.service;
 
 import java.util.List;
 
-import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
-import com.sinopec.smcc.cpro.api.entity.GetSystemRelationResult;
-import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
-import com.sinopec.smcc.cpro.api.entity.UsmgParams;
-import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.system.entity.SystemRelationParam;
-import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
+import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.depends.region.dto.BatchApprovalInfo;
+import com.sinopec.smcc.depends.region.dto.CheckParam;
+import com.sinopec.smcc.depends.region.dto.CproForeignRequestParam;
+import com.sinopec.smcc.depends.region.dto.CproResultParam;
+import com.sinopec.smcc.depends.region.dto.SystemRelationBaseInfo;
 
 /**
  * @Title ApiService.java
@@ -31,7 +29,7 @@ import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
  */
 public interface ApiService {
   
-  GradingApiResult getGradingInformation(String systemId) throws BusinessException;
+  CproResultParam getGradingInformation(String systemId) throws BusinessException;
   
   /**
    * @Descrption 通过userId获取待办列表
@@ -41,7 +39,7 @@ public interface ApiService {
    * @return
    * @throws BusinessException
    */
-  PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams,String userId) 
+  PageUtil getStayHandle(CproForeignRequestParam cproForeignRequestParam) 
       throws BusinessException;
   
   /**
@@ -52,7 +50,7 @@ public interface ApiService {
    * @return
    * @throws BusinessException
    */
-  Integer batchApproval(BatchCheckHandleParam batchCheckHandleParam) throws BusinessException;
+  Integer batchApproval(BatchApprovalInfo paramBatchApprovalInfo) throws BusinessException;
   
   /**
    * @Descrption
@@ -61,8 +59,8 @@ public interface ApiService {
    * @param systemParam
    * @return
    */
-  PageInfo<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam)
-      throws BusinessException ;
+  PageUtil getSystemRelationInfo(CproForeignRequestParam 
+      paramCproForeignRequestParam)throws BusinessException ;
 
   /**
    * @Descrption
@@ -71,8 +69,8 @@ public interface ApiService {
    * @param systemRelationParam
    * @return
    */
-  GetSystemRelationResult editGetSystemRelationInfo(
-      SystemRelationParam systemRelationParam)throws BusinessException;
+  CproResultParam editGetSystemRelationInfo(
+      CproForeignRequestParam paramCproForeignRequestParam)throws BusinessException;
 
   /**
    * @Descrption
@@ -80,7 +78,7 @@ public interface ApiService {
    * @date 2018年8月27日上午11:47:14
    * @param systemRelationEditParam
    */
-  void editSystemRelationInfo(GetSystemRelationResult getSystemRelationResult)
+  void editSystemRelationInfo(CproForeignRequestParam getSystemRelationResult)
       throws BusinessException;
 
   /**
@@ -89,7 +87,7 @@ public interface ApiService {
    * @date 2018年8月27日上午11:51:37
    * @param systemRelationParam
    */
-  boolean deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
+  boolean deleteSystemRelationInfo(CproForeignRequestParam paramCproForeignRequestParam)
       throws BusinessException;
 
   /**
@@ -100,6 +98,60 @@ public interface ApiService {
    * @param systemRelationParam
    * @return
    */
-  List<SystemRelationResult> getSystemRelationByGrade(SystemRelationParam systemRelationParam)
+  List<SystemRelationBaseInfo> getSystemRelationByGrade(String paramString)
+      throws BusinessException;
+  
+  /**
+   * @Descrption 企业管理员定级审核
+   * @author yejingyang
+   * @date 2018年6月8日下午12:30:56
+   * @param request
+   * @param checkNodeParam
+   * @return
+   */
+  String saveGradCheckApi(String userName, CheckParam checkParam) 
+      throws BusinessException;
+  
+  /**
+   * @Descrption 总部管理员定级审核
+   * @author dongxu
+   * @date 2018年6月20日下午7:33:55
+   * @param userName
+   * @param checkParam
+   * @return
+   * @throws BusinessException
+   */
+  String saveHeadGradCheckApi(String userName, CheckParam checkParam) throws BusinessException;
+  
+  /**
+   * @Descrption 总部管理员撤销备案审核
+   * @author yejingyang
+   * @date 2018年6月8日下午4:19:30
+   * @param request
+   * @param checkParam
+   * @return
+   */
+  String saveCancelRecordsCheckApi(String userName, CheckParam checkParam)
+      throws BusinessException;
+  
+  /**
+   * @Descrption 企业管理员定级变更审核
+   * @author yejingyang
+   * @date 2018年6月8日下午3:54:49
+   * @param request
+   * @param checkParam
+   * @return
+   */
+  String saveGradChangeCheckApi(String userName, CheckParam checkParam)
+      throws BusinessException;
+  /**
+   * @Descrption 总部管理员定级变更审核
+   * @author dongxu
+   * @date 2018年6月20日下午7:42:16
+   * @param userName
+   * @param checkParam
+   * @return
+   */
+  public String saveHeadGradChangeCheckApi(String userName, CheckParam checkParam) 
       throws BusinessException;
 }

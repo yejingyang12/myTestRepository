@@ -7,7 +7,7 @@
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
     <result column="compPrincipalWorkTel" property="compPrincipalWorkTel" jdbcType="VARCHAR" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_uname" property="createUserName" jdbcType="VARCHAR" />
     <result column="ldContactName" property="ldContactName" jdbcType="VARCHAR" />
     <result column="rDepartment" property="rDepartment" jdbcType="VARCHAR" />
     <result column="compPrincipalEm" property="compPrincipalEm" jdbcType="VARCHAR" />
@@ -38,7 +38,7 @@
     <result column="companyName" property="companyName" jdbcType="VARCHAR" />
     <result column="postalCode" property="postalCode" jdbcType="VARCHAR" />
     <result column="compPrincipalWorkTel" property="compPrincipalWorkTel" jdbcType="VARCHAR" />
-    <result column="createUserName" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_uname" property="createUserName" jdbcType="VARCHAR" />
     <result column="ldContactName" property="ldContactName" jdbcType="VARCHAR" />
     <result column="rDepartment" property="rDepartment" jdbcType="VARCHAR" />
     <result column="compPrincipalEm" property="compPrincipalEm" jdbcType="VARCHAR" />
@@ -110,10 +110,10 @@
       (
         pkId,fkIndustryCategory,fkAffiliation,fkCompanyType,fkPlateType,
         fkSubordinatePro,ldContactEmail,companyName,postalCode,compPrincipalWorkTel,
-        createUserName,remark,ldContactName,rDepartment,compPrincipalEm,
+        create_uname,remark,ldContactName,rDepartment,compPrincipalEm,
         deleteStatus,ldContactPhone,administrativeNum,compPrincipalPhone,companyCode,
-        compPrincipalPost,ldContactPost,updateTime,gpReportingComp,createTime,
-        companyAddress,ldContactWorkTel,compPrincipalName,updateUserName
+        compPrincipalPost,ldContactPost,update_date,gpReportingComp,create_date,
+        companyAddress,ldContactWorkTel,compPrincipalName,update_uname
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -526,7 +526,7 @@
       		gpReportingComp = #{gpReportingComp},
         </if>
         <if test="updateUserName != null and updateUserName != ''">
-        	updateUserName = #{updateUserName},
+        	update_uname = #{updateUserName},
         </if>
       </trim>
   </insert> 
@@ -560,7 +560,7 @@
 		  company.companyName,
 		  company.postalCode,
 		  company.compPrincipalWorkTel,
-		  company.createUserName,
+		  company.create_uname,
 		  company.ldContactName,
 		  company.rDepartment,
 		  company.compPrincipalEm,
@@ -613,7 +613,7 @@
       company.companyName,
       company.postalCode,
       company.compPrincipalWorkTel,
-      company.createUserName,
+      company.create_uname,
       company.ldContactName,
       company.rDepartment,
       company.compPrincipalEm,
@@ -666,7 +666,7 @@
       company.companyName,
       company.postalCode,
       company.compPrincipalWorkTel,
-      company.createUserName,
+      company.create_uname,
       company.ldContactName,
       company.rDepartment,
       company.compPrincipalEm,

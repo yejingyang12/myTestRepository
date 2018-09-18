@@ -49,6 +49,7 @@
     	relation.standardizedName,
     	relation.standardizedCode,
     	relation.systemIsMerge,
+    	relation.createTime,
     	relation.systemSource
     FROM
       t_cpro_system_relation AS relation
@@ -121,7 +122,7 @@
   	INSERT INTO t_cpro_system_relation (
 			pkId,fkSystemId,fkCompanyCode,systemName,systemSmccCode,
 			standardizedName,standardizedCode,systemIsMerge,systemSource,deleteStatus,
-			createUserName,createTime,updateTime,remark,updateUserName
+			create_uname,create_date,update_date,remark,update_uname
 		) VALUES
 		<foreach collection="list" item="item" index="index" separator=",">
       (

@@ -39,6 +39,7 @@ import com.sinopec.smcc.cpro.home.mapper.DiagramMapper;
 import com.sinopec.smcc.cpro.home.server.DiagramService;
 import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
+import com.sinopec.smcc.depends.region.dto.CproResultParam;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
@@ -345,6 +346,152 @@ public class DiagramServiceImpl implements DiagramService {
     return list2;
   }
 
+  /**
+   * 系统等保管理趋势
+   */
+  @Override
+  public List<CproResultParam> queryApiSystemTrendByYear(HttpServletRequest request,
+      DiagramParam diagramParam)throws BusinessException {
+    
+    if(StringUtils.isNotBlank(diagramParam.getUserId())){
+      request.getSession().setAttribute("userId", diagramParam.getUserId());
+    }
+    if("".equals(diagramParam.getYear())){
+      diagramParam.setYear(null);
+    }
+    if(diagramParam.getStatusArray() != null){
+      this.handleStatus(diagramParam);
+    }
+  //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    if(diagramParam.getAuditTimeEnd()!=null){
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+      String auditTimeEnd = sdf.format(diagramParam.getAuditTimeEnd());
+      String[] auditTimes = auditTimeEnd.split("-");
+      int dayTime = Integer.valueOf(auditTimes[auditTimes.length-1]);
+      auditTimeEnd = auditTimes[0] + "-" + auditTimes[1] + "-" + (dayTime+1)+"";
+      try {
+        diagramParam.setAuditTimeEnd(DateUtils.getDate("yyyy-MM-dd", auditTimeEnd));
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    }
+    //获得相应图表数据
+    List<DiagramListResult> list = new ArrayList<DiagramListResult>();
+    //权限
+    JurisdictionDataResult organizationApiResult = 
+        this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
+    if(organizationApiResult==null){
+      return null;
+    }else{
+      //数据类型：0:无权限；1：全部权限；2：板块；3：企业；
+      switch (organizationApiResult.getResultType()) {  
+      case "0":
+        break;
+      case "1":
+        // 获得响应列表数据
+        list = 
+            this.diagramMapper.selectSystemTrendByYear(diagramParam);
+        break;
+      case "2":
+        diagramParam.setPlateList(organizationApiResult.getNameList());
+        list =  
+            this.diagramMapper.selectSystemTrendByYear(diagramParam);
+        break;
+      case "3":
+        diagramParam.setCompanyList(organizationApiResult.getCodeList());
+        list =  
+            this.diagramMapper.selectSystemTrendByYear(diagramParam);
+        break;
+      default:
+        break;
+      }
+    }
+    List<CproResultParam> list2 = new ArrayList<CproResultParam>();
+    if(list == null || list.size() == 0){
+      list2 = null;
+    }else{
+      //如果有数据，对数据进行组装
+      Map<Integer, Integer> monthMap = new HashMap<Integer, Integer>();
+      Map<Integer, String> monthNameMap = new HashMap<Integer, String>();
+      monthNameMap.put(1, "一月");
+      monthNameMap.put(2, "二月");
+      monthNameMap.put(3, "三月");
+      monthNameMap.put(4, "四月");
+      monthNameMap.put(5, "五月");
+      monthNameMap.put(6, "六月");
+      monthNameMap.put(7, "七月");
+      monthNameMap.put(8, "八月");
+      monthNameMap.put(9, "九月");
+      monthNameMap.put(10, "十月");
+      monthNameMap.put(11, "十一月");
+      monthNameMap.put(12, "十二月");
+      //获取有数据的月份
+      for (DiagramListResult diagramListResult : list) {
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCount(), diagramListResult.getMouthCount());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountExam(), diagramListResult.getMouthCountExam());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountExamine(), diagramListResult.getMouthCountExamine());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountGrad(), diagramListResult.getMouthCountGrad());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountRecords(), diagramListResult.getMouthCountRecords());
+        }
+        if(diagramListResult.getMouthCount() != null){
+          monthMap.put(diagramListResult.getMouthCountSelf(), diagramListResult.getMouthCountSelf());
+        }
+      }
+      //将有数据的月份的数据生成出来(1至12月)
+      for (int i = 1; i < 13; i++) {
+        //如果有该月份,生成对象，合并统计数据
+        if(monthMap.get(i) != null){
+          CproResultParam diagramListResultTemp = new CproResultParam();
+          diagramListResultTemp.setMouthCount(i);
+          Integer readyGradCount = 0;
+          Integer checkGradCount = 0;
+          Integer recordsCount = 0;
+          Integer evaluationCount = 0;
+          Integer selfInspectionCount = 0;
+          //循环查询获取的集合，将本月的同性质数据加起来
+          for (DiagramListResult diagramListResult : list) {
+            //已定级数
+            if(diagramListResult.getMouthCountGrad() != null && diagramListResult.getMouthCountGrad() == i){
+              readyGradCount += diagramListResult.getReadyGradCount();
+            }
+            //审核定级数
+            if(diagramListResult.getMouthCountExamine() != null && diagramListResult.getMouthCountExamine() == i){
+              checkGradCount += diagramListResult.getCheckGradCount();
+            }
+            //备案数
+            if(diagramListResult.getMouthCountRecords() != null && diagramListResult.getMouthCountRecords() == i){
+              recordsCount += diagramListResult.getRecordsCount();
+            }
+            //测评数
+            if(diagramListResult.getMouthCountExam() != null && diagramListResult.getMouthCountExam() == i){
+              evaluationCount += diagramListResult.getEvaluationCount();
+            }
+            //自查数
+            if(diagramListResult.getMouthCountSelf() != null && diagramListResult.getMouthCountSelf() == i){
+              selfInspectionCount += diagramListResult.getSelfInspectionCount();
+            }
+          }
+          diagramListResultTemp.setReadyGradCount(readyGradCount);
+          diagramListResultTemp.setCheckGradCount(checkGradCount);
+          diagramListResultTemp.setRecordsCount(recordsCount);
+          diagramListResultTemp.setEvaluationCount(evaluationCount);
+          diagramListResultTemp.setSelfInspectionCount(selfInspectionCount);
+          list2.add(diagramListResultTemp);
+        }
+      }
+    }
+    return list2;
+  }
+  
   /**
    * @Descrption
    * @author yejingyang

@@ -321,7 +321,7 @@
       pkId,fkSystemId,fkExaminStatus,fkBusinessNode,instanceName,
       initiator,prevExecutor,executeTime,scoreCheckResult,scoreCheckReason,
       scoreCheckChangeResult,scoreCheckChangeReason,cancelRecordsResult,cancelRecordsReason,
-      deleteStatus,createUserName,createTime,updateTime,remark,updateUserName
+      deleteStatus,remark,create_uid,create_uname,create_date
       )VALUES(
         <trim suffixOverrides="," >
           <![CDATA[
@@ -496,7 +496,31 @@
             </otherwise>
           </choose>
           <choose>
-            <when test="createUserName != null">
+            <when test="remark != null">
+              <![CDATA[
+                #{remark},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="createUid != null and createUid !=''">
+              <![CDATA[
+                #{createUid},
+              ]]>
+            </when>
+            <otherwise>
+              <![CDATA[
+                DEFAULT,
+              ]]>
+            </otherwise>
+          </choose>
+          <choose>
+            <when test="createUserName != null and createUserName !=''">
               <![CDATA[
                 #{createUserName},
               ]]>
@@ -511,42 +535,6 @@
             <when test="createTime != null">
               <![CDATA[
                 #{createTime},
-              ]]>
-            </when>
-            <otherwise>
-              <![CDATA[
-                DEFAULT,
-              ]]>
-            </otherwise>
-          </choose>
-          <choose>
-            <when test="updateTime != null">
-              <![CDATA[
-                #{updateTime},
-              ]]>
-            </when>
-            <otherwise>
-              <![CDATA[
-                DEFAULT,
-              ]]>
-            </otherwise>
-          </choose>
-          <choose>
-            <when test="remark != null">
-              <![CDATA[
-                #{remark},
-              ]]>
-            </when>
-            <otherwise>
-              <![CDATA[
-                DEFAULT,
-              ]]>
-            </otherwise>
-          </choose>
-          <choose>
-            <when test="updateUserName != null and updateUserName != ''">
-              <![CDATA[
-                #{updateUserName},
               ]]>
             </when>
             <otherwise>
@@ -596,7 +584,7 @@
           cancelRecordsReason = #{cancelRecordsReason},
         </if>
         <if test="updateUserName != null and updateUserName !='' ">
-          updateUserName = #{updateUserName},
+          update_uname = #{updateUserName},
         </if>
       </trim>
   </insert>

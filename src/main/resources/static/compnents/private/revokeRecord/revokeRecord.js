@@ -87,6 +87,7 @@ var revokeRecordData={
             		uploadData.append('file', e.target.files[0]);
             		uploadData.append('type', 'test');
             		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+            		e.target.value = "";
             	}
           	}
 					},

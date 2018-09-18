@@ -118,10 +118,10 @@
       fkExamResult,
       fkRectificationReu,
       rectificationDate,
-      createTime,
-      createUserName,
+      create_date,
+      create_uname,
       deleteStatus,
-      updateUserName
+      update_uname
     )VALUES(
     <trim suffixOverrides=",">
       #{evaluationId},
@@ -236,7 +236,7 @@
 	    rectificationDate=#{rectificationDate},
     </if>
     <if test="updateUserName != null">
-	    updateUserName=#{updateUserName},
+	    update_uname=#{updateUserName},
     </if>
     fkExamStatus=#{fkExamStatus},
     fkRectificationReu=#{fkRectificationReu}
@@ -310,7 +310,7 @@
         cproEvaluation.examTime AS examTime,
         cproEvaluation.examYear AS examYear,
         cproEvaluation.examOrg AS examOrg,
-        cproEvaluation.createTime,
+        cproEvaluation.create_date,
         cproAttach.pkId AS examReport,
         cproAttach.attachName AS examReportName,
         cproEvaluation.fkExamStatus AS fkExamStatus,

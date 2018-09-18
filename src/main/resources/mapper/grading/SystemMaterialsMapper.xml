@@ -80,9 +80,9 @@
   </select>
   
   <insert id="insertSystemMaterials" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsParam">
-  	INSERT INTO t_cpro_provide_system_material
+  	INSERT INTO t_cpro_provide_system_material   
       (
-        pkId,fkSystemId,deleteStatus,createUserName,createTime,updateTime,remark
+        pkId,fkSystemId,deleteStatus,createUserName,create_date,update_date,remark
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -159,7 +159,7 @@
   <insert id="insertSystemMaterialsBean" parameterType="com.sinopec.smcc.cpro.grading.entity.SystemMaterialsBeanParam">
   	INSERT INTO t_cpro_provide_system_material
       (
-        pkId,fkSystemId,deleteStatus,createUserName,createTime,updateTime,remark,updateUserName
+        pkId,fkSystemId,deleteStatus,create_uname,create_date,update_date,remark,update_uname
       ) VALUES (
       <trim suffixOverrides="," >
         <![CDATA[
@@ -244,7 +244,7 @@
      ) ON DUPLICATE KEY UPDATE
      pkId = #{systemMaterialsId},
      <if test="updateUserName != null">
-     	updateUserName = #{updateUserName},
+     	update_uname = #{updateUserName},
      </if>
      fkSystemId = #{fkSystemId}
   </insert>

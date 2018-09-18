@@ -7,7 +7,7 @@
     <result property="businessName" column="businessName" />
     <result property="checkResult" column="checkResult" />
     <result property="auditReasons" column="auditReasons" />
-    <result property="createTime" column="createTime" />
+    <result property="createTime" column="create_date" />
   </resultMap>
 
   <insert id="insertWorkFlow" parameterType="com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam">
@@ -20,7 +20,7 @@
       userId,
       fkSystemId,
       nextApprover,
-      createTime
+      create_date
     )VALUES(
     <trim suffixOverrides=",">
       #{workFlowId},
@@ -131,7 +131,7 @@
 	      fkSystemId,
 	      nextApprover,
 	      userId,
-	      createTime
+	      create_date
 	    FROM t_cpro_work_flow
     ]]>
     <where>
@@ -146,7 +146,7 @@
         ]]>
       </if>
     </where>
-    ORDER BY createTime DESC
+    ORDER BY create_date DESC
     LIMIT 1
   </select>
 </mapper>

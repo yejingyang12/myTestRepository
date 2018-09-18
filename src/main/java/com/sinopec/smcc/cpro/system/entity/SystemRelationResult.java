@@ -9,6 +9,10 @@
 */
 package com.sinopec.smcc.cpro.system.entity;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * @Title SystemRelationResult.java
  * @Package com.sinopec.smcc.cpro.system.entity
@@ -28,7 +32,22 @@ public class SystemRelationResult {
   private String systemIsMerge;
   private String systemSource;
   private String fkCompanyCode;
+  @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date createTime;
   
+  
+  /**
+   * @return the createTime
+   */
+  public Date getCreateTime() {
+    return createTime;
+  }
+  /**
+   * @param createTime the createTime to set
+   */
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
   public String getSystemRelationId() {
     return systemRelationId;
   }

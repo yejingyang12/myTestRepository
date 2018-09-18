@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -30,22 +31,23 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
 import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
-import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
-import com.sinopec.smcc.cpro.api.entity.GetSystemRelationResult;
-import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
-import com.sinopec.smcc.cpro.api.entity.UsmgParams;
+import com.sinopec.smcc.base.exception.model.EnumResult;
+import com.sinopec.smcc.base.result.PageUtil;
 import com.sinopec.smcc.cpro.api.service.ApiService;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
+import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
+import com.sinopec.smcc.cpro.main.entity.MainParam;
 import com.sinopec.smcc.cpro.main.server.MainService;
+import com.sinopec.smcc.cpro.node.entity.NodeParam;
 import com.sinopec.smcc.cpro.node.server.NodeService;
 import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.review.entity.CheckParam;
 import com.sinopec.smcc.cpro.review.server.CheckService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationParam;
@@ -56,6 +58,12 @@ import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
+import com.sinopec.smcc.depends.region.dto.BatchApprovalInfo;
+import com.sinopec.smcc.depends.region.dto.CheckParam;
+import com.sinopec.smcc.depends.region.dto.CproForeignRequestParam;
+import com.sinopec.smcc.depends.region.dto.CproResultParam;
+import com.sinopec.smcc.depends.region.dto.SystemRelationBaseInfo;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title ApiServiceImpl.java
@@ -86,17 +94,21 @@ public class ApiServiceImpl implements ApiService{
   private NodeService nodeServiceImpl;
   @Autowired
   private MainService mainServiceImpl;
+  @Autowired
+  private WorkFlowApiService workFlowApiServiceImpl;
+  @Autowired
+  private UserApiService userApiServiceImpl;
   
   /**
    * 获取定级信息
    */
   @Override
-  public GradingApiResult getGradingInformation(String systemCode) throws BusinessException {
+  public CproResultParam getGradingInformation(String systemCode) throws BusinessException {
     SystemParam systemParam = new SystemParam();
     systemParam.setStandardizedCode(systemCode);
     SystemResult systemResult = systemServiceImpl.querySystemBysystemCode(systemParam);
     if(systemResult != null){
-      GradingApiResult gradingApiResult = new GradingApiResult();
+      CproResultParam gradingApiResult = new CproResultParam();
       GradingParam gradingParam = new GradingParam();
       gradingParam.setFkSystemId(systemResult.getSystemId());
       GradingListResult gradingListResult = gradingServiceImpl.queryDetailsGrading(gradingParam);
@@ -116,7 +128,8 @@ public class ApiServiceImpl implements ApiService{
    * 通过userId获取待办列表
    */
   @Override
-  public PageInfo<CheckListResult> getStayHandle(UsmgParams usmgParams,String userId) throws BusinessException {
+  public PageUtil getStayHandle(CproForeignRequestParam cproForeignRequestParam) 
+      throws BusinessException {
     List<CheckListResult> list = new ArrayList<CheckListResult>();
     int appPagedTODOTaskTotal = 0;
     int appPagedTODOTaskPageNum = 0;
@@ -124,8 +137,9 @@ public class ApiServiceImpl implements ApiService{
     //版本号
     extMap.put("ext003", WorkFlowConsts.CATEGORY_VERSION_NUM);
     //获取待办列表
-    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(userId,10,
-        usmgParams.getCurrPage(),"",WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
+    final PagedList appPagedTODOTask = dpsTemplate.appPagedTODOTask(
+        cproForeignRequestParam.getUserId(),10,cproForeignRequestParam.getCurrPage(),"",
+        WorkFlowConsts.CATEGORY_CODE_CPRO,extMap);
     appPagedTODOTaskTotal = appPagedTODOTask.getTotalCount();
     appPagedTODOTaskPageNum = appPagedTODOTask.getPageIndex();
     if((appPagedTODOTask.getExecuteTaskList())!=null){
@@ -204,26 +218,27 @@ public class ApiServiceImpl implements ApiService{
       pageInfo.setPages(totalPageNum);
     }else{
       pageInfo.setPages(1);
-    }
+    } 
     pageInfo.setPageNum(appPagedTODOTaskPageNum);
     if(ObjectUtils.isEmpty(list)){
       pageInfo.setPageSize(0);
     }else{
       pageInfo.setPageSize(10);
     }
-    return pageInfo;
+    PageUtil pageUtil = new PageUtil(pageInfo);
+    return pageUtil;
   }
 
   /**
    * 批量审批
    */
   @Override
-  public Integer batchApproval(BatchCheckHandleParam batchCheckHandleParam)
+  public Integer batchApproval(BatchApprovalInfo batchCheckHandleParam)
       throws BusinessException {
     HttpServletRequest request = 
         ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     HttpSession session = request.getSession();
-    session.setAttribute("userId",batchCheckHandleParam.getUserId());
+    session.setAttribute("userId",batchCheckHandleParam.getUbsUserId());
     //权限
     JurisdictionDataResult organizationApiResult = 
         this.jurisdictionApiServiceImpl.queryDataJurisdictionApi();
@@ -239,9 +254,9 @@ public class ApiServiceImpl implements ApiService{
             checkParam.setScoreCheckReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
             if(!isJur){
-              checkServiceImpl.saveGradCheck(batchCheckHandleParam.getUserName(),checkParam);
+              this.saveGradCheckApi(batchCheckHandleParam.getUbsUserName(),checkParam);
             }else{
-              checkServiceImpl.saveHeadGradCheck(batchCheckHandleParam.getUserName(),checkParam);
+              this.saveHeadGradCheckApi(batchCheckHandleParam.getUbsUserName(),checkParam);
             }
             count++;
           }
@@ -251,7 +266,7 @@ public class ApiServiceImpl implements ApiService{
             checkParam.setCancelRecordsReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
             if(!isJur){
-              checkServiceImpl.saveCancelRecordsCheck(batchCheckHandleParam.getUserName(),checkParam);
+              this.saveCancelRecordsCheckApi(batchCheckHandleParam.getUbsUserName(),checkParam);
             }
             count++;
           }
@@ -261,9 +276,9 @@ public class ApiServiceImpl implements ApiService{
             checkParam.setScoreCheckChangeReason(batchCheckHandleParam.getOpinion());
             //1企业 2总部
             if(!isJur){
-              checkServiceImpl.saveGradChangeCheck(batchCheckHandleParam.getUserName(),checkParam);
+              this.saveGradChangeCheckApi(batchCheckHandleParam.getUbsUserName(),checkParam);
             }else{
-              checkServiceImpl.saveHeadGradChangeCheck(batchCheckHandleParam.getUserName(),
+              this.saveHeadGradChangeCheckApi(batchCheckHandleParam.getUbsUserName(),
                   checkParam);
             }
             count++;
@@ -277,8 +292,14 @@ public class ApiServiceImpl implements ApiService{
   }
   
   @Override
-  public PageInfo<SystemRelationResult> getSystemRelationInfo(SystemRelationParam systemRelationParam) 
-      throws BusinessException {
+  public PageUtil getSystemRelationInfo(CproForeignRequestParam 
+      cproForeignRequestParam) throws BusinessException {
+    SystemRelationParam systemRelationParam = new SystemRelationParam();
+    systemRelationParam.setUserId(cproForeignRequestParam.getUserId());
+    systemRelationParam.setField(cproForeignRequestParam.getField());
+    systemRelationParam.setSort(cproForeignRequestParam.getSort());
+    systemRelationParam.setCurrentPage(cproForeignRequestParam.getCurrPage());
+    systemRelationParam.setPageSize(cproForeignRequestParam.getPageSize());
     if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
       HttpServletRequest request = 
           ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -318,8 +339,9 @@ public class ApiServiceImpl implements ApiService{
 //        break;
 //      case "1":
         // 获得响应列表数据
+      // 获得响应列表数据
         systemRelationResultList = this.systemRelationMapper.
-            querySystemRelationInfo(systemRelationParam);
+          querySystemRelationInfo(systemRelationParam);
 //        break;
 //      case "2":
 //        systemRelationParam.setPlateList(organizationApiResult.getNameList());
@@ -338,24 +360,43 @@ public class ApiServiceImpl implements ApiService{
 //    }
     // 装载列表数据
     PageInfo<SystemRelationResult> pageInfo = new PageInfo<>(systemRelationResultList);
-    return pageInfo;
+    PageUtil pageUtil = new PageUtil(pageInfo);
+    return pageUtil;
   }
 
   @Override
-  public GetSystemRelationResult editGetSystemRelationInfo(
-      SystemRelationParam systemRelationParam) throws BusinessException {
+  public CproResultParam editGetSystemRelationInfo(
+      CproForeignRequestParam cproForeignRequestParam) throws BusinessException {
+    SystemRelationParam systemRelationParam = new SystemRelationParam();
+    systemRelationParam.setUserId(cproForeignRequestParam.getUserId());
     if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
       HttpServletRequest request = 
           ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
       HttpSession session = request.getSession();
       session.setAttribute("userId",systemRelationParam.getUserId());
     }
-    GetSystemRelationResult getSystemRelationResult = new GetSystemRelationResult();
+    CproResultParam getSystemRelationResult = new CproResultParam();
     
     List<SystemRelationResult> systemRelationResultList = this.systemRelationMapper.
         querySystemRelationInfo(systemRelationParam);
+    
+    List<SystemRelationBaseInfo> standardizedInfo = new ArrayList<SystemRelationBaseInfo>();
+
+    if(ObjectUtils.isEmpty(systemRelationResultList)){
+      for(SystemRelationResult systemRelationResult : systemRelationResultList){
+        SystemRelationBaseInfo systemRelationBaseInfo = new SystemRelationBaseInfo();
+        systemRelationBaseInfo.setSystemId(systemRelationResult.getSystemId());
+        systemRelationBaseInfo.setSystemName(systemRelationResult.getSystemName());
+        systemRelationBaseInfo.setSystemRelationId(systemRelationResult.getSystemRelationId());
+        systemRelationBaseInfo.setSystemSmccCode(systemRelationResult.getSystemSmccCode());
+        systemRelationBaseInfo.setSystemIsMerge(systemRelationResult.getSystemIsMerge());
+        systemRelationBaseInfo.setFkCompanyCode(systemRelationResult.getFkCompanyCode());
+        standardizedInfo.add(systemRelationBaseInfo);
+      }
+    }
+    
     if(systemRelationResultList==null){
-      return new GetSystemRelationResult();
+      return new CproResultParam();
     }
     getSystemRelationResult.setSystemRelationId(systemRelationResultList.get(0).getSystemRelationId());
     getSystemRelationResult.setSystemId(systemRelationResultList.get(0).getSystemId());
@@ -363,13 +404,14 @@ public class ApiServiceImpl implements ApiService{
     getSystemRelationResult.setSystemSmccCode(systemRelationResultList.get(0).getSystemSmccCode());
     getSystemRelationResult.setSystemIsMerge(systemRelationResultList.get(0).getSystemIsMerge());
     getSystemRelationResult.setFkCompanyCode(systemRelationResultList.get(0).getFkCompanyCode());
-    getSystemRelationResult.setStandardizedInfo(systemRelationResultList);
+    getSystemRelationResult.setStandardizedInfo(standardizedInfo);
+
     return getSystemRelationResult;
   }
 
   @Override
   public void editSystemRelationInfo(
-      GetSystemRelationResult getSystemRelationResult) throws BusinessException {
+      CproForeignRequestParam getSystemRelationResult) throws BusinessException {
     if(StringUtils.isNotBlank(getSystemRelationResult.getUserId())){
       HttpServletRequest request = 
           ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -381,24 +423,35 @@ public class ApiServiceImpl implements ApiService{
 //    systemRelationTempParam.setSystemRelationId(getSystemRelationResult.getSystemRelationId());
 //    SystemRelationResult systemRelationResult =  this.systemRelationMapper.
 //        querySystemRelationById(systemRelationTempParam);
-    
+   
     if(getSystemRelationResult.getAddSystemInfo()!=null){
       List<SystemRelationParam> systemRelationList = new ArrayList<SystemRelationParam>();
-      for (SystemRelationParam systemRelationParam:getSystemRelationResult.getAddSystemInfo()){
-        systemRelationParam.setSystemRelationId(Utils.getUuidFor32());
-        systemRelationParam.setFkSystemId(getSystemRelationResult.getSystemId());
-        systemRelationParam.setFkCompanyCode(getSystemRelationResult.getFkCompanyCode());
-        systemRelationParam.setSystemName(getSystemRelationResult.getSystemName());
-        systemRelationParam.setSystemSource("0");
-        systemRelationParam.setSystemIsMerge(getSystemRelationResult.getSystemIsMerge());
-        systemRelationParam.setSystemSmccCode(getSystemRelationResult.getSystemSmccCode());
-        systemRelationParam.setCreateTime(new Date());
-        systemRelationList.add(systemRelationParam);
+      for (SystemRelationBaseInfo systemRelationParam:getSystemRelationResult.getAddSystemInfo()){
+        SystemRelationParam systemRelParam = new SystemRelationParam();
+        systemRelParam.setSystemRelationId(Utils.getUuidFor32());
+        systemRelParam.setFkSystemId(systemRelationParam.getSystemId());
+        systemRelParam.setFkCompanyCode(systemRelationParam.getFkCompanyCode());
+        systemRelParam.setSystemName(systemRelationParam.getSystemName());
+        systemRelParam.setSystemSource("0");
+        systemRelParam.setSystemIsMerge(systemRelationParam.getSystemIsMerge());
+        systemRelParam.setSystemSmccCode(systemRelationParam.getSystemSmccCode());
+        systemRelParam.setCreateTime(new Date());
+        systemRelationList.add(systemRelParam);
       }
       this.systemRelationMapper.insertBatchSystemPelation(systemRelationList);
     }
     if(getSystemRelationResult.getDeleteSystemInfo()!=null){
-      for (SystemRelationParam systemRelationParam:getSystemRelationResult.getDeleteSystemInfo()){
+      for (SystemRelationBaseInfo systemRelationBaseInfo:getSystemRelationResult.
+          getDeleteSystemInfo()){
+        SystemRelationParam systemRelationParam = new SystemRelationParam();
+        systemRelationParam.setSystemRelationId(Utils.getUuidFor32());
+        systemRelationParam.setFkSystemId(systemRelationBaseInfo.getSystemId());
+        systemRelationParam.setFkCompanyCode(systemRelationBaseInfo.getFkCompanyCode());
+        systemRelationParam.setSystemName(systemRelationBaseInfo.getSystemName());
+        systemRelationParam.setSystemSource("0");
+        systemRelationParam.setSystemIsMerge(systemRelationBaseInfo.getSystemIsMerge());
+        systemRelationParam.setSystemSmccCode(systemRelationBaseInfo.getSystemSmccCode());
+        systemRelationParam.setCreateTime(new Date());
         this.systemRelationMapper.
           deleteSystemRelationInfoBySystemRelationId(systemRelationParam);
       }
@@ -406,8 +459,11 @@ public class ApiServiceImpl implements ApiService{
   }
 
   @Override
-  public boolean deleteSystemRelationInfo(SystemRelationParam systemRelationParam)
+  public boolean deleteSystemRelationInfo(CproForeignRequestParam cproForeignRequestParam)
       throws BusinessException {
+    SystemRelationParam systemRelationParam = new SystemRelationParam();
+    systemRelationParam.setUserId(cproForeignRequestParam.getUserId());
+    systemRelationParam.setSystemRelationId(cproForeignRequestParam.getSystemRelationId());
     if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
       HttpServletRequest request = 
           ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -430,20 +486,389 @@ public class ApiServiceImpl implements ApiService{
   }
 
   @Override
-  public List<SystemRelationResult> getSystemRelationByGrade(
-      SystemRelationParam systemRelationParam) throws BusinessException {
-    if(StringUtils.isNotBlank(systemRelationParam.getUserId())){
+  public List<SystemRelationBaseInfo> getSystemRelationByGrade(
+      String userId) throws BusinessException {
+    if(StringUtils.isNotBlank(userId)){
       HttpServletRequest request = 
           ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
       HttpSession session = request.getSession();
-      session.setAttribute("userId",systemRelationParam.getUserId());
+      session.setAttribute("userId",userId);
     }
     
     SystemRelationParam systemRelationTempParam = new SystemRelationParam();
     systemRelationTempParam.setSystemIsMerge("0");
     List<SystemRelationResult> systemRelationResultList = this.systemRelationMapper.
         querySystemRelationInfo(systemRelationTempParam);
+    List<SystemRelationBaseInfo> systemRelationBaseInfoList = new ArrayList<>();
+    for(SystemRelationResult systemRelationResult : systemRelationResultList){
+      SystemRelationBaseInfo systemRelationBaseInfo = new SystemRelationBaseInfo();
+      systemRelationBaseInfo.setSystemRelationId(Utils.getUuidFor32());
+      systemRelationBaseInfo.setFkSystemId(systemRelationResult.getSystemId());
+      systemRelationBaseInfo.setFkCompanyCode(systemRelationResult.getFkCompanyCode());
+      systemRelationBaseInfo.setSystemName(systemRelationResult.getSystemName());
+      systemRelationBaseInfo.setSystemSource(systemRelationResult.getSystemSource());
+      systemRelationBaseInfo.setSystemIsMerge(systemRelationResult.getSystemIsMerge());
+      systemRelationBaseInfo.setSystemSmccCode(systemRelationResult.getSystemSmccCode());
+      systemRelationBaseInfo.setCreateTime(systemRelationResult.getCreateTime());
+      systemRelationBaseInfoList.add(systemRelationBaseInfo);
+    }
     
-    return systemRelationResultList;
+    return systemRelationBaseInfoList;
+  }
+  
+  /**
+   * 企业管理员定级审核
+   */
+  @Override
+  @Transactional
+  public String saveGradCheckApi(String userName, CheckParam checkParam) 
+      throws BusinessException {
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkParam.setUpdateUserName(userName);
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("企业业务审核（定级）");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
+    if (checkParam.getScoreCheckResult() == 1) {
+    //通过定级审核
+      nodeParam.setOperationResult("通过");
+//      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("2");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(1);
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskid(),
+          String.valueOf(userDTO.getUserId()),userName,"2",checkParam.getBusinessId(),"定级");
+    }else{
+      nodeParam.setOperationResult("未通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("3");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(2);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userName,"3","定级",checkParam.getScoreCheckReason());
+      
+      //修改系统状态为
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } 
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    return checkParam.getFkSystemId();
+  }
+  
+  /**
+   * 总部管理员定级审核
+   */
+  @Override
+  @Transactional
+  public String saveHeadGradCheckApi(String userName, CheckParam checkParam) 
+      throws BusinessException {
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkParam.setUpdateUserName(userName);
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("总部业务审核（定级）");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckReason());
+    if (checkParam.getScoreCheckResult() == 1) {
+      //通过定级审核
+      nodeParam.setOperationResult("通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("5");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(1);
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskid(),
+          String.valueOf(userDTO.getUserId()),userName,"4",checkParam.getBusinessId(),"定级");
+      
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("3");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("4");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckResult(2);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userName,"5","定级",checkParam.getScoreCheckReason());
+      
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    } 
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    return checkParam.getFkSystemId();
+  }
+  
+  /**
+   * 企业管理员撤销备案审核
+   */
+  @Override
+  @Transactional
+  public String saveCancelRecordsCheckApi(String userName, CheckParam checkParam)
+      throws BusinessException {
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkParam.setUpdateUserName(userName);
+    
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("企业业务审核（撤销备案）");
+    nodeParam.setOperationOpinion(checkParam.getCancelRecordsReason());
+    if (checkParam.getCancelRecordsResult() ==1 ) {
+      nodeParam.setOperationResult("通过");
+//      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("5");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setCancelRecordsResult(1);
+//      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskid(),
+          String.valueOf(userDTO.getUserId()),userName,"2",checkParam.getBusinessId(),"撤销备案");
+    
+    //修改系统状态
+    MainParam mainParam = new MainParam();
+    mainParam.setGradingStatus("4");
+    mainParam.setRecordStatus("4");
+    mainParam.setExamineStatus("5");
+    mainParam.setEvaluationStatus("4");
+    mainParam.setExaminationStatus("4");
+    mainParam.setSystemId(checkParam.getFkSystemId());
+    mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
+//      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("4");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setCancelRecordsResult(2);
+//      check.setCancelRecordsReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userName,"3","撤销备案",
+          checkParam.getCancelRecordsReason());
+      
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+//      mainParam.setRecordStatus("3");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }
+   
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    return checkParam.getFkSystemId();
+  }
+  
+  /**
+   * 企业管理员定级变更审核
+   */
+  @Override
+  @Transactional
+  public String saveGradChangeCheckApi(String userName, CheckParam checkParam)
+      throws BusinessException {
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkParam.setUpdateUserName(userName);
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("企业业务审核（定级变更）");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
+    if (checkParam.getScoreCheckChangeResult() == 1) {
+      nodeParam.setOperationResult("通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("2");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(1);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskid(),String.valueOf(userDTO.getUserId()),
+          userName,"2",checkParam.getBusinessId(),"申请变更");
+      
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("2");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("3");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(2);
+//      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userName,"3","申请变更",
+          checkParam.getScoreCheckChangeReason());
+      
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    return checkParam.getFkSystemId();
+  }
+  
+  /**
+   * 总部管理员定级变更审核
+   */
+  @Override
+  @Transactional
+  public String saveHeadGradChangeCheckApi(String userName, CheckParam checkParam)
+      throws BusinessException {
+    if (StringUtils.isBlank(checkParam.getFkSystemId())) {
+      throw new BusinessException(EnumResult.UNKONW_PK_ERROR);
+    }
+    //获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
+    
+    checkParam.setPrevExecutor(userName);
+    checkParam.setExecuteTime(new Date());
+    checkParam.setUpdateUserName(userName);
+    //添加节点状态信息
+    NodeParam nodeParam = new NodeParam();
+    nodeParam.setSystemId(checkParam.getFkSystemId());
+    nodeParam.setOperation("总部业务审核（定级变更）");
+    nodeParam.setOperationOpinion(checkParam.getScoreCheckChangeReason());
+    if (checkParam.getScoreCheckChangeResult() == 1) {
+      nodeParam.setOperationResult("通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("5");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(1);
+//      check.setScoreCheckReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      //审核通过
+      workFlowApiServiceImpl.reviewPass(checkParam.getTaskid(),
+          String.valueOf(userDTO.getUserId()),userName,"4",checkParam.getBusinessId(),"申请变更");
+
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("3");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }else{
+      nodeParam.setOperationResult("未通过");
+      //修改审核状态
+//      CheckParam check = new CheckParam();
+//      check.setFkSystemId(checkParam.getFkSystemId());
+//      check.setFkExaminStatus("4");
+//      check.setPrevExecutor(userName);
+//      check.setExecuteTime(new Date());
+//      check.setScoreCheckChangeResult(2);
+//      check.setScoreCheckChangeReason(checkParam.getScoreCheckReason());
+//      editCheckStatusBySystemId(check);
+      
+      //审核未通过
+      workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
+          String.valueOf(userDTO.getUserId()),userName,"5","申请变更",
+          checkParam.getScoreCheckChangeReason());
+      
+      //修改系统状态
+      MainParam mainParam = new MainParam();
+      mainParam.setGradingStatus("3");
+      mainParam.setExamineStatus("4");
+      mainParam.setSystemId(checkParam.getFkSystemId());
+      mainServiceImpl.editSystemStatusBySystemId(mainParam);
+    }
+    nodeParam.setOperator(userName);
+    this.nodeServiceImpl.addNodeInfo(nodeParam);
+    return checkParam.getFkSystemId();
   }
 }

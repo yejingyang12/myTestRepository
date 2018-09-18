@@ -68,7 +68,7 @@ public class CompanyServiceImpl implements CompanyService {
       }
     } else {
       // 默认排序
-      orderBy.append("updateTime DESC");
+      orderBy.append("update_date DESC");
     }
 
     

@@ -14,7 +14,9 @@
           fkAttachType,
           attachName,
           mongoFileId,
-          createTime
+          create_uid,
+          create_uname,
+          create_date
         )VALUES(
       ]]>
       <trim suffixOverrides="," >
@@ -37,7 +39,13 @@
           #{mongoFileId,jdbcType=VARCHAR},
         ]]>
         <![CDATA[
-          #{createTime,jdbcType=VARCHAR},
+          #{createUid,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{createUname,jdbcType=VARCHAR},
+        ]]>
+        <![CDATA[
+          #{createDate,jdbcType=VARCHAR},
         ]]>
       </trim>
       <![CDATA[

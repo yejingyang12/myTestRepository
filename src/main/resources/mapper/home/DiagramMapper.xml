@@ -190,12 +190,12 @@
       LEFT JOIN t_cpro_evaluation AS evaluation 
         ON system.pkId = evaluation.fkSystemId
         AND evaluation.deleteStatus = 1
-        AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
+        AND evaluation.create_date = (SELECT  MAX(eval.create_date) FROM t_cpro_evaluation eval 
                                      WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
         AND selfInspection.deleteStatus = 1
-        AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
+        AND selfInspection.create_date = (SELECT  MAX(inspec.create_date) FROM t_cpro_self_inspection inspec 
                                          WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_system_code AS systemCodeSprankLevel 
         ON sce.fkSprankLevel = systemCodeSprankLevel.systemCode 
@@ -313,12 +313,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND node.createTime >= #{auditTimeBegin}
+          AND node.create_date >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND node.createTime <= #{auditTimeEnd}
+          AND node.create_date <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">
@@ -674,12 +674,12 @@
       LEFT JOIN t_cpro_evaluation AS evaluation 
         ON system.pkId = evaluation.fkSystemId
         AND evaluation.deleteStatus = 1
-        AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
+        AND evaluation.create_date = (SELECT  MAX(eval.create_date) FROM t_cpro_evaluation eval 
                                      WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
         AND selfInspection.deleteStatus = 1
-        AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
+        AND selfInspection.create_date = (SELECT  MAX(inspec.create_date) FROM t_cpro_self_inspection inspec 
                                          WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_system_code AS systemCodeSprankLevel 
         ON sce.fkSprankLevel = systemCodeSprankLevel.systemCode 
@@ -798,12 +798,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND node.createTime >= #{auditTimeBegin}
+          AND node.create_date >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND node.createTime <= #{auditTimeEnd}
+          AND node.create_date <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">
@@ -1128,9 +1128,9 @@
 	<!-- 系统等保管理阶段趋势 -->
 	<select id="selectSystemTrendByYear" parameterType="com.sinopec.smcc.cpro.home.entity.DiagramParam" resultMap="DiagramListResult">
 		SELECT 
-			MONTH( system.createTime ) AS mouthCount,
+			MONTH( system.create_date ) AS mouthCount,
 			MONTH (score.rankTime) AS mouthCountGrad,
-			MONTH (node.createTime) AS mouthCountExamine,
+			MONTH (node.create_date) AS mouthCountExamine,
 			MONTH (records.recordDate) AS mouthCountRecords,
 			MONTH (evaluation.examTime) AS mouthCountExam,
 			MONTH (selfInspection.inspectionDate) AS mouthCountSelf,
@@ -1141,7 +1141,7 @@
 			SUM( IF ( system.examinationStatus = 3, 1, 0 ) ) AS selfInspectionCount,
 			(
 			CASE
-				MONTH ( system.createTime ) 
+				MONTH ( system.create_date ) 
 				WHEN 1 THEN
 				'一月' 
 				WHEN 2 THEN
@@ -1180,9 +1180,9 @@
 			AND systemCodeSprankLevel.fkCodeType = 11
 			LEFT JOIN t_cpro_records AS records ON system.pkId = records.fkSystemId
 			LEFT JOIN t_cpro_evaluation AS evaluation ON system.pkId = evaluation.fkSystemId 
-			AND evaluation.createTime = (
+			AND evaluation.create_date = (
 			SELECT
-				MAX( eval.createTime ) 
+				MAX( eval.create_date ) 
 			FROM
 				t_cpro_evaluation eval 
 			WHERE
@@ -1191,9 +1191,9 @@
 				LIMIT 1 
 			)
 			LEFT JOIN t_cpro_self_inspection AS selfInspection ON system.pkId = selfInspection.fkSystemId 
-			AND selfInspection.createTime = (
+			AND selfInspection.create_date = (
 			SELECT
-				MAX( inspec.createTime ) 
+				MAX( inspec.create_date ) 
 			FROM
 				t_cpro_self_inspection inspec 
 			WHERE
@@ -1228,7 +1228,7 @@
       AND node.operation = '创建' AND node.operationResult = '已提交'
 		<where>
 		  system.deleteStatus = 1 
-		  AND system.createTime!=''
+		  AND system.create_date!=''
 		  AND company.deleteStatus = 1 
 		  AND system.examineStatus!=5
 		  AND system.gradingStatus!=4
@@ -1291,7 +1291,7 @@
       	</if>
 				<if test="year != null">
 	        <![CDATA[
-	          AND YEAR(system.createTime) = #{year}
+	          AND YEAR(system.create_date) = #{year}
 	        ]]>
       	</if>
       	<!-- 连动查询条件 -->
@@ -1314,12 +1314,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND node.createTime >= #{auditTimeBegin}
+          AND node.create_date >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND node.createTime <= #{auditTimeEnd}
+          AND node.create_date <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">
@@ -1634,9 +1634,9 @@
          </choose>
       </if>
     </where>
-		GROUP BY MONTH(system.createTime),
+		GROUP BY MONTH(system.create_date),
 							MONTH (score.rankTime),
-							MONTH (node.createTime),
+							MONTH (node.create_date),
 							MONTH (records.recordDate),
 							MONTH (evaluation.examTime),
 							MONTH (selfInspection.inspectionDate)

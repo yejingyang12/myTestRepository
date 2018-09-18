@@ -126,6 +126,7 @@ import com.sinopec.smcc.cpro.tools.DateUtils;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.cpro.tools.excel.ExcelUtils;
 import com.sinopec.smcc.depends.region.util.UsmgTemplate;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title SystemServiceImpl.java
@@ -202,7 +203,7 @@ public class SystemServiceImpl implements SystemService {
 			}
 		}else {
 			//默认排序规则
-			orderBy.append("system.createTime DESC");
+			orderBy.append("system.create_date DESC");
 		}
 		
 		//获得相应列表数据
@@ -507,7 +508,8 @@ public class SystemServiceImpl implements SystemService {
 //  List<SystemResult> subUpdateSystemSubList = new ArrayList<SystemResult>();
 //  List<SystemResult> subUpdateSystemList = new ArrayList<SystemResult>();
 //  List<SystemParam> addSubSystem = systemParam.getAddSystemSub();
-
+	//获得用户信息
+    UserDTO userDTO = userApiServiceImpl.getUserInfo();
 		
   List<SystemParam> systemParamAddList = new ArrayList<SystemParam>();
   List<SystemKeyProducts> subKeyList = systemParam.getSystemKeyProducts();
@@ -588,7 +590,9 @@ public class SystemServiceImpl implements SystemService {
             attach.setAttachType(attachResult.getAttachType());
             attach.setSyssonId(gradingResu.getGradingId());
             attach.setFileId(Utils.getUuidFor32());
-            attach.setCreateTime(new Date());
+            attachParam.setCreateDate(new Date());
+            attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+            attachParam.setCreateUname(userDTO.getUserName());
             this.attachMapper.insertAttach(attach);
           }
           //专家评审报告
@@ -604,7 +608,9 @@ public class SystemServiceImpl implements SystemService {
             attach.setAttachType(attachResult.getAttachType());
             attach.setSyssonId(gradingResu.getGradingId());
             attach.setFileId(Utils.getUuidFor32());
-            attach.setCreateTime(new Date());
+            attachParam.setCreateDate(new Date());
+            attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+            attachParam.setCreateUname(userDTO.getUserName());
             this.attachMapper.insertAttach(attach);
           }
           //上级主管部门审批意见
@@ -620,7 +626,9 @@ public class SystemServiceImpl implements SystemService {
             attach.setAttachType(attachResult.getAttachType());
             attach.setSyssonId(gradingResu.getGradingId());
             attach.setFileId(Utils.getUuidFor32());
-            attach.setCreateTime(new Date());
+            attachParam.setCreateDate(new Date());
+            attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+            attachParam.setCreateUname(userDTO.getUserName());
             this.attachMapper.insertAttach(attach);
           }
         }
@@ -654,7 +662,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
           }
@@ -674,7 +684,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
           }
@@ -693,7 +705,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
           }
@@ -712,7 +726,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(systemMaterialsBean.getSystemMaterialsId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
           }
@@ -751,7 +767,9 @@ public class SystemServiceImpl implements SystemService {
             attach.setAttachType(attachResult.getAttachType());
             attach.setSyssonId(recordsId);
             attach.setFileId(Utils.getUuidFor32());
-            attach.setCreateTime(new Date());
+            attachParam.setCreateDate(new Date());
+            attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+            attachParam.setCreateUname(userDTO.getUserName());
             this.attachMapper.insertAttach(attach);
             records.setRecordReportPath(recordsResult.getRecordReportId());
           }
@@ -775,7 +793,9 @@ public class SystemServiceImpl implements SystemService {
             attach.setAttachType(attachResult.getAttachType());
             attach.setSyssonId(recordsId);
             attach.setFileId(Utils.getUuidFor32());
-            attach.setCreateTime(new Date());
+            attachParam.setCreateDate(new Date());
+            attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+            attachParam.setCreateUname(userDTO.getUserName());
             this.attachMapper.insertAttach(attach);
           }
           RecordsParam revoke = new RecordsParam();
@@ -829,7 +849,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(evaluation.getEvaluationId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
             if(StringUtils.isNotBlank(evaluationListResult.getRectificationReport())){
@@ -845,7 +867,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(evaluation.getEvaluationId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
           }
@@ -894,7 +918,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(selfexamination.getSelfexaminationId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
             if(StringUtils.isNotBlank(
@@ -911,7 +937,9 @@ public class SystemServiceImpl implements SystemService {
               attach.setAttachType(attachResult.getAttachType());
               attach.setSyssonId(selfexamination.getSelfexaminationId());
               attach.setFileId(Utils.getUuidFor32());
-              attach.setCreateTime(new Date());
+              attachParam.setCreateDate(new Date());
+              attachParam.setCreateUid(String.valueOf(userDTO.getUserId()));
+              attachParam.setCreateUname(userDTO.getUserName());
               this.attachMapper.insertAttach(attach);
             }
           }
@@ -1617,7 +1645,7 @@ public class SystemServiceImpl implements SystemService {
                 constraint = this.getUnitNameList(workbook, hidden2, this.getUnitInfoList(), namedCell2);// 生成下拉框内容
               }
             } else if (i == 10) {
-              //  上级系统名称
+//            上级系统名称
               String[] stringsFatherSystemName = this.getUpSystemList();
               if(stringsFatherSystemName != null && stringsFatherSystemName.length>0){
                 regions = new CellRangeAddressList(4 + j * 8, 8 + j * 8, i, i); // 创建所要下拉的区域
@@ -3893,31 +3921,23 @@ public class SystemServiceImpl implements SystemService {
       }
       return array;*/
       String[] array = new String[]{};
+       
+//      List<SystemListResult> list = this.systemMapper.selectAllBySystemParam(new SystemParam());
+//      if (list != null && list.size() > 0) {
+//        array = new String[list.size()];
+//        for (int i = 0; i < array.length; i++) {
+//          array[i] = list.get(i).getSystemName();
+//        }
+//      }
       
-      /*List<SystemListResult> list = this.systemMapper.selectAllBySystemParam(new SystemParam());
-      if (list != null && list.size() > 0) {
-        array = new String[list.size()];
-        for (int i = 0; i < array.length; i++) {
-          array[i] = list.get(i).getSystemName();
-        }
-      }*/
-      //获取smcc中系统
-      List<SystemApiResult> systemApiList = systemApiServiceImpl.querySystemApi(new SystemApiParam());
+    //获取smcc中系统
+      List<SystemApiResult> systemApiList = this.systemApiServiceImpl.querySystemApi(new SystemApiParam());
       if (systemApiList != null && systemApiList.size() > 0) {
         array = new String[systemApiList.size()];
         for (int i = 0; i < array.length; i++) {
           array[i] = systemApiList.get(i).getSystemName();
         }
       }
-      /*List<OrganizationApi> organizationApiList = 
-          this.organizationApiServiceImpl.queryOrgForKeyOrganizationName(new OrganizationApiParam());
-      if(organizationApiList != null && organizationApiList.size() > 0){
-        array = new String[organizationApiList.size()];
-        for (int i = 0; i < array.length; i++) {
-          array[i] = organizationApiList.get(i).getOrgName();
-        }
-      }*/
-      
       return array;
     } catch (Exception e) {
       /*logger.error(e);
@@ -4923,7 +4943,7 @@ public class SystemServiceImpl implements SystemService {
     }
     return systemAllInfoResult;
   }
-  
+	
   @Override
   public SystemResult querySystemStatusBysystemId(SystemParam systemParam){
     return systemMapper.selectSystem(systemParam);

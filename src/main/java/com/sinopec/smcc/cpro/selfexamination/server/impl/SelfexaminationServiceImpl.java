@@ -65,7 +65,7 @@ public class SelfexaminationServiceImpl implements SelfexaminationService {
         orderBy.append(" ").append(selfexaminationParam.getSort());
       }
     }else {
-      orderBy.append("self.createTime desc");
+      orderBy.append("self.create_date desc");
     }
     //初始化分页拦截器
     PageHelper.startPage(selfexaminationParam.getCurrentPage(), selfexaminationParam.getPageSize(), 

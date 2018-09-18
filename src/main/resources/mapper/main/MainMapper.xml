@@ -38,7 +38,7 @@
         checkAttch.pkId AS checkPkId,
         evaluationAttch.pkId AS evaluationPkId,
         selfAttch.pkId AS selfPkId,
-        score.createTime AS scoreCreateTime,
+        score.create_date AS scoreCreateTime,
         records.recordDate AS recordCreateTime,
         records.recordCode,
         IF(system.recordStatus=4,1,2)AS rcordSort,
@@ -68,12 +68,12 @@
       LEFT JOIN t_cpro_evaluation AS evaluation 
         ON system.pkId = evaluation.fkSystemId
         AND evaluation.deleteStatus = 1
-        AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
+        AND evaluation.create_date = (SELECT  MAX(eval.create_date) FROM t_cpro_evaluation eval 
                                      WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_self_inspection AS selfInspection 
         ON system.pkId = selfInspection.fkSystemId
         AND selfInspection.deleteStatus = 1
-        AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
+        AND selfInspection.create_date = (SELECT  MAX(inspec.create_date) FROM t_cpro_self_inspection inspec 
                                          WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
       LEFT JOIN t_cpro_check AS examine 
         ON system.pkId = examine.fkSystemId
@@ -276,12 +276,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND node.createTime >= #{auditTimeBegin,jdbcType=DATE}
+          AND node.create_date >= #{auditTimeBegin,jdbcType=DATE}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND node.createTime <= #{auditTimeEnd,jdbcType=DATE}
+          AND node.create_date <= #{auditTimeEnd,jdbcType=DATE}
         ]]>
       </if>
       <if test="recordDateBegin != null ">
@@ -642,7 +642,7 @@
       </if>
     </where>
      <![CDATA[
-       ORDER BY rcordSort DESC,system.createTime DESC
+       ORDER BY rcordSort DESC,system.create_date DESC
     ]]>
   </select>
   <update id="updateMainDeleteStatusBySystemId" parameterType="com.sinopec.smcc.cpro.main.entity.MainParam">
@@ -773,12 +773,12 @@
     LEFT JOIN t_cpro_evaluation AS evaluation 
       ON system.pkId = evaluation.fkSystemId
       AND evaluation.deleteStatus = 1
-      AND evaluation.createTime = (SELECT  MAX(eval.createTime) FROM t_cpro_evaluation eval 
+      AND evaluation.create_date = (SELECT  MAX(eval.create_date) FROM t_cpro_evaluation eval 
                                    WHERE eval.fkSystemId = system.pkId AND eval.deleteStatus = 1 LIMIT 1)
     LEFT JOIN t_cpro_self_inspection AS selfInspection 
       ON system.pkId = selfInspection.fkSystemId
       AND selfInspection.deleteStatus = 1
-      AND selfInspection.createTime = (SELECT  MAX(inspec.createTime) FROM t_cpro_self_inspection inspec 
+      AND selfInspection.create_date = (SELECT  MAX(inspec.create_date) FROM t_cpro_self_inspection inspec 
                                        WHERE inspec.fkSystemId =  system.pkId AND inspec.deleteStatus = 1 LIMIT 1)
     LEFT JOIN t_cpro_check AS examine 
       ON system.pkId = examine.fkSystemId
@@ -931,12 +931,12 @@
       </if>
       <if test="auditTimeBegin != null ">
         <![CDATA[
-          AND node.createTime >= #{auditTimeBegin}
+          AND node.create_date >= #{auditTimeBegin}
         ]]>
       </if>
       <if test="auditTimeEnd != null ">
         <![CDATA[
-          AND node.createTime <= #{auditTimeEnd}
+          AND node.create_date <= #{auditTimeEnd}
         ]]>
       </if>
       <if test="acceptCompany != null and acceptCompany != ''">

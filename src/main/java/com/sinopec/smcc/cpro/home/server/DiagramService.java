@@ -17,6 +17,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.entity.DiagramResult;
+import com.sinopec.smcc.depends.region.dto.CproResultParam;
 
 /**
  * @Title DiagramService.java
@@ -78,6 +79,17 @@ public interface DiagramService {
    * @return
    */
   List<DiagramListResult> querySystemTrendByYear(HttpServletRequest request, DiagramParam diagramParam) 
+      throws BusinessException; 
+  
+  /**
+   * @Descrption 系统等保管理趋势
+   * @author dongxu
+   * @param request 
+   * @date 2018年6月28日下午5:02:02
+   * @param diagramParam
+   * @return
+   */
+  List<CproResultParam> queryApiSystemTrendByYear(HttpServletRequest request, DiagramParam diagramParam) 
       throws BusinessException; 
 
 }

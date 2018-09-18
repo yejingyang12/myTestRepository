@@ -33,12 +33,38 @@ public class AttachParam {
   private Integer deleteStatus;
   private String createUserName;
   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private Date createTime;
+  private Date createDate;
   private String remark;
+  private String createUid;
+  private String createUname;
   
   private String uploadUrl;
   
   
+  /**
+   * @return the createUid
+   */
+  public String getCreateUid() {
+    return createUid;
+  }
+  /**
+   * @param createUid the createUid to set
+   */
+  public void setCreateUid(String createUid) {
+    this.createUid = createUid;
+  }
+  /**
+   * @return the createUname
+   */
+  public String getCreateUname() {
+    return createUname;
+  }
+  /**
+   * @param createUname the createUname to set
+   */
+  public void setCreateUname(String createUname) {
+    this.createUname = createUname;
+  }
   public String getFileId() {
     return fileId;
   }
@@ -87,11 +113,11 @@ public class AttachParam {
   public void setCreateUserName(String createUserName) {
     this.createUserName = createUserName;
   }
-  public Date getCreateTime() {
-    return createTime;
+  public Date getCreateDate() {
+    return createDate;
   }
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
+  public void setCreateDate(Date createDate) {
+    this.createDate = createDate;
   }
   public String getRemark() {
     return remark;

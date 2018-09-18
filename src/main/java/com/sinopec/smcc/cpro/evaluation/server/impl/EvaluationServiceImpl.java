@@ -67,7 +67,7 @@ public class EvaluationServiceImpl implements EvaluationService {
       }
     }else{
       //默认排序
-      orderBy.append("cproEvaluation.createTime DESC");
+      orderBy.append("cproEvaluation.create_date DESC");
     }
     //初始化分页拦截器
     PageHelper.startPage(evaluationParam.getCurrentPage(), evaluationParam.getPageSize(), 

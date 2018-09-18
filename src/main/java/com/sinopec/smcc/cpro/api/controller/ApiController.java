@@ -20,22 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.PageInfo;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.result.PageUtil;
 import com.sinopec.smcc.base.result.RetResult;
 import com.sinopec.smcc.base.result.RetResultUtil;
-import com.sinopec.smcc.cpro.api.entity.BatchCheckHandleParam;
-import com.sinopec.smcc.cpro.api.entity.GetSystemRelationResult;
-import com.sinopec.smcc.cpro.api.entity.GradingApiResult;
-import com.sinopec.smcc.cpro.api.entity.UsmgParams;
 import com.sinopec.smcc.cpro.api.service.ApiService;
-import com.sinopec.smcc.cpro.home.entity.DiagramListResult;
 import com.sinopec.smcc.cpro.home.entity.DiagramParam;
 import com.sinopec.smcc.cpro.home.server.DiagramService;
-import com.sinopec.smcc.cpro.review.entity.CheckListResult;
-import com.sinopec.smcc.cpro.system.entity.SystemRelationParam;
-import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
+import com.sinopec.smcc.depends.region.dto.BatchApprovalInfo;
+import com.sinopec.smcc.depends.region.dto.CproForeignRequestParam;
+import com.sinopec.smcc.depends.region.dto.CproResultParam;
+import com.sinopec.smcc.depends.region.dto.SystemRelationBaseInfo;
 
 /**
  * @Title ApiController.java
@@ -63,13 +58,17 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.POST)
-  public RetResult<List<DiagramListResult>> querySystemTrendByYear(HttpServletRequest request,
-      @RequestBody DiagramParam diagramParam) throws BusinessException{
-    
+  @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.GET)
+  public RetResult<List<CproResultParam>> querySystemTrendByYear(HttpServletRequest request,
+      @RequestParam("systemType") Integer paramInteger, @RequestParam("userId") String paramString1,
+      @RequestParam("year") String paramString2) throws BusinessException{
+    DiagramParam diagramParam = new DiagramParam();
+    diagramParam.setSystemType(paramInteger);
+    diagramParam.setUserId(paramString1);
+    diagramParam.setYear(paramString2);
     // 调用service实体，获得
-    List<DiagramListResult> diagramListResult = this.diagramServiceImpl.
-        querySystemTrendByYear(request,diagramParam);
+    List<CproResultParam> diagramListResult = this.diagramServiceImpl.
+        queryApiSystemTrendByYear(request,diagramParam);
     return RetResultUtil.ok(diagramListResult);
   }
   
@@ -82,12 +81,12 @@ public class ApiController {
    * @return
    * @throws BusinessException
    */
-  @RequestMapping(value = "/getGradingInformation", method = RequestMethod.POST)
-  public RetResult<GradingApiResult> getGradingInformation(
+  @RequestMapping(value = "/getGradingInformation", method = RequestMethod.GET)
+  public RetResult<CproResultParam> getGradingInformation(
       @RequestParam(value="systemId",required=true) String systemId) throws BusinessException{
     // 调用service实体，获得
-    GradingApiResult gradingApiResult = this.apiServiceImpl.getGradingInformation(systemId);
-    return RetResultUtil.ok(gradingApiResult);
+    CproResultParam cproResultParam = this.apiServiceImpl.getGradingInformation(systemId);
+    return RetResultUtil.ok(cproResultParam);
   }
   
   /**
@@ -100,11 +99,11 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getStayListByUserId", method = RequestMethod.POST)
-  public RetResult<PageUtil> getStayHandle(@RequestBody UsmgParams usmgParams,
-      @RequestParam("userId") String userId)throws BusinessException{
+  public RetResult<PageUtil> getStayHandle(@RequestBody CproForeignRequestParam 
+      paramCproForeignRequestParam)throws BusinessException{
     // 调用service实体，获得
-    PageInfo<CheckListResult> pageInfo = this.apiServiceImpl.getStayHandle(usmgParams,userId);
-    PageUtil pageUtil = new PageUtil(pageInfo);
+    PageUtil pageUtil = this.apiServiceImpl.getStayHandle(
+        paramCproForeignRequestParam);
     return RetResultUtil.ok(pageUtil);
   }
   
@@ -117,10 +116,10 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/batchApproval", method = RequestMethod.POST)
-  public RetResult<Integer> batchApproval(@RequestBody 
-      BatchCheckHandleParam batchCheckHandleParam) throws BusinessException{
+  public RetResult<Integer> batchApproval(@RequestBody BatchApprovalInfo paramBatchApprovalInfo) 
+      throws BusinessException{
     // 调用service实体，获得
-    Integer count = this.apiServiceImpl.batchApproval(batchCheckHandleParam);
+    Integer count = this.apiServiceImpl.batchApproval(paramBatchApprovalInfo);
     return RetResultUtil.ok(count);
   }
   
@@ -134,11 +133,10 @@ public class ApiController {
    */
   @RequestMapping(value = "/getSystemRelationInfo", method = RequestMethod.POST)
   public RetResult<PageUtil> getSystemRelationInfo(
-      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
+      @RequestBody CproForeignRequestParam paramCproForeignRequestParam) throws BusinessException{
     // 调用service实体，获得
-    PageInfo<SystemRelationResult> systemApiResult = this.apiServiceImpl.
-        getSystemRelationInfo(systemRelationParam);
-    PageUtil pageUtil = new PageUtil(systemApiResult);
+    PageUtil pageUtil = this.apiServiceImpl.
+        getSystemRelationInfo(paramCproForeignRequestParam);
     return RetResultUtil.ok(pageUtil);
   }
   /**
@@ -150,12 +148,12 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/editGetSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<GetSystemRelationResult> editGetSystemRelationInfo(HttpServletRequest request,
-      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
+  public RetResult<CproResultParam> editGetSystemRelationInfo(HttpServletRequest request,
+      @RequestBody CproForeignRequestParam paramCproForeignRequestParam) throws BusinessException{
     // 调用service实体，获得
-    GetSystemRelationResult systemApiResult = this.apiServiceImpl.
-        editGetSystemRelationInfo(systemRelationParam);
-    return RetResultUtil.ok(systemApiResult);
+    CproResultParam cproResultParam = this.apiServiceImpl.
+        editGetSystemRelationInfo(paramCproForeignRequestParam);
+    return RetResultUtil.ok(cproResultParam);
   }
   
   /**
@@ -168,10 +166,10 @@ public class ApiController {
    */
   @RequestMapping(value = "/editSystemRelationInfo", method = RequestMethod.POST)
   public RetResult<String> editSystemRelationInfo(
-      @RequestBody GetSystemRelationResult getSystemRelationResult) throws BusinessException{
+      @RequestBody CproForeignRequestParam paramCproForeignRequestParam) throws BusinessException{
     // 调用service实体，获得
     this.apiServiceImpl.
-        editSystemRelationInfo(getSystemRelationResult);
+        editSystemRelationInfo(paramCproForeignRequestParam);
     return RetResultUtil.ok();
   }
   
@@ -185,10 +183,10 @@ public class ApiController {
    */
   @RequestMapping(value = "/deleteSystemRelationInfo", method = RequestMethod.POST)
   public RetResult<Boolean> deleteSystemRelationInfo(HttpServletRequest request,
-      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
+      @RequestBody CproForeignRequestParam paramCproForeignRequestParam) throws BusinessException{
     // 调用service实体，获得
     boolean booValue = this.apiServiceImpl.
-      deleteSystemRelationInfo(systemRelationParam);
+      deleteSystemRelationInfo(paramCproForeignRequestParam);
     return RetResultUtil.ok(booValue);
   }
   
@@ -201,11 +199,11 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/getSystemRelationByGrade", method = RequestMethod.POST)
-  public RetResult<List<SystemRelationResult>> getSystemRelationByGrade(
-      @RequestBody SystemRelationParam systemRelationParam) throws BusinessException{
+  public RetResult<List<SystemRelationBaseInfo>> getSystemRelationByGrade(
+      @RequestBody String paramString) throws BusinessException{
     // 调用service实体，获得
-    List<SystemRelationResult> systemRelationResultList = this.apiServiceImpl.
-        getSystemRelationByGrade(systemRelationParam);
+    List<SystemRelationBaseInfo> systemRelationResultList = this.apiServiceImpl.
+        getSystemRelationByGrade(paramString);
     return RetResultUtil.ok(systemRelationResultList);
   }
 }

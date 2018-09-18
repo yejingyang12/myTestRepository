@@ -12,9 +12,9 @@
 		<result column="rectificationDate" property="rectificationDate" />
 		<result column="deleteStatus" property="deleteStatus" />
 		
-		<result column="createUserName" property="createUserName" />
-		<result column="createTime" property="createTime" />
-		<result column="updateTime" property="updateTime" />
+		<result column="create_uname" property="createUserName" />
+		<result column="create_date" property="createTime" />
+		<result column="update_date" property="updateTime" />
 	  <result column="remark" property="remark" />
 	  
 	  <result column="examinationReportId" property="examinationReportId" />
@@ -46,7 +46,7 @@
 		SELECT 
 			self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
 			self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-			self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
+			self.create_uname,self.create_date,self.update_date,self.selfInspectionName,
 			examinationReport.pkId AS examinationReportId,
 			examinationReport.attachName AS examinationReportName,
 			examinationRectificationReport.pkId AS examinationRectificationReportId,
@@ -87,7 +87,7 @@
 		INSERT into t_cpro_self_inspection(
 			pkId,fkSystemId,fkInspectionStatus,fkInspectionReu,
 			fkRectificationReu,inspectionDate,rectificationDate,deleteStatus,
-			createUserName,createTime,updateTime,remark,selfInspectionName,updateUserName
+			create_uname,create_date,update_date,remark,selfInspectionName,update_uname
 		) values(
 			<trim suffixOverrides="," >
 				<choose>
@@ -212,7 +212,7 @@
 				selfInspectionName = #{selfInspectionName},
 			</if>
 			<if test="updateUserName != null">
-				updateUserName = #{updateUserName},
+				update_uname = #{updateUserName},
 			</if>
 			<if test="rectificationDate != null">
 				rectificationDate = #{rectificationDate},
@@ -227,7 +227,7 @@
     SELECT 
       self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
       self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-      self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
+      self.create_uname,self.create_date,self.update_date,self.selfInspectionName,
 			examinationReport.pkId AS examinationReportId,
 			examinationReport.attachName AS examinationReportName,
 			examinationRectificationReport.pkId AS examinationRectificationReportId,
@@ -254,7 +254,7 @@
   	UPDATE t_cpro_self_inspection
 		SET deleteStatus = 2
 		<if test="updateUserName != null">
-			,updateUserName = #{updateUserName}
+			,create_uname = #{updateUserName}
 		</if>
 		WHERE
 			pkId = #{selfexaminationId}
@@ -264,7 +264,7 @@
     SELECT 
       self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
       self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-      self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
+      self.create_uname,self.create_date,self.update_date,self.selfInspectionName,
       examinationReport.pkId AS examinationReportId,
       examinationReport.attachName AS examinationReportName,
       examinationRectificationReport.pkId AS examinationRectificationReportId,
@@ -292,7 +292,7 @@
     SELECT 
       self.pkId,self.fkSystemId,self.fkInspectionStatus,self.fkInspectionReu,
       self.fkRectificationReu,self.inspectionDate,self.rectificationDate,
-      self.createUserName,self.createTime,self.updateTime,self.selfInspectionName,
+      self.create_uname,self.create_date,self.update_date,self.selfInspectionName,
       examinationReport.pkId AS examinationReportId,
       examinationReport.attachName AS examinationReportName,
       examinationRectificationReport.pkId AS examinationRectificationReportId,
