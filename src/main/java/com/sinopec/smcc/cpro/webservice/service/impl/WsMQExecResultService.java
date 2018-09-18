@@ -140,6 +140,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
     WorkFlowResult WorkFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
     
+    workFlowParam.setNextApprover("回调开始");
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+    
     WorkFlowResult workFlowResult = new WorkFlowResult();
     Integer checkType = 0;
     if(WorkFlowResult != null){
@@ -167,6 +170,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
           userIds += userId + ",";
         }
+        
+        workFlowParam.setNextApprover("测试1"+userIds+"--"+email);
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
         if(workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() ==5 || 
