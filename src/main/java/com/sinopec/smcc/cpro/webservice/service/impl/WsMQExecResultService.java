@@ -156,13 +156,19 @@ public class WsMQExecResultService implements ISFMQExecResult {
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
+        //获取始发人用户信息
+        UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+        String orgCode = originatingUserDTO.getOrgCode();
         //通过用户id 拼接邮箱
         for(String userId : executorIdList){
           UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-          if(StringUtils.isNotBlank(userDTO.getEmail())){
-            email +=userDTO.getEmail() + ",";
+          //判断所属单位是否相同
+          if(orgCode.equals(userDTO.getOrgCode())){
+            if(StringUtils.isNotBlank(userDTO.getEmail())){
+              email +=userDTO.getEmail() + ",";
+            }
+            userIds += userId + ",";
           }
-          userIds += userId + ",";
         }
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
