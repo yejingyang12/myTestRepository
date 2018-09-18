@@ -158,12 +158,12 @@ public class WsMQExecResultService implements ISFMQExecResult {
       if(!ObjectUtils.isEmpty(executorIdList)){
         //获取始发人用户信息
         UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-        String orgCode = originatingUserDTO.getOrgCode();
+        String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
         //通过用户id 拼接邮箱
         for(String userId : executorIdList){
           UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
           //判断所属单位是否相同
-          if(orgCode.equals(userDTO.getOrgCode())){
+          if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
             if(StringUtils.isNotBlank(userDTO.getEmail())){
               email +=userDTO.getEmail() + ",";
             }
@@ -180,6 +180,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
       }
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
+        workFlowParam.setAuditReasons(email);
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons);
