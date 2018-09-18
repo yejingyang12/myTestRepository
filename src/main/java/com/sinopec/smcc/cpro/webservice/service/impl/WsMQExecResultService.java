@@ -139,7 +139,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult WorkFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-    workFlowParam.setNextApprover("测试回调数据");
+    workFlowParam.setNextApprover("businessId:"+businessId+"+++++executorIdList"+executorIdList.toString());
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     
     this.messageSenderImpl.noticeSimpleMailSend("893651487@qq.com", null,"测试邮件发送");
