@@ -1056,6 +1056,7 @@
 							importData.append('file', e.target.files[0]);
 							importData.append('type', 'test');
 							ajaxUploadMethod(this, 'POST','main/importExcelForGradeTemplate', true,importData, 'json',this.importGardingSuccessMethod);
+							e.target.value = "";
 							$("#startBoxImporting").css('display', 'block');
 	          	//$("#startBoxImporting").show().delay(2000).fadeOut();
           	}

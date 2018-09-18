@@ -134,6 +134,7 @@ var data={
 	                  		uploadData.append('file', e.target.files[0]);
 	                  		uploadData.append('type', 'test');
 	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
+	                  		e.target.value = "";
 	                  	}
                   	}
                   },
@@ -222,6 +223,7 @@ var data={
 	                  		uploadData.append('file', e.target.files[0]);
 	                  		uploadData.append('type', 'test');
 	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
+	                  		e.target.value = "";
 	                  	}
                   	}
                   },
@@ -311,6 +313,7 @@ var data={
 	                  		uploadData.append('file', e.target.files[0]);
 	                  		uploadData.append('type', 'test');
 	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod3);
+	                  		e.target.value = "";
 	                  	}
                   	}
                   },
@@ -398,6 +401,7 @@ var data={
                   		uploadData.append('file', e.target.files[0]);
                   		uploadData.append('type', 'test');
                   		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
+                  		e.target.value = "";
                   	}
                   },
                   onUploadSuccessMethod4: function(_self,responseData){
