@@ -20,6 +20,7 @@ import org.springframework.util.ObjectUtils;
 import com.pcitc.ssc.dps.inte.ISFMQExecResult;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
 import com.pcitc.ssc.dps.inte.workflow.AppVariableData;
+import com.sinopec.smcc.common.rabbitmq.MessageSender;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
@@ -41,9 +42,11 @@ public class WsMQExecResultService implements ISFMQExecResult {
   @Autowired
   private WorkFlowMapper workFlowMapperImpl;  
   @Autowired
-  private UbsTemplate ubsTemplate;  
+  private UbsTemplate ubsTemplate;
   @Autowired
-  private MessageService messageServiceImpl;  
+  private MessageService messageServiceImpl;
+  @Autowired
+  private MessageSender messageSenderImpl;  
   
     /**
      * 流程发起，指令发送到流程系统后，执行完成后，流程系统调用该接口方法，通知应用系统执行结果
@@ -136,6 +139,10 @@ public class WsMQExecResultService implements ISFMQExecResult {
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult WorkFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    workFlowParam.setNextApprover("测试回调数据");
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+    
+    this.messageSenderImpl.noticeSimpleMailSend("893651487@qq.com", null,"测试邮件发送");
     WorkFlowResult workFlowResult = new WorkFlowResult();
     Integer checkType = 0;
     if(WorkFlowResult != null){
