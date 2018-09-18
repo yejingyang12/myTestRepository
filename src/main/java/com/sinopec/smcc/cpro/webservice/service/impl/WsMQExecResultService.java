@@ -143,35 +143,19 @@ public class WsMQExecResultService implements ISFMQExecResult {
     WorkFlowResult workFlowResult = new WorkFlowResult();
     Integer checkType = 0;
     if(WorkFlowResult != null){
-      workFlowParam.setNextApprover("businessId:"+businessId+"+++++executorIdList"+executorIdList.toString());
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-      String auditReasons = "";
-      try{
-        if(workFlowResult.getBusinessName().equals("定级")){
-          checkType = 1;
-        }else if(workFlowResult.getBusinessName().equals("申请变更")){
-          checkType = 3;
-        }else{
-          checkType = 2;
-        }
-        
-        workFlowParam.setNextApprover("断点测试1");
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-        
-        //如果是企业未通过或总部未通过则添加审核原因
-        if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
-          auditReasons = workFlowResult.getAuditReasons();
-        }
-        workFlowParam.setNextApprover("断点测试2");
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-      }catch(Exception e){
-        workFlowParam.setNextApprover(e.toString());
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-        e.printStackTrace();
+      if(workFlowResult.getBusinessName().equals("定级")){
+        checkType = 1;
+      }else if(workFlowResult.getBusinessName().equals("申请变更")){
+        checkType = 3;
+      }else{
+        checkType = 2;
       }
-      
-      workFlowParam.setNextApprover("断点测试3");
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+
+      String auditReasons = "";
+      //如果是企业未通过或总部未通过则添加审核原因
+      if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
+        auditReasons = workFlowResult.getAuditReasons();
+      }
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
@@ -183,9 +167,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
           userIds += userId + ",";
         }
-        
-        workFlowParam.setAuditReasons(email + "___" + userIds);
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
         if(workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() ==5 || 
@@ -193,15 +174,19 @@ public class WsMQExecResultService implements ISFMQExecResult {
           UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
           email = userDTO.getEmail() + ",";
         }
-        
-        workFlowParam.setAuditReasons("如果审核结果为总部通过或总部未通过，则获取始发人邮箱");
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
+      workFlowParam.setNextApprover(email+"____"+userIds+"Before1");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
+        workFlowParam.setNextApprover(emailArr+"____"+email+"Before2" +checkType+"--"+workFlowResult.getCheckResult().toString()+"--"+auditReasons);
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons);
+        
+        workFlowParam.setNextApprover(userIds+"____"+email+"Before3");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
