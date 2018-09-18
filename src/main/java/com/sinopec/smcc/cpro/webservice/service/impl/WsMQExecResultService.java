@@ -139,13 +139,12 @@ public class WsMQExecResultService implements ISFMQExecResult {
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult WorkFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-    workFlowParam.setNextApprover("businessId:"+businessId+"+++++executorIdList"+executorIdList.toString());
-    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     
-    this.messageSenderImpl.noticeSimpleMailSend("893651487@qq.com", null,"测试邮件发送");
     WorkFlowResult workFlowResult = new WorkFlowResult();
     Integer checkType = 0;
     if(WorkFlowResult != null){
+      workFlowParam.setNextApprover("businessId:"+businessId+"+++++executorIdList"+executorIdList.toString());
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(workFlowResult.getBusinessName().equals("定级")){
         checkType = 1;
       }else if(workFlowResult.getBusinessName().equals("申请变更")){
@@ -170,6 +169,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
           userIds += userId + ",";
         }
+        
+        workFlowParam.setAuditReasons(email + "___" + userIds);
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
         if(workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() ==5 || 
@@ -177,6 +179,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
           email = userDTO.getEmail() + ",";
         }
+        
+        workFlowParam.setAuditReasons("如果审核结果为总部通过或总部未通过，则获取始发人邮箱");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
@@ -186,6 +191,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
+          workFlowParam.setAuditReasons("下一步审批人"+userIds);
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         }
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
