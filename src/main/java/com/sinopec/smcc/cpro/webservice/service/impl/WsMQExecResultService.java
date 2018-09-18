@@ -139,29 +139,20 @@ public class WsMQExecResultService implements ISFMQExecResult {
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-    
-    workFlowParam.setNextApprover("回调开始");
-    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     Integer checkType = 0;
     String auditReasons = "";
     if(workFlowResult != null){
-      try {
-        if(workFlowResult.getBusinessName().equals("定级")){
-          checkType = 1;
-        }else if(workFlowResult.getBusinessName().equals("申请变更")){
-          checkType = 3;
-        }else{
-          checkType = 2;
-        }
-        //如果是企业未通过或总部未通过则添加审核原因
-        if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
-          auditReasons = workFlowResult.getAuditReasons();
-        }
-      } catch (Exception e) {
-        e.printStackTrace();
+      if(workFlowResult.getBusinessName().equals("定级")){
+        checkType = 1;
+      }else if(workFlowResult.getBusinessName().equals("申请变更")){
+        checkType = 3;
+      }else{
+        checkType = 2;
       }
-      workFlowParam.setNextApprover("测试1"+executorIdList.toString());
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      //如果是企业未通过或总部未通过则添加审核原因
+      if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
+        auditReasons = workFlowResult.getAuditReasons();
+      }
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
@@ -173,9 +164,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
           userIds += userId + ",";
         }
-        
-        workFlowParam.setNextApprover("测试2"+userIds+"--"+email);
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
         if(workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() ==5 || 
@@ -184,23 +172,14 @@ public class WsMQExecResultService implements ISFMQExecResult {
           email = userDTO.getEmail() + ",";
         }
       }
-      workFlowParam.setNextApprover(email+"____"+userIds+"Before1");
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
-        workFlowParam.setNextApprover(emailArr+"____"+email+"Before2" +checkType+"--"+workFlowResult.getCheckResult().toString()+"--"+auditReasons);
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons);
-        
-        workFlowParam.setNextApprover(userIds+"____"+email+"Before3");
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
-          workFlowParam.setAuditReasons("下一步审批人"+userIds);
-          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         }
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }

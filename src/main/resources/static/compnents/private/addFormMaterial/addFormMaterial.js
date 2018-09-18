@@ -752,10 +752,25 @@ var data={
                   	if(responseData.data!=null){
                   		_self.substitute = responseData;
                   		_self.formData = responseData.data;
+                  		//从数据库中查询底部5，6，7情况的数据，因为再上一步定级中用户可能会改变这些数据
+                  		_self.queryBottomData(systemId);
                   		_self.flag = true;
                   		_self.setShowAttachName(_self);
                   	}
                   },
+                  //从数据库中查询5，6，7的情况，因为有可能存到缓存，但是用户点击上一步到定级改变了一些数据，但是从缓存中是取不到的
+                  queryBottomData:function(id){
+                  	ajaxMethod(this, 'post','grading/queryEditSystemMaterialsInfo', false,
+                  			'{"fkSystemId":"'+id+'"}', 'json',
+                  			'application/json;charset=UTF-8',
+                  			this.getBottomDataSuccess);
+                  },
+                  getBottomDataSuccess:function(_self,responseData){
+                  	_self.formData.evaluationPresentationName = responseData.data.evaluationPresentationName;
+                  	_self.formData.expertReviewName = responseData.data.expertReviewName;
+                  	_self.formData.directorOpinionName = responseData.data.directorOpinionName;
+                  },
+                  
                   //删除表list1的方法
                   delList1:function(meg){
                   	var fileId = meg;
@@ -1106,7 +1121,47 @@ var data={
                     	_self.placeBeginContent(meg);
                     }
                   });
+                  bus.$on('judgeChange',function(meg){
+
+                  	var flag = true;
+                  	var beginContent = _self.beginContent;
+                  	var currentContent = _self.formData;
+                  	if(beginContent.topologyDescriptionName == null){
+                  		beginContent.topologyDescriptionName = '';
+                  	}
+                  	if(beginContent.organizationManagementName == null){
+                  		beginContent.organizationManagementName = '';
+                  	}
+                  	if(beginContent.implementationPlanName == null){
+                  		beginContent.implementationPlanName = '';
+                  	}
+                  	if(beginContent.licenseCertificateName == null){
+                  		beginContent.licenseCertificateName = '';
+                  	}
+                  	if(beginContent.topologyDescriptionName != currentContent.topologyDescriptionName){//系统拓扑结构及说明
+                  		flag = false;
+                  	}
+                  	if(beginContent.organizationManagementName != currentContent.organizationManagementName){//系统安全组织机构及管理制度
+                  		flag = false;
+                  	}
+                  	if(beginContent.implementationPlanName != currentContent.implementationPlanName){//系统安全保护设施设计实施方案或改建实施方案
+                  		flag = false;
+                  	}
+                  	if(beginContent.licenseCertificateName != currentContent.licenseCertificateName){//系统使用的安全产品清单及认证、销售许可证明
+                  		flag = false;
+                  	}
+                  	if(beginContent.evaluationPresentationName != currentContent.evaluationPresentationName){//系统等级测评报告
+                  		flag = false;
+                  	}
+                  	if(beginContent.expertReviewName != currentContent.expertReviewName){//专家评审情况
+                  		flag = false;
+                  	}
+                  	if(beginContent.directorOpinionName != currentContent.directorOpinionName){//上级主管部门审批意见
+                  		flag = false;
+                  	}
+                  	_self.flag1 = flag;
                   
+                  });
                 }
             })
         })

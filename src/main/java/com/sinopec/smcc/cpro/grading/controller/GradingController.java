@@ -304,10 +304,10 @@ public class GradingController {
   @RequestMapping(value = "/saveGradSession", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public RetResult<String> saveGradSession(HttpServletRequest request, @RequestBody GradingListResult GradingListResult)
+  public RetResult<String> saveGradSession(HttpServletRequest request, @RequestBody GradingParam gradingParam)
       throws BusinessException{
     HttpSession session = request.getSession();
-    session.setAttribute("gradSession", GradingListResult);
+    session.setAttribute("gradSession", gradingParam);
     String sessionId = session.getId();
     return RetResultUtil.ok(sessionId);
   }
@@ -315,12 +315,12 @@ public class GradingController {
   @RequestMapping(value = "/queryGradSession", method = RequestMethod.POST)
   @ResponseBody
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
-  public RetResult<GradingListResult> queryGradSession(HttpServletRequest request)
+  public RetResult<GradingParam> queryGradSession(HttpServletRequest request)
       throws BusinessException{
     HttpSession session = request.getSession();
-    GradingListResult gradingListResult = (GradingListResult) session.getAttribute("gradSession");
+    GradingParam gradingParam = (GradingParam) session.getAttribute("gradSession");
 
-    return RetResultUtil.ok(gradingListResult);
+    return RetResultUtil.ok(gradingParam);
   }
   
   @RequestMapping(value = "/saveSystemMaterialsSession", method = RequestMethod.POST)

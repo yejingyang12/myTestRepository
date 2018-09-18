@@ -141,43 +141,7 @@ window.onload = function () {
           	}
           },
           judgeChange:function(){
-          	var flag = true;
-          	var beginContent = this.beginContent;
-          	var currentContent = this.formData;
-          	if(beginContent.topologyDescriptionName == null){
-          		beginContent.topologyDescriptionName = '';
-          	}
-          	if(beginContent.organizationManagementName == null){
-          		beginContent.organizationManagementName = '';
-          	}
-          	if(beginContent.implementationPlanName == null){
-          		beginContent.implementationPlanName = '';
-          	}
-          	if(beginContent.licenseCertificateName == null){
-          		beginContent.licenseCertificateName = '';
-          	}
-          	if(beginContent.topologyDescriptionName != currentContent.topologyDescriptionName){//系统拓扑结构及说明
-          		flag = false;
-          	}
-          	if(beginContent.organizationManagementName != currentContent.organizationManagementName){//系统安全组织机构及管理制度
-          		flag = false;
-          	}
-          	if(beginContent.implementationPlanName != currentContent.implementationPlanName){//系统安全保护设施设计实施方案或改建实施方案
-          		flag = false;
-          	}
-          	if(beginContent.licenseCertificateName != currentContent.licenseCertificateName){//系统使用的安全产品清单及认证、销售许可证明
-          		flag = false;
-          	}
-          	if(beginContent.evaluationPresentationName != currentContent.evaluationPresentationName){//系统等级测评报告
-          		flag = false;
-          	}
-          	if(beginContent.expertReviewName != currentContent.expertReviewName){//专家评审情况
-          		flag = false;
-          	}
-          	if(beginContent.directorOpinionName != currentContent.directorOpinionName){//上级主管部门审批意见
-          		flag = false;
-          	}
-          	this.flag1 = flag;
+          	bus.$emit('judgeChange','add');
           },
           
           //保存返回

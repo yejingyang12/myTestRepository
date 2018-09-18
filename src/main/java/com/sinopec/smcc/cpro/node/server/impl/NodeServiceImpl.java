@@ -161,7 +161,11 @@ public class NodeServiceImpl implements NodeService {
           nodeResult.setOperation("待企业业务审核");
           break;
         case 1:
-          nodeResult.setOperation("待总部安全审核");
+          if("撤销备案".equals(workFlowResult.getBusinessName())){
+            nodeResult.setOperation("");
+          }else{
+            nodeResult.setOperation("待总部安全审核");
+          }
           break;
         case 2:
           nodeResult.setOperation("待总部安全审核");

@@ -38,24 +38,56 @@ window.onload = function () {
           	window.location.href = originUrl+"page/indexPage";
           },
           removeSessionSuccess:function(){
-          	
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
-          	$(".save").show().delay(1000).fadeOut();
-            window.setTimeout(function () {
-              window.location.href = originUrl+"page/indexPage";
-            }, 1300);
             //清除session
             ajaxMethod(_self, 'post',
                 'main/removeSession', true,
                 JSON.stringify(''), 'json',
                 'application/json;charset=UTF-8',
                 _self.removeSessionSuccess);
+            //显示保存成功弹窗
+            var formName = _self.formData;
+          	bus.$emit('placeContent',formName);
+          	_self.saveSuccess = true;
           },
-          removeSessionSuccess:function(){
-          	
+          //保存且提交
+          saveAndSubmit:function(formName){
+        		this.yesOrNotSubmit = false;
+        		this.saveYesOrNo = true;
+        		this.judgeSaveOrNot();
+        	},
+        	//保存但不提交
+        	cancelSaveSuccess:function(){
+          	var formName = this.formData;
+          	bus.$emit('placeContent',formName);
+          	this.saveSuccess=false;
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
           },
+          //新的提交方法
+          judgeSaveOrNot:function(){
+        		this.saveSuccess = false;
+        		var _self = this;
+        		//如果上次保存完又改动过数据，出提示保存弹窗
+        		bus.$emit("judgeChange","change");
+        		if(_self.flag1){
+        			if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
+        				setTimeout(function(){
+            			_self.submitBtn('formData');
+         			 },1000);
+        			}else{
+	         			//页面点了保存，取消，然后点提交
+        				_self.yesOrNotSubmit = true;
+        			}
+        		}else{
+        			//页面数据改动过
+        			_self.saveThePrompt = true;
+        		}
+        	},
+          
           //提交
           submitBtn:function(formName) {
             data.submitCheck = false;
@@ -139,13 +171,13 @@ window.onload = function () {
                  _self.querySystemSessionSuccess);
           	
           	//保存单位
-            if(data.companyBySession!=null){
+            if(data.companyBySession!=null && data.companyBySession!=''){
             	ajaxMethod(_self, 'post',
             			'company/saveCompany', true,JSON.stringify(data.companyBySession), 'json',
             			'application/json;charset=UTF-8',_self.success);
             }
             //保存系统
-            if(data.systemBySession!=null){
+            if(data.systemBySession!=null && data.systemBySession!=''){
             	data.systemBySession.changeType = "1";
               ajaxMethod(_self, 'post',
                   'system/editSystem', true,
@@ -175,15 +207,15 @@ window.onload = function () {
                    'system/querySystemSession', false,
                    JSON.stringify(""), 'json',
                    'application/json;charset=UTF-8',
-                   _self.querySystemSession);
+                   _self.querySystemSessionSuccess);
             	//提交单位
-               if(data.companyBySession!=null){
+               if(data.companyBySession!=null && data.companyBySession!=''){
                	ajaxMethod(_self, 'post',
                			'company/saveCompany', true,JSON.stringify(data.companyBySession), 'json',
                			'application/json;charset=UTF-8',_self.success);
                }
                //提交系统
-               if(data.systemBySession!=null){
+               if(data.systemBySession!=null && data.systemBySession!=''){
                	data.systemBySession.changeType = "1";
                  ajaxMethod(_self, 'post',
                      'system/editSystem', true,

@@ -73,7 +73,7 @@
     <add-form-grad>
         <li slot="gradChange" class="fr liMargin">
           <div class="saveBnt">
-            <button type="button" class="btn btn-success " id="submit" @click="submitCheck = true" v-show="!nextBtn">提交</button>
+            <button type="button" class="btn btn-success " id="submit" @click="judgeSaveOrNot()" v-show="!nextBtn">提交</button>
             <button type="button" class="btn btn-success " id="save" @click="saveBtn('formData')" v-show="!nextBtn">保存</button>
             <button type="button" class="btn btn-default" id="pre" @click="toSystemPage('formData')" v-show="!nextBtn">上一步</button>
           </div>
@@ -81,7 +81,7 @@
         <li slot="gradNextChange" class="fr liMargin">
           <div class="saveBnt">
             <button type="button" class="btn btn-default " id="pre" @click="toSystemPage('formData')" v-show="nextBtn">上一步</button>
-            <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')" v-show="nextBtn">保存</button>
+            <!-- <button type="button" class="btn btn-default " id="safe" @click="saveBtn('formData')" v-show="nextBtn">保存</button> -->
             <button type="button" class="btn btn-success"  id="next" @click="nextBtn1('formData')" v-show="nextBtn">下一步</button>
           </div>
         </li>
@@ -103,36 +103,54 @@
         </div>
     </div>
     
-    <div class="inquiry" v-show="check">
+    <div class="inquiry" v-show="saveThePrompt">
         <div class="inquiry">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
                 <div class="fl">
-                    <p>是否保存?</p>
-                    <span>未保存的部分将会消失哦</span>
+                    <p>所填内容还未保存，请先保存!</p>
+                    <span>先保存才能提交审批</span>
                 </div>
             </div>
             <div class="inquiryBtn">
-                <button type="button" class="btn btn-success" @click="preBtn('formData')">确定</button>
-                <button type="button" class="btn btn-default" @click="preBtnSuccessMethod('','',true)">取消</button>
+                <button type="button" class="btn btn-success" @click="saveThePrompt = false">确定</button>
+                <button type="button" class="btn ls btn-default" @click="saveThePrompt = false">取消</button>
             </div>
         </div>
     </div>
-    <div class="inquiry" v-show="submitCheck">
+    
+    <div class="inquiry" v-show="saveSuccess">
         <div class="inquiry">
             <div class="cenrerBox">
                 <i class="failIcon fl">!</i>
                 <div class="fl">
-                    <p>是否确认提交审批?</p>
-                    <!-- <span>未保存的部分将会消失哦</span> -->
+                    <p>保存成功，是否需要提交审批</p>
+                    <span>申请审批后内容无法修改哦</span>
                 </div>
             </div>
             <div class="inquiryBtn">
-                <button type="button" class="btn btn-success" @click="submitBtn('formData')">确定</button>
-                <button type="button" class="btn btn-default" @click="submitCheck = false">取消</button>
+                <button type="button" class="btn btn-success" @click="saveAndSubmit('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="cancelSaveSuccess()">取消</button>
             </div>
         </div>
     </div>
+    
+    <div class="inquiry" v-show="yesOrNotSubmit">
+        <div class="inquiry">
+            <div class="cenrerBox">
+                <i class="failIcon fl">!</i>
+                <div class="fl">
+                    <p>是否确定提交审批？</p>
+                    <span>提交后内容不可修改</span>
+                </div>
+            </div>
+            <div class="inquiryBtn">
+                <button type="button" class="btn btn-success" @click="saveAndSubmit('formData')">确定</button>
+                <button type="button" class="btn btn-default" @click="yesOrNotSubmit = false">取消</button>
+            </div>
+        </div>
+    </div>
+    
     <div class="startBox submit" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>提交成功!</P>
     </div>

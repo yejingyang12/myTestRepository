@@ -12,55 +12,7 @@ window.onload = function () {
         	//判断定级列表是否被改变
         	judgeChange:function(judge){
         		this.judgeType = judge;//1,上一步，2，返回
-        		var flag = true;
-        		var beginContent = this.beginContent;
-        		var currentContent = this.formData;
-        		if(beginContent.competentIsExisting != currentContent.competentIsExisting){//是否有主管
-        			flag = false;
-        		}
-        		if(beginContent.competentName != currentContent.competentName){//主管部门名称
-        			flag = false;
-        		}
-        		if(beginContent.competentView != currentContent.competentView){//主管部门审批定级情况
-        			flag = false;
-        		}
-        		if(beginContent.directorOpinionName != currentContent.directorOpinionName){//上级主管部门审批意见
-        			flag = false;
-        		}
-        		if(beginContent.expertReviewName != currentContent.expertReviewName){//评审附件名称
-        			flag = false;
-        		}
-        		if(beginContent.expertView != currentContent.expertView){//专家评审情况
-        			flag = false;
-        		}
-        		if(beginContent.fillDate != currentContent.fillDate){//填表时间
-        			flag = false;
-        		}
-        		if(beginContent.filler != currentContent.filler){//填表人
-        			flag = false;
-        		}	
-        		if(beginContent.fkBizSPRankDegree != currentContent.fkBizSPRankDegree){
-        			flag = false;
-        		}
-        		if(beginContent.fkBizSPRankLevel != currentContent.fkBizSPRankLevel){//业务信息等级
-        			flag = false;
-        		}
-        		if(beginContent.fkBizSystemDegree != currentContent.fkBizSystemDegree){
-        			flag = false;
-        		}
-        		if(beginContent.fkBizSystemLevel != currentContent.fkBizSystemLevel){//系统信息等级
-        			flag = false;
-        		}
-        		if(beginContent.fkSpRanklevel != currentContent.fkSpRanklevel){//信息系统安全保护等级
-        			flag = false;
-        		}
-        		if(beginContent.gradingReportName != currentContent.gradingReportName){//定级报告
-        			flag = false;
-        		}
-        		if(beginContent.rankTime != currentContent.rankTime){//定级时间
-        			flag = false;
-        		}
-        		this.flag1 = flag;
+        		bus.$emit("judgeChange","add");
         		if(this.judgeType == 1){//上一步
         			if(flag){
         				this.preBtnSuccessMethod('', '',true);

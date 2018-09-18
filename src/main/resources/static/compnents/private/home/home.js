@@ -93,11 +93,13 @@
 		          ],
 		        
 		          desc: [
-		            { required: true, message: '请填写变更原因', trigger: 'blur' }
+		            { required: true, message: '请填写变更原因', trigger: 'blur' },
+		            { min: 0, max: 200, message: '长度在 0 到200个字符', trigger: 'blur' },
 		          ],
 		          desc1: [
-				     { required: true, message: '请填写变更内容', trigger: 'blur' }
-				  ]
+		            { required: true, message: '请填写变更内容', trigger: 'blur' },
+		            { min: 0, max: 200, message: '长度在 0 到200个字符', trigger: 'blur' },
+		          ]
 		        },
 		//查询参数
 		queryParam: {

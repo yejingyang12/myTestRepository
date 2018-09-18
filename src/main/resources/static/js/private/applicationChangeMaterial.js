@@ -44,19 +44,52 @@ window.onload = function () {
           },
           // 获取系统信息成功
           saveBtnSuccessMethod : function(_self, responseData) {
+          	var systemId = responseData.data;
           	bus.$emit('deleteConfirm','');
-            data.formData.systemMaterialsId = responseData.data;
-            $(".save").show().delay(1000).fadeOut();
-            window.setTimeout(function () {
-              window.location.href = originUrl+"page/indexPage";
-            }, 1300);
-            //清空session
-            ajaxMethod(_self, 'post',
-                'main/removeSession', true,
-                JSON.stringify(''), 'json',
-                'application/json;charset=UTF-8',
-                _self.removeSessionSuccess);
+          	bus.$emit('placeContent',_self);
+          	_self.querySystemMaterialsInfo(systemId);
+          	_self.saveSuccess = true;
           },
+          querySystemMaterialsInfo : function(systemId){
+          	ajaxMethod(_self, 'post','grading/queryEditSystemMaterialsInfo', false,
+                '{"fkSystemId":"'+systemId+'"}', 'json',
+                'application/json;charset=UTF-8',
+                _self.getMaterialsInfoSuccessMethod);
+          },
+          getMaterialsInfoSuccessMethod : function(_self, responseData){
+          	_self.formData.systemMaterialsId = responseData.data.systemMaterialsId;
+          },
+          saveAndSubmit:function(formName){
+          	this.yesOrNotSubmit = false;
+          	this.saveYesOrNo = true;
+          	this.judgeSaveOrNot();
+          },
+          cancelSaveSuccess:function(){
+          	bus.$emit('placeContent',this);
+          	this.saveSuccess = false;
+          	ajaxMethod(this, 'post',
+                'main/removeSession', true,JSON.stringify(''), 'json',
+                'application/json;charset=UTF-8',this.removeSessionSuccess);
+          },
+          judgeSaveOrNot:function(){
+          	this.saveSuccess = false;
+          	var _self = this;
+        		//如果上次保存完又改动过数据，出提示保存弹窗
+          	bus.$emit('judgeChange','change');
+          	if(_self.flag1){
+          		if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
+          			setTimeout(function(){
+            			_self.submitBtn('formData');
+         			 },1000);
+          		}else{
+          			//保存成功，但是取消提交，现在另外点击提交
+              	this.yesOrNotSubmit = true;
+          		}
+          	}else{
+          		//本页数据改变，需要重新保存
+          		this.saveThePrompt = true;
+          	}
+        	},
           //提交
           submitBtn:function(formName) {
           	
@@ -140,13 +173,13 @@ window.onload = function () {
                  _self.queryGradSessionSession);
           	
           	//保存单位
-            if(data.companyBySession!=null){
+            if(data.companyBySession!=null && data.companyBySession!=''){
             	ajaxMethod(_self, 'post',
             			'company/saveCompany', true,JSON.stringify(data.companyBySession), 'json',
             			'application/json;charset=UTF-8',_self.success);
             }
             //保存系统
-            if(data.systemBySession!=null){
+            if(data.systemBySession!=null && data.systemBySession!=''){
             	data.systemBySession.changeType = "1";
               ajaxMethod(_self, 'post',
                   'system/editSystem', true,
@@ -155,7 +188,7 @@ window.onload = function () {
                   _self.success);
             }
           	//保存定级
-            if(data.gradingBySession!=null){
+            if(data.gradingBySession!=null && data.gradingBySession!=''){
             	data.gradingBySession.changeType = "1";
             	ajaxMethod(_self, 'post',
                   'grading/saveGrading', true,
@@ -193,13 +226,13 @@ window.onload = function () {
                  _self.queryGradSessionSession);
           	
           	//保存单位
-            if(data.companyBySession!=null){
+            if(data.companyBySession!=null && data.companyBySession!=''){
             	ajaxMethod(_self, 'post',
             			'company/saveCompany', true,JSON.stringify(data.companyBySession), 'json',
             			'application/json;charset=UTF-8',_self.success);
             }
             //保存系统
-            if(data.systemBySession!=null){
+            if(data.systemBySession!=null && data.systemBySession!=''){
             	data.systemBySession.changeType = "1";
               ajaxMethod(_self, 'post',
                   'system/editSystem', true,
@@ -208,7 +241,7 @@ window.onload = function () {
                   _self.success);
             }
           	//保存定级
-            if(data.gradingBySession!=null){
+            if(data.gradingBySession!=null && data.gradingBySession!=''){
             	data.gradingBySession.changeType = "1";
             	ajaxMethod(_self, 'post',
                   'grading/saveGrading', true,
