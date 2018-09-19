@@ -158,6 +158,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
       
       //如果是企业/总部发起审核，并且下级审批人不为空，则给下级审批人发送邮件
       if(workFlowResult.getCheckResult() == 0 || workFlowResult.getCheckResult() == 1 ){
+        workFlowParam.setNextApprover("1测试");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         if(!ObjectUtils.isEmpty(executorIdList)){
           workFlowParam.setNextApprover("2测试"+workFlowResult.getCheckResult());
           workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
@@ -177,6 +179,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
         }
       }else if(workFlowResult.getCheckResult() == 2){
+        
+        workFlowParam.setNextApprover("3测试"+workFlowResult.getCheckResult());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       //如果企业审核通过
         //如果是撤销备案
         if(checkType == 2){
@@ -184,6 +189,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
           email = userDTO.getEmail() + ",";
         }else{
+          
+          workFlowParam.setNextApprover("4测试"+workFlowResult.getCheckResult());
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
           if(!ObjectUtils.isEmpty(executorIdList)){
             //获取始发人用户信息
             UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
@@ -202,11 +210,12 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
         }
       }else{
-        //如果撤销备案通过，则获取始发人邮箱 
+        workFlowParam.setNextApprover("5测试"+workFlowResult.getCheckResult());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        //给始发人发送邮件
         UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         email = userDTO.getEmail() + ",";
       }
-      
       
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
@@ -214,9 +223,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
         //添加下一步审批人
-        if(StringUtils.isNotBlank(userIds)){
-          workFlowParam.setNextApprover(userIds);
-        }
+//        if(StringUtils.isNotBlank(userIds)){
+//          workFlowParam.setNextApprover(userIds);
+//        }
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     }
