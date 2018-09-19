@@ -8,6 +8,7 @@
     <result property="checkResult" column="checkResult" />
     <result property="auditReasons" column="auditReasons" />
     <result property="createTime" column="create_date" />
+    <result property="systemId" column="fkSystemId" />
   </resultMap>
 
   <insert id="insertWorkFlow" parameterType="com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam">
