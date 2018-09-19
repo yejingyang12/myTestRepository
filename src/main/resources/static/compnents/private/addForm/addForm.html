@@ -75,9 +75,10 @@
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="办公电话:" prop="compPrincipalWorkTel" class="P-form-input">
-                <el-input clearable name="compPrincipalWorkTel" id="compPrincipalWorkTel" placeholder="请输入" v-model="formData.compPrincipalWorkTel"></el-input>
+                <el-input clearable name="compPrincipalWorkTel" id="compPrincipalWorkTel" placeholder="请输入" v-model="formData.compPrincipalWorkTel" @blur="onTelNumberBlur()"></el-input>
               </el-form-item>
               <div style="margin-left:155px;font-size:12px !important;color:#cccccc !important;margin-top:5px;">
+              	<div id="clues"></div>
                   <i class="fl" style="width:15px;hieght:15px;font-size:12px;border-radius:50%;border:1px solid #cccccc;color:#cccccc;line-height:13px;text-align:center">!</i> &nbsp;规则：xxx（区号）-xxxxxxx
               </div>
             </div>
@@ -112,8 +113,9 @@
             </div>
             <div class="col-lg-6 col-sm-3">
               <el-form-item label="办公电话:" prop="ldContactWorkTel" class="P-form-input">
-                <el-input clearable id="ldContactWorkTel" name="ldContactWorkTel" placeholder="请输入" v-model="formData.ldContactWorkTel"></el-input>
+                <el-input clearable id="ldContactWorkTel" name="ldContactWorkTel" placeholder="请输入" v-model="formData.ldContactWorkTel" @blur="onTelNumberBlur1()"></el-input>
                 <div style="font-size:12px !important;color:#cccccc !important;">
+                	<div id="clues1"></div>
                     <i class="fl" style="width:15px;hieght:15px;font-size:12px;margin-top:5px;border-radius:50%;border:1px solid #cccccc;color:#cccccc;line-height:13px;text-align:center">!</i>&nbsp; 规则：xxx（区号）-xxxxxxx
                 </div>
               </el-form-item>
