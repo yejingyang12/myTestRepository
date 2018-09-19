@@ -192,7 +192,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
-        workFlowParam.setAuditReasons("邮件4");
+        workFlowParam.setAuditReasons("邮件4" + workFlowResult.getSystemId());
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
