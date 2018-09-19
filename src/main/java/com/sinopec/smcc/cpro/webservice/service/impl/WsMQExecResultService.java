@@ -135,6 +135,10 @@ public class WsMQExecResultService implements ISFMQExecResult {
   public boolean sendTask(String businessId, String activityId, String activityName, List<String> taskIdList,
       List<String> executorIdList, String categoryCode, Integer result, String message,
       List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {
+    String a [] = {"893651487@qq.com"};
+    this.messageSenderImpl.noticeSimpleMailSend(a, null, "cccc", "aaaaaaa");
+    
+    
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
@@ -229,6 +233,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     }
-    return true;
+    return false;
   }
 }
