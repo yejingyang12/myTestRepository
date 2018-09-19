@@ -48,10 +48,9 @@ var data1={
 	    	importSystemInfo:[{required: true, message: '请选择导入文件', trigger: 'change'}],
 	    }
     },
-    
+    loading: true
   };
 (function () {
-  
   Vue.component('mainSystemInfo',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/mainSystemInfo/mainSystemInfo.html').then(function(res){
       resolve({
@@ -158,6 +157,7 @@ var data1={
 		            uploadData.append('type', 'test');
 		            ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 		            e.target.value = "";
+		            $("#startBoxExporting").show();
 	          	}
           	}
           },
@@ -166,7 +166,7 @@ var data1={
           	this.$refs.refOnUpload.value = null;
           	_self.systemForm.importSystemInfo = responseData.data.attachName;
           	_self.systemForm.importSystemPath = responseData.data.uploadUrl;
-          	$("#startBoxExporting").css('display', 'none');
+          	 $("#startBoxExporting").hide();
           },
           fileDel:function(path){
 						var _self = this;
@@ -295,6 +295,7 @@ var data1={
           	 var time1 = timeString.split(" ");
           	 _self.systemForm.time = time1[0];
            }
+           this.loading=false;
          },
          //系统信息列表排序
          listsortInfo: function () {

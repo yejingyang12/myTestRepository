@@ -168,7 +168,7 @@
         fkNodeChangeContent : "",
         fkNodeSysChangeMatter : ""
       },
-      loading:true
+      loading:false
   };
 (function() {
   Vue.component('addForm', function(resolve, reject) {
@@ -641,6 +641,7 @@
               },
             },
             created : function() {
+            	this.loading = true;
             	// 获取省份
             	this.getProvinceMethod(this);
             	// 获取隶属关系
@@ -667,6 +668,7 @@
             	}
             },
             mounted : function() {
+
               // this.selectChange()
               // new Ctor().$mount('#wrap');
               var _self=this;
@@ -690,7 +692,6 @@
               if(type=='update'){
                 _self.nameReadonly = true;
               }
-              _self.loading=false;
               bus.$on("selectedOptions",function(meg){
                 if(meg!=null){
                 	//清空验证
@@ -780,6 +781,9 @@
               
               var coverH = $(".mcAddMessge").height();
               $(".cover").css("height",coverH + parseInt(54));
+              setTimeout(function(){
+              	_self.loading=false;
+              },1);
             }
           })
         })

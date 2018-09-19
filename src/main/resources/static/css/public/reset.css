@@ -265,7 +265,7 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /*bootstrap按钮样式修改  */
 .btn-default:hover {
 	color: #333 !important;
-	background-color: #fff !important;
+	background-color: #f1f0f0 !important;
 	border-color: #cecece;
 }
 .btn-defaults:hover{
@@ -369,8 +369,8 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .P-uploadSty .fileList li{
     width: 100%;
-    border:0;
-    background-color:transparent;
+    border: 1px solid #5AA5E4;
+    background-color: #F5FAFD;
     margin:5px 0 0 0;
 }
 .P-uploadSty .fileList li div{
@@ -502,6 +502,9 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
     padding:6px 16px;
     color: #666;
     border-radius: 2px;
+}
+.selfButton:hover{
+	background-color: #f1f0f0 !important;
 }
 /* 按钮鼠标移上颜色 */
 .hoverBlue:hover{

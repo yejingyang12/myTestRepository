@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/24.
  */
 var data={
+		changeFlag:false,
 		yesOrNotSubmit:false,
 		returnIndex:false,
 		saveSuccess:false,//保存成功弹窗
@@ -114,7 +115,7 @@ var data={
 	                        callback: function callback(action) {
 	                        }
 	                      });*/
-	                  		this.dialogVisible=true;
+	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
@@ -127,7 +128,7 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
-	                  			this.dialogVisibles=true;
+	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
 	                  		var uploadData = new FormData(); 
@@ -135,10 +136,12 @@ var data={
 	                  		uploadData.append('type', 'test');
 	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 	                  		e.target.value = "";
+	                  		$("#startBoxImporting").css('display', 'block');
 	                  	}
                   	}
                   },
                   onUploadSuccessMethod: function(_self,responseData){
+                    $("#startBoxImporting").css('display', 'none');
                   	var submitDescName=false;
                   	var topologyDescription = {fileId: '',attachName: '',uploadUrl: ''};
                   	if(_self.formData.topologyDescriptionList.length==0){
@@ -203,7 +206,7 @@ var data={
 	                        callback: function callback(action) {
 	                        }
 	                      });*/
-	                  		this.dialogVisible=true;
+	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
@@ -216,7 +219,7 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
-	                  			this.dialogVisibles=true;
+	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
 	                  		var uploadData = new FormData(); 
@@ -224,10 +227,12 @@ var data={
 	                  		uploadData.append('type', 'test');
 	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 	                  		e.target.value = "";
+	                  		$("#startBoxImporting").css('display', 'block');
 	                  	}
                   	}
                   },
                   onUploadSuccessMethod2: function(_self,responseData){
+                    $("#startBoxImporting").css('display', 'none');
                     var submitManagName=false;
                   	var organizationManagement = {fileId: '',attachName: '',uploadUrl: ''};
                     if(_self.formData.organizationManagementList.length==0){
@@ -293,7 +298,7 @@ var data={
 	                        callback: function callback(action) {
 	                        }
 	                      });*/
-	                  		this.dialogVisible=true;
+	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
 	                  	var fileFormat = e.target.value.split(".");//文件后缀
@@ -306,7 +311,7 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
-	                  			this.dialogVisibles=true;
+	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
 	                  		var uploadData = new FormData(); 
@@ -314,10 +319,12 @@ var data={
 	                  		uploadData.append('type', 'test');
 	                  		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod3);
 	                  		e.target.value = "";
+	                  		$("#startBoxImporting").css('display', 'block');
 	                  	}
                   	}
                   },
                   onUploadSuccessMethod3: function(_self,responseData){
+                    $("#startBoxImporting").css('display', 'none');
                     var submitPlanName=false;
                   	var implementationPlan = {fileId: '',attachName: '',uploadUrl: ''};
                     if(_self.formData.implementationPlanList.length==0){
@@ -381,7 +388,7 @@ var data={
                         callback: function callback(action) {
                         }
                       });*/
-                  		this.dialogVisible=true;
+                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
                   		return;
                   	}
                   	var fileFormat = e.target.value.split(".");//文件后缀
@@ -394,7 +401,7 @@ var data={
 	                  			callback: function callback(action) {
 	                  			}
 	                  		});*/
-                  			this.dialogVisibles=true;
+                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
                   		}
                   		var uploadData = new FormData(); 
@@ -402,9 +409,11 @@ var data={
                   		uploadData.append('type', 'test');
                   		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod4);
                   		e.target.value = "";
+                  		$("#startBoxImporting").css('display', 'block');
                   	}
                   },
                   onUploadSuccessMethod4: function(_self,responseData){
+                    $("#startBoxImporting").css('display', 'none');
                   	var submitCateName=false;
                   	var licenseCertificate = {fileId: '',attachName: '',uploadUrl: ''};
                   	if(_self.formData.licenseCertificateList.length==0){
@@ -421,7 +430,7 @@ var data={
 	           			          dangerouslyUseHTMLString: true
 	                  				});*/
               			  		_self. dialogVisibleds=true;
-              			  		submitCateName = true ; 
+              			  		submitCateName = true;
                   				break;
                   			}
                     	}

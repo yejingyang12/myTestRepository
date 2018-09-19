@@ -21,6 +21,7 @@
     		expertReviewName:"",//专家评审名称
     		directorOpinionId:"",//上级主管部门审批意见路径
     		directorOpinionName:"",//上级主管部门审批意见名称
+        tishi:"",
     };
     Vue.component('viewDetailsMaterial',function (resolve, reject) {
         $.get(comp_src+'/compnents/private/viewDetailsMaterial/viewDetailsMaterial.html').then(function (res) {
@@ -38,6 +39,9 @@
                 mounted: function() {
                 },
                 methods:{
+                  xuanfu:function(data){
+                    this.tishi=data;
+                  },
                 	 // 获取单位信息详情成功
                   createdSuccess : function(_self, attchResult) {
                   	if(attchResult.data != null){

@@ -35,11 +35,11 @@ input{
     background-color: #767676;
 }
 .evaluation{
-    width: 80%;
+    width: 50%;
     /*height: 419px;*/
     position: absolute;
     top:50%;
-    left:50%;
+    left:60%;
     margin-left:-40%;
     margin-top:-210px;
     z-index: 2;

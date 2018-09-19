@@ -13,16 +13,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.AppExtendsData;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
-import com.pcitc.ssc.dps.inte.workflow.AppVariableData;
 import com.pcitc.ssc.dps.inte.workflow.AppWorkflowData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
@@ -33,7 +30,6 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
-import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
@@ -217,68 +213,5 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowParam.setAuditReasons(auditReasons);
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-  }
-
-  /**
-   * 发送待办回调
-   */
-  @Override
-  public boolean sendTask(String businessId, String activityId, String activityName,
-      List<String> taskIdList, List<String> executorIdList, String categoryCode, Integer result,
-      String message, List<AppMetasData> metasList, List<AppVariableData> variableList, String appId)
-          throws BusinessException {
-      WorkFlowParam workFlowParam = new WorkFlowParam();
-      workFlowParam.setBusinessId(businessId);
-      WorkFlowResult WorkFlowResult
-        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-      WorkFlowResult workFlowResult = new WorkFlowResult();
-      Integer checkType = 0;
-      if(WorkFlowResult != null){
-        if(workFlowResult.getBusinessName().equals("定级")){
-          checkType = 1;
-        }else if(workFlowResult.getBusinessName().equals("申请变更")){
-          checkType = 3;
-        }else{
-          checkType = 2;
-        }
-        String auditReasons = "";
-        //如果是企业未通过或总部未通过则添加审核原因
-        if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
-          auditReasons = workFlowResult.getAuditReasons();
-        }
-        
-        String email = "";
-        String userIds = "";
-        if(!ObjectUtils.isEmpty(executorIdList)){
-          //通过用户id 拼接邮箱
-          for(String userId : executorIdList){
-            UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-            if(StringUtils.isNotBlank(userDTO.getEmail())){
-              email +=userDTO.getEmail() + ",";
-            }
-            userIds += userId + ",";
-          }
-        }else{
-          //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
-          if(workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() ==5 || 
-              checkType ==2 || workFlowResult.getCheckResult() == 3) { 
-            UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-            email = userDTO.getEmail() + ",";
-          }
-        }
-        if(StringUtils.isNotBlank(email)){
-          String [] emailArr = email.split(",");
-          //发送邮件
-          this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
-              workFlowResult.getCheckResult().toString(), auditReasons);
-          //添加下一步审批人
-          if(StringUtils.isNotBlank(userIds)){
-            workFlowParam.setNextApprover(userIds);
-          }
-          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-          return true;
-        }
-      }
-    return false;
   }
 }

@@ -95,7 +95,7 @@ var emitdata = new Vue();
 					}.bind(this), 1000)
 				},
 				mounted: function() {					
-					this.globalClick(this.moreSetupMenuRemove);
+/*					this.globalClick(this.moreSetupMenuRemove);*/
 					this.FnGetData('/base/sysMenu', 'HeaderData');
 					this.FnGetData('/base/sysUser', 'userData');
 					this.$emit('userdata', this.userData);

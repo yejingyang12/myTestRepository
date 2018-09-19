@@ -1,4 +1,4 @@
-<div class="container h-padding" style="margin:0 15px;font-size: 14px;font-style: normal" v-loading="loading">
+<div class="container h-padding" style="margin:0 15px;font-size: 14px;font-style: normal" v-loading="loading"  element-loading-text="加载中">
   <!-- 文件大小弹窗 start -->
                                 <el-dialog lock-scroll  :close-on-click-modal="ceshi"   title="附件上传" :visible.sync="dialogVisible" width="30%">
 						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
@@ -217,7 +217,7 @@
                                 <!--系统名称-->
                                 <div class="col-md-6" style="width:50%">
                                     <div class="row" >
-                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:0px;width: 82px; min-width: 75px;" >
+                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:0px;width:28%; min-width: 75px;" >
                                                                                                         系统名称:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:5;position:relative;">
@@ -239,7 +239,7 @@
                                 <!--所属单位-->
                                 <div class="col-md-6"  style="width:45%">
                                     <div class="row">
-                                        <div class="col-md-3 h-line" style="min-width:76px;width:77px;padding-right:0; ">
+                                        <div class="col-md-3 h-line" style="min-width:76px;width:30%;padding-right:0; ">
                                                                                                           所属单位:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative">
@@ -260,9 +260,9 @@
                             </div>
                         </div> 
                         <div class="col-md-6"  style="width:45%">
-                            <div class="row" style="margin-right:0">
+                            <div class="row" style="margin-right:-65px">
                             <!-- 互联网应用 start -->
-                            <div class="col-md-3 h-line" style="min-width:76px;width:90px;padding-right:0; ">
+                            <div class="col-md-3 h-line" style="min-width:76px;width:15%;padding-right:0; ">
                                                                                                          互联网应用:
                             </div>
                               <div class="col-md-5">
@@ -810,7 +810,7 @@
             </div>
             <div class="h-bottom-line  h-bottom-position" style="margin: 0 -15px"></div>
             <p class="h-p" style="margin: 15px 0;"> 
-                <button title="新建" v-show="newlyBuild" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;margin-bottom:2px;">新增</button>
+                <button title="新增系统定级任务" v-show="newlyBuild" id="h-btn-add" @click="toAddCompanyInfoPagePage()" style="border: none;margin-bottom:2px;">新增</button>
            <!-- <button v-show="templateExport" style="padding:5px;width:auto;" type="button" id="h-score-list2" class="btn btn-default h-borde-hover" @click="checkallexport()" hascheck="" show="show">
                                                      定级模板导出 </button>  --> 
                 <button  v-show="templateExport" 
@@ -1058,11 +1058,12 @@
                                     <span aria-hidden="true">上一页</span>
                                 </a>
                             </li>
-                            <li  v-for="n in totalPages" :class="[n==result.currentPage ? 'current' : '' ]">
+                            <li  v-for="n in totalPages" :class="[n==result.currentPage ? 'current' : '' ]"
+                              layout="prev, pager, next" :total="result.total">
                                 <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
                             </li>
                             <li @click="clickPage(result.currentPage+1)">
-                                <a href="javascript:;" aria-label="Next" >
+                                <a href="javascript:;" aria-label="Next">
                                     <span aria-hidden="true">下一页</span>
                                 </a>
                             </li>

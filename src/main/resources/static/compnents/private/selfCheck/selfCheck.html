@@ -30,9 +30,9 @@
    	<div class="ceshi" style="text-align:center;">
    		<p style="float:none">验证有误，请检查填写信息</p>		
    	</div>
-   	 <div slot="footer" class="dialog-footer">
+	<div slot="footer" class="dialog-footer" style="width:80%;margin-left:-35px">
+        <el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
 		<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
-		<el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
 	</div>	
   </el-dialog>
 <!-- 验证提示框 end -->
@@ -333,5 +333,8 @@
 		</div>
 		<div class="startBox" id="startBoxSelf" style="display:none;">
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>保存成功!</P>
+    </div>
+    <div class="startBox" id="startBoxExporting" style="display:none;width:300px;margin-left:-150px;z-index:999 !important;">
+      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>加载中</P>
     </div>
 </div>

@@ -9,11 +9,7 @@
 */
 package com.sinopec.smcc.cpro.codeapi.server;
 
-import java.util.List;
-
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
-import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
-import com.pcitc.ssc.dps.inte.workflow.AppVariableData;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 
 /**
@@ -87,27 +83,5 @@ public interface WorkFlowApiService {
   void reviewNotThrough(String businessId,String userId,String userName,String checkResult,
       String businessName,String auditReasons) throws BusinessException;
   
-  /**
-   * @Descrption 发送待办回调
-   * @author dongxu
-   * @date 2018年9月3日上午11:22:31
-   * @param businessId 业务ID
-   * @param activityId 活动Id
-   * @param activityName 活动名称
-   * @param taskIdList 发送待办Id列表
-   * @param executorIdList 发送待办执行人Id列表
-   * @param categoryCode 流程分类编码
-   * @param result 执行结果，1：成功，0：失败
-   * @param message 如执行结果为0, 返回异常信
-   * @param metasList 流程字段列表
-   * @param variableList 流程变量列表
-   * @param appId 分配的所属应用Id
-   * @return
-   * @throws BusinessException
-   */
-  public boolean sendTask(String businessId, String activityId, String activityName, 
-      List<String> taskIdList,  List<String> executorIdList,  String categoryCode, Integer result, 
-      String message, List<AppMetasData> metasList, List<AppVariableData> variableList,
-      String appId) throws BusinessException;
   
 }

@@ -4,6 +4,7 @@ var data={
 	       
 	      }
 	},
+	changeFlag:false,
 	yesOrNotSubmit:false,//提交弹窗
 	returnIndex:false,
 	judgeTwoOrThree:false,
@@ -182,6 +183,18 @@ var data={
 	                	xuanfu:function(data){
 	              			this.tishi=data;
 	              		},
+	              		thingMove:function(){
+                      var value = $("#shangc").html();
+                      $("#shangc").attr('title',value);
+	              		},
+	                  thingMove1:function(){
+                      var value = $("#shangc1").html();
+                      $("#shangc1").attr('title',value);
+	                  },
+	                  thingMove2:function(){
+                      var value = $("#shangc2").html();
+                      $("#shangc2").attr('title',value);
+	                  },
                 		onBlur:function(e){
                 			if(this.checkFn!="" && this.fnCheck!=""){
                 				 this.$refs.fkSpRanklevel.clearValidate();
@@ -295,6 +308,7 @@ var data={
 	                    		uploadData.append('type', 'test');
 	                    		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
 	                    		e.target.value = "";
+	                    		$("#startBoxExporting").show();
 	                    	}
                     	}
                     },
@@ -302,7 +316,7 @@ var data={
 //                    	this.$refs.refOnUpload.value = null;
                       this.formData.directorOpinionName=responseData.data.attachName;
                       this.formData.directorOpinionPath=responseData.data.uploadUrl;
-                      var fileHtml='<li><div class="fl updwon1">'+responseData.data.attachName+'</div><i class="el-icon-close fl del1"></i></li>'
+                      var fileHtml='<li><div class="fl updwon1" id="shangc">'+responseData.data.attachName+'</div><i class="el-icon-close fl del1"></i></li>'
                       $("#fileList").html(fileHtml);
                       $(".del1").click(function(){
                         $(this).parent("li").remove();
@@ -315,6 +329,7 @@ var data={
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });*/
                       this.$refs.directorOpinionName.clearValidate();
+                      $("#startBoxExporting").hide();
                     },
                     onUpload1: function(e){
                     	
@@ -349,6 +364,7 @@ var data={
 	                    		uploadData.append('type', 'test');
 	                    		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod1);
 	                    		e.target.value = "";
+	                    		$("#startBoxExporting").show();
 	                    	}
                     	}
 
@@ -357,7 +373,7 @@ var data={
 //                    	this.$refs.refOnUpload1.value = null;
                       this.formData.gradingReportName=responseData.data.attachName;
                       this.formData.gradingReportPath=responseData.data.uploadUrl;
-                      var fileHtml='<li><div class="fl updwon2">'+responseData.data.attachName+'</div><i class="el-icon-close fl del2"></i></li>'
+                      var fileHtml='<li><div class="fl updwon2" id="shangc1">'+responseData.data.attachName+'</div><i class="el-icon-close fl del2"></i></li>'
                       $("#fileList1").html(fileHtml);
                       this.$refs.gradingReportName.clearValidate();
                       this.$refs.gradingReportName1.clearValidate();
@@ -371,7 +387,7 @@ var data={
                         //$(this).parent("li").remove();
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });*/
-                     
+                     	$("#startBoxExporting").hide();
                     },
                     onUpload2: function(e){
                     	var fileSize;
@@ -405,6 +421,7 @@ var data={
 	                    		uploadData.append('type', 'test');
 	                    		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
 	                    		e.target.value = "";
+	                    		$("#startBoxExporting").show();
 	                    	}
                     	}
                     },
@@ -412,7 +429,7 @@ var data={
 //                    	this.$refs.refOnUpload2.value = null;
                       this.formData.expertReviewName=responseData.data.attachName;
                       this.formData.expertReviewPath=responseData.data.uploadUrl;
-                      var fileHtml='<li><div class="fl updwon3">'+responseData.data.attachName+'</div><i class="el-icon-close fl del3"></i></li>'
+                      var fileHtml='<li><div class="fl updwon3"  id="shangc2">'+responseData.data.attachName+'</div><i class="el-icon-close fl del3"></i></li>'
                       $("#fileList2").html(fileHtml);
                       $(".del3").click(function(){
                         $(this).parent("li").remove();
@@ -425,6 +442,7 @@ var data={
                         _self.fileDownload(responseData.data.uploadUrl,1,responseData.data.attachName);
                       });*/
                       this.$refs.expertReviewName.clearValidate();
+                      $("#startBoxExporting").hide();
                     },
                     fileDel:function(path,type){
                       var url='';

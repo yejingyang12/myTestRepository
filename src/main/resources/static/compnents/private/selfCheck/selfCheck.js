@@ -320,6 +320,7 @@
             		uploadData.append('type', 'test');
             		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
             		e.target.value = "";
+            		$("#startBoxExporting").show();
             	}
           	}
 					},
@@ -328,6 +329,7 @@
 						_self.editParam.examinationReportName=responseData.data.attachName;
 						_self.editParam.examinationReportPath=responseData.data.uploadUrl;
 						_self.$refs.examinationReportName.clearValidate();
+						$("#startBoxExporting").hide();
 					},
           onUpload2: function(e){
           	var fileSize;
@@ -361,6 +363,7 @@
             		uploadData.append('type', 'test');
             		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod2);
             		e.target.value = "";
+            		$("#startBoxExporting").show();
             	}
           	}
 					},
@@ -369,6 +372,7 @@
 						_self.editParam.examinationRectificationReportName=responseData.data.attachName;
 						_self.editParam.examinationRectificationReportPath=responseData.data.uploadUrl;
 						_self.$refs.examinationRectificationReportName.clearValidate();
+						$("#startBoxExporting").hide();
 					},
 					fileDel:function(path,deleteFileType){
 						var _self = this;

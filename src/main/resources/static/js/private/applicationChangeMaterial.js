@@ -67,6 +67,7 @@ window.onload = function () {
           cancelSaveSuccess:function(){
           	bus.$emit('placeContent',this);
           	this.saveSuccess = false;
+          	this.changeFlag = true;
           	ajaxMethod(this, 'post',
                 'main/removeSession', true,JSON.stringify(''), 'json',
                 'application/json;charset=UTF-8',this.removeSessionSuccess);
@@ -76,18 +77,22 @@ window.onload = function () {
           	var _self = this;
         		//如果上次保存完又改动过数据，出提示保存弹窗
           	bus.$emit('judgeChange','change');
-          	if(_self.flag1){
-          		if(_self.saveYesOrNo){//已经保存，可以提交,出提交弹窗
+          	//保存，点击提交
+          	if(_self.saveYesOrNo){
           			setTimeout(function(){
             			_self.submitBtn('formData');
-         			 },1000);
-          		}else{
-          			//保存成功，但是取消提交，现在另外点击提交
-              	this.yesOrNotSubmit = true;
+         			 	},1000);
+          	}else{//保存没提交，或，没保存
+          		if(_self.changeFlag){//判断是否点击过保存
+          			//保存但取消提交
+          			if(_self.flag1){//数据没有改变
+          				_self.yesOrNotSubmit = true;
+          			}else{//数据改变
+          				_self.saveThePrompt = true;
+          			}
+          		}else{//没有点击过保存
+          			_self.saveThePrompt = true;
           		}
-          	}else{
-          		//本页数据改变，需要重新保存
-          		this.saveThePrompt = true;
           	}
         	},
           //提交

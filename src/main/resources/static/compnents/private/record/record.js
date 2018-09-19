@@ -197,6 +197,7 @@ var data1={
             		uploadData.append('type', 'test');
             		ajaxUploadMethod(this, 'POST','fileHandle/uploadFile', true,uploadData, 'json',this.onUploadSuccessMethod);
             		e.target.value = "";
+            		$("#startBoxImporting").css('display', 'block');
             	}
           	}
 					},
@@ -207,6 +208,7 @@ var data1={
 						/*var fileHtml='<li><div class="fl"  @click="fileDownload("\'+responseData.data.uploadUrl+\'")" >'+responseData.data.attachName+'</div><i @click="fileDel("'+responseData.data.uploadUrl+'")" class="el-icon-close fl"></i></li>'
 						$("#fileList").html(fileHtml);*/
 						this.$refs.recordReportName.clearValidate();
+						$("#startBoxImporting").css('display', 'none');
 					},
 					fileDel:function(uploadUrl,attachName,fileId){
 						this.formData.recordReportName='';

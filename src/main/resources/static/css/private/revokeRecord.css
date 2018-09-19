@@ -52,8 +52,8 @@ label{
     line-height:60px;
 }
 .revoke{
-    width: 65%;
-    height: 65%;
+    width: 45%;
+    height: 55% !important;
     position: absolute;
     top:0;
     left:0;

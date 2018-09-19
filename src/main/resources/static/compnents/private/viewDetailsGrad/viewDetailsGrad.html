@@ -268,9 +268,9 @@
                 <span class="col-md-3 text-right">定级报告：</span>
                 <span class="col-md-6 text-left" @mouseenter="thingMove1()" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;"><a @click="download(formData.gradingReportId)" style="cursor:pointer" class="thingName1">{{formData.gradingReportName}}</a></span>
             </p>
-            <p class="col-md-6" style="margin-left:70px;width:400px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            <p class="col-md-6" style="margin-left:70px;width:400px;">
                 <span class="col-md-5 text-right">定级报告名称：</span>
-                <span class="col-md-6 text-left thingName1"  @mouseenter="thingMove1()">{{formData.gradingReportName}}</span>
+                <span class="col-md-6 text-left thingName1"  @mouseenter="thingMove1()" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{formData.gradingReportName}}</span>
             </p>
         </li>
         <li class="col-md-12">

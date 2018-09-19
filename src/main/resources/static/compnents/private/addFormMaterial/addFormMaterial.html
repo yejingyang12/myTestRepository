@@ -25,16 +25,9 @@
 						        </el-dialog>
 						        <!-- 文件限制弹窗 end  -->
 						        <!-- 验证提示框 start -->
-						        <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
-						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
-						        	<div class="ceshi" style="text-align:center;">
-						        		<p style="float:none">验证有误，请检查填写信息</p>		
-						        	</div>
-						        	 <div slot="footer" class="dialog-footer">
-						    			<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
-						    			<el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
-						  			</div>	
-						        </el-dialog>
+						        <div class="startBox" id="startBoxImportFailed" style="display:none;">
+                                   <i class="el-icon-warning" style="display:block;color:#D81E06;font-size:32px;float:left;margin-right:12px;"></i><P>上传失败！</P>
+                                </div>
 						         <!-- 验证提示框 end -->
 						          <!-- 验证是否是相同文件 start -->
 						        <el-dialog lock-scroll  :close-on-click-modal="ceshi3"  title="提示" :visible.sync="dialogVisibleds" width="30%">
@@ -174,11 +167,11 @@
                     <div class="col-md-12">
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 text-right sysTitle P-sysTitle">7.上级主管部门审批意见：</label>
-                            <p class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.directorOpinionId)">{{formData.directorOpinionName}}</p>
+                            <p class="downDoc col-md-6 P-addForm-fj" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" @click="downloadFile(formData.directorOpinionId)" @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">{{formData.directorOpinionName}}</p>
                         </div>
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-9 text-left dixName">{{formData.directorOpinionName}}</p>
+                            <p class="col-md-9 text-left dixName"  style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"  @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">{{formData.directorOpinionName}}</p>
                         </div>
                     </div>
                 </li>
@@ -186,6 +179,9 @@
                 <slot name="materialChangeBtn"></slot>
             </ul>
         </el-form>
+    </div>
+    <div class="startBox" id="startBoxImporting" style="display:none;width:300px;margin-left:-150px;">
+      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>加载中</P>
     </div>
 </div>
 

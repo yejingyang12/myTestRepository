@@ -473,7 +473,7 @@ var  data={
         systemKeyOtherName:'',
         systemProServices:''
       },
-      loading:true
+      loading:false
     };
 
 (function () {
@@ -1580,6 +1580,7 @@ var  data={
 //                    },
                 },
                 created: function() {
+                	this.loading = true;
                 	//获取权限
                 	this.getPermitJurisdictionInfo(this);
                 	if(type == "new" || type == "create"){
@@ -1637,7 +1638,6 @@ var  data={
                   //让开始内容与开始的formData一致
                   this.beginContent.companyId = companyId;
                   this.beginContent.fkCompanyCode = companyCode;
-                  this.loading=false;
                   if(companyCode==''||companyCode==null){
                     this.companyNameDisabled = false;
                   }
@@ -1831,6 +1831,9 @@ var  data={
 //                  });
 									//获取数组信息
                   this.headleArrayMethod(this);
+                  setTimeout(function(){
+                    _self.loading=false;
+                  },1);
                 }
             })
         })

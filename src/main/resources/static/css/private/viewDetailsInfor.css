@@ -38,18 +38,23 @@ li{
 }
 .infName{
     padding: 0;
-    margin-left: -15px;
 }
 .fomName{
     margin-left:15px;
 }
 .perName{
     width: 27%;
-    margin-left: -25px;
+    margin-left: -12px;
     padding: 0;
 }
-.senName{
-    margin-left:15px;
+.col-md-3{
+    padding-right: 0px;
+}
+.col-md-8{
+    padding-left:10px;
+}
+.col-md-4,.col-md-5,.col-md-2{
+   padding-right:0px;
 }
 /*表二*/
 .sysTitle{

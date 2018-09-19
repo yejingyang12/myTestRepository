@@ -1,9 +1,9 @@
-<div class="container h-padding" style="margin:0">
+<div class="container h-padding" style="margin:0"  v-loading="loading"  element-loading-text="加载中">
 	<!-- 批量导入 -->
 	<div id="dialog"  class="evaluationAlert hDiaSelfCheck"
 		style="display: none;position: fixed;top:0;left: 0;background: rgba(0,0,0,0.5);width:100%;height:100%;z-index:100">
 		<div class="evaluation"
-			style="padding:15px;border: 1px solid #cecece;background:#fff; width: 65%;height:65%;  position: absolute;top: 0;left: 0;bottom:0;right:0;margin:auto;  z-index: 1s2;">
+			style="padding:15px;border: 1px solid #cecece;background:#fff; width: 65%;height:35%;  position: absolute;top: 0;left: 0;bottom:0;right:0;margin:auto;  z-index: 1s2;">
 			<p class="clearfix cut" style="margin:10px 0 0 0 ">
 			<span class="fr tianMsg">带“ <span class="xing">*</span>”为必填项
 			</span>
@@ -27,14 +27,14 @@
 						<el-form-item label="上传附件：" prop="importSystemInfo" style="margin-left: -35px;">
 						<div class="clearfix sysText col-md-12 uploadBox" style="width: 107%;margin-left: -35px;">
 							<div class="uploadSty">
-								<ul class="fileList" id="fileList">
+								<ul class="fileList" id="fileList" style="margin-left:20px !important;">
 									<li v-if="!(systemForm.importSystemInfo == null || systemForm.importSystemInfo =='')">
 										<div class="fl">{{systemForm.importSystemInfo}}</div> 
 										<i @click="fileDel(systemForm.importSystemPath)" class="el-icon-close fl"></i>
 									</li>
 								</ul>
-								<el-button type="primary" size="small"
-									style="bottom:26px;background: rgb(61,149,223);">选择文件</el-button>
+                            <el-button type="primary" size="small"
+                                style="bottom:26px;background: rgb(61,149,223);right:18px !important">选择文件</el-button>
 							</div>
 							<input type="file" value="" id="file" @change='onUpload'
 								ref="refOnUpload">
@@ -182,7 +182,7 @@
                             <td style="color:#1e91e2;">
                               <!--class="hide3"-->
                               <a class="hide3">
-                                <el-button @click="handleClick(item.systemId)" type="text" size="small">编辑</el-button>
+                                <el-button @click="handleClick(item.systemId)" type="text" size="small" id="bianj1">编辑</el-button>
                               </a>
                             </td>
                         </tr>
@@ -225,7 +225,7 @@
         </div>
     </div>
     <div class="startBox" id="startBoxExporting" style="display:none;width:300px;margin-left:-150px;z-index:999 !important;">
-      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>正在导出，请耐心等待...</P>
+      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>加载中</P>
     </div>
     <div class="startBox" id="startBoxTest" style="display:none;">
       <i class="el-icon-circle-check"  style="color:#5DAE51;"></i><P>导入成功!</P>

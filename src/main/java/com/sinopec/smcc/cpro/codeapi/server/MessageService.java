@@ -40,8 +40,9 @@ public interface MessageService {
    *                          "5":总部审核未通过
    *                          
    * @param checkReason   审核原因
+   * @param systemId   系统ID
    */
   void sendMessageForCheck(String[] toAddresses, String[] copyAddresses, Integer checkType, 
-      String checkResult, String checkReason);
+      String checkResult, String checkReason, String systemId);
 
 }

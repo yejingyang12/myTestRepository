@@ -194,7 +194,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 }
 .fileList li i{
     margin-left:5px;
-    border-left: 1px solid #5AA5E4;
+    border-left: 1px solid #5AA5E4 !important;
     width:22px;
     text-align: center;
     height: 22px;

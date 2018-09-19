@@ -217,7 +217,7 @@
     headquarters:false,
     enterprise:false,
     nameList:[],
-    loading: true
+    loading: false
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/home/home.html').then(function (res) {
@@ -227,6 +227,7 @@
           return data;
         },
         created: function() { 
+        	this.loading = true;
           // 获取系统名称
           this.getSystemName(this);
           // 获取单位名称
@@ -519,7 +520,6 @@
           // 获取系统名称下拉列表成功
           getSystemNameSuccess : function(_self, systemList) {
           		_self.system = systemList.data;
-              this.loading=false;
           },
           // 获取单位名称下拉列表
           getCompanyName : function(_self) {
@@ -1478,7 +1478,9 @@
           }else{
         	  $("#h-bread").hide();
           }
-          
+          setTimeout(function(){
+          	data.loading = false;
+          },1);
         },
        /* destroyed () {
         	  data.timer=null;
