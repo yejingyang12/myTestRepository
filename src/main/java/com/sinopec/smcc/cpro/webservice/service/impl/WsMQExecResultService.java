@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.webservice.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -116,7 +117,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
       List<AppVariableData> variableList, String appId) {
     return true;
   }
-
+  
   /**
      * 活动下待办生成回调
      * @param businessId 对应的业务Id
@@ -134,11 +135,14 @@ public class WsMQExecResultService implements ISFMQExecResult {
   @Override
   public boolean sendTask(String businessId, String activityId, String activityName, List<String> taskIdList,
       List<String> executorIdList, String categoryCode, Integer result, String message,
-      List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {
-    String a [] = {"893651487@qq.com"};
-    this.messageSenderImpl.noticeSimpleMailSend(a, null, "cccc", "aaaaaaa");
-    
-    
+      List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {   
+    Date date1 = new Date();
+    long timeStamp1 = date1.getTime()+1;
+    Date date2 = new Date();
+    long timeStamp2 = date2.getTime();
+    for(;timeStamp1>timeStamp2;){
+      timeStamp2 = new Date().getTime();
+    }
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
