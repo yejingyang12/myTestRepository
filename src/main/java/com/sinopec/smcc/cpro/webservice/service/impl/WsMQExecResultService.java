@@ -141,7 +141,11 @@ public class WsMQExecResultService implements ISFMQExecResult {
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
     Integer checkType = 0;
     String auditReasons = "";
+    workFlowParam.setAuditReasons("测试邮件1");
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     if(workFlowResult != null){
+      workFlowParam.setAuditReasons("测试邮件2");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(workFlowResult.getBusinessName().equals("定级")){
         checkType = 1;
       }else if(workFlowResult.getBusinessName().equals("申请变更")){
@@ -153,22 +157,33 @@ public class WsMQExecResultService implements ISFMQExecResult {
       if(workFlowResult.getCheckResult() == 3 || workFlowResult.getCheckResult() == 5){
         auditReasons = workFlowResult.getAuditReasons();
       }
+      workFlowParam.setAuditReasons("测试邮件3");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
+        workFlowParam.setAuditReasons("测试邮件4");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //获取始发人用户信息
         UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
+        
+        workFlowParam.setAuditReasons("测试邮件5" + orgCode);
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //通过用户id 拼接邮箱
         for(String userId : executorIdList){
           UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
           //判断所属单位是否相同
           if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
+            workFlowParam.setAuditReasons("测试邮件6");
+            workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
             if(StringUtils.isNotBlank(userDTO.getEmail())){
               email +=userDTO.getEmail() + ",";
             }
             userIds += userId + ",";
           }
+          workFlowParam.setAuditReasons("测试邮件7"+userIds+"---"+email);
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         }
       }else{
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
@@ -178,11 +193,19 @@ public class WsMQExecResultService implements ISFMQExecResult {
           email = userDTO.getEmail() + ",";
         }
       }
+      
+      workFlowParam.setAuditReasons("测试邮件8");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
+        workFlowParam.setAuditReasons("测试邮件9" + emailArr);
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons);
+        
+        workFlowParam.setAuditReasons("测试邮件10");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
