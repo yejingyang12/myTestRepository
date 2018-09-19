@@ -180,7 +180,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
       }
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
-        workFlowParam.setAuditReasons(email);
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons);

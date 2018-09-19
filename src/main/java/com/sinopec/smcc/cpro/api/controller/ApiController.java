@@ -59,7 +59,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.GET)
-  public RetResult<List<CproResultParam>> querySystemTrendByYear(HttpServletRequest request,
+  public RetResult<List<CproResultParam>> querySystemTrendByYear(
       @RequestParam("systemType") Integer paramInteger, @RequestParam("userId") String paramString1,
       @RequestParam("year") String paramString2) throws BusinessException{
     DiagramParam diagramParam = new DiagramParam();
@@ -68,7 +68,7 @@ public class ApiController {
     diagramParam.setYear(paramString2);
     // 调用service实体，获得
     List<CproResultParam> diagramListResult = this.diagramServiceImpl.
-        queryApiSystemTrendByYear(request,diagramParam);
+        queryApiSystemTrendByYear(diagramParam);
     return RetResultUtil.ok(diagramListResult);
   }
   

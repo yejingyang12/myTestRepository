@@ -180,6 +180,26 @@
               return data;
             },
             methods : {
+            	onTelNumberBlur:function(){
+            		var compPrincipalWorkTel = this.formData.compPrincipalWorkTel;
+            		var ref = /^0\d{2,4}-\d{7,8}$/;
+            		var juger = ref.exec(compPrincipalWorkTel);
+            		if(juger == null&&compPrincipalWorkTel!=''){
+            			$("#clues").height("20");
+            		}else{
+            			$("#clues").height("0");
+            		}
+            	},
+            	onTelNumberBlur1:function(){
+            		var ldContactWorkTel = this.formData.ldContactWorkTel;
+            		var ref = /^0\d{2,3}-\d{7,8}$/;
+            		var juger = ref.exec(ldContactWorkTel);
+            		if(ldContactWorkTel==''||juger == null){
+            			$("#clues1").height("20");
+            		}else{
+            			$("#clues1").height("0");
+            		}
+            	},
               // 点击切换 添加class名
               getClass : function(e) {
                 $("#baseMes1 div div").click(function(){

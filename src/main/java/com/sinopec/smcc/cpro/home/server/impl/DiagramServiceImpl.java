@@ -17,12 +17,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.pcitc.ssc.dps.inte.workflow.AppTaskOpinionData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
@@ -350,9 +353,10 @@ public class DiagramServiceImpl implements DiagramService {
    * 系统等保管理趋势
    */
   @Override
-  public List<CproResultParam> queryApiSystemTrendByYear(HttpServletRequest request,
-      DiagramParam diagramParam)throws BusinessException {
-    
+  public List<CproResultParam> queryApiSystemTrendByYear(DiagramParam diagramParam)
+      throws BusinessException {
+    HttpServletRequest request = 
+        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     if(StringUtils.isNotBlank(diagramParam.getUserId())){
       request.getSession().setAttribute("userId", diagramParam.getUserId());
     }

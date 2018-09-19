@@ -78,8 +78,8 @@ public interface DiagramService {
    * @param diagramParam
    * @return
    */
-  List<DiagramListResult> querySystemTrendByYear(HttpServletRequest request, DiagramParam diagramParam) 
-      throws BusinessException; 
+  List<DiagramListResult> querySystemTrendByYear(HttpServletRequest request, 
+      DiagramParam diagramParam) throws BusinessException; 
   
   /**
    * @Descrption 系统等保管理趋势
@@ -89,7 +89,7 @@ public interface DiagramService {
    * @param diagramParam
    * @return
    */
-  List<CproResultParam> queryApiSystemTrendByYear(HttpServletRequest request, DiagramParam diagramParam) 
+  List<CproResultParam> queryApiSystemTrendByYear(DiagramParam diagramParam) 
       throws BusinessException; 
 
 }
