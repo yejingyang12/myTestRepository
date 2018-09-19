@@ -11,8 +11,6 @@ package com.sinopec.smcc.cpro.api.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +57,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/querySystemTrendByYear", method = RequestMethod.GET)
-  public RetResult<List<CproResultParam>> querySystemTrendByYear(HttpServletRequest request,
+  public RetResult<List<CproResultParam>> querySystemTrendByYear(
       @RequestParam("systemType") Integer paramInteger, @RequestParam("userId") String paramString1,
       @RequestParam("year") String paramString2) throws BusinessException{
     DiagramParam diagramParam = new DiagramParam();
@@ -68,7 +66,7 @@ public class ApiController {
     diagramParam.setYear(paramString2);
     // 调用service实体，获得
     List<CproResultParam> diagramListResult = this.diagramServiceImpl.
-        queryApiSystemTrendByYear(request,diagramParam);
+        queryApiSystemTrendByYear(diagramParam);
     return RetResultUtil.ok(diagramListResult);
   }
   
@@ -148,7 +146,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/editGetSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<CproResultParam> editGetSystemRelationInfo(HttpServletRequest request,
+  public RetResult<CproResultParam> editGetSystemRelationInfo(
       @RequestBody CproForeignRequestParam paramCproForeignRequestParam) throws BusinessException{
     // 调用service实体，获得
     CproResultParam cproResultParam = this.apiServiceImpl.
@@ -182,7 +180,7 @@ public class ApiController {
    * @throws BusinessException
    */
   @RequestMapping(value = "/deleteSystemRelationInfo", method = RequestMethod.POST)
-  public RetResult<Boolean> deleteSystemRelationInfo(HttpServletRequest request,
+  public RetResult<Boolean> deleteSystemRelationInfo(
       @RequestBody CproForeignRequestParam paramCproForeignRequestParam) throws BusinessException{
     // 调用service实体，获得
     boolean booValue = this.apiServiceImpl.

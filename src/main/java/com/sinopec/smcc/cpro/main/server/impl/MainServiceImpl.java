@@ -396,7 +396,6 @@ public class MainServiceImpl implements MainService{
         //受理备案单位
         cellList.add(ExcelUtils.getExportCelBean(mainResult.getAcceptCompany()));
         //变更记录(从节点表中)
-        String changeMatter = "";
         NodeParam nodeParam = new NodeParam();
         nodeParam.setSystemId(mainResult.getSystemId());
         NodeResult nodeResult = this.nodeServiceImpl.queryChangeInformation(nodeParam);
