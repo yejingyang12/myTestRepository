@@ -141,6 +141,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
     Integer checkType = 0;
     String auditReasons = "";
+    
+    workFlowParam.setAuditReasons("邮件");
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     if(workFlowResult != null){
       if(workFlowResult.getBusinessName().equals("定级")){
         checkType = 1;
@@ -156,6 +159,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
       String email = "";
       String userIds = "";
       if(!ObjectUtils.isEmpty(executorIdList)){
+        workFlowParam.setAuditReasons("邮件1");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //获取始发人用户信息
         UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
@@ -178,11 +183,17 @@ public class WsMQExecResultService implements ISFMQExecResult {
           email = userDTO.getEmail() + ",";
         }
       }
+      workFlowParam.setAuditReasons("邮件2");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
+        workFlowParam.setAuditReasons("邮件3"+emailArr +"_____"+workFlowResult.getSystemId());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
+        workFlowParam.setAuditReasons("邮件4");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
