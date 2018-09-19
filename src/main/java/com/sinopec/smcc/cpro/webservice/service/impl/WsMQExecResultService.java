@@ -155,11 +155,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
       }
       String email = "";
       String userIds = "";
-      workFlowParam.setNextApprover("测试");
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-      if(!ObjectUtils.isEmpty(executorIdList)){
-        workFlowParam.setNextApprover("测试1"+executorIdList.toString());
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      if(!ObjectUtils.isEmpty(executorIdList) && (workFlowResult.getCheckResult() == 3 ||
+          workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() == 5)){
         //获取始发人用户信息
         UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
@@ -177,7 +174,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
         workFlowParam.setNextApprover("测试66"+userIds+"----"+email);
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }else{
-        
         workFlowParam.setNextApprover("测试2");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
@@ -198,7 +194,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
         }
-        workFlowParam.setNextApprover("测试4"+userIds);
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     }
