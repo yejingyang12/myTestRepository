@@ -171,6 +171,13 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     workFlowParam.setBusinessId(businessId);
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+    Date date1 = new Date();
+    long timeStamp1 = date1.getTime()+3000;
+    Date date2 = new Date();
+    long timeStamp2 = date2.getTime();
+    for(;timeStamp1>timeStamp2;){
+      timeStamp2 = new Date().getTime();
+    }
     
     //提交通过流程
     ExecuteContext executeContext = new ExecuteContext();
@@ -197,6 +204,13 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     workFlowParam.setAuditReasons(auditReasons);
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     
+    Date date1 = new Date();
+    long timeStamp1 = date1.getTime()+3000;
+    Date date2 = new Date();
+    long timeStamp2 = date2.getTime();
+    for(;timeStamp1>timeStamp2;){
+      timeStamp2 = new Date().getTime();
+    }
     PagedList appPagedTODOTask = 
         dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){

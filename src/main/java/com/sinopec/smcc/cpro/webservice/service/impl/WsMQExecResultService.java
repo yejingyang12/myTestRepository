@@ -135,7 +135,15 @@ public class WsMQExecResultService implements ISFMQExecResult {
   @Override
   public boolean sendTask(String businessId, String activityId, String activityName, List<String> taskIdList,
       List<String> executorIdList, String categoryCode, Integer result, String message,
-      List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {   
+      List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) { 
+    
+    Date date1 = new Date();
+    long timeStamp1 = date1.getTime()+3000;
+    Date date2 = new Date();
+    long timeStamp2 = date2.getTime();
+    for(;timeStamp1>timeStamp2;){
+      timeStamp2 = new Date().getTime();
+    }
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
@@ -183,7 +191,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
         
         workFlowParam.setNextApprover("3测试"+workFlowResult.getCheckResult());
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-      //如果企业审核通过
+       //如果企业审核通过
         //如果是撤销备案
         if(checkType == 2){
           //如果撤销备案通过，则获取始发人邮箱 
