@@ -136,18 +136,12 @@ public class WsMQExecResultService implements ISFMQExecResult {
   public boolean sendTask(String businessId, String activityId, String activityName, List<String> taskIdList,
       List<String> executorIdList, String categoryCode, Integer result, String message,
       List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) { 
-    
-    Date date1 = new Date();
-    long timeStamp1 = date1.getTime()+3000;
-    Date date2 = new Date();
-    long timeStamp2 = date2.getTime();
-    for(;timeStamp1>timeStamp2;){
-      timeStamp2 = new Date().getTime();
-    }
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    workFlowParam.setSystemId(workFlowResult.getCheckResult().toString());
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     Integer checkType = 0;
     String auditReasons = "";
     if(workFlowResult != null){
@@ -235,7 +229,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
 //        if(StringUtils.isNotBlank(userIds)){
 //          workFlowParam.setNextApprover(userIds);
 //        }
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+//        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     }
     return true;
