@@ -140,8 +140,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
       = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-    workFlowParam.setSystemId(workFlowResult.getCheckResult().toString());
-    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
     Integer checkType = 0;
     String auditReasons = "";
     if(workFlowResult != null){
