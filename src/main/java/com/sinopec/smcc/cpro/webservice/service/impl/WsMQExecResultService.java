@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.webservice.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -116,7 +117,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
       List<AppVariableData> variableList, String appId) {
     return true;
   }
-
+  
   /**
      * 活动下待办生成回调
      * @param businessId 对应的业务Id
@@ -134,7 +135,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
   @Override
   public boolean sendTask(String businessId, String activityId, String activityName, List<String> taskIdList,
       List<String> executorIdList, String categoryCode, Integer result, String message,
-      List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {
+      List<AppMetasData> metasList, List<AppVariableData> variableList, String appId) {   
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     WorkFlowResult workFlowResult
@@ -155,38 +156,77 @@ public class WsMQExecResultService implements ISFMQExecResult {
       }
       String email = "";
       String userIds = "";
-      if(!ObjectUtils.isEmpty(executorIdList)){
-        //获取始发人用户信息
-        UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-        String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
-        //通过用户id 拼接邮箱
-        for(String userId : executorIdList){
-          UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-          //判断所属单位是否相同
-          if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
-            if(StringUtils.isNotBlank(userDTO.getEmail())){
-              email +=userDTO.getEmail() + ",";
+      
+      //如果是企业/总部发起审核，并且下级审批人不为空，则给下级审批人发送邮件
+      if(workFlowResult.getCheckResult() == 0 || workFlowResult.getCheckResult() == 1 ){
+        workFlowParam.setNextApprover("1测试");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        if(!ObjectUtils.isEmpty(executorIdList)){
+          workFlowParam.setNextApprover("2测试"+workFlowResult.getCheckResult());
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+          //获取始发人用户信息
+          UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+          String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
+          //通过用户id 拼接邮箱
+          for(String userId : executorIdList){
+            UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
+            //判断所属单位是否相同
+            if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
+              if(StringUtils.isNotBlank(userDTO.getEmail())){
+                email +=userDTO.getEmail() + ",";
+              }
+              userIds += userId + ",";
             }
-            userIds += userId + ",";
+          }
+        }
+      }else if(workFlowResult.getCheckResult() == 2){
+        
+        workFlowParam.setNextApprover("3测试"+workFlowResult.getCheckResult());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      //如果企业审核通过
+        //如果是撤销备案
+        if(checkType == 2){
+          //如果撤销备案通过，则获取始发人邮箱 
+          UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+          email = userDTO.getEmail() + ",";
+        }else{
+          
+          workFlowParam.setNextApprover("4测试"+workFlowResult.getCheckResult());
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+          if(!ObjectUtils.isEmpty(executorIdList)){
+            //获取始发人用户信息
+            UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+            String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
+            //通过用户id 拼接邮箱
+            for(String userId : executorIdList){
+              UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
+              //判断所属单位是否相同
+              if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
+                if(StringUtils.isNotBlank(userDTO.getEmail())){
+                  email +=userDTO.getEmail() + ",";
+                }
+                userIds += userId + ",";
+              }
+            }
           }
         }
       }else{
-        //如果审核结果为总部通过或总部未通过，则获取始发人邮箱
-        if(workFlowResult.getCheckResult() == 4 || workFlowResult.getCheckResult() ==5 || 
-            checkType ==2 || workFlowResult.getCheckResult() == 3) { 
-          UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-          email = userDTO.getEmail() + ",";
-        }
+        workFlowParam.setNextApprover("5测试"+workFlowResult.getCheckResult());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        //给始发人发送邮件
+        UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+        email = userDTO.getEmail() + ",";
       }
+      
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
         //添加下一步审批人
-        if(StringUtils.isNotBlank(userIds)){
-          workFlowParam.setNextApprover(userIds);
-        }
+//        if(StringUtils.isNotBlank(userIds)){
+//          workFlowParam.setNextApprover(userIds);
+//        }
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     }

@@ -166,8 +166,14 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   @Override
   public void reviewPass(String taskId,String userId,String userName,String checkResult,
       String businessId,String businessName) throws BusinessException {
+    //修改工作流信息
+    WorkFlowParam workFlowParam = new WorkFlowParam();
+    workFlowParam.setBusinessId(businessId);
+    workFlowParam.setCheckResult(Integer.parseInt(checkResult));
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+    
     //提交通过流程
-    final ExecuteContext executeContext = new ExecuteContext();
+    ExecuteContext executeContext = new ExecuteContext();
     executeContext.setAppId(dpsConfig.getAppId());
     executeContext.setExecutorId(userId);
     executeContext.setExecutorName(userName);
@@ -175,11 +181,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     executeContext.setExecuteDate(new Date());
     dpsTemplate.approveComplete(executeContext);
     
-    //修改工作流信息
-    WorkFlowParam workFlowParam = new WorkFlowParam();
-    workFlowParam.setBusinessId(businessId);
-    workFlowParam.setCheckResult(Integer.parseInt(checkResult));
-    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+    
   }
 
   /**
@@ -188,7 +190,14 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   @Override
   public void reviewNotThrough(String businessId,String userId,String userName,String checkResult,
       String businessName,String auditReasons) throws BusinessException {
-    final PagedList appPagedTODOTask = 
+    //修改工作流信息
+    WorkFlowParam workFlowParam = new WorkFlowParam();
+    workFlowParam.setBusinessId(businessId);
+    workFlowParam.setCheckResult(Integer.parseInt(checkResult));
+    workFlowParam.setAuditReasons(auditReasons);
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+    
+    PagedList appPagedTODOTask = 
         dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){
       List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
@@ -207,11 +216,5 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         }
       }
     }
-    //修改工作流信息
-    WorkFlowParam workFlowParam = new WorkFlowParam();
-    workFlowParam.setBusinessId(businessId);
-    workFlowParam.setCheckResult(Integer.parseInt(checkResult));
-    workFlowParam.setAuditReasons(auditReasons);
-    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
   }
 }
