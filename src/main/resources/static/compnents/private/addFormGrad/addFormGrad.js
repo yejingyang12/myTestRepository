@@ -1462,9 +1462,6 @@ var data={
                     	}else{
                     		_self.formData.gradeRecordSysName = result.data.gradeRecordSysName;
                     	}
-                    	if(){
-                    		
-                    	}
                     },
                     getPermitJurisdictionInfo: function(_self){
                       ajaxMethod(_self,"post",
