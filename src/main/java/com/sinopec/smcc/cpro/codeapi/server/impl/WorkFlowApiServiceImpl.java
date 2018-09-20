@@ -30,6 +30,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
+import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
@@ -171,24 +172,19 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     workFlowParam.setBusinessId(businessId);
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-    Date date1 = new Date();
-    long timeStamp1 = date1.getTime()+3000;
-    Date date2 = new Date();
-    long timeStamp2 = date2.getTime();
-    for(;timeStamp1>timeStamp2;){
-      timeStamp2 = new Date().getTime();
-    }
-    
+
+    WorkFlowResult workFlowResult
+      = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    if(workFlowResult.getCheckResult() == Integer.parseInt(checkResult)){
     //提交通过流程
-    ExecuteContext executeContext = new ExecuteContext();
-    executeContext.setAppId(dpsConfig.getAppId());
-    executeContext.setExecutorId(userId);
-    executeContext.setExecutorName(userName);
-    executeContext.setTaskId(taskId);
-    executeContext.setExecuteDate(new Date());
-    dpsTemplate.approveComplete(executeContext);
-    
-    
+      ExecuteContext executeContext = new ExecuteContext();
+      executeContext.setAppId(dpsConfig.getAppId());
+      executeContext.setExecutorId(userId);
+      executeContext.setExecutorName(userName);
+      executeContext.setTaskId(taskId);
+      executeContext.setExecuteDate(new Date());
+      dpsTemplate.approveComplete(executeContext);
+    } 
   }
 
   /**
@@ -203,30 +199,27 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowParam.setAuditReasons(auditReasons);
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-    
-    Date date1 = new Date();
-    long timeStamp1 = date1.getTime()+3000;
-    Date date2 = new Date();
-    long timeStamp2 = date2.getTime();
-    for(;timeStamp1>timeStamp2;){
-      timeStamp2 = new Date().getTime();
-    }
-    PagedList appPagedTODOTask = 
-        dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
-    if((appPagedTODOTask.getExecuteTaskList())!=null){
-      List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
-      String taskid=null;
-      for(ExecuteTaskData executeTaskList:list){
-        if(businessId.equals(executeTaskList.getBusinessId())){
-          taskid=executeTaskList.getTaskId();
-          ExecuteContext executeContext=new ExecuteContext();
-          executeContext.setAppId(SmccConsts.APPID);
-          executeContext.setExecutorId(userId);
-          executeContext.setExecutorName(userName);
-          executeContext.setTaskId(taskid);
-          executeContext.setExecuteDate(new Date());
-          dpsTemplate.approveRevert(executeContext);
-          break;
+
+    WorkFlowResult workFlowResult
+      = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    if(workFlowResult.getCheckResult() == Integer.parseInt(checkResult)){
+      PagedList appPagedTODOTask = 
+          dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+      if((appPagedTODOTask.getExecuteTaskList())!=null){
+        List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
+        String taskid=null;
+        for(ExecuteTaskData executeTaskList:list){
+          if(businessId.equals(executeTaskList.getBusinessId())){
+            taskid=executeTaskList.getTaskId();
+            ExecuteContext executeContext=new ExecuteContext();
+            executeContext.setAppId(SmccConsts.APPID);
+            executeContext.setExecutorId(userId);
+            executeContext.setExecutorName(userName);
+            executeContext.setTaskId(taskid);
+            executeContext.setExecuteDate(new Date());
+            dpsTemplate.approveRevert(executeContext);
+            break;
+          }
         }
       }
     }
