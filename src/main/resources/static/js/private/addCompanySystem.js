@@ -69,24 +69,29 @@ window.onload = function () {
           // 获取系统信息成功
           preBtnSuccessMethod : function(_self, responseData,boo) {
           	var systemId = responseData.data;
-          	if(data.headquarters){
-          		this.jurisdiction = 'headquarters';
-            	if(boo){
-                data.check = false;
-                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
-            	}else{
-                //$(".startBox").show().delay(2000).fadeOut();
-                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction+"&systemId="+systemId;
-
-              }
-          	}
-          	if(data.enterprise){
-            	if(boo){
-                data.check = false;
-                window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
-              }else{
-                  window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&systemId="+systemId;
-              }
+          	if(systemId){
+          		if(data.headquarters){
+          			this.jurisdiction = 'headquarters';
+          			if(boo){
+          				data.check = false;
+          				window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction;
+          			}else{
+          				//$(".startBox").show().delay(2000).fadeOut();
+          				window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&jurisdiction="+this.jurisdiction+"&systemId="+systemId;
+          				
+          			}
+          		}
+          		if(data.enterprise){
+          			if(boo){
+          				data.check = false;
+          				window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode;
+          			}else{
+          				window.location.href = originUrl+"page/addCompanyInfoPage?companyId="+companyId+"&companyCode="+companyCode+"&systemId="+systemId;
+          			}
+          		}
+          	}else{
+          		//提示系统已经存在
+          		$("#startBoxExistSystem").show().delay(2000).fadeOut();
           	}
           },
           removeSuccess:function(){
@@ -97,10 +102,15 @@ window.onload = function () {
           },
           // 获取系统信息成功
           nextBtnSuccessMethod : function(_self, responseData) {
-          	ajaxMethod(this, 'post',
-                'main/removeSystemSession', true,JSON.stringify(''), 'json',
-                'application/json;charset=UTF-8',this.removeSuccess);
-            window.location.href = originUrl+"page/addCompanyGradPage?systemId="+responseData.data+"&fkCompanyCode="+companyCode+"&companyId="+companyId;
+          	if(responseData.data){
+          		ajaxMethod(this, 'post',
+          				'main/removeSystemSession', true,JSON.stringify(''), 'json',
+          				'application/json;charset=UTF-8',this.removeSuccess);
+          		window.location.href = originUrl+"page/addCompanyGradPage?systemId="+responseData.data+"&fkCompanyCode="+companyCode+"&companyId="+companyId;
+          	}else{
+          		//提示系统已经存在
+          		$("#startBoxExistSystem").show().delay(2000).fadeOut();
+          	}
           },
           
           saveSystemInfoSuccessMethod :function(_self, responseData){

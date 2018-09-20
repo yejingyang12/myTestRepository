@@ -276,6 +276,29 @@ public class SystemServiceImpl implements SystemService {
     List<SystemUseServices> useList = systemParam.getSystemUseServices();
     List<SystemUseServices> subUseList = systemParam.getSystemUseServices();
     
+    
+    //如果有系统的标准化代码已经在数据库中存在
+    if(StringUtils.isNotBlank(systemParam.getStandardizedCode())){
+      SystemParam systemParamTemp = new SystemParam();
+      systemParamTemp.setStandardizedCode(systemParam.getStandardizedCode());
+      SystemResult systemResultTemp = this.systemMapper.selectSystemBysystemCode(systemParamTemp);
+      //父系统存在
+      if(systemResultTemp != null){
+        return null;
+      }
+      //子系统已经存在，返回null
+      if(systemCode != null){
+        for (SystemParam systemParamSonTemp : systemCode) {
+          SystemResult systemResultSonTemp = this.systemMapper.
+              selectSystemBysystemCode(systemParamSonTemp);
+          if(systemResultSonTemp != null){
+            return null;
+          }
+        }
+      }
+    }
+    
+    
     List<SystemParam> subSystemList = new ArrayList<SystemParam>();
     List<SystemKeyProducts> systemKeyProductsList = new ArrayList<SystemKeyProducts>();
     List<SystemUseServices> systemUseServicesList = new ArrayList<SystemUseServices>();

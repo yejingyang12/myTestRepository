@@ -845,11 +845,16 @@ var  data={
                     },
                     // 获取系统信息成功
                     fnSaveSuccessMethod : function(_self, responseData) {
-                      if(type=="change"){
-                        window.location.href = originUrl+encodeURI("applicationChangeGradPage?systemId="+responseData.data);
-                      }else{
-                        window.location.href = originUrl+encodeURI("addCompanyGradPage?systemId="+responseData.data);
-                      }
+                    	if(responseData.data){
+                    		if(type=="change"){
+                    			window.location.href = originUrl+encodeURI("applicationChangeGradPage?systemId="+responseData.data);
+                    		}else{
+                    			window.location.href = originUrl+encodeURI("addCompanyGradPage?systemId="+responseData.data);
+                    		}
+                    	}else{
+                    		//提示系统已存在
+                    		
+                    	}
                     },
                     //获取全部系统
                     getAllSystemInfoMethod : function(_self){
@@ -1611,6 +1616,7 @@ var  data={
                   //获取系统主管处室
 //                  this.getSystemExecutiveApi(this);
 //                  this.getMenuJurisdictionApi(this);
+                  this.loading = false;
                 },
                 mounted: function() {
                 	//功能权限

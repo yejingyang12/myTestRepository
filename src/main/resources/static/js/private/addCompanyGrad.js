@@ -14,13 +14,13 @@ window.onload = function () {
         		this.judgeType = judge;//1,上一步，2，返回
         		bus.$emit("judgeChange","add");
         		if(this.judgeType == 1){//上一步
-        			if(flag){
+        			if(this.flag1){
         				this.preBtnSuccessMethod('', '',true);
         			}else{
         				this.check = true;
         			}
         		}else if(this.judgeType == 2){//返回
-        			if(flag){//没有改动
+        			if(this.flag1){//没有改动
         				window.location.href = originUrl+"page/indexPage";
         			}else{
         				this.returnIndex = true;
