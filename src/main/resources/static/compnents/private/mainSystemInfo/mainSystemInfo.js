@@ -164,6 +164,7 @@ var data1={
           //回显上传文件
           onUploadSuccessMethod: function(_self,responseData){
           	this.$refs.refOnUpload.value = null;
+          	_self.$refs.importSystemInfo.clearValidate();
           	_self.systemForm.importSystemInfo = responseData.data.attachName;
           	_self.systemForm.importSystemPath = responseData.data.uploadUrl;
           	 $("#startBoxExporting").hide();
