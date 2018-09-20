@@ -227,7 +227,7 @@
           return data;
         },
         created: function() { 
-        	this.loading = true;
+        	this.loading = false;
           // 获取系统名称
           this.getSystemName(this);
           // 获取单位名称

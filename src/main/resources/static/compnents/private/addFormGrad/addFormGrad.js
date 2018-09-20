@@ -1449,17 +1449,21 @@ var data={
                     // 获取系统信息
                     getSystem : function(_self) {
                     	ajaxMethod(this, 'post',
-                        'system/querySystemInformationBySystemId', true,
+                        'system/querySystemInformationBySystemId', false,
                         '{"systemId":"'+systemId+'"}', 'json',
                         'application/json;charset=UTF-8',
                         this.getSystemSuccess);
                     } ,
                     getSystemSuccess : function(_self,result){
                     	this.formData.systemName = result.data.systemName;
-                    	if(result.data.gradeRecordSysName==''||result.data.gradeRecordSysName==null||result.data.gradeRecordSysName=='undefind'){
+                    	if(result.data.gradeRecordSysName==''||result.data.gradeRecordSysName==null||result.data.gradeRecordSysName=='undefind'
+                    		||_self.formData.gradeRecordSysName == ''||_self.formData.gradeRecordSysName == null||_self.formData.gradeRecordSysName == 'undefind'){
                     		_self.formData.gradeRecordSysName = result.data.systemName;
                     	}else{
                     		_self.formData.gradeRecordSysName = result.data.gradeRecordSysName;
+                    	}
+                    	if(){
+                    		
                     	}
                     },
                     getPermitJurisdictionInfo: function(_self){

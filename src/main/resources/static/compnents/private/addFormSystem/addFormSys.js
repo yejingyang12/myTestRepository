@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
+		indexFlag:"",
 		 pickerOptions0: {
 	          disabledDate:function(time) {
 	            //return time.getTime() < Date.now() - 8.64e7;
@@ -84,7 +85,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -92,7 +93,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -100,7 +101,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -108,7 +109,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -116,7 +117,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -124,7 +125,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         }],
         systemUseServices:[{
           fkResponsibleType:"",
@@ -302,7 +303,6 @@ var  data={
           ],
           systemKeyNUseProbability:[  // 关键产品
               { required: true, message: '请选择关键产品使用情况-使用国产品率', trigger: 'change' },
-//              { pattern: /\d/, message: '使用国产品率输入有误', trigger: 'blur'}
           ],
           systemKeyOtherName:[  // 关键产品
               { required: true, message: '请输入关键产品使用情况-其它名称', trigger: 'blur' }
@@ -376,7 +376,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -384,7 +384,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -392,7 +392,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -400,7 +400,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -408,7 +408,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         },{
           fkNationalIsProducts:"",
           fkExaminStatus:"",
@@ -416,7 +416,7 @@ var  data={
           nUseProbability:0,
           otherName:"",
           allHave:"",
-          number:""
+          number:0
         }],
         systemUseServices:[{
           fkResponsibleType:"",
@@ -1255,6 +1255,7 @@ var  data={
                     	if(_self.formData.systemKeyProducts!=null){
                       	  for(var k=0;k<currentContent.systemKeyProducts.length;k++){
                       		  if(!response.systemKeyProducts[k].productsNumber){//没填
+                      		  	_self.formData.systemKeyProducts[k].allHave="";
                       		  	_self.formData.systemKeyProducts[k].number = 0;
                       		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
                       		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
@@ -1585,7 +1586,7 @@ var  data={
 //                    },
                 },
                 created: function() {
-                	this.loading = true;
+                	this.loading = false;
                 	//获取权限
                 	this.getPermitJurisdictionInfo(this);
                 	if(type == "new" || type == "create"){

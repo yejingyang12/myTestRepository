@@ -641,7 +641,7 @@
               },
             },
             created : function() {
-            	this.loading = true;
+            	this.loading = false;
             	// 获取省份
             	this.getProvinceMethod(this);
             	// 获取隶属关系
@@ -666,6 +666,7 @@
             			this.getCompanyCode(this);
             		}
             	}
+            	this.loading = false;
             },
             mounted : function() {
 
