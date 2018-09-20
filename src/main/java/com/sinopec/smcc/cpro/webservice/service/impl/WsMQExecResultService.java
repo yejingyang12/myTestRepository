@@ -218,6 +218,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
         email = userDTO.getEmail() + ",";
       }
       
+      workFlowParam.setAuditReasons("审核不通过测试");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
