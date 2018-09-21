@@ -30,7 +30,6 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
-import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
@@ -135,9 +134,6 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         appExtendsData.setExt008(jurisdictionApiServiceImpl.getCompanyCode());
       }
       startContext.setExtendsData(appExtendsData);
-      //发起流程
-      dpsTemplate.initStart(startContext);
-      
       //创建工作流信息
       WorkFlowParam workFlowParam = new WorkFlowParam();
       workFlowParam.setWorkFlowId(Utils.getUuidFor32());
@@ -148,6 +144,9 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       workFlowParam.setUserId(String.valueOf(userDTO.getUserId()));
       workFlowParam.setSystemId(systemId);
       workFlowMapperImpl.insertWorkFlow(workFlowParam);
+      //发起流程
+      dpsTemplate.initStart(startContext);
+      
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -167,24 +166,20 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   @Override
   public void reviewPass(String taskId,String userId,String userName,String checkResult,
       String businessId,String businessName) throws BusinessException {
+    //提交通过流程
+    final ExecuteContext executeContext = new ExecuteContext();
+    executeContext.setAppId(dpsConfig.getAppId());
+    executeContext.setExecutorId(userId);
+    executeContext.setExecutorName(userName);
+    executeContext.setTaskId(taskId);
+    executeContext.setExecuteDate(new Date());
+    
     //修改工作流信息
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-
-    WorkFlowResult workFlowResult
-      = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-    if(workFlowResult.getCheckResult() == Integer.parseInt(checkResult)){
-    //提交通过流程
-      ExecuteContext executeContext = new ExecuteContext();
-      executeContext.setAppId(dpsConfig.getAppId());
-      executeContext.setExecutorId(userId);
-      executeContext.setExecutorName(userName);
-      executeContext.setTaskId(taskId);
-      executeContext.setExecuteDate(new Date());
-      dpsTemplate.approveComplete(executeContext);
-    } 
+    dpsTemplate.approveComplete(executeContext);
   }
 
   /**
@@ -193,33 +188,28 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
   @Override
   public void reviewNotThrough(String businessId,String userId,String userName,String checkResult,
       String businessName,String auditReasons) throws BusinessException {
-    //修改工作流信息
-    WorkFlowParam workFlowParam = new WorkFlowParam();
-    workFlowParam.setBusinessId(businessId);
-    workFlowParam.setCheckResult(Integer.parseInt(checkResult));
-    workFlowParam.setAuditReasons(auditReasons);
-    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-
-    WorkFlowResult workFlowResult
-      = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
-    if(workFlowResult.getCheckResult() == Integer.parseInt(checkResult)){
-      PagedList appPagedTODOTask = 
-          dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
-      if((appPagedTODOTask.getExecuteTaskList())!=null){
-        List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
-        String taskid=null;
-        for(ExecuteTaskData executeTaskList:list){
-          if(businessId.equals(executeTaskList.getBusinessId())){
-            taskid=executeTaskList.getTaskId();
-            ExecuteContext executeContext=new ExecuteContext();
-            executeContext.setAppId(SmccConsts.APPID);
-            executeContext.setExecutorId(userId);
-            executeContext.setExecutorName(userName);
-            executeContext.setTaskId(taskid);
-            executeContext.setExecuteDate(new Date());
-            dpsTemplate.approveRevert(executeContext);
-            break;
-          }
+    final PagedList appPagedTODOTask = 
+        dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
+    if((appPagedTODOTask.getExecuteTaskList())!=null){
+      //修改工作流信息
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(businessId);
+      workFlowParam.setCheckResult(Integer.parseInt(checkResult));
+      workFlowParam.setAuditReasons(auditReasons);
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
+      String taskid=null;
+      for(ExecuteTaskData executeTaskList:list){
+        if(businessId.equals(executeTaskList.getBusinessId())){
+          taskid=executeTaskList.getTaskId();
+          ExecuteContext executeContext=new ExecuteContext();
+          executeContext.setAppId(SmccConsts.APPID);
+          executeContext.setExecutorId(userId);
+          executeContext.setExecutorName(userName);
+          executeContext.setTaskId(taskid);
+          executeContext.setExecuteDate(new Date());
+          dpsTemplate.approveRevert(executeContext);
+          break;
         }
       }
     }

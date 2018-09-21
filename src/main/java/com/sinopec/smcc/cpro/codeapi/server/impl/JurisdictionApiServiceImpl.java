@@ -163,6 +163,95 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
     return jurisdictionDataResult;
   }
   
+  /**
+   * @Descrption  
+   * @author yejingyang
+   * @date 2018年9月21日上午10:40:09
+   * @param userDTO
+   * @return
+   */
+  @Override
+  public JurisdictionDataResult queryDataJurisdictionApi(UserDTO userDTO) {
+    JurisdictionDataResult jurisdictionDataResult = new JurisdictionDataResult();
+    List<AuthorizationDTO> jsonMenu = this.ubsTemplate.
+        getDataAuthByUserIdAfterChange(userDTO.getUserId()+"");
+//    JSONArray json = JSONArray.fromObject(jsonMenu); 
+//    String str = json.toString();//将json对象转换为字符串
+//    System.out.println(str);
+    boolean booValue = false;
+    List<String> codeList = new ArrayList<String>();
+    List<String> nameList = new ArrayList<String>();
+    List<String> permssionsList = new ArrayList<String>();
+    Map<String,List<String>> permitMap = new HashMap<String,List<String>>();
+    for (AuthorizationDTO authorizationDTO : jsonMenu) {
+      
+      List<String> permitList = new ArrayList<String>();
+      //增加权限许可
+      if (authorizationDTO.getPermissionList() != null) {
+        List<PermissionDTO> permissionDTOList = authorizationDTO.getPermissionList();
+        for (PermissionDTO permissionDTO : permissionDTOList) {
+          //申请变更权限
+          if(permissionDTO.getPermcode().equals("0102010106")){
+            booValue = true;
+          }
+          permitList.add(permissionDTO.getPermcode());
+          permssionsList.add(permissionDTO.getPermcode());
+        }
+      }
+      //通过等号切分
+      String[] rules = authorizationDTO.getRule().split("or");
+      if (rules.length>0) {
+        for (int i=0;i<rules.length;i++) {
+          
+          String[] orgInfo = rules[i].trim().split("=");
+          if(orgInfo.length<=1){
+            continue;
+          }
+          String orgCode = orgInfo[1].replace("'", "");
+          if (orgCode.trim().length()>8) {
+            orgCode = orgCode.trim().substring(0, 8);
+          }else {
+            orgCode = orgCode.trim();
+          }
+          codeList.add(orgCode);
+          if(booValue){
+            nameList.add(orgCode);
+          }
+        }
+        for (String strPermit : permitList) {
+          if(strPermit.equals("01020101")||strPermit.equals("01020102")
+              ||strPermit.equals("01020103")){
+            continue;
+          }
+          List<String> permit = new ArrayList<String>();
+          for (int i=0;i<rules.length;i++) {
+            
+            String[] orgInfo = rules[i].trim().split("=");
+            if(orgInfo.length<=1){
+              continue;
+            }
+            String orgCode = orgInfo[1].replace("'", "");
+            if (orgCode.trim().length()>8) {
+              orgCode = orgCode.trim().substring(0, 8);
+            }else {
+              orgCode = orgCode.trim();
+            }
+            permit.add(orgCode);
+          }
+          permitMap.put(strPermit, permit);
+        }
+        jurisdictionDataResult.setResultType("3");
+      }else{
+        jurisdictionDataResult.setResultType("0");
+      }
+      booValue = false;
+    }
+    jurisdictionDataResult.setPermitMap(permitMap);
+    jurisdictionDataResult.setPermssions(permssionsList);
+    jurisdictionDataResult.setCodeList(codeList);
+    jurisdictionDataResult.setNameList(nameList);
+    return jurisdictionDataResult;
+  }
   @Override
   public JurisdictionDataResult queryDataJurisdictionApi() {
     JurisdictionDataResult jurisdictionDataResult = new JurisdictionDataResult();

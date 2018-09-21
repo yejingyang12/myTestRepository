@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -691,23 +692,29 @@ public class MainServiceImpl implements MainService{
   public AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException {
     //String filePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/gradingTemp.xlsm";
-    String filePath = "src/main/resources/file/template/excel/exportExcelModel.xlsm";
+//    String filePath = "src/main/resources/file/template/excel/exportExcelModel.xlsm";
     String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds()+".xlsm";
-    String toFilePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/"+expName;
-    File fromFile = new File(filePath);
-    String fromFileAbsolutePath = fromFile.getAbsolutePath();
+    //String toFilePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/"+expName;
+    String toFilePath = MainConstant.TEMPORARY_FILE_PATH+expName;
+//    File fromFile = new File(filePath);
+//    String fromFileAbsolutePath = fromFile.getAbsolutePath();
     File toFile = new File(toFilePath);
     String toFileAbsolutePath = toFile.getAbsolutePath();
-    FileInputStream ins;
+//    FileInputStream ins;
     try {
-      ins = new FileInputStream(fromFileAbsolutePath);
-      FileOutputStream out = new FileOutputStream(toFileAbsolutePath);
+//      ins = new FileInputStream(fromFileAbsolutePath);
+      InputStream is = this.getClass().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
+      FileOutputStream out = new FileOutputStream(new File(toFileAbsolutePath));
       byte[] b = new byte[1024];
       int count=0;
-      while((count=ins.read(b))!=-1){
+//      while((count=ins.read(b))!=-1){
+//        out.write(b, 0, count);
+//      }
+//      ins.close();
+      while((count=is.read(b))!=-1){
         out.write(b, 0, count);
       }
-      ins.close();
+      is.close();
       out.close();
     } catch (FileNotFoundException e) {
       e.printStackTrace();

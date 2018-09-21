@@ -9,7 +9,6 @@
 */
 package com.sinopec.smcc.cpro.webservice.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -22,9 +21,11 @@ import com.pcitc.ssc.dps.inte.ISFMQExecResult;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
 import com.pcitc.ssc.dps.inte.workflow.AppVariableData;
 import com.sinopec.smcc.common.rabbitmq.MessageSender;
+import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
+import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
@@ -48,6 +49,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
   private MessageService messageServiceImpl;
   @Autowired
   private MessageSender messageSenderImpl;  
+  @Autowired
+  private JurisdictionApiService jurisdictionApiServiceImpl;
   
     /**
      * 流程发起，指令发送到流程系统后，执行完成后，流程系统调用该接口方法，通知应用系统执行结果
@@ -117,7 +120,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
       List<AppVariableData> variableList, String appId) {
     return true;
   }
-  
+
   /**
      * 活动下待办生成回调
      * @param businessId 对应的业务Id
@@ -167,7 +170,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
           //获取始发人用户信息
           UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
           String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
-          //通过用户id 拼接邮箱
+          /*//通过用户id 拼接邮箱
           for(String userId : executorIdList){
             UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
             //判断所属单位是否相同
@@ -177,7 +180,26 @@ public class WsMQExecResultService implements ISFMQExecResult {
               }
               userIds += userId + ",";
             }
-          }
+          }*/
+          for(String userId : executorIdList){
+            UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
+            JurisdictionDataResult jurisdictionDataResult = this.jurisdictionApiServiceImpl.
+                queryDataJurisdictionApi(userDTO);
+            List<String> codeList = jurisdictionDataResult.getCodeList();
+            if(codeList != null){
+              for (String string : codeList) {
+                if (orgCode.equals(string.trim().substring(0, 8))) {
+                  if(StringUtils.isNotBlank(userDTO.getEmail())){
+                    email +=userDTO.getEmail() + ",";
+                  }
+                  userIds += userId + ",";
+                  break;
+                }
+              }//循环单位code结束
+            }
+          }//循环用户结束
+          workFlowParam.setNextApprover("2.5测试"+workFlowResult.getCheckResult()+","+userIds);
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         }
       }else if(workFlowResult.getCheckResult() == 2){
         
@@ -217,9 +239,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
         UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         email = userDTO.getEmail() + ",";
       }
-      
-      workFlowParam.setAuditReasons("审核不通过测试");
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");

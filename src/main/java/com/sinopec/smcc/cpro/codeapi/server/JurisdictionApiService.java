@@ -9,6 +9,7 @@
 package com.sinopec.smcc.cpro.codeapi.server;
 
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
 /**
  * @Title JurisdictionApiService.java
@@ -30,6 +31,14 @@ public interface JurisdictionApiService {
    * @return
    */
   JurisdictionDataResult queryDataJurisdictionApi();
+  /**
+   * @Descrption  获得组织机构下拉列表数据
+   * @author yejingyang
+   * @date 2018年9月21日上午10:43:10
+   * @param userDTO 获取的用户
+   * @return
+   */
+  JurisdictionDataResult queryDataJurisdictionApi(UserDTO userDTO);
   
   /**
    * @Descrption 获取单位Code
