@@ -182,6 +182,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
             }
           }*/
           for(String userId : executorIdList){
+            workFlowParam.setNextApprover("2.5测试"+workFlowResult.getCheckResult()+","+userIds);
+            workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
             UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
             JurisdictionDataResult jurisdictionDataResult = this.jurisdictionApiServiceImpl.
                 queryDataJurisdictionApi(userDTO);

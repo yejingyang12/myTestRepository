@@ -134,6 +134,9 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         appExtendsData.setExt008(jurisdictionApiServiceImpl.getCompanyCode());
       }
       startContext.setExtendsData(appExtendsData);
+      //发起流程
+      dpsTemplate.initStart(startContext);
+      
       //创建工作流信息
       WorkFlowParam workFlowParam = new WorkFlowParam();
       workFlowParam.setWorkFlowId(Utils.getUuidFor32());
@@ -144,9 +147,6 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       workFlowParam.setUserId(String.valueOf(userDTO.getUserId()));
       workFlowParam.setSystemId(systemId);
       workFlowMapperImpl.insertWorkFlow(workFlowParam);
-      //发起流程
-      dpsTemplate.initStart(startContext);
-      
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -173,13 +173,13 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     executeContext.setExecutorName(userName);
     executeContext.setTaskId(taskId);
     executeContext.setExecuteDate(new Date());
+    dpsTemplate.approveComplete(executeContext);
     
     //修改工作流信息
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-    dpsTemplate.approveComplete(executeContext);
   }
 
   /**
@@ -191,12 +191,6 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     final PagedList appPagedTODOTask = 
         dpsTemplate.appTODOTask(userId,"",WorkFlowConsts.CATEGORY_CODE_CPRO);
     if((appPagedTODOTask.getExecuteTaskList())!=null){
-      //修改工作流信息
-      WorkFlowParam workFlowParam = new WorkFlowParam();
-      workFlowParam.setBusinessId(businessId);
-      workFlowParam.setCheckResult(Integer.parseInt(checkResult));
-      workFlowParam.setAuditReasons(auditReasons);
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       List<ExecuteTaskData> list= appPagedTODOTask.getExecuteTaskList();
       String taskid=null;
       for(ExecuteTaskData executeTaskList:list){
@@ -213,5 +207,11 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         }
       }
     }
+    //修改工作流信息
+    WorkFlowParam workFlowParam = new WorkFlowParam();
+    workFlowParam.setBusinessId(businessId);
+    workFlowParam.setCheckResult(Integer.parseInt(checkResult));
+    workFlowParam.setAuditReasons(auditReasons);
+    workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
   }
 }
