@@ -707,6 +707,7 @@ public class MainServiceImpl implements MainService{
 //      ins = new FileInputStream(fromFileAbsolutePath);
 //      OutputStream out = new FileOutputStream(new File(toFileAbsolutePath));
       OutputStream out = new FileOutputStream(toFile);
+      //从jar文件中获取文件流
       is = this.getClass().getClassLoader().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
       byte[] b = new byte[1024];
       int count=0;
@@ -727,7 +728,7 @@ public class MainServiceImpl implements MainService{
       return null;
     }
     AttachResult attachResult = new AttachResult();
-    attachResult.setUploadUrl("/excel/"+expName);
+    attachResult.setUploadUrl(expName);
     attachResult.setAttachName("定级模板.xlsm");
     attachResult.setAttachType(toFileAbsolutePath);
     return attachResult;
