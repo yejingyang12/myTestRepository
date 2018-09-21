@@ -700,7 +700,7 @@ public class MainServiceImpl implements MainService{
 //    File fromFile = new File(filePath);
 //    String fromFileAbsolutePath = fromFile.getAbsolutePath();
     File toFile = new File(toFilePath);
-//    String toFileAbsolutePath = toFile.getAbsolutePath();
+    String toFileAbsolutePath = toFile.getAbsolutePath();
 //    FileInputStream ins;
     InputStream is;
     try {
@@ -729,6 +729,7 @@ public class MainServiceImpl implements MainService{
     AttachResult attachResult = new AttachResult();
     attachResult.setUploadUrl("/excel/"+expName);
     attachResult.setAttachName("定级模板.xlsm");
+    attachResult.setAttachType(toFileAbsolutePath);
     return attachResult;
     /*String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
     String filePath = MainConstant.TEMPORARY_FILE_PATH;//文件生成路径
