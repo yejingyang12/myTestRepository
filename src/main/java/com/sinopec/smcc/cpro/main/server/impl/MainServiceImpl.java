@@ -703,7 +703,7 @@ public class MainServiceImpl implements MainService{
 //    FileInputStream ins;
     try {
 //      ins = new FileInputStream(fromFileAbsolutePath);
-      InputStream is = this.getClass().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
+      InputStream is = this.getClass().getClassLoader().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
       FileOutputStream out = new FileOutputStream(new File(toFileAbsolutePath));
       byte[] b = new byte[1024];
       int count=0;
