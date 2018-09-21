@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -699,12 +700,14 @@ public class MainServiceImpl implements MainService{
 //    File fromFile = new File(filePath);
 //    String fromFileAbsolutePath = fromFile.getAbsolutePath();
     File toFile = new File(toFilePath);
-    String toFileAbsolutePath = toFile.getAbsolutePath();
+//    String toFileAbsolutePath = toFile.getAbsolutePath();
 //    FileInputStream ins;
+    InputStream is;
     try {
 //      ins = new FileInputStream(fromFileAbsolutePath);
-      InputStream is = this.getClass().getClassLoader().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
-      FileOutputStream out = new FileOutputStream(new File(toFileAbsolutePath));
+//      OutputStream out = new FileOutputStream(new File(toFileAbsolutePath));
+      OutputStream out = new FileOutputStream(toFile);
+      is = this.getClass().getClassLoader().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
       byte[] b = new byte[1024];
       int count=0;
 //      while((count=ins.read(b))!=-1){
