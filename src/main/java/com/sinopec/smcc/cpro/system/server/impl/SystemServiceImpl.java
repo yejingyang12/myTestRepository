@@ -3050,6 +3050,8 @@ public class SystemServiceImpl implements SystemService {
             attachResult = new AttachResult();
             attachResult.setUploadUrl(exportUrl);
             attachResult.setAttachName(exportName);
+            //生成导出的模板路径
+            attachResult.setAttachType(exportAbsolutePath);
           } catch (Exception e) {
             /*logger.error(e);
             throw new Exception(getText("ExportExcelException"), e);*/
