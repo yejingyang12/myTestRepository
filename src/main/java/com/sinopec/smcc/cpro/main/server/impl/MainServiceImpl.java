@@ -9,7 +9,6 @@
 package com.sinopec.smcc.cpro.main.server.impl;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -692,29 +691,17 @@ public class MainServiceImpl implements MainService{
   @Override
   public AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException {
-    //String filePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/gradingTemp.xlsm";
-//    String filePath = "src/main/resources/file/template/excel/exportExcelModel.xlsm";
     String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds()+".xlsm";
-    //String toFilePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/"+expName;
     String toFilePath = MainConstant.TEMPORARY_FILE_PATH+expName;
-//    File fromFile = new File(filePath);
-//    String fromFileAbsolutePath = fromFile.getAbsolutePath();
     File toFile = new File(toFilePath);
-    String toFileAbsolutePath = toFile.getAbsolutePath();
-//    FileInputStream ins;
+    //String toFileAbsolutePath = toFile.getAbsolutePath();
     InputStream is;
     try {
-//      ins = new FileInputStream(fromFileAbsolutePath);
-//      OutputStream out = new FileOutputStream(new File(toFileAbsolutePath));
       OutputStream out = new FileOutputStream(toFile);
       //从jar文件中获取文件流
       is = this.getClass().getClassLoader().getResourceAsStream("/file/template/excel/exportExcelModel.xlsm");
       byte[] b = new byte[1024];
       int count=0;
-//      while((count=ins.read(b))!=-1){
-//        out.write(b, 0, count);
-//      }
-//      ins.close();
       while((count=is.read(b))!=-1){
         out.write(b, 0, count);
       }
@@ -730,7 +717,7 @@ public class MainServiceImpl implements MainService{
     AttachResult attachResult = new AttachResult();
     attachResult.setUploadUrl(expName);
     attachResult.setAttachName("定级模板.xlsm");
-    attachResult.setAttachType(toFileAbsolutePath);
+    //attachResult.setAttachType(toFileAbsolutePath);
     return attachResult;
     /*String tempPath = MainConstant.TEMPORARY_EXCEL_FILE_PATH;//模板文件路径
     String filePath = MainConstant.TEMPORARY_FILE_PATH;//文件生成路径
