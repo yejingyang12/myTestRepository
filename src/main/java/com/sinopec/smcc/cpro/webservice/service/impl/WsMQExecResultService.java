@@ -165,7 +165,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
         workFlowParam.setNextApprover("1测试");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         if(!ObjectUtils.isEmpty(executorIdList)){
-          workFlowParam.setNextApprover("2测试"+workFlowResult.getCheckResult());
+          workFlowParam.setNextApprover(workFlowResult.getUserId()+"2测试"+workFlowResult.getCheckResult());
           workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
           //获取始发人用户信息
           UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
@@ -181,9 +181,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
               userIds += userId + ",";
             }
           }*/
+          String next = "";
           for(String userId : executorIdList){
-            workFlowParam.setNextApprover("2.5测试"+workFlowResult.getCheckResult()+","+userIds);
-            workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+            next = next + userId+"";
             UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
             JurisdictionDataResult jurisdictionDataResult = this.jurisdictionApiServiceImpl.
                 queryDataJurisdictionApi(userDTO);
@@ -200,7 +200,7 @@ public class WsMQExecResultService implements ISFMQExecResult {
               }//循环单位code结束
             }
           }//循环用户结束
-          workFlowParam.setNextApprover("2.5测试"+workFlowResult.getCheckResult()+","+userIds);
+          workFlowParam.setNextApprover(next+"2.5测试"+workFlowResult.getCheckResult()+","+userIds);
           workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         }
       }else if(workFlowResult.getCheckResult() == 2){
