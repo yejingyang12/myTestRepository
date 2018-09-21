@@ -18,8 +18,8 @@ var data1={
 	ceshi:false,
 	ceshi1:false,
 	ceshi2:false,
-	dialogVisible:false,
-	dialogVisibles:false,
+/*	dialogVisible:false,
+	dialogVisibles:false,*/
 	dialogVisibled:false,
   deleteDialog:false,
   deleteSuccessDialog:false,
@@ -47,7 +47,8 @@ var data1={
       recordReportName:[//信息系统安全等级保护备案证明
           {required: true, message: '请上传信息系统安全等级保护备案证明', trigger: 'change' }
       ],
-	}
+	},
+	causeFailure:""
 };
 (function () {
 	Vue.component('record',function (resolve,reject) {
@@ -176,7 +177,9 @@ var data1={
 	                callback: function callback(action) {
 	                }
 	              });*/
-	          		this.dialogVisible=true;
+/*	          		this.dialogVisible=true;*/
+                this.causeFailure="文件过大";
+                $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -189,7 +192,9 @@ var data1={
             				callback: function callback(action) {
             				}
             			});*/
-            			this.dialogVisibles=true;
+/*            			this.dialogVisibles=true;*/
+                  this.causeFailure="格式不正确";
+                  $("#startBoxImportFailed").show().delay(2000).fadeOut();
             			return;
             		}
             		var uploadData = new FormData(); 

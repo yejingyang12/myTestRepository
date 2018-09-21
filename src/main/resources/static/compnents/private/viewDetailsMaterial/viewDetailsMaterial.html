@@ -8,7 +8,7 @@
                 <span class="col-md-7 text-right">1.系统拓扑结构及说明：</span>
                 <span class="xzBox col-md-5" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;">
                 	<span class=""  v-for="(topologyDescription,index) in topologyDescriptionList"  @mouseover="xuanfu(topologyDescription.attachName)" :title="tishi">
-                		<a class="text-left"   style="cursor:pointer;color: #337ab7;"
+                		<a class="text-left"   style="cursor:pointer;color: #3d95df;"
 	                  @click="download(topologyDescription.fileId)" v-if="topologyDescription.fileId != ''">{{topologyDescription.attachName}}</a>
 	                  <span v-if="index !== topologyDescriptionList.length-1">&nbsp;,</span>
                   </span>
@@ -17,7 +17,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                   <div v-if="topologyDescriptionName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                     @mouseover="xuanfu(topologyDescriptionName)" :title="tishi">
                     {{topologyDescriptionName}}
@@ -30,7 +30,7 @@
                 <span class="col-md-7 text-right">2.系统安全组织机构及管理制度：</span>
                 <span class="xzBox col-md-5" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;">
                 	<span class=""  v-for="(organizationManagement,index) in organizationManagementList" @mouseover="xuanfu(organizationManagement.attachName)" :title="tishi">
-                		<a class="text-left"   style="cursor:pointer;color: #337ab7"
+                		<a class="text-left"   style="cursor:pointer;color:#3d95df"
 	                  @click="download(organizationManagement.fileId)" v-if="organizationManagement.fileId != ''">{{organizationManagement.attachName}}</a>
 	                  <span v-if="index !== organizationManagementList.length-1">&nbsp;,</span>
                   </span>
@@ -38,7 +38,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                  <div v-if="organizationManagementName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                    @mouseover="xuanfu(organizationManagementName)" :title="tishi">
                     {{organizationManagementName}}
@@ -51,7 +51,7 @@
                 <span class="col-md-7 text-right">3.系统安全保护设施设计实施方案或改建实施方案：</span>
                 <span class="xzBox col-md-5" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;">
                 	<span class=""  v-for="(implementationPlan,index) in implementationPlanList" @mouseover="xuanfu(implementationPlan.attachName)" :title="tishi">
-                		<a class="text-left"   style="cursor:pointer;color: #337ab7;"
+                		<a class="text-left"   style="cursor:pointer;color: #3d95df;"
 	                  @click="download(implementationPlan.fileId)" v-if="implementationPlan.fileId != ''">{{implementationPlan.attachName}}</a>
 	                  <span v-if="index !== implementationPlanList.length-1">&nbsp;,</span>
                   </span>
@@ -59,7 +59,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                 <div v-if="implementationPlanName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(implementationPlanName)" :title="tishi">
                     {{implementationPlanName}}
@@ -72,7 +72,7 @@
                 <span class="col-md-7 text-right">4.系统使用的安全产品清单及认证、销售许可证明：</span>
                 <span class="xzBox col-md-5" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;">
                 	<span class=""  v-for="(licenseCertificate,index) in licenseCertificateList" @mouseover="xuanfu(licenseCertificate.attachName)" :title="tishi">
-                		<a class="text-left"   style="cursor:pointer;color: #337ab7;"
+                		<a class="text-left"   style="cursor:pointer;color: #3d95df;"
 	                  @click="download(licenseCertificate.fileId)" v-if="licenseCertificate.fileId != ''">{{licenseCertificate.attachName}}</a>
 	                  <span v-if="index !== licenseCertificateList.length-1">&nbsp;,</span>
                   </span>
@@ -80,7 +80,7 @@
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                 <div v-if="licenseCertificateName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(licenseCertificateName)" :title="tishi">
                     {{licenseCertificateName}}
@@ -91,13 +91,13 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-7 text-right">5.系统等级测评报告：</span>
-                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #337ab7;"
+                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #3d95df;"
                 @click="download(evaluationPresentationId)" v-if="evaluationPresentationId != ''" 
                 @mouseover="xuanfu(evaluationPresentationName)" :title="tishi">{{evaluationPresentationName}}</a>
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                 <div v-if="evaluationPresentationName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(evaluationPresentationName)" :title="tishi">
                     {{evaluationPresentationName}}
@@ -108,14 +108,14 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-7 text-right">6.专家评审情况：</span>
-                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #337ab7"
+                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #3d95df"
                 @click="download(expertReviewId)" v-if="expertReviewId != ''" @mouseover="xuanfu(expertReviewName)" :title="tishi">
                   {{expertReviewName}}
                 </a>
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                 <div v-if="expertReviewName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(expertReviewName)" :title="tishi">
                     {{expertReviewName}}
@@ -126,12 +126,12 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-7 text-right">7.上级主管部门审批意见：</span>
-                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #337ab7;" 
+                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color:#3d95df;" 
                 @click="download(directorOpinionId)" v-if="directorOpinionId != ''" @mouseover="xuanfu(directorOpinionName)" :title="tishi">{{directorOpinionName}}</a>
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
-                <span class="col-md-6 text-left">
+                <span class="col-md-6 text-left" style="margin-left:-15px">
                 <div v-if="directorOpinionName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(directorOpinionName)" :title="tishi">
                     {{directorOpinionName}}

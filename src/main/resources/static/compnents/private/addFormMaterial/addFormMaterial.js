@@ -24,10 +24,10 @@ var data={
     ceshi1:false,
     ceshi2:false,
     ceshi3:false,
-    dialogVisibles:false,
-    dialogVisible:false,
+/*    dialogVisibles:false,
+    dialogVisible:false,*/
     dialogVisibled:false,
-    dialogVisibleds:false,
+/*    dialogVisibleds:false,*/
     jurisdictionType:0,
     submitCheck:false,
         formData:{
@@ -90,7 +90,8 @@ var data={
           changeType:'',
           saveType:''
       	},
-        tishi:""
+        tishi:"",
+        causeFailure:""
     };
 (function () {
     Vue.component('addFormMaterial',function (resolve, reject) {
@@ -115,6 +116,7 @@ var data={
 	                        callback: function callback(action) {
 	                        }
 	                      });*/
+	                  	  this.causeFailure="文件过大";
 	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
@@ -128,6 +130,7 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
+	                  		  this.causeFailure="格式不正确";
 	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
@@ -157,7 +160,8 @@ var data={
               			  		/*_self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
 	                  				});*/
-              			  		_self. dialogVisibleds=true,
+              			  	  this.causeFailure="文件相同";
+              			  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
               			  		submitDescName = true ; 
                   				break;
                   			}
@@ -206,6 +210,7 @@ var data={
 	                        callback: function callback(action) {
 	                        }
 	                      });*/
+	                  	  this.causeFailure="文件过大";
 	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
@@ -219,6 +224,7 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
+	                  		  this.causeFailure="格式不正确";
 	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
@@ -248,7 +254,8 @@ var data={
               			  		/*_self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
 	                  				});*/
-              			  		_self.dialogVisibleds=true,
+              			  	  this.causeFailure="文件相同";
+              			  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
               			  		submitManagName = true ; 
                   				break;
                   			}
@@ -298,6 +305,7 @@ var data={
 	                        callback: function callback(action) {
 	                        }
 	                      });*/
+	                  	  this.causeFailure="文件过大";
 	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
@@ -311,6 +319,7 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
+	                  		  this.causeFailure="文件过大";this.causeFailure="格式不正确";
 	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
@@ -340,7 +349,8 @@ var data={
               			  		_/*self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
 	                  				});*/
-              			  		_self.dialogVisibleds=true;
+              			  		this.causeFailure="文件相同";
+              			  		$("#startBoxImportFailed").show().delay(2000).fadeOut();
               			  		submitPlanName = true ; 
                   				break;
                   			}
@@ -388,6 +398,7 @@ var data={
                         callback: function callback(action) {
                         }
                       });*/
+                  	  this.causeFailure="文件过大";
                   	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
                   		return;
                   	}
@@ -401,6 +412,7 @@ var data={
 	                  			callback: function callback(action) {
 	                  			}
 	                  		});*/
+                  		  this.causeFailure="格式不正确";
                   		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
                   		}
@@ -429,7 +441,8 @@ var data={
               			  		_/*self.$alert('<strong>文件相同！</strong>', '提示', {
 	           			          dangerouslyUseHTMLString: true
 	                  				});*/
-              			  		_self. dialogVisibleds=true;
+              			  		this.causeFailure="文件相同";
+              			  		$("#startBoxImportFailed").show().delay(2000).fadeOut();
               			  		submitCateName = true;
                   				break;
                   			}

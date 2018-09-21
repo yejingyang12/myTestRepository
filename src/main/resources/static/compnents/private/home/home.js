@@ -217,7 +217,9 @@
     headquarters:false,
     enterprise:false,
     nameList:[],
-    loading: false
+    loading: false,
+/*    pageSize:10,
+    currentPage:1*/
   };
   Vue.component('home',function (resolve, reject) {
     $.get(comp_src+'/compnents/private/home/home.html').then(function (res) {
@@ -262,6 +264,16 @@
         	
         },
         methods: { 
+/*          handleCurrentChange:function(page){
+            this.currentPage=page;
+            if (page <= 0) {
+              
+            } else if (page > data.result.totalPages) {
+             
+            } else {
+              this.search(page);
+            }
+          },*/
         	createdList:function(){
         		var url="main/queryMainList";
             var _self=this;
@@ -401,6 +413,7 @@
         	},
           //ajax请求成功的方法
           listSuccess: function (_self, responseData) {
+            this.loading=false;
 //            data.result = dataList;  
               _self.result = responseData.data.list;
               _self.result.totalPages = responseData.data.totalPage;
@@ -419,7 +432,6 @@
               this.search(page);
             }
           },
-
           //查询 点击发送请求
           search:function(page){
             var selectSystemName = $("#selectSystemName").val();
@@ -1478,9 +1490,7 @@
           }else{
         	  $("#h-bread").hide();
           }
-          setTimeout(function(){
-          	data.loading = false;
-          },1);
+          
         },
        /* destroyed () {
         	  data.timer=null;

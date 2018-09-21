@@ -15,6 +15,7 @@
     border: 1px solid #ededed;
     margin-right: 5px;
     height: 30px;
+    border-radius: 2px;
 }
 .pagination>li>input{
     border:0 none;

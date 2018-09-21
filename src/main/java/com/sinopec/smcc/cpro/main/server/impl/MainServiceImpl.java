@@ -14,7 +14,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -692,14 +691,7 @@ public class MainServiceImpl implements MainService{
   public AttachResult exportExcelForGradeTemplate(HttpServletRequest request,
       HttpServletResponse response,String [] systemIds) throws BusinessException {
     //String filePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/gradingTemp.xlsm";
-    //filePath = filePath + "resources/file/template/excel/exportExcelModel.xlsm";
-    String filePath = this.getClass().getClassLoader().getResource("file/template/excel/exportExcelModel.xlsm").getPath();
-    try {
-      filePath = URLDecoder.decode(filePath,"utf-8");
-    } catch (UnsupportedEncodingException e1) {
-      e1.printStackTrace();
-    } 
-    //String filePath = "src/main/resources/file/template/excel/exportExcelModel.xlsm";
+    String filePath = "src/main/resources/file/template/excel/exportExcelModel.xlsm";
     String expName = "gradingTemp"+"_"+DateUtils.getMilliseconds()+".xlsm";
     String toFilePath = FileConstant.TEMPORARY_FILE_PATH+"/excel/"+expName;
     File fromFile = new File(filePath);

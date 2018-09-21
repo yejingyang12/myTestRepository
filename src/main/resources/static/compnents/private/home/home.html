@@ -217,7 +217,7 @@
                                 <!--系统名称-->
                                 <div class="col-md-6" style="width:50%">
                                     <div class="row" >
-                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:0px;width:28%; min-width: 75px;" >
+                                        <div class="col-md-3 h-system" style="margin-right:0;margin-left:0px;width:30%; min-width: 75px;" >
                                                                                                         系统名称:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative" style="z-index:5;position:relative;">
@@ -231,7 +231,7 @@
                                                             :value="item.systemId">
                                                     </el-option>
                                                 </el-select> -->
-                                                <el-input clearable type="text" placeholder="请输入系统名称" id="selectSystemName" v-model="value8" style="width:70%;height:34px" ></el-input>
+                                                <el-input clearable type="text" placeholder="请输入系统名称" id="selectSystemName" v-model="value8" style="width:80%;height:34px" ></el-input>
                                             </template>
                                         </div>
                                     </div>
@@ -239,7 +239,7 @@
                                 <!--所属单位-->
                                 <div class="col-md-6"  style="width:45%">
                                     <div class="row">
-                                        <div class="col-md-3 h-line" style="min-width:76px;width:30%;padding-right:0; ">
+                                        <div class="col-md-3 h-line" style="min-width:76px;width:32%;padding-right:0; ">
                                                                                                           所属单位:
                                         </div>
                                         <div class="col-md-8 h-col-md-9 pos-relative">
@@ -259,10 +259,10 @@
                                 </div>
                             </div>
                         </div> 
-                        <div class="col-md-6"  style="width:45%">
-                            <div class="row" style="margin-right:-65px">
+                        <div class="col-md-6"  style="width:45%;float:right !important;margin-right:15px;">
+                            <div class="row">
                             <!-- 互联网应用 start -->
-                            <div class="col-md-3 h-line" style="min-width:76px;width:15%;padding-right:0; ">
+                            <div class="col-md-3 h-line" style="min-width:76px;width:17%;padding-right:0; ">
                                                                                                          互联网应用:
                             </div>
                               <div class="col-md-5">
@@ -277,18 +277,18 @@
             					<!-- 互联网应用 end -->
                                 <!--查询 高级查询 清空 按钮-->
 			                   <div style="float: right;" class=" btn-group btn-group-sm" role="group" aria-label="..."> 
-			                       <button @click="search(1)" type="button" class="btn btn-default" style="width:70px;margin-right:5px;">
+			                       <button @click="search(1)" type="button" class="btn btn-default" style="width:70px;margin-right:5px;border-radius:2px;">
 			                                                                      查询
 			                        </button>                       
 			                        <div class="btn-group" style="margin-left: 10">
 			                            <button type="button" class="hoverBlue btn h-btn-info dropdown-toggle downh"
 			                                    data-toggle="dropdown"
-			                                    aria-haspopup="true" aria-expanded="false" @click="searchclick">
-			                                                                                          高级查询  
-			                                <i class="el-icon-arrow-down"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
+			                                    aria-haspopup="true" aria-expanded="false" @click="searchclick" style="border-radius:2px;">
+			                                <span style="display:block;float:left">高级查询</span>  
+			                                <i class="el-icon-arrow-down el-icon&#45;&#45;right"  v-if="arrowdown"></i><i class="el-icon-arrow-up" v-else></i>
 			                            </button>
 			                        </div>
-			                        <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;" @click="empty()">
+			                        <button type="button" class="btn btn-default" style="width:70px;margin-left:5px;border-radius:2px;" @click="empty()">
 			                                                                       清空
 			                         </button>  
 			                    </div>
@@ -302,13 +302,13 @@
              <div class="col-md-6 h-col-md-9 deleteFalse" style="margin-bottom:10px">
                     <div class="row" style="margin-right:0">
                     	 <!--申请时间-->
-                              <div class="col-md-6 h-clear-time" style="padding-right:0px;width:53%;">
+                              <div class="col-md-6 h-clear-time" style="padding-right:0px;width:58%;">
                                 <div class="col-md-8 h-padding" style="padding-right:6px;">
                                     <div class="row" style="margin: 0">
                                         <div class="col-md-3 applyTime" style="width:66px;line-height: 34px;min-width: 61px; max-width:69px;line-height: 34px">
                                       	  提报时间:
                                       	</div>
-                          		<div class="float-le timeInput chartstarttime" style="padding: 0;width:55%;float:left;">
+                          		<div class="float-le timeInput chartstarttime" style="padding: 0;width:56%;float:left;">
                                               <template>
                                             <div class="block">
  											<el-date-picker 
@@ -319,14 +319,14 @@
                                             </div>
                                           </template>
                                   </div>
-                                      <div style="width: 0px;display: inline-block;margin:0px;line-height: 34px;max-width: 10px;float:left;">
+                                      <div style="width: 0px;display: inline-block;margin:0px;line-height: 34px;max-width: 10px;float:left;margin-left:2%;">
                                       	    到
                                      </div>
                                     </div>
                                 </div>
  								<div class="col-md-4 input-box" style="float:right;">
                                     <div class="row">
-                                        <div class=" col-md-12 float-le timeInput chartstarttime" style="float: right;padding: 0px; width: 89%; margin-right: 15px;">
+                                        <div class=" col-md-12 float-le timeInput chartstarttime" style="float:left;padding: 0px; width: 89%;">
                                            <template>
                                               <div class="block">
                                                 <el-date-picker
@@ -1049,7 +1049,7 @@
                     <nav aria-label="Page navigation">
                         <ul class="pagination">
                          <li @click="clickPage(1)">
-                                <a href="javascript:;" aria-label="Previous" >
+                                <a href="javascript:;" aria-label="Previous" style="border:1px solid #ededed">
                                     <span aria-hidden="true">首页</span>
                                 </a>
                             </li>
@@ -1058,10 +1058,15 @@
                                     <span aria-hidden="true">上一页</span>
                                 </a>
                             </li>
-                            <li  v-for="n in totalPages" :class="[n==result.currentPage ? 'current' : '' ]"
-                              layout="prev, pager, next" :total="result.total">
+                             <li  v-for="n in totalPages" :class="[n==result.currentPage ? 'current' : '' ]">
                                 <a href="javascript:;" @click="clickPage(n)">{{n}}</a>
                             </li>
+<!--                             <div>
+                              <el-pagination background v-for="n in totalPages"
+                                  @current-change="handleCurrentChange(n)" :page-size="pageSize" layout="prev,pager,next,total,jumper"
+                                  :total="result.total" :pager-count="7" :current-page="currentPage">
+                              </el-pagination>
+                            </div> -->
                             <li @click="clickPage(result.currentPage+1)">
                                 <a href="javascript:;" aria-label="Next">
                                     <span aria-hidden="true">下一页</span>

@@ -18,7 +18,7 @@
 
 .fishBone ul li .content {
    /*  height:90px; */
-    width: 100%;
+    width: 99%;
     border: 1px solid #ededed;
 } 
 
@@ -44,11 +44,15 @@
 }
 
 .fishBone ul li .over_time {
-    color: #3399cc;
+    color: #3d95df;
     text-align: left;
     margin: 5px 0;
     /*  height:10px; */
 } 
+
+.changeColor{
+  color:#666666 !important;
+}
 
  .fishBone ul li .centerline {
     margin-left: 5px;
@@ -59,7 +63,13 @@
     top: 40%; */
     
 }
-
+.fishBone ul li .centerline #cricleBig{
+    width: 16px;
+    height: 16px;
+    background-color:#daebf9;
+    border-radius: 50%;
+    margin-left: -3px;
+}
 .fishBone ul li .centerline .cricle {
     margin: auto;
   /*   position: absolute;
@@ -71,7 +81,10 @@
     border-radius: 50%;
     color: #3d95df;
     background-color: #3d95df;
-    box-shadow: 0 0 20px #1e91e2;
+/*     box-shadow: 0 0 20px #1e91e2; */
+    float:left;
+    margin-left:3px;
+    margin-top:3px;
 }
 .fishBone ul li .centerline .line {
     margin: auto;

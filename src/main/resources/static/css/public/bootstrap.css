@@ -1406,20 +1406,20 @@ textarea {
 }
 
 a {
-	color: #337ab7;
+	color: #3d95df;
 	text-decoration: none
 }
 
 a:focus,
 a:hover {
-	color: #23527c;
-	text-decoration:underline
+	color: #0065ba !important;
+	text-decoration:underline;
 }
 
 a:focus {
 	outline: thin dotted;
 	outline: 5px auto -webkit-focus-ring-color;
-	outline-offset: -2px
+	outline-offset: -2px;
 }
 
 figure {
@@ -5716,6 +5716,7 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
 	text-decoration: none;
 	background-color: #fff;
 	/*border: 1px solid #ddd*/
+	font-size: 12px;
 }
 
 .pagination>li:first-child>a,

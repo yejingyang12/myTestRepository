@@ -39,9 +39,9 @@ li{
 .infName{
     padding: 0;
 }
-.fomName{
+/* .fomName{
     margin-left:15px;
-}
+} */
 .perName{
     width: 27%;
     margin-left: -12px;
@@ -118,7 +118,7 @@ li{
     border-bottom: 1px solid #cecece;
 }
 .saveTableRow>div,.saveTableLast{
-    border-right:1px solid #cecece;
+/*     border-right:1px solid #cecece; */
     font:12px/34px "微软雅黑";
     padding:0;
 }
@@ -182,7 +182,7 @@ td{
 }
 .table-bordered th,.table-bordered td{
     border-right: 1px solid #cecece;
-    padding:11px;
+    padding:12px;
 }
 /*翻页*/
 .h-page-box1{

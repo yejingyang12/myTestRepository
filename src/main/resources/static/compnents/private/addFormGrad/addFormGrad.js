@@ -166,7 +166,8 @@ var data={
           directorOpinionPath:'',
           changeType:'',
           gradeRecordSysName:''
-        }
+        },
+        causeFailure:""
     };
 
 (function () {
@@ -287,7 +288,9 @@ var data={
 	                          callback: function callback(action) {
 	                          }
 	                        });*/
-	                    		this.dialogVisible=true;
+/*	                    		this.dialogVisible=true;*/
+	                        this.causeFailure="文件过大";
+	                        $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    		return;
 	                    	}
 	                    	var fileFormat = e.target.value.split(".");//文件后缀
@@ -300,7 +303,9 @@ var data={
 	                    				callback: function callback(action) {
 	                    				}
 	                    			});*/
-	                    			this.dialogVisible=true;
+/*	                    			this.dialogVisible=true;*/
+	                          this.causeFailure="格式不正确";
+	                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    			return;
 	                    		}
 	                    		var uploadData = new FormData(); 
@@ -343,7 +348,9 @@ var data={
 	                          callback: function callback(action) {
 	                          }
 	                        });*/
-	                    		this.dialogVisible=true;
+/*	                    		this.dialogVisible=true;*/
+                          this.causeFailure="文件过大";
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    		return;
 	                    	}
 	                    	var fileFormat = e.target.value.split(".");//文件后缀
@@ -356,7 +363,9 @@ var data={
 	                    				callback: function callback(action) {
 	                    				}
 	                    			});*/
-	                    			this.dialogVisible=true;
+/*	                    			this.dialogVisible=true;*/
+	                           this.causeFailure="格式不正确";
+	                           $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    			return;
 	                    		}
 	                    		var uploadData = new FormData(); 
@@ -400,7 +409,9 @@ var data={
 	                          callback: function callback(action) {
 	                          }
 	                        });*/
-	                    		this.dialogVisible=true;
+/*	                    		this.dialogVisible=true;*/
+                          this.causeFailure="文件过大";
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    		return;
 	                    	}
 	                    	var fileFormat = e.target.value.split(".");//文件后缀
@@ -413,7 +424,9 @@ var data={
 		                    			callback: function callback(action) {
 		                    			}
 		                    		});*/
-	                    			this.dialogVisible=true;
+/*	                    			this.dialogVisible=true;*/
+                            this.causeFailure="格式不正确";
+                            $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                    		return;
 	                    		}
 	                    		var uploadData = new FormData(); 

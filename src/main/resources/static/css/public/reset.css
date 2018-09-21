@@ -517,3 +517,15 @@ input.el-input__inner:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .el-select .el-input .el-select__caret{
 	    font-size: 22px!important;
 }
+#table>tr:nth-child(odd){
+  background-color:#F5F7FA;
+}
+#table>tr:nth-child(1){
+  background-color:#fff !important;
+}
+#table1>tr:nth-child(odd){
+  background-color:#F5F7FA;
+}
+#table1>tr:nth-child(1){
+  background-color:#fff !important;
+}

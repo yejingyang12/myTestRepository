@@ -33,7 +33,7 @@ input{
     content: "";
     display: block;
     width: auto;
-    height: 2px;
+    height: 1px;
     background: #ededed;
     margin-left:1px;
 }
@@ -95,7 +95,7 @@ label{
     border-bottom: 1px solid #cecece;
 }
 .saveTableRow>div,.saveTableLast{
-    border-right:1px solid #cecece;
+/*     border-right:1px solid #cecece; */
     /*height: 34px;*/
     font:12px/34px "微软雅黑";
     padding:0;

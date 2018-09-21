@@ -82,22 +82,22 @@
      <li :class="[index%2!==0?'bottom':'top']" v-for="(pro,index) in result.data" v-show="true">
             <div class="item">
                     <div class="content">
-                        <div class="frist_div">操作：{{pro.operation}}</div>
-	                        <div class="second_div" v-if="pro.operation == '申请变更' || pro.operation == '撤销备案' ">变更事项：{{pro.operation}} <i @click="showDialog(pro.nodeId)">
+                        <div class="frist_div">操作：<span class="changeColor">{{pro.operation}}</span></div>
+	                        <div class="second_div" v-if="pro.operation == '申请变更' || pro.operation == '撤销备案' ">变更事项：<span class="changeColor">{{pro.operation}}</span> <i @click="showDialog(pro.nodeId)">
 	                        	<img alt="" src="../images/home/eye.png" style="width:20px;height:20px;cursor:pointer">
 	                        </i> </div> 
-                        <div class="second_div">操作人：{{pro.operator}}</div>
-                        <div class="thirs_div">操作结果：{{pro.operationResult}}</div>
+                        <div class="second_div">操作人：<span class="changeColor">{{pro.operator}}</span></div>
+                        <div class="thirs_div">操作结果：<span class="changeColor">{{pro.operationResult}}</span></div>
                         <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:250px"
                         			class="thirs_div" v-if="pro.operationOpinion!=''" >操作意见：
-                        			<span :title="pro.operationOpinion" style="cursor:pointer;">{{pro.operationOpinion}}</span></div>
-                    	<div class="thirs_div" v-else-if="pro.fkChangeReason !== ''">操作意见：{{pro.fkChangeReason}}</div>
-                    	<div class="thirs_div" v-else>操作意见：无</div>
+                        			<span :title="pro.operationOpinion" style="cursor:pointer;"><span class="changeColor">{{pro.operationOpinion}}</span></span></div>
+                    	<div class="thirs_div" v-else-if="pro.fkChangeReason !== ''">操作意见：<span class="changeColor">{{pro.fkChangeReason}}</span></div>
+                    	<div class="thirs_div" v-else>操作意见：<span class="changeColor">无</span></div>
                     </div>
                     <div class="over_time">完成时间:{{pro.createTime}}</div>
                     <!-- <div class="over_time">完成时间:{{formatDate(pro.createTime)}}</div> -->
                 <div class="centerline">
-                    <div class="cricle"></div>
+                    <div id="cricleBig"><div class="cricle"></div></div>
                     <div class="line beianline"></div>
                 </div>
             </div>
@@ -105,12 +105,12 @@
         <li v-if="lastNodeShowTop" class="top">
         	<div class="item">
                     <div class="content">
-                        <div class="frist_div">操作：{{lastNode.operation}}</div>
+                        <div class="frist_div">操作：<span class="changeColor">{{lastNode.operation}}</span></div>
                         <div class="second_div" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px">操作人：
-                        			<span :title="lastNode.operator" style="cursor:pointer;">{{lastNode.operator}}</span>
+                        			<span :title="lastNode.operator" style="cursor:pointer;"><span class="changeColor">{{lastNode.operator}}</span></span>
                         </div>
-                        <div class="thirs_div">操作结果：无</div>
-                        <div class="thirs_div">操作意见：无</div>
+                        <div class="thirs_div">操作结果：<span class="changeColor">无</span></div>
+                        <div class="thirs_div">操作意见：<span class="changeColor">无</span></div>
                     </div>
                     <div class="over_time">完成时间:</div>
                 <div class="centerline">
@@ -122,12 +122,12 @@
         <li v-if="lastNodeShowBottom" class="bottom">
         	<div class="item">
                     <div class="content">
-                        <div class="frist_div">操作：{{lastNode.operation}}</div>
+                        <div class="frist_div">操作：<span class="changeColor">{{lastNode.operation}}</span></div>
                         <div class="second_div" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:150px">操作人：
-                        			<span :title="lastNode.operator" style="cursor:pointer;">{{lastNode.operator}}</span>
+                        			<span :title="lastNode.operator" style="cursor:pointer;"><span class="changeColor">{{lastNode.operator}}</span></span>
                         </div>
-                        <div class="thirs_div">操作结果：无</div>
-                        <div class="thirs_div">操作意见：无</div>
+                        <div class="thirs_div">操作结果：<span class="changeColor">无</span></div>
+                        <div class="thirs_div">操作意见：<span class="changeColor">无</span></div>
                     </div>
                     <div class="over_time">完成时间:</div>
                 <div class="centerline">

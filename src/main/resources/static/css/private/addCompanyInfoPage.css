@@ -163,7 +163,7 @@ li{
     margin-bottom:0px; 
 }
 .nu:hover{
-	background:#fff !important;
+	background:#f1f0f0 !important;
 }
 .lastLine{
     width: 100%;
@@ -332,6 +332,10 @@ li{
 }
 .btnColor input{
     color: #fff;
+}
+#add .el-icon-arrow-down{
+    display:block;
+    margin-top: -8px;
 }
 
 

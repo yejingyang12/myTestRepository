@@ -7,8 +7,8 @@
  		 ceshi:false,
  	    ceshi1:false,
  	    ceshi2:false,
- 	    dialogVisible:false,
- 	    dialogVisibles:false,
+/* 	    dialogVisible:false,
+ 	    dialogVisibles:false,*/
  	    dialogVisibled:false,
   		systemName: null,
   		tishi:"",
@@ -105,6 +105,7 @@
     	value: 2,
     	label: '未整改'
     }],
+    causeFailure:""
   };
   Vue.component('selfCheck',function (resolve,reject) {
     $.get(comp_src+'/compnents/private/selfCheck/selfCheck.html').then(function(res){
@@ -299,7 +300,9 @@
 	                callback: function callback(action) {
 	                }
 	              });*/
-	          		this.dialogVisible=true;
+/*	          		this.dialogVisible=true;*/
+                this.causeFailure="文件过大";
+                $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -312,7 +315,9 @@
 	            			callback: function callback(action) {
 	            			}
 	            		});*/
-            			this.dialogVisibles=true;
+/*            			this.dialogVisibles=true;*/
+                  this.causeFailure="格式不正确";
+                  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	            		return;
             		}
             		var uploadData = new FormData(); 
@@ -342,7 +347,9 @@
 	                callback: function callback(action) {
 	                }
 	              });*/
-	          		this.dialogVisible=true;
+/*	          		this.dialogVisible=true;*/
+                this.causeFailure="文件过大";
+                $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -355,7 +362,9 @@
 	            			callback: function callback(action) {
 	            			}
 	            		});*/
-            			this.dialogVisibles=true;
+/*            			this.dialogVisibles=true;*/
+                  this.causeFailure="格式不正确";
+                  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	            		return;
             		}
             		var uploadData = new FormData(); 
