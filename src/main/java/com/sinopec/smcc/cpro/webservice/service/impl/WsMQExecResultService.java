@@ -9,6 +9,7 @@
 */
 package com.sinopec.smcc.cpro.webservice.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -27,6 +28,7 @@ import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 //import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
+import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
@@ -146,6 +148,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
     Integer checkType = 0;
     String auditReasons = "";
     if(workFlowResult != null){
+      workFlowParam.setNextApprover("进来了");
+      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(workFlowResult.getBusinessName().equals("定级")){
         checkType = 1;
       }else if(workFlowResult.getBusinessName().equals("申请变更")){
@@ -267,6 +271,17 @@ public class WsMQExecResultService implements ISFMQExecResult {
 //        }
 //        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
+    }else{
+      //创建工作流信息
+      WorkFlowParam workFlowParam1 = new WorkFlowParam();
+      workFlowParam1.setWorkFlowId("123");
+      workFlowParam1.setBusinessId(businessId);
+      workFlowParam1.setBusinessName("123");
+      workFlowParam1.setCreateTime(new Date());
+      workFlowParam1.setCheckResult(1);
+      workFlowParam1.setUserId("111");
+      workFlowParam1.setSystemId("111");
+      workFlowMapperImpl.insertWorkFlow(workFlowParam1);
     }
     return true;
   }
