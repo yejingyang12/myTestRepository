@@ -154,4 +154,13 @@ public interface ApiService {
    */
   public String saveHeadGradChangeCheckApi(String userName, CheckParam checkParam) 
       throws BusinessException;
+  
+  /**
+   * @Descrption 文件下载
+   * @author dongxu
+   * @date 2018年9月25日下午2:41:00
+   * @param fileId
+   * @throws BusinessException
+   */
+  public void downloadFileApi(String fileId) throws BusinessException;
 }

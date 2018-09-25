@@ -204,4 +204,20 @@ public class ApiController {
         getSystemRelationByGrade(paramString);
     return RetResultUtil.ok(systemRelationResultList);
   }
+  
+  /**
+   * @Descrption 文件下载
+   * @author dongxu
+   * @date 2018年9月25日下午2:29:04
+   * @param paramString
+   * @return
+   * @throws BusinessException
+   */
+  @RequestMapping(value = "/downloadFileApi", method = RequestMethod.GET)
+  public RetResult<Void> downloadFileApi(
+      @RequestParam String fileId) throws BusinessException{
+    // 调用service实体，获得
+    this.apiServiceImpl.downloadFileApi(fileId);
+    return RetResultUtil.ok();
+  }
 }

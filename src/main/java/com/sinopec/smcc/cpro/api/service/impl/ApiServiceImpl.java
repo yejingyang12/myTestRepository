@@ -9,6 +9,9 @@
 */
 package com.sinopec.smcc.cpro.api.service.impl;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,6 +37,7 @@ import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.result.PageUtil;
+import com.sinopec.smcc.common.objstor.ObjectStorageService;
 import com.sinopec.smcc.cpro.api.service.ApiService;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
@@ -40,6 +45,10 @@ import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.company.utils.ConvertFiledUtil;
+import com.sinopec.smcc.cpro.file.constant.FileConstant;
+import com.sinopec.smcc.cpro.file.entity.AttachParam;
+import com.sinopec.smcc.cpro.file.entity.AttachResult;
+import com.sinopec.smcc.cpro.file.mapper.AttachMapper;
 import com.sinopec.smcc.cpro.grading.entity.GradingListResult;
 import com.sinopec.smcc.cpro.grading.entity.GradingParam;
 import com.sinopec.smcc.cpro.grading.server.GradingService;
@@ -53,8 +62,10 @@ import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationParam;
 import com.sinopec.smcc.cpro.system.entity.SystemRelationResult;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
+import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
 import com.sinopec.smcc.cpro.system.mapper.SystemRelationMapper;
 import com.sinopec.smcc.cpro.system.server.SystemService;
+import com.sinopec.smcc.cpro.tools.FileOperateUtil;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsConfig;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
@@ -98,6 +109,12 @@ public class ApiServiceImpl implements ApiService{
   private WorkFlowApiService workFlowApiServiceImpl;
   @Autowired
   private UserApiService userApiServiceImpl;
+  @Autowired
+  private SystemMapper systemMapperImpl;
+  @Autowired
+  private ObjectStorageService objectStorageServiceImpl;
+  @Autowired
+  private AttachMapper attachMapper;
   
   /**
    * 获取定级信息
@@ -107,6 +124,14 @@ public class ApiServiceImpl implements ApiService{
     SystemParam systemParam = new SystemParam();
     systemParam.setStandardizedCode(systemCode);
     SystemResult systemResult = systemServiceImpl.querySystemBysystemCode(systemParam);
+    
+    //如果是子系统 则查询父系统
+    if(systemResult.getFkSystemType() == 3 && 
+        StringUtils.isNotBlank(systemResult.getFkFatherSystemId())){
+      SystemParam systemParamSon = new SystemParam();
+      systemParamSon.setSystemId(systemResult.getFkFatherSystemId());
+      systemResult = this.systemMapperImpl.selectSystem(systemParamSon);
+    }
     if(systemResult != null){
       CproResultParam gradingApiResult = new CproResultParam();
       GradingParam gradingParam = new GradingParam();
@@ -870,5 +895,54 @@ public class ApiServiceImpl implements ApiService{
     nodeParam.setOperator(userName);
     this.nodeServiceImpl.addNodeInfo(nodeParam);
     return checkParam.getFkSystemId();
+  }
+  
+  @Override
+  public void downloadFileApi(String fileId) throws BusinessException {
+    if (StringUtils.isNotBlank(fileId)) {
+      ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
+      HttpServletRequest request = servletRequestAttributes.getRequest();
+      HttpServletResponse response = servletRequestAttributes.getResponse();
+      AttachParam attachParam = new AttachParam();
+      attachParam.setFileId(fileId);
+      AttachResult attachResult = this.attachMapper.selectSingleAttachByFileId(attachParam);
+      String fileName = attachResult.getAttachName();
+      //获得文件扩展名
+      String strExtensionName = attachResult.getAttachName().substring(
+          attachResult.getAttachName().lastIndexOf("."));
+      String filePath = FileConstant.TEMPORARY_FILE_PATH+Utils.getUuidFor32()+strExtensionName;
+      try {
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        try{
+          byteArrayOutputStream = new ByteArrayOutputStream();          
+          this.objectStorageServiceImpl.downloadFile(attachResult.getMongoFileId(), 
+              byteArrayOutputStream);
+          fileName = new String(attachResult.getAttachName().getBytes("GB2312"), "ISO_8859_1");
+          response.setCharacterEncoding("utf-8");
+          response.setContentType("multipart/form-data");
+          // 设置文件名
+          response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
+          response.getOutputStream().write(byteArrayOutputStream.toByteArray());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }finally {
+          if (byteArrayOutputStream != null){
+            byteArrayOutputStream.close();
+          }
+        }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      try {
+        FileOperateUtil.download(request, response, filePath, 
+            attachResult.getAttachName(), "UTF-8", "ISO8859-1", 20480);
+      } catch (IOException e) {
+        e.printStackTrace();
+        throw new BusinessException(EnumResult.UNKONW_ERROR);
+      }finally{
+        File file = new File(filePath);
+        FileOperateUtil.deleteFile(file);
+      }
+    }
   }
 }
