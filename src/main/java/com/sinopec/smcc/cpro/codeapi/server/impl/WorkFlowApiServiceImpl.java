@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.pcitc.ssc.dps.inte.workflow.AppCallResult;
 import com.pcitc.ssc.dps.inte.workflow.AppExtendsData;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
+import com.pcitc.ssc.dps.inte.workflow.AppVariableData;
 import com.pcitc.ssc.dps.inte.workflow.AppWorkflowData;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteContext;
 import com.pcitc.ssc.dps.inte.workflow.ExecuteTaskData;
@@ -134,6 +135,17 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         appExtendsData.setExt008(jurisdictionApiServiceImpl.getCompanyCode());
       }
       startContext.setExtendsData(appExtendsData);
+      
+      List<AppVariableData> variableList = new ArrayList<>();
+      AppVariableData variable = new AppVariableData();
+      variable.setVariableCode(String.valueOf(userDTO.getUserId()));
+      variable.setVariableValue(userDTO.getUserName());
+      AppVariableData variable1 = new AppVariableData();
+      variable1.setVariableCode("orgCode");
+      variable1.setVariableValue(userDTO.getOrgCode().trim().substring(0,8));
+      variableList.add(variable);
+      variableList.add(variable1);
+      startContext.setVariableList(variableList);
       //发起流程
       dpsTemplate.initStart(startContext);
       
