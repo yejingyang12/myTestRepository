@@ -213,6 +213,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
           workFlowParam.setNextApprover(userIds);
           workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        }else{
+          workFlowParam.setNextApprover("没有用户");
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         }
       }else if(workFlowResult.getCheckResult() == 2){
         
