@@ -9,7 +9,6 @@
 */
 package com.sinopec.smcc.cpro.webservice.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
@@ -28,7 +27,6 @@ import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 //import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
-import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
@@ -148,8 +146,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
     Integer checkType = 0;
     String auditReasons = "";
     if(workFlowResult != null){
-      workFlowParam.setNextApprover("进来了");
-      workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       if(workFlowResult.getBusinessName().equals("定级")){
         checkType = 1;
       }else if(workFlowResult.getBusinessName().equals("申请变更")){
@@ -166,65 +162,17 @@ public class WsMQExecResultService implements ISFMQExecResult {
       
       //如果是企业/总部发起审核，并且下级审批人不为空，则给下级审批人发送邮件
       if(workFlowResult.getCheckResult() == 0 || workFlowResult.getCheckResult() == 1 ){
-        /*workFlowParam.setNextApprover("1测试");
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);*/
         if(!ObjectUtils.isEmpty(executorIdList)){
-          /*workFlowParam.setNextApprover(workFlowResult.getUserId()+"2测试"+workFlowResult.getCheckResult());
-          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-          //获取始发人用户信息
-          UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-          String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
-          //通过用户id 拼接邮箱
-          for(String userId : executorIdList){
-            UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-            //判断所属单位是否相同
-            if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
+            //通过用户id 拼接邮箱
+            for(String userId : executorIdList){
+              UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
               if(StringUtils.isNotBlank(userDTO.getEmail())){
                 email +=userDTO.getEmail() + ",";
               }
               userIds += userId + ",";
             }
-          }
-          for(String userId : executorIdList){
-            UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-            JurisdictionDataResult jurisdictionDataResult = this.jurisdictionApiServiceImpl.
-                queryDataJurisdictionApi(userDTO);
-            List<String> codeList = jurisdictionDataResult.getCodeList();
-            if(codeList != null){
-              for (String string : codeList) {
-                if (orgCode.equals(string.trim().substring(0, 8))) {
-                  if(StringUtils.isNotBlank(userDTO.getEmail())){
-                    email +=userDTO.getEmail() + ",";
-                  }
-                  userIds += userId + ",";
-                  break;
-                }
-              }//循环单位code结束
-            }
-          }//循环用户结束*/
-          //获取始发人用户信息
-          UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-          String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
-          for(String userId : executorIdList){
-            UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-            //判断所属单位是否相同
-            if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
-              if(StringUtils.isNotBlank(userDTO.getEmail())){
-                email +=userDTO.getEmail() + ",";
-              }
-              userIds += userId + ",";
-            }
-          }
-          workFlowParam.setNextApprover(userIds);
-          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-        }else{
-          workFlowParam.setNextApprover("没有用户");
-          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
-        }
+         }
       }else if(workFlowResult.getCheckResult() == 2){
-        
-        workFlowParam.setNextApprover("3测试"+workFlowResult.getCheckResult());
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
        //如果企业审核通过
         //如果是撤销备案
         if(checkType == 2){
@@ -232,56 +180,33 @@ public class WsMQExecResultService implements ISFMQExecResult {
           UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
           email = userDTO.getEmail() + ",";
         }else{
-          
-          workFlowParam.setNextApprover("4测试"+workFlowResult.getCheckResult());
-          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
           if(!ObjectUtils.isEmpty(executorIdList)){
-            //获取始发人用户信息
-            UserDTO originatingUserDTO = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-            String orgCode = originatingUserDTO.getOrgCode().trim().substring(0, 8);
             //通过用户id 拼接邮箱
             for(String userId : executorIdList){
               UserDTO userDTO = ubsTemplate.getUserByUserId(userId);
-              //判断所属单位是否相同
-              if(orgCode.equals(userDTO.getOrgCode().trim().substring(0, 8))){
-                if(StringUtils.isNotBlank(userDTO.getEmail())){
-                  email +=userDTO.getEmail() + ",";
-                }
-                userIds += userId + ",";
+              if(StringUtils.isNotBlank(userDTO.getEmail())){
+                email +=userDTO.getEmail() + ",";
               }
+              userIds += userId + ",";
             }
           }
         }
       }else{
-        workFlowParam.setNextApprover("5测试"+workFlowResult.getCheckResult());
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //给始发人发送邮件
         UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         email = userDTO.getEmail() + ",";
       }
-      
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
         //添加下一步审批人
-//        if(StringUtils.isNotBlank(userIds)){
-//          workFlowParam.setNextApprover(userIds);
-//        }
-//        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        if(StringUtils.isNotBlank(userIds)){
+          workFlowParam.setNextApprover(userIds);
+        }
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
-    }else{
-      //创建工作流信息
-      WorkFlowParam workFlowParam1 = new WorkFlowParam();
-      workFlowParam1.setWorkFlowId("123");
-      workFlowParam1.setBusinessId(businessId);
-      workFlowParam1.setBusinessName("123");
-      workFlowParam1.setCreateTime(new Date());
-      workFlowParam1.setCheckResult(1);
-      workFlowParam1.setUserId("111");
-      workFlowParam1.setSystemId("111");
-      workFlowMapperImpl.insertWorkFlow(workFlowParam1);
     }
     return true;
   }
