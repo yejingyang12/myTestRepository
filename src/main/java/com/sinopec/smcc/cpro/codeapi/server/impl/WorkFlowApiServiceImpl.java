@@ -31,6 +31,7 @@ import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
+import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
@@ -187,9 +188,28 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     executeContext.setExecuteDate(new Date());
     dpsTemplate.approveComplete(executeContext);
     
-    //修改工作流信息
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
+    //如果总部通过，则给始发人发送邮件
+    if(checkResult.equals("4") || businessName.equals("撤销备案")){
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+      String [] emailArr = {userDTO.getEmail()};
+      Integer checkType = 0;
+      if(businessName.equals("定级")){
+        checkType = 1;
+      }else if(businessName.equals("申请变更")){
+        checkType = 3;
+      }else{
+        checkType = 2;
+      }
+      //发送邮件
+      this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
+          workFlowResult.getCheckResult().toString(), "",workFlowResult.getSystemId());
+      workFlowParam.setNextApprover("");
+    }
+    //修改工作流信息
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
   }
@@ -219,11 +239,27 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         }
       }
     }
-    //修改工作流信息
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
+    WorkFlowResult workFlowResult
+      = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+    String [] emailArr = {userDTO.getEmail()};
+    Integer checkType = 0;
+    if(businessName.equals("定级")){
+      checkType = 1;
+    }else if(businessName.equals("申请变更")){
+      checkType = 3;
+    }else{
+      checkType = 2;
+    }
+    //发送邮件
+    this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
+        workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
+    //修改工作流信息
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowParam.setAuditReasons(auditReasons);
+    workFlowParam.setNextApprover("");
     workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
   }
 }
