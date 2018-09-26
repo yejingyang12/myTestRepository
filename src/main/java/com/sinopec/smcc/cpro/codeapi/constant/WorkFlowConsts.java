@@ -22,5 +22,5 @@ public class WorkFlowConsts {
   //工作流流程分类编码--等级保护审批流程
   public static final String CATEGORY_CODE_CPRO  = "cpro";
   //版本号
-  public static final String CATEGORY_VERSION_NUM  = "16";
+  public static final String CATEGORY_VERSION_NUM  = "17";
 }
