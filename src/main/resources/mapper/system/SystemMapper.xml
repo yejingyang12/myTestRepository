@@ -3673,6 +3673,7 @@
   
   <select id="selectSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="BaseResultMap">
     SELECT
+      system.pkId AS systemId,
       system.fkInfoSysTypeCon,
       system.fkSystemIsMerge,
       system.appIsInternet,
