@@ -19,7 +19,7 @@
               <div class="uploadSty">
                 <ul class="fileList" id="fileList">
                   <li v-if="!(formData.revokeAttachName == null || formData.revokeAttachName == '')">
-                    <div class="fl"  @click="fileDownload(formData.revokeAttachPath,formData.revokeAttachName,formData.revokeAttachId)" >{{formData.revokeAttachName}}</div>
+                    <div class="fl">{{formData.revokeAttachName}}</div>
                     <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
                   </li>
                 </ul>

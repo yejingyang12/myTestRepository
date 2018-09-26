@@ -11,7 +11,12 @@ window.onload = function () {
         methods:{
         	//到定级页
         	toGradPageSession:function(_self){
-        		
+        		bus.$emit("judgeChange","change");
+          	if(returnFlag && this.flag1){//没有改动
+          		returnFlag = true;
+      			}else{
+      				returnFlag = false;
+      			}
         			ajaxMethod(_self, 'post',
                   'grading/saveSystemMaterialsSession', false,
                   JSON.stringify(data.formData), 'json',
@@ -21,7 +26,7 @@ window.onload = function () {
         	saveSystemMaterialsSessionSuccess:function(_self,responseData){
         		if(responseData.data!=null&&responseData.data!=''&&responseData.data!='undefind'){
         			bus.$emit('deleteConfirm','');
-        			window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
+        			window.location.href = originUrl+"page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode+"&returnFlag="+returnFlag;
         		}
         	},
           //保存
@@ -31,7 +36,12 @@ window.onload = function () {
           },
           //返回
           returnBtn:function() {
-            this.returnIndex = true;
+          	bus.$emit('judgeChange',"change");
+          	if(returnFlag && this.flag1){
+          		window.location.href = originUrl+"page/indexPage";
+          	}else{
+          		this.returnIndex = true;
+          	}
           },
           returnIndexMethod:function(){
           	ajaxMethod(this, 'post',
@@ -68,6 +78,7 @@ window.onload = function () {
           	bus.$emit('placeContent',this);
           	this.saveSuccess = false;
           	this.changeFlag = true;
+          	returnFlag = true;
           	ajaxMethod(this, 'post',
                 'main/removeSession', true,JSON.stringify(''), 'json',
                 'application/json;charset=UTF-8',this.removeSessionSuccess);

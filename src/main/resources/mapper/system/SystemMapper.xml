@@ -4064,4 +4064,61 @@
 			)
 		AND evaluation.deleteStatus = 1
   </select>
+  
+  <select id="selectAllSystem" parameterType="com.sinopec.smcc.cpro.system.entity.SystemParam" resultMap="SystemListResult">
+		SELECT
+      system.pkId AS systemId,
+      system.systemName,
+      system.sysBusSituationType,
+      system.sysBusDescription,
+      system.fkSystemType,
+      system.standardizedCode,
+      system.whenInvestmentUse,
+      system.executiveOfficeName,
+      system.fkCompanyCode
+      FROM t_cpro_system AS system
+      LEFT JOIN t_cpro_company AS company 
+        ON system.fkCompanyCode = company.companyCode
+    <where>
+    	 system.deleteStatus=1 AND company.deleteStatus=1
+      <if test="companyList != null">
+        <![CDATA[
+          AND company.companyCode IN  
+        ]]>
+        <foreach collection="companyList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+      <if test="plateList != null">
+        <![CDATA[
+          AND company.fkPlateType IN  
+        ]]>
+        <foreach collection="plateList" item="item" index="index" open="(" separator="," close=")">
+          <![CDATA[
+            #{item}
+          ]]>
+        </foreach>
+      </if>
+  		<if test="systemName != null and systemName != ''">
+        <bind name="systemName" value="'%' + systemName + '%'" />
+    	  <![CDATA[
+    		  AND system.systemName LIKE #{systemName,jdbcType=VARCHAR}
+    	  ]]>
+  		</if>
+  	  <if test="systemName != null and systemName != ''">
+        <bind name="systemName" value="'%' + systemName + '%'" />
+        <![CDATA[
+          OR system.standardizedCode LIKE #{systemName,jdbcType=VARCHAR}
+        ]]>
+      </if>
+      <if test="fkCompanyCode != null and fkCompanyCode != ''">
+        <![CDATA[
+          AND system.fkCompanyCode = #{fkCompanyCode,jdbcType=VARCHAR}
+        ]]>
+      </if>
+    </where>
+	</select>
+  
 </mapper>

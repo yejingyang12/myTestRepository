@@ -113,7 +113,7 @@
                                     <div class="uploadSty">
                                         <ul class="fileList" id="fileList">
                                             <li v-if="!(editParam.examinationReportName == null || editParam.examinationReportName =='')">
-                                                <div class="fl"  @click="fileDownload(editParam.examinationReportPath,editParam.examinationReportName,editParam.examinationReportId)" >{{editParam.examinationReportName}}</div>
+                                                <div class="fl">{{editParam.examinationReportName}}</div>
                                                 <i @click="fileDel(editParam.examinationReportPath,1)" class="el-icon-close fl"></i>
                                             </li>
                                         </ul>
@@ -161,7 +161,7 @@
                                     <div class="uploadSty">
                                         <ul class="fileList" id="fileList2">
                                             <li v-if="!(editParam.examinationRectificationReportName == null || editParam.examinationRectificationReportName =='')">
-                                                <div class="fl"  @click="fileDownload(editParam.examinationRectificationReportPath,editParam.examinationRectificationReportName,editParam.examinationRectificationReportId)" >{{editParam.examinationRectificationReportName}}</div>
+                                                <div class="fl">{{editParam.examinationRectificationReportName}}</div>
                                                 <i @click="fileDel(editParam.examinationRectificationReportPath,2)" class="el-icon-close fl"></i>
                                             </li>
                                         </ul>

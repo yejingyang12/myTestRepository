@@ -139,7 +139,7 @@
                                     <div class="uploadSty">
                                         <ul class="fileList" id="fileList">
                                             <li v-if="editData.examReportName != null && editData.examReportName != ''">
-                                                <div class="fl"  @click="fileDownload(editData.examReportPath,editData.examReportName,editData.examReport)" >{{editData.examReportName}}</div>
+                                                <div class="fl" >{{editData.examReportName}}</div>
                                                 <i @click="fileDel(editData.examReportPath,1)" class="el-icon-close fl"></i>
                                             </li>
                                         </ul>
@@ -189,7 +189,7 @@
                                     <div class="uploadSty">
                                         <ul class="fileList" id="fileList2">
                                             <li v-if="!(editData.rectificationReportName == null || editData.rectificationReportName == '')">
-                                                <div class="fl"  @click="fileDownload(editData.rectificationReportPath,editData.rectificationReportName,editData.rectificationReport)" >{{editData.rectificationReportName}}</div>
+                                                <div class="fl">{{editData.rectificationReportName}}</div>
                                                 <i @click="fileDel(editData.rectificationReportPath,2)" class="el-icon-close fl"></i>
                                             </li>
                                         </ul>

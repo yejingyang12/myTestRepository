@@ -117,6 +117,7 @@ var data={
 	                        }
 	                      });*/
 	                  	  this.causeFailure="文件过大";
+	                  	  e.target.value = "";
 	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
@@ -131,6 +132,7 @@ var data={
 		                  			}
 		                  		});*/
 	                  		  this.causeFailure="格式不正确";
+	                  		  e.target.value = "";
 	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
@@ -211,6 +213,7 @@ var data={
 	                        }
 	                      });*/
 	                  	  this.causeFailure="文件过大";
+	                  	  e.target.value = "";
 	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
@@ -225,6 +228,7 @@ var data={
 		                  			}
 		                  		});*/
 	                  		  this.causeFailure="格式不正确";
+	                  		  e.target.value = "";
 	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
@@ -306,6 +310,7 @@ var data={
 	                        }
 	                      });*/
 	                  	  this.causeFailure="文件过大";
+	                  	  e.target.value = "";
 	                  	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
 	                  	}
@@ -319,7 +324,8 @@ var data={
 		                  			callback: function callback(action) {
 		                  			}
 		                  		});*/
-	                  		  this.causeFailure="文件过大";this.causeFailure="格式不正确";
+	                  		  this.causeFailure="格式不正确";
+	                  		  e.target.value = "";
 	                  		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                  		return;
 	                  		}
@@ -399,6 +405,7 @@ var data={
                         }
                       });*/
                   	  this.causeFailure="文件过大";
+                  	  e.target.value = "";
                   	  $("#startBoxImportFailed").show().delay(2000).fadeOut();
                   		return;
                   	}
@@ -413,6 +420,7 @@ var data={
 	                  			}
 	                  		});*/
                   		  this.causeFailure="格式不正确";
+                  		  e.target.value = "";
                   		  $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                  		return;
                   		}

@@ -1583,11 +1583,11 @@ public class SystemServiceImpl implements SystemService {
         "服务范围所跨地区个数或其他","服务对象","其他","覆盖范围","是否有此覆盖范围值",
         "网络性质","其他","系统互联情况","是否有此系统互联情况值","产品类型",
         "数量","使用情况","使用国产品率","服务类型","是否有此服务类型",
-        "服务责任方类型"};
+        "服务责任方类型","建设类型"};
     //合并列名
     String[] rowName2 = new String[]{
         "","系统基本信息","系统承载业务情况","系统服务情况","系统网络平台",
-        "系统互联情况","关键产品使用情况","系统采用服务情况"};
+        "系统互联情况","关键产品使用情况","系统采用服务情况","建设类型"};
     
     //有要导出的对象时
     if(exportSystemInfoList != null && exportSystemInfoList.size() > 0){
@@ -1719,6 +1719,10 @@ public class SystemServiceImpl implements SystemService {
               regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
               constraint = DVConstraint.createExplicitListConstraint(
                   new String[] { "本行业（单位）", "国内其他服务商", "国外服务商" });// 生成下拉框内容
+            } else if (i == 31){
+              regions = new CellRangeAddressList(4 + j * 8, 11 + j * 8, i, i); // 创建所要下拉的区域
+              constraint = DVConstraint.createExplicitListConstraint(
+                  new String[] { "自建", "统建", "总部系统" });// 生成下拉框内容
             }
             
             if (regions != null && constraint != null) {
@@ -1818,6 +1822,13 @@ public class SystemServiceImpl implements SystemService {
           HSSFCell cellRow = rowRowName2.createCell(k);
           cellRow.setCellStyle(columnTopStyle);
         }
+        
+        //建设类型
+        HSSFCell cellRowName9 = rowRowName2.createCell(31);// 创建列头对应个数的单元格
+        //cellRowName9.setCellType(HSSFCell.CELL_TYPE_STRING);// 设置列头单元格的数据类型
+        HSSFRichTextString text9 = new HSSFRichTextString(rowName2[8]);
+        cellRowName9.setCellValue(text9);// 设置列头单元格的值
+        cellRowName9.setCellStyle(columnTopStyle);// 设置列头单元格样式
 
         // 将查询出的数据设置到sheet对应的单元格中
         for (int i = 0; i < exportSystemInfoList.size(); i++) {
@@ -1838,7 +1849,7 @@ public class SystemServiceImpl implements SystemService {
           HSSFRow row8 = sheet.createRow(i * 8 + 10);
           HSSFRow row9 = sheet.createRow(i * 8 + 11);
           
-          for (int j = 0; j < 31; j++) {
+          for (int j = 0; j < 32; j++) {
             HSSFCell cell = null;// 设置单元格的数据类型
             if (j == 0) {
             //序号
@@ -2980,6 +2991,26 @@ public class SystemServiceImpl implements SystemService {
                   break;
                 }
               }*///系统采用服务情况end
+            }else if(j == 31){
+            //所属单位名称
+              cell = row.createCell(j);
+              // 设置格式
+              cell.setCellStyle(style2);
+              
+              HSSFCell cell3 = row3.createCell(j);
+              cell3.setCellStyle(style2);
+              HSSFCell cell4 = row4.createCell(j);
+              cell4.setCellStyle(style2);
+              HSSFCell cell5 = row5.createCell(j);
+              cell5.setCellStyle(style2);
+              HSSFCell cell6 = row6.createCell(j);
+              cell6.setCellStyle(style2);
+              HSSFCell cell7 = row7.createCell(j);
+              cell7.setCellStyle(style2);
+              HSSFCell cell8 = row8.createCell(j);
+              cell8.setCellStyle(style2);
+              HSSFCell cell9 = row9.createCell(j);
+              cell9.setCellStyle(style2);
             }
             
           }
@@ -4308,7 +4339,8 @@ public class SystemServiceImpl implements SystemService {
     // excel行号循环
     for (int dataListTem = 4, dataCount = 1; dataListTem < dataListSize; dataListTem++, dataCount++) {
       strsList = dataList.get(dataListTem);
-      if(strsList.length==31){
+      //32列
+      if(strsList.length==32){
         if (!strsList[11].isEmpty() && !strsList[11].equals("0")) {
           isNan.put(strsList[11], strsList[12]);
         }
@@ -4494,9 +4526,9 @@ public class SystemServiceImpl implements SystemService {
             serviceType.clear();
           }
           system.setSystemUseServices(systemUseServicesList);
-          system.setFkInfoSysTypeCon(1);// 信息系统建设类型
-          system.setFkSystemIsMerge(2);// 是否为合并系统
-          system.setFkSystemType(1);// 系统类型
+          //system.setFkInfoSysTypeCon(1);// 信息系统建设类型
+          //system.setFkSystemIsMerge(2);// 是否为合并系统
+          //system.setFkSystemType(1);// 系统类型
           system.setSystemName(topNum[1].trim());// 系统名称
           system.setStandardizedCode(topNum[2].trim());// 标准化代码
           if(StringUtils.isNotBlank(topNum[3])){
@@ -4560,6 +4592,11 @@ public class SystemServiceImpl implements SystemService {
           }
           if(StringUtils.isNotBlank(topNum[10])){
             system.setFatherSystemName(topNum[10].trim());// 上级系统名称
+            system.setFkSystemIsMerge(1);// 是否为合并系统：是
+            system.setFkSystemType(3);// 系统类型：合并子系统
+          }else{
+            system.setFkSystemIsMerge(2);// 是否为合并系统：否
+            system.setFkSystemType(1);// 系统类型：不合并系统
           }
           if (StringUtils.isNotBlank(topNum[13])) {
             system.setSysBusDescription(topNum[13].trim());// 业务描述
@@ -4594,6 +4631,21 @@ public class SystemServiceImpl implements SystemService {
               system.setNpNetworkProperties(topNum[21].trim());
             } else {
               system.setNpNetworkProperties(topNum[20].trim());
+            }
+          } else {
+            return false;
+          }
+          
+          //系统建设类型
+          if (StringUtils.isNotBlank(topNum[31])) {
+            if (topNum[31].trim().equals("自建")) {// 系统建设类型
+              system.setFkInfoSysTypeCon(1);
+            } else if(topNum[31].trim().equals("统建")){
+              system.setFkInfoSysTypeCon(2);
+            } else if(topNum[31].trim().equals("总部系统")){
+              system.setFkInfoSysTypeCon(3);
+            } else{
+              return false;
             }
           } else {
             return false;

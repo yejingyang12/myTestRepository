@@ -1523,10 +1523,10 @@
     outline: 0
 }
 
-.el-radio:focus:not(.is-focus):not(:active) .el-radio__inner {
+/* .el-radio:focus:not(.is-focus):not(:active) .el-radio__inner {
     -webkit-box-shadow: 0 0 2px 2px #409EFF;
     box-shadow: 0 0 2px 2px #409EFF
-}
+} */
 
 .el-radio__label {
     font-size: 14px;

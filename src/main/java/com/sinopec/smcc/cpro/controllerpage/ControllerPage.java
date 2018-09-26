@@ -93,7 +93,7 @@ public class ControllerPage {
   @RequestMapping("/applicationChangePage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationChangePage( Model model, 
-      SystemParam systemParam){
+      SystemParam systemParam,boolean returnFlag){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     model.addAttribute("companyId", systemParam.getCompanyId());
@@ -101,34 +101,38 @@ public class ControllerPage {
     model.addAttribute("fkChangeMatter", systemParam.getFkChangeMatter());
     model.addAttribute("changeReason", systemParam.getChangeReason());
     model.addAttribute("changeContent", systemParam.getChangeContent());
+    model.addAttribute("returnFlag", returnFlag);
     return "views/applicationChange";
   }
   //申请变更系统信息填写
   @RequestMapping("/applicatuibChangSystemPage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicatuibChangSystemPage( Model model, 
-      SystemParam systemParam){
+      SystemParam systemParam,Boolean returnFlag){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
     model.addAttribute("companyId", systemParam.getCompanyId());
+    model.addAttribute("returnFlag", returnFlag);
     return "views/applicatuibChangSystem";
   }
   //申请变更定级信息填写
   @RequestMapping("/applicationChangeGradPage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationChangeGradPage( Model model, 
-      SystemParam systemParam){
+      SystemParam systemParam,Boolean returnFlag){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
+    model.addAttribute("returnFlag", returnFlag);
     return "views/applicationChangeGrad";
   }
   //申请变更材料信息填写
   @RequestMapping("/applicationChangeMaterialPage")
   @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
   public String applicationChangeMaterialPage( Model model, 
-      SystemParam systemParam){
+      SystemParam systemParam,boolean returnFlag){
     model.addAttribute("systemId", systemParam.getSystemId());
     model.addAttribute("companyCode", systemParam.getFkCompanyCode());
+    model.addAttribute("returnFlag", returnFlag);
     return "views/applicationChangeMaterial";
   }
   

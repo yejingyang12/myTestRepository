@@ -22,7 +22,13 @@ window.onload = function () {
         },
         //返回
         returnBtn:function() {
-          this.returnIndex = true;
+        	bus.$emit('returnIndexPage',"");
+        	if(this.returnIndexFlag){
+      			//没有改变
+      			window.location.href = originUrl+"page/indexPage";
+      		}else{
+      			this.returnIndex = true;
+      		}
         },
         returnIndexMethod:function(){
         	ajaxMethod(this, 'post',
@@ -39,7 +45,7 @@ window.onload = function () {
         //将单位信息存入session后成功
         saveCompanyToSessionSuccess:function(_self,responseData){
         	if(responseData.data!=null){
-        		window.location.href = originUrl+"/page/applicatuibChangSystemPage?fkCompanyCode=" +companyCode+"&systemId="+systemId+"&companyId="+companyId;
+        		window.location.href = originUrl+"/page/applicatuibChangSystemPage?fkCompanyCode=" +companyCode+"&systemId="+systemId+"&companyId="+companyId+"&returnFlag="+_self.returnIndexFlag;
         	}
         },
       },

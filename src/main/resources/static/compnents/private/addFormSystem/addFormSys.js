@@ -2,6 +2,7 @@
  * Created by timha on 2018/5/21.
  */
 var  data={
+		returnIndexFlag:true,
 		indexFlag:"",
 		 pickerOptions0: {
 	          disabledDate:function(time) {
@@ -311,7 +312,7 @@ var  data={
               { required: false, message: '选择关键产品', trigger: 'blur' }
           ],
           systemProServices:[
-              { required: true, message: '填写国产品使用率有误', trigger: 'blur' }
+              { required: false, message: '填写国产品使用率有误', trigger: 'blur' }
           ],
           fatherSystemName:[
               {required: false, message: '请选择父系统', trigger: 'change'}
@@ -859,7 +860,7 @@ var  data={
                     //获取全部系统
                     getAllSystemInfoMethod : function(_self){
                     	ajaxMethod(_self, 'post',
-                          'systemapi/querySystemApi', false,
+                          'systemapi/querySystemApi', true,
                           '{"companyCode":"'+null+'"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getAllSystemInfoSuccessMethod);
@@ -870,7 +871,7 @@ var  data={
                     // 获取系统下拉列表
                     getSystemInfoMethod : function(_self) {
                       ajaxMethod(_self, 'post',
-                          'systemapi/querySystemApi', false,
+                          'systemapi/querySystemApi', true,
                           '{"companyCode":"'+companyCode+'"}', 'json',
                           'application/json;charset=UTF-8',
                           _self.getSystemInfoSuccessMethod);
@@ -976,7 +977,7 @@ var  data={
                     //获取单位信息
                     getCompanyMethod:function(_self){
                       ajaxMethod(_self, 'post',
-                          'company/queryCompanyName', false,'{}', 'json',
+                          'company/queryCompanyName', true,'{}', 'json',
                           'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
                     },
                     //获取单位信息
@@ -998,7 +999,7 @@ var  data={
                     //获取上级系统所属单位信息
                     getParentCompanyMethod:function(_self){
                       ajaxMethod(_self, 'post',
-                          'organizationapi/queryOrganizationForKeyOrganizationName', false,'{}', 'json',
+                          'organizationapi/queryOrganizationForKeyOrganizationName', true,'{}', 'json',
                           'application/json;charset=UTF-8',_self.getParentCompanySuccessMethod);
                     },
                     //获取上级系统所属单位信息
@@ -1548,7 +1549,7 @@ var  data={
                     //获取权限
           					getPermitJurisdictionInfo: function(_self){
                       ajaxMethod(_self,"get",
-                          "jurisdiction/queryMenuJurisdictionApi",false,
+                          "jurisdiction/queryMenuJurisdictionApi",true,
                           JSON.stringify(""),"json",
                           'application/json;charset=UTF-8', _self.getPermitJurisdictionSuccess);
                     },
@@ -1624,7 +1625,7 @@ var  data={
                   $.ajax({
                     type: "get",
                     url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
-                    async: false,
+                    async: true,
                     data: "",
                     dataType: "json",
                     cache: false,
@@ -1841,6 +1842,138 @@ var  data={
                   setTimeout(function(){
                     _self.loading=false;
                   },1);
+                  
+                  bus.$on('returnIndexPage',function(meg){
+
+                  	var beginContent = _self.beginContent;
+                  	var currentContent = _self.formData;
+                  	if(beginContent.fkInfoSysTypeCon != currentContent.fkInfoSysTypeCon){//信息系统建设类型
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.fkSystemIsMerge != currentContent.fkSystemIsMerge){//是否为合并系统
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.systemName != currentContent.systemName){//系统名称
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.standardizedCode != currentContent.standardizedCode){//标准化代码
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	//子系统
+                  	if(currentContent.addSystemSub!=null){//当前页面有子系统
+                  		if(beginContent.addSystemSub == null){//页面开始没有
+                  			_self.returnIndexFlag = false;
+                  		}
+                  	}
+                  	if(beginContent.addSystemSub!=null){//页面开始有子系统
+                  		if(currentContent.addSystemSub == null){//当前页面没有
+                  			_self.returnIndexFlag = false;
+                  		}
+                  	}
+                  	if(currentContent.addSystemSub!=null && beginContent.addSystemSub == null){//当前页面与开始页面都有子系统
+                  		for(var i=0;i<currentContent.addSystemSub.length;i++){
+                  			if(beginContent.addSystemSub[i].label != currentContent.addSystemSub[i].label){
+                  				_self.returnIndexFlag = false;
+                  			}
+                  			if(beginContent.addSystemSub[i].labelCode != currentContent.addSystemSub[i].labelCode){
+                  				_self.returnIndexFlag = false;
+                  			}
+                  			if(beginContent.addSystemSub[i].systemName != currentContent.addSystemSub[i].systemName){//子系统名称
+                  				_self.returnIndexFlag = false;
+                  			}
+                  			if(beginContent.addSystemSub[i].standardizedCode != currentContent.addSystemSub[i].standardizedCode){//子系统标准化代码
+                  				_self.returnIndexFlag = false;
+                  			}
+                  		}
+                  	}
+                  	if(beginContent.gradeRecordSysName != currentContent.gradeRecordSysName){//等保备案系统名称
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.appIsInternet != currentContent.appIsInternet){//是否为互联网应用
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.sysBusSituationType != currentContent.sysBusSituationType){//业务类型
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.sysBusDescription != currentContent.sysBusDescription){//业务描述
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.sysServiceSitScope != currentContent.sysServiceSitScope){//服务范围
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.sysServiceSitObject != currentContent.sysServiceSitObject){//服务对象
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.npCoverageRange != currentContent.npCoverageRange){//覆盖范围
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.npNetworkProperties != currentContent.npNetworkProperties){//网络性质
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.interconnectionSit != currentContent.interconnectionSit){//系统互联情况
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	//关键产品使用情况
+                  	for(var i=0;i<currentContent.systemKeyProducts.length;i++){
+                  		if(beginContent.systemKeyProducts[i].fkNationalIsProducts != currentContent.systemKeyProducts[i].fkNationalIsProducts){//是否使用国产品
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemKeyProducts[i].fkExaminStatus != currentContent.systemKeyProducts[i].fkExaminStatus){//数字1234，对应产品类型，
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemKeyProducts[i].productsNumber != currentContent.systemKeyProducts[i].productsNumber){//数量
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemKeyProducts[i].nUseProbability != currentContent.systemKeyProducts[i].nUseProbability){//使用国产品率
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemKeyProducts[i].otherName != currentContent.systemKeyProducts[i].otherName){//其他
+                  			_self.returnIndexFlag = false;
+                  		}
+                  	}
+                  	//系统采用服务情况
+                  	for(var i=0;i<currentContent.systemUseServices.length;i++){
+                  		if(beginContent.systemUseServices[i].fkResponsibleType != currentContent.systemUseServices[i].fkResponsibleType){//服务责任方类型
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemUseServices[i].fkProductsType != currentContent.systemUseServices[i].fkProductsType){//产品类型
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemUseServices[i].fkSystemId != currentContent.systemUseServices[i].fkSystemId){
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemUseServices[i].serviceIsUse != currentContent.systemUseServices[i].serviceIsUse){//是否采用
+                  			_self.returnIndexFlag = false;
+                  		}
+                  		if(beginContent.systemUseServices[i].otherName != currentContent.systemUseServices[i].otherName){//其他
+                  			_self.returnIndexFlag = false;
+                  		}
+                  	}	
+                  	if(beginContent.companyName != currentContent.companyName){//所属单位名称
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.whenInvestmentUse != currentContent.whenInvestmentUse){//何时投入使用
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.executiveOfficeName != currentContent.executiveOfficeName){//主管处室名称
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.subIsSystem != currentContent.subIsSystem){//系统是否为分系统
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.fatherSystemName != currentContent.fatherSystemName){//上级系统名称
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.fatherCompanyName != currentContent.fatherCompanyName){//请选择上级系统所属单位名称
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.executiveDireCon != currentContent.executiveDireCon){//主管联系人
+                  		_self.returnIndexFlag = false;
+                  	}
+                  	if(beginContent.executiveDireConTel != currentContent.executiveDireConTel){//主管联系人电话
+                  		_self.returnIndexFlag = false;
+                  	}
+                  });
                 }
             })
         })

@@ -204,6 +204,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
         //添加下一步审批人
         if(StringUtils.isNotBlank(userIds)){
           workFlowParam.setNextApprover(userIds);
+        }else{
+          workFlowParam.setNextApprover("");
         }
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }

@@ -58,7 +58,7 @@ public class SystemApiServiceImpl implements SystemApiService{
         systemInfoList = JSON.parseObject(usmgTemplate.findSystemInfoBySpOrgNumber(
             systemApiParam.getCompanyCode()).toString(), SystemInfoList.class);
 //        systemInfoList = JSON.parseObject(systemApiClient.querySystemList("10010037"), SystemInfoList.class);
-//    	  systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
+//       systemInfoList = JSON.parseObject(systemApiClient.querySystemList(), SystemInfoList.class);
       }else{
         systemInfoList = JSON.parseObject(usmgTemplate.querySystemInfoList().toString(), 
             SystemInfoList.class);
@@ -69,7 +69,7 @@ public class SystemApiServiceImpl implements SystemApiService{
     }
     SystemParam systemParam = new SystemParam();
     systemParam.setFkCompanyCode(systemApiParam.getCompanyCode());
-    List<SystemListResult> systemList = systemMapper.selectAllBySystemParam(systemParam);
+    List<SystemListResult> systemList = systemMapper.selectAllSystem(systemParam);
     
     if (systemList!=null&&systemList.size()>0) {
       if (systemInfoList!=null&&systemInfoList.getData()!=null&&systemInfoList.getData().size()>0) {

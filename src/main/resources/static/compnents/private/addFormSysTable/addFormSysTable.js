@@ -10,7 +10,7 @@
                     return data;
                 },
                 methods:{
-                    addNum:function (e,index) {
+                    addNum:function (index) {
                         var n = this.formData.systemKeyProducts[index].nUseProbability;
                         if( n == 100){
                           this.formData.systemKeyProducts[index].nUseProbability = 100;
@@ -20,7 +20,7 @@
                           this.formData.systemKeyProducts[index].nUseProbability=0;
                         }
                     },
-                    oddNum:function (e,index) {
+                    oddNum:function (index) {
                         var n = this.formData.systemKeyProducts[index].nUseProbability;
                         if(n == 0){
                           this.formData.systemKeyProducts[index].nUseProbability = 0;
@@ -29,6 +29,20 @@
                         }else{
                           this.formData.systemKeyProducts[index].nUseProbability = 0;
                         }
+                    },
+                    upNumber:function(index){
+                    	this.formData.systemKeyProducts[index].allHave = 2;
+                    	this.formData.systemKeyProducts[index].number++;
+                    	this.formData.systemKeyProducts[index].productsNumber = this.formData.systemKeyProducts[index].number;
+                    },
+                    downNumber:function(index){
+                    	var num = this.formData.systemKeyProducts[index].number;
+                    	if(num>0){
+                    		this.formData.systemKeyProducts[index].number--;
+                    	}else{
+                    		this.formData.systemKeyProducts[index].number = this.formData.systemKeyProducts[index].number
+                    	}
+                    	this.formData.systemKeyProducts[index].productsNumber = this.formData.systemKeyProducts[index].number;
                     },
                     
                     //获取产品类型信息
@@ -58,6 +72,12 @@
                       }
                       _self.sysProductType = responseData.data;
                     },
+                    
+                    ls:function(e,index){
+                    	e === this.formData.systemKeyProducts[index].allHave ? this.formData.systemKeyProducts[index].allHave = '' : this.formData.systemKeyProducts[index].allHave = e;
+                    	this.radioChange(index,this.formData.systemKeyProducts[index].allHave);
+                    	//e === this.radio2 ? this.radio2 = '' : this.radio2 = e
+                    },
                     radioChange:function(index,allHave){
                     	if(allHave == 1){
                     		this.formData.systemKeyProducts[index].allHave = 1;
@@ -66,8 +86,14 @@
                     	}else if(allHave == 2){
                     		this.formData.systemKeyProducts[index].number = 0;
                     		this.formData.systemKeyProducts[index].productsNumber = 0;
-                    	}
+                    	}else{//取消选中
+                    		this.formData.systemKeyProducts[index].allHave = "";
+                    		this.formData.systemKeyProducts[index].number = 0;
+                    		this.formData.systemKeyProducts[index].productsNumber = "";
+                    		this.formData.systemKeyProducts[index].fkNationalIsProducts = "";
+                    		this.formData.systemKeyProducts[index].nUseProbability = 0;                     	}
                     },
+                    
                     inputNumberChange:function(index){
                     	this.formData.systemKeyProducts[index].allHave = 2;
                     	this.formData.systemKeyProducts[index].productsNumber = this.formData.systemKeyProducts[index].number;
@@ -152,11 +178,14 @@
                     },
                     //选择无或者0时，是否使用国产品和使用率不用验证
                     changeNumber: function(productsNumber){
-                    	if(productsNumber == "无"){
+                    	if(productsNumber == 0){
                     		bus.$emit('changeNumber',"changeNumber");
                     		//验证过就将验证消息清空
                     		if(this.$refs.systemKeyFkNationalIsProducts){
                     			this.$refs.systemKeyFkNationalIsProducts.clearValidate();
+                    		}
+                    		if(this.$refs.systemProServices){
+                    			this.$refs.systemProServices.clearValidate();
                     		}
                     		//this.$refs.systemKeyProducts.clearValidate();
                     	}else{
@@ -171,6 +200,8 @@
                     	    this.formData.systemKeyProducts[index].nUseProbability=100;
                     	  }else if(val=="2"||val==2){
                     	    this.formData.systemKeyProducts[index].nUseProbability=0;
+                    	  }else if(val=="3"||val==3){
+                    	  	this.formData.systemKeyProducts[index].nUseProbability=0;
                     	  }
                     	}else{
                     	  var nUsePr = this.formData.systemKeyProducts[index].nUseProbability;
@@ -210,13 +241,46 @@
                       default:
                         break;
                       }
-                    }
+                      if(probability>100||probability<0||parseInt(probability)>100||parseInt(probability)<0){
+                      	this.formData.systemKeyProducts[index].nUseProbability = 0;
+                      }
+                    },
+                    getFocus:function(val,index){//获取焦点
+                    	if(val==0){
+                    		this.formData.systemKeyProducts[index].number = "";
+                    	}else{
+                    		this.formData.systemKeyProducts[index].number = this.formData.systemKeyProducts[index].number;
+                    	}
+                    },
+                    onBlur:function(val,index){
+                    	if(val==""){
+                    		this.formData.systemKeyProducts[index].number = 0;
+                    	}else{
+                    		this.formData.systemKeyProducts[index].number = this.formData.systemKeyProducts[index].number;
+                    	}
+                    },  
+                  getNUseProbabilityFocus:function(val,index){
+                    if(val==0){
+                    	this.formData.systemKeyProducts[index].nUseProbability = "";
+                    }else{
+                    	this.formData.systemKeyProducts[index].nUseProbability = this.formData.systemKeyProducts[index].nUseProbability;
+                    }	
+                  },
+                  onNUseProbabilityBlur:function(val,index){
+                  	if(val==""){
+                  		this.formData.systemKeyProducts[index].nUseProbability = 0;
+                  		this.formData.systemKeyProducts[index].fkNationalIsProducts = '';
+                  	}else{
+                  		this.formData.systemKeyProducts[index].nUseProbability = this.formData.systemKeyProducts[index].nUseProbability;
+                  	}
+                  },
                 },
                 created: function() {
                   //获取产品类型
                   this.getProductTypeMethod(this);
                   //获取数量
-                  this.getNumberMethod(this);
+//                  this.getNumberMethod(this);
+
                   //获取是否使用国产品
                   this.getNationalProductsMethod(this);
                   //获取服务类型

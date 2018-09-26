@@ -125,7 +125,7 @@
                   <div class="uploadSty">
                     <ul class="fileList" id="fileList">
                       <li v-if="!(formData.recordReportName == null || formData.recordReportName == '')">
-                        <div class="fl"  @click="fileDownload(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" >{{formData.recordReportName}}</div>
+                        <div class="fl">{{formData.recordReportName}}</div>
                         <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
                       </li>
                     </ul>

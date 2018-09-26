@@ -68,6 +68,7 @@ var revokeRecordData={
 	                }
 	              });*/
 	          		this.dialogVisible=true;
+	          		e.target.value = "";
 	          		return;
 	          	}
 	          	var fileFormat = e.target.value.split(".");//文件后缀
@@ -81,6 +82,7 @@ var revokeRecordData={
 	            			}
 	            		});*/
             			this.dialogVisibles=true;
+            			e.target.value = "";
 	            		return;
             		}
             		var uploadData = new FormData(); 
@@ -182,7 +184,6 @@ var revokeRecordData={
 						_self.formData.revokereason = '';
 						$("#revokeRecordDialogShaw").css("display","none");
             $("#revokeRecordInquiry").css("display","none");
-						$(".startBox").show().delay(2000).fadeOut();
             window.setTimeout(function () {
             	window.location.href= originUrl+encodeURI("/page/indexPage");           
             }, 2300);

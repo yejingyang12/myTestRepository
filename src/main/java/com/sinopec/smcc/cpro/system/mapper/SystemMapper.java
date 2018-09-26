@@ -445,4 +445,11 @@ public interface SystemMapper {
    * @return
    */
   int selectEvaluationCountBySystemParam(SystemParam systemParam);
+  /**
+   * 查询所有系统名称，包括子系统
+   * @param systemParam
+   * @return
+   */
+  List<SystemListResult> selectAllSystem(SystemParam systemParam);
+
 }

@@ -26,10 +26,16 @@
                                 <el-option v-for="number in sysNumber" :key="number.systemCode" :label="number.systemCode" :value="number.systemCode" ></el-option>
                             </el-select> -->
                            <el-radio-group v-model="formData.systemKeyProducts[index].allHave" @change="radioChange(index,formData.systemKeyProducts[index].allHave)">
-                            	<el-radio class="one" :label="1">共有</el-radio>
-                            	<el-radio class="two" :label="2">其他:</el-radio>
+                            	<el-radio @click.native.prevent="ls(1,index)" class="one" :label="1">共有</el-radio>
+                            	<el-radio @click.native.prevent="ls(2,index)" class="two" :label="2">其他:</el-radio>
                             </el-radio-group>
-                            <el-input-number @change="inputNumberChange(index)" style="width:50%;float:right" v-model="formData.systemKeyProducts[index].number" controls-position="right" :min="0" :max="999"></el-input-number>
+                            <input type="number" style="width:40%;"
+                            			v-model="formData.systemKeyProducts[index].number"
+                            			@blur="onBlur(formData.systemKeyProducts[index].number,index)" 
+                            			@focus="getFocus(formData.systemKeyProducts[index].number,index)"
+                            			@change="inputNumberChange(index)">
+                            <i class="addNum" @click="upNumber(index)"></i>
+                            <i class="oddNum" @click="downNumber(index)"></i>
                         </td>
                         <td>
                             <span class="dowmBg"></span>           
@@ -44,14 +50,15 @@
                         </td>   
                         <td>
                             <!--<div>-->
-                            <input type="number" class="form-control pull-left tdWith"   
+                            <input type="number" class="pull-left tdWith"   
                                    v-model="formData.systemKeyProducts[index].nUseProbability"
                                    @change="productChange(formData.systemKeyProducts[index].fkNationalIsProducts,[index],2)"
-                                   onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)" onblur="this.v();">
+																	 @focus="getNUseProbabilityFocus(formData.systemKeyProducts[index].nUseProbability,[index])"
+																	 @blur="onNUseProbabilityBlur(formData.systemKeyProducts[index].nUseProbability,[index])">
                             
                             <!--<span class="sticNum">0</span>-->
-                            <i class="addNum" @click="addNum($event,index)"></i>
-                            <i class="oddNum" @click="oddNum($event,index)"></i>
+                            <i class="addNum" @click="addNum(index)"></i>
+                            <i class="oddNum" @click="oddNum(index)"></i>
                             <span class="pull-left" style="margin:10px">%</span>
                             <!--</div>-->
                         </td>

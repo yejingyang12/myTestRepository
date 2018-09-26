@@ -4,6 +4,8 @@ var data={
 	       
 	      }
 	},
+	systemNameTemp:"",
+	systemNameTemp1:"",
 	changeFlag:false,
 	yesOrNotSubmit:false,//提交弹窗
 	returnIndex:false,
@@ -290,6 +292,7 @@ var data={
 	                        });*/
 /*	                    		this.dialogVisible=true;*/
 	                        this.causeFailure="文件过大";
+	                        e.target.value = "";
 	                        $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    		return;
 	                    	}
@@ -305,6 +308,7 @@ var data={
 	                    			});*/
 /*	                    			this.dialogVisible=true;*/
 	                          this.causeFailure="格式不正确";
+	                          e.target.value = "";
 	                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    			return;
 	                    		}
@@ -350,6 +354,7 @@ var data={
 	                        });*/
 /*	                    		this.dialogVisible=true;*/
                           this.causeFailure="文件过大";
+                          e.target.value = "";
                           $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    		return;
 	                    	}
@@ -365,6 +370,7 @@ var data={
 	                    			});*/
 /*	                    			this.dialogVisible=true;*/
 	                           this.causeFailure="格式不正确";
+	                           e.target.value = "";
 	                           $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    			return;
 	                    		}
@@ -411,6 +417,7 @@ var data={
 	                        });*/
 /*	                    		this.dialogVisible=true;*/
                           this.causeFailure="文件过大";
+                          e.target.value = "";
                           $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	                    		return;
 	                    	}
@@ -426,6 +433,7 @@ var data={
 		                    		});*/
 /*	                    			this.dialogVisible=true;*/
                             this.causeFailure="格式不正确";
+                            e.target.value = "";
                             $("#startBoxImportFailed").show().delay(2000).fadeOut();
 		                    		return;
 	                    		}
@@ -1466,14 +1474,37 @@ var data={
                         '{"systemId":"'+systemId+'"}', 'json',
                         'application/json;charset=UTF-8',
                         this.getSystemSuccess);
-                    } ,
+                    },
                     getSystemSuccess : function(_self,result){
-                    	this.formData.systemName = result.data.systemName;
-                    	if(result.data.gradeRecordSysName==''||result.data.gradeRecordSysName==null||result.data.gradeRecordSysName=='undefind'
-                    		||_self.formData.gradeRecordSysName == ''||_self.formData.gradeRecordSysName == null||_self.formData.gradeRecordSysName == 'undefind'){
-                    		_self.formData.gradeRecordSysName = result.data.systemName;
-                    	}else{
-                    		_self.formData.gradeRecordSysName = result.data.gradeRecordSysName;
+                    	_self.systemNameTemp = result.data.systemName;//从数据库查出的系统名称
+                    	_self.formData.gradeRecordSysName = result.data.gradeRecordSysName;//从数据库查出的备案系统名称
+                    },
+                    getSystemSession:function(_self){
+                    	ajaxMethod(_self, 'post',
+                          'system/querySystemSession', false,
+                          JSON.stringify(''), 'json',
+                          'application/json;charset=UTF-8',
+                          _self.querySystemSessionSuccess);
+                    },
+                    querySystemSessionSuccess:function(_self,result){
+                    	if(result.data!=null){
+                    		_self.systemNameTemp1 = result.data.gradeRecordSysName;//从session中取出的备案系统名称
+                    	}
+                    },
+                    setGradeRecordSysName:function(_self){
+                    	if(_self.systemNameTemp1){//申请变更，先从session中取备案系统名称
+                    		_self.formData.gradeRecordSysName = _self.systemNameTemp1;
+                    	}else{//session中没有，新建，或者申请变更上一页没填
+                    		//判断是新建还是申请变更
+                    		if(type=="change"){//申请变更
+                    			_self.formData.gradeRecordSysName = _self.systemNameTemp;//系统名称
+                    		}else{//新建
+                    			if(!_self.formData.gradeRecordSysName){//新建，备案名称没填
+                    				_self.formData.gradeRecordSysName = _self.systemNameTemp;//系统名称
+                    			}else{//新建，填了备案系统名称
+                    				_self.formData.gradeRecordSysName = _self.formData.gradeRecordSysName;
+                    			}
+                    		}
                     	}
                     },
                     getPermitJurisdictionInfo: function(_self){
@@ -1554,6 +1585,9 @@ var data={
                    _self.formData.fkSystemId = systemId;
                    //获取系统信息
                    _self.getSystem(_self);
+                   _self.getSystemSession(_self);
+                   //设置系统名称
+                   _self.setGradeRecordSysName(_self);
                    bus.$on('addGradName',function(meg){
                      if(meg!=null){
                        _self.$refs[meg].validate(function (valid) {

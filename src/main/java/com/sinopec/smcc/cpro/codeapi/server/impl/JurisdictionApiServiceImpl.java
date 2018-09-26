@@ -164,10 +164,10 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
   }
   
   /**
-   * @Descrption  
+   * @Descrption  查询指定用户的数据权限
    * @author yejingyang
    * @date 2018年9月21日上午10:40:09
-   * @param userDTO
+   * @param userDTO 指定的用户
    * @return
    */
   @Override

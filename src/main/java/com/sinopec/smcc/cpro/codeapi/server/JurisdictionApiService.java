@@ -32,10 +32,10 @@ public interface JurisdictionApiService {
    */
   JurisdictionDataResult queryDataJurisdictionApi();
   /**
-   * @Descrption  获得组织机构下拉列表数据
+   * @Descrption  查询指定用户的数据权限
    * @author yejingyang
    * @date 2018年9月21日上午10:43:10
-   * @param userDTO 获取的用户
+   * @param userDTO 指定的用户
    * @return
    */
   JurisdictionDataResult queryDataJurisdictionApi(UserDTO userDTO);

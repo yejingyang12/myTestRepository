@@ -27,6 +27,12 @@ window.onload = function () {
           },
           //上一页
           preBtn:function() {
+          	bus.$emit('returnIndexPage',"");
+          	if(returnFlag && this.returnIndexFlag){
+          		returnFlag = true;
+          	}else{
+          		returnFlag  = false;
+          	}
           	var systemTemp = JSON.stringify(data.formData);
           	ajaxMethod(this, 'post',
                 'system/saveSystemSession', true,
@@ -36,12 +42,12 @@ window.onload = function () {
           },
           saveSystemTempSession:function(_self, responseData){
           	if(responseData.data!=null){
-          		window.location.href = originUrl+"/page/applicationChangePage?fkCompanyCode="+companyCode+"&theLastStep=true&systemId="+systemId;
+          		window.location.href = originUrl+"/page/applicationChangePage?fkCompanyCode="+companyCode+"&theLastStep=true&systemId="+systemId+"&returnFlag="+returnFlag;
           	}
           },
           saveSystemSessionSuccess:function(_self,responseData){
           	if(responseData.data!=null){
-              window.location.href = originUrl+"/page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode;
+              window.location.href = originUrl+"/page/applicationChangeGradPage?systemId="+systemId+"&fkCompanyCode="+companyCode+"&returnFlag="+returnFlag;
           	}
           },
           // 获取系统信息成功
@@ -50,12 +56,24 @@ window.onload = function () {
 //          },
           //下一页
           nextBtn:function(formName) {
+          	bus.$emit('returnIndexPage',"");
+          	if(returnFlag && this.returnIndexFlag){
+          		returnFlag = true;
+          	}else{
+          		returnFlag  = false;
+          	}
             bus.$emit('changeNextSystemName',formName);
           },
           //返回
         //返回
           returnBtn:function() {
-            this.returnIndex = true;
+          	bus.$emit('returnIndexPage',"");
+          	if(returnFlag && this.returnIndexFlag){
+          	//页面的值没有改变
+          		window.location.href = originUrl+"page/indexPage";
+          	}else{
+          		this.returnIndex = true;
+          	}
           },
           returnIndexMethod:function(){
           	ajaxMethod(this, 'post',

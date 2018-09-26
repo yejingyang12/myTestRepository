@@ -1,6 +1,7 @@
   var data = {
   		returnIndex:false,
   		flag:false,
+  		returnIndexFlag:true,
   		disabledInput:false,
       directive:false,
       check : false,
@@ -327,7 +328,7 @@
               //获取单位信息
               getCompanyInfoMethod:function(_self,meg){
                 ajaxMethod(_self, 'post',
-                    'company/queryCompanyByCode', false,'{"companyCode":"'+meg+'"}', 'json',
+                    'company/queryCompanyByCode', true,'{"companyCode":"'+meg+'"}', 'json',
                     'application/json;charset=UTF-8',_self.getCompanyInfoSuccessMethod);
               },
               getCompanyInfoByIdMethod:function(_self,meg){
@@ -485,7 +486,7 @@
               //获取单位信息
               getCompanyMethod:function(_self){
                 ajaxMethod(_self, 'post',
-                    'organizationapi/queryOrgUnitForKeyOrganizationCode', false,'{}', 'json',
+                    'organizationapi/queryOrgUnitForKeyOrganizationCode', true,'{}', 'json',
                     'application/json;charset=UTF-8',_self.getCompanySuccessMethod);
               },
               getCompanySuccessMethod: function(_self,data){
@@ -601,7 +602,7 @@
               },
               getCompanyDetailsMethod:function(_self,meg){
                 ajaxMethod(_self, 'post',
-                    'company/queryCompanyByCode', false,'{"companyCode":"'+meg+'"}', 'json',
+                    'company/queryCompanyByCode', true,'{"companyCode":"'+meg+'"}', 'json',
                     'application/json;charset=UTF-8',_self.getCompanyDetailsMethodSuccess);
               },
               getCompanyDetailsMethodSuccess:function(_self, responseData){
@@ -673,9 +674,7 @@
               // this.selectChange()
               // new Ctor().$mount('#wrap');
               var _self=this;
-              // 获取单位
-              _self.getCompanyMethod(_self);
-              if(!this.flag){
+              if(!_self.flag){
               	if(companyId!=''&& companyId!=null){
               		_self.getCompanyInfoByIdMethod(_self,companyId);
               		$("#cover").removeClass('cover');
@@ -778,6 +777,78 @@
                     }
                   });
                 }
+              });
+              
+              bus.$on('returnIndexPage',function(meg){
+              	
+              	var beginContent = _self.beginContent;
+            		var currentContent = _self.formData;
+            		if(beginContent.companyName != currentContent.companyName){//单位名称
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.companyCode != currentContent.companyCode){//单位编码
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.companyAddress != currentContent.companyAddress){//单位地址
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.postalCode != currentContent.postalCode){//邮政编码
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.fkSubordinatePro != currentContent.fkSubordinatePro){//所属省份
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.administrativeNum != currentContent.administrativeNum){//行政区划编码
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.compPrincipalName != currentContent.compPrincipalName){//单位负责人姓名
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.compPrincipalWorkTel != currentContent.compPrincipalWorkTel){//办公电话
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.compPrincipalPhone != currentContent.compPrincipalPhone){//移动电话
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.compPrincipalPost != currentContent.compPrincipalPost){//职务职称
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.compPrincipalEm != currentContent.compPrincipalEm){//电子邮件
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.ldContactName != currentContent.ldContactName){//责任部门联系人姓名
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.ldContactWorkTel != currentContent.ldContactWorkTel){//办公电话
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.ldContactPhone != currentContent.ldContactPhone){//移动电话
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.ldContactPost != currentContent.ldContactPost){//职务职称
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.ldContactEmail != currentContent.ldContactEmail){//电子邮件
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.rDepartment != currentContent.rDepartment){//责任部门
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.gpReportingComp != currentContent.gpReportingComp){//等保上报单位名称
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.fkIndustryCategory != currentContent.fkIndustryCategory){//行业类别
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.fkAffiliation != currentContent.fkAffiliation){//隶属关系
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.fkCompanyType != currentContent.fkCompanyType){//单位类型
+            			_self.returnIndexFlag = false;
+            		}
+            		if(beginContent.fkPlateType != currentContent.fkPlateType){//板块类型
+            			_self.returnIndexFlag = false;
+            		}
               });
               
               var coverH = $(".mcAddMessge").height();

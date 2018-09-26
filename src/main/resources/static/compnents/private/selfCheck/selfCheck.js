@@ -302,6 +302,7 @@
 	              });*/
 /*	          		this.dialogVisible=true;*/
                 this.causeFailure="文件过大";
+                e.target.value = "";
                 $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	          		return;
 	          	}
@@ -317,6 +318,7 @@
 	            		});*/
 /*            			this.dialogVisibles=true;*/
                   this.causeFailure="格式不正确";
+                  e.target.value = "";
                   $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	            		return;
             		}
@@ -349,6 +351,7 @@
 	              });*/
 /*	          		this.dialogVisible=true;*/
                 this.causeFailure="文件过大";
+                e.target.value = "";
                 $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	          		return;
 	          	}
@@ -364,6 +367,7 @@
 	            		});*/
 /*            			this.dialogVisibles=true;*/
                   this.causeFailure="格式不正确";
+                  e.target.value = "";
                   $("#startBoxImportFailed").show().delay(2000).fadeOut();
 	            		return;
             		}
