@@ -190,10 +190,11 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     
     WorkFlowParam workFlowParam = new WorkFlowParam();
     workFlowParam.setBusinessId(businessId);
-    //如果总部通过，则给始发人发送邮件
-    if(checkResult.equals("4") || businessName.equals("撤销备案")){
-      WorkFlowResult workFlowResult
-        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    WorkFlowResult workFlowResult
+      = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+    //如果总部发起审核则不发送邮件 
+    if(workFlowResult.getCheckResult() !=1 && (checkResult.equals("4") || 
+        businessName.equals("撤销备案"))){
       UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
       String [] emailArr = {userDTO.getEmail()};
       Integer checkType = 0;
