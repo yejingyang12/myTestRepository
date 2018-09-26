@@ -162,6 +162,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
       
       //如果是企业/总部发起审核，并且下级审批人不为空，则给下级审批人发送邮件
       if(workFlowResult.getCheckResult() == 0 || workFlowResult.getCheckResult() == 1 ){
+        workFlowParam.setNextApprover("测试1"+executorIdList.toString());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        
         if(!ObjectUtils.isEmpty(executorIdList)){
             //通过用户id 拼接邮箱
             for(String userId : executorIdList){
@@ -173,6 +176,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
             }
          }
       }else if(workFlowResult.getCheckResult() == 2){
+        workFlowParam.setNextApprover("测试2"+executorIdList.toString());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
        //如果企业审核通过
         //如果是撤销备案
         if(checkType == 2){
@@ -192,6 +197,9 @@ public class WsMQExecResultService implements ISFMQExecResult {
           }
         }
       }else{
+        
+        workFlowParam.setNextApprover("测试3"+executorIdList.toString());
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
         //给始发人发送邮件
         UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
         email = userDTO.getEmail() + ",";
@@ -202,12 +210,12 @@ public class WsMQExecResultService implements ISFMQExecResult {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
             workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
         //添加下一步审批人
-        if(StringUtils.isNotBlank(userIds)){
-          workFlowParam.setNextApprover(userIds);
-        }else{
-          workFlowParam.setNextApprover("");
-        }
-        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+//        if(StringUtils.isNotBlank(userIds)){
+//          workFlowParam.setNextApprover(userIds);
+//        }else{
+//          workFlowParam.setNextApprover("");
+//        }
+//        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     }
     return true;
