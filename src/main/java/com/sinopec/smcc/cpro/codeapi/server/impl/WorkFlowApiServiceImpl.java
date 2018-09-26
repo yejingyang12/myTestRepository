@@ -206,7 +206,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       }
       //发送邮件
       this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
-          workFlowResult.getCheckResult().toString(), "",workFlowResult.getSystemId());
+          checkResult, "",workFlowResult.getSystemId());
       workFlowParam.setNextApprover("");
     }
     //修改工作流信息
@@ -255,7 +255,7 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
     }
     //发送邮件
     this.messageServiceImpl.sendMessageForCheck(emailArr, null,checkType,
-        workFlowResult.getCheckResult().toString(), auditReasons,workFlowResult.getSystemId());
+        checkResult, auditReasons,workFlowResult.getSystemId());
     //修改工作流信息
     workFlowParam.setCheckResult(Integer.parseInt(checkResult));
     workFlowParam.setAuditReasons(auditReasons);
