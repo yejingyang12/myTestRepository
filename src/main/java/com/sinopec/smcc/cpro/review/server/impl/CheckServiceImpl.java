@@ -500,9 +500,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,1,
+            "3", checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -570,9 +569,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,4,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null, 1,
+            "4", "",workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -612,9 +610,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null, 1,
+            "5", checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -707,8 +704,7 @@ public class CheckServiceImpl implements CheckService {
         String [] emailArr = email.split(",");
         //发送邮件
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+            "3", checkParam.getScoreCheckChangeReason(),workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -775,9 +771,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,4,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
+            "4", "",workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -818,9 +813,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
+            "5", checkParam.getScoreCheckChangeReason(),workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -887,9 +881,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,2,
+            "2", "",workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
@@ -933,9 +926,8 @@ public class CheckServiceImpl implements CheckService {
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");
         //发送邮件
-        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
-            workFlowResult.getCheckResult().toString(), 
-            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,2,
+            "3", checkParam.getCancelRecordsReason(),workFlowResult.getSystemId());
         workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }

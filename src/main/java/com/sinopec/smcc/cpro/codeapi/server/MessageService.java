@@ -29,7 +29,7 @@ public interface MessageService {
    * @author yejingyang
    * @date 2018年8月28日下午5:20:17
    * @param toAddresses   发送对象数组
-   * @param toAddresses   抄送对象数组(没有时可以为null)
+   * @param copyAddresses   抄送对象数组(没有时可以为null)
    * @param checkType     审核类型：
    *                          1:定级审核
    *                          2:撤销备案审核

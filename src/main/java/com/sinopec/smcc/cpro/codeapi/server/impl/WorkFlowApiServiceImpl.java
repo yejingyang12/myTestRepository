@@ -172,8 +172,16 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
         userIds = StringUtils.isNotBlank(userIds)?userIds:"null";
         if(StringUtils.isNotBlank(email)){
           String [] emailArr = email.split(",");
+          int checkType  = 0;
+          if("定级".equals(businessName)){
+            checkType = 1;
+          }else if("撤销备案".equals(businessName)){
+            checkType = 2;
+          }else if("申请变更".equals(businessName)){
+            checkType = 3;
+          }
           //发送邮件
-          this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
+          this.messageServiceImpl.sendMessageForCheck(emailArr, null, checkType,
               checkResult, "",workFlowParam.getSystemId());
           workFlowParam.setNextApprover(userIds);
           workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
