@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -132,21 +133,18 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       List<String> orgStr = organizationApiResult.getPermssions();
       //企业权限  
       if(orgStr.contains("0102010301")||orgStr.contains("0102010201")){
-        //单位Code
-        appExtendsData.setExt008(jurisdictionApiServiceImpl.getCompanyCode());
+        List<AppVariableData> variableList = new ArrayList<>();
+        AppVariableData variable = new AppVariableData();
+        variable.setVariableCode(String.valueOf(userDTO.getUserId()));
+        variable.setVariableValue(userDTO.getUserName());
+        AppVariableData variable1 = new AppVariableData();
+        variable1.setVariableCode("orgCode");
+        variable1.setVariableValue(userDTO.getOrgCode().trim().substring(0,8));
+        variableList.add(variable);
+        variableList.add(variable1);
+        startContext.setVariableList(variableList);
       }
       startContext.setExtendsData(appExtendsData);
-      
-      List<AppVariableData> variableList = new ArrayList<>();
-      AppVariableData variable = new AppVariableData();
-      variable.setVariableCode(String.valueOf(userDTO.getUserId()));
-      variable.setVariableValue(userDTO.getUserName());
-      AppVariableData variable1 = new AppVariableData();
-      variable1.setVariableCode("orgCode");
-      variable1.setVariableValue(userDTO.getOrgCode().trim().substring(0,8));
-      variableList.add(variable);
-      variableList.add(variable1);
-      startContext.setVariableList(variableList);
       //发起流程
       dpsTemplate.initStart(startContext);
       
@@ -160,6 +158,27 @@ public class WorkFlowApiServiceImpl implements WorkFlowApiService{
       workFlowParam.setUserId(String.valueOf(userDTO.getUserId()));
       workFlowParam.setSystemId(systemId);
       workFlowMapperImpl.insertWorkFlow(workFlowParam);
+      
+      if ("1".equals(checkResult)) {
+        List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowParam.getUserId());
+        String email = "";
+        String userIds = "";
+        for (UserDTO userDTO2 : root) {
+          if(StringUtils.isNotBlank(userDTO2.getEmail())){
+            email +=userDTO2.getEmail() + ",";
+            userIds = userIds + userDTO2.getUserId() + ",";
+          }
+        }
+        userIds = StringUtils.isNotBlank(userIds)?userIds:"null";
+        if(StringUtils.isNotBlank(email)){
+          String [] emailArr = email.split(",");
+          //发送邮件
+          this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
+              checkResult, "",workFlowParam.getSystemId());
+          workFlowParam.setNextApprover(userIds);
+          workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+        }
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }

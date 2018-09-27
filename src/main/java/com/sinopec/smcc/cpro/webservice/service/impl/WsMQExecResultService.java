@@ -157,7 +157,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
       String userIds = "";
       
       //如果是企业/总部发起审核，并且下级审批人不为空，则给下级审批人发送邮件
-      if(workFlowResult.getCheckResult() == 0 || workFlowResult.getCheckResult() == 1 ){
+      // || workFlowResult.getCheckResult() == 1 //总部发起审核直接在发起是发邮件
+      if(workFlowResult.getCheckResult() == 0){
         if(!ObjectUtils.isEmpty(executorIdList)){
             //通过用户id 拼接邮箱
             for(String userId : executorIdList){
