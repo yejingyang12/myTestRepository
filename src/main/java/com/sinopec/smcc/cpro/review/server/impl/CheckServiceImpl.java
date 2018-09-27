@@ -503,7 +503,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       
@@ -573,7 +573,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,4,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       //修改系统状态
@@ -615,7 +615,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       
@@ -709,7 +709,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       
@@ -778,7 +778,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,4,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       //修改系统状态
@@ -821,7 +821,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       //修改系统状态
@@ -890,7 +890,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
     //修改系统状态
@@ -936,7 +936,7 @@ public class CheckServiceImpl implements CheckService {
         this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
             workFlowResult.getCheckResult().toString(), 
             checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
-        workFlowParam.setNextApprover("");
+        workFlowParam.setNextApprover("null");
         workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
       }
       //修改系统状态

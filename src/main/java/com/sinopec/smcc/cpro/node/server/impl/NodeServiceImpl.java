@@ -134,7 +134,7 @@ public class NodeServiceImpl implements NodeService {
       String nextApproverName = "";
       List<String> strList = new ArrayList<String>();
       String strNextApprover = workFlowResult.getNextApprover();
-      if(StringUtils.isNotBlank(strNextApprover)){
+      if(StringUtils.isNotBlank(strNextApprover) && !"null".equals(strNextApprover)){
         String[] nextApprovers = strNextApprover.split(",");
         if(nextApprovers.length > 0){
           for (String string : nextApprovers) {
