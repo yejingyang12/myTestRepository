@@ -9,6 +9,10 @@
 */
 package com.sinopec.smcc.cpro.codeapi.server;
 
+import java.util.List;
+
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+
 /**
  * @Title MessageService.java
  * @Package com.sinopec.smcc.cpro.codeapi.server
@@ -45,4 +49,12 @@ public interface MessageService {
   void sendMessageForCheck(String[] toAddresses, String[] copyAddresses, Integer checkType, 
       String checkResult, String checkReason, String systemId);
 
+  /**
+   * @Descrption  通过用户id获取与该用户角色相同的所有用户
+   * @author yejingyang
+   * @date 2018年9月27日上午11:52:54
+   * @param userId  要查询的用户
+   * @return
+   */
+  List<UserDTO> getUsersByUserId(String userId);
 }

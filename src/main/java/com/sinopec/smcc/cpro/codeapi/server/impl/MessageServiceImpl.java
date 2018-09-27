@@ -9,6 +9,8 @@
 */
 package com.sinopec.smcc.cpro.codeapi.server.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ import com.sinopec.smcc.cpro.codeapi.server.MessageService;
 import com.sinopec.smcc.cpro.system.entity.SystemParam;
 import com.sinopec.smcc.cpro.system.entity.SystemResult;
 import com.sinopec.smcc.cpro.system.mapper.SystemMapper;
+import com.sinopec.smcc.depends.ubs.dto.PageDTO;
+import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
 /**
  * @Title MessageServiceImpl.java
@@ -32,6 +37,8 @@ public class MessageServiceImpl implements MessageService {
   private MessageSender messageSenderImpl;
   @Autowired
   private SystemMapper systemMapperImpl;
+  @Autowired
+  private UbsTemplate ubsTemplate;
   
   @Override
   public void sendMessageForCheck(String[] toAddresses, String[] copyAddresses, Integer checkType, 
@@ -120,4 +127,13 @@ public class MessageServiceImpl implements MessageService {
     //系统不存在
   }
 
+  @Override
+  public List<UserDTO> getUsersByUserId(String userId) {
+    UserDTO userDTOTemp  = ubsTemplate.getUserByUserId(userId);
+    //获取与发起人同角色的
+    PageDTO<UserDTO> pageByOrgCode = this.ubsTemplate.
+        getUsersPageByOrgCode("", userDTOTemp.getOrgCode());
+    List<UserDTO> root = pageByOrgCode.getRoot();
+    return root;
+  }
 }

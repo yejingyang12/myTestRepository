@@ -29,7 +29,11 @@ import com.pcitc.ssc.dps.inte.workflow.PagedList;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.cpro.codeapi.constant.WorkFlowConsts;
+import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
+import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
+import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
+import com.sinopec.smcc.cpro.codeapi.server.MessageService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
 import com.sinopec.smcc.cpro.codeapi.server.WorkFlowApiService;
 import com.sinopec.smcc.cpro.main.entity.MainParam;
@@ -47,6 +51,7 @@ import com.sinopec.smcc.cpro.system.server.SystemService;
 import com.sinopec.smcc.cpro.tools.Utils;
 import com.sinopec.smcc.depends.dps.util.DpsTemplate;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
+import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
 
 /**
  * @Title CheckServiceImpl.java
@@ -77,6 +82,12 @@ public class CheckServiceImpl implements CheckService {
   private DpsTemplate dpsTemplate;
   @Autowired
   private WorkFlowApiService workFlowApiServiceImpl;
+  @Autowired
+  private MessageService messageServiceImpl;
+  @Autowired
+  private UbsTemplate ubsTemplate;
+  @Autowired
+  private WorkFlowMapper workFlowMapperImpl;
   
   /**
    * 获取备案信息列表数据
@@ -475,6 +486,27 @@ public class CheckServiceImpl implements CheckService {
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
           String.valueOf(userDTO.getUserId()),userName,"3","定级",checkParam.getScoreCheckReason());
       
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
+      
       //修改系统状态为
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("3");
@@ -523,7 +555,27 @@ public class CheckServiceImpl implements CheckService {
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
           String.valueOf(userDTO.getUserId()),userName,"4",checkParam.getBusinessId(),"定级");
-      
+
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,4,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("3");
@@ -545,6 +597,27 @@ public class CheckServiceImpl implements CheckService {
       //审核未通过
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
           String.valueOf(userDTO.getUserId()),userName,"5","定级",checkParam.getScoreCheckReason());
+
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -618,6 +691,27 @@ public class CheckServiceImpl implements CheckService {
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
           String.valueOf(userDTO.getUserId()),userName,"3","申请变更",
           checkParam.getScoreCheckChangeReason());
+
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
       
       //修改系统状态
       MainParam mainParam = new MainParam();
@@ -667,6 +761,26 @@ public class CheckServiceImpl implements CheckService {
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
           String.valueOf(userDTO.getUserId()),userName,"4",checkParam.getBusinessId(),"申请变更");
 
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,4,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("3");
@@ -689,7 +803,27 @@ public class CheckServiceImpl implements CheckService {
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
           String.valueOf(userDTO.getUserId()),userName,"5","申请变更",
           checkParam.getScoreCheckChangeReason());
-      
+
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,5,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
       //修改系统状态
       MainParam mainParam = new MainParam();
       mainParam.setGradingStatus("3");
@@ -738,7 +872,27 @@ public class CheckServiceImpl implements CheckService {
       //审核通过
       workFlowApiServiceImpl.reviewPass(checkParam.getTaskId(),
           String.valueOf(userDTO.getUserId()),userName,"2",checkParam.getBusinessId(),"撤销备案");
-    
+
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
     //修改系统状态
     MainParam mainParam = new MainParam();
     mainParam.setGradingStatus("4");
@@ -764,7 +918,27 @@ public class CheckServiceImpl implements CheckService {
       workFlowApiServiceImpl.reviewNotThrough(checkParam.getBusinessId(),
           String.valueOf(userDTO.getUserId()),userName,"3","撤销备案",
           checkParam.getCancelRecordsReason());
-      
+
+      WorkFlowParam workFlowParam = new WorkFlowParam();
+      workFlowParam.setBusinessId(checkParam.getBusinessId());
+      WorkFlowResult workFlowResult
+        = workFlowMapperImpl.selectWorkFlowByBusinessId(workFlowParam);
+      List<UserDTO> root = this.messageServiceImpl.getUsersByUserId(workFlowResult.getUserId());
+      String email = "";
+      for (UserDTO userDTO2 : root) {
+        if(StringUtils.isNotBlank(userDTO2.getEmail())){
+          email +=userDTO2.getEmail() + ",";
+        }
+      }
+      if(StringUtils.isNotBlank(email)){
+        String [] emailArr = email.split(",");
+        //发送邮件
+        this.messageServiceImpl.sendMessageForCheck(emailArr, null,3,
+            workFlowResult.getCheckResult().toString(), 
+            checkParam.getScoreCheckReason(),workFlowResult.getSystemId());
+        workFlowParam.setNextApprover("");
+        workFlowMapperImpl.updateWorkFlowByBusinessId(workFlowParam);
+      }
       //修改系统状态
       MainParam mainParam = new MainParam();
 //      mainParam.setRecordStatus("3");
