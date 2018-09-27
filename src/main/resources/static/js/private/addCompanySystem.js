@@ -380,6 +380,7 @@ window.onload = function () {
           bus.$on('addNextSystemAjax',function(meg){
             if(meg!=null){
               data.formData.changeType = "2";
+              data.formData.fkCompanyCode = companyCode;
               if(systemId!=''&&systemId!=null){
                 ajaxMethod(_self, 'post',
                     'system/editSystem', true,

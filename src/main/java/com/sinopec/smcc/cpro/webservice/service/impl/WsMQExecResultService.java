@@ -21,11 +21,9 @@ import com.pcitc.ssc.dps.inte.ISFMQExecResult;
 import com.pcitc.ssc.dps.inte.workflow.AppMetasData;
 import com.pcitc.ssc.dps.inte.workflow.AppVariableData;
 import com.sinopec.smcc.common.rabbitmq.MessageSender;
-//import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowParam;
 import com.sinopec.smcc.cpro.codeapi.entity.WorkFlowResult;
 import com.sinopec.smcc.cpro.codeapi.mapper.WorkFlowMapper;
-//import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.MessageService;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 import com.sinopec.smcc.depends.ubs.util.UbsTemplate;
@@ -49,8 +47,6 @@ public class WsMQExecResultService implements ISFMQExecResult {
   private MessageService messageServiceImpl;
   @Autowired
   private MessageSender messageSenderImpl;  
-//  @Autowired
-//  private JurisdictionApiService jurisdictionApiServiceImpl;
   
     /**
      * 流程发起，指令发送到流程系统后，执行完成后，流程系统调用该接口方法，通知应用系统执行结果
@@ -177,8 +173,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
         //如果是撤销备案
         if(checkType == 2){
           //如果撤销备案通过，则获取始发人邮箱 
-          UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-          email = userDTO.getEmail() + ",";
+          /*UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+          email = userDTO.getEmail() + ",";*/
         }else{
           if(!ObjectUtils.isEmpty(executorIdList)){
             //通过用户id 拼接邮箱
@@ -193,8 +189,8 @@ public class WsMQExecResultService implements ISFMQExecResult {
         }
       }else{
         //给始发人发送邮件
-        UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
-        email = userDTO.getEmail() + ",";
+        /*UserDTO userDTO  = ubsTemplate.getUserByUserId(workFlowResult.getUserId());
+        email = userDTO.getEmail() + ",";*/
       }
       if(StringUtils.isNotBlank(email)){
         String [] emailArr = email.split(",");

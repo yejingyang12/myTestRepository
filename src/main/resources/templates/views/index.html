@@ -12,6 +12,7 @@
        <link rel="stylesheet" type="text/css" href="../../static/css/public/element.css" th:attr="href=@{/css/public/element.css}">
     <link rel="stylesheet" type="text/css" href="../../static/css/public/bootstrap-datetimepicker.css" th:attr="href=@{/css/public/bootstrap-datetimepicker.css}" />
   <link rel="stylesheet" type="text/css" href="../../static/css/public/smcc-header.css" th:attr="href=@{/css/public/smcc-header.css}" />
+  <link rel="stylesheet" type="text/css" href="../../static/css/public/icon/iconfont.css" th:attr="href=@{/css/public/icon/iconfont.css}">  
     <!--private-->
 <!--     <link rel="stylesheet" href="../../static/css/private/head.css" th:attr="href=@{/css/private/head.css}"> -->
     <link rel="stylesheet" type="text/css" href="../../static/css/private/auditzero.css" th:attr="href=@{/css/private/auditzero.css}"> 
@@ -251,7 +252,71 @@ input[type="radio"] {
                 width:1280px;
             }
         }
-        
+        #home_fix{
+          width:240px;
+          height:284px;
+          position:fixed;top:100px;
+          transition:2s;
+          z-index:999;
+          margin-left:10px;
+        }
+        #home_tab{
+          width:195px;
+          height:100%;
+          border-radius:2px;
+          background-color:#77b5e9;
+          float:right;
+          display:none;
+        }
+        #home_icon{
+          width:42px;
+          height:42px;
+          float:left;
+          border-radius:2px;
+          overflow:hidden;
+        }
+        .el-tree{
+           background-color:#77b5e9;
+           color:#fff;
+        }
+        #home_icon img{
+          width:100%;
+          height:100%;
+        }
+        #tab-first,#tab-second{
+          color:#fff !important;
+          text-align: center;
+        }
+        .el-tabs__item:hover{
+          color:#fff !important;
+        }
+        .el-tabs__active-bar{
+          background-color: #0065ba;
+        }
+        .el-tabs__item{
+          width:100% !important;
+        }
+        .el-icon-caret-right:before{
+          display:none !important;
+        }
+        .el-tree-node__content{
+          width:90%;
+          height:99%;
+          margin:2px auto;
+        }
+        .el-tree-node__content:hover{
+          background-color:#85bdeb;
+          border:1px solid #fff;
+          border-radius:2px;
+        }
+        .el-tree-node:focus > .el-tree-node__content {
+          background-color:#85bdeb;
+          border:1px solid #fff;
+          border-radius:2px;
+        }
+        .el-tabs--top .el-tabs__item.is-top:nth-child(2){
+          text-align: center;
+        }
 </style>
 </head>
 <body class="h-body">
@@ -283,6 +348,30 @@ input[type="radio"] {
 </home>
     <!-- <chart class="flexs"></chart> -->
 </div>
+<!-- <div id="appp" style="display:none">
+  <div id="home_fix">
+    <div id="home_icon" @click="homeMove()"><img :src="imgUrl"></div>
+    <div id="home_tab" @mouseenter="hometabenter()"  @mouseleave="hometableave()">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="板块" name="first">
+          <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick" 
+   @node-expand="handleNodeexpand" @node-collapse="handleNodecollapse">
+             <span class="custom-tree-node" slot-scope="{node,data}" id="nodeSpan">
+                <img :src="data.img"> {{node.label}}
+             </span>
+          </el-tree>
+        </el-tab-pane>
+        <el-tab-pane label="地区" name="second">
+          <el-tree :data="data1" :props="defaultProps1" @node-click="handleNodeClick1">
+             <span class="custom-tree-node" slot-scope="{node,data}">
+                <img :src="data.img"> {{node.label}}
+             </span>
+          </el-tree>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+  </div>
+</div> -->
 </body>
 <!--插件-->
 <script src="../../static/js/public/vue.js" th:attr="src=@{/js/public/vue.js}"></script>
@@ -294,9 +383,7 @@ input[type="radio"] {
 <script src="../../static/js/public/bootstrap.min.js" th:attr="src=@{/js/public/bootstrap.min.js}"></script>
 <script src="../../static/js/public/element.js" th:attr="src=@{/js/public/element.js}"></script>
  <script src="../../static/js/public/layDate/laydate/laydate.js" th:attr="src=@{/js/public/layDate/laydate/laydate.js}"></script>
-<script type="text/javascript">
-  var bus = new Vue();
-</script>
+
 
 <!--ajax路径-->
 <script id="src-qianhou" data-src="../../static" th:attr="data-src=@{../}"></script>
@@ -309,6 +396,119 @@ input[type="radio"] {
 <script async src="../../static/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js" th:attr="src=@{/compnents/public/smcc-breadcrumb/smcc-breadcrumb.js}"></script>
 <!--home组件-->
 <script async src="../../static/compnents/private/home/home.js" th:attr="src=@{/compnents/private/home/home.js}"></script>
+<script type="text/javascript">
+  new Vue({
+    el:"#appp",
+    data:{
+      activeName:'first',
+      imgUrl:'../../images/home/tabicon.png',
+      data:[],
+      defaultProps: {
+          children: 'children',
+          label: 'label'
+      },
+      data1:[],
+      defaultProps1: {
+          children: 'children',
+          label: 'label'
+      }
+    },
+     methods: {
+      homeMove:function(){
+         $("#home_tab").css("display","block");
+      },
+      hometableave:function(){
+/*          $("#home_tab").css("display","none");  */
+      }, 
+      hometabenter:function(){
+        $("#home_tab").css("display","block");
+      },
+      handleClick(tab, event) {
+      },
+      handleNodeClick1(data) {
+       if(data.img=="../../images/home/icontab.png"){
+          data.img="../../images/home/icontab3.png";
+        }else{
+          data.img="../../images/home/icontab.png"
+        }
+      },
+      handleNodeClick(data) {
+        if(data.img=="../../images/home/icontab.png"){
+          data.img="../../images/home/icontab3.png";
+        }else{
+          data.img="../../images/home/icontab.png"
+        }
+        //树形图3级（版块）
+        if(data.type==3){
+        }
+        //树形图4级（单位）
+        if(data.type==4){
+          bus.$emit("treeSearch",data.orgCode);
+        }
+      },
+      handleNodeexpand(data,node,ha){
+      },
+      handleNodecollapse(data,node,ha){ 
+      },
+      //获取树型结构图数据成功
+      getOrgTreeSuccess : function(_self,result){
+        this.data.push({label:"组织结构",img:"../../images/home/icontab3.png",children:[],type:1});
+        for(var i =0 ; i< result.data.length ; i++){
+          this.data[i].children.push({label:result.data[i].orgName,img:"../../images/home/icontab3.png",children:[],type:2});
+          for(var j =0 ; j< result.data[i].childList.length ; j++){
+            this.data[i].children[i].children.push({label:result.data[i].childList[j].orgName,img:"../../images/home/icontab3.png",children:[],type:3});
+            for(var c = 0; c < result.data[i].childList[j].childList.length ; c++){
+               this.data[i].children[i].children[j].children.push({label:result.data[i].childList[j].childList[c].orgName,orgCode:result.data[i].childList[j].childList[c].orgCode,img:"../../images/home/icontab2.png",type:4});
+            }
+          }
+        }
+      },
+      // 获取省份成功
+      getProvinceSuccessMethod:function(_self,result){
+        this.data1.push({label:"省",img:"../../images/home/icontab3.png",children:[]});
+        for(var i = 0 ; i<result.data.length; i++){
+           this.data1[0].children.push({label:result.data[i].codeName,img:"../../images/home/icontab2.png"});
+        }
+      }
+    },
+    created: function() {
+      var showOrg = false;
+      //功能权限
+      $.ajax({
+        type: "get",
+        url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
+        async: true,
+        data: "",
+        dataType: "json",
+        cache: false,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+          //树形图展示权限
+          showOrg = getJurisdictionMethod(response,'0102010401');
+        },
+        error: function(err) {
+        }
+      });
+      if(true){
+        document.getElementById("appp").style.display = "block";
+        //获取树型结构图数据
+        ajaxMethod(this, 'post',
+              'jurisdiction/getOrgTree', true,
+              '{}', 'json',
+              'application/json;charset=UTF-8',
+              this.getOrgTreeSuccess);
+              
+        // 获取省份
+        ajaxMethod(this, 'post',
+            'systemCode/querySystemCodeForKeySystemCode', true,
+            '{"codeType":"21"}', 'json',
+            'application/json;charset=UTF-8',
+            this.getProvinceSuccessMethod);
+        }
+    }
+  });
+</script>
 <!--分页-->
 <script src="../../static/js/private/pagebox.js" th:attr="src=@{/js/private/pagebox.js}"></script>
 <script src="../../static/js/private/index.js" th:attr="src=@{/js/private/index.js}"></script>

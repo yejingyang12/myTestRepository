@@ -19,7 +19,7 @@ var data={
 	flag1:false,
 	ceshi:false,
 	ceshi2:false,
-	dialogVisibled:false,
+/*	dialogVisibled:false,*/
 	companyBySession:"",
 	systemBySession:"",
     check : false,
@@ -1599,7 +1599,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1616,7 +1617,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1633,7 +1635,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1650,7 +1653,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1668,7 +1672,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1686,7 +1691,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1703,7 +1709,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1720,7 +1727,7 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
                            return false;
                          }
                        });
@@ -1737,7 +1744,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1755,7 +1763,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1772,7 +1781,8 @@ var data={
                              callback: function callback(action) {
                              }
                            });*/
-                        	 _self.dialogVisibled=true;
+/*                        	 _self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                            return false;
                          }
                        });
@@ -1789,7 +1799,8 @@ var data={
                   					 callback: function callback(action) {
                   					 }
                   				 });*/
-                  				_self.dialogVisibled=true;
+/*                  				_self.dialogVisibled=true;*/
+                           $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                   				 return false;
                   			 }
                   		 });

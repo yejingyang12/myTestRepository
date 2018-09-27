@@ -13,6 +13,7 @@
       dialogVisibles:false,
       appIsInternets:[{value:1, label:"是"}, {value:2, label:"否"}],
       appIsInternet: null,//是否为互联网应用
+      treeFkCompanyCode:"",
 	  hStatus: [{
         value: '1',
         label: '未定级'
@@ -478,6 +479,7 @@
               "subordinateProvincesArray": this.value22,//地区
               "customFiltering": customFiltering,//自定义
               "currentPage": page,
+              "fkCompanyCode": this.treeFkCompanyCode,
             };
             bus.$emit("queryDataParams",JSON.stringify(dataparmars));
             ajaxMethod(_self, "post", url, false, JSON.stringify(dataparmars), "json", 'application/json;charset=UTF-8', _self.listSuccess);
@@ -1490,6 +1492,13 @@
           }else{
         	  $("#h-bread").hide();
           }
+          
+          var _self = this;
+          //树状图单位code查询
+      	  bus.$on("treeSearch",function(orgCode){
+      	  	_self.treeFkCompanyCode = orgCode;
+      	  	_self.search(1);
+					});
           
         },
        /* destroyed () {

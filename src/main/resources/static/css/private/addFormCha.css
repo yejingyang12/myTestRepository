@@ -42,3 +42,7 @@
     left:0;
     z-index: 2;
 }
+#btn1:focus, #btn1:hover {
+    color: #fff;
+    text-decoration: none;
+}

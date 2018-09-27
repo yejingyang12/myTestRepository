@@ -8,6 +8,9 @@
  */
 package com.sinopec.smcc.cpro.codeapi.server;
 
+import java.util.List;
+
+import com.sinopec.smcc.base.controller.TreeOrganizationDTO;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.depends.ubs.dto.UserDTO;
 
@@ -47,5 +50,13 @@ public interface JurisdictionApiService {
    * @return
    */
   String getCompanyCode();
+  
+  /**
+   * @Descrption 获取树型结构图数据
+   * @author dongxu
+   * @date 2018年9月26日下午4:07:47
+   * @return
+   */
+  List<TreeOrganizationDTO> getOrgTree();
 
 }

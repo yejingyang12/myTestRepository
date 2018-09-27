@@ -4,31 +4,31 @@
 var  data={
 		returnIndexFlag:true,
 		indexFlag:"",
-		 pickerOptions0: {
-	          disabledDate:function(time) {
-	            //return time.getTime() < Date.now() - 8.64e7;
-	          }
-	        },
-	        returnIndex:false,
-	        flag:false,
-	        substitute:"",
-	        ceshi2:false,
-	        dialogVisibled:false,
-	        allFatherSystemName:"",
-		jurisdiction: false,
-		nUsePro:[true,true,true,true,true,true],
-		btnId:"",
+     pickerOptions0: {
+            disabledDate:function(time) {
+              //return time.getTime() < Date.now() - 8.64e7;
+            }
+          },
+          returnIndex:false,
+          flag:false,
+          substitute:"",
+          ceshi2:false,
+/*          dialogVisibled:false,*/
+          allFatherSystemName:"",
+    jurisdiction: false,
+    nUsePro:[true,true,true,true,true,true],
+    btnId:"",
     check:false,
     delIndex:0,
     paramNan:true,
-		systemNameSon1:[true],
-		systemNameSon12:[false],
-		systemNameSon13:[true],
-		addSystemSubSonT:[],
-		promptCount:false,
-		count:0,
-		companyNameDisabled:true,
-		executiveDisabled:true,
+    systemNameSon1:[true],
+    systemNameSon12:[false],
+    systemNameSon13:[true],
+    addSystemSubSonT:[],
+    promptCount:false,
+    count:0,
+    companyNameDisabled:true,
+    executiveDisabled:true,
     deleteBtn:[true],
       formData:{
         systemId:"",
@@ -491,110 +491,110 @@ var  data={
                 },
                 methods:{
                    sysNameBlur:function () {
-                  	var sysName=$("#systemInfo1").val();
-                  	if(sysName!='' || sysName!=""){
-                  		this.$refs.systemName.clearValidate();
-                  	}else{
-                  		this.$refs.formData.validateField("systemName");
-                  	}
+                    var sysName=$("#systemInfo1").val();
+                    if(sysName!='' || sysName!=""){
+                      this.$refs.systemName.clearValidate();
+                    }else{
+                      this.$refs.formData.validateField("systemName");
+                    }
                    },
-                	 closes:function () { 
+                   closes:function () { 
                          $(".shawLast2").css("display","none");
                          $(".shawLast").css("display","none");
-                	 },
-                	 deleteSys:function(type,delIndex){
-                		 if(type == 1){
-                			 $(".delLast2").css("display","block");
+                   },
+                   deleteSys:function(type,delIndex){
+                     if(type == 1){
+                       $(".delLast2").css("display","block");
                        $(".shawLast2").css("display","block");
-                		 }else{
-                			 $(".delLast").css("display","block");
+                     }else{
+                       $(".delLast").css("display","block");
                        $(".shawLast").css("display","block");
-                		 }
-                		 if(delIndex != null){
-                			 this.delIndex = delIndex;
-                		 }
-                	},
-                	delSonSystemLast:function(){
-                	  if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
-                	    return;
-                	  }
-                		var sonLength = this.formData.addSystemSub.length -1;
-                		if(this.formData.addSystemSub.length > 1){
-                			$("#count_"+sonLength).remove();
-                  		this.formData.addSystemSub.splice(sonLength,1);
-                		}
-                		if(sonLength <2){
-                			this.formData.checkCount='';
-                			this.promptCount=true;
-                			this.$refs.formData.validateField('checkCount');
-                		}
-              			this.systemNameSon1[sonLength] = false;
-              			this.systemNameSon12[sonLength] = false;
-                  	this.formData.systemNameSon="1";
-                  	this.formData.systemCodeSon="1";
-                  	this.formData.stars="1";
-                  	this.formData.aa = '1';
-              			this.$refs.formData.validateField('aa');
-                  	this.closes();
-                	},
-                	delCount: function (index){
-                		return "count_" +index;
-                	},
-                	allSysName: function (index){
-                		return "allSysCount_" +index;
-                	},
-                	allSysCode: function (index){
-                		return "allSysCode_" +index;
-                	},
-                	delSonSystem:function(){
-                		var index = this.delIndex;
-                		this.systemInfo2[this.formData.addSystemSub.length-1] = false;
-                		this.formData.addSystemSub.splice(index,1);
-                		this.formData.addSystemSubSon.splice(index,1);
-                		$("#count_"+index+1).remove();
-                		
-                		for(var i=0;i<this.formData.addSystemSub.length;i++){
-                			$("#allSysCount_"+(i)).find("label").text('子系统'+(i+1)+'系统名称：');
-                			$("#allSysCode_"+(i)).find("label").text('子系统'+(i+1)+'标准化代码：');
-                		}
-                		
-                		if(this.formData.addSystemSub.length <2){
-                			this.formData.checkCount = '';
-                			this.promptCount=true;
-                			this.$refs.formData.validateField('checkCount');
-                		}else{
-                			this.promptCount=false;
-                			this.formData.checkCount = '1';
-                		}
-              			this.systemNameSon1[0] = true;
-              			this.systemNameSon12[0] = true;
-                  	this.formData.systemNameSon="1";
-                  	this.formData.systemCodeSon="1";
-                  	this.formData.stars="1";
-                  	this.formData.aa = '1';
-              			this.$refs.formData.validateField('aa');
-                  	this.closes();
-                	},
-                	gernerateId: function (index){
-                		return "person_" +index
-                	},
-                	dataDel:function(i){
-                		if(i==(this.formData.addSystemSub.length-1)){
-                			$("#lastDel").show();
-                			
-                		}else{
-                			$("#person_"+i).show();
-                		}
-                	},
-                	hiddenDel:function(i){
-                	    if(i==(this.formData.addSystemSub.length-1)){
-                			$("#lastDel").hide();
-                		}
-                		$("#person_"+i).hide();
-                	},
-                	systemSonNameDis: function (index){
-                		return "dis_" +index
-                	},
+                     }
+                     if(delIndex != null){
+                       this.delIndex = delIndex;
+                     }
+                  },
+                  delSonSystemLast:function(){
+                    if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
+                      return;
+                    }
+                    var sonLength = this.formData.addSystemSub.length -1;
+                    if(this.formData.addSystemSub.length > 1){
+                      $("#count_"+sonLength).remove();
+                      this.formData.addSystemSub.splice(sonLength,1);
+                    }
+                    if(sonLength <2){
+                      this.formData.checkCount='';
+                      this.promptCount=true;
+                      this.$refs.formData.validateField('checkCount');
+                    }
+                    this.systemNameSon1[sonLength] = false;
+                    this.systemNameSon12[sonLength] = false;
+                    this.formData.systemNameSon="1";
+                    this.formData.systemCodeSon="1";
+                    this.formData.stars="1";
+                    this.formData.aa = '1';
+                    this.$refs.formData.validateField('aa');
+                    this.closes();
+                  },
+                  delCount: function (index){
+                    return "count_" +index;
+                  },
+                  allSysName: function (index){
+                    return "allSysCount_" +index;
+                  },
+                  allSysCode: function (index){
+                    return "allSysCode_" +index;
+                  },
+                  delSonSystem:function(){
+                    var index = this.delIndex;
+                    this.systemInfo2[this.formData.addSystemSub.length-1] = false;
+                    this.formData.addSystemSub.splice(index,1);
+                    this.formData.addSystemSubSon.splice(index,1);
+                    $("#count_"+index+1).remove();
+                    
+                    for(var i=0;i<this.formData.addSystemSub.length;i++){
+                      $("#allSysCount_"+(i)).find("label").text('子系统'+(i+1)+'系统名称：');
+                      $("#allSysCode_"+(i)).find("label").text('子系统'+(i+1)+'标准化代码：');
+                    }
+                    
+                    if(this.formData.addSystemSub.length <2){
+                      this.formData.checkCount = '';
+                      this.promptCount=true;
+                      this.$refs.formData.validateField('checkCount');
+                    }else{
+                      this.promptCount=false;
+                      this.formData.checkCount = '1';
+                    }
+                    this.systemNameSon1[0] = true;
+                    this.systemNameSon12[0] = true;
+                    this.formData.systemNameSon="1";
+                    this.formData.systemCodeSon="1";
+                    this.formData.stars="1";
+                    this.formData.aa = '1';
+                    this.$refs.formData.validateField('aa');
+                    this.closes();
+                  },
+                  gernerateId: function (index){
+                    return "person_" +index
+                  },
+                  dataDel:function(i){
+                    if(i==(this.formData.addSystemSub.length-1)){
+                      $("#lastDel").show();
+                      
+                    }else{
+                      $("#person_"+i).show();
+                    }
+                  },
+                  hiddenDel:function(i){
+                      if(i==(this.formData.addSystemSub.length-1)){
+                      $("#lastDel").hide();
+                    }
+                    $("#person_"+i).hide();
+                  },
+                  systemSonNameDis: function (index){
+                    return "dis_" +index
+                  },
                     //点击切换 添加class名
                   getTypeClass:function(e,param){
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
@@ -602,23 +602,23 @@ var  data={
                     this.$refs.formData.validateField('fkInfoSysTypeCon');
                   },
                   getMergeClass:function(e,param){
-                  	this.paramNan = true;
-                  	this.rules.standardizedCode[0].required=true;
+                    this.paramNan = true;
+                    this.rules.standardizedCode[0].required=true;
                     this.systemInfo = true;
                     this.systemSonInfo = false;
                     this.formData.addSystemSub=[];
                     this.promptCount=false;
-              			this.formData.checkCount = '1';
-              			this.systemNameSon1 = [];
-              			this.systemNameSon12= [];
-              			Vue.set(this.systemNameSon12, 0, false);
-              			Vue.set(this.systemNameSon1, 0, true);
-              			this.formData.addSystemSubSon = [];
-                  	this.formData.systemNameSon="1";
-                  	this.formData.systemCodeSon="1";
-                  	this.formData.stars="1";
-                  	this.formData.aa = '1';
-                  	
+                    this.formData.checkCount = '1';
+                    this.systemNameSon1 = [];
+                    this.systemNameSon12= [];
+                    Vue.set(this.systemNameSon12, 0, false);
+                    Vue.set(this.systemNameSon1, 0, true);
+                    this.formData.addSystemSubSon = [];
+                    this.formData.systemNameSon="1";
+                    this.formData.systemCodeSon="1";
+                    this.formData.stars="1";
+                    this.formData.aa = '1';
+                    
                     $(e.target).addClass('btnColor').siblings().removeClass("btnColor");
                     this.formData.fkSystemIsMerge = param;
                     if(param==1 && this.paramNan == true){
@@ -642,24 +642,24 @@ var  data={
                       this.paramNan = false;
                     }
                     if(param == 2){
-                    	this.paramNan = true;
-                    	this.rules.standardizedCode[0].required=true;
+                      this.paramNan = true;
+                      this.rules.standardizedCode[0].required=true;
                       this.systemInfo = true;
                       this.systemSonInfo = false;
                       this.formData.addSystemSub=[];
                       this.promptCount=false;
-                			this.formData.checkCount = '1';
-                			this.formData.systemName = "";
-                			this.formData.standardizedCode = "";
-                			this.systemNameSon1 = [];
-                			this.systemNameSon12= [];
-                			Vue.set(this.systemNameSon12, 0, false);
-                			Vue.set(this.systemNameSon1, 0, true);
-                			this.formData.addSystemSubSon = [];
-                    	this.formData.systemNameSon="1";
-                    	this.formData.systemCodeSon="1";
-                    	this.formData.stars="1";
-                    	this.formData.aa = '1';
+                      this.formData.checkCount = '1';
+                      this.formData.systemName = "";
+                      this.formData.standardizedCode = "";
+                      this.systemNameSon1 = [];
+                      this.systemNameSon12= [];
+                      Vue.set(this.systemNameSon12, 0, false);
+                      Vue.set(this.systemNameSon1, 0, true);
+                      this.formData.addSystemSubSon = [];
+                      this.formData.systemNameSon="1";
+                      this.formData.systemCodeSon="1";
+                      this.formData.stars="1";
+                      this.formData.aa = '1';
                     }
                     this.$refs.formData.validateField('fkSystemIsMerge');
                   },
@@ -791,15 +791,15 @@ var  data={
                     this.formData.subIsSystem = param;
                     this.$refs.formData.validateField('subIsSystem');
                     if(param == 1 || param == "1"){
-                    	this.BeSonSystem = true;
-                    	this.rules.fatherSystemName[0].required = true;
-                    	this.rules.fatherCompanyName[0].required = true;
+                      this.BeSonSystem = true;
+                      this.rules.fatherSystemName[0].required = true;
+                      this.rules.fatherCompanyName[0].required = true;
                     }else{
-                    	this.BeSonSystem = false;
-                    	this.rules.fatherSystemName[0].required = false;
-                    	this.rules.fatherCompanyName[0].required = false;
-                    	this.formData.fatherSystemName = "";
-                    	this.formData.fatherCompanyName = "";
+                      this.BeSonSystem = false;
+                      this.rules.fatherSystemName[0].required = false;
+                      this.rules.fatherCompanyName[0].required = false;
+                      this.formData.fatherSystemName = "";
+                      this.formData.fatherCompanyName = "";
                     }
                   },
                   btnBoolen:function(e){
@@ -816,11 +816,11 @@ var  data={
                       if(this.formData.addSystemSub.length>=this.sysName.length){
                         this.addSub = false;
                       }else{
-                      	this.systemNameSon1.push(true);
-                      	this.systemNameSon12.push(false);
-                      	this.formData.systemNameSon="";
-                      	this.formData.systemCodeSon="";
-                    		this.formData.addSystemSub.push({
+                        this.systemNameSon1.push(true);
+                        this.systemNameSon12.push(false);
+                        this.formData.systemNameSon="";
+                        this.formData.systemCodeSon="";
+                        this.formData.addSystemSub.push({
                           "label":"子系统"+(this.formData.addSystemSub.length+1)+"系统名称：",
                           "labelCode":"子系统"+(this.formData.addSystemSub.length+1)+"标准化代码：",
                           "systemName":"",
@@ -846,16 +846,16 @@ var  data={
                     },
                     // 获取系统信息成功
                     fnSaveSuccessMethod : function(_self, responseData) {
-                    	if(responseData.data){
-                    		if(type=="change"){
-                    			window.location.href = originUrl+encodeURI("applicationChangeGradPage?systemId="+responseData.data);
-                    		}else{
-                    			window.location.href = originUrl+encodeURI("addCompanyGradPage?systemId="+responseData.data);
-                    		}
-                    	}else{
-                    		//提示系统已存在
-                    		
-                    	}
+                      if(responseData.data){
+                        if(type=="change"){
+                          window.location.href = originUrl+encodeURI("applicationChangeGradPage?systemId="+responseData.data);
+                        }else{
+                          window.location.href = originUrl+encodeURI("addCompanyGradPage?systemId="+responseData.data);
+                        }
+                      }else{
+                        //提示系统已存在
+                        
+                      }
                     },
                     //获取全部系统
                     getAllSystemInfoMethod : function(_self){
@@ -866,7 +866,7 @@ var  data={
                           _self.getAllSystemInfoSuccessMethod);
                     },
                     getAllSystemInfoSuccessMethod:function(_self,responseData){
-                    	_self.allFatherSystemName = responseData.data;
+                      _self.allFatherSystemName = responseData.data;
                     },
                     // 获取系统下拉列表
                     getSystemInfoMethod : function(_self) {
@@ -1008,28 +1008,28 @@ var  data={
                       
                     },
                     setStandardizedCode:function(e,val){
-                  		if(e!=null){
-                  			for(var i=0;i<this.sysName.length;i++){
-                  				if(e==this.sysName[i].systemName){
-                  					if(val==1){
-                  						this.formData.standardizedCode = this.sysName[i].systemCode;
-                  						this.formData.executiveDireCon = this.sysName[i].bcdCpname;
+                      if(e!=null){
+                        for(var i=0;i<this.sysName.length;i++){
+                          if(e==this.sysName[i].systemName){
+                            if(val==1){
+                              this.formData.standardizedCode = this.sysName[i].systemCode;
+                              this.formData.executiveDireCon = this.sysName[i].bcdCpname;
                               this.formData.executiveDireConTel = this.sysName[i].bcdCptel;
                               this.formData.executiveOfficeName = this.sysName[i].bcdName;
                               this.executiveDisabled = true;
-                  					}else{
-                  						this.systemNameSon1[val-2] = false;
-                  						this.formData.systemNameSon=this.sysName[i].systemName;
-                  						this.formData.systemCodeSon=this.sysName[i].systemCode;
-                  						this.formData.addSystemSub[val-2].standardizedCode = this.sysName[i].systemCode;
-                  					}
-                  				}
-                  			}
-                  		}
-                  		if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
+                            }else{
+                              this.systemNameSon1[val-2] = false;
+                              this.formData.systemNameSon=this.sysName[i].systemName;
+                              this.formData.systemCodeSon=this.sysName[i].systemCode;
+                              this.formData.addSystemSub[val-2].standardizedCode = this.sysName[i].systemCode;
+                            }
+                          }
+                        }
+                      }
+                      if(this.formData.fkSystemIsMerge!='1'||this.formData.fkSystemIsMerge==null||this.formData.fkSystemIsMerge==''){
                         return;
                       }
-                  		if(this.formData.addSystemSubSon != null){
+                      if(this.formData.addSystemSubSon != null){
                         if(this.formData.addSystemSubSon.length >= val-1){
 //                          this.formData.addSystemSubSon[val-2] = e;
                           Vue.set(this.formData.addSystemSubSon, val-2, e);
@@ -1037,40 +1037,40 @@ var  data={
                           this.formData.addSystemSubSon.push(e);
                         }
                       }
-                  		var isNan = true;
-                  		for(var i = 0 ; i < this.formData.addSystemSubSon.length; i++){
-                  			var boo = true;
-                  			var count = 0;
-                  			for(var j = 0 ; j < this.formData.addSystemSubSon.length; j++){
-	                  			 if(this.formData.addSystemSubSon[i] == this.formData.addSystemSubSon[j]){
-	                  				  boo = false;
-	 	                    			count ++ ;
-		                    	 }
-                  			}
-                  			if(count > 1){
-                  				if(boo){
-//                    				this.systemNameSon12[i] = false;                  				
-                    				Vue.set(this.systemNameSon12, i, false);
-                    			}else{
-                    				Vue.set(this.systemNameSon12, i, true);
-                    				this.formData.aa = '';
-	                    			this.$refs.formData.validateField('aa');
-	                    			isNan = false;
-                    			}
-                  			}
-                    	}
-                  		if(isNan){
-                  			this.formData.aa = '1';
-                  			this.$refs.formData.validateField('aa');
-                  		}
-                  		if(val-1 <2){
-                  			this.formData.checkCount = '';
-                  			this.promptCount=true;
-                  		}else{
-                  			this.promptCount=false;
-                  			this.formData.checkCount = '1';
-                  			this.$refs.formData.validateField('checkCount');
-                  		}
+                      var isNan = true;
+                      for(var i = 0 ; i < this.formData.addSystemSubSon.length; i++){
+                        var boo = true;
+                        var count = 0;
+                        for(var j = 0 ; j < this.formData.addSystemSubSon.length; j++){
+                           if(this.formData.addSystemSubSon[i] == this.formData.addSystemSubSon[j]){
+                              boo = false;
+                              count ++ ;
+                              Vue.set(this.systemNameSon12, i, true);
+                              this.formData.aa = '';
+                              this.$refs.formData.validateField('aa');
+                           }
+                        }
+                        if(count > 1){
+                          if(boo){
+//                            this.systemNameSon12[i] = false;                          
+                            Vue.set(this.systemNameSon12, i, false);
+                          }else{
+                            isNan = false;
+                          }
+                        }
+                      }
+                      if(isNan){
+                        this.formData.aa = '1';
+                        this.$refs.formData.validateField('aa');
+                      }
+                      if(val-1 <2){
+                        this.formData.checkCount = '';
+                        this.promptCount=true;
+                      }else{
+                        this.promptCount=false;
+                        this.formData.checkCount = '1';
+                        this.$refs.formData.validateField('checkCount');
+                      }
                     },
                     getGetSystemMethod:function(_self,systemId){
                       ajaxMethod(_self, 'post',
@@ -1080,18 +1080,18 @@ var  data={
                     getGetSystemSuccessMethod: function(_self, responseData) {
                       //var response='{"fkInfoSysTypeCon":"1","appIsInternet":"1","fkSystemIsMerge":"1","systemName":"胜利时刻","standardizedCode":"271","gradeRecordSysName":"等保时刻","sysBusSituationType":"公众服务","sysBusDescription":"公众描述","sysServiceSitScope":"全国","sysServiceSitObject":"单位内部人员","npCoverageRange":"局域网","npNetworkProperties":"互联网","interconnectionSit":"与其他行业系统连接","fkExaminStatus":"数据库","productsNumber":"无","fkNationalIsProducts":"全部使用","fkProductsType":"等级测评","fkResponsibleType":"国外服务商","fkCompanyCode":"100","executiveOfficeName":"主管室时刻","executiveDireCon":"主管联系人","executiveDireConTel":"2710000","whenInvestmentUseL":"2018-05-24 11:13:17","subIsSystem":"1","addSystemSub":[{"systemName":"子1时刻","standardizedCode":"27101"},{"systemName":"子2时刻","standardizedCode":"27102"}],"systemKeyProducts":[{"fkNationalIsProducts":"1","fkExaminStatus":"2","productsNumber":"无","nUseProbability":1,"otherName":""}],"systemUseServices":[{"fkResponsibleType":"1","fkProductsType":"2","serviceIsUse":"1","otherName":"暂无"}]}';
                       //response = JSON.parse(response);
-                    	var response = responseData.data;
+                      var response = responseData.data;
                       _self.formData = response;
                       if(response.addSystemSub!=null){
-                      	for(var i=0;i<response.addSystemSub.length;i++){
-                      		this.systemInfo2[i] = true;
- 	                   		 _self.formData.addSystemSub[i] = {
- 	                          "label":"子系统"+(i+1)+"系统名称：",
- 	                          "labelCode":"子系统"+(i+1)+"标准化代码：",
- 	                          "systemName":response.addSystemSub[i].systemName,
- 	                          "standardizedCode":response.addSystemSub[i].standardizedCode
- 	                        };
- 	                   		}
+                        for(var i=0;i<response.addSystemSub.length;i++){
+                          this.systemInfo2[i] = true;
+                         _self.formData.addSystemSub[i] = {
+                            "label":"子系统"+(i+1)+"系统名称：",
+                            "labelCode":"子系统"+(i+1)+"标准化代码：",
+                            "systemName":response.addSystemSub[i].systemName,
+                            "standardizedCode":response.addSystemSub[i].standardizedCode
+                          };
+                        }
                       }
                       for(var i=0;i<10;i++){
                         if(response.addSystemSub!=null){
@@ -1111,20 +1111,20 @@ var  data={
                             });
                           }
                           if(response.addSystemSub.length <2){
-                      			this.formData.checkCount = '';
-                      			this.promptCount=true;
-//                      			this.$refs.formData.validateField('checkCount');
-                      		}else{
-                      			this.promptCount=false;
-                      			this.formData.checkCount = '1';
-                      		}
+                            this.formData.checkCount = '';
+                            this.promptCount=true;
+//                            this.$refs.formData.validateField('checkCount');
+                          }else{
+                            this.promptCount=false;
+                            this.formData.checkCount = '1';
+                          }
                           this.systemNameSon1[0] = true;
-                    			this.systemNameSon12[0] = true;
-                        	this.formData.systemNameSon="1";
-                        	this.formData.systemCodeSon="1";
-                        	this.formData.stars="1";
-                        	this.formData.aa="1";
-                        	this.formData.addSystemSubSon=[];
+                          this.systemNameSon12[0] = true;
+                          this.formData.systemNameSon="1";
+                          this.formData.systemCodeSon="1";
+                          this.formData.stars="1";
+                          this.formData.aa="1";
+                          this.formData.addSystemSubSon=[];
                         }
                         if(response.systemKeyProducts==null){
                           response.systemKeyProducts = []
@@ -1202,106 +1202,106 @@ var  data={
                         ];
                       }
                       if(responseData.data!=null){
-                    		var beginContent = _self.beginContent;
-                      	var currentContent = responseData.data;
-                    		beginContent.fkInfoSysTypeCon = currentContent.fkInfoSysTypeCon;//信息系统建设类型
-                    		beginContent.fkSystemIsMerge = currentContent.fkSystemIsMerge;//是否为合并系统
-                    		beginContent.systemName = currentContent.systemName;//系统名称
-                    		beginContent.standardizedCode = currentContent.standardizedCode;//标准化代码
-                    		//子系统
-                    		if(currentContent.addSystemSub!=null){
-                        	for(var i=0;i<currentContent.addSystemSub.length;i++){
-                        		beginContent.addSystemSub[i] = {
-     	                          "label":currentContent.addSystemSub[i].label,
-     	                          "labelCode":currentContent.addSystemSub[i].labelCode,
-     	                          "systemName":currentContent.addSystemSub[i].systemName,
-     	                          "standardizedCode":currentContent.addSystemSub[i].standardizedCode
-     	                        };
-   	                   		}
+                        var beginContent = _self.beginContent;
+                        var currentContent = responseData.data;
+                        beginContent.fkInfoSysTypeCon = currentContent.fkInfoSysTypeCon;//信息系统建设类型
+                        beginContent.fkSystemIsMerge = currentContent.fkSystemIsMerge;//是否为合并系统
+                        beginContent.systemName = currentContent.systemName;//系统名称
+                        beginContent.standardizedCode = currentContent.standardizedCode;//标准化代码
+                        //子系统
+                        if(currentContent.addSystemSub!=null){
+                          for(var i=0;i<currentContent.addSystemSub.length;i++){
+                            beginContent.addSystemSub[i] = {
+                                "label":currentContent.addSystemSub[i].label,
+                                "labelCode":currentContent.addSystemSub[i].labelCode,
+                                "systemName":currentContent.addSystemSub[i].systemName,
+                                "standardizedCode":currentContent.addSystemSub[i].standardizedCode
+                              };
+                          }
                         }
-                    		beginContent.gradeRecordSysName = currentContent.gradeRecordSysName;//等保备案系统名称
-                    		beginContent.appIsInternet = currentContent.appIsInternet;//是否为互联网应用
-                    		beginContent.sysBusSituationType = currentContent.sysBusSituationType;//业务类型
-                    		beginContent.sysBusDescription = currentContent.sysBusDescription;//业务描述
-                    		beginContent.sysServiceSitScope = currentContent.sysServiceSitScope;//服务范围
-                    		beginContent.sysServiceSitObject = currentContent.sysServiceSitObject;//服务对象
-                    		beginContent.npCoverageRange = currentContent.npCoverageRange;//覆盖范围
-                    		beginContent.npNetworkProperties = currentContent.npNetworkProperties;//网络性质
-                    		beginContent.interconnectionSit = currentContent.interconnectionSit;//系统互联情况
-                    		//关键产品使用情况
-                    		for(var i=0;i<currentContent.systemKeyProducts.length;i++){
-                      		beginContent.systemKeyProducts[i].fkNationalIsProducts = currentContent.systemKeyProducts[i].fkNationalIsProducts+"";//是否使用国产品
-                      		beginContent.systemKeyProducts[i].fkExaminStatus = currentContent.systemKeyProducts[i].fkExaminStatus;//数字1234，对应产品类型，
-                      		beginContent.systemKeyProducts[i].productsNumber = currentContent.systemKeyProducts[i].productsNumber;//数量
-                      		beginContent.systemKeyProducts[i].nUseProbability = currentContent.systemKeyProducts[i].nUseProbability;//使用国产品率
-                      		beginContent.systemKeyProducts[i].otherName = currentContent.systemKeyProducts[i].otherName;//其他
-                      	}
-                    	//系统采用服务情况
-                      	for(var i=0;i<currentContent.systemUseServices.length;i++){
+                        beginContent.gradeRecordSysName = currentContent.gradeRecordSysName;//等保备案系统名称
+                        beginContent.appIsInternet = currentContent.appIsInternet;//是否为互联网应用
+                        beginContent.sysBusSituationType = currentContent.sysBusSituationType;//业务类型
+                        beginContent.sysBusDescription = currentContent.sysBusDescription;//业务描述
+                        beginContent.sysServiceSitScope = currentContent.sysServiceSitScope;//服务范围
+                        beginContent.sysServiceSitObject = currentContent.sysServiceSitObject;//服务对象
+                        beginContent.npCoverageRange = currentContent.npCoverageRange;//覆盖范围
+                        beginContent.npNetworkProperties = currentContent.npNetworkProperties;//网络性质
+                        beginContent.interconnectionSit = currentContent.interconnectionSit;//系统互联情况
+                        //关键产品使用情况
+                        for(var i=0;i<currentContent.systemKeyProducts.length;i++){
+                          beginContent.systemKeyProducts[i].fkNationalIsProducts = currentContent.systemKeyProducts[i].fkNationalIsProducts+"";//是否使用国产品
+                          beginContent.systemKeyProducts[i].fkExaminStatus = currentContent.systemKeyProducts[i].fkExaminStatus;//数字1234，对应产品类型，
+                          beginContent.systemKeyProducts[i].productsNumber = currentContent.systemKeyProducts[i].productsNumber;//数量
+                          beginContent.systemKeyProducts[i].nUseProbability = currentContent.systemKeyProducts[i].nUseProbability;//使用国产品率
+                          beginContent.systemKeyProducts[i].otherName = currentContent.systemKeyProducts[i].otherName;//其他
+                        }
+                      //系统采用服务情况
+                        for(var i=0;i<currentContent.systemUseServices.length;i++){
                           beginContent.systemUseServices[i].fkResponsibleType = parseInt(currentContent.systemUseServices[i].fkResponsibleType);//服务责任方类型
-            	          	beginContent.systemUseServices[i].fkProductsType = currentContent.systemUseServices[i].fkProductsType;//产品类型
-            	          	beginContent.systemUseServices[i].fkSystemId = currentContent.systemUseServices[i].fkSystemId;
-            	          	beginContent.systemUseServices[i].serviceIsUse = currentContent.systemUseServices[i].serviceIsUse;//是否采用
-            	          	beginContent.systemUseServices[i].otherName = currentContent.systemUseServices[i].otherName;//其他
-                      	}
-                      	beginContent.companyName = currentContent.companyName;//所属单位名称
-                      	beginContent.whenInvestmentUse = currentContent.whenInvestmentUse;//何时投入使用
-                      	beginContent.executiveOfficeName = currentContent.executiveOfficeName;//主管处室名称
-                      	beginContent.subIsSystem = currentContent.subIsSystem;//系统是否为分系统
-                      	beginContent.fatherSystemName = currentContent.fatherSystemName;//上级系统名称
-                      	beginContent.fatherCompanyName = currentContent.fatherCompanyName;//请选择上级系统所属单位名称
-                      	beginContent.executiveDireCon = currentContent.executiveDireCon;//主管联系人
-                      	beginContent.executiveDireConTel = currentContent.executiveDireConTel;//主管联系人电话
-                    	}
-                    	if(_self.formData.systemKeyProducts!=null){
-                      	  for(var k=0;k<currentContent.systemKeyProducts.length;k++){
-                      		  if(!response.systemKeyProducts[k].productsNumber){//没填
-                      		  	_self.formData.systemKeyProducts[k].allHave="";
-                      		  	_self.formData.systemKeyProducts[k].number = 0;
-                      		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
-                      		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
-                      		  	_self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
-                      		  	_self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
-                      		  	_self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
-                      		  }else if(response.systemKeyProducts[k].productsNumber == "共有"){
-                      		  	_self.formData.systemKeyProducts[k].allHave=1
-                      		  	_self.formData.systemKeyProducts[k].number = 0;
-                      		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
-                      		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
-                      		  	_self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
-                      		  	_self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
-                      		  	_self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
+                          beginContent.systemUseServices[i].fkProductsType = currentContent.systemUseServices[i].fkProductsType;//产品类型
+                          beginContent.systemUseServices[i].fkSystemId = currentContent.systemUseServices[i].fkSystemId;
+                          beginContent.systemUseServices[i].serviceIsUse = currentContent.systemUseServices[i].serviceIsUse;//是否采用
+                          beginContent.systemUseServices[i].otherName = currentContent.systemUseServices[i].otherName;//其他
+                        }
+                        beginContent.companyName = currentContent.companyName;//所属单位名称
+                        beginContent.whenInvestmentUse = currentContent.whenInvestmentUse;//何时投入使用
+                        beginContent.executiveOfficeName = currentContent.executiveOfficeName;//主管处室名称
+                        beginContent.subIsSystem = currentContent.subIsSystem;//系统是否为分系统
+                        beginContent.fatherSystemName = currentContent.fatherSystemName;//上级系统名称
+                        beginContent.fatherCompanyName = currentContent.fatherCompanyName;//请选择上级系统所属单位名称
+                        beginContent.executiveDireCon = currentContent.executiveDireCon;//主管联系人
+                        beginContent.executiveDireConTel = currentContent.executiveDireConTel;//主管联系人电话
+                      }
+                      if(_self.formData.systemKeyProducts!=null){
+                          for(var k=0;k<currentContent.systemKeyProducts.length;k++){
+                            if(!response.systemKeyProducts[k].productsNumber){//没填
+                              _self.formData.systemKeyProducts[k].allHave="";
+                              _self.formData.systemKeyProducts[k].number = 0;
+                              _self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
+                              _self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
+                              _self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
+                              _self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
+                              _self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
+                            }else if(response.systemKeyProducts[k].productsNumber == "共有"){
+                              _self.formData.systemKeyProducts[k].allHave=1
+                              _self.formData.systemKeyProducts[k].number = 0;
+                              _self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
+                              _self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
+                              _self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
+                              _self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
+                              _self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
 
-                      		  }else{//其他
-                      		  	_self.formData.systemKeyProducts[k].allHave=2
-                      		  	_self.formData.systemKeyProducts[k].number = response.systemKeyProducts[k].productsNumber;
-                      		  	_self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
-                      		  	_self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
-                      		  	_self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
-                      		  	_self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
-                      		  	_self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
-                      		  }
-                      	  }
+                            }else{//其他
+                              _self.formData.systemKeyProducts[k].allHave=2
+                              _self.formData.systemKeyProducts[k].number = response.systemKeyProducts[k].productsNumber;
+                              _self.formData.systemKeyProducts[k].fkNationalIsProducts = currentContent.systemKeyProducts[k].fkNationalIsProducts+"";//是否使用国产品
+                              _self.formData.systemKeyProducts[k].fkExaminStatus = currentContent.systemKeyProducts[k].fkExaminStatus;//数字1234，对应产品类型，
+                              _self.formData.systemKeyProducts[k].productsNumber = currentContent.systemKeyProducts[k].productsNumber;//数量
+                              _self.formData.systemKeyProducts[k].nUseProbability = currentContent.systemKeyProducts[k].nUseProbability;//使用国产品率
+                              _self.formData.systemKeyProducts[k].otherName = currentContent.systemKeyProducts[k].otherName;//其他
+                            }
+                          }
                         
-                    	}
+                      }
                       
                       if(response.fkSystemIsMerge == '1'){
                         this.systemSonInfo = true;
                         this.systemInfo = false;
                         if(type=="create"){
-                        	$("#systemInfo1").removeAttr("disabled");
-                        	for(var i=0;i<response.addSystemSub.length;i++){
-                        		this.systemInfo2[i] = false;
-                        	}
+                          $("#systemInfo1").removeAttr("disabled");
+                          for(var i=0;i<response.addSystemSub.length;i++){
+                            this.systemInfo2[i] = false;
+                          }
                         }else if(type="change"){
-                        	$("#systemInfo1").attr("disabled","true");
-                        	for(var i=0;i<response.addSystemSub.length;i++){
-                        		this.systemInfo2[i] = true;
-                        	}
-                        	this.rules.standardizedCode[0].required=false;
+                          $("#systemInfo1").attr("disabled","true");
+                          for(var i=0;i<response.addSystemSub.length;i++){
+                            this.systemInfo2[i] = true;
+                          }
+                          this.rules.standardizedCode[0].required=false;
                         }
                       }else{
-                      	this.rules.standardizedCode[0].required=true;
+                        this.rules.standardizedCode[0].required=true;
                         this.systemSonInfo = false;
                         this.systemInfo = true;
                       }
@@ -1322,10 +1322,10 @@ var  data={
                       if(_self.formData.fkSystemIsMerge!=''){
                         var array = $('#baseMes2').find('div').map(function (index, ele) {
                           if(_self.formData.fkSystemIsMerge==1&&ele.innerHTML=='是'){
-                          	_self.rules.standardizedCode[0].required=false;
+                            _self.rules.standardizedCode[0].required=false;
                             return ele;
                           }else if(_self.formData.fkSystemIsMerge==2&&ele.innerHTML=='否'){
-                          	_self.rules.standardizedCode[0].required=true;
+                            _self.rules.standardizedCode[0].required=true;
                             return ele;
                           }else{
                              return "";
@@ -1491,21 +1491,21 @@ var  data={
                         $(array).addClass('btnColor')
                       }
                       if(_self.formData.subIsSystem==1){
-                      	_self.BeSonSystem = true;
-                      	_self.rules.fatherSystemName[0].required = true;
-                      	_self.rules.fatherCompanyName[0].required = true;
+                        _self.BeSonSystem = true;
+                        _self.rules.fatherSystemName[0].required = true;
+                        _self.rules.fatherCompanyName[0].required = true;
                       }else if(_self.formData.subIsSystem==2){
-                      	_self.BeSonSystem = false;
-                      	_self.rules.fatherSystemName[0].required = false;
-                      	_self.rules.fatherCompanyName[0].required = false;
-                      	_self.formData.fatherSystemName = "";
-                      	_self.formData.fatherCompanyName = "";
+                        _self.BeSonSystem = false;
+                        _self.rules.fatherSystemName[0].required = false;
+                        _self.rules.fatherCompanyName[0].required = false;
+                        _self.formData.fatherSystemName = "";
+                        _self.formData.fatherCompanyName = "";
                       }
                     },
                     headleArrayMethod:function(_self){
-                    	for(var i=0;i<_self.nUsePro.length;i++){
-                    		Vue.set(data.nUsePro, i, false);
-                    	}
+                      for(var i=0;i<_self.nUsePro.length;i++){
+                        Vue.set(data.nUsePro, i, false);
+                      }
                     },
                     headleRelation:function(){
                       
@@ -1521,7 +1521,7 @@ var  data={
 //                          this.formData.companyName = this.msgName[i].companyName;
                           this.formData.fkCompanyCode = this.msgName[i].companyCode;
                           this.paramNan = true;
-                        	this.rules.standardizedCode[0].required=true;
+                          this.rules.standardizedCode[0].required=true;
                           this.systemInfo = true;
                           this.systemSonInfo = false;
                           this.formData.addSystemSub=[];
@@ -1547,7 +1547,7 @@ var  data={
 //                      console.log(JSON.stringify(responseData.data))
                     },
                     //获取权限
-          					getPermitJurisdictionInfo: function(_self){
+                    getPermitJurisdictionInfo: function(_self){
                       ajaxMethod(_self,"get",
                           "jurisdiction/queryMenuJurisdictionApi",true,
                           JSON.stringify(""),"json",
@@ -1557,23 +1557,23 @@ var  data={
                       _self.jurisdiction = getJurisdictionMethod(response,S_STR_PERMIT_PARAM_HEADQUARTERS_CREATE);
                     },
                     querySessionSuccess:function(_self,responseData){
-                    	_self.formData = responseData.data;
+                      _self.formData = responseData.data;
                     },
                     getSystemSession:function(_self){
-                    	ajaxMethod(_self, 'post',
+                      ajaxMethod(_self, 'post',
                           'system/querySystemSession', false,
                           JSON.stringify(''), 'json',
                           'application/json;charset=UTF-8',
                           _self.querySystemSessionSuccess);
                     },
                     querySystemSessionSuccess:function(_self,responseData){
-                    	if(responseData.data!=null){
-                    		_self.substitute = responseData;
-                    		_self.flag = true;
-                    	}
+                      if(responseData.data!=null){
+                        _self.substitute = responseData;
+                        _self.flag = true;
+                      }
                     },
 //                    getMenuJurisdictionApi:function(_self){
-//                    	ajaxMethod(_self, 'get',
+//                      ajaxMethod(_self, 'get',
 //                          'jurisdiction/queryMenuJurisdictionApi', false,
 //                          JSON.stringify(''), 'json',
 //                          'application/json;charset=UTF-8',
@@ -1581,22 +1581,22 @@ var  data={
 //                    },
 //                    getMenuJurisdictionApiSuccess:function(_self,responseData){
 //                    //总部新建
-//                    	_self.headquarters = getJurisdictionMethod(responseData,'0102010101');
-//                    	//企业新建
-//                    	_self.enterprise = getJurisdictionMethod(responseData,'0102010108');
+//                      _self.headquarters = getJurisdictionMethod(responseData,'0102010101');
+//                      //企业新建
+//                      _self.enterprise = getJurisdictionMethod(responseData,'0102010108');
 //                    },
                 },
                 created: function() {
-                	this.loading = false;
-                	//获取权限
-                	this.getPermitJurisdictionInfo(this);
-                	if(type == "new" || type == "create"){
-                		if(this.jurisdiction){
-                			this.companyNameDisabled = false;
-                		}
-                	}
-                	//获取全部系统信息
-                	this.getAllSystemInfoMethod(this);
+                  this.loading = false;
+                  //获取权限
+                  this.getPermitJurisdictionInfo(this);
+                  if(type == "new" || type == "create"){
+                    if(this.jurisdiction){
+                      this.companyNameDisabled = false;
+                    }
+                  }
+                  //获取全部系统信息
+                  this.getAllSystemInfoMethod(this);
                   // 获取系统信息
                   this.getSystemInfoMethod(this);
                   // 获取业务承受业务类型
@@ -1621,7 +1621,7 @@ var  data={
                   this.loading = false;
                 },
                 mounted: function() {
-                	//功能权限
+                  //功能权限
                   $.ajax({
                     type: "get",
                     url : originUrl+"/jurisdiction/queryMenuJurisdictionApi", 
@@ -1632,10 +1632,10 @@ var  data={
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                    	//总部新建
-                    	data.headquarters = getJurisdictionMethod(response,'0102010101');
-                    	//企业新建
-                    	data.enterprise = getJurisdictionMethod(response,'0102010108');
+                      //总部新建
+                      data.headquarters = getJurisdictionMethod(response,'0102010101');
+                      //企业新建
+                      data.enterprise = getJurisdictionMethod(response,'0102010108');
                     },
                     error: function(err) {
                     }
@@ -1659,51 +1659,51 @@ var  data={
                 //从session中获取数据
                   this.getSystemSession(this);
                   if(!this.flag){
-                  	if(systemId!=''&&systemId!=null){
-                  	  if(type=="create"){
-                  	  	this.change = false;
+                    if(systemId!=''&&systemId!=null){
+                      if(type=="create"){
+                        this.change = false;
                       }else if(type="change"){
-                      	this.change = true;
+                        this.change = true;
                       }
-                  		this.formData.systemId = systemId;
-                  		this.getGetSystemMethod(this,systemId);
-                  	}
-                  }else{
-                  	if(type=="create"){
-                  		this.change = false;
-                    }else if(type="change"){
-                    	this.change = true;
+                      this.formData.systemId = systemId;
+                      this.getGetSystemMethod(this,systemId);
                     }
-                		var arr = this.substitute.data.systemKeyProducts;
-                		for(var i=0;i<arr.length;i++){
-                			if(arr[i].fkNationalIsProducts != null && arr[i].fkNationalIsProducts != '' && arr[i].fkNationalIsProducts != 'undefind'){
-                				arr[i].fkNationalIsProducts = arr[i].fkNationalIsProducts+"";
-                			}
-                		}
-                		var arr2 = this.substitute.data.systemUseServices;
-                		for(var i=0;i<arr2.length;i++){
-                			if(arr2[i].fkResponsibleType != null && arr2[i].fkResponsibleType != '' && arr2[i].fkResponsibleType != 'undefind'){
-                				arr2[i].fkResponsibleType = parseInt(arr2[i].fkResponsibleType);
-                			}
-                		}
-                  	this.getGetSystemSuccessMethod(this,this.substitute);
-                  	//_self.formData = responseData.data;
-                  	setTimeout(function(){
-                  		if(_self.formData.fkInfoSysTypeCon!=''){
-                  			var array = $('#baseMes1').find('div').map(function (index, ele) {
-                  				if(_self.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
-                  					return ele;
-                  				}else if(_self.formData.fkInfoSysTypeCon==2&&ele.innerHTML=='统建'){
-                  					return ele;
-                  				}else if(_self.formData.fkInfoSysTypeCon==3&&ele.innerHTML=='总部系统'){
-                  					return ele;
-                  				}else{
-                  					return "";
-                  				}
-                  			}).get();
-                  			$(array).addClass('btnColor')
-                  		}
-                  	},1);
+                  }else{
+                    if(type=="create"){
+                      this.change = false;
+                    }else if(type="change"){
+                      this.change = true;
+                    }
+                    var arr = this.substitute.data.systemKeyProducts;
+                    for(var i=0;i<arr.length;i++){
+                      if(arr[i].fkNationalIsProducts != null && arr[i].fkNationalIsProducts != '' && arr[i].fkNationalIsProducts != 'undefind'){
+                        arr[i].fkNationalIsProducts = arr[i].fkNationalIsProducts+"";
+                      }
+                    }
+                    var arr2 = this.substitute.data.systemUseServices;
+                    for(var i=0;i<arr2.length;i++){
+                      if(arr2[i].fkResponsibleType != null && arr2[i].fkResponsibleType != '' && arr2[i].fkResponsibleType != 'undefind'){
+                        arr2[i].fkResponsibleType = parseInt(arr2[i].fkResponsibleType);
+                      }
+                    }
+                    this.getGetSystemSuccessMethod(this,this.substitute);
+                    //_self.formData = responseData.data;
+                    setTimeout(function(){
+                      if(_self.formData.fkInfoSysTypeCon!=''){
+                        var array = $('#baseMes1').find('div').map(function (index, ele) {
+                          if(_self.formData.fkInfoSysTypeCon==1&&ele.innerHTML=='自建'){
+                            return ele;
+                          }else if(_self.formData.fkInfoSysTypeCon==2&&ele.innerHTML=='统建'){
+                            return ele;
+                          }else if(_self.formData.fkInfoSysTypeCon==3&&ele.innerHTML=='总部系统'){
+                            return ele;
+                          }else{
+                            return "";
+                          }
+                        }).get();
+                        $(array).addClass('btnColor')
+                      }
+                    },1);
                   }
                   
                   var _self=this;
@@ -1718,7 +1718,8 @@ var  data={
                             callback: function callback(action) {
                             }
                           });*/
-                        _self.dialogVisibled=true;
+/*                        _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1735,7 +1736,8 @@ var  data={
                             callback: function callback(action) {
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                          _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1752,7 +1754,8 @@ var  data={
                             callback: function callback(action) {
                             }
                           });*/
-                        	 _self.dialogVisibled=true;
+/*                           _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1770,7 +1773,8 @@ var  data={
                             callback: function callback(action) {
                             }
                           });*/
-                        	 _self.dialogVisibled=true;
+/*                           _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1779,9 +1783,9 @@ var  data={
                   bus.$on('changeNextSystemName',function(meg){
                     if(meg!=null){
                       _self.$refs[meg].validate(function (valid) {
-                      	var i=0;
-                      	console.log(valid+"+"+i)
-                      	i++;
+                        var i=0;
+                        console.log(valid+"+"+i)
+                        i++;
                         if (valid) {
                           bus.$emit('toGradPage',"add");
                         } else {
@@ -1790,7 +1794,8 @@ var  data={
                             callback: function callback(action) {
                             }
                           });*/
-                        	 _self.dialogVisibled=true;
+/*                           _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1799,9 +1804,9 @@ var  data={
                   bus.$on('mainSaveSystem',function(meg){
                     if(meg!=null){
                       _self.$refs[meg].validate(function (valid) {
-                      	var i=0;
-                      	console.log(valid+"+"+i)
-                      	i++;
+                        var i=0;
+                        console.log(valid+"+"+i)
+                        i++;
                         if (valid) {
                           bus.$emit('mainSaveSystemAjax',"add");
                         } else {
@@ -1810,7 +1815,8 @@ var  data={
                             callback: function callback(action) {
                             }
                           });*/
-                        	 _self.dialogVisibled=true;
+/*                           _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailed").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1819,14 +1825,14 @@ var  data={
                   
                   bus.$on('changeNumber',function(meg){
                     if(meg){
-                    	_self.rules.systemProServices[0].required = false;
-                    	_self.rules.systemKeyFkNationalIsProducts[0].required = false;
-                    	_self.rules.systemKeyNUseProbability[0].required = false;
-                    	//_self.$refs.formData.validate(function (valid) {});
+                      _self.rules.systemProServices[0].required = false;
+                      _self.rules.systemKeyFkNationalIsProducts[0].required = false;
+                      _self.rules.systemKeyNUseProbability[0].required = false;
+                      //_self.$refs.formData.validate(function (valid) {});
                     }else{
-                    	_self.rules.systemProServices[0].required = true;
-                    	_self.rules.systemKeyFkNationalIsProducts[0].required = true;
-                    	_self.rules.systemKeyNUseProbability[0].required = true;
+                      _self.rules.systemProServices[0].required = true;
+                      _self.rules.systemKeyFkNationalIsProducts[0].required = true;
+                      _self.rules.systemKeyNUseProbability[0].required = true;
                     }
                   });
                   
@@ -1837,7 +1843,7 @@ var  data={
 //                      });
 //                    }
 //                  });
-									//获取数组信息
+                  //获取数组信息
                   this.headleArrayMethod(this);
                   setTimeout(function(){
                     _self.loading=false;

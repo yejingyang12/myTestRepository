@@ -29,6 +29,11 @@
                                    <i class="el-icon-warning" style="display:block;color:#D81E06;font-size:32px;float:left;margin-right:12px;"></i><P>上传失败,{{causeFailure}}</P>
                                 </div>
 						         <!-- 文件上传失败弹窗 end -->
+                                 <!-- 验证失败弹窗 start -->
+                                  <div class="startBox" id="startBoxImportFailedss" style="display:none;width:25% !important;">
+                                   <i class="el-icon-warning" style="display:block;color:#D81E06;font-size:32px;float:left;margin-right:12px;"></i><P>验证有误，请检查填写信息</P>
+                                </div>
+                                <!-- 验证失败弹窗 end -->
 						          <!-- 验证是否是相同文件 start -->
 <!-- 						        <el-dialog lock-scroll  :close-on-click-modal="ceshi3"  title="提示" :visible.sync="dialogVisibleds" width="30%">
 						        	<i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
@@ -143,11 +148,13 @@
                     <div class="col-md-12">
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 P-sysTitle text-right sysTitle">5.系统等级测评报告：</label>
-                            <p class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.evaluationPresentationId)">{{formData.evaluationPresentationName}}</p>
+                            <p v-if="formData.evaluationPresentationName" class="downDoc col-md-6 P-addForm-fj" @click="downloadFile(formData.evaluationPresentationId)">{{formData.evaluationPresentationName}}</p>
+                            <p v-else class="downDoc col-md-6 P-addForm-fj">无</p>
                         </div>
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-9 text-left dixName">{{formData.evaluationPresentationName}}</p>
+                            <p v-if="formData.evaluationPresentationName" class="col-md-9 text-left dixName">{{formData.evaluationPresentationName}}</p>
+                            <p v-else class="col-md-9 text-left dixName">无</p>
                         </div>
                     </div>
                 </li>
@@ -167,11 +174,13 @@
                     <div class="col-md-12">
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-6 text-right sysTitle P-sysTitle">7.上级主管部门审批意见：</label>
-                            <p class="downDoc col-md-6 P-addForm-fj" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" @click="downloadFile(formData.directorOpinionId)" @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">{{formData.directorOpinionName}}</p>
+                            <p v-if="formData.directorOpinionName" class="downDoc col-md-6 P-addForm-fj" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" @click="downloadFile(formData.directorOpinionId)" @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">{{formData.directorOpinionName}}</p>
+                            <p v-else class="downDoc col-md-6 P-addForm-fj" style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" :title="tishi">无</p>
                         </div>
                         <div class="col-md-6 P-addForm-fj">
                             <label class="col-md-3 text-right sysTitle">附件名称：</label>
-                            <p class="col-md-9 text-left dixName"  style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"  @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">{{formData.directorOpinionName}}</p>
+                            <p v-if="formData.directorOpinionName" class="col-md-9 text-left dixName"  style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"  @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">{{formData.directorOpinionName}}</p>
+                            <p v-else class="col-md-9 text-left dixName"  style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;"  @mouseover="xuanfu(formData.directorOpinionName)" :title="tishi">无</p>
                         </div>
                     </div>
                 </li>

@@ -91,17 +91,19 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-7 text-right">5.系统等级测评报告：</span>
-                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #3d95df;"
+                <a v-if="evaluationPresentationName" class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color: #3d95df;"
                 @click="download(evaluationPresentationId)" v-if="evaluationPresentationId != ''" 
                 @mouseover="xuanfu(evaluationPresentationName)" :title="tishi">{{evaluationPresentationName}}</a>
+                <a v-else >无</a>
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
                 <span class="col-md-6 text-left" style="margin-left:-15px">
-                <div v-if="evaluationPresentationName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
+                <div v-if="evaluationPresentationName" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(evaluationPresentationName)" :title="tishi">
                     {{evaluationPresentationName}}
                  </div>
+                 <div v-else style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;" :title="tishi">无</div>
                 </span>
             </p>
         </li>
@@ -126,16 +128,18 @@
         <li class="col-md-12">
             <p class="col-md-6">
                 <span class="col-md-7 text-right">7.上级主管部门审批意见：</span>
-                <a class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color:#3d95df;" 
+                <a v-if="directorOpinionName" class="xzBox col-md-5" style="cursor:pointer;white-space:nowrap;overflow:hidden; text-overflow:ellipsis;color:#3d95df;" 
                 @click="download(directorOpinionId)" v-if="directorOpinionId != ''" @mouseover="xuanfu(directorOpinionName)" :title="tishi">{{directorOpinionName}}</a>
+            		<a v-else >无</a>
             </p>
             <p class="col-md-6">
                 <span class="col-md-6 text-right">附件名称：</span>
                 <span class="col-md-6 text-left" style="margin-left:-15px">
-                <div v-if="directorOpinionName != ''" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
+                <div v-if="directorOpinionName" style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;"
                 @mouseover="xuanfu(directorOpinionName)" :title="tishi">
                     {{directorOpinionName}}
                  </div>
+                 <div v-else style="white-space:nowrap;overflow:hidden; text-overflow:ellipsis;" :title="tishi">无</div>
                 </span>
             </p>
         </li>

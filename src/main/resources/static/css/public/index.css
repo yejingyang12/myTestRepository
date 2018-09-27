@@ -1452,8 +1452,8 @@
 }
 
 .el-radio__input.is-checked .el-radio__inner {
-    border-color: #409EFF;
-    background: #409EFF
+    border-color: #3d95df;
+    background: #3d95df;
 }
 
 .el-radio__input.is-checked .el-radio__inner::after {
@@ -1462,11 +1462,11 @@
 }
 
 .el-radio__input.is-checked + .el-radio__label {
-    color: #409EFF
+    color: #3d95df
 }
 
 .el-radio__input.is-focus .el-radio__inner {
-    border-color: #409EFF
+    border-color: #3d95df
 }
 
 .el-radio__inner {

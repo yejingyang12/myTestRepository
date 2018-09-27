@@ -7,7 +7,7 @@
       </span>
     </p>
     <!-- 验证提示弹框 start -->
-         <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
+<!--          <el-dialog lock-scroll  :close-on-click-modal="ceshi2"  title="验证提示" :visible.sync="dialogVisibled" width="30%">
 						     <i class="failIcon fl" style="margin-left:30px;margin-top:-12px;background-color: #D81E06;text-align: center;color: #fff;border-radius: 50%;width: 60px;height: 60px;font-size: 50px;line-height:60px">!</i>
 						       <div class="ceshi" style="text-align:center;">
 						        		<p style="float:none">验证有误，请检查填写信息</p>		
@@ -16,8 +16,13 @@
                                         <el-button size="mini" type="primary" @click="dialogVisibled = false">确 定</el-button>
 						    			<el-button size="mini" @click="dialogVisibled = false">取 消</el-button>
 						  			</div>
-						        </el-dialog>
+						        </el-dialog> -->
 						        <!-- 验证提示弹框 end -->
+                    <!-- 验证失败弹窗 start -->
+                    <div class="startBox" id="startBoxImportFailed" style="display:none;width:25% !important;">
+                                   <i class="el-icon-warning" style="display:block;color:#D81E06;font-size:32px;float:left;margin-right:12px;"></i><P>验证有误，请检查填写信息</P>
+                                </div>
+                     <!-- 验证失败弹窗 end -->
     <div class="mcAddMessge clearfix">
       <el-form action="" name="addform" id="addform" method="post" :model="formData" :rules="rules" ref="formData" label-width="156px">
         <!--<input name="companyId" id="companyId" type="hidden" v-model="formData.companyId"/>-->

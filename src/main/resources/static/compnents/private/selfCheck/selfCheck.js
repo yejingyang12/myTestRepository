@@ -73,9 +73,6 @@
         ],
     },
     inspectionReu: [{
-      value: '',
-      label: '请选择'
-    }, {
       value: 1,
       label: '符合'
     }, {
@@ -86,19 +83,10 @@
       label: '不符合'
     }],
     inspectionStatus: [{
-    	value: '',
-    	label: '请选择'
-    }, /*{
-    	value: 1,
-    	label: '未自查'
-    }, */{
     	value: 2,
     	label: '已自查'
     }],
     rectificationReu: [{
-    	value: '',
-    	label: '请选择'
-    }, {
     	value: 1,
     	label: '已整改'
     }, {

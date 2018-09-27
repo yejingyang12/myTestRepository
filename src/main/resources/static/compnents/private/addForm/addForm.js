@@ -6,7 +6,7 @@
       directive:false,
       check : false,
       ceshi2:false,
-      dialogVisibled:false,
+/*      dialogVisibled:false,*/
       dtlCompanyCode:"",
       companyCookie:"",
       substitute:"",
@@ -509,7 +509,8 @@
                           
                         }
                       });*/	
-                    	_self.dialogVisibled=true;
+/*                    	_self.dialogVisibled=true;*/
+                      $("#startBoxImportFailed").show().delay(2000).fadeOut();
                       return false;
                     }
                   });
@@ -737,7 +738,8 @@
                           
                         }
                       });*/
-                    	_self.dialogVisibled=true;
+/*                    	_self.dialogVisibled=true;*/
+                      $("#startBoxImportFailed").show().delay(2000).fadeOut();
                       return false;
                     }
                   });
@@ -755,7 +757,8 @@
                         callback: function callback(action) {
                         }
                       });*/
-                    	_self.dialogVisibled=true;
+/*                    	_self.dialogVisibled=true;*/
+                      $("#startBoxImportFailed").show().delay(2000).fadeOut();
                       return false;
                     }
                   });
@@ -772,7 +775,8 @@
                         callback: function callback(action) {
                         }
                       });*/
-                    	_self.dialogVisibled=true;
+/*                    	_self.dialogVisibled=true;*/
+                      $("#startBoxImportFailed").show().delay(2000).fadeOut();
                       return false;
                     }
                   });

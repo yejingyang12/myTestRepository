@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.sinopec.smcc.base.controller.TreeOrganizationDTO;
 import com.sinopec.smcc.cpro.codeapi.entity.JurisdictionDataResult;
 import com.sinopec.smcc.cpro.codeapi.server.JurisdictionApiService;
 import com.sinopec.smcc.cpro.codeapi.server.UserApiService;
@@ -396,5 +397,13 @@ public class JurisdictionApiServiceImpl implements JurisdictionApiService{
       PLATE_NAME_MAP.put(systemCodeListResult.getSystemCode(), systemCodeListResult.getCodeName());
     }
     return PLATE_NAME_MAP.get(rules);
+  }
+
+  /**
+   * 获取树型结构图数据
+   */
+  @Override
+  public List<TreeOrganizationDTO> getOrgTree() {
+    return ubsTemplate.getOrgTree();
   }
 }

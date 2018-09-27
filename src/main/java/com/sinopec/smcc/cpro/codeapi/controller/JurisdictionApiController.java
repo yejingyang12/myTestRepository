@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sinopec.smcc.base.annotation.LoginUser;
 import com.sinopec.smcc.base.consts.RequestClientEnum;
 import com.sinopec.smcc.base.consts.SmccModuleEnum;
+import com.sinopec.smcc.base.controller.TreeOrganizationDTO;
 import com.sinopec.smcc.base.exception.classify.BusinessException;
 import com.sinopec.smcc.base.exception.model.EnumResult;
 import com.sinopec.smcc.base.interceptor.User;
@@ -148,6 +149,25 @@ public class JurisdictionApiController {
     result.setData(companyCode);
     return result;
   }
+  
+  /**
+   * @Descrption 获取树型结构图数据
+   * @author dongxu
+   * @date 2018年9月26日下午4:05:39
+   * @param loginUser
+   * @return
+   * @throws BusinessException
+   */
+  @ResponseBody
+  @RequestMapping(value="/getOrgTree", method = RequestMethod.POST)
+  @RequestLog(module=SmccModuleEnum.cpro,requestClient=RequestClientEnum.BROWSER)
+  public ResultApi getOrgTree() throws BusinessException{
+    List<TreeOrganizationDTO> treeList = this.jurisdictionApiServiceImpl.getOrgTree();
+    ResultApi result = new ResultApi(EnumResult.SUCCESS);
+    result.setData(treeList);
+    return result;
+  }
+  
   
   private void convert(Map<String, Object> map, ResourceDTO resourceDto) {
     map.put("hasChild", resourceDto.getHasChild());

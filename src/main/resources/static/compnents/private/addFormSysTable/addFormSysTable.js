@@ -95,8 +95,8 @@
                     },
                     
                     inputNumberChange:function(index){
-                    	this.formData.systemKeyProducts[index].allHave = 2;
-                    	this.formData.systemKeyProducts[index].productsNumber = this.formData.systemKeyProducts[index].number;
+                      this.formData.systemKeyProducts[index].allHave = 2;
+                      this.formData.systemKeyProducts[index].productsNumber = this.formData.systemKeyProducts[index].number;
                     },
                     //获取数量信息
                     getNumberMethod: function(_self) {

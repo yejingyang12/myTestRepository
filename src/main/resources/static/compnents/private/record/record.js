@@ -48,7 +48,8 @@ var data1={
           {required: true, message: '请上传信息系统安全等级保护备案证明', trigger: 'change' }
       ],
 	},
-	causeFailure:""
+	causeFailure:"",
+  tishi:"",
 };
 (function () {
 	Vue.component('record',function (resolve,reject) {
@@ -59,6 +60,9 @@ var data1={
 					return data1;
 				},
 				methods:{
+          xuanfu:function(data){
+            this.tishi=data;
+          },
 					//提交弹窗
 					submitRecordDia:function(formData){
 						var _self = this;

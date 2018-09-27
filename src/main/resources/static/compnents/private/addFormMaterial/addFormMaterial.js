@@ -26,7 +26,7 @@ var data={
     ceshi3:false,
 /*    dialogVisibles:false,
     dialogVisible:false,*/
-    dialogVisibled:false,
+/*    dialogVisibled:false,*/
 /*    dialogVisibleds:false,*/
     jurisdictionType:0,
     submitCheck:false,
@@ -919,7 +919,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                         	return false;
                         }
                       });
@@ -938,7 +939,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -957,7 +959,8 @@ var data={
                               
                             }
                           });*/
-                          _self.dialogVisibled=true;
+/*                          _self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -976,7 +979,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -995,7 +999,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1014,7 +1019,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1033,7 +1039,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1051,7 +1058,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1068,7 +1076,8 @@ var data={
                             callback: function callback(action) {
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1086,7 +1095,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });
@@ -1104,7 +1114,8 @@ var data={
                               
                             }
                           });*/
-                        	_self.dialogVisibled=true;
+/*                        	_self.dialogVisibled=true;*/
+                          $("#startBoxImportFailedss").show().delay(2000).fadeOut();
                           return false;
                         }
                       });

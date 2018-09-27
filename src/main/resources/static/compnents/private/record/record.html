@@ -125,7 +125,7 @@
                   <div class="uploadSty">
                     <ul class="fileList" id="fileList">
                       <li v-if="!(formData.recordReportName == null || formData.recordReportName == '')">
-                        <div class="fl">{{formData.recordReportName}}</div>
+                        <div class="fl"  @click="fileDownload(formData.recordReportPath,formData.recordReportName,formData.recordReportId)"  @mouseover="xuanfu(formData.recordReportName)" :title="tishi"   style="text-overflow:ellipsis;white-space:nowrap;overflow:hidden;">{{formData.recordReportName}}</div>
                         <i @click="fileDel(formData.recordReportPath,formData.recordReportName,formData.recordReportId)" class="el-icon-close fl"></i>
                       </li>
                     </ul>
@@ -167,7 +167,7 @@
       <i class="el-icon-circle-check" style="color:#5DAE51;"></i><P>提交成功!</P>
     </div>
     <div class="startBox" id="startBoxImporting" style="display:none;width:300px;margin-left:-150px;">
-      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>正在导入，请耐心等待...</P>
+      <i class="el-icon-loading fl" style="font-size:30px;margin-top:5px;margin-right:20px;"></i><P>加载中...</P>
     </div>
 </div>
 

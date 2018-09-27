@@ -91,16 +91,10 @@
           ],
 	  },
 	  examStatus: [{
-    	value: '',
-    	label: '请选择'
-    },{
     	value: 2,
     	label: '已测评'
     }],
     examResult: [{
-    	value: '',
-    	label: '请选择'
-    },{
     	value: 1,
     	label: '符合'
     }, {
@@ -111,9 +105,6 @@
     	label: '不符合'
     }],
     rectificationReu: [{
-    	value: '',
-    	label: '请选择'
-    }, {
     	value: 1,
     	label: '已整改'
     }, {

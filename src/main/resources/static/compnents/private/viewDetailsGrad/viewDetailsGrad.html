@@ -278,7 +278,7 @@
                 <span class="col-md-3 text-right">专家评审情况：</span>
                 <span class="col-md-6 text-left" @mouseenter="thingMove2()">
                 <span>
-                  <div  v-if="formData.expertView == '1'" style="width:200px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;margin-left:-5px;">
+                  <div  v-if="formData.expertView == '1'" style="overflow: hidden;text-overflow:ellipsis;white-space: nowrap;margin-left:-5px;">
                   <span> 已审核
                       <a href="javascript:;" style="cursor:pointer;margin-left: 5px;" @click="download(formData.expertReviewId)" class="thingName2">{{formData.expertReviewName}}</a>  
                    </span>

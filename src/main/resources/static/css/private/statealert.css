@@ -110,7 +110,7 @@
     left:50%;
     top:30%;
     margin-left: -170px;
-    box-shadow:0px 0px 30px #666;
+    box-shadow: 0px 0px 50px #666;
 }
 .inquiry .failIcon{
     display: block;

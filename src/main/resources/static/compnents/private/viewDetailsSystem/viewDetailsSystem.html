@@ -106,14 +106,14 @@
             <span class="col-md-2 text-right">关键产品使用情况：</span>
             <table class="col-md-10 text-left table-bordered table-responsive" id="table">
                 <tr class="table-bordered">
-                    <th style="width: 5%">序号</th>
-                    <th style="width: 20%">产品类型</th>
-                    <th style="width: 20%">数量</th>
-                    <th style="width: 20%">是否使用国产品</th>
-                    <th style="width: 20%">使用国产品率</th>
+                    <th style="width: 5%;font-weight:500;">序号</th>
+                    <th style="width: 20%;font-weight:500;">产品类型</th>
+                    <th style="width: 20%;font-weight:500;">数量</th>
+                    <th style="width: 20%;font-weight:500;">是否使用国产品</th>
+                    <th style="width: 20%;font-weight:500;">使用国产品率</th>
                 </tr>
                 <tr class="table-bordered" v-for="(item,index) in systemKeyProducts">
-                    <td>{{index+1}}</td>
+                    <td  style="font-weight:500;">{{index+1}}</td>
                     <td v-if="item.fkExaminStatus != 6">
                       {{item.examinStatusName}}                                         
                     </td>
@@ -121,8 +121,8 @@
                                                             其他 ：{{item.otherName}}                      
                     </td>
                     <td>{{item.productsNumber}}</td>
-                    <td>{{item.nationalIsProductsName}}</td>
-                    <td>{{item.nUseProbability}} <span class="fr">%</span></td>
+                    <td style="padding:2px !important;">{{item.nationalIsProductsName}}</td>
+                    <td style="padding:2px !important;">{{item.nUseProbability}} <span class="fr">%</span></td>
                 </tr>
             </table>
         </li>
@@ -130,20 +130,20 @@
             <span class="col-md-2 text-right">系统采用服务情况：</span>
             <table class="col-md-10 text-left table-bordered table-responsive" id="table1">
                 <tr class="table-bordered">
-                    <th style="width: 5%">序号</th>
-                    <th style="width: 20%">服务类型 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
-                    <th style="width: 20%">是否采用 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
-                    <th style="width: 20%">服务责任方类型 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
+                    <th style="width: 5%;font-weight:500;">序号</th>
+                    <th style="width: 20%;font-weight:500;">服务类型 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
+                    <th style="width: 20%;font-weight:500;">是否采用 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
+                    <th style="width: 20%;font-weight:500;">服务责任方类型 <p class="botn fr"><i class="up"></i> <i class="down"></i></p></th>
                 </tr>
                 <tr class="table-bordered" v-for="(item,index) in systemUseServices">
-                    <td>{{index+1 }}</td>
+                    <td style="font-weight:500;">{{index+1}}</td>
                     <td v-if="item.fkProductsType != 8">
                       {{item.productsTypeName}}                                         
                     </td>
                     <td v-else>
                                                             其他 ：{{item.otherName}}                      
                     </td>
-                    <td>
+                    <td style="padding:2px !important;">
                        <div  v-if="item.serviceIsUse == '1'">
                                                                       是
                        </div>
@@ -151,7 +151,7 @@
                                                                      否
                        </div> 
                     </td>
-                    <td>{{item.responsibleTypeName}}</td>
+                    <td style="padding:2px !important;">{{item.responsibleTypeName}}</td>
                 </tr>
             </table>
         </li>

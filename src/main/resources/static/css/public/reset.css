@@ -209,8 +209,9 @@ button:-moz-focusring,
 }
 /* bootstrap  删除按钮 hover */
 .clearfix .btn-default:hover {
-  background-color: #e90a0a !important;
-  color: #fff !important;
+  background-color: #f1f0f0 !important;
+  border-color: #d0d0d0;
+  /*   color: #fff !important; */
 }
 /* 页面加载闪烁 */
 [v-cloak] {
@@ -222,6 +223,7 @@ button:-moz-focusring,
 }
 .fr{
     float:right;
+    margin-right: 15px;
 }
 /*清除浮动的影响*/
 .clear:after {
