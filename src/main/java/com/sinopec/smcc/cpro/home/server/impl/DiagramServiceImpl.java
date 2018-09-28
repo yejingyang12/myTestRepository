@@ -354,18 +354,13 @@ public class DiagramServiceImpl implements DiagramService {
   @Override
   public List<CproResultParam> queryApiSystemTrendByYear(DiagramParam diagramParam)
       throws BusinessException {
-    HttpServletRequest request = 
-        ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    if(StringUtils.isNotBlank(diagramParam.getUserId())){
-      request.getSession().setAttribute("userId", diagramParam.getUserId());
-    }
     if("".equals(diagramParam.getYear())){
       diagramParam.setYear(null);
     }
     if(diagramParam.getStatusArray() != null){
       this.handleStatus(diagramParam);
     }
-  //处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
+    // 处理提报时间结束时间;因为提报时间是通过节点表查询，节点表中创建时间有时分秒，所以需要加一天查询
     if(diagramParam.getAuditTimeEnd()!=null){
       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
       String auditTimeEnd = sdf.format(diagramParam.getAuditTimeEnd());
@@ -378,7 +373,7 @@ public class DiagramServiceImpl implements DiagramService {
         e.printStackTrace();
       }
     }
-    //获得相应图表数据
+    // 获得相应图表数据
     List<DiagramListResult> list = 
         this.diagramMapper.selectSystemTrendByYear(diagramParam);
     
@@ -386,7 +381,7 @@ public class DiagramServiceImpl implements DiagramService {
     if(list == null || list.size() == 0){
       list2 = null;
     }else{
-      //如果有数据，对数据进行组装
+      // 如果有数据，对数据进行组装
       Map<Integer, Integer> monthMap = new HashMap<Integer, Integer>();
       Map<Integer, String> monthNameMap = new HashMap<Integer, String>();
       monthNameMap.put(1, "一月");
